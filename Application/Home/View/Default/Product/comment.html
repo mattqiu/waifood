@@ -1,0 +1,16 @@
+<div class="comment-list">
+  <ul>
+    <volist name="list" id="vo">
+      <li>
+        <div class="cl-info">评价：{$vo.info}</div>
+        <div class="cl-user">{$vo.username} {$vo.addtime}</div>
+      </li>
+    </volist>
+    <empty name="list">
+      <div class="detail">查无记录</div>
+    </empty>
+  </ul>
+</div>
+<script>$(function(){
+	var nCount={:count($list)};
+	$("#COUNTALL").html(nCount)});</script>

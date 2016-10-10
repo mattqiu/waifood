@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header"/>
+    <script>
+        var CONST_UPLOAD = "{:U('Admin/File/upload')}";
+    </script>
+    <js href="__PUBLIC__/Admin/js/uploadify/jquery.uploadify.min.js"/>
+</head>
+
+<body>
+<include file="Index:bar"/>
+<include file="Index:nav"/>
+<div class="container">
+    <div class="content">
+        <div class="box980">
+            <div class="left">
+                <include file="left"/>
+            </div>
+            <div class="right">
+                <div class="hybox">
+                    <div class="hytit"><strong>Personal information</strong></div>
+                    <div class="grzl">
+                        <table border="0" cellspacing="0" cellpadding="0" style="margin:0px auto">
+                            <input type="hidden" value="{$db.id}" name="id"/>
+                            <tr>
+                                <td align="right">User Name：</td>
+                                <td>{:get_username(get_userid())}</td>
+                            </tr>
+                            <tr>
+                                <td align="right">Consingee：</td>
+                                <td><input id="userreal" name="userreal" type="text" value="{$db.username}" placeholder="enter your name" class="input03" size="22"></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Phone：</td>
+                                <td><input id="telephone" name="telephone" type="text" maxlength="20" value="{$db.telephone}" placeholder="enter your mobile" class="input03" size="22"></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Alternative phone：</td>
+                                <td><input id="telephone_con" name="telephone_con" type="text" maxlength="20" value="{$db.telephone2}"  placeholder="enter your alternative phone" class="input03" size="32"></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Gender：</td>
+                                <td>
+                                    <input name="sex" type="radio" id="radio" value="1" <if condition="$db['sex'] eq 1">checked</if> />
+                                    <label for="radio">Male</label>
+                                    <input type="radio" name="sex" id="radio2" value="0" <if condition="$db['sex'] eq 0">checked</if>/>
+                                    <label for="radio2">Female</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">City：</td>
+                                <td>
+                                    <ul class="city">
+                                        <li <if condition="$db['cityname'] eq 'chengdu'">class="hover" </if>  data-city="chengdu">Chengdu</li>
+                                        <li <if condition="$db['cityname'] eq 'chongqing'">class="hover" </if>   data-city="chongqing">Chongqing</li>
+                                        <li <if condition="$db['cityname'] eq 'shenzhen'">class="hover" </if> data-city="shenzhen">Shenzhen</li>
+                                        <li <if condition="$db['cityname'] eq 'Shanghai'">class="hover" </if> data-city="Shanghai">Shanghai</li>
+                                        <li <if condition="$db['cityname'] eq 'other'">class="hover" </if>  data-city="other">Other</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="right">Address：</td>
+                                <td><input id="address" name="address" type="text" value="{$db.address}"
+                                           placeholder="enter your detailed address" class="input03" size="100"></td>
+                            </tr>
+                            <tr>
+                                <td align="right">Language：</td>
+                                <td>
+                                    <ul id="language" class="language">
+                                        <li data-id="1"  <if condition="$db['language'] eq 1">class="hover" </if> >Chinese general</li>
+                                        <li  <if condition="$db['language'] eq 2">class="hover" </if> data-id="2">Fluent in Chinese</li>
+                                        <li  <if condition="$db['language'] eq 3">class="hover" </if> data-id="3">English</li>
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <tr class="hide">
+                                <td align="right">Remark：</td>
+                                <td><textarea id="info" name="info" type="text" placeholder="enter your remark"
+                                              maxlength="50" class="input03" style="width:576px; height:100px;">{$db.info}</textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td><input type="submit" onclick="subAddress()" class="jixu"/>
+                                    <input type="button" onclick="history.back()" class="jixu" value="Back"/>
+                                    <input type="hidden" name="url" id="url" value="{$Think.get.url}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clr"></div>
+</div>
+<include file="Index:footer"/>
+<script language="javascript">
+    $(function () {
+        $("body").mousemove(function () {
+            var v = $("#indeximg").attr("src");
+            var v1 = $("#indexpic").val();
+            if (v != v1) {
+                $("#indeximg").attr("src", $("#indexpic").val());
+            }
+        });
+    });
+
+    function subAddress() {
+        var consingee = $('#userreal').val();
+        var telephone = $('#telephone').val();
+        var address = $('#address').val();
+        if (!consingee) {
+            jAlert("The recipient can't be empty");
+            return;
+        }
+        if (!telephone) {
+            jAlert("The recipient phone can not be empty");
+            return;
+        }
+        if (!address) {
+            jAlert("Receives an address can't be empty");
+            return;
+        }
+        var d = {
+            id: $('input[name=id]').val(),
+            username: consingee,
+            address: address,
+            telephone: telephone,
+            telephone2: $('#telephone_con').val(),
+            sex: $('#sex').val(),
+            cityname: $('.city .hover').data('city'),
+            language: $('#language .hover').data('id'),
+            info: $('#info').val()
+        }
+        $.post('/member/modifyShoppingAddr', d, function (data) {
+            if (data.code == 200) {
+                if (data.data) {
+                    window.location.href = data.data;
+                }
+            } else {
+                jAlert(data.message);
+            }
+        });
+    }
+</script>
+</body>
+</html>

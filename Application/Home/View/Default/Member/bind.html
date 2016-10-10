@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+           
+          <div class="address-info">
+            <notempty name="cardno">
+            您已成功绑定会员卡：{$cardno}
+            <else/>
+            <div class="address-form">
+              <form action="" method="post" name="form1" id="form1" class="pure-form pure-form-stacked"> 
+                <fieldset>
+                  <label for="userreal"> <span class="fc_red">*</span> 卡号：</label>
+                  <input id="cardno" name="cardno" type="text" value="{$cardno}"  placeholder="输入罗盘酒店会员卡号" class="pure-input-1" maxlength="20" required>
+                  <label for="cardpwd"> <span class="fc_red">*</span> 密码：</label>
+                  <input id="cardpwd" name="cardpwd" type="password" value="" placeholder="请输入登录密码" class="pure-input-1" maxlength="32" required>
+                    <div align="center" style="padding:10px 0px;">
+                    <button type="submit" class="pure-button pure-button-primary w49" >立即绑定</button>
+                    <button type="button" class="pure-button w49" onclick="history.back();">返回</button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            注：实现对罗盘CRS系统提供的会员接口进行绑定
+            </notempty>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />  
+</body>
+</html>

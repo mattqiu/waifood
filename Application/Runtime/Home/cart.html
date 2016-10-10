@@ -1,0 +1,114 @@
+
+
+<!DOCTYPE html> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>我的购物车</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+<link rel="stylesheet" href="member/css/pure-min.css" type="text/css" /> 
+<link rel="stylesheet" href="member/css/pure-style.css" type="text/css" />
+<link href="css/main.css?1" rel="stylesheet" type="text/css">
+<script language="javascript" src="member/js/jquery-2.0.3.min.js"></script>
+<script language="javascript" src="member/js/jquery.m.js"></script>
+<script language="javascript" src="member/js/jquery.ucenter.js?5"></script> 
+</head>
+
+<body  >
+
+<header><a id="list" href="/m/M_Category.asp"></a><a href="javascript:void(0);" onclick="history.back();" id="back"></a> <a href="/" style="color:#fff; display:block; font-weight:normal;">初粉花颜</a> </header> 
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+      
+        <div class="main-item">
+          <div class="item-title">
+            <h3 class="fl">购物车商品列表</h3>
+            <span class="fr"><a href="javascript:void(0);" onclick="$.clearCart();">清空购物车</a></span>
+           </div>
+          <div class="item-info">
+          
+           
+            <div class="item-li">
+              <div class="item-img"><a href="/m/M_Product.asp?id=208"><img   alt="安雨琦全网独家发售茶树痘痘TT隐形面膜痘痘无痕痘印修复" src="http://hzp.028111.net/uploadfile/thumbs/20141022/201410221427274500.png_80x80.jpg" /></a></div>
+              <div class="item-name">
+                <h3><a  href="/m/M_Product.asp?id=208">安雨琦全网独家发售茶树痘痘TT隐形面膜痘痘无痕痘印修复</a></h3>
+                <div class="item-no">价格：<span class="fc_red">￥46.00</span></div>
+              </div>
+              <div class="item-cart">
+                <div class="item-num cart-pad"> <a href="javascript:void(0);" onclick="$.delCart(208,'','')" class="fl"><i class="icon_ icon_trash"></i></a>
+                  <div class="item-cart-info">数量：
+                    <a href="javascript:void(0);" class="btnDeduct"  id="btnDeduct" onclick="$.editCart(208,(parseInt($(this).next().val())-1),'')">-</a>
+                    <input type="number" class="input-cart-num" min="1" max="999" maxlength="3"  onchange="$.editCart(208,(parseInt($(this).val())),'')" value="1" />
+                    <a href="javascript:void(0);" class="btnPlus"   id="btnPlus" onclick="$.editCart(208,(parseInt($(this).prev().val())+1),'')"  >+</a>
+                    共计：<span class="fc_red">￥46.00</span></div>
+                </div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            
+            
+		   
+		   
+            
+            <div class="item-msg">
+              <div class="item-status"> </div>
+              <div class="item-count">共计1件商品 总价：<span class="fc_red">￥46.00</span></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+        <div class="item-pay-container">
+          <div class="item-pay">
+            <button onclick="location='/m/M_MyCartCheckout.asp';" class="pure-button pure-button-success" style="width:100%;" >去结算</button>
+          </div>
+          <div class="clr"></div>
+        </div>
+        
+            
+            
+        
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+  <div class="container">
+<div class="main-list">
+  <div class="main-item">
+    <div class="bottom"><a href="#top" class="totop"></a>
+      
+      <a href="M_UCenter.asp">微信用户：wechat_528...</a>
+      
+    </div></div>
+  </div>
+    <div class="fnav"> <a href="/m/M_News.asp?id=1"  >关于我们</a>  | <a href="/m/M_NewsList.asp?id=3"  >新闻中心</a>  | <a href="/m/M_NewsList.asp?id=2"  >帮助中心</a>  | <a href="/m/M_News.asp?id=2"  >联系我们</a> </div>
+    <div class="footer"> 初粉花颜美妆商城-与您一起找寻更美的自己 <br>全国统一咨询热线：4000-518-300&nbsp;技术支持：微行</div>
+   <!-- <footer><a href="/m/search.asp" id="sou"></a><a href="/m/M_MyCart.asp" id="gwc"><span id="CartNo">0</span></a><a href="/m/M_UCenter.asp" id="hy"></a><a href="/m/M_NewsList.asp?id=2" id="help"></a></footer>-->
+   
+      
+<footer>
+  <ul>
+    <li><a href="/m/search.asp" id="sou"></a></li>
+    <li><a href="/m/M_MyCart.asp" id="gwc"><span id="CartNo">0</span></a></li>
+    <li><a href="/m/M_UCenter.asp" id="hy"></a></li>
+    <li onClick="$('.tcbox').toggle()">
+      <div class="tcbox">
+        <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">咨询客服</a><a href="/m/M_NewsList.asp?id=2">帮助中心</a></div>
+        <div class="jiao"><svg  height="5" >
+          <polygon points="0,0 10,0 5,5 "
+   style="fill:#f288cd" />
+          </svg></div>
+      </div>
+     <a href="javascript:void(0);" id="help"></a></li>
+  </ul>
+</footer>
+    
+  <div class="clr"></div>
+</div>
+
+</body>
+</html>

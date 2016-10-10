@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}{$childtitle}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+
+<switch name="Think.get.id">
+<case value="6">
+<js href="__PUBLIC__/Home/js/jquery.touchslider.js" />
+
+<div id="wrapper">
+  <div class="swipe">
+    <ul id="slider">
+    {:lbl('banner1')}
+    </ul>
+    <div id="pagenavi"></div>
+  </div>
+</div>
+</case>
+<case value="7">
+<js href="__PUBLIC__/Home/js/jquery.touchslider.js" />
+
+<div id="wrapper">
+  <div class="swipe">
+    <ul id="slider">
+    {:lbl('banner2')}
+    </ul>
+    <div id="pagenavi"></div>
+  </div>
+</div>
+</case>
+</switch>
+<div class="content">
+  
+      <div class="zlm">
+        <ul>
+          <volist name="channel" id="vo">
+          <notempty name="vo.linkurl">
+          
+            <li> <a href="{$vo.linkurl}"  ><span><img src="{$vo.indexpic}" alt="{$vo.name}"   /></span>{$vo.name}</a> </li>
+          <else/>
+            <li> <a href="{:U('Content/lists','id='.$vo['id'])}"  ><span><img src="{$vo.indexpic}" alt="{$vo.name}"   /></span>{$vo.name}</a> </li>
+          </notempty>
+          </volist>
+        </ul>
+      </div>
+</div>
+
+<include file="Index:footer" />
+</body>
+</html>

@@ -1,0 +1,11 @@
+
+<volist name="tree" id="list">
+<eq name="pid" value="$list['id']">
+<option value="{$list.id}" selected="selected">{:str_repeat("&nbsp;",($list['depth']-1)*4)}|- {$list.name}</option> 
+<else/>
+<option value="{$list.id}" >{:str_repeat("&nbsp;",($list['depth']-1)*4)}|- {$list.name}</option> 
+</eq>
+		<notempty name="list['_child']">
+{:R('Cms/treeselect', array($list['_child']))}
+</notempty>
+</volist>

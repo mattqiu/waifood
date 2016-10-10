@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+<body >
+<include file="Index:bar" />
+<div class="content">
+  <div class="news_tit">{$title}</div>
+  <div class="tiwen">
+  <form action="__URL__/save" method="post" name="form1" id="form1" >
+    <input type="hidden" value="{$id}" name="type" id="type" />
+    <p>{$remark}</p>
+    <p>
+      <textarea rows="5" class="zixun"  id="ext1" name="ext1"></textarea>
+    </p>
+    <p>
+      <button type="submit" class="tijiao">提交</button>
+    </p>
+  </form>
+  </div>
+  <div class="box">
+  <volist name="list" id="vo" empty="查无记录">
+    <p><span class="wen">问</span><strong>{$vo.ext1}</strong></p>
+    <p><span class="da">答</span>{$vo.reply|default='暂无回复'}</p>
+   </volist> 
+  </div>
+  {$page}
+</div>
+
+<include file="Index:footer" /> 
+<script>
+	
+	$("#form1").submit(function(){
+		var IsSubmit = true;
+		$("#form1 input:text").each(function(){
+			var label=$(this).parent().parent().find(".txt").eq(0); 
+			if($(this).val()==""){ 
+			var txt= label.text();
+				alert("对不起,"+txt+"不能为空！");
+				$(this).focus();
+				IsSubmit = false;
+				return false;
+			}
+		});
+		return IsSubmit;
+	});
+	
+</script>
+</body>
+</html>

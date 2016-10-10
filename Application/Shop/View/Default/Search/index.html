@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}{:lbl('subtitleshop')}</title>
+<meta name="description" content="{$description}" />
+<meta name="keywords" content="{$keywords}" />
+<include file="Index:header" />  
+</head>
+<body>
+<include file="Index:bar" /> <include file="Index:nav2" />
+<div class="container">
+  <div class="content">
+    <div class="lbox">
+      
+    <include file="Index:nav2sub" />
+      <div class="clear"></div>
+      <div class="ladbox">
+      {:lbl('adleft')}
+      </div>
+    </div>
+    <div class="rbox">
+      
+      <div class="rtitle01 px_tit"> <span id="fenye">
+        <neq name="pageprev" value=""> <a href="{:set_url('p',$pageprev)}"><span class="prev">Previous</span></a>
+          <else/>
+          <a href="javascript:void(0)" class="disabled"><span class="prev">Previous</span></a> </neq>
+        <neq name="pagenext" value=""> <a href="{:set_url('p',$pagenext)}"><span class="next">Next</span></a>
+          <else/>
+          <a href="javascript:void(0)" class="disabled"><span class="next">Next</span></a> </neq>
+        </span><strong>Sort</strong><a href="{:set_url('order',1)}"  
+      
+        <eq name="order" value="1"> class="selected" </eq>
+        >Default</a><a href="{:set_url('order',2)}"  
+      
+        <eq name="order" value="2"> class="selected" </eq>
+        ><span  class="up">Price</span></a><a href="{:set_url('order',3)}"  
+      
+        <eq name="order" value="3"> class="selected" </eq>
+        ><span  class="down">Sales</span></a> </div>
+      <div class="cptxt">
+        <ul>
+          <volist name="list" id="vo" empty="not found.">
+            
+            <li><a  href="{:U('Product/view?id='.$vo['id'])}" target="_blank"><img src="{$vo.indexpic}" alt="{$vo.title}" width="187" height="187"  alt="{$vo.title}" />
+              <h2>{:str_ireplace($keyword,'<font class="fc_red">'.$keyword.'</font>',$vo['title'])}</h2>
+              </a>
+              <p>Unit: {$vo.unit}<br> 
+                Origin: {$vo.origin}<br>
+                <span class="jiage02">&yen;{$vo.price}</span>
+                 <gt name="vo.price1" value="0">
+        <span class="marketprice">&yen;{$vo.price1}</span>
+        </gt></p>
+              <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
+                <input type="text" value="1" class="num cartnum"  data-stock="{$vo.stock}" />
+                <a href="javascript:void(null)" class="jia btnPlus"></a></p>
+            </li>
+          </volist>
+        </ul>
+      </div>
+      <div class="pagelist">{$page}</div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" /> 
+</body>
+</html>

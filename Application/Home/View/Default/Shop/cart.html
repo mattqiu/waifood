@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
+          <input type="hidden" name="shop_id" id="shop_id" value="1" />
+          <eq name="cartnum" value="0">
+            <div class="main-item">
+              <div class="item-title bdnone"> <span>Your shopping cart is empty!</span> </div>
+              <div class="clr"></div>
+            </div>
+            <else/>
+            <if condition="(get_userid() eq 0)">
+              <div class="main-item">
+                <div class="item-title bdnone"> You should  <a href="{:U('Login/index')}" class="alogin"  >login</a> to checkout.  </div>
+                <div class="clr"></div>
+              </div>
+            </if>
+            <div class="main-item">
+              <div class="item-title">
+                <h3 class="fl">Product list</h3>
+                <span class="fr"><a href="javascript:void(0);" onClick="$.clearCart();">Empty cart</a></span> </div>
+              <div class="item-info">
+                <volist name="cart.cart_items" id="vo">
+                  <div class="item-li">
+                    <div class="item-img"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" /></a></div>
+                    <div class="item-name">
+                      <h3><a  href="{:U('Product/view?id='.$vo['id'])}">{$vo.name}</a></h3>
+                      <div class="item-no">Price：<span class="fc_red">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span> 
+                      	<neq name="vo.ext" value="">
+                      	Specifications：{$vo.ext}
+                      	</neq>
+                      	</div>
+                    </div>
+                    <div class="item-cart">
+                      <div class="item-num cart-pad"> <a href="javascript:void(0);" onClick="$.delCart({$vo.id},'{$vo.ext}')" class="fl"><i class="icon_ icon_trash"></i></a>
+                        <div class="item-cart-info">Quantity： <a href="javascript:void(0);" class="btnDeduct"  id="btnDeduct" >-</a>
+                          <input type="number" class="input-cart-num" min="1" max="999" maxlength="3"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{:get_price($vo['id'],$vo['price'],$vo['ext'])}" />
+                          <a href="javascript:void(0);" class="btnPlus"   id="btnPlus"  >+</a> Total：<span class="fc_red">&yen;<font class="CartAmount">{:to_price(get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'])}</font></span></div>
+                      </div>
+                    </div>
+                    <div class="clr"></div>
+                  </div>
+                </volist>
+                <div class="item-msg">
+                  <div class="item-status"> </div>
+                  <div class="item-count">
+                  Amount：<span  >&yen;{$cart.cart_amount}</span><br />
+                  Delivery Fee：<span  >&yen;{$cart.cart_shipfee|to_price}</span><br />
+                 Total amount：<span >&yen;<font id="CartAmount">{:to_price($cart['cart_amount']+$cart['cart_shipfee'])}</font></span></div>
+                </div>
+                <div class="clr"></div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            <div class="item-pay-container">
+              <div class="item-pay">
+                <eq name="cart.cart_num" value="0">
+                  <button  class="pure-button pure-button-error pure-button-disabled "   disabled="disabled">procced to checkout</button>
+                  <else/>
+                  <input type="button"  class="pure-button pure-button-error" onClick="location='{:U('Shop/cashier')}';" style="width:100%;" value="procced to checkout" />
+                </eq>
+              </div>
+              <div class="clr"></div>
+            </div>
+          </eq>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" /> 
+ </body>
+</html>

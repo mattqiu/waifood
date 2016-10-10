@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" /> <include file="Index:nav" />
+<div class="container">
+  <div class="content">
+    <div class="box980">
+      <div class="left"> <include file="left" /> </div>
+      <div class="right">
+      <div class="hybox">
+        <div class="hytit"><strong>Receiving information</strong></div>
+        <div class="grzl adrgl">
+        
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <thead>
+              <tr>
+                <td>Name</td>
+                <td>Phone</td>
+                <td>email</td>
+                <td>Address</td>
+                <td>Operating</td>
+              </tr>
+              </thead>
+              <tbody>
+              <eq name="listcount" value="0">
+            <tr>
+                 <td colspan="5">Not found.</td>
+               </tr> 
+          </eq>
+          
+              <volist name="list" id="vo">
+               <tr>
+                 <td> {$vo.username}</td>
+                <td> {$vo.telephone}</td>
+                <td>{$vo.email}</td>
+                <td>{$vo.proname}{$vo.cityname}{$vo.disname} {$vo.address}</td>
+                <td><a href="{:U('Member/editAddress?url=uc&id='.$vo['id'])}">Modification</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="$.delAddress({$vo.id});">Delete</a></td>
+               </tr>
+               
+                      
+          </volist> 
+          
+              </tbody>
+            </table>
+
+          <div class="paging">
+          {$page}
+          </div> 
+        </div>
+        <div class="add_adress"><a href="{:U('Member/addAddress?url=uc&')}" class="jixu">Add Address</a></div>
+      </div>
+    </div>
+       
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" /> 
+</body>
+</html>

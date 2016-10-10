@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+<title>订单列表</title>
+<include file="Index:header" />
+</head>
+<body>
+	<form action="" method="get" name="form1" id="form1">
+  <input type="hidden" name="status" id="status" value="{:I('status')}" />
+  <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr>
+      <td>关 键 词：
+        <input type="text" class="inputText1" id="keyword"
+					name="keyword" value="{$keyword}" />
+        <select id="searchtype"
+					name="searchtype">
+          <option value="0">订单号</option>
+          <if condition="($searchtype eq 1)">
+            <option value="1" selected="selected">姓名</option>
+            <else />
+            <option value="1">姓名</option>
+          </if>
+          <if condition="($searchtype eq 2)">
+            <option value="2" selected="selected">手机号</option>
+            <else />
+            <option value="2">手机号</option>
+          </if>
+        </select>
+        <input type="submit" class="btn1" value="查询" /></td>
+    </tr>
+    <tr>
+      <td>订单状态： <a href="{:U('Cms/Order')}" >全部</a>
+        <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
+        <eq name="status|strlen" value="0">
+            <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}" >{$type}</a>
+        <else/>
+          <eq name="key" value="$status">
+          <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}" class="fc_red">{$type}</a>
+            <else/>
+            <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}" >{$type}</a>
+            </eq> </eq> 
+        </volist></td>
+    </tr>
+    <tr>
+      <td>付款状态： <a href="{:U('Cms/Order')}" >全部</a>
+        <if condition="($pay eq 1)"> 
+        <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}" class="fc_red">已付款</a>
+          <else />
+          <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}">已付款</a> </if>
+        <if condition="($pay eq '0')"> 
+        <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}" class="fc_red">未付款</a>
+          <else />
+          <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}">未付款</a> 
+          </if></td>
+    </tr>
+    <tr>
+      <td>订单来源： <a href="{:U('Cms/Order')}" >全部</a>
+        <if condition="($orderfrom eq 1)"> 
+        <a href="{:U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status)}" class="fc_red">微信</a>
+          <else />
+          <a href="{:U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status)}">微信</a> </if>
+        <if condition="($orderfrom eq '0')"> 
+          <a href="{:U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status)}" class="fc_red">网站</a> 
+          <else />
+        <a href="{:U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status)}">网站</a>
+          </if></td>
+    </tr>
+  </table>
+</form>
+	<div class="dot"></div>
+	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+		<tr class="toolbar">
+			<td colspan="10" class="tc">【 管理订单 】</td>
+		</tr>
+		<tr class="row0">
+			<td colspan="10"><a href="{:U('Admin/Cms/addOrder')}"
+				class="btnAdd">添加</a></td>
+		</tr>
+		<tr class="header">
+			<td width="50">ID</td>
+			<td width="80">下单时间</td>
+			<td width="80">送货时间</td>
+			<td width="100" >客户姓名</td>
+			<td width="80">订单总额</td>
+			<td width="50">发票</td>
+			<td width="100">付款方式</td>
+			<td >留言</td>
+			<td width="100">状态</td>
+			<td width="50">操作</td>
+		</tr>
+		<volist id="vo" name="list">
+		<tr class="row{$i % 2+1}">
+			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
+				{$vo.id}</td>
+			<td>{$vo.addtime}<br /><eq name="vo.orderfrom" value="1"><span class="fc_red" title="该订单来自微信">微</span></eq></td>
+			<td>{$vo.delivertime}</td>
+			<td>
+            <eq name="vo.usertype" value="2">
+            {$vo.username}
+            <else/>
+            {:get_username($vo['userid'])}
+            </eq> <br />{$vo.telephone}</td>
+			<td> {$vo.amount}</td>
+			<td><eq name="vo.invoice" value="1">
+                    是
+                    <else/>  
+                    否
+                      </eq></td>
+			<td><eq name="vo.paymethod" value="4">
+                    货到付款
+                    <else/>  
+                    在线支付
+                      </eq>
+                      <br /><eq name="vo.pay" value="0">
+                    <span class="fc_blue">未支付</span>
+                    <else/>  
+                    <span class="fc_red">已支付</span>
+                      </eq></td>
+			<td>{$vo.info}</td>
+			<td>
+            <select onchange="setOrder(this,'{$vo.id}')" >
+             <volist name="statuslist" id="type">
+            <if condition="($vo.status eq $key)">
+              <option value="{$key}"  selected="selected">{$type}</option>
+              <else/>
+              <option value="{$key}">{$type}</option>
+            </if>
+          </volist>
+            </select>
+          
+          
+			 </td>
+			<td>
+            <if condition="($vo['status'] eq 3)">
+            <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="btnEdit">查看</a>
+            
+            <else/>
+            <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="btnEdit">编辑</a>
+            </if>  
+            <a href="{:U('Cms/editOrder','act=print&id='.$vo['id'])}"  target="_blank" class="btnAdd">打印</a>
+            <a href="{:U('Cms/editOrder','act=print&act1=1&id='.$vo['id'])}"  target="_blank" class="btnAdd">内打</a>
+            </td>
+		</tr>
+		</volist>
+		 
+		<tr class="row0">
+			<td colspan="12" class="tr"><input type="hidden" value="order"
+				id="ConstTbl" name="ConstTbl" /> <input type="button" class="btn2"
+				value="批量删除" id="AllDel" /> <input type="button" class="btn1"
+				value="全选" id="AllCheck" /> <input type="button" class="btn1"
+				value="反选" id="ReverseCheck" /></td>
+		</tr>
+		<tr class="footer">
+			<td colspan="12"><div class="page">{$page}</div></td>
+		</tr>
+	</table>
+	<include file="Index:footer" />
+</body>
+</html>

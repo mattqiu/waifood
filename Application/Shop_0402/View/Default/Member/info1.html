@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+<script>
+var CONST_UPLOAD="{:U('Admin/File/upload')}";
+</script>
+<js href="__PUBLIC__/Admin/js/uploadify/jquery.uploadify.min.js" />
+</head>
+
+<body>
+<include file="Index:bar" /> <include file="Index:nav" />
+<div class="container">
+  <div class="content">
+    <div class="box980">
+      <div class="left"> <include file="left" /> </div>
+      <div class="right">
+        <div class="hybox">
+          <div class="hytit"><strong>Personal information</strong></div>
+          <div class="grzl">
+        <form action="{:U('Member/info')}" method="post" name="form1" id="form1">
+       
+            <table border="0" cellspacing="0" cellpadding="0">
+             <!-- <tr>
+                <td align="right">Avatar：</td>
+                <td><label for="fileField"><img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" id="indeximg" width="80" height="80" style="vertical-align:middle"  alt=""/></label>
+                 <input type="text" class="input03 hide" readonly="readonly" name="indexpic" id="indexpic" maxlength="100" size="60" value="{$db.indexpic|default=C('DEFAULT_AVATAR')}" />
+        <input type="button"   id="btnUpload" value="Upload" /></td>
+              </tr>-->
+               
+              <tr><tr>
+                <td align="right">User Name：</td>
+                <td>{:get_username(get_userid())}</td>
+              </tr>
+                <td align="right">Consignee：</td>
+                <td><input id="userreal" name="userreal" maxlength="50" type="text" value="{$db.userreal}" placeholder="enter your name" class="input03"  size="22" /> <span class="fc_red">*</span></td>
+              </tr>
+              <tr>
+                <td align="right">Gender：</td>
+                <td>
+                <eq name="db.sex" value="1">
+                <input name="radio" type="radio" id="radio" value="radio" checked />
+                  <label for="radio">Male</label>
+                  <input type="radio" name="radio" id="radio2" value="radio" />
+                  <label for="radio2">Female</label>
+                <else/>
+                <input name="radio" type="radio" id="radio" value="radio" />
+                  <label for="radio">Male</label>
+                  <input type="radio" name="radio" id="radio2" value="radio" checked />
+                  <label for="radio2">Female</label>
+                </eq>
+                </td>
+              </tr>
+              <tr>
+                <td align="right">Mobile：</td>
+                <td><input id="telephone" name="telephone" maxlength="11" type="text" value="{$db.telephone}" placeholder="enter your mobile" class="input03"  size="22" /> <span class="fc_red">*</span></td>
+              </tr>
+              <tr>
+                <td align="right">Email：</td>
+                <td><input  id="email" name="email" type="text" value="{$db.email}" placeholder="enter your email"  maxlength="50" class="input03"size="22" /> <span class="fc_red">*</span></td>
+              </tr>
+               
+             
+              <tr>
+                <td align="right">Address：</td>
+                <td><input id="address" name="address" type="text" value="{$db.address}" placeholder="enter your address"  maxlength="50" class="input03" size="80" /> <span class="fc_red">*</span></td>
+              </tr>
+             
+              <tr>
+                <td align="right">Remark：</td>
+                <td><textarea id="info" name="info" type="text"   placeholder="enter your remark"  maxlength="50" class="input03" style="width:576px; height:100px;" >{$db.info}</textarea> </td>
+              </tr>
+              <tr>
+                <td>&nbsp;</td>
+                <td><input type="submit" name="imageField" id="imageField"  class="jixu" value="Save" /> <input type="button" onclick="history.back();" class="jixu" value="Cancel"  /></td>
+              </tr>
+            </table>
+            </form>
+          </div>
+        </div>
+      </div>
+       
+      <div class="clear"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" />
+<script language="javascript">
+$(function(){
+	$("body").mousemove(function(){ 
+	var v=$("#indeximg").attr("src");
+	var v1=$("#indexpic").val();
+	if(v!=v1){
+		$("#indeximg").attr("src",$("#indexpic").val());	
+	}
+	});	
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+<js href="__PUBLIC__/Home/member/js/jquery.swipe.js" />
+<js href="__PUBLIC__/Home/js/jquery.idTabs.min.js" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <neq name="gallery|count" value="0">
+    <div class="pro-img"> <a href="javascript:void(0);" id="tapPrev">&lt;</a>
+      <div class="tapSwipe" id="tapSlider">
+        <div class='swipe-wrap'>
+          <volist name="gallery" id="vo">
+            <div><a href="{$vo}" class="touch" onClick="return false;"><img  src="{$vo}" alt=""  /></a></div>
+          </volist>
+        </div>
+      </div>
+      <a href="javascript:void(0);" id="tapNext">&gt;</a> </div>
+  </neq>
+  
+  <div class="pro-wrap">
+    <div class="pro-info">
+      <div class="pro-title">{$db.title}</div>
+      <div class="pro-price"> <gt name="db.price1" value="0">
+		<span class="price1">&yen;{$db.price1}</span></gt>
+		<span class="price" id="ProductPrice">&yen;{$db.price}</span>
+      </div>
+    </div>
+    <neq name="db.priceinfo" value="">
+      <div class="pro-property">
+        <div class="property-title">Specifications：</div>
+        <div class="property-item" data="ext" id="extinfo"> <span class=" selected" data="{$db.price}">normal</span> </div>
+        <div class="clr"></div>
+      </div>
+    </neq>
+    <div class="pro-num pro-num-pad">
+      <div class="num-title">Quantity：</div>
+      <div class="num-item"> <span class="quantity"> <span class="minus btnDeduct"><i></i></span>
+      <gt name="db.minbuy" value="0">
+        <input type="number" id="buycount" name="buycount" value="{$db.minbuy}" min="{$db.minbuy}" max="999" data-stock="{$db.stock}" class="cartnum">
+      <else/>
+        <input type="number" id="buycount" name="buycount" value="1" min="1" max="999" data-stock="{$db.stock}" class="cartnum">
+        </gt>
+        <span class="plus btnPlus"><i></i></span> </span>
+		<span class="hide">Stock：{$db.stock}</span>
+		<a href="javascript:void(0);" onClick="$.addFav({$db.id})" style="display:none;" class="fr"> Add favorite</a>
+	</div>
+    </div>
+	<gt name="db.minbuy" value="0">
+    
+      <div class="pro-property">
+        <div class="property-title">MOQ：</div>
+        <div class="property-item"><span style="border:none; padding-left:0px;">{$db.minbuy}（Minimum order quantity
+）</span>  </div>
+        <div class="clr"></div>
+      </div> 
+    </gt>
+    <div class="pro-buy">
+      <button class="pure-button pure-button-success w49" id="btnAddCart">Add to cart</button>
+      <button class="pure-button pure-button-error w49" id="btnBuyCart">Buy now</button>
+      <input type="hidden" name="stock" id="stock" value="{$db.stock}" />
+      <input type="hidden" name="ext" id="ext" value="" /> 
+      <input type="hidden" name="priceinfo" id="priceinfo" value="{$db.priceinfo}" />
+    </div>
+    <div class="pro-detail">
+      <div class="detail-box">
+        <div class="db-title idTabsHover"><a href="javascript:void(0);" rel="#detail-info" class="selected">Description</a><a href="javascript:void(0);" rel="#detail-comment" class="hide">Comment （<span class="fc_blue" id="COUNTALL">0</span>）</a></div>
+        <div class="db-info">
+          <div class="detail-info" id="detail-info">
+          <div id="Property">
+          <p class="cs"><strong>Unit:</strong> {$db.unit}<br>
+        <strong>Preservation:</strong> {$db.storage}<br>
+        <strong>Origin:</strong> {$db.origin}<br>
+        <notempty name="db.brand">
+        <strong>Brand:</strong>
+        {$db.brand}<br />
+        </notempty>
+        
+        <notempty name="db.notice">
+        <br /><strong>Notice:</strong>
+        {$db.notice}
+        </notempty>
+        </p>
+          </div>
+          <div id="LoadInfo"> {:str_replace(' src=',' src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original=',$db['content'])}</div> </div>
+          <div class="detail-info" id="detail-comment">
+            <div id="LoadComments">
+              
+            </div>
+            <div class="clr"></div>
+          </div>
+        </div>
+      </div> 
+    </div> 
+    <div class="clr"></div>
+  </div>
+  <div class="clr"></div> 
+</div>
+<include file="Index:footer" /> 
+<script> 
+var npage=1;
+var isOpen=false;
+$.getResult=function(page){
+	npage=page;
+	var id="{$db.id}";
+	var id1=arguments[1];
+	if (id1!=undefined){id1="&id1="+id1;}else{id1=""};
+	$.ajax({
+	  url: "__URL__/comment/id/"+id+"/p/"+page,
+	  cache: false,
+	  success: function(html){
+		$("#LoadComments").html(html); 
+	 
+	  }
+	}); 
+};
+function rendPriceInfo(){
+	var $test = $("#priceinfo").val();
+	var str=""
+	var arr1=$test.split("¤");
+	var arr2;
+	for(var i=0;i<arr1.length;i++){ 
+		if(arr1[i].indexOf("￠")>-1){
+			arr2=arr1[i].split("￠"); 
+			str+=getTemp(arr2[0],arr2[1],arr2[2],arr2[3]);
+			 
+		}
+	};
+	
+	if(str!=""){
+		var lastrow=$("#extinfo span").last();
+		$(str).insertAfter(lastrow); 
+	} 
+}
+function getTemp(){
+	var p1,p2,p3,p4;
+	p1=(arguments[0]==undefined?"":arguments[0]);
+	p2=(arguments[1]==undefined?"":arguments[1]);
+	p3=(arguments[2]==undefined?"":arguments[2]);
+	p4=(arguments[3]==undefined?"":arguments[3]);
+	html = "";  
+	html = html + ("<span data=\""+parseFloat(p2).toFixed(2)+"\">"+p1+"</span>");
+	return (html);	
+}
+
+$(function(){
+	//rendPriceInfo();
+ 	$(".btnDeduct").on("click",function() {
+		var minbuy = parseInt($("#buycount").attr("min")); 
+		var num = parseInt($("#buycount").val()); 
+		if(minbuy!=0){
+			if(num<minbuy){
+				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');	
+				$("#buycount").val(minbuy);
+				return false;
+			}
+		};
+		return false;
+ 	});
+	$("#btnAddCart").click(function(){
+		var id="{:I('id')}"; 
+		var num = parseInt($("#buycount").val()); 
+		var stock = parseInt($("#stock").val());
+		if( stock<num ){
+			alert("Sorry, Inventory shortage."); return;
+		}
+		var ext=$("#ext").val();
+		$.addCart(id,num,ext);
+	});
+	$("#btnBuyCart").click(function(){
+		var id="{:I('id')}"; 
+		var num = $("#buycount").val(); 
+		var stock = parseInt($("#stock").val());
+		if( stock<num ){
+			alert("Sorry, Inventory shortage."); return;
+		}
+		var ext=$("#ext").val();
+		$.buyCart(id,num,ext);
+	});
+	 
+	//$.getResult(1); 
+	 
+	$('#attention').click(function(){
+		$.addFav("{$db.id}");
+	});
+	
+	
+	$('#btnMore').click(function(){
+		var obj=$(this).find("i");
+		if(isOpen){
+			isOpen=false;
+		obj.removeClass("up");
+		$("#detail-info").css("max-height","200px");
+		}else{
+			isOpen=true;
+		obj.addClass("up");
+		$.resetInfo();
+		$("#detail-info").css("max-height","none");
+		}
+		
+	});
+	 
+	$("#extinfo span").on("click",function(){
+		var obj=$(this).parent();
+		var id=obj.attr("data");
+		var price=$(this).attr("data");
+		obj.find("span").removeClass("selected");
+		$(this).addClass("selected");
+		$("#ProductPrice").text(price);
+		var txt = $(this).text();
+			txt = (txt=='标配'?'':txt);
+		$("#"+id).val(txt);
+	});
+ 
+})
+	
+			   
+</script>
+</body>
+</html>

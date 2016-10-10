@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+ <div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title">
+            <h3>
+选择收货人</h3>
+            <a href="{:U('Member/addAddress')}"  class="item-add"><i class="fa fa-plus-square"></i> 添加新地址</a> </div>
+          <eq name="listcount" value="0">
+           
+          <div class="item-title bdnone"> <span>查无记录！</span> </div>
+          <div class="clr"></div>
+       
+          </eq>
+          <volist name="list" id="vo">
+          
+            <div class="address-info">
+              <div class="address-list">
+              <a href="{:U('Member/selectAddress?id='.$vo['id'])}">{$i}. {$vo.username}，{$vo.telephone}<br />&nbsp;&nbsp;&nbsp;&nbsp;{$vo.proname}{$vo.cityname}{$vo.disname} &nbsp; {$vo.address} 
+              <span class="fr">
+                 
+                  <button class="pure-button">选择</button> 
+                   </span></a></div>
+               
+         	 <div class="clr"></div> 
+          </div>
+           
+          </volist> 
+          <div class="clr"></div>
+        </div>
+     
+     
+          <div class="paging">
+          {$page}
+          </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

@@ -1,0 +1,3 @@
+<?php
+//000000000000a:13:{s:9:"subscribe";i:1;s:6:"openid";s:28:"o7dnet_KzAmTulXUSsxypcPr67NY";s:8:"nickname";s:22:"Nigel Ashley Williams.";s:3:"sex";i:1;s:8:"language";s:2:"en";s:4:"city";s:6:"成都";s:8:"province";s:6:"四川";s:7:"country";s:6:"中国";s:10:"headimgurl";s:131:"http://wx.qlogo.cn/mmopen/yu6FzDafKibncSqpsnYT4s29zcao0NZt0HxFpicKEicaMDL5f20PQNvVGtufJicFvg1MOicwtxnJP6oImnEY1mjibm95PnwhUGvnibx/0";s:14:"subscribe_time";i:1470794077;s:6:"remark";s:0:"";s:7:"groupid";i:0;s:10:"tagid_list";a:0:{}}
+?>

@@ -1,0 +1,17 @@
+
+<div class="topbar">
+	<div class="wrap">
+		<div class="links">
+			 <a href="/">Home</a><if condition="(get_userid() neq 0)" > 
+  <else/>
+  | <a href="{:U('Login/index')}">Login</a>/<a href="{:U('Login/register')}">Register</a>
+  </if>|<a href="{:U('Member/order')}">My Order</a>|<a href="{:U('Form/view','id=1')}">Wish list</a>|<a href="{:U('Content/lists','id=15')}">About us</a>
+		</div>
+		<div class="server-text"><if condition="(get_userid() neq 0)" >
+  <a href="{:U('Member/index')}">{:get_displayname()}</a>/<a href="javascript:void(0);" onclick="$.logout()" class="fc_red">Log out</a>
+  <else/> 
+  </if>
+  Customer Service:{:lbl('telephone')}</div>
+	</div>
+</div>
+

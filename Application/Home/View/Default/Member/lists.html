@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" /> 
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<!--学币榜-->
+<div class="xbzd"><span>用户名</span><span>星级</span><span>学币</span></div>
+<div class="xblist">
+<volist name="list" id="vo">
+  <p>
+      <span><empty name="vo.userreal">匿名<else/>{$vo.userreal}</empty></span>
+      <span><img src="{$vo.avatar}"  alt="" /></span>
+      <span>{$vo.credit}</span>
+  </p>
+</volist>
+</div>
+
+<include file="Index:footer" />  
+</body>
+</html>

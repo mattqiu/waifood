@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+<js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js" />
+<script language="javascript">
+<?php
+$strdates=lbl('disabled_dates');
+if($strdates){ 
+	$strdates = str_replace ( "\r\n", ",", $strdates );
+	$strdates = str_replace ( "，", ",", $strdates );
+	$arr=arr2clr(str2arr($strdates));
+	if($arr){
+		$strdates=json_encode($arr);
+	}else{
+		$strdates='""';
+	}
+}
+?>
+$(function(){ 
+	$('#delivertime').calendar({
+		minDate:'%y-%M-%d',
+		disWeek:"{:lbl('disabled_week')}",
+		disDate:{$strdates} }); 
+});
+</script>
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
+          <input type="hidden" name="shop_id" id="shop_id" value="1" />
+          <eq name="cartnum" value="0">
+            <div class="main-item">
+              <div class="item-title bdnone"> <span>Your shopping cart is empty!</span> </div>
+              <div class="clr"></div>
+            </div>
+            <else/>
+            <if condition="(get_userid() eq 0)">
+              <div class="main-item">
+                <div class="item-title bdnone"> You should  <a href="{:U('Login/index')}" class="alogin"  >login</a> to submit the order.  </div>
+                <div class="clr"></div>
+              </div>
+            </if>
+            <div class="main-item">
+              <div class="item-title">
+                <h3 style="width:100%;"><span class="fl" style="width:auto;">Receiving information</span> <a href="{:U('Member/info','goto=cashier')}" style="width:auto; float:right" class="fr">Modify</a></h3>
+              </div>
+              <div class="item-info">
+                <div class="address-list"> <a href="{:U('Member/info','goto=cashier')}">
+                  <input type="hidden" name="UseAddressID" id="UseAddressID" value="{$address.id}" />
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td width="140" align="right">Name：</td>
+              <td>{$address.userreal}</td>
+            </tr>
+            <tr>
+              <td align="right">Phone：</td>
+              <td>{$address.telephone}</td>
+            </tr>
+            <tr>
+              <td align="right">Email：</td>
+              <td>{$address.email}</td>
+            </tr>
+            <tr>
+              <td align="right">Shipping address：</td>
+              <td> {$address.proname}{$address.cityname}{$address.disname} {$address.address}</td>
+            </tr>
+          </table></a> </div>
+                <div class="clr"></div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            <div class="main-item">
+              <div class="item-title">
+                <h3>Product list</h3>
+              </div>
+              <div class="item-info">
+                <volist name="cart.cart_items" id="vo">
+                  <div class="item-li">
+                    <div class="item-img"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" /></a></div>
+                    <div class="item-name">
+                      <h3><a  href="{:U('Product/view?id='.$vo['id'])}">{$vo.name}</a></h3>
+                      <div class="item-no">Price：<span class="fc_red">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span>
+                        <neq name="vo.ext" value=""> Specifications：{$vo.ext} </neq>
+                      </div>
+                    </div>
+                    <div class="item-cart">
+                      <div class="item-num cart-pad">
+                        <div class="item-cart-info">Quantity： <span class="fc_red">{$vo.num}</span> ，
+                          Total：<span class="fc_red">&yen;{:to_price(get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'])}</span></div>
+                      </div>
+                    </div>
+                    <div class="clr"></div>
+                  </div>
+                </volist>
+                <div class="clr"></div>
+              </div>
+               <if condition="(get_usercredit() gt 0)" >
+                  <div class="pure-control-group" style="display:none;">
+                    <label for="credit">Credits：</label>
+                    <input type="text"  class="pure-input"  placeholder="{:get_usercredit()} credits available" name="credit" id="credit" value="" maxlength="10"  size="5" style="width:130px;" />
+                    can be deducted &yen; <strong id="creditamount" style="color:#f00;">0</strong>，the integral is not refundable </div>
+                </if>
+                  <div class="pure-control-group pure-form" style="display:none;">
+               
+<p style="line-height:20px; text-align:right">
+<gt name="maxuse" value="0">
+Use coupon:&nbsp; <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" maxlength="10" style="width:50px;" onChange="location='{:U('Shop/cashier')}?usecoupon='+$(this).val()" />
+<else/>
+Use coupon:&nbsp;  <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" style="width:50px;"  disabled="disabled"/>
+</gt>
+</p>
+<p style="line-height:20px; text-align:right">
+You have <span class="fc_red">&yen;{$mycoupon}</span> coupons in total <br>and maximum <span class="fc_red">&yen;{$maxuse}</span> applicable for this order. </p>
+                  </div>
+                  
+                  <div class="item-msg">
+                <div class="item-count"> Amount：<span class="fc_red" style="color:#666;" id="money_amount" data-value="{$cart.cart_amount}">&yen;{$cart.cart_amount}</span><br>
+                  Delivery Fee：<span class="fc_red" style="color:#666;" id="money_shipfee">&yen;{$cart.cart_shipfee|to_price}</span> <br />
+                  <gt name="usecoupon" value="0"> 
+                  Coupon：<span class="fc_red" style="color:#666;" id="money_shipfee"> - &yen;{$usecoupon}</span>
+                  <hr />
+                     Total amount：<span class="fc_red" id="money_all_amount">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee']-$usecoupon)}</span>
+                  <else/>
+                 
+                  <hr />
+                    Total amount：<span class="fc_red" id="money_all_amount">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee'])}</span>
+                  
+                  </gt>
+                  </div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            <div class="main-item">
+              <div class="item-title">
+                <h3>Payment</h3>
+              </div>
+              <div class="item-info pure-form">
+               
+                <div class="item-pay-method" style="padding:10px 0px;">
+                  <label for="paymethod2" style="display:inline;"><input name="paymethod" type="radio" id="paymethod2" value="2" data-shipfee="{$cart.cart_shipfee}" >
+                  Paypal</label>
+                  &nbsp;
+                 <!-- <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
+                  <label for="paymethod3" style="display:inline;">微支付</label>
+                  &nbsp;-->
+                 <label for="paymethod4" style="display:inline;"><input type="radio" name="paymethod" id="paymethod4" value="4" data-shipfee="{$cart.cart_shipfee}" checked>
+                  Cash on delivery</label>
+                </div>
+                <div class="clr"></div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            
+            <div class="main-item">
+              <div class="item-title">
+                <h3>Invoice required</h3>
+              </div>
+              <div class="item-info ">
+                 <label for="invoice1"><input name="invoice" type="radio" id="invoice1" value="1" >
+          yes</label>
+          <label for="invoice2"><input type="radio" name="invoice" id="invoice2" value="0" checked>
+          no</label> 
+                <div class="clr"></div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            
+            
+            <div class="main-item">
+              <div class="item-title">
+                <h3>Delivery time</h3>
+              </div>
+              <div class="item-info ">
+                 <div class="txt02 ">
+          <div class="pure-form"><input name="delivertime[]" id="delivertime" type="text" class="pure-input calendar3" style="background:#eee;" readonly /> </div>
+         <?php
+          $deliverinfo=lbl('deliverinfo');
+          ?>
+          <notempty name="deliverinfo">
+              <div class="item-info " style="color:#f00;">
+          {$deliverinfo}
+          </div>
+          </notempty>
+          <?php
+            $times = str2arr(lbl('delivertime'),"\r\n");
+            foreach($times as $k=>$v){
+            ?>
+          <div><br />
+            <label for="delivertime{$k}" ><input type="checkbox" value=" {$v}" name="delivertime[]" id="delivertime{$k}" />
+            {$v}</label>
+          </div>
+          <?php
+            }
+            ?>
+        </div>
+                <div class="clr"></div>
+              </div>
+              
+              <div class="clr"></div>
+            </div>
+             
+            <div class="item-pay-container">
+              <div class="item-pay pure-form">
+               <textarea  id="info" name="info" value="" placeholder="the order remarks"  maxLength="15" class="pure-input-1" ></textarea>
+              </div>
+              <div class="item-pay">
+                <eq name="cart.cart_num" value="0">
+                  <button  class="pure-button pure-button-error pure-button-disabled "   disabled="disabled">Submit order</button>
+                  <else/>
+                  <input type="button"  class="pure-button pure-button-error" onClick="$.SubmitOrder()" style="width:100%;" value="Submit order" />
+                </eq>
+              </div>
+              <div class="clr"></div>
+            </div>
+          </eq>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" /> 
+<script>
+$(function(){
+	var maxCredit="{:get_usercredit()}";
+	$("#credit").change(function(){
+		var credit=$(this).val();
+			maxCredit = parseFloat(maxCredit);
+		if(!(credit>maxCredit)){
+      		 $.getCreditAmount(credit);
+		}else{
+			alert("对不起，您只有积分："+maxCredit);
+			$(this).val(maxCredit);
+		}
+	});
+	
+	
+	//更改了支付方式
+	function changeTotalMoney(){
+		var total;
+		
+		var $paymethod = $('input[name="paymethod"]:checked');
+		var v = $paymethod.val();
+		var shipfee = $paymethod.data("shipfee");
+		if( v != "1" ){
+			$("#money_servicemoney_box").css("display", "block");
+			total = parseFloat( $("#money_amount").data("value") ) + parseFloat( shipfee ) + parseFloat( $("#money_servicemoney").data("value") );
+		}else{
+			$("#money_servicemoney_box").css("display", "none");
+			total = parseFloat( $("#money_amount").data("value") ) + parseFloat( shipfee );
+		}
+		$("#money_shipfee").html("￥"+shipfee);
+		$("#money_all_amount").html("￥"+total.toFixed(2) );
+	}
+	/*$("input[name='paymethod']").change(function(){
+		changeTotalMoney();
+	});
+	changeTotalMoney();*/
+	
+});
+
+</script>
+</body>
+</html>

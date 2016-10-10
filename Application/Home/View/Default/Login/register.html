@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />  
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<div class="container">
+  <div class="content">
+    <div class="main-list">
+      <div class="main-item">
+        <div class="item-title bdnone">
+          <form action="{:U('Login/register')}" method="post" onSubmit="return checkregform()" class="pure-form">
+           <input type="hidden" name="usertype" id="usertype" value="3">
+            <p><span class="fc_red">*</span> User name：</p>
+            <p class="clearfix">
+              <input type="text" name="username" id="username"  placeholder="enter your user name" class="pure-input-1"  required="required">
+            </p>
+            <p><span class="fc_red">*</span> Password：</p>
+            <p class="clearfix">
+              <input type="password" name="userpwd" id="userpwd"  placeholder="enter your password" class="pure-input-1" required>
+            </p>
+            <p><span class="fc_red">*</span> Confirm password：</p>
+            <p class="clearfix">
+              <input type="password" name="userpwd1" id="userpwd1"  placeholder="enter your password again" class="pure-input-1" required>
+            </p> 
+            <h3 style="width:100%; border-bottom:1px #ccc solid; margin-bottom:10px; line-height:30px;">Receiving information</h3>
+           
+            <p ><span class="fc_red">*</span> Name：</p>
+            <p class="clearfix">
+              <input type="text" name="userreal" id="userreal"  placeholder="enter your name" class="pure-input-1" required>
+            </p>
+            <p ><span class="fc_red">*</span> Gender：</p>
+            <p class="clearfix">
+               <label  ><input name="sex" type="radio" id="sex1" value="1" checked />
+                  Male</label>
+                  <label ><input type="radio" name="sex" id="sex2" value="2" />
+                  Female</label>
+            </p>
+            <p><span class="fc_red">*</span> Email：</p>
+            <p class="clearfix">
+              <input type="text" name="email" id="email"  placeholder="enter your email" class="pure-input-1" required>
+            </p>
+            <p><span class="fc_red">*</span> Mobile：</p>
+            <p class="clearfix">
+              <input type="text" name="telephone" id="telephone"  placeholder="enter your mobile" class="pure-input-1" required>
+            </p>
+            <p><span class="fc_red">*</span> Address：</p>
+            <p class="clearfix">
+              <input type="text" name="address" id="address"  placeholder="enter your address" class="pure-input-1" required>
+            </p>
+            <p>Remark：</p>
+            <p class="clearfix">
+              <input type="text" name="info" id="info"  placeholder="enter your remark" class="pure-input-1" required>
+            </p>
+            <span id="erroInfonew" class="red"></span>
+            <p class="t_cen m_t"> 
+                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Register</button>
+            </p>
+          <p><a href="{:U('Login/index')}">Already have an account >></a></p>
+          </form>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+<include file="Index:footer" /> 
+</body>
+</html>

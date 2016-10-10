@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="top">
+    <div class="logo"><a href="/"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" height="100"  alt=""/></a></div>
+	<div class="search">
+     <form action="{:U('Search/index')}" method="get" >
+	    <input type="text" name="keyword" id="keyword" placeholder="keywords..." 
+        <notempty name="keyword">value="{$keyword}"</notempty> 
+        />
+      <button type="submit"   value="" ></button>
+	    </form> 
+	</div>
+	<div class="txt">
+		{:lbl('adtop')}
+	</div>
+    
+  </div> 
+  <div class="clr"></div>
+</div>
+
+<div class="container"> 
+  <div class="nav">
+  <div class="nav_center"> 
+	  <ul class="navigation"> 
+	      <li><a href="/" class="selected">Shopping</a></li>
+	    <li><a href="{:U('Search/index?group=8')}">{:get_data(8,'magic','name')}</a></li>
+	    <li><a href="{:U('Search/index?group=9')}">{:get_data(9,'magic','name')}</a></li>
+         <!-- <li><a href="{:U('Service/lists','id=3')}">Laundry Service</a></li>
+          <li><a href="javascript:void(0);" >Planning more...</a></li>-->
+          
+	  </ul>
+	  
+	  <div class="shopping"> <span class="gwcname"><a href="{:U('Settle/Cart')}" style="color:#FFF;">Shopping Cart</a></span><span class="shuliang" id="CartNo">0</span>
+	    <div class="shop">
+	      
+	    </div>
+	  </div>
+	  <div class="username"></div>
+	  </div>
+	</div>  
+  <div class="clr"></div>
+</div>

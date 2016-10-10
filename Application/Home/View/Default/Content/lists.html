@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+<body>
+<include file="Index:bar" /> 
+<div class="container pdt5">
+<div class="newslist">
+  <ul>
+    <volist name="list" id="vo">
+        
+      <li><a href="{:Uu('Content/view','id='.$vo['id'])}">
+        <eq name="indexpic" value="">
+          <else/>
+          <img src="{$vo.indexpic}" /></eq>
+        <h1>{$vo.title}</h1>
+        <p>{$vo.description}</p>
+        </a></li>
+    </volist>
+  </ul>
+</div>
+  <div class="clr"></div>
+</div>
+{$page} <include file="Index:footer" /> 
+<script>
+$(function(){
+	$(".pagelist select").change(function(){
+		var url=$(this).find("option:selected").attr("data");
+		location=url;
+	})
+});
+</script>
+</body>
+</html>

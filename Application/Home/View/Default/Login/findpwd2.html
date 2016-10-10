@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />  
+</head>
+<body> 
+<include file="Index:bar" /><div class="container">
+  <div class="content">
+    <div class="main-list">
+      <div class="main-item">
+      <h4 class="fc_red">An email with a verification code was sent to the email: <span class="fc_blue">{$email}</span>, please check it and fill up the below boxes.</h4>
+      </div>
+      <div class="main-item">
+        <div class="item-title bdnone">
+          <form action="{:U('Login/findpwd2')}" method="post" class="pure-form">
+              <p>Verification code</p>
+            <p class="clearfix">
+              <input type="text" name="pwdcode" id="pwdcode"  placeholder="enter the pwdcode" class="pure-input-1" required>
+            </p>
+            <p>Set new password</p>
+            <p class="clearfix">
+              <input type="text" name="userpwd" id="userpwd"  placeholder="enter your password" class="pure-input-1" required>
+            </p>
+            <p>Confirm password</p>
+            <p class="clearfix">
+              <input type="text" name="userpwd1" id="userpwd1"  placeholder="enter your password again" class="pure-input-1" required>
+            </p>
+            <span id="erroInfonew" class="red"></span>
+            <p class="t_cen m_t"> 
+                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Submit</button>
+            </p>
+          </form>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+<include file="Index:footer" /> 
+</body>
+</html>

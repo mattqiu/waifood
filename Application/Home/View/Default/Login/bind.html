@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" /> 
+<script>
+$(function(){
+	$("#confirmWeixin").click(function(){
+		var url=$(this).attr("href"); 
+		var html='<div class="weixin"><div class="wx_user"><img src="{$user.headimgurl|default='/Public/Home/images/wx_default.png'}" width="100" height="100" />{$user.nickname|default='weixin'}</div></div>';
+		jConfirm(html+'Are you sure you want to login by WeChat account?',SYSTITLE,function(ret){
+			if (ret){
+				location=url;	
+			};
+		});
+		return false;	
+	});	
+});
+</script>
+<style>
+body{background:#E1E0DE;}
+.main-list .main-item{background:#fff; border:1px #ccc solid;}
+.weixin{ width:100%; height:100%; }
+.weixin .wx_logo{width:200px; height:60px; padding:20px 0px; margin:0px auto; background:url(/Public/Home/images/wx_logo.png) no-repeat center;}
+.weixin .wx_user{width:80px; height:auto; padding:10px 0px; margin:0px auto; text-align:center; font-size:14px; color:#666; line-height:2em;}
+.weixin .wx_user img{width:80px; height:80px; border-radius:10px; border:1px #ccc solid; box-shadow: 0 0 5px #ccc; }
+
+.weixin .wx_btn{width:252px; height:auto; padding:0px 0px; margin:0px auto; text-align:center;  }
+.weixin .wx_btn a{width:252px; height:45px;  display:block; margin:20px 0px; line-height:45px;}
+.weixin .wx_btn .btn1{ background:url(/Public/Home/images/wx_btn1.png) repeat-x #3CB931; border:1px #666 solid; border-radius:2px; color:#fff; font-size:18px;}
+.weixin .wx_btn .btn2{background:url(/Public/Home/images/wx_btn2.png) repeat-x #F7F7F6; border:1px #666 solid; border-radius:2px; color:#333; font-size:12px;}
+
+
+.main-text{ text-indent:2em; padding-top:10px; }
+#popup_message{ padding-left:10px;}
+#popup_content.confirm{background:none;}
+</style>
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<div class="container">
+  <div class="content">
+  <div class="weixin">
+  	<div class="wx_logo">
+    </div>
+    <div class="wx_user hide">
+    	
+    	<img src="{$user.headimgurl|default='/Public/Home/images/wx_default.png'}" width="100" height="100" />
+        {$user.nickname|default='weixin'}
+    </div>
+    <div class="main-list " id="logbox">
+       
+      <div class="main-item">
+      	<div class="main-text">If you already have an account on waifood.com, we strongly recommend you to bind your waifood account with your WeChat (simply by login here), so that you can share the account's property, e.g., coupons.</div>
+        <div class="item-title bdnone" style="border-bottom:1px #ccc solid; width:100%;"><h3 class="fl">Bind Your Account</h3><div onClick="$('#logbox').toggle();"  class="fr"></div></div>
+        <div class="item-title bdnone">
+          <form  action="{:U('Login/bind')}" method="post" id="frm_login" class="pure-form"   >  
+            <div class="settings p_b">
+              <p>User name:</p>
+              <p class="clearfix">
+                <input type="text" value="" class="pure-input-1" placeholder="enter your user name" name="username" id="username"  >
+              </p>
+              <p>Password:</p>
+              <p class="clearfix">
+                <input type="password" placeholder="enter your password" class="pure-input-1" name="userpwd" id="userpwd"  >
+              </p> 
+              <p class="clearfix" style="display:none;">
+                <label><input type="checkbox"  checked value="1" name="bind" id="bind" > Bind with WeChat account ({$user.nickname|default='weixin'}).</label>
+              </p>
+              <p class="t_cen">
+                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Bind & Login</button>
+              </p>
+           <p class="hide">
+				<a style="float:right; width:auto;" href="{:U('Login/findpwd')}">Forget your password?</a>
+				<a class="blue" style="display:inline; float:none;" href="{:U('Login/register')}">Register&gt;&gt;</a>
+			  </p>
+              <p class="t_cen" style="padding-top:30px;"><button href="{:U('Login/createWechat')}" class="pure-button pure-button-danger" style="width:100%;" id="confirmWeixin">I don't have waifood account <br>and login by WeChat account</button></p>
+            </div>
+          </form>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+    
+    <div class="wx_btn" style="display:none;">
+    <if condition="get_userid() gt 0">
+    	<a href="{:U('Login/bindNow')}" class="btn1" >Bind my WeChat account</a>
+    <else/>
+    	<a href="{:U('Login/createWechat')}" class="btn1" id="confirmWeixin">Login by WeChat Account</a>
+    	<a href="javascript:void(0);" class="btn2" style="display:none;" onClick="$('#logbox').toggle();">Login by Waifood Account</a>
+        </if>
+        <br>
+<br>
+
+    	<a href="{:U('Login/register')}">register a new account &gt;&gt;</a>
+    </div>
+    
+  </div>
+    
+  </div>
+  <div class="clr"></div>
+</div>
+ 
+</body>
+</html>

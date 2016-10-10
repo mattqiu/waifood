@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" /> <include file="Index:nav" />
+<div class="container">
+  <div class="hybox">
+    <div class="hytit"><strong>Select shipping address</strong><span class="fr"><a href="{:U('Member/addAddress')}" >Add new address</a></span> </div>
+    <div class="grzl">
+        <volist name="list" id="vo">
+          
+            <div class="address-info" style="margin-bottom:10px;">
+              <div class="address-list">
+              <input type="radio" name="address" id="address{$i}" value="{$vo.id}" <eq name="i" value="1">checked="checked"</eq> /> <label for="address{$i}">{$vo.username},{$vo.telephone},{$vo.address}</label>
+              <span class="fr"> 
+                <a href="{:U('Member/editAddress?id='.$vo['id'])}"   class="jixu">Modify</a>
+                
+                   </span></div>
+               
+         	 <div class="clr"></div> 
+          </div>
+           
+          </volist> 
+    </div>
+    <div class="grzl tc">
+               
+                <a href="javascript:void(0);"   class="jixu" onclick="$.selectAddress()">Select</a>
+    </div>
+  </div>
+</div> 
+<include file="Index:footer" />
+<script>
+$(function(){
+	$.selectAddress = function(){
+		var v= $('input:radio[name="address"]:checked').val(); 
+		var url="/member/selectaddress/id/"+v;
+		location=url;	
+	}
+});
+</script>
+</body>
+</html>

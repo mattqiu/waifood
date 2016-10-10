@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" /> 
+<script src="__PUBLIC__/Home/js/touchslider.dev.js"></script>
+<script src="__PUBLIC__/Home/js/banner.js"></script>
+</head>
+<body style=" background:#F8F8F8; ">
+
+<!--顶部-->
+<header><a id="list" href="{:Uu('Category/index')}"></a>  {$shoptitle}  </header>
+<!--banner-->
+<div id="wrapper">
+  <div class="swipe">
+    <ul id="slider">
+      {:lbl('wx_banner')}
+    </ul>
+    <div id="pagenavi"></div>
+  </div>
+</div>
+
+<!--图标-->
+<div class="icoboxindex"> 
+<volist name="list" id="vo">
+<a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
+  <h1>{$vo.name}</h1>
+  </a> 
+  </volist>
+  </div>
+<!--新品上市-->
+<div class="imgbox"> 
+{:lbl("wx_ad")}
+</div>
+<!--版权-->
+<hr class="spliter" />
+<div class="footindex">{:C("config.WEB_SITE_ICP")}</div>
+<!--底部-->
+
+  <div class="footer-form hide" id="searchform">
+    <form class="pure-form" id="formSearch" name="formSearch" method="get" action="/Home/Search/index.html">
+      <input type="text" value="{:I('get.keyword')}" id="keyword1" name="keyword" placeholder="keyword" class="pure-input pure-input-1">
+      <button class="pure-button btnSearch" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+<footer>
+  <ul>
+    <li><a href="{:Uu('Search/index')}" id="sou"></a></li>
+    <li><a href="{:Uu('Shop/cart')}" id="gwc"><span id="CartNo">0</span></a></li>
+    <li><a href="{:Uu('Member/index')}" id="hy"></a></li>
+    <li onClick="$('.tcbox').toggle()">
+      <div class="tcbox">
+          <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">Suggestion</a><a href="{:Uu('Content/lists','id=1')}">Help</a></div>
+        <div class="jiao">
+          <svg  height="5" >
+            <polygon points="0,0 10,0 5,5 "
+   style="fill:#90B830" />
+          </svg>
+        </div>
+      </div>
+      <a href="javascript:void(0);" id="help"></a></li>
+  </ul>
+</footer>
+</body>
+</html>

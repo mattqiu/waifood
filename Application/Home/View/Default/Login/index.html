@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" /> 
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<div class="container">
+  <div class="content">
+    <div class="main-list">
+      <div class="main-item">
+        <div class="item-title bdnone">
+          <form  action="{:U('Login/index')}" method="post" id="frm_login" class="pure-form" > 
+            <div class="settings p_b">
+              <p>User name:</p>
+              <p class="clearfix">
+                <input type="text" value="" class="pure-input-1" placeholder="enter your user name" name="username" id="username"  >
+              </p>
+              <p>Password:</p>
+              <p class="clearfix">
+                <input type="password" placeholder="enter your password" class="pure-input-1" name="userpwd" id="userpwd"  >
+              </p>
+              <p class="t_cen">
+                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Login now</button>
+              </p>
+              <p>
+				<a style="float:right; width:auto;" href="{:U('Login/findpwd')}">Forget your password?</a>
+				<a class="blue" style="display:inline; float:none;" href="{:U('Login/register')}">Register&gt;&gt;</a>
+			  </p>
+            </div>
+          </form>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+<include file="Index:footer" /> 
+</body>
+</html>

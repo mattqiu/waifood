@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+    <include file="Index:top" />
+      <div class="main-list"> 
+		<form action="?Action=SaveInfo" method="post" name="form1" id="form1" class="pure-form pure-form-stacked"> 
+        <div class="main-item">
+          <div class="address-info">
+            <div class="address-form">
+                <fieldset>
+                  <label  > <span class="fc_red">*</span> Password：
+                  <input id="userpwd" name="userpwd" type="password" value=""  placeholder="enter your password" class="pure-input-1" maxlength="32" required></label> 
+                  <label  > <span class="fc_red">*</span> New password：
+                  <input id="userpwd1" name="userpwd1" type="password" value=""  placeholder="enter your new password" class="pure-input-1" maxlength="32" required></label> 
+                  <label  > <span class="fc_red">*</span> Confirm：
+                  <input id="userpwd2" name="userpwd2" type="password" value=""  placeholder="confirm your new password" class="pure-input-1" maxlength="32" required></label> 
+                </fieldset>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div> 
+		
+		<div align="center" style="padding:10px 0px;">
+            <button type="submit" class="pure-button pure-button-primary w49" >Submit</button>
+            <button type="button" class="pure-button w49" onClick="history.back();">Back</button>
+          </div>
+		</form>
+		
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />  
+</body>
+</html>

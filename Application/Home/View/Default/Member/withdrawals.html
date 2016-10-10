@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+           
+          <div class="address-info">
+            <div class="address-form">
+              <form action="?Action=SaveInfo" method="post" name="form1" id="form1" class="pure-form pure-form-stacked"> 
+                <fieldset>
+                  <label for="userreal"> 可提现金额：</label> <span class="fc_red" style="font-size:25px">￥{:get_useramount()}</span>
+				  
+                  <label for="money" style=" margin-top:15px;"> 申请提现金额：</label>
+                  <input id="money" name="money" type="text" value="" placeholder="请输入您需要提现的金额" class="pure-input-1" maxlength="11" required>
+
+				  
+                  <div align="center" style="padding:10px 0px;">
+                    <button type="submit" class="pure-button pure-button-primary w49" >申请提现</button>
+                    <button type="button" class="pure-button w49" onclick="history.back();">返回</button>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />  
+</body>
+</html>

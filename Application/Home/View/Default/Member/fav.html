@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title">
+            <h3>My favorites</h3>
+            </div>
+           <eq name="listcount" value="0"> 
+          <div class="item-title bdnone"> <span>Not found.</span> </div>
+          <div class="clr"></div> 
+          </eq>
+          <volist name="list" id="vo">
+         <div class="item-info">
+            
+            <div class="item-li"> <span class="fl">
+              <div class="item-img"><a href="{:U('Product/view?id='.$vo['productid'])}"> <img alt="" src="{$vo.indexpic}"></a></div>
+              <div class="item-name">
+                <h3><a  href="{:U('Product/view?id='.$vo['id'])}">{$vo.title}</a></h3>
+                <div class="item-price fc_red">&yen;{$vo.price}</div>
+              </div>
+              </span> <span class="fr"><a href="javascript:void(0);" onClick="$.delFav({$vo.productid})" class="pure-button "><i class="fa fa-trash-o"></i> Remove</a></span>
+              <div class="clr"></div>
+            </div>
+            
+          </div>
+          </volist> 
+          <div class="clr"></div>
+        </div>
+     
+     
+          <div class="paging">
+          {$page}
+          </div> 
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

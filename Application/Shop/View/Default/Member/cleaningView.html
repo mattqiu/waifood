@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>{$title}</title>
+	<include file="Index:header" />
+</head>
+
+<body>
+	<include file="Index:bar" />
+	<include file="Index:nav" />
+	<div class="container">
+		<div class="content">
+			<div class="box980">
+				<div class="gmlc regbox">
+					<div class="ddtit">
+						<span style="float: right">
+							<a href="{:U('Member/cleaning')}" style="color: #1376bb">Back to my cleaning</a>
+						</span>
+						<strong>No.：{$db.orderno} &nbsp; Status：<span style="color: #FF6600;">{$statusArr[$db['status']]} </span></strong>
+					</div>
+
+					<h2>Service Information</h2>
+					<div class="txt02">
+						Service type：{:ec($db['type']==1?'One-time':'By Month')} <br />
+						<if condition="$db['type'] eq 1">
+						Service date：From <span class="fc_red">{:date('Y-m-d H:i', strtotime($db['start_time']))}</span> clean <span class="fc_red">{$db['hours']}</span> hour<br />
+						<else />
+						Service times：<span class="fc_red">{$db.month_num}</span> months, <span class="fc_red">{$db.month_times}</span> times/month, <span class="fc_red">{$db['hours']}</span> hours/times<br />
+						Service date：From {:date('Y-m-d H:i', strtotime($db['start_time']))}<br />
+						Service progress：You ordered {$db.total_hour} hours of service, and  {:ec($db['total_hour'] - $db['used_hour'])} hours of service left.<br />
+						</if>
+						Estimated total cost：<span class="fc_red">{:ec($db['amount'] + $db['modify_amount'])} RMB</span>
+					</div>
+
+					<h2>Contact information</h2>
+					<div class="txt02">
+						Name：{$db.uname} <br /> 
+						Mobile：{$db.phone} <br /> 
+						Email：{$db.email}<br />
+						The apartment/house to be cleaned：{$db.address}
+					</div>
+
+					<h2>Remarks</h2>
+					<div class="txt02">{$db.remark}</div>
+
+					<if condition="$db['type'] eq 2">
+					<h2>Cleaning records list</h2>
+					<div class="spqd">
+						<if condition="count($recordList) eq 0">
+						no records
+						<else />
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<thead>
+							<tr>
+								<td align="left">Cleaning time</td>
+								<td>Hours</td>
+								<td>Cleaner</td>
+							</tr>
+							</thead>
+							
+							<tbody>
+							<volist name="recordList" id="vo">
+							<tr>
+								<td align="left">{$vo.start_time}</td>
+								<td>{$vo.clean_hour}</td>
+								<td>{$vo.cleaner}</td>
+							</tr>
+							</volist>
+							</tbody>
+						</table>
+						</if>
+					</div>
+					</if>
+					
+					
+				</div>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</div>
+	<include file="Index:footer" />
+</body>
+</html>

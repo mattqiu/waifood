@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body pt5">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title" >
+            <h3 >Order detail</h3>
+          </div>
+          <div class="item-info">
+            <div class="address-list"> #：{$db.orderno}<br>
+              Status：{:get_status($db['status'])} <br>
+              Total：<span class="fc_red">&yen;{:to_price($db['amount'])}</span><br />
+              Order time：{$db.addtime}
+              <div class="clr"></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+        <div class="main-item">
+          <div class="item-info">
+            <eq name="db.status" value="0">
+            <switch name="db.paymethod">
+            <case value="2">
+            <p>【Paypal】</p>
+             <div id="pay1box">
+                  <div class="pd10 tc">
+                     
+                <a href="{:U('Shop/pay?orderno='.$db['orderno'].'&type='.$db['type'])}" class="pure-button pure-button-error" style="width:100%; color:#fff;" >Pay now</a>
+                  </div>
+                </div>
+            </case>
+            <case value="3">
+            <p>【微信支付】</p>
+             <div id="pay1box">
+                  <div class="pd10 tc">
+                    <form action="" method="post" id="formwxpay" name="formwxpay">
+                      <input type="hidden" name="WIDout_trade_no" id="WIDout_trade_no" value="{$db.orderno}" />
+                      <input type="hidden" name="WIDsubject" id="WIDsubject" value="Pay" />
+                      <input type="hidden" name="WIDtotal_fee" id="WIDtotal_fee" value="{:to_price($db['amount'])*100}" />
+                      <input type="submit" class="pure-button pure-button-error" value="立即支付" style="width:100%;">
+                    </form>
+                  </div>
+                </div>
+            </case>
+            <case value="4">
+            <p>【Paypal】</p>
+             <div id="pay1box">
+                  <div class="pd10 tc"> 
+                <button class="pure-button  w49" disabled="disabled"  >Cash on delivery</button>
+                  </div>
+                </div>
+            </case>
+            </switch>
+           
+              <else/>
+              <button class="pure-button w49" disabled="disabled"  >Paid</button>
+            </eq>
+          </div>
+          <div class="clr"></div>
+        </div>
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" /> 
+<script language="javascript">
+$(function(){ 
+	
+	$("#formwxpay").submit(function(){
+		$body=$("#WIDsubject").val();
+		$total_fee=$("#WIDtotal_fee").val();
+		$out_trade_no=$("#WIDout_trade_no").val(); 
+		$.ajax({
+			"url":"/home/pay/call?orderno="+$out_trade_no+"",
+			"success":function(msg){  
+				callpay(msg);
+			}
+		});
+		return false;	
+	});
+});
+function callpay($str)
+{  
+	$str=eval("("+$str+")"); 
+	WeixinJSBridge.invoke('getBrandWCPayRequest',$str,function(res){
+	WeixinJSBridge.log(res.err_msg);
+	//alert(res.err_code+"|"+res.err_desc+"|"+res.err_msg);
+	if(res.err_msg=="get_brand_wcpay_request:ok"){
+		location.reload();	
+	}else{
+		//alert(res.err_msg); 
+	}
+	});
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+<?php
+//000000000000a:13:{s:9:"subscribe";i:1;s:6:"openid";s:28:"o7dnet0X8LlnUo9HEdcBUUkn7eBA";s:8:"nickname";s:5:"Gina ";s:3:"sex";i:2;s:8:"language";s:2:"en";s:4:"city";s:0:"";s:8:"province";s:0:"";s:7:"country";s:9:"新加坡";s:10:"headimgurl";s:130:"http://wx.qlogo.cn/mmopen/ya1wg5oQtt1pwViaT4kHAIWe8xATsbaib4p5V2J8icyPgIR3nGA7fibs0NtjFy5RXZ0mYUNK9KywSy1ibN2UjPUGuNKiaoNY0wA5wo/0";s:14:"subscribe_time";i:1474979498;s:6:"remark";s:0:"";s:7:"groupid";i:0;s:10:"tagid_list";a:0:{}}
+?>

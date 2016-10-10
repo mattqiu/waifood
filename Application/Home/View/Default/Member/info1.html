@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+           
+          <div class="address-info">
+            <div class="address-form">
+              <form action="?Action=SaveInfo" method="post" name="form1" id="form1" class="pure-form pure-form-stacked"> 
+                <fieldset>
+                  <label for="userreal">  真实姓名：{$db.userreal}</label>
+                  
+                  <label for="telephone">  手 机 号：{$db.telephone}</label>
+                 
+                  <label for="email"> Email： {$db.email}</label>
+                
+                  <label for="qq">Q Q： {$db.qq}</label>
+                 
+                  <label for="address"> 联系地址：{$db.address}</label>
+                  
+                  <label for="info">简介：{$db.info}</label>
+                   
+                  <div align="center" style="padding:10px 0px;">
+                    <button type="button" onClick="location='{:U('Member/info')}';" class="pure-button pure-button-primary w49" >修改资料</button> 
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />  
+</body>
+</html>

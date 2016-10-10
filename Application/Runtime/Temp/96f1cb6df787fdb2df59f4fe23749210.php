@@ -1,0 +1,3 @@
+<?php
+//000000000000a:13:{s:9:"subscribe";i:1;s:6:"openid";s:28:"o7dnet5lgaDHUMgQlsTC1vBJkoZk";s:8:"nickname";s:5:"Cindy";s:3:"sex";i:2;s:8:"language";s:2:"en";s:4:"city";s:6:"成都";s:8:"province";s:6:"四川";s:7:"country";s:6:"中国";s:10:"headimgurl";s:129:"http://wx.qlogo.cn/mmopen/KZA0LL50zBIEzpd2iaxVf8IEibAa4svyIPvUDaicJlO698JAGosHs9T2vb3k60yxibN4xE3ro7ibYDHrK5u7KA2DCWIqkgR3Otd24/0";s:14:"subscribe_time";i:1442051011;s:6:"remark";s:0:"";s:7:"groupid";i:0;s:10:"tagid_list";a:0:{}}
+?>

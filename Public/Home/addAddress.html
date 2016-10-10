@@ -1,0 +1,102 @@
+
+<!DOCTYPE html> 
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>地址管理</title>
+<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+<link rel="stylesheet" href="member/css/pure-min.css" type="text/css" /> 
+<link rel="stylesheet" href="member/css/pure-style.css" type="text/css" />
+<link href="css/main.css?1" rel="stylesheet" type="text/css">
+<script language="javascript" src="member/js/jquery-2.0.3.min.js"></script>
+<script language="javascript" src="member/js/jquery.ucenter.js?5"></script>
+</head>
+
+<body  >
+
+<header><a id="list" href="/m/M_Category.asp"></a><a href="javascript:void(0);" onclick="history.back();" id="back"></a> <a href="/" style="color:#fff; display:block; font-weight:normal;">初粉花颜</a> </header> 
+<div class="container">
+  <div class="content">
+    <div class="main-body">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title">
+            <h3>添加收货地址</h3>
+            <a href="javascript:void(0);" onclick="history.back();"  class="item-add"><i class="fa fa-reply"></i> 返回</a> </div>
+          <div class="address-info">
+          
+            <div class="address-form"> 
+      <form action="?Action=SaveInfo" method="post" name="formAddress" id="formAddress" class="pure-form pure-form-stacked"> 
+          <input type="hidden" value="" name="id" id="id">
+                <fieldset>
+         
+                    <label for="Item_1">您的姓名：</label>
+                    <input id="Item_1" name="Item_1" type="text" maxlength="20" value=""  placeholder="请填写真实姓名" class="pure-input-1" required>
+            
+                    <label for="Item_2">手 机 号：</label>
+                    <input id="Item_2" name="Item_2" type="text" maxlength="11" value="" placeholder="请填写您的常用手机号" class="pure-input-1" required>
+            
+                    <label for="China_Province">省/市/区：</label>
+                    <select id="China_Province" class="common-input" name="China_Province"><option value="0">--请选择--</option><option value="28" >四川省</option><option value="1" >北京市</option><option value="27" >重庆市</option><option value="2" >天津市</option><option value="9" >上海市</option><option value="3" >河北省</option><option value="4" >山西省</option><option value="32" >台湾省</option><option value="6" >辽宁省</option><option value="7" >吉林省</option><option value="8" >黑龙江省</option><option value="10" >江苏省</option><option value="11" >浙江省</option><option value="12" >安徽省</option><option value="13" >福建省</option><option value="14" >江西省</option><option value="15" >山东省</option><option value="16" >河南省</option><option value="17" >湖北省</option><option value="18" >湖南省</option><option value="19" >广东省</option><option value="22" >甘肃省</option><option value="29" >贵州省</option><option value="20" >海南省</option><option value="30" >云南省</option><option value="25" >青海省</option><option value="23" >陕西省</option><option value="21" >广西壮族自治区</option></select> <select id="China_City" class="common-input" name="China_City" style="display:none" ></select> <select id="China_District" class="common-input" name="China_District" style="display:none" ></select> 
+             
+                    <label for="Item_3">收货地址：</label>
+                    <input id="Item_3" name="Item_3" type="text" maxlength="50" value="" placeholder="请填写详细的街道和门牌号" class="pure-input-1" required>
+            
+            		<div align="center" style="padding:10px 0px;">
+                    <button type="submit" class="pure-button pure-button-success" style="width:100%;" >保存</button> </div>
+                </fieldset>
+            </form>
+
+            </div>
+            
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container">
+<div class="main-list">
+  <div class="main-item">
+    <div class="bottom"><a href="#top" class="totop"></a>
+      
+      <a href="M_UCenter.asp">微信用户：wechat_528...</a>
+      
+    </div></div>
+  </div>
+    <div class="fnav"> <a href="/m/M_News.asp?id=1"  >关于我们</a>  | <a href="/m/M_NewsList.asp?id=3"  >新闻中心</a>  | <a href="/m/M_NewsList.asp?id=2"  >帮助中心</a>  | <a href="/m/M_News.asp?id=2"  >联系我们</a> </div>
+    <div class="footer"> 初粉花颜美妆商城-与您一起找寻更美的自己 <br>全国统一咨询热线：4000-518-300&nbsp;技术支持：微行</div>
+   <!-- <footer><a href="/m/search.asp" id="sou"></a><a href="/m/M_MyCart.asp" id="gwc"><span id="CartNo">0</span></a><a href="/m/M_UCenter.asp" id="hy"></a><a href="/m/M_NewsList.asp?id=2" id="help"></a></footer>-->
+   
+      
+<footer>
+  <ul>
+    <li><a href="/m/search.asp" id="sou"></a></li>
+    <li><a href="/m/M_MyCart.asp" id="gwc"><span id="CartNo">0</span></a></li>
+    <li><a href="/m/M_UCenter.asp" id="hy"></a></li>
+    <li onClick="$('.tcbox').toggle()">
+      <div class="tcbox">
+        <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">咨询客服</a><a href="/m/M_NewsList.asp?id=2">帮助中心</a></div>
+        <div class="jiao"><svg  height="5" >
+          <polygon points="0,0 10,0 5,5 "
+   style="fill:#f288cd" />
+          </svg></div>
+      </div>
+     <a href="javascript:void(0);" id="help"></a></li>
+  </ul>
+</footer>
+    
+  <div class="clr"></div>
+</div>
+
+<script language="javascript">
+$(function(){ 
+	InitArea(); 
+});
+</script>
+</body>
+</html>

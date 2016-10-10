@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />  
+</head>
+<body> 
+<include file="Index:bar" /><div class="container">
+  <div class="content">
+    <div class="main-list">
+      <div class="main-item">
+        <div class="item-title bdnone">
+          <form action="{:U('Login/findpwd')}" method="post" class="pure-form">
+              <p>User name</p>
+            <p class="clearfix">
+              <input type="text" name="username" id="username"  placeholder="enter your user name" class="pure-input-1" required>
+            </p>
+            <p>Email</p>
+            <p class="clearfix">
+              <input type="text" name="email" id="email"  placeholder="enter your email" class="pure-input-1" required>
+            </p>
+            <span id="erroInfonew" class="red"></span>
+            <p class="t_cen m_t"> 
+                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Next step</button>
+            </p>
+          </form>
+        </div>
+        <div class="clr"></div>
+      </div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+<include file="Index:footer" /> 
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"> 
+<title>{$title}{:lbl('subtitleshop')}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />  
+<div class="splist">
+    <ul>
+      <volist name="list" id="vo">
+        <li>
+          <div class="box"> <a href="{:U('Point/view?id='.$vo['id'])}"> <img src="{$vo.indexpic}" alt="{$vo.title}"   width="140" height="140" />
+            <div class="spname">{$vo.title}</div>
+            <div class="spjg">积分：{$vo.price}</div>
+            </a> </div>
+        </li>
+      </volist>
+    </ul>
+  </div>
+  <div class="fybox">{$page}</div>
+  
+  
+<include file="Index:footer" />
+</body>
+</html>

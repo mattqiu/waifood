@@ -1,0 +1,23 @@
+<div class="product_menu">
+  <ul>
+    <volist name=":get_product_channel(3,20)" id="vo">
+    <eq name="key" value="0">
+      <li style=" border-top: 1px #ddd solid;">
+    <else/>
+      <li>
+    </eq><span>
+        <empty name="vo.linkurl"> <a href="{:U('Service/lists','id='.$vo['id'])}" >{$vo.name}</a>
+          <else/>
+          <a href="{$vo.linkurl}" >{$vo.name}</a> </empty>
+        </span>
+        <div class="submenu">
+          <volist name=":get_product_channel($vo['id'],20)" id="vo1">
+            <empty name="vo1.linkurl"> <a href="{:U('Service/lists','id='.$vo1['id'])}" >{$vo1.name}</a>
+              <else/>
+              <a href="{$vo1.linkurl}" > {$vo1.name}</a> </empty>
+          </volist>
+        </div>
+      </li>
+    </volist>
+  </ul>
+</div>

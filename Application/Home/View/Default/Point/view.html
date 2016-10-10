@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}{:lbl('subtitleshop')}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<include file="Index:header" />  
+<js href="__PUBLIC__/Shop/member/js/jquery.swipe.js" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <neq name="gallery|count" value="0">
+    <div class="pro-img"> <a href="javascript:void(0);" id="tapPrev">&lt;</a>
+      <div class="tapSwipe" id="tapSlider">
+        <div class='swipe-wrap'>
+          <volist name="gallery" id="vo">
+            <div><a href="{$vo}" class="touch" onClick="return false;"><img src="{$vo}"   class="lazy" /></a></div>
+          </volist>
+        </div>
+      </div>
+      <a href="javascript:void(0);" id="tapNext">&gt;</a> </div>
+  </neq>
+  <div class="pro-wrap">
+    <div class="pro-info">
+      <div class="pro-title">{$db.title}</div>
+      <div class="pro-price">需要积分：<span class="price" id="ProductPrice">{$db.price}</span><span class="price1"></span></div>
+    </div>
+    <neq name="db.priceinfo" value="">
+      <div class="pro-property">
+        <div class="property-title">规格：</div>
+        <div class="property-item" data="ext" id="extinfo"> <span class=" selected" data="{$db.price}">标配</span> </div>
+        <div class="clr"></div>
+      </div>
+    </neq>
+     
+    <div class="pro-buy">
+     <br />  <button class="pure-button pure-button-success" style="width:100%" id="btnAddPoint">立即兑换</button> 
+      
+      <br /><br />
+          注意：兑换订单一旦提交，积分不退。<br />（您的积分：<span class="fc_red">{:get_usercredit(get_userid())}</span>）
+      <input type="hidden" name="hid" id="hid" value="{$db.id}" /> 
+      <input type="hidden" name="stock" id="stock" value="99" />
+      <input type="hidden" name="ext" id="ext" value="" /> 
+      <input type="hidden" name="priceinfo" id="priceinfo" value="{$db.priceinfo}" />
+    </div>
+    <div class="pro-detail">
+      <div class="detail-title">商品详情：</div>
+      <div class="detail-info" id="detail-info"> {$db.content} </div>
+    </div>
+     
+    <div class="clr"></div>
+  </div>
+  <div class="clr"></div>
+</div>
+
+    
+<include file="Index:footer" /> 
+ 
+<script>  
+
+$(function(){ 
+
+	$("#btnAddPoint").click(function(){
+		
+		var title = "您确定要申请兑换积分吗？此积分不退！";
+       jConfirm(title,SYSTITLE,function(msg){ 
+		   if(msg){
+				var id="{:I('id')}"; 
+				var num = $("#buycount").val(); 
+				var ext=$("#ext").val();
+				$.addPoint(id,num,ext);
+			   
+		   }
+	   });
+	});
+ 
+})
+	
+			   
+</script>
+</body>
+</html>

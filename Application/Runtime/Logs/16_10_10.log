@@ -1,0 +1,60 @@
+[ 2016-10-10T09:15:16+08:00 ] 127.0.0.1 /
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000000s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000000s ]
+NOTIC: [8192] mysql_connect(): The mysql extension is deprecated and will be removed in the future: use mysqli or PDO instead D:\WAMP\waifood\ThinkPHP\Library\Think\Db\Driver\Mysql.class.php 第 52 行.
+SQL: SHOW COLUMNS FROM `my_member` [ RunTime:0.051003s ]
+SQL: SELECT `username` FROM `my_member` WHERE ( `id` = 0 ) LIMIT 1   [ RunTime:0.025001s ]
+SQL: SHOW COLUMNS FROM `my_channel` [ RunTime:0.007000s ]
+SQL: SELECT * FROM `my_channel` WHERE ( `pid` = 560 ) AND ( `status` = 1 ) ORDER BY sort asc LIMIT 20   [ RunTime:0.000000s ]
+SQL: SELECT `pid` FROM `my_channel` WHERE ( id=560 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_channel` WHERE ( `pid` = 560 ) AND ( `status` = 1 ) ORDER BY sort asc LIMIT 20   [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `my_magictype` [ RunTime:0.011000s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=1 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `my_magic` [ RunTime:0.002000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 1 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.000000s ]
+SQL: SHOW COLUMNS FROM `my_content` [ RunTime:0.003001s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('2482','3039','2227','1012','3100','3094','3114','3138','3139','210','199','199','2450','1493','3155','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.032001s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=2 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 2 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('2461','27','2825','2941','3069','489','523','3170','3168','3143','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.002000s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=3 ) LIMIT 1   [ RunTime:0.001000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 3 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('1488','2592','429','2076','2874','2872','2844','2833','2826','2814','2631','2631','2844','2843','1280','3033','3032','2986','2969','2959','2905','2961','3063','3062','3061','3056','3055','3045','2972','2967','2953','3031','2932','2605','2602','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.013000s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=4 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 4 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('3036','2911','1366','258','263','247','2159','816','1291','2159','2998','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.001000s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=5 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 5 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('299','1569','2439','1608','2563','2474','1571','2841','1607','2910','633','633','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.002000s ]
+SQL: SELECT `name` FROM `my_magictype` WHERE ( id=6 ) LIMIT 1   [ RunTime:0.000000s ]
+SQL: SELECT * FROM `my_magic` WHERE ( `pid` = 6 ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 1   [ RunTime:0.001000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `id` IN ('1424','1457','2290','2444','2459','2449','2611','2443','2600','2290','2710','2451','2450','2449','2442','2443','2444','2445','') ) AND ( `status` = 1 ) AND ( `stock` > 0 ) ORDER BY sort1 desc LIMIT 8   [ RunTime:0.001000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `isresume` = 1 ) AND ( `sortpath` LIKE '%,11,%' ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 5   [ RunTime:0.008000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `isresume` = 1 ) AND ( `sortpath` LIKE '%,12,%' ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 5   [ RunTime:0.003001s ]
+SQL: SELECT * FROM `my_content` WHERE ( `isresume` = 1 ) AND ( `sortpath` LIKE '%,13,%' ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 5   [ RunTime:0.003000s ]
+SQL: SELECT * FROM `my_content` WHERE ( `isresume` = 1 ) AND ( `sortpath` LIKE '%,14,%' ) AND ( `status` = 1 ) ORDER BY sort desc LIMIT 5   [ RunTime:0.003000s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.260015s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.260015s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000000s ]
+
+[ 2016-10-10T09:15:17+08:00 ] 127.0.0.1 /Cart/getNum.html?shop_id=1&0.013528643059685042
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001000s ]
+

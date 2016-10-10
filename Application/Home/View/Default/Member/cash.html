@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="lanm"><span id="back"><a href="{:U('Member/index')}"></a></span>
+  <h1>{$title}</h1>
+  <span id="lm"></span>
+  <div class="submenu"><a href="{:U('Form/show?id=2')}">申请兑现</a><a href="{:U('Member/cash')}">申请记录</a></div>
+</div>
+<!--申请记录-->
+<div class="dd_tt"><span><a href="{:U('Member/cash?status=0')}" <eq name="status" value="0">class="selected"</eq> >未返款</a></span><span><a href="{:U('Member/cash?status=1')}" <eq name="status" value="1">class="selected"</eq> >已返款</a></span></div>
+<div class="container">
+ 
+  <volist name="list" id="vo">
+    <div class="box sqjl">
+      <h2>申请时间：{$vo.addtime}</h2>
+      <p>兑现数量：{$vo.ext7} 学币<br>
+        开 户 行：{$vo.ext8}<br>
+        身份证号：{$vo.ext2}</p>
+    </div>
+  </volist>
+  <div class="paging"> {$page} </div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

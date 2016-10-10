@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body pt5">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title" >
+            <h3 >订单详情</h3>
+          </div>
+          <div class="item-info">
+            <div class="address-list"> 订单编号：{$db.orderno}<br>
+              订单状态：{:get_status($db['status'])} 
+              <eq name="db.status" value="0">
+              <a href="javascript:void(0);"  class="changeorder" onclick="$.cancelOrder('{$db.orderno}');">取消订单</a> <br />
+              </eq> 
+              应付金额：<span class="fc_red">￥{:to_price($db['amount'])}</span><br />
+              下单时间：{$db.addtime}
+              <div class="clr"></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+         
+        <div class="main-item">
+          <div class="item-title">
+            <h3>商品详情</h3>
+          </div>
+          <div class="item-info">
+          <volist name="list" id="vo">
+            <div class="item-li">
+              <div class="item-img"><img src="{$vo.indexpic}" alt="{$vo.productname}" /></div>
+              <div class="item-name">
+                <h3>{$vo.productname}</h3>
+                <div class="item-no">规格：{$vo.ext} 单价：<span class="fc_red">￥{$vo.price} </span>* {$vo.num}</div>
+              </div>
+              
+              <div class="item-info pure-form">
+               <div class="item-comment">
+               <?php
+               $comment= get_comment($vo['id']); 
+               if(isN($comment)){
+               ?>
+              <input type="text" class="pure-input pure-input-1"  value="" placeholder="请输入评价内容" />
+              <button class="pure-button pure-button-secondary btn-comment" onclick="$.addComment({$vo.id},{$vo.productid},$(this).prev('input').val(),'{$vo.orderno}')">发表评价</button>
+               
+               <?php
+               }
+               else
+              {
+                ?>
+              <input type="text" class="pure-input pure-input-1"  value="{$comment}" disabled="disabled" placeholder="请输入评价内容" />
+              <button class="pure-button pure-button-secondary btn-comment" disabled="disabled">已评价！</button>
+                
+               <?php
+               }
+               ?>
+              </div>
+              </div>
+              
+              <div class="clr"></div>
+            </div>
+            
+            </volist>
+            <div class="item-msg">
+              <div class="item-count"> 商品总额：<span class="fc_red">￥{$db.amountall}</span><br>
+                运费总额：<span class="fc_red">￥{$db.shipfee}</span><br>
+                折扣金额：<span class="fc_red">- ￥{$db.discount}</span><br>
+                <hr />
+                共计 {$db.num} 件商品 应付金额：<span class="fc_red">￥{$db.amount}</span></div>
+            </div>
+              
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+         
+         
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

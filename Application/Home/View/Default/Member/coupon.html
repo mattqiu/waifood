@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body"> <include file="Index:top" />
+      <div class="main-tab" style="margin-top:10px;">
+        <div class="pure-g">
+          <div class="pure-u-1-2"><a href="{:U('Member/coupon?status=0')}" 
+            <eq name="status" value="0">class="selected"</eq>
+            >Available Only
+            <gt name="orderstat[0]" value="0"><font class="fc_red">({$orderstat[0]})</font></gt>
+            </a></div>
+          <div class="pure-u-1-2"><a href="{:U('Member/coupon?status=1')}" 
+            <eq name="status" value="1">class="selected"</eq>
+            >All
+            <gt name="orderstat[1]" value="0"><font class="fc_red">({$orderstat[1]})</font></gt>
+            </a></div>
+        </div>
+      </div>
+      <div class="jfze">Available coupon：<strong>&yen;{:get_my_coupon()}</strong></div>
+      <volist name="list" id="vo">
+        <div class="box sqjl">
+          <h2>
+            <eq name="vo.coupontype" value="1">Acquired Time：{$vo.addtime}
+              <else/>
+              Invalid time：{$vo.addtime} </eq>
+          </h2>
+          <p>Amount：
+            <eq name="vo.coupontype" value="1"><span style="color:#f00;">+&yen;{$vo.amount}</span>
+              <else />
+              <span > -&yen;{$vo.amount}</span></eq>
+            <br>
+            Type：{:get_iotypename($vo['coupontypeid'],'coupontype')} <br>
+            <eq name="vo.coupontype" value="1"> Active time：{$vo.timefrom}<br>
+              Invalid time：{$vo.timeto} <br>
+              <else/>
+            </eq>
+            <eq name="vo.remark" value="">
+              <else />
+              Remark：{$vo.remark}</eq>
+          </p>
+        </div>
+      </volist>
+          <div class="paging">
+          {$page}
+          </div> 
+    </div>
+  </div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

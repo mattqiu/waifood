@@ -1,0 +1,47 @@
+
+<div class="container">
+  <div class="main-list">
+    <div class="main-item">
+      <div class="bottom"><a href="#top" class="totop"></a>
+        <?php 
+      if(get_userid()=="0"){
+      ?>
+        <a href="{:Uu('Login/index')}">Login</a><span style="margin:0 10px;">|</span><a href="{:Uu('Login/register')}">Register</a>
+        <?php
+      }else{
+      ?>
+        <a href="{:Uu('Member/info')}">Account:{:get_displayname()}</a> <a href="{:Uu('Login/logout')}"  class="hide">Logout</a>
+        <?php
+      }
+      ?>
+      </div>
+    </div>
+  </div>
+  <div class="fnav">{:lbl('navbot')} </div>
+  <div class="footer"> {:C("config.WEB_SITE_ICP")}</div>
+  <div class="footer-form hide" id="searchform">
+    <form class="pure-form" id="formSearch" name="formSearch" method="get" action="/Home/Search/index.html">
+      <input type="text" value="{:I('get.keyword')}" id="keyword1" name="keyword" placeholder="keyword" class="pure-input pure-input-1">
+      <button class="pure-button btnSearch" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+  <footer>
+    <ul>
+      <li><a href="{:Uu('Search/index')}" id="sou"></a></li>
+      <li><a href="{:Uu('Shop/cart')}" id="gwc"><span id="CartNo">0</span></a></li>
+      <li><a href="{:Uu('Member/index')}" id="hy"></a></li>
+      <li onClick="$('.tcbox').toggle()">
+        <div class="tcbox">
+          <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">Suggestion</a><a href="{:Uu('Content/lists','id=1')}">Help</a></div>
+          <div class="jiao">
+            <svg  height="5" >
+              <polygon points="0,0 10,0 5,5 "
+   style="fill:#90B830" />
+            </svg>
+          </div>
+        </div>
+        <a href="javascript:void(0);" id="help"></a></li>
+    </ul>
+  </footer>
+  <div class="clr"></div>
+</div>

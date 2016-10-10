@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" /> 
+	<div class="container">
+		<div class="content">
+			<div class="chenggong">
+				<img src="__PUBLIC__/Home/images/gou.png" width="90" height="90">
+					<h1>Succeed.</h1> <eq name="db.paymethod" value="4">
+					<p>
+						Total：<strong>&yen;{$db.amount}</strong> <br> Payment: Cash on deliver
+					</p>
+					<a href="{:U('Member/orderView?orderno='.$db['orderno'])}"
+						class="pay">View order</a> <else />
+					<p>
+						Total：<strong>&yen;{$db.amount}</strong> <br> Payment: Online payment
+					</p>
+					<a href="javascript:void(0);" onClick="$.payOrder('{$db.orderno}','{$db.amount}')"  class="pure-button pure-button-success pay" style="color:#fff;">Pay now</a> </eq>
+			</div>
+			<div class="clr"></div>
+		</div>
+		<div class="clr"></div>
+	</div>
+	<include file="Index:footer" />
+</body>
+</html>

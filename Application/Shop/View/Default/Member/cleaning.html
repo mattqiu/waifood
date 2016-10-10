@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>{$title}</title>
+	<include file="Index:header" />
+</head>
+
+<body>
+	<include file="Index:bar" />
+	<include file="Index:nav" />
+	<div class="container">
+		<div class="content">
+			<div class="box980">
+				<div class="left">
+					<include file="left" />
+				</div>
+				<div class="right">
+					<div class="hybox">
+						<div class="hytit">
+							<strong>{$title}</strong>
+						</div>
+						<div class="ddlist">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<thead>
+								<tr>
+									<td>No.</td>
+									<td>Time</td>
+									<td>Amount</td>
+									<td>Payment status</td>
+									<td>Status</td>
+									<td>Action</td>
+								</tr>
+								</thead>
+								
+								<tbody>
+								<if condition="count($list) eq 0">
+								<tr>
+									<td colspan="6">not found.</td>
+								</tr>
+								<else />
+								<volist name="list" id="vo">
+								<tr>
+									<td width="60">{:date('Y-m-d H:i', strtotime($vo['create_time']))}</td>
+									<td>{$vo['start_time']}</td>
+									<td><span class="jiage02"> &yen;{:to_price($vo['amount'])}</span></td>
+									<td>{:ec($vo['paid']?'Paid':'Unpaid')}</td>
+									<td><strong>{$statusArr[$vo['status']]}</strong></td>
+									<td><a href="{:U('Member/cleaningView?orderno='.$vo['orderno'])}">View</a></td>
+								</tr>
+								</volist>
+								</if>
+								</tbody>
+							</table>
+						</div>
+						<div class="pagelist ddpage">{$page}</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="clr"></div>
+	</div>
+	<include file="Index:footer" />
+</body>
+</html>

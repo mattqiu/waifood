@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+<div class="container">
+  <div class="content">
+    <div class="main-body pt5">
+      <div class="main-list">
+        <div class="main-item">
+          <div class="item-title" >
+            <h3 >Order detail</h3>
+          </div>
+          <div class="item-info">
+            <div class="address-list"> #{$db.orderno}<br>
+              Status：{:get_status($db['status'])} 
+              <eq name="db.pay" value="1">
+             <span class="changeorder">Paid</span>
+             <else/>
+             <span class="changeorder">Unpaid</span>
+              </eq> <br>
+               
+              Order time：{$db.addtime}
+              <div class="clr"></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		
+		
+        <div class="main-item">
+          <div class="item-title">
+            <h3>Receiving information</h3>
+          </div>
+          <div class="item-info">
+            <div class="address-list"> 
+             <div class="txt02">Name：{$db.username}<br />
+        Mobile：{$db.telephone} <br />
+        Email：{$db.email}<br />
+        Address：{$db.proname}{$db.cityname}{$db.disname} {$db.address}</div>
+              <div class="clr"></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		
+         
+		
+        <div class="main-item">
+          <div class="item-title">
+            <h3>Invoice</h3>
+          </div>
+          <div class="item-info">
+              <eq name="db.inovice" value="1">
+            Yes
+            <else/> 
+            No
+            </eq>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		
+        <div class="main-item">
+          <div class="item-title">
+            <h3>Delivery time</h3>
+          </div>
+          <div class="item-info">
+            {$db.delivertime}
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		
+        <div class="main-item">
+          <div class="item-title">
+            <h3>My message</h3>
+          </div>
+          <div class="item-info">
+            {$db.info}
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		<neq name="db.courier" value="">
+		<div class="main-item">
+          <div class="item-title">
+            <h3>Shipping</h3>
+          </div>
+          <div class="item-info">
+            {$db.courier}
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+		</neq>
+		
+		
+        <div class="main-item">
+          <div class="item-title">
+            <h3>Product list</h3>
+          </div>
+          <div class="item-info">
+          <volist name="list" id="vo">
+            <div class="item-li">
+              <div class="item-img"><img src="{$vo.indexpic}" alt="{$vo.productname}" /></div>
+              <div class="item-name">
+                <h3>{$vo.productname}</h3>
+                <div class="item-no "><span class="fc_red">&yen;{$vo.price} </span>* {$vo.num}</div>
+              </div>
+              <div class="clr"></div>
+            </div>
+            </volist>
+            <div class="item-msg">
+              <div class="item-count"> Total：<span class="fc_red" style="color:#333;">&yen;{$db.amountall}</span><br>
+                Delivery Fee：<span class="fc_red" style="color:#333;">&yen;{$db.shipfee}</span><br>
+				<gt name="db.discount" value="0">
+                Discount：<span class="fc_red" style="color:#333;">-&yen;{$db.discount}</span> <br />
+                </gt>
+                <gt name="db.couponamount" value="0">
+                Coupon：<span class="fc_red" style="color:#333;">-&yen;{$db.couponamount}</span> <br />
+                </gt>
+                <hr />
+                Total amount：<span class="fc_red">&yen;{$db.amount}</span></div>
+            </div>
+            <div class="clr"></div>
+          </div>
+          <div class="clr"></div>
+        </div>
+          
+        <div class="item-pay-container">
+          <div class="item-pay">
+           <eq name="db.status" value="0">
+           
+            <eq name="db.paymethod" value="4">
+            <button class="pure-button  w49" disabled="disabled"  >Cash on delivery</button>
+            <else/>
+            <button class="pure-button pure-button-success w49" onClick="$.payOrder('{$db['orderno']}','{$db['amount']}');" >Pay now</button>
+            </eq>
+            <else/>
+              <button class="pure-button w49" disabled="disabled"  >No need to pay</button>
+           
+           </eq>
+           
+           <eq name="db.status" value="0"> 
+            <button class="pure-button w49 " onClick="$.cancelOrder('{$db.orderno}');"  >Cancel this order</button>
+              <else/>
+              
+            <button class="pure-button w49 " onClick="history.back();"  >Back</button>
+              </eq> 
+          </div>
+          <div class="clr"></div>
+        </div>
+        
+      </div>
+      <div class="clr"></div>
+    </div>
+  </div>
+  <div class="clr"></div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

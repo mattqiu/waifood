@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+
+<body>
+<include file="Index:bar" />
+
+<div class="jfze">Balance：<strong>{:get_useramount(0)}</strong></div>
+<volist name="list" id="vo"> 
+  <div class="box sqjl">
+    <h2>Trade time：{$vo.addtime}</h2>
+    <p>Total：
+      <eq name="vo.balancetype" value="1"><span style="color:#00f;">+{$vo.amount}</span>
+        <else />
+       <span style="color:#f00;"> -{$vo.amount}</span></eq>
+      <br>
+      Type：{:get_iotypename($vo['balancetypeid'])} <br>
+      
+      <eq name="vo.remark" value="">
+        <else />
+        Remark：{$vo.remark}</eq> </p>
+  </div>
+  </volist> 
+<include file="Index:footer" />
+</body>
+</html>
