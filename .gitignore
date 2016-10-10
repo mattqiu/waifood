@@ -1,0 +1,13 @@
+#
+Runtime/Cache
+Runtime/Data
+Runtime/Log
+Runtime/Temp
+Runtime/uploadfile
+.htaccess
+.buildpath
+.project
+.settings/
+.idea
+dist/
+*.swp

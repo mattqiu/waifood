@@ -170,7 +170,9 @@
 
               <tr>
                 <td align="right">Verification Code：</td>
-                <td><input type="text" class="reginput fl" size="20" maxlength="4" name="verify" id="verify"  placeholder="enter verification code" required="required" /> <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='{:U('Login/verify')}?random='+Math.random()" src="{:U('Login/verify')}?v={:rand(0,999)}" /></td>
+                <td>
+                    <input type="text" class="reginput fl" size="20" maxlength="5" name="verify" id="verify"  placeholder="enter verification code" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
+                </td>
               </tr>
               <tr>
                 <td>&nbsp;</td>

@@ -822,13 +822,13 @@ function checklogform(){
 		return false
 	};*/
 	 
-	v="#verify";
-	if(isN(v)){
-		jAlert("Sorry, verification code can not be empty!",SYSTITLE,function(){
-			$(v).focus();	
-		});
-		return false
-	};
+	//v="#verify";
+	//if(isN(v)){
+	//	jAlert("Sorry, verification code can not be empty!",SYSTITLE,function(){
+	//		$(v).focus();
+	//	});
+	//	return false
+	//};
 	 
 	
 	 

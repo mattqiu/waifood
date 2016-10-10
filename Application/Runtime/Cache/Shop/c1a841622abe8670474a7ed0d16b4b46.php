@@ -166,11 +166,11 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
                 </tr>
                 <tr>
                   <td colspan="2" align="left"><a href="/" id="jxgw">Continue shopping</a></td>
-                  <td colspan="4" align="right"><?php if(($cart["cart_num"]) == "0"): ?><span class="jixu">proceed to checkout</span>
+                  <td colspan="4" align="right"><?php if(($cart["cart_num"]) == "0"): ?><span class="jixu">proceed to checkout1</span>
                       <?php else: ?>
-                      <?php if((get_userid() == 0)): ?><a href="<?php echo U('Settle/cashier');?>" class="jixu" style="color:#fff" id="btnCheckout">proceed to checkout</a>
+                      <?php if((get_userid() == 0)): ?><a href="/login/index.html?returnurl=/settle/cashier" class="jixu" style="color:#fff" id="b1tnCheckout111">proceed to checkout2</a>
                         <?php else: ?>
-                        <a href="<?php echo U('Settle/cashier');?>" class="jixu" style="color:#fff" >proceed to checkout</a><?php endif; endif; ?></td>
+                        <a href="<?php echo U('Settle/cashier');?>" class="jixu" style="color:#fff" >proceed to checkout3</a><?php endif; endif; ?></td>
                 </tr>
               </tfoot>
             </table><?php endif; ?>
@@ -180,6 +180,8 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
   </div>
   <div class="clr"></div>
 </div>
+
+
 <?php if((get_userid() == 0)): ?><div class="zhezhao ld hide"></div>
   <div class="lg ld hide">
     <div class="lgts_title">
@@ -209,6 +211,8 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
       <br />
       <a href="<?php echo U('Login/register');?>" target="_blank" class="fc_red" > Register a New Account</a> </div>
   </div><?php endif; ?>
+
+
 <div class="container">
 <div class="fuwu">
   <ul>
@@ -246,7 +250,19 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
  
 	<div class="clr"></div>
 </div>
+<script>
+    $(function(){
+        $('.city li').click(function () {
+            $('.city li').removeClass('hover');
+            $(this).addClass('hover');
+        })
 
+        $('.language li').click(function () {
+            $('.language li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+    })
+</script>
 <script>
 $(function(){
 	$("#confirmcreate").click(function(){

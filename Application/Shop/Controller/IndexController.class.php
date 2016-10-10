@@ -51,5 +51,11 @@ class IndexController extends BaseController
             $this->error('Sorry, system error.');
         }
     }
+
+    //生成验证码
+    public function verify(){
+        verify();
+    }
+
 }
 ?>

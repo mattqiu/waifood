@@ -85,6 +85,14 @@ $config = array(
 $config2 = require 'coupon.php';
 $config = array_merge($config, $config2);
 
+if((isFromWeixin() || isMobile())){{
+    if(isEnterWap()){
+        $config['DEFAULT_MODULE'] = 'Home';
+
+    }
+}
+}
+
 // 加载自定义参数设置
 if (file_exists(GLOBAL_CONFIG)) {
     $config1 = require GLOBAL_CONFIG;

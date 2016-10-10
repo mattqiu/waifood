@@ -101,15 +101,14 @@ class LoginController extends Controller {
 	 * @param string $userpwd	密码
 	 * @param string $verify	验证码
 	 */
-	public function login($username = null, $userpwd = null, $verify = null) {
+	public function login($username = null, $userpwd = null) {
 		// 保存登录信息
 		if (IS_POST) {
-			if (! check_verify ( $verify )) {
-				$this->error ( '验证码错误！' );
-			}
-			
+            if( !isVerifyCorrect()){
+                $this->error ( '验证码错误！' );
+            }
 			$Rbac = new \Org\Util\Rbac ();
-			
+
 			$map ['username'] = $username;
 			$map ['userpwd'] = md5($userpwd);
 			

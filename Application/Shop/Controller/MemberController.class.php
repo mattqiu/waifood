@@ -47,7 +47,6 @@ class MemberController extends AuthController {
 	}
 	
 	public function invite(){
-        
 	    $title= 'Invite friends';
 	    $this->assign('title',$title);
 	    $this->display ();

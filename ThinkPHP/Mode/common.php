@@ -67,6 +67,9 @@ return array(
         'view_filter'   =>  array(
             'Behavior\WriteHtmlCacheBehavior', // 写入静态缓存
         ),
+        'view_end'   =>  array(
+            'Behavior\ShowEnvBehavior',// 显示当前环境
+        ),
 
     ),
 );

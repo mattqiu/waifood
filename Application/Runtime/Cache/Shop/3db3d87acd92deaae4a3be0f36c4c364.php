@@ -80,7 +80,9 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
       <div class="login">
         <div><strong>Member login</strong></div>
         <form  action="<?php echo U('Login/index');?>" method="post" id="frm_login" onsubmit="return checklogform()">
-            <input type="hidden" name="returnurl" value="<?php echo ($_SERVER['HTTP_REFERER']); ?>"/>
+            <?php if($_REQUEST['returnurl']): ?><input type="hidden" name="returnurl" value="<?php echo ($_REQUEST['returnurl']); ?>"/>
+                <?php else: ?>
+                <input type="hidden" name="returnurl" value="<?php echo ($_SERVER['HTTP_REFERER']); ?>"/><?php endif; ?>
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
            <tr>
              <td width="270">User name<br />  <input type="text"    name="username" id="username"  placeholder="enter your user name" required="required" class="user" /></td>
@@ -88,12 +90,12 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
            <tr>
              <td>Password<br /> <input type="password" maxlength="32"  name="userpwd" id="userpwd"  placeholder="enter your password" required="required" class="mima" /></td>
            </tr>
-            <tr>
+            <tr class="hide" id="verify" >
                 <td>Verification code<br />
-                <input type="text" class="reginput fl" size="18" maxlength="4" name="verify" id="verify"  placeholder="enter verification code" required="required" /> 
-                <img style="cursor:pointer; cursor: hand; width:80px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='<?php echo U('Login/verify');?>?random='+Math.random()" src="<?php echo U('Login/verify');?>?v=<?php echo rand(0,999);?>" />
+                <input type="text" class="reginput fl" size="18" maxlength="5" placeholder="enter verification code" />
+                <img style="cursor:pointer; cursor: hand; width:80px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v=<?php echo rand(0,999);?>" />
                 </td>
-              </tr> 
+            </tr>
            <tr>
              <td> 
              <a href="<?php echo U('Login/findpwd');?>" style="color:#0e87d8">Forget your password?</a></td>
@@ -150,6 +152,30 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
  
 	<div class="clr"></div>
 </div>
+<script>
+    $(function(){
+        $('.city li').click(function () {
+            $('.city li').removeClass('hover');
+            $(this).addClass('hover');
+        })
 
+        $('.language li').click(function () {
+            $('.language li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+    })
+</script>
+<script src="/Public/js/common.js"></script>
+<script>
+    $(function(){
+        if($('#verify').hasClass('hide')){
+            var $num = getCookie('verify_err_num');
+            if($num>=3){
+                $('#verify').removeClass('hide');
+                $('#verify input').attr('name','verify');
+            }
+        }
+    })
+</script>
 </body>
 </html>

@@ -80,8 +80,8 @@ body{background:#E1E1E1;}
         </tr>
         <tr >
           <td class="tr">验证码：</td>
-          <td><input type="text" class="inputText1" id="verify" name="verify" style="width:50px; float:left;" maxlength="4" />
-            <img id="vimg" style="cursor:pointer;margin-left:5px; cursor: hand; width:70px; height:24px;" title="看不清楚?换一张!" alt="" onclick="this.src='<?php echo U('Login/verify');?>?random='+Math.random()" src="<?php echo U('Login/verify');?>" /></td>
+          <td><input type="text" class="inputText1" id="verify" name="verify" style="width:50px; float:left;" maxlength="5" />
+            <img id="vimg" style="cursor:pointer;margin-left:5px; cursor: hand; width:70px; height:24px;" title="看不清楚?换一张!" alt="" onclick="this.src='/shop/index/verify.html?random='+Math.random()" src="/shop/index/verify.html" /></td>
           <td>&nbsp;</td>
         </tr>
         <tr >

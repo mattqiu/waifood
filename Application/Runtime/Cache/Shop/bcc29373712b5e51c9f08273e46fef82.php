@@ -232,7 +232,9 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 
               <tr>
                 <td align="right">Verification Code：</td>
-                <td><input type="text" class="reginput fl" size="20" maxlength="4" name="verify" id="verify"  placeholder="enter verification code" required="required" /> <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='<?php echo U('Login/verify');?>?random='+Math.random()" src="<?php echo U('Login/verify');?>?v=<?php echo rand(0,999);?>" /></td>
+                <td>
+                    <input type="text" class="reginput fl" size="20" maxlength="5" name="verify" id="verify"  placeholder="enter verification code" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v=<?php echo rand(0,999);?>" />
+                </td>
               </tr>
               <tr>
                 <td>&nbsp;</td>
@@ -284,9 +286,8 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
  
 	<div class="clr"></div>
 </div>
-
 <script>
-    $(function () {
+    $(function(){
         $('.city li').click(function () {
             $('.city li').removeClass('hover');
             $(this).addClass('hover');
@@ -296,7 +297,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
             $('.language li').removeClass('hover');
             $(this).addClass('hover');
         })
-    });
+    })
 </script>
 </body>
 </html>

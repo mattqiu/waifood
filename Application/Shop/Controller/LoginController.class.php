@@ -16,25 +16,20 @@ class LoginController extends Controller {
 	}  
 
 	public function test(){
-		we(ini_get('session.gc_maxlifetime'));
-		
+        we(ini_get('session.gc_maxlifetime'));
 	}
 	
 	public function findpwd(){
-
 		if(IS_POST){
-
 			$data = empty ( $data ) ? $_POST : $data;
 			$username=$data['username'];
 			$email=$data['email'];
-
 			if (isN($username)) {
 				$this->error('sorry, user name cannot be empty.');
 			}
 			if (!is_email($email)) {
 				$this->error('sorry, email illegal.');
 			}
-			
 			$where=array();
 			$where['username']=$username;
 			$where['email']=$email;
@@ -50,7 +45,6 @@ class LoginController extends Controller {
 				if(isN($body)){
 					$this->error('sorry,email sent failed');
 				}
-
 				$preg="/{(.*)}/iU";
 				$n=preg_match_all($preg,$body,$rs);
 				$rs=$rs[1];
@@ -63,8 +57,6 @@ class LoginController extends Controller {
 						}
 					}
 				}
-				
-				
 				if(send_mail($to,$subject,$body)){
 					M('member')->where($where)->setField('pwdcode',$pwdcode);
 					$this->redirect('Login/findpwd2?email='.$to);
@@ -90,18 +82,14 @@ class LoginController extends Controller {
 	}
 	
 	Public function findpwd2($email=''){
-
 		if(IS_POST){
-
 			$data = empty ( $data ) ? $_POST : $data;
 			$userpwd=$data['userpwd'];
 			$userpwd1=$data['userpwd1'];
 			$pwdcode=$data['pwdcode'];
-
 			if (isN($userpwd)) {
 				$this->error('sorry, password cannot be empty.');
 			}
-
 //   			if (strlen($data['userpwd'])<2) {
 // 				$this->error('sorry,the length of the password must be at least 2.');
 //   			}
@@ -124,7 +112,6 @@ class LoginController extends Controller {
 			}
 
 		}else{
-
 			$title = 'Retrieve my password - step 2.';
 			$keywords = $title.lbl('subtitleshop');
 			$description = $title.lbl('subtitleshop');
@@ -132,29 +119,42 @@ class LoginController extends Controller {
 			$this->assign('keywords',$keywords);
 			$this->assign('description',$description);
 			$this->assign('email',$email);
-				
 			$this->display();
 		}
 	}
-	
+
 	public function index() {
-		if(IS_POST){
-			//登录
+        $url=I('returnurl')?I('returnurl'):'/';
+        if(IS_POST){
+           $num = cookie('verify_err_num');
+            if(isset($num) && $num>=3){
+                if( !isVerifyCorrect()){
+                    $this->error ( 'sorry,verifycation code is illegal.');
+                }
+            }
+            //登录
 			$username=I('username');
 			$userpwd=md5(I('userpwd'));
-			$verify= I('verify');
-			$url=I('returnurl');
-			if($this->login($username,$userpwd,$verify)){
-			    if(!strpos(strtolower($url),'login')){
-			        redirect($url);
+			if($this->login($username,$userpwd)){
+                cookie('verify_err_num','');
+                if(!strpos(strtolower($url),'login')){
+                    redirect($url);
 			    }else{
 				    $this->redirect('Member/index');
 			    }
-			}else{
+            }else{
+                //记录登录失败的次数
+                $num = cookie('verify_err_num');
+                if(!$num){
+                    $num =1;
+                }else{
+                    $num++;
+                }
+                cookie('verify_err_num',$num);
 				$this->error('wrong user name or password.');
 			}
 		}else{
-			$title = 'login';
+            $title = 'login';
 			$keywords = $title.lbl('subtitleshop');
 			$description = $title.lbl('subtitleshop');
 			$this->assign('title',$title);
@@ -166,7 +166,9 @@ class LoginController extends Controller {
 
     public function reg(){
         $data = I('post.');
-        $verify=($data['verify']);
+        if( !isVerifyCorrect()){
+            apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
+        }
         if (!regex($data['username'],'username') ) {
             apiReturn(CodeModel::ERROR,'sorry,the user name format is not correct');
         }
@@ -176,12 +178,8 @@ class LoginController extends Controller {
         if ($data['userpwd'] !== $data['userpwd1']) {
             apiReturn(CodeModel::ERROR,'enter the password twice inconsistent.');
         }
-
         if (!regex($data['email'],'email')) {
             apiReturn(CodeModel::ERROR,'sorry,email is illegal.');
-        }
-        if (! check_verify ( $verify )) {
-            apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
         }
         $username=$data['username'];
         $userpwd=md5($data['userpwd']);
@@ -201,6 +199,7 @@ class LoginController extends Controller {
             if(!$db){
                 apiReturn(CodeModel::ERROR,'Registration failed');
             }
+//自动添加收货地址------ 暂时取消(不明确要求,确认后删除);
 //            if($db>0){
 //                $rs=array();
 //                $rs['username']=$data['username'];
@@ -212,7 +211,7 @@ class LoginController extends Controller {
 //                M('address')->add($rs);
 //            }
             //注册完后自动登录
-            if($this->login($username, $userpwd,'111111')){
+            if($this->login($username, $userpwd)){//注册后自动登录
                 $to=$data['email'];
                 $subject='[waifood]register successfully';
                 $body=lbl('tpl_register');
@@ -258,12 +257,12 @@ class LoginController extends Controller {
 				$where ['wechatid'] = $openid;
 				$db = M ( 'member' )->where ( $where )->find ();
 				if ($db != false) {
-					$this->login ( $db ['username'], $db ['userpwd'], '' );
+					$this->login ( $db ['username'], $db ['userpwd'] );
 				} else {
 					$newid = $this->createWechatUser ( $openid );
 					$db= M ( 'member' )->where ( $where )->find ($newid);
 					if ($db != false) {
-						$this->login ( $db ['username'], $db ['userpwd'], '' );
+						$this->login ( $db ['username'], $db ['userpwd']);
 					}
 				}
 			}else{
@@ -336,7 +335,7 @@ class LoginController extends Controller {
 		$where ['status'] = 1;
 		$db= M ( 'member' )->where ( $where )->find ($uid);
 		if ($db != false) {
-			$this->login ( $db ['username'], $db ['userpwd'], '111111' );
+			$this->login ( $db ['username'], $db ['userpwd'] );
 			if( IS_AJAX ){
 				echo '1';
 			}else{
@@ -346,7 +345,7 @@ class LoginController extends Controller {
 	}
 
 	public function loginbox($username = null, $userpwd = null ) {
-			$data=$this->login ($username,md5($userpwd), '111111' );
+			$data=$this->login ($username,md5($userpwd) );
 			if($data){
 				$this->ajaxReturn(1);
 			}else{
@@ -359,15 +358,9 @@ class LoginController extends Controller {
 	 * 
 	 * @param string $username        	
 	 * @param string $userpwd        	
-	 * @param string $verify        	
 	 */
-	protected function login($username = null, $userpwd = null, $verify = null) {
+	protected function login($username, $userpwd) {
 		if (!(isN($username)||isN($userpwd))) {
-			if($verify!='111111'){ 
-				if (! check_verify ( $verify )) {
-				$this->error ( 'sorry,verifycation code is illegal.' );
-				}
-			}
 			// 设置id,username, wechatid
 			$where = array ();
 			$where ['status'] = 1;
