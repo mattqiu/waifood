@@ -13,4 +13,5 @@ define ('DIR_SECURE_FILENAME', false);
 define ('APP_PATH', './Application/');
 define ('GLOBAL_CONFIG', APP_PATH . 'Common/conf/setting.php');
 require './ThinkPHP/ThinkPHP.php';
+
 ?>
