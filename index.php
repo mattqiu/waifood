@@ -11,7 +11,7 @@ require './Application/Common/Common/share.php';
 define ('APP_DEBUG', true);
 define ('DIR_SECURE_FILENAME', false);
 define ('APP_PATH', './Application/');
-define ('GLOBAL_CONFIG', APP_PATH. 'Common/conf/setting.php');
+define ('GLOBAL_CONFIG', APP_PATH. 'Common/Conf/setting.php');
 require './ThinkPHP/ThinkPHP.php';
 
 ?>
