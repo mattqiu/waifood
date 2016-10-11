@@ -9,7 +9,7 @@ class FormController extends BaseController {
      * @param number $id
      */
     public function view($id=0,$msg=''){
-    	$user=M('member')->find(get_userid());
+        $user= UserModel::getUserById(get_userid());
     	if(substr($user['username'],0,4)=='user_'){
     		$user['username']='';
     		$user['telephone']='';

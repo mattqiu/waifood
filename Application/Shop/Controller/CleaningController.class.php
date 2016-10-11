@@ -8,7 +8,7 @@ class CleaningController extends BaseController
 		$this->assign('title', 'House Cleaning Service');
 		$this->assign('timesPrice', C('config.CLEANING_TIMES_HOUR_PRICE'));
 		$this->assign('monthPrice', C('config.CLEANING_MONTH_HOUR_PRICE'));
-		$this->assign('user', M('member')->find(get_userid()) );
+		$this->assign('user',UserModel::getUserById(get_userid()));
 		$this->display();
 	}
 	

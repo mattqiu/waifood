@@ -86,7 +86,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 <a href="<?php echo U('Member/pwd');?>">Change password</a> </div>
 <script>
 $(function(){
-	var url="/Member/index.html";
+	var url="/member/index";
 	$(".hymenu a").each(function(){
 		var href=$(this).attr("href");	
 		if(href==url){
@@ -200,6 +200,18 @@ $(function(){
  
 	<div class="clr"></div>
 </div>
+<script>
+    $(function(){
+        $('.city li').click(function () {
+            $('.city li').removeClass('hover');
+            $(this).addClass('hover');
+        })
 
+        $('.language li').click(function () {
+            $('.language li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+    })
+</script>
 </body>
 </html>

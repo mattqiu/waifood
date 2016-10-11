@@ -1,6 +1,8 @@
 <?php
 // 订单处理类
 namespace Shop\Controller; 
+use Common\Model\UserModel;
+
 class OrderController extends BaseController {
 	/**
 	 * 积分兑换：1.登录 2.库存 3.积分数
@@ -23,8 +25,8 @@ class OrderController extends BaseController {
 			if($data['stock']<$num){
 				$this->error('所选商品库存不足');
 			}
-			$member=M('member')->find($userid);
-			if(isN($member['address'])){
+            $member = UserModel::getUserById($userid);
+            if(isN($member['address'])){
 				$this->error('您的详细地址不全，请先补充（会员中心 > <a href="'.U('Member/info').'" style="color:red">个人资料</a>）');
 			}else{
 				

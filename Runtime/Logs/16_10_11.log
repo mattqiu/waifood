@@ -1,0 +1,37 @@
+[ 2016-10-11T10:08:06+08:00 ] 127.0.0.1 /
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Common/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Common/Common/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Common/Conf/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/Common/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/Controller/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/Model/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/Conf/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Home/View/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Runtime/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Runtime/Cache/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Runtime/Logs/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Runtime/Temp/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+NOTIC: [2] file_put_contents(D:/WAMP/waifood/Runtime/Data/): failed to open stream: No such file or directory D:\WAMP\waifood\ThinkPHP\Library\Think\Build.class.php 第 151 行.
+INFO: [ app_init ] --START--
+INFO: Run Behavior\BuildLiteBehavior [ RunTime:0.000000s ]
+INFO: [ app_init ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_begin ] --START--
+INFO: Run Behavior\ReadHtmlCacheBehavior [ RunTime:0.000000s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.000000s ]
+INFO: [ view_parse ] --START--
+INFO: [ template_filter ] --START--
+INFO: Run Behavior\ContentReplaceBehavior [ RunTime:0.000000s ]
+INFO: [ template_filter ] --END-- [ RunTime:0.000000s ]
+INFO: Run Behavior\ParseTemplateBehavior [ RunTime:0.004000s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.004000s ]
+INFO: [ view_filter ] --START--
+INFO: Run Behavior\WriteHtmlCacheBehavior [ RunTime:0.001000s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.001000s ]
+INFO: [ view_end ] --START--
+INFO: Run Behavior\ShowEnvBehavior [ RunTime:0.000000s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000000s ]
+INFO: [ app_end ] --START--
+INFO: Run Behavior\ShowPageTraceBehavior [ RunTime:0.000000s ]
+INFO: [ app_end ] --END-- [ RunTime:0.000000s ]
+

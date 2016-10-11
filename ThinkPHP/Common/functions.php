@@ -769,7 +769,7 @@ function dump($var, $echo=true, $label=null, $strict=true) {
  */
 function GLog($cate,$message,$level=Log::INFO){
     $msg = "($cate) $message";
-    Log::record($msg,$level);
+    \Think\Log::record($msg,$level);
 }
 
 /**

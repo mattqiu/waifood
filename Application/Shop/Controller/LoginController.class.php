@@ -4,6 +4,8 @@ namespace Shop\Controller;
 use Common\Model\CodeModel;
 use Common\Model\UserModel;
 Use \Think\Controller;
+use Think\Log;
+
 class LoginController extends Controller {
 	/**
 	 * 会员首页
@@ -124,9 +126,10 @@ class LoginController extends Controller {
 	}
 
 	public function index() {
+        $key = 'verify_err_num:ip:'.getRealIp();
         $url=I('returnurl')?I('returnurl'):'/';
         if(IS_POST){
-           $num = cookie('verify_err_num');
+           $num = cookie($key);
             if(isset($num) && $num>=3){
                 if( !isVerifyCorrect()){
                     $this->error ( 'sorry,verifycation code is illegal.');
@@ -136,7 +139,6 @@ class LoginController extends Controller {
 			$username=I('username');
 			$userpwd=md5(I('userpwd'));
 			if($this->login($username,$userpwd)){
-                cookie('verify_err_num','');
                 if(!strpos(strtolower($url),'login')){
                     redirect($url);
 			    }else{
@@ -144,13 +146,13 @@ class LoginController extends Controller {
 			    }
             }else{
                 //记录登录失败的次数
-                $num = cookie('verify_err_num');
+                $num = cookie($key);
                 if(!$num){
                     $num =1;
                 }else{
                     $num++;
                 }
-                cookie('verify_err_num',$num);
+                cookie($key,$num);
 				$this->error('wrong user name or password.');
 			}
 		}else{
@@ -172,9 +174,9 @@ class LoginController extends Controller {
         if (!regex($data['username'],'username') ) {
             apiReturn(CodeModel::ERROR,'sorry,the user name format is not correct');
         }
-//        if (strlen($data['userpwd'])>20 || $data['']<5) {
-//            $this->error('sorry,the password format is not correct');
-//        }
+        if (strlen($data['userpwd'])>20 || strlen($data['userpwd'])<4) {
+            $this->error('Sorry,the password should be 4 to 20 characters!');
+        }
         if ($data['userpwd'] !== $data['userpwd1']) {
             apiReturn(CodeModel::ERROR,'enter the password twice inconsistent.');
         }
@@ -199,41 +201,13 @@ class LoginController extends Controller {
             if(!$db){
                 apiReturn(CodeModel::ERROR,'Registration failed');
             }
-//自动添加收货地址------ 暂时取消(不明确要求,确认后删除);
-//            if($db>0){
-//                $rs=array();
-//                $rs['username']=$data['username'];
-//                $rs['telephone']=$data['telephone'];
-//                $rs['sex']=$data['sex'];
-//                $rs['email']=$data['email'];
-//                $rs['address']=$data['address'];
-//                $rs['userid']=$db;
-//                M('address')->add($rs);
-//            }
+            $subject='[waifood]register successfully';
+            sendEmail($data['email'],$subject);
             //注册完后自动登录
             if($this->login($username, $userpwd)){//注册后自动登录
-                $to=$data['email'];
-                $subject='[waifood]register successfully';
-                $body=lbl('tpl_register');
-                if(!isN($body)){
-                    $preg="/{(.*)}/iU";
-                    $n=preg_match_all($preg,$body,$rs);
-                    $rs=$rs[1];
-                    if($n>0){
-                        foreach($rs as $v){
-                            if(isset($data[$v])){
-                                $oArr[]='{'.$v.'}';
-                                $tArr[]=$data[$v];
-                                $body=str_replace($oArr,$tArr,$body);
-                            }
-                        }
-                    }
-                    if(send_mail($to,$subject,$body)){
-                    }
-                }
                 apiReturn(CodeModel::CORRECT,'','/member/index');
             }else{
-                apiReturn(CodeModel::ERROR,'sorry, user name cannot be empty.');
+                apiReturn(CodeModel::CORRECT,'注册成功','/login/index?returnurl=/member/index');
             }
         }
 
@@ -366,28 +340,30 @@ class LoginController extends Controller {
 			$where ['status'] = 1;
 			$where ['username'] = $username;
 			$where ['userpwd'] = $userpwd;
-			$db = M ( 'member' )->where ( $where )->find ();
-            if ($db) {
-				$data = array ();
-				$data ['id'] = $db ['id' ] ;
+			$user = M ( 'member' )->where ( $where )->find ();
+            if (!empty($user)) {
+                $key = 'verify_err_num:ip:'.getRealIp();
+                cookie($key,0);//成功登陆清除登陆失败记录次数
+                $data = array ();
+				$data ['id'] = $user ['id' ] ;
 				$data ['lastlogtime'] = time_format ();
 				$data ['lastlogip'] = get_client_ip ();
-				$data ['logtimes'] = $db ['logtimes'] + 1;
+				$data ['logtimes'] = $user ['logtimes'] + 1;
 				M ( 'member' )->save ( $data );
 				//取用户折扣
-				$level=M('level')->where('id='.$db['usertype'])->find();
+				$level=M('level')->where('id='.$user['usertype'])->find();
 				$rate=$level['rate'];
                 if(!is_numeric($rate)){
 					$rate=1;
 				}
-				session ( 'userrate', $rate );
-				session ( 'userid', $db ['id'] );
-				session ( 'username', $db ['username'] );
-				session ( 'usertype', $db ['usertype'] );
-				session ( 'wechatid', $db ['wechatid'] );
+                session ( 'userrate', $rate );
+                session ( 'userid', $user ['id'] );
+                session ( 'username', $user ['username'] );
+                session ( 'usertype', $user ['usertype'] );
+                session ( 'wechatid', $user ['wechatid'] );
                 return true;
-			} else {
-				return false;
+			}else {
+                return false;
 			}
 		} else {
 			return false;

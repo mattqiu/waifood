@@ -35,7 +35,7 @@ class OrderController extends BaseController
             if ($data['stock'] < $num) {
                 $this->error('所选商品库存不足');
             }
-            $member = M('member')->find($userid);
+            $member= UserModel::getUserById($userid);
             if (isN($member['address'])) {
                 $this->error('您的详细地址不全，请先补充（会员中心 > <a href="' . U('Member/info') . '" style="color:red">个人资料</a>）');
             } else {}

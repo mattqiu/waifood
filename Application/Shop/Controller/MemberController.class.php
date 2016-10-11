@@ -3,6 +3,7 @@
 namespace Shop\Controller;
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
+use Common\Model\UserModel;
 
 class MemberController extends AuthController {
 	// 修改登录密码
@@ -56,26 +57,27 @@ class MemberController extends AuthController {
 	 * 会员首页
 	 */
 	public function index($status = 0) {
-		$db=M('member')->find(get_userid ());
-		if($db){
-		$where = array ();
-		$where ['status'] = array('in',array(0,1,2));
-		$where ['userid'] = get_userid ();
-		$list = M ( 'order' )->where ( $where )->order ( 'id desc' )->limit ( 10 )->select (); 
-		$this->assign ( 'db', $db );
-		$this->assign ( 'list', $list );
-		$this->assign ( 'status', $status );
-		$this->assign ( 'listcount', count ( $list ) );
+        $userid =get_userid ();
+        $db=UserModel::getUserById($userid);
+        if($db){
+            $where = array ();
+            $where ['status'] = array('in',array(0,1,2));
+            $where ['userid'] = get_userid ();
+            $list = M ( 'order' )->where ( $where )->order ( 'id desc' )->limit ( 10 )->select ();
+            $this->assign ( 'db', $db );
+            $this->assign ( 'list', $list );
+            $this->assign ( 'status', $status );
+            $this->assign ( 'listcount', count ( $list ) );
 
-		$this->assign ( 'orderstat', $this->orderStat(get_userid()));
-		//seo信息
-		$title = 'Member Center'; 
-		$this->assign('title',$title);
-		
-		$this->display ();
+            $this->assign ( 'orderstat', $this->orderStat(get_userid()));
+            //seo信息
+            $title = 'Member Center';
+            $this->assign('title',$title);
+
+            $this->display ();
 		}else{
 			session ( 'userid',null );
-			$this->redirect('Login/index');
+			$this->redirect('Login/index?member/index');
 		}
 	}
 	

@@ -696,10 +696,9 @@ function SetHome(obj) {
 };
 
 function checkregform(){
-	var v="#username";
-	if(isN(v)){
+	if(!$("#username").val()){
 		jAlert("Sorry,please enter user name.",SYSTITLE,function(){
-			$(v).focus();	
+			$("#username").focus();
 		});
 		return false
 	};
@@ -709,54 +708,49 @@ function checkregform(){
 		});
 		return false
 	};*/
-	 v="#userpwd";
-	if(isN(v)){
+	if(!$("#userpwd").val()){
 		jAlert("Sorry, please enter your password!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#userpwd").focus();
 		});
 		return false
 	};
-	/*if($(v).val().length<6){
-		jAlert("Sorry, the password must be at least 6.",SYSTITLE,function(){
-			$(v).focus();	
+    if($("#userpwd").val().length<4 || $("#userpwd").val().length>20){
+		jAlert("Sorry,the password should be 4 to 20 characters!",SYSTITLE,function(){
+			$("#userpwd").focus();
 		});
 		return false
-	};*/
-	 v="#userpwd1";
-	if(isN(v)){
+	};
+	if(! $("#userpwd1").val()){
 		jAlert("Sorry, please re-enter your password!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#userpwd1").focus();
 		});
 		return false
 	};
 	
 	if($("#userpwd").val()!=$("#userpwd1").val()){
 		jAlert("Sorry, enter the password twice inconsistent!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#userpwd").focus();
 		});
 		return false
 	};
 	
-	v="#email";
-	if(isN(v)){
+	if(!$("#email").val()){
 		jAlert("Sorry, the email can not be empty!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#email").focus();
 		});
 		return false
 	};
 	
-	v="#telephone";
-	if(isN(v)){
+	if(!$("#telephone").val()){
 		jAlert("Sorry, the phone number can not be empty!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#telephone").focus();
 		});
 		return false
 	};
 	
-	v="#verify";
-	if(isN(v)){
+	if(!$("#verify").val()){
 		jAlert("Sorry, verification code can not be empty!",SYSTITLE,function(){
-			$(v).focus();	
+			$("#verify").focus();
 		});
 		return false
 	};
@@ -817,7 +811,7 @@ function checklogform(){
 	};
 	/*if($(v).val().length<6){
 		jAlert("Sorry, the password must be at least 6.",SYSTITLE,function(){
-			$(v).focus();	
+			$(v).focus();
 		});
 		return false
 	};*/

@@ -77,9 +77,9 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
     <div class="box980">
       <div class="lgbox">
       
-      <div class="login">
+      <div class="login" style="float: right;overflow: hidden;zoom: 1;">
         <div><strong>Member login</strong></div>
-        <form  action="<?php echo U('Login/index');?>" method="post" id="frm_login" onsubmit="return checklogform()">
+        <form  action="<?php echo U('Login/index');?>"  method="post" id="frm_login" onsubmit="return checklogform()">
             <?php if($_REQUEST['returnurl']): ?><input type="hidden" name="returnurl" value="<?php echo ($_REQUEST['returnurl']); ?>"/>
                 <?php else: ?>
                 <input type="hidden" name="returnurl" value="<?php echo ($_SERVER['HTTP_REFERER']); ?>"/><?php endif; ?>
@@ -98,7 +98,9 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
             </tr>
            <tr>
              <td> 
-             <a href="<?php echo U('Login/findpwd');?>" style="color:#0e87d8">Forget your password?</a></td>
+             <a href="<?php echo U('Login/findpwd');?>" style="color:#0e87d8">Forget your password?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+             <a href="<?php echo U('Login/register');?>" style="color:#0e87d8">Register</a>
+             </td>
            </tr>
            <tr>
             <td><input type="submit" name="imageField" id="imageField" class="lgbtn"  value="Login Now" /></td>
@@ -107,8 +109,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
         </form>
       </div>
        
-      <div class="regyd" style="padding-top:50px"><strong>If you have not registered, please click here to register</strong><br><a href="<?php echo U('Login/register');?>" class="jixu">Register now</a></div>
-        
+
         <div class="lgimg"></div>
       </div>
     </div>

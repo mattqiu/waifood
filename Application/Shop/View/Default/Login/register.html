@@ -20,12 +20,12 @@
             <table border="0" align="center" cellpadding="0" cellspacing="0">
                 <tr>
                     <td align="right">User Name：</td>
-                    <td><input type="text" class="reginput"  size="40" name="username" id="username"  placeholder="enter your user username" required="required" />
+                    <td><input type="text" class="reginput"  size="40" name="username" id="username"  placeholder="enter your user name" required="required" />
                         <span class="fc_red">*</span></td>
                 </tr>
                 <tr>
                     <td align="right">Email：</td>
-                    <td><input  id="email" name="email" type="text" maxlength="50"  value="" required="required" placeholder="Email for login or receive key information" class="input03"  size="40"> <span class="fc_red">*</span></td>
+                    <td><input  id="email" name="email" type="text" maxlength="50"  value="" required="required" placeholder="Email for login or receive key information" class="input03"  size="40">&nbsp;&nbsp;&nbsp;<span class="fc_red">*</span></td>
                 </tr>
                 <tr>
                     <td align="right">Phone：</td>
@@ -35,16 +35,16 @@
 
                 <tr>
                     <td align="right">Password：</td>
-                    <td><input  class="reginput" maxlength="32" size="40" type="password" name="userpwd" id="userpwd"  placeholder="enter your password" required="required" />
+                    <td><input  class="reginput" maxlength="32" size="40" type="password" name="userpwd" id="userpwd"  placeholder="4-20 characters" required="required" />
                         <span class="fc_red">*</span></td>
                 </tr>
                 <tr>
                     <td align="right">Confirm Password：</td>
-                    <td><input  class="reginput" maxlength="32" size="40" type="password" name="userpwd1" id="userpwd1"  placeholder="confirm your password" required="required" />
+                    <td><input  class="reginput" maxlength="32" size="40" type="password" name="userpwd1" id="userpwd1"  placeholder="repeat your password" required="required" />
                         <span class="fc_red">*</span></td>
                 </tr>
                 <tr>
-                    <td align="right"> City in China：</td>
+                    <td align="right">Living city in China：</td>
                     <td>
                         <ul id="levecity" class="city">
                             <li class="hover"  data-city="chengdu">Chengdu</li>
@@ -169,9 +169,9 @@
               </tr>
 
               <tr>
-                <td align="right">Verification Code：</td>
+                <td align="right">Captcha：</td>
                 <td>
-                    <input type="text" class="reginput fl" size="20" maxlength="5" name="verify" id="verify"  placeholder="enter verification code" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
+                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
                 </td>
               </tr>
               <tr>

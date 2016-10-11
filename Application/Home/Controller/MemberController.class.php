@@ -2,6 +2,8 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\UserModel;
+
 class MemberController extends AuthController
 {
     public function pwd() {
@@ -276,7 +278,7 @@ class MemberController extends AuthController
             if(I('goto')=='cashier'){
                 session('gocashier',true);
             }
-            $db = M('member')->find(get_userid());
+            $db = UserModel::getUserById(get_userid());
             $this->assign('title', 'Personal information');
             $this->assign('db', $db);
             $this->display();
@@ -288,7 +290,7 @@ class MemberController extends AuthController
      */
     public function info1()
     {
-        $db = M('member')->find(get_userid());
+        $db = UserModel::getUserById(get_userid());
         $this->assign('title', 'Personal information');
         $this->assign('db', $db);
         $this->display();
