@@ -183,6 +183,8 @@ fieldset,img { border: none;}
 .spqd tfoot td{ padding:20px 10px; border-top:1px solid #EEE;}
 a#jxgw{ padding:0 10px; height:32px; background:#F70;  text-align:center; line-height:32px; display:inline-block; font-size:14px; color:#FFF;}
 a#jxgw:hover{  background:#F60;  color:#FFF; text-decoration:none;}
+ .fuwu_ul li.left14 { margin-left: -25px;}
+ .fuwu_ul li.left14 .p20 {padding-left: 20px;}
 
 .jixu,a.jixu{ background:#90b830; display:inline-block; height:32px; line-height:32px; font-size:14px; font-weight:bold; color:#FFF; padding:0 10px; border:none;}
 .jixu:hover,a.jixu:hover{ background:#799e0f; color:#FFF; text-decoration:none;}
