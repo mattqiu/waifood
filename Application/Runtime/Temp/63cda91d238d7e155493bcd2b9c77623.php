@@ -1,3 +1,0 @@
-<?php
-//000000000000a:13:{s:9:"subscribe";i:1;s:6:"openid";s:28:"o7dnet7N-B1346EaTCawuf-VKJho";s:8:"nickname";s:11:"Erin Bowden";s:3:"sex";i:0;s:8:"language";s:2:"en";s:4:"city";s:0:"";s:8:"province";s:0:"";s:7:"country";s:0:"";s:10:"headimgurl";s:119:"http://wx.qlogo.cn/mmopen/PiajxSqBRaEK2DORicU8RxIPgRYURKicYzGlIn2XwnBjibS0Pku7xppAV9o7MO8vKBtv2ZMmwXraIuzXtA663Nm7icA/0";s:14:"subscribe_time";i:1466980865;s:6:"remark";s:0:"";s:7:"groupid";i:0;s:10:"tagid_list";a:0:{}}
-?>

@@ -7,16 +7,15 @@
 <meta name="description" content="{$description}" />
 <include file="Index:header" />
 </head>
-<body>
-<!--[if lt IE 8]><js href="__PUBLIC__/Shop/js/oldie-upgrade.js" /><![endif]-->
+<body id="top"><!--[if lt IE 8]><js href="__PUBLIC__/Shop/js/oldie-upgrade.js" /><![endif]-->
 <include file="Index:bar" />
 <include file="Index:nav2" />
-<div class="container">
+<div class="container" >
   <div class="content">
     <div class="lbox">
       <include file="Index:nav2sub" />
       <div class="clear"></div>
-      <div class="ladbox" id="floatbox">{:lbl('adleft')}</div>
+      <!--<div class="ladbox" id="floatbox">{:lbl('adleft')}</div>-->
     </div>
     <div class="rbox">
       <div class="banner">
@@ -186,7 +185,12 @@
   </div>
   <div class="clr"></div>
 </div>
+<a href="#top" target="_self">
+    <div class="back_top">
+        <img src="__PUBLIC__/Shop/images/5-120601160021.png" width="30" alt=""/>
+    </div>
+</a>
 <include file="Index:footer" />
-<js href="__PUBLIC__/Shop/js/jquery.touchslider.min.js" /> 
+<js href="__PUBLIC__/Shop/js/jquery.touchslider.min.js" />
 </body>
 </html>

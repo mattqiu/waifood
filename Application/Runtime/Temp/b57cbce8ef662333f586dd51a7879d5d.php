@@ -1,3 +1,0 @@
-<?php
-//000000000000a:13:{s:9:"subscribe";i:1;s:6:"openid";s:28:"o7dnet5NhxynBYNfWh1l0f9zxpHw";s:8:"nickname";s:6:"Negris";s:3:"sex";i:2;s:8:"language";s:2:"es";s:4:"city";s:6:"成都";s:8:"province";s:6:"四川";s:7:"country";s:6:"中国";s:10:"headimgurl";s:130:"http://wx.qlogo.cn/mmopen/KZA0LL50zBIEzpd2iaxVf8JGibz5iclQbEOk4C5FBibsiaD3CK6A7vg2cf8oz46c7uBX0EhuT8B2GNM5IWzjibPBRJ8DQx0RSCwzZp/0";s:14:"subscribe_time";i:1470240192;s:6:"remark";s:0:"";s:7:"groupid";i:0;s:10:"tagid_list";a:0:{}}
-?>

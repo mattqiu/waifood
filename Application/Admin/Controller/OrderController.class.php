@@ -2,6 +2,11 @@
 
 namespace Admin\Controller;
 
+use Admin\Model\MemberMemoModel;
+use Common\Model\CodeModel;
+use Common\Model\RedisModel;
+use Think\Cache\Driver\Redis;
+
 class OrderController extends BaseController {
 	public function index() {
 	}
@@ -20,7 +25,6 @@ class OrderController extends BaseController {
 		$status = I ( 'status' );
 		$pay = I ( 'pay' );
 		$orderfrom = I ( 'orderfrom' );
-		
 		switch ($searchtype) {
 			case '0' :
 				$orderno = $keyword;
@@ -70,7 +74,14 @@ class OrderController extends BaseController {
 		
 		$rs = M ( "order" )->where ( $where )->order ( 'id desc' )->page ( $p, $row );
 		$list = $rs->select ();
-		
+        foreach($list as &$val){
+            if(regex($val['userid'],'number')){
+                $memo = MemberMemoModel::getMemo($val['userid']);
+                if($memo){
+                    $val['memo'] ='未完事项:'. $memo['content'];
+                }
+            }
+        }
 		$this->assign ( "list", $list );
 		$count = $rs->where ( $where )->count ();
 		
@@ -128,11 +139,29 @@ class OrderController extends BaseController {
 		$id = I ( 'id' );
 		$act = I ( 'act' );
 		$act1 = I ( 'act1' );
-		if (IS_POST) {
-			$db = D ( "order" );
-			$data = empty ( $data ) ? $_POST : $data;
+		if (IS_POST) {        dump($_POST);exit;
+            $data = empty ( $data ) ? $_POST : $data;
+            if(isset($data['memo_content']) && !empty($data['memo_content'])){
+                $memo_mid = $data['memo_mid'];
+                if(regex($memo_mid,'number')){ //修改备注
+                    $key = 'MEMO:USER:ID:'.$data['userid'];
+                   if(md5(trim($data['memo_content'])) != RedisModel::get($key)){//备忘录被修改
+                       if(!$re= MemberMemoModel::modifyMemo($memo_mid,$data['memo_content'])){
+                           $this->error ( '未完事项修改失败' );
+                       }
+                   }else{
+
+                   }
+                }else{
+                    if(!$re= MemberMemoModel::addMemo($data['userid'],$data['memo_content'])){
+                        $this->error ( '未完事项添加失败' );
+                    }
+                }
+            }
+            unset($data['memo_mid']);
+            unset($data['memo_content']);
+            $db = D ( "order" );
 			$data = $db->create ( $data );
-			
 			if ($data) {
 				$orderno = $data ['orderno'];
 				// 如果当前订单是已完成或取消，则不允许修改
@@ -207,9 +236,9 @@ class OrderController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
-			
 			$db = M ( "order" )->find ( $id );
 			$this->assign ( "db", $db );
+            //dump($db);exit;
 			// 输出门店列表
 			$where=array();
 			$where['id']=get_role('shop');
@@ -220,9 +249,7 @@ class OrderController extends BaseController {
 			$where = array ();
 			$where ['orderno'] = $db ['orderno'];
 			$list = M ( "order_detail" )->where ( $where )->order ( 'id asc' )->select ();
-			
 			$this->assign ( "list", $list );
-			
 			$isShop=false;
 			$isService=false;
 			foreach ($list as $k=>$v){
@@ -235,9 +262,8 @@ class OrderController extends BaseController {
 			}
 			$this->assign ( 'isService', $isService );
 			$this->assign ( 'isShop', $isShop );
-			
-			
-			if($act=='print'){ 
+			$this->assign ( 'memo',  MemberMemoModel::getMemo($db['userid']) );
+			if($act=='print'){
 				if($act1=="1"){
 					$this->display('Cms/printOrder1');
 				}else{
@@ -462,6 +488,17 @@ class OrderController extends BaseController {
 		}
 		echo ($html);
 	}
+
+    public function finishMemo(){
+        $mid = I('post.m_id');
+        if(regex($mid,'number')){
+            if(MemberMemoModel::finishMemo($mid)){
+                apiReturn(CodeModel::CORRECT,'修改成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'修改失败');
+            }
+        }
+    }
 	
 }
 ?>

@@ -9,5 +9,8 @@ return array(
     'DB_PORT' => '3306',
     'SHOW_ERROR_MSG' => true,
     'DB_PREFIX' => 'my_',
+    // Redis配置
+    "REDIS_HOST"=>'192.168.2.250',
+    "REDIS_PORT"=>'6379',
 );
 ?>

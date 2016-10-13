@@ -17,8 +17,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 <link rel="stylesheet" type="text/css" href="/Public/Shop/css/style.css?04241" /> 
 
 </head>
-<body>
-<!--[if lt IE 8]><script type="text/javascript" src="/Public/Shop/js/oldie-upgrade.js"></script><![endif]-->
+<body id="top"><!--[if lt IE 8]><script type="text/javascript" src="/Public/Shop/js/oldie-upgrade.js"></script><![endif]-->
 
 <div class="topbar">
 	<div class="wrap">
@@ -73,7 +72,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 	</div>  
   <div class="clr"></div>
 </div>
-<div class="container">
+<div class="container" >
   <div class="content">
     <div class="lbox">
       <div class="product_menu">
@@ -93,7 +92,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 </div>
 
       <div class="clear"></div>
-      <div class="ladbox" id="floatbox"><?php echo lbl('adleft');?></div>
+      <!--<div class="ladbox" id="floatbox"><?php echo lbl('adleft');?></div>-->
     </div>
     <div class="rbox">
       <div class="banner">
@@ -237,6 +236,11 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
   </div>
   <div class="clr"></div>
 </div>
+<a href="#top" target="_self">
+    <div class="back_top">
+        <img src="/Public/Shop/images/5-120601160021.png" width="30" alt=""/>
+    </div>
+</a>
 
 <div class="container">
     <div class="fuwu">
@@ -317,6 +321,6 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
         })
     })
 </script>
-<script type="text/javascript" src="/Public/Shop/js/jquery.touchslider.min.js"></script> 
+<script type="text/javascript" src="/Public/Shop/js/jquery.touchslider.min.js"></script>
 </body>
 </html>

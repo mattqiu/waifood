@@ -1735,5 +1735,10 @@ class CmsController extends BaseController {
 	        $this->error ( "删除失败" );
 	    }
 	}
+    //完成未完事项
+    public function finishMemo(){
+        $ctrl = A('Admin/Order');
+        $ctrl->finishMemo();
+    }
 }
 ?>

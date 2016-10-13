@@ -1340,15 +1340,15 @@ function send_sms($to = null, $content = null) {
  * @return Ambigous <mixed, void, boolean>|string
  */
 function lbl($name, $value = null) {
-	$cachename = 'label_' . $name;
-	$cache = S ( $cachename );
-	if ($value == null) {
+    $cachename = 'label_' . $name;
+    $cache = S ( $name );
+    if ($value == null) {
 		if (! $cache) {
 			$where = array ();
 			$where ['status'] = 1;
 			$where ['name'] = $name;
 			$db = M ( 'label' )->where ( $where )->find ();
-			if ($db) {
+            if ($db) {
 				$cache = $db ['info'];
 				S ( $cachename, $cache );
 			}
@@ -1357,8 +1357,7 @@ function lbl($name, $value = null) {
 		S ( $cachename, $value );
 		$cache = $value;
 	}
-	
-	return $cache;
+    return $cache;
 }
 
 /**

@@ -10,10 +10,11 @@ $config = array(
         'Wap',
     ),
     'DEFAULT_MODULE' => 'Shop', // 默认模块
-                                
+
     //session设置
     //'SESSION_TYPE'          => 'Db',
     'SESSION_EXPIRE'        =>30*60,//60秒
+    'REDIS_DB'=>14,  //默认db
 
     // 分页设置
     'VAR_PAGESIZE' => 32,
