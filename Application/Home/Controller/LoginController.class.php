@@ -241,7 +241,7 @@ class LoginController extends Controller
         $openid = openid();
         $wid = M('member')->where('id=' . get_userid())->setField('wechatid', $openid);
         session('wechatid', $openid);
-        redirect(U('Shop/cashier'));
+        redirect(U('m_cashier'));
     }
 
     /**

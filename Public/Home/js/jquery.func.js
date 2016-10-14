@@ -58,7 +58,7 @@ $(function(){
             cExt = escape(cExt)
         };
         var url = CONST_CART.replace('URL', 'add');
-        var casher = CONST_CART.replace('Cart/URL', 'Shop/cart');
+        var casher = CONST_CART.replace('Cart/URL', 'm_cart');
         url += "?item_id=" + nID + "&num=" + nNum + "&ext=" + cExt + "&" + Math.random();
         $.ajax({
             "url": url,
@@ -105,7 +105,7 @@ $(function(){
         } else {
             cExt = escape(cExt)
         };
-    	var urlCasher = CONST_CART.replace('Cart/URL', 'Shop/cart');
+    	var urlCasher = CONST_CART.replace('Cart/URL', 'm_cart');
         var url = CONST_CART.replace('URL', 'add');
         url += "?item_id=" + nID + "&num=" + nNum + "&ext=" + cExt + "&" + Math.random();
         $.ajax({

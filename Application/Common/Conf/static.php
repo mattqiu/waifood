@@ -22,9 +22,14 @@ $config = array(
     
     // 路由设置
     'URL_CASE_INSENSITIVE' => true,
-    'URL_ROUTER_ON' => false,
+    'URL_ROUTER_ON' =>'true',    //开启路由
     'URL_ROUTE_RULES' => array(
-        'Content/:id' => 'Content/view'
+        #'Content/:id' => 'Content/view'
+        '/^m_cart/'=>'home/shop/cart',
+        '/^m_cashier/'=>'home/shop/cashier',
+        '/^m_success/'=>'home/shop/success',
+        '/^m_error/'=>'home/shop/error',
+        '/^m_pay/'=>'home/shop/pay',
     ),
     
     // 模型设置

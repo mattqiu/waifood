@@ -207,7 +207,7 @@ a#jxgw:hover{  background:#F60;  color:#FFF; text-decoration:none;}
 
 
 /*登录*/
-.lgbox{ height:392px; margin-top:10px; background:#FFF; border:1px solid #EEE; overflow:hidden;zoom:1;}
+.lgbox{ height:392px; margin-top:10px; background:#FFF; border:1px solid #EEE; overflow:hidden;zoom:1;background: url("../images/login_bg.jpg") no-repeat}
 .login{ width:270px; float:left; line-height:20px; margin:20px 0 0 30px; display:inline;}
 .login td{ padding:10px 0;}
 .user{ width:218px; height:34px; font:bold 14px/34px Arial; padding:0 40px 0 10px; background:url(../images/reg_03.gif) no-repeat 245px center; border:1px solid #DDD;}

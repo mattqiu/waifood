@@ -2,6 +2,7 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\AddressModel;
 use Common\Model\UserModel;
 
 class MemberController extends AuthController
@@ -122,7 +123,7 @@ class MemberController extends AuthController
         // TODO:加分页
         if ($id != 0) {
             $this->setDefaultAddress($id);
-            $this->redirect('Shop/cashier');
+            $this->redirect('m_cashier');
         } else {
             $where = array();
             $where['userid'] = get_userid();
@@ -158,7 +159,7 @@ class MemberController extends AuthController
                 $cart = session('cart_name');
                 $num = $cart['cart_num'];
                 if ($num) {
-                    $this->success('Address successfully added!', U('Shop/cashier'));
+                    $this->success('Address successfully added!', U('m_cashier'));
                 } else {
                     $this->success('Address successfully added!', U('Member/address'));
                 }
@@ -256,20 +257,17 @@ class MemberController extends AuthController
             if (isN($data['address'])) {
                 $this->error('Sorry,  address can not be empty!');
             }
-            
             if ($data != false) {
-                $data['id'] = get_userid();
-                if ($db->save($data) !== false) {
+                $saveData['telephone'] = $data['13713730081'];
+                $saveData['address'] = $data['address'];
+                if (AddressModel:: modifyDefaultAddress(get_userid(),$saveData) !==false) {
                    $cashier= session('gocashier');
                    if($cashier){
                        session('gocashier',null);
-                       redirect(U('Shop/cashier'));
+                       redirect(U('m_cashier'));
                    }else{
                        $this->success('Personal information modified successfully!', U('Member/info'));
                    }
-                    
-                } else {
-                    $this->error('Personal information modified failed!');
                 }
             } else {
                 $this->error($db->getError());

@@ -92,7 +92,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
 </div>
 
       <div class="clear"></div>
-      <!--<div class="ladbox" id="floatbox"><?php echo lbl('adleft');?></div>-->
+      <div class="ladbox" id="floatbox"><?php echo lbl('adleft');?></div>
     </div>
     <div class="rbox">
       <div class="banner">
