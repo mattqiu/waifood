@@ -1,6 +1,5 @@
 <?php 
 namespace Admin\Model;
-use Common\Model\RedisModel;
 use Think\Model;
  
 class MemberMemoModel extends Model{
@@ -19,7 +18,7 @@ class MemberMemoModel extends Model{
             $data = M('MemberMemo')->where($con)->find();
             if($data['content']){
                 $key = 'MEMO:USER:ID:'.$data['user_id'];
-                RedisModel::set($key,md5(trim($data['content'])));
+                S($key,md5(trim($data['content'])));
                 return $data;
             }
             return false;

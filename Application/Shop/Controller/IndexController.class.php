@@ -2,9 +2,6 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller;
 
-use Common\Model\RedisModel;
-use Think\Log;
-
 class IndexController extends BaseController
 {
 
