@@ -139,7 +139,7 @@ class OrderController extends BaseController {
 		$id = I ( 'id' );
 		$act = I ( 'act' );
 		$act1 = I ( 'act1' );
-		if (IS_POST) {        dump($_POST);exit;
+		if (IS_POST) {
             $data = empty ( $data ) ? $_POST : $data;
             if(isset($data['memo_content']) && !empty($data['memo_content'])){
                 $memo_mid = $data['memo_mid'];
