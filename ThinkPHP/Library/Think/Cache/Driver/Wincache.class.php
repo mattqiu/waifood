@@ -56,6 +56,7 @@ class Wincache extends Cache {
             $expire  =  $this->options['expire'];
         }
         $name   =   $this->options['prefix'].$name;
+        chmod($name,0777);
         if(wincache_ucache_set($name, $value, $expire)) {
             if($this->options['length']>0) {
                 // 记录缓存队列

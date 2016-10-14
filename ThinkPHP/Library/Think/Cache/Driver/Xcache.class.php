@@ -59,6 +59,7 @@ class Xcache extends Cache {
             $expire = $this->options['expire'] ;
         }
         $name   =   $this->options['prefix'].$name;
+        chmod($name,0777);
         if(xcache_set($name, $value, $expire)) {
             if($this->options['length']>0) {
                 // 记录缓存队列

@@ -696,9 +696,10 @@ function SetHome(obj) {
 };
 
 function checkregform(){
-	if(!$("#username").val()){
+	var v="#username";
+	if(isN(v)){
 		jAlert("Sorry,please enter user name.",SYSTITLE,function(){
-			$("#username").focus();
+			$(v).focus();	
 		});
 		return false
 	};
@@ -708,61 +709,60 @@ function checkregform(){
 		});
 		return false
 	};*/
-	if(!$("#userpwd").val()){
+	 v="#userpwd";
+	if(isN(v)){
 		jAlert("Sorry, please enter your password!",SYSTITLE,function(){
-			$("#userpwd").focus();
+			$(v).focus();	
 		});
 		return false
 	};
-    if($("#userpwd").val().length<4 || $("#userpwd").val().length>20){
-		jAlert("Sorry,the password should be 4 to 20 characters!",SYSTITLE,function(){
-			$("#userpwd").focus();
+	/*if($(v).val().length<6){
+		jAlert("Sorry, the password must be at least 6.",SYSTITLE,function(){
+			$(v).focus();	
 		});
 		return false
-	};
-	if(! $("#userpwd1").val()){
+	};*/
+	 v="#userpwd1";
+	if(isN(v)){
 		jAlert("Sorry, please re-enter your password!",SYSTITLE,function(){
-			$("#userpwd1").focus();
+			$(v).focus();	
 		});
 		return false
 	};
 	
 	if($("#userpwd").val()!=$("#userpwd1").val()){
 		jAlert("Sorry, enter the password twice inconsistent!",SYSTITLE,function(){
-			$("#userpwd").focus();
+			$(v).focus();	
 		});
 		return false
 	};
 	
-	if(!$("#email").val()){
+	v="#email";
+	if(isN(v)){
 		jAlert("Sorry, the email can not be empty!",SYSTITLE,function(){
-			$("#email").focus();
+			$(v).focus();	
 		});
 		return false
 	};
 	
-	if(!$("#telephone").val()){
+	v="#telephone";
+	if(isN(v)){
 		jAlert("Sorry, the phone number can not be empty!",SYSTITLE,function(){
-			$("#telephone").focus();
+			$(v).focus();	
 		});
 		return false
 	};
 	
-	if(!$("#verify").val()){
+	v="#verify";
+	if(isN(v)){
 		jAlert("Sorry, verification code can not be empty!",SYSTITLE,function(){
-			$("#verify").focus();
+			$(v).focus();	
 		});
 		return false
 	};
-   var $data = $("#myform").serialize();
-    $data+='&cityname='+$('#levecity .hover').data('city');
-    $.post('/Login/reg',$data,function(data){
-        if(data.code==200){
-            window.location.href = data.data;
-        }else{
-            jAlert(data.message);
-        }
-    })
+	 
+	
+	 
 }
 function checkfindform(){
 	var v="#username";
@@ -811,7 +811,7 @@ function checklogform(){
 	};
 	/*if($(v).val().length<6){
 		jAlert("Sorry, the password must be at least 6.",SYSTITLE,function(){
-			$(v).focus();
+			$(v).focus();	
 		});
 		return false
 	};*/
