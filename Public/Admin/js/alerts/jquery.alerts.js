@@ -49,6 +49,13 @@
 				if( callback ) callback(result);
 			});
 		},
+
+		alert_msg: function(message, title, callback,time) {
+			if( title == null ) title = 'Alert';
+			$.alerts._show(title, message, null, 'alert_msg', function(result) {
+				if( callback ) callback(result);
+			},time);
+		},
 		
 		box: function(message, title, callback) {
 			if( title == null ) title = 'Alert';
@@ -71,12 +78,9 @@
 		},
 		
 		// Private methods
-		
-		_show: function(title, msg, value, type, callback) {
-			
+		_show: function(title, msg, value, type, callback,time) {
 			$.alerts._hide();
 			$.alerts._overlay('show');
-			
 			$("BODY").append(
 			  '<div id="popup_container"><a id="popup_close" title="'+$.alerts.closeButton+'"></a>' +
 			    '<h1 id="popup_title"></h1>' +
@@ -127,11 +131,25 @@
 						if( e.keyCode == 13 || e.keyCode == 27 ) $("#popup_ok").trigger('click');
 					});
 				break;
+                case 'alert_msg':
+					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /></div>');
+					$("#popup_ok").click( function() {
+						$.alerts._hide();
+						callback(true);
+					});
+                    setTimeout(function(){
+                        callback(true)
+                        $.alerts._hide();
+                    },time);
+                    $("#popup_ok").focus().keypress( function(e) {
+						if( e.keyCode == 13 || e.keyCode == 27 ) $("#popup_ok").trigger('click');
+					});
+				break;
 				case 'Box':
 					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.closeButton + '" id="popup_ok" /></div>');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
-						callback(true);
+                        callback(true);
 					});
 					$("#popup_ok").focus().keypress( function(e) { 
 						if( e.keyCode == 13 || e.keyCode == 27 ) $("#popup_ok").trigger('click');
@@ -141,11 +159,11 @@
 					$("#popup_message").after('<div id="popup_panel"><input type="button" value="' + $.alerts.okButton + '" id="popup_ok" /> <input type="button" value="' + $.alerts.cancelButton + '" id="popup_cancel" /></div>');
 					$("#popup_ok").click( function() {
 						$.alerts._hide();
-						if( callback ) callback(true);
+                        if( callback ) callback(true);
 					});
 					$("#popup_cancel").click( function() {
 						$.alerts._hide();
-						if( callback ) callback(false);
+                        if( callback ) callback(false);
 					});
 					$("#popup_ok").focus();
 					$("#popup_ok, #popup_cancel").keypress( function(e) {
@@ -159,11 +177,11 @@
 					$("#popup_ok").click( function() {
 						var val = $("#popup_prompt").val();
 						$.alerts._hide();
-						if( callback ) callback( val );
+                        if( callback ) callback( val );
 					});
 					$("#popup_cancel").click( function() {
 						$.alerts._hide();
-						if( callback ) callback( null );
+                        if( callback ) callback( null );
 					});
 					$("#popup_prompt, #popup_ok, #popup_cancel").keypress( function(e) {
 						if( e.keyCode == 13 ) $("#popup_ok").trigger('click');
@@ -173,11 +191,10 @@
 					$("#popup_prompt").focus().select();
 				break;
 			}
-			
 			$("#popup_close").click( function() {
-						$.alerts._hide();
-						callback(true);
-					});
+                    $.alerts._hide();
+                    callback(true);
+                });
 			
 			// Make draggable
 			if( $.alerts.draggable ) {
@@ -189,7 +206,7 @@
 		},
 		
 		_hide: function() {
-			$("#popup_container").remove();
+            $("#popup_container").remove();
 			$.alerts._overlay('hide');
 			$.alerts._maintainPosition(false);
 			var e = jQuery.Event("keydown");//模拟一个键盘事件 
@@ -249,20 +266,32 @@
 		}
 		
 	}
-	
+
 	// Shortuct functions
 	jAlert = function(message, title, callback) {
 		$.alerts.alert(message, title, callback);
 	}
-	
+
+	// Shortuct functions
+    clearpopj = function(message, url, title , time) {
+        if(!time) time = 1500;
+        if(url){
+           var fun = function(){
+                window.location.href = url;
+            }
+            $.alerts.alert_msg(message, title, fun,time);
+        }
+        $.alerts.alert_msg(message, title,'',time);
+	}
+
 	jBox = function(message, title, callback) {
 		$.alerts.box(message, title, callback);
 	}
-	
+
 	jConfirm = function(message, title, callback) {
 		$.alerts.confirm(message, title, callback);
 	};
-		
+
 	jPrompt = function(message, value, title, callback) {
 		$.alerts.prompt(message, value, title, callback);
 	};

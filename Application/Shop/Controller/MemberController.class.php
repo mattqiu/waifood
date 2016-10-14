@@ -267,7 +267,7 @@ class MemberController extends AuthController {
         }
         $data = I('post.');
         $userid = get_userid();
-        if(true === AddressModel::addShoppingAddress($data,$userid)){
+        if(true === AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
             if($cashier){
                 session('gocashier',null);

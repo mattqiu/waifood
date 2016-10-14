@@ -4,7 +4,9 @@ use Think\Model;
 
 class AddressModel extends Model
 {
-    const  DEFAULT_ADDRESS = 1;
+    const  DEFAULT_ADDRESS = 1;//默认地址
+    const  OTHER_ADDRESS = 0;
+
 
     protected $_validate = array(
         array('username', 'require', '用户名不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
@@ -17,9 +19,14 @@ class AddressModel extends Model
      * @param string $userId
      * @return bool
      */
-    public static function addShoppingAddress($data,$userId=''){
+    public static function modifyShoppingAddress($data,$userId=''){
         if(empty($data) || !regex($userId,'number')){
             return false;
+        }
+        //如果提交设置了默认地址,先清除以前默认地址
+        if($data['isdefault'] == self::DEFAULT_ADDRESS){
+            $savedata['isdefault'] = self::OTHER_ADDRESS;
+            self::modifyDefaultAddress($userId,$savedata);
         }
         if(isset($data['id']) &&  $data['id']>0){//修改用户收货地址
             $con['userid'] = $userId;
@@ -77,7 +84,7 @@ class AddressModel extends Model
         if(regex($userid,'number') && !empty($data)){
             $con['userid'] =  $userid;
             $con['isdefault'] =  DEFAULT_ADDRESS;
-            return D( 'address' )->where($con)->save($data);
+            return D( 'address' )->where($con)->save ($data);
         }
        return false;
     }

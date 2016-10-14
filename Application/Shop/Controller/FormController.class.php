@@ -1,6 +1,8 @@
 <?php
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller; 
+use Common\Model\UserModel;
+
 class FormController extends BaseController {
 	   
     

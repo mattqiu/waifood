@@ -1,6 +1,8 @@
 <?php
 namespace Shop\Controller; 
 
+use Common\Model\UserModel;
+
 class CleaningController extends BaseController
 {
 	public function index()

@@ -3,6 +3,7 @@
 namespace Shop\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\UserModel;
 
 class OrderController extends BaseController
 {

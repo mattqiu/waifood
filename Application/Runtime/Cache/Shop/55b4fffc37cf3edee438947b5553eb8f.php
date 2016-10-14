@@ -315,6 +315,11 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
             $(this).addClass('hover');
         })
 
+        $('.default li').click(function () {
+            $('.default li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+
         $('.language li').click(function () {
             $('.language li').removeClass('hover');
             $(this).addClass('hover');

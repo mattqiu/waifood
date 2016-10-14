@@ -53,8 +53,18 @@
                 </tr>
                 <tr>
                     <td align="right">Address：</td>
-                    <td><input id="address" name="address" type="text" value=""
-                               placeholder="enter your detailed address" class="input03" size="100"></td>
+                    <td>
+                        <textarea name="address" id="address" cols="63"  style="resize: none" placeholder="enter your detailed address" rows="4"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Default address：</td>
+                    <td>
+                        <ul id="default" class="default">
+                            <li data-val="1" class="hover">Default</li>
+                            <li data-val="0">Other</li>
+                        </ul>
+                    </td>
                 </tr>
                 <tr>
                     <td align="right">Language：</td>
@@ -73,7 +83,7 @@
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
-                    <td><input type="submit" onclick="subAddress()" class="jixu"/>
+                    <td><input type="submit" onclick="subAddress()" class="jixu" value="Submit"/>
                         <input type="button" onclick="history.back()" class="jixu" value="Back"/>
                         <input type="hidden" name="url" id="url" value="{$Think.get.url}"/></td>
                 </tr>
@@ -110,6 +120,7 @@
             telephone2: $('#telephone_con').val(),
             sex: $('#sex').val(),
             cityname: $('.city .hover').data('city'),
+            isdefault: $('.default .hover').data('val'),
             language: $('#language .hover').data('id'),
             info: $('#info').val()
         }
