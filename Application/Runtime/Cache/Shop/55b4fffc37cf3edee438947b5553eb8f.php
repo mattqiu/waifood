@@ -62,7 +62,7 @@ var CONST_CART="<?php echo U('Cart/URL');?>";
           <li class="min-font"><a href="javascript:void(0);" >Planning more...</a></li>-->
 	  </ul>
 	  
-	  <div class="shopping"> <span class="gwcname"><a href="<?php echo U('Settle/Cart');?>" style="color:#FFF;">Shopping Cart</a></span><span class="shuliang" id="CartNo">0</span>
+	  <div class="shopping"> <span class="gwcname"><a href="<?php echo U('Settle/cart');?>" style="color:#FFF;">Shopping Cart</a></span><span class="shuliang" id="CartNo">0</span>
 	    <div class="shop">
 	      
 	    </div>
