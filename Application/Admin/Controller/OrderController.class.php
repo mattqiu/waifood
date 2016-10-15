@@ -4,8 +4,6 @@ namespace Admin\Controller;
 
 use Admin\Model\MemberMemoModel;
 use Common\Model\CodeModel;
-use Common\Model\RedisModel;
-use Think\Cache\Driver\Redis;
 
 class OrderController extends BaseController {
 	public function index() {
@@ -139,13 +137,13 @@ class OrderController extends BaseController {
 		$id = I ( 'id' );
 		$act = I ( 'act' );
 		$act1 = I ( 'act1' );
-		if (IS_POST) {        dump($_POST);exit;
+		if (IS_POST) {
             $data = empty ( $data ) ? $_POST : $data;
             if(isset($data['memo_content']) && !empty($data['memo_content'])){
                 $memo_mid = $data['memo_mid'];
                 if(regex($memo_mid,'number')){ //修改备注
                     $key = 'MEMO:USER:ID:'.$data['userid'];
-                   if(md5(trim($data['memo_content'])) != RedisModel::get($key)){//备忘录被修改
+                   if(md5(trim($data['memo_content'])) != S($key)){//备忘录被修改
                        if(!$re= MemberMemoModel::modifyMemo($memo_mid,$data['memo_content'])){
                            $this->error ( '未完事项修改失败' );
                        }

@@ -1648,7 +1648,7 @@ function regex($value, $rule){
         'china'=>'/^[\x{4e00}-\x{9fa5}]+$/u',
         'mob_tel'=>'/^(\d{11})|((\d{3}-\d{8})|(8\d{10})|(9\d{9})|(\d{7})|(\d{4}-\d{7}))$/', //移动电话
         'mob'=>'/\d{11}/', //手机
-        'username'=>'/\w{6,20}/', //6-20字符串
+        'username'=>'/\w{3,50}/', //3-50字符串
     );
     // 检查是否有内置的正则表达式
     if(isset($validate[strtolower($rule)])) $rule = $validate[strtolower($rule)];

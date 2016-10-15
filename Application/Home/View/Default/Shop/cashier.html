@@ -112,7 +112,7 @@ $(function(){
                
 <p style="line-height:20px; text-align:right">
 <gt name="maxuse" value="0">
-Use coupon:&nbsp; <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" maxlength="10" style="width:50px;" onChange="location='{:U('Shop/cashier')}?usecoupon='+$(this).val()" />
+Use coupon:&nbsp; <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" maxlength="10" style="width:50px;" onChange="location='/m_cashier?usecoupon='+$(this).val()" />
 <else/>
 Use coupon:&nbsp;  <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" style="width:50px;"  disabled="disabled"/>
 </gt>

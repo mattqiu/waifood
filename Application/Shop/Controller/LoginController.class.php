@@ -126,7 +126,7 @@ class LoginController extends Controller {
 	}
 
 	public function index() {
-        $key = 'verify_err_num:ip:'.getRealIp();
+        $key = 'verify_err_num';
         $url=I('returnurl')?I('returnurl'):'/';
         if(IS_POST){
            $num = cookie($key);
@@ -342,7 +342,7 @@ class LoginController extends Controller {
 			$where ['userpwd'] = $userpwd;
 			$user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {
-                $key = 'verify_err_num:ip:'.getRealIp();
+                $key = 'verify_err_num';
                 cookie($key,0);//成功登陆清除登陆失败记录次数
                 $data = array ();
 				$data ['id'] = $user ['id' ] ;

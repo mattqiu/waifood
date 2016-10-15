@@ -41,6 +41,7 @@ class File extends Cache {
         // 创建应用缓存目录
         if (!is_dir($this->options['temp'])) {
             mkdir($this->options['temp']);
+            chmod($this->options['temp'], 0777);
         }
     }
 
@@ -135,6 +136,7 @@ class File extends Cache {
         }
         $data    = "<?php\n//".sprintf('%012d',$expire).$check.$data."\n?>";
         $result  =   file_put_contents($filename,$data);
+        chmod($filename,0777);
         if($result) {
             if($this->options['length']>0) {
                 // 记录缓存队列

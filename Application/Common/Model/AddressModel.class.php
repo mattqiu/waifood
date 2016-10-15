@@ -4,6 +4,8 @@ use Think\Model;
 
 class AddressModel extends Model
 {
+    const  DEFAULT_ADDRESS = 1;
+
     protected $_validate = array(
         array('username', 'require', '用户名不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH),
         array('username', '', '用户名已经存在', self::VALUE_VALIDATE, 'unique', self::MODEL_BOTH)
@@ -62,6 +64,20 @@ class AddressModel extends Model
             $con['id'] =  $id;
             $con['userid'] =  $userid;
             return D( 'address' )->where($con)->find ();
+        }
+       return false;
+    }
+
+    /**根据地址id获取用户收货地址
+     * @param $id 地址id
+     * @param $userid
+     * @return bool
+     */
+    public static function modifyDefaultAddress($userid,$data){
+        if(regex($userid,'number') && !empty($data)){
+            $con['userid'] =  $userid;
+            $con['isdefault'] =  DEFAULT_ADDRESS;
+            return D( 'address' )->where($con)->save($data);
         }
        return false;
     }
