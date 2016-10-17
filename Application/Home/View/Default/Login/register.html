@@ -13,52 +13,156 @@
     <div class="main-list">
       <div class="main-item">
         <div class="item-title bdnone">
-          <form action="{:U('Login/register')}" method="post" onSubmit="return checkregform()" class="pure-form">
+          <form  class="pure-form" id="myform"  onsubmit="return false;">
            <input type="hidden" name="usertype" id="usertype" value="3">
             <p><span class="fc_red">*</span> User name：</p>
             <p class="clearfix">
               <input type="text" name="username" id="username"  placeholder="enter your user name" class="pure-input-1"  required="required">
             </p>
+            <p><span class="fc_red">*</span> Email：</p>
+            <p class="clearfix">
+              <input type="text" name="email" id="email"  placeholder="Email for login or receive key information" class="pure-input-1" required>
+            </p>
+            <p><span class="fc_red">*</span> Phone：</p>
+              <p class="clearfix">
+                  <input type="text" name="telephone" id="telephone"  placeholder="Phone to contact you"class="pure-input-1" required>
+              </p>
             <p><span class="fc_red">*</span> Password：</p>
             <p class="clearfix">
-              <input type="password" name="userpwd" id="userpwd"  placeholder="enter your password" class="pure-input-1" required>
+              <input type="password" name="userpwd" id="userpwd"  placeholder="4-20 characters" class="pure-input-1" required>
             </p>
             <p><span class="fc_red">*</span> Confirm password：</p>
             <p class="clearfix">
               <input type="password" name="userpwd1" id="userpwd1"  placeholder="enter your password again" class="pure-input-1" required>
-            </p> 
-            <h3 style="width:100%; border-bottom:1px #ccc solid; margin-bottom:10px; line-height:30px;">Receiving information</h3>
-           
-            <p ><span class="fc_red">*</span> Name：</p>
-            <p class="clearfix">
-              <input type="text" name="userreal" id="userreal"  placeholder="enter your name" class="pure-input-1" required>
             </p>
-            <p ><span class="fc_red">*</span> Gender：</p>
+            <p>Living city in China：</p>
             <p class="clearfix">
-               <label  ><input name="sex" type="radio" id="sex1" value="1" checked />
-                  Male</label>
-                  <label ><input type="radio" name="sex" id="sex2" value="2" />
-                  Female</label>
+                <select name="cityname" id="levecity" class="pure-input-1" >
+                    <option value="chengdu">Chengdu</option>
+                    <option value="chongqing">Chongqing</option>
+                    <option value="xi'an">Xi'an</option>
+                    <option value="kunming">Kunming</option>
+                    <option value="other">Other</option>
+                </select>
             </p>
-            <p><span class="fc_red">*</span> Email：</p>
+
+            <p>Your Nationality：</p>
             <p class="clearfix">
-              <input type="text" name="email" id="email"  placeholder="enter your email" class="pure-input-1" required>
+                <select name="nationality" class="pure-input-1" >
+                    <option value=""> Please select your nationality</option>
+                    <option value="Andorra">Andorra</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Australia">Australia</option>
+                    <option value="Austria">Austria</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Belgium">Belgium</option>
+                    <option value="Bolivia">Bolivia</option>
+                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Brunei">Brunei</option>
+                    <option value="Bulgaria">Bulgaria</option>
+                    <option value="Burma">Burma</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Chile">Chile</option>
+                    <option value="China">China</option>
+                    <option value="China Taiwan">China Taiwan</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Crotia">Crotia</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Cyprus ">Cyprus </option>
+                    <option value="Czech Republic">Czech Republic</option>
+                    <option value="Denmark">Denmark</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Fiji Islands">Fiji Islands</option>
+                    <option value="Finland">Finland</option>
+                    <option value="France">France</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Greece">Greece</option>
+                    <option value="HK">HK</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="Iceland">Iceland</option>
+                    <option value="Iceland">Iceland</option>
+                    <option value="India">India</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Jamaica">Jamaica</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Kazakhstan">Kazakhstan</option>
+                    <option value="Korea">Korea</option>
+                    <option value="Kyrgyzstan">Kyrgyzstan</option>
+                    <option value="Liechtenstein ">Liechtenstein </option>
+                    <option value="Luxembourg">Luxembourg</option>
+                    <option value="Madagascar">Madagascar</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Maldives">Maldives</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Monaco">Monaco</option>
+                    <option value="Mongolia">Mongolia</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="North Korea">North Korea</option>
+                    <option value="Norway">Norway</option>
+                    <option value="Pacific Ocean">Pacific Ocean</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Philippines">Philippines</option>
+                    <option value="Poland">Poland</option>
+                    <option value="PORTUGAL">PORTUGAL</option>
+                    <option value="Puerto Rico">Puerto Rico</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Romania">Romania</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Saudi Arab">Saudi Arab</option>
+                    <option value="Scotland">Scotland</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Slovakia">Slovakia</option>
+                    <option value="Slovenia">Slovenia</option>
+                    <option value="South Africa">South Africa</option>
+                    <option value="Spain">Spain</option>
+                    <option value="Sri Lanka">Sri Lanka</option>
+                    <option value="Sweden">Sweden</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Thailand">Thailand</option>
+                    <option value="The Republic of Mauritius">The Republic of Mauritius</option>
+                    <option value="The State of Israel">The State of Israel</option>
+                    <option value="Tunisia">Tunisia</option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Turkmenistan">Turkmenistan</option>
+                    <option value="UAE">UAE</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="United States">United States</option>
+                    <option value="Uruguay">Uruguay</option>
+                    <option value="Uzbekistan">Uzbekistan</option>
+                    <option value="Vatican">Vatican</option>
+                    <option value="Vietnam">Vietnam</option>
+                    <option value="Yemen">Yemen</option>
+                </select>
             </p>
-            <p><span class="fc_red">*</span> Mobile：</p>
+            <p >Number Of Family Members：</p>
             <p class="clearfix">
-              <input type="text" name="telephone" id="telephone"  placeholder="enter your mobile" class="pure-input-1" required>
+              <input type="text" name="familynum" id="familymun"  placeholder="enter your number of family members" class="pure-input-1" >
             </p>
-            <p><span class="fc_red">*</span> Address：</p>
+            <p >Occupation：</p>
             <p class="clearfix">
-              <input type="text" name="address" id="address"  placeholder="enter your address" class="pure-input-1" required>
+              <input type="text" name="occupation"  placeholder="enter your occupation" class="pure-input-1" >
             </p>
-            <p>Remark：</p>
+            <p >Captcha：</p>
             <p class="clearfix">
-              <input type="text" name="info" id="info"  placeholder="enter your remark" class="pure-input-1" required>
+                <input type="text" style="float: left;" placeholder="enter captcha" name="verify">
+                <img style=" width:100px; height:30px; float:left;" onclick="this.src='/shop/index/verify.html?random='+Math.random()" src="/shop/index/verify.html?v={:rand(0,999)}" />
             </p>
-            <span id="erroInfonew" class="red"></span>
+
             <p class="t_cen m_t"> 
-                <button class="pure-button pure-button-success" style="width:100%;" type="submit" >Register</button>
+                <button class="pure-button pure-button-success" style="width:100%;" onclick="regSub()" >Register</button>
             </p>
           <p><a href="{:U('Login/index')}">Already have an account >></a></p>
           </form>
@@ -69,7 +173,19 @@
   </div>
   <div class="clr"></div>
 </div>
-
-<include file="Index:footer" /> 
+<include file="Index:footer" />
+<js href="__PUBLIC__/Shop/js/jquery-1.8.2.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
+<css href="__PUBLIC__/Admin/js/alerts/jquery.alerts.css" />
+<script>
+    function regSub() {
+        $.post('/login/register', $("#myform").serialize(), function (data) {
+            if (data.code == 200) {
+                clearpopj('Congratulations, registered success!','/');
+            } else {
+                clearpopj(data.message);
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -207,8 +207,8 @@ a#jxgw:hover{  background:#F60;  color:#FFF; text-decoration:none;}
 
 
 /*登录*/
-.lgbox{ height:392px; margin-top:10px; background:#FFF; border:1px solid #EEE; overflow:hidden;zoom:1;background: url("../images/login_bg.jpg") no-repeat}
-.login{ width:270px; float:left; line-height:20px; margin: 15px 15px 0 0; display:inline; background: #fff;padding: 0 15px;  }
+.lgbox{ height:450px; margin-top:10px; background:#FFF; border:1px solid #EEE; overflow:hidden;zoom:1;background: url("../images/login_bg.jpg") no-repeat}
+.login{ width:270px; float:left; line-height:20px; margin: 15px 15px 0 0; display:inline; background: #fff;padding: 0 15px;}
 .login td{ padding:10px 0;}
 .user{ width:218px; height:34px; font:bold 14px/34px Arial; padding:0 40px 0 10px; background:url(../images/reg_03.gif) no-repeat 245px center; border:1px solid #DDD;}
 .mima{ width:218px; height:34px; font:bold 14px/34px Arial; padding:0 40px 0 10px; background:url(../images/reg_07.gif) no-repeat 245px center; border:1px solid #DDD;}

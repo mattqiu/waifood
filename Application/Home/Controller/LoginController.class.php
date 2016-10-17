@@ -2,6 +2,8 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\CodeModel;
+use Common\Model\UserModel;
 Use \Think\Controller;
 
 class LoginController extends Controller
@@ -22,13 +24,29 @@ class LoginController extends Controller
     public function index($code = '')
     {
         if (IS_POST) {
+            $key = 'verify_err_num';
+            $num = cookie($key);
+            if(isset($num) && $num>=3){
+                if( !isVerifyCorrect()){
+                    apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.');
+                }
+            }
             // 登录
             $username = I('username');
-            $userpwd = md5(I('userpwd'));
-            if ($this->login($username, $userpwd)) {
-                $this->redirect('Member/index');
+            $userpwd = I('userpwd');
+            if (UserModel::login($username, $userpwd)) {
+                cookie($key,0);//成功登陆清除登陆失败记录次数
+                apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/member/index');
             } else {
-                $this->error('wrong user name or password.');
+                //记录登录失败的次数
+                $num = cookie($key);
+                if(!$num){
+                    $num =1;
+                }else{
+                    $num++;
+                }
+                cookie($key,$num);
+                apiReturn(CodeModel::ERROR, 'wrong user name or password.');
             }
         } else {
             if (is_wechat()) {
@@ -63,84 +81,49 @@ class LoginController extends Controller
     public function register()
     {
         if (IS_POST) {
-            // 注册
-            $data = empty($data) ? $_POST : $data;
-            $username = $data['username'];
-            $userpwd = md5($data['userpwd']);
-            $userpwd1 = md5($data['userpwd1']);
-            if (isN($username)) {
-                $this->error('sorry, user name cannot be empty.');
+            $data = I('post.');
+            if( !isVerifyCorrect()){
+                apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
             }
-            if (isN($data['userpwd'])) {
-                $this->error('sorry, password cannot be empty.');
+            if (!regex($data['username'],'username') ) {
+                apiReturn(CodeModel::ERROR,'sorry,the user name format is not correct');
             }
-//             if (strlen($data['userpwd']) < 2) {
-//                 $this->error('sorry,the length of the password must be at least 2.');
-//             }
-            if ($userpwd != $userpwd1) {
-                $this->error('enter the password twice inconsistent.');
+            if (strlen($data['userpwd'])>20 || strlen($data['userpwd'])<4) {
+                $this->error('Sorry,the password should be 4 to 20 characters!');
             }
-            if (! is_email($data['email'])) {
-                $this->error('sorry,email is illegal.');
+            if ($data['userpwd'] !== $data['userpwd1']) {
+                apiReturn(CodeModel::ERROR,'enter the password twice inconsistent.');
             }
-            
-            $where = array();
-            $where['username'] = $username;
-            $db = M('member')->where($where)->find();
-            if ($db != false) {
-                $this->error('user name [' . $username . '] already exists.');
-            } else {
-                $maxid = M('member')->count();
-                // $data = array ();
-                $data['usertype'] = 3;
-                $data['sort'] = $maxid;
-                $data['username'] = $username;
-                $data['userpwd'] = $userpwd;
-                $data['addip'] = get_client_ip();
-                $data['sex'] = 1;
-                // $data ['wechatid'] = $openid;
-                $data['status'] = 1;
-                $data['fatherid'] = get_fid();
-                
-                unset($data['userpwd1'], $data['verify'], $data['imageField']);
-                $db = M('member')->add($data);
-                if ($db) {
-                    
-                    $rs = array();
-                    $rs['username'] = $data['username'];
-                    $rs['telephone'] = $data['telephone'];
-                    $rs['sex'] = $data['sex'];
-                    $rs['email'] = $data['email'];
-                    $rs['address'] = $data['address'];
-                    $rs['userid'] = $db;
-                    M('address')->add($rs);
+            if (!regex($data['email'],'email')) {
+                apiReturn(CodeModel::ERROR,'sorry,email is illegal.');
+            }
+            if(UserModel::checkEmail($data['email'])){
+                apiReturn(CodeModel::ERROR,'sorry,the email already exists');
+            }
+            if(UserModel::checkUsername($data['username'])){
+                apiReturn(CodeModel::ERROR,'sorry,the username already exists');
+            }
+            $username=$data['username'];
+            $userpwd=$data['userpwd'];
+            $maxid = M ( 'member' )->count ();
+            $data ['usertype'] = 1;
+            $data ['sort'] = $maxid;
+            $data ['userpwd'] = md5($userpwd);
+            $data ['addip'] = get_client_ip ();
+            $data ['fatherid'] = get_fid();
+            unset($data['userpwd1'],$data['verify']);
+            $id = UserModel::reg($data);
+            if($id){
+                $subject='[waifood]register successfully';
+                sendEmail($data['email'],$subject);
+                //注册完后自动登录
+                if(UserModel::login($username, $userpwd)){//注册后自动登录
+                    apiReturn(CodeModel::CORRECT,'Registered successfully','/member/index');
+                }else{
+                    apiReturn(CodeModel::CORRECT,'Registered successfully','/login/index');
                 }
-                // 注册完后自动登录
-                if ($this->login($username, $userpwd, '111111')) {
-                    $to = $data['email'];
-                    $subject = '[waifood]register successfully';
-                    $body = lbl('tpl_register');
-                    if (! isN($body)) {
-                        
-                        $preg = "/{(.*)}/iU";
-                        $n = preg_match_all($preg, $body, $rs);
-                        $rs = $rs[1];
-                        if ($n > 0) {
-                            foreach ($rs as $v) {
-                                if (isset($data[$v])) {
-                                    $oArr[] = '{' . $v . '}';
-                                    $tArr[] = $data[$v];
-                                    $body = str_replace($oArr, $tArr, $body);
-                                }
-                            }
-                        }
-                        
-                        if (send_mail($to, $subject, $body)) {}
-                    }
-                    $this->redirect('Member/index');
-                } else {
-                    $this->error('sorry, user name cannot be empty.');
-                }
+            }else{
+                apiReturn(CodeModel::ERROR,'Registration failed');
             }
         } else {
             
@@ -166,7 +149,7 @@ class LoginController extends Controller
                 $where['wechatid'] = $openid;
                 $db = M('member')->where($where)->find();
                 if ($db != false) {
-                    $login=$this->login($db['username'], $db['userpwd'], '');
+                    $login=$this->login($db['username'], $db['userpwd']);
                     if($login){
                      $this->redirect('Member/index');
                     }
@@ -315,18 +298,19 @@ class LoginController extends Controller
      * @param string $userpwd            
      * @param string $verify            
      */
-    protected function login($username = null, $userpwd = null, $verify = null)
+    protected function login($username, $userpwd)
     {
         if (! (isN($username) || isN($userpwd))) {
-            
-            // if (! check_verify ( $verify )) {
-            // $this->error ( '验证码错误！' );
-            // }
-            
             // 设置id,username, wechatid
             $where = array();
             $where['status'] = 1;
-            $where['username'] = $username;
+            if(regex($username,'email')){ //邮箱登录
+                $where ['email'] = $username;
+            }elseif(regex($username,'mob')){//手机登录
+                $where ['telephone'] = $username;
+            }else{
+                $where ['username'] = $username;//用户名登录
+            }
             $where['userpwd'] = $userpwd;
             $db = M('member')->where($where)->find();
             if ($db != false) {

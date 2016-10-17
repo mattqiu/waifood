@@ -1,75 +1,134 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header"/>
 </head>
 
 <body>
-<include file="Index:bar" />
+<include file="Index:bar"/>
 <div class="container">
-  <div class="content">
-    <div class="main-body">
-      <div class="main-list">
-        <div class="main-item">
-          <div class="item-title">
-            <h3>{$title}</h3>
-            <a href="javascript:void(0);"  class="item-add" onClick="history.back();"><i class="fa fa-reply"></i> Back</a> </div>
-          <div class="address-info">
-            <div class="address-form">
-              <form action="{:U('Member/addAddress')}" method="post" name="formAddress" id="formAddress" class="pure-form pure-form-stacked">
-                <input type="hidden" value="" name="id" id="id">
-                <fieldset>
-                  <label for="username"><span class="fc_red">*</span> Name：</label>
-                  <input id="username" name="username" type="text" maxlength="20" value="{$db.username}"  placeholder="enter your name" class="pure-input-1" required />
-                  <label for="username">Gender：</label>
-                  <select name="sex" id="sex">
-                   <option value="1">Male</option>
-                    <eq name="db.sex" value="0">
-                    <option value="0" selected="selected">Female</option>
-                    <else/>
-                    <option value="0">Female</option>
-                    </eq>
-                  </select>
-                  <label for="telephone"><span class="fc_red">*</span> Phone：</label>
-                  <input id="telephone" name="telephone" type="text" maxlength="11" value="{$db.telephone}" placeholder="enter your mobile" class="pure-input-1" required />
-                  <label for="telephone"><span class="fc_red">*</span> Email：</label>
-                  <input id="email" name="email" type="text" maxlength="50" value="{$db.email}" placeholder="enter your email" class="pure-input-1" required />
-                 <!-- <label for="China_Province">省/市/区：</label>
-                  <select id="China_Province" class="common-input" name="China_Province">
-                  {get_area('china_province',0,$db['provinceid'])}
-                  </select>
-                  <select id="China_City" class="common-input" name="China_City"  >
-                  {get_area('china_city',$db['provinceid'],$db['cityid'])}
-                  </select>
-                  <select id="China_District" class="common-input" name="China_District"  >
-                  {get_area('china_district',$db['cityid'],$db['districtid'])}
-                  </select>-->
-                  <label for="address">Shipping address：</label>
-                  <input id="address" name="address" type="text" maxlength="50" value="{$db.address}" placeholder="enter your address" class="pure-input-1" required />
-                  <label for="info">Remark：</label>
-                  <input id="info" name="info" type="text" maxlength="50" value="{$db.info}" placeholder="Remark" class="pure-input-1" required />
-                  <div align="center" style="padding:10px 0px;">
-                    <button type="submit" class="pure-button pure-button-primary w49" >Save</button>
-                    <button type="button" class="pure-button w49" onClick="history.back();">Back</button>
-                  </div>
-                </fieldset>
-              </form>
+    <div class="content">
+        <div class="main-body">
+            <include file="Index:top"/>
+            <div class="main-list">
+                <form onsubmit="return false" method="post" name="form1" id="form1"
+                      class="pure-form pure-form-stacked">
+                    <div class="main-item">
+                        <div class="address-info">
+                            <div class="address-form">
+                                <fieldset>
+                                    <label for="username"> User Name： {:get_displayname()}</label>
+                                    <input type="hidden" name="id" value="{$addr.id}"/>
+                                    <label for="username"> Consingee：</label>
+                                    <input id="username" name="username" type="text" value="{$addr.username}"
+                                           placeholder="enter your name" class="pure-input-1" maxlength="20">
+                                    <label for="telephone"> <span class="fc_red">*</span> Mobile：</label>
+                                    <input id="telephone" name="telephone" type="text" value="{$addr.telephone}"
+                                           placeholder="enter your mobile" class="pure-input-1" maxlength="11" required>
+                                    <label for="telephone2">Alternative phone：</label>
+                                    <input id="telephone2" name="telephone2" type="text"
+                                           value="{$addr.telephone2}" placeholder="enter your alternative phone"
+                                           class="pure-input-1" maxlength="11" required>
+                                    <label for="address"><span class="fc_red">*</span> Address：</label>
+                                    <input id="address" name="address" type="text" value="{$addr.address}"
+                                           placeholder="enter your address" class="pure-input-1" maxlength="50"
+                                           required>
+                                    <label>Gender：</label>
+                                    <label for="sex1" style="float: left;width: 40%">
+                                        <input type="radio" name="sex" id="sex1" value="1"
+                                        <if condition="$addr['sex'] eq 1"> checked</if>
+                                        />Male
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="sex" id="sex1" value="0"
+                                        <if condition="$addr['sex'] eq 0"> checked</if>
+                                        /> Female
+                                    </label>
+
+                                    <div style="clear: both"></div>
+
+                                    <label for="cityname">City：</label>
+                                    <select name="cityname" id="cityname">
+                                        <option
+                                        <if condition="$addr['cityname'] eq 'chengdu'">selected</if>
+                                        value="chengdu">Chengdu</option>
+                                        <option
+                                        <if condition="$addr['cityname'] eq 'chongqing'">selected</if>
+                                        value="chongqing">Chongqing</option>
+                                        <option
+                                        <if condition="$addr['cityname'] eq 'shenzhen'">selected</if>
+                                        value="shenzhen">Shenzhen</option>
+                                        <option
+                                        <if condition="$addr['cityname'] eq 'Shanghai'">selected</if>
+                                        value="shanghai">Shanghai</option>
+                                        <option
+                                        <if condition="$db['cityname'] eq 'other'">selected</if>
+                                        value="other">Other</option>
+                                    </select>
+                                    <label>Default address：</label>
+                                    <label for="isdefault" style="float: left;width: 40%">
+                                        <input name="isdefault" type="radio" id="isdefault" value="1"
+                                        <if condition="$addr['isdefault'] eq 1"> checked</if>
+                                        />Default
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="isdefault" id="isdefault" value="0"
+                                        <if condition="$addr['isdefault'] eq 0"> checked</if>
+                                        /> Other
+                                    </label>
+
+                                    <div style="clear: both"></div>
+                                    <label for="language">Language：</label>
+                                    <select name="language" id="language">
+                                        <option
+                                        <if condition="$addr['language'] eq 1">selected</if>
+                                        value="1">Chinese general</option>
+                                        <option
+                                        <if condition="$addr['language'] eq 2">selected</if>
+                                        value="2">Fluent in Chinese</option>
+                                        <option
+                                        <if condition="$addr['language'] eq 3">selected</if>
+                                        value="3">English</option>
+                                    </select>
+
+                                </fieldset>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                    <if condition="is_bind() neq true">
+                        <div class="tr" style="line-height:30px; margin:10px;">
+                            <a href="{:U('Member/pwd')}" style="color:#00f;">Click here to modify password</a>
+                        </div>
+                    </if>
+                    <div align="center" style="padding:10px 0px;">
+                        <button type="button" class="pure-button pure-button-primary w49" onclick="subAddress()">Save
+                        </button>
+                        <button type="button" class="pure-button w49" onClick="history.back();">Back</button>
+                    </div>
+                </form>
+
             </div>
-            <div class="clr"></div>
-          </div>
-          <div class="clr"></div>
         </div>
-      </div>
+
     </div>
-  </div>
 </div>
-<include file="Index:footer" /> 
-<script language="javascript">
-$(function(){ 
-	//InitArea(); 
-});
+<js href="__PUBLIC__/Shop/js/jquery-1.8.2.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
+
+<include file="Index:footer"/>
+<script>
+    function subAddress() {
+        $.post('/home/member/modifyShoppingAddr', $("#form1").serialize(), function (data) {
+            if (data.code == 200) {
+                clearpopj(data.message,data.data);
+            } else {
+                clearpopj(data.message);
+            }
+        });
+    }
 </script>
 </body>
 </html>

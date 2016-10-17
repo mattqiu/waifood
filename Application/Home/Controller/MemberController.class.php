@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\CodeModel;
 use Common\Model\UserModel;
 
 class MemberController extends AuthController
@@ -167,6 +168,10 @@ class MemberController extends AuthController
                 $this->error('Sorry, address Failed to add');
             }
         } else {
+            $addrId = I('addr_id');
+            if(regex($addrId,'number')){
+                $this->assign('addr',AddressModel::getUserAddressById($addrId,get_userid()));
+            }
             $this->assign('title', 'Add shipping address');
             $this->display();
         }
@@ -236,6 +241,37 @@ class MemberController extends AuthController
     }
 
     /**
+     * 添加或修改地址
+     */
+    public function modifyShoppingAddr(){
+        $username = I('post.username');
+        $address = I('post.address');
+        $tel = I('post.telephone');
+        if(isN($username)){
+            apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
+        }
+        if(!regex($tel,'mob')){
+            apiReturn(CodeModel::ERROR,'Sorry, the phone number format is wrong!');
+        }
+        if(isN($address)){
+            apiReturn(CodeModel::ERROR,'Sorry,  address can not be empty!');
+        }
+        $data = I('post.');
+        $userid = get_userid();
+        if(true === AddressModel::modifyShoppingAddress($data,$userid)){
+            $cashier= session('gocashier');
+            if($cashier){
+                session('gocashier',null);
+                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/m_cashier');
+            }else{
+                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/address');
+            }
+        }else {
+            apiReturn(CodeModel::ERROR,'Personal information modified failed!');
+        }
+    }
+
+    /**
      * 会员资料修改
      */
     public function info()
@@ -264,7 +300,7 @@ class MemberController extends AuthController
                    $cashier= session('gocashier');
                    if($cashier){
                        session('gocashier',null);
-                       redirect(U('m_cashier'));
+                       redirect('/m_cashier');
                    }else{
                        $this->success('Personal information modified successfully!', U('Member/info'));
                    }
@@ -488,14 +524,12 @@ class MemberController extends AuthController
         $where['userid'] = get_userid();
         $db = M('order')->where($where)->find();
         $this->assign('db', $db);
-        
         $where = array();
         $where['orderno'] = $orderno;
         $list = M('order_detail')->where($where)
             ->order('id asc')
             ->select();
         $this->assign('list', $list);
-        
         $this->assign('title', 'View order detail-' . $orderno);
         $this->display();
     }

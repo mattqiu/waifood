@@ -51,12 +51,22 @@ class AddressModel extends Model
     /**
      * 获取用户收货地址
      * @param $userid
+     * @return bool
      */
     public static function getUserAddress($userid){
         if(regex($userid,'number')){
             $con['userid'] =  $userid;
             $order = 'isdefault desc,id desc';
             return D( 'address' )->where($con)->order ( $order )->select ();
+        }
+       return false;
+    }
+
+    public static function getUserDefaultAddress($userid){
+        if(regex($userid,'number')){
+            $con['userid'] =  $userid;
+            $con['isdefault'] =  self::DEFAULT_ADDRESS;
+            return D( 'address' )->where($con)->find();
         }
        return false;
     }
@@ -83,7 +93,7 @@ class AddressModel extends Model
     public static function modifyDefaultAddress($userid,$data){
         if(regex($userid,'number') && !empty($data)){
             $con['userid'] =  $userid;
-            $con['isdefault'] =  DEFAULT_ADDRESS;
+            $con['isdefault'] = self::DEFAULT_ADDRESS;
             return D( 'address' )->where($con)->save ($data);
         }
        return false;

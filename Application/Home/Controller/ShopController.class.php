@@ -2,6 +2,8 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\AddressModel;
+
 class ShopController extends BaseController {
 	/**
 	 * 购物车
@@ -38,7 +40,6 @@ class ShopController extends BaseController {
 	            if ($accessToken) {
 	                $openid = $accessToken ['openid']; 
 	                openid($openid );
-	                
 	                //判断是否绑定，提示绑定
 	                if(!is_bind($openid)){
 
@@ -50,22 +51,23 @@ class ShopController extends BaseController {
 	            }
 	        }
 	    }
-	    
-	
+
 		// 购物车
 		$ctrl = A ( 'Home/Cart' );
 		$data = $ctrl->loadCart (); 
 		if ($data['cart_num'] == 0) { 
 			$this->assign ( 'cartnum', 0 );
 		} else {
-			
-			$where = array ();
-			$where ['userid'] = get_userid ();
-			$order = 'isdefault desc,id desc';
-			$address =is_address();// M ( 'address' )->where($where)->order ( $order )->find ();
+            $addrId = I('addr_id');
+            if(regex($addrId,'number')){
+                $address = AddressModel::getUserAddressById($addrId,get_userid());
+            }else{
+                $address =AddressModel::getUserDefaultAddress( get_userid());
+
+            }
 			if ($address == false) {
 			    session('gocashier',true);
-				$this->redirect ( 'Member/info' );
+				$this->redirect ( 'Member/addAddress' );
 			} else {
 				$this->assign ( 'address', $address );
 			} 

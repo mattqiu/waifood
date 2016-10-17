@@ -8,3 +8,4 @@ Temp/*.php
 dist/
 *.swp
 *.swf
+*.log

@@ -137,8 +137,9 @@ class LoginController extends Controller {
             }
             //登录
 			$username=I('username');
-			$userpwd=md5(I('userpwd'));
-			if($this->login($username,$userpwd)){
+			$userpwd=I('userpwd');
+			if(UserModel::login($username,$userpwd)){
+                cookie($key,0);//成功登陆清除登陆失败记录次数
                 if(!strpos(strtolower($url),'login')){
                     redirect($url);
 			    }else{
@@ -183,35 +184,36 @@ class LoginController extends Controller {
         if (!regex($data['email'],'email')) {
             apiReturn(CodeModel::ERROR,'sorry,email is illegal.');
         }
+        if(UserModel::checkEmail($data['email'])){
+            apiReturn(CodeModel::ERROR,'sorry,the email already exists');
+        }
+        if(UserModel::checkUsername($data['username'])){
+            apiReturn(CodeModel::ERROR,'sorry,the username already exists');
+        }
         $username=$data['username'];
-        $userpwd=md5($data['userpwd']);
-        $where = "username = '$username' or email='{$data['email']}'";
-        $db = M ( 'member' )->where ( $where )->find ();
-        if ($db) {
-            apiReturn(CodeModel::ERROR,'the username or email already exists');
-        } else {
-            $maxid = M ( 'member' )->count ();
-            $data ['usertype'] = 1;
-            $data ['sort'] = $maxid;
-            $data ['userpwd'] =  $userpwd;
-            $data ['addip'] = get_client_ip ();
-            $data ['fatherid'] = get_fid();
-            unset($data['userpwd1'],$data['verify']);
-            $db = M ( 'member' )->add ( $data );
-            if(!$db){
-                apiReturn(CodeModel::ERROR,'Registration failed');
-            }
+        $userpwd=$data['userpwd'];
+        $maxid = M ( 'member' )->count ();
+        $data ['usertype'] = 1;
+        $data ['sort'] = $maxid;
+        $data ['userpwd'] = md5($userpwd);
+        $data ['addip'] = get_client_ip ();
+        $data ['fatherid'] = get_fid();
+        unset($data['userpwd1'],$data['verify']);
+        $id = UserModel::reg($data);
+        if($id){
             $subject='[waifood]register successfully';
             sendEmail($data['email'],$subject);
             //注册完后自动登录
-            if($this->login($username, $userpwd)){//注册后自动登录
+            if(UserModel::login($username, $userpwd)){//注册后自动登录
                 apiReturn(CodeModel::CORRECT,'','/member/index');
             }else{
                 apiReturn(CodeModel::CORRECT,'注册成功','/login/index?returnurl=/member/index');
             }
+        }else{
+            apiReturn(CodeModel::ERROR,'Registration failed');
         }
-
     }
+
 	public function register() {
 		$title = 'register';
         $keywords = $title.lbl('subtitleshop');
@@ -231,6 +233,7 @@ class LoginController extends Controller {
 				$where ['wechatid'] = $openid;
 				$db = M ( 'member' )->where ( $where )->find ();
 				if ($db != false) {
+
 					$this->login ( $db ['username'], $db ['userpwd'] );
 				} else {
 					$newid = $this->createWechatUser ( $openid );
@@ -338,7 +341,13 @@ class LoginController extends Controller {
 			// 设置id,username, wechatid
 			$where = array ();
 			$where ['status'] = 1;
-			$where ['username'] = $username;
+            if(regex($username,'email')){ //邮箱登录
+                $where ['email'] = $username;
+            }elseif(regex($username,'mob')){//手机登录
+                $where ['telephone'] = $username;
+            }else{
+                $where ['username'] = $username;//用户名登录
+            }
 			$where ['userpwd'] = $userpwd;
 			$user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {

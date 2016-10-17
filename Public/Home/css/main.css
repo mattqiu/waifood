@@ -40,6 +40,12 @@ width:100px; height: 30px; padding-top: 50px; line-height: 30px; display: block;
 .icobox li .jfdh { background-image: url(../images/ico04.png); }
 /*热卖*/
 
+/*城市,地址选择*/
+.city li,.language li,.default li{display:inline-block;cursor: pointer; height:32px; line-height:32px; font-size:14px; border: 1px solid #c2cbe0;  padding:0 10px; }
+.city li:hover,.language li:hover,.default li:hover{  background:url("../../Shop/images/selected-icon.png") no-repeat 100% 20px ; color:#555; text-decoration:none;border: 2px solid red}
+.city .hover,.language .hover,.default .hover{ background:url("../../Shop/images/selected-icon.png") no-repeat 100% 20px ; color:#555; text-decoration:none;border: 2px solid red}
+
+
 .hot { margin: 10px 10px 0; height: 30px; line-height: 30px; }
 .more { float: right; font-size: 0.8em }
 .hot_txt { overflow: hidden; background: #FFF; padding: 10px 0; border: 1px solid #DDD; margin: 0 10px; }

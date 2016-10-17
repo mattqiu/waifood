@@ -280,8 +280,10 @@
                 window.location.href = url;
             }
             $.alerts.alert_msg(message, title, fun,time);
+        }else{
+            time=3000
+            $.alerts.alert_msg(message, title,'',time);
         }
-        $.alerts.alert_msg(message, title,'',time);
 	}
 
 	jBox = function(message, title, callback) {

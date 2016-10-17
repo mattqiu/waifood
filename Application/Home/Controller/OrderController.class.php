@@ -1,6 +1,8 @@
 <?php
 // 订单处理类
 namespace Home\Controller; 
+use Common\Model\AddressModel;
+
 class OrderController extends BaseController {
 	
 	//支付详细
@@ -256,10 +258,7 @@ class OrderController extends BaseController {
 	            	$this->error('The stock is insufficient, we will try to have it soon.[#'.$check.']');
 	            } 
 	            $addressid = $data['UseAddressID'];
-	
-	            $where = array ();
-	            $where ['userid'] = get_userid ();
-	            $address = is_address();//M ( 'address' )->where($where)->find ($addressid);
+                $address = AddressModel::getUserAddressById($addressid, get_userid ());
 	            if($address){
 				    if(isN($address['userreal'])){
 				        $address['userreal']=get_username(get_userid());
@@ -272,7 +271,7 @@ class OrderController extends BaseController {
 // 	                $data ['cityid']=$address['cityid'];
 // 	                $data ['districtid']=$address['districtid'];
 // 	                $data ['proname']=$address['proname'];
-// 	                $data ['cityname']=$address['cityname'];
+ 	                $data ['cityname']=$address['cityname'];
 // 	                $data ['disname']=$address['disname'];
 	                $data ['email']=$address['email'];
 	                $data ['remark']=$address['info'];

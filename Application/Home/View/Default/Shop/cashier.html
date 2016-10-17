@@ -50,27 +50,27 @@ $(function(){
             </if>
             <div class="main-item">
               <div class="item-title">
-                <h3 style="width:100%;"><span class="fl" style="width:auto;">Receiving information</span> <a href="{:U('Member/info','goto=cashier')}" style="width:auto; float:right" class="fr">Modify</a></h3>
+                <h3 style="width:100%;"><span class="fl" style="width:auto;">Receiving information</span> <a href="{:U('Member/address','goto=cashier')}" style="width:auto; float:right" class="fr">Choose</a></h3>
               </div>
               <div class="item-info">
-                <div class="address-list"> <a href="{:U('Member/info','goto=cashier')}">
+                <div class="address-list"> <a href="/member/addaddress.html?addr_id={$address.id}&goto=cashier">
                   <input type="hidden" name="UseAddressID" id="UseAddressID" value="{$address.id}" />
                   <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
               <td width="140" align="right">Name：</td>
-              <td>{$address.userreal}</td>
+              <td>{$address.username}</td>
             </tr>
             <tr>
               <td align="right">Phone：</td>
               <td>{$address.telephone}</td>
             </tr>
             <tr>
-              <td align="right">Email：</td>
-              <td>{$address.email}</td>
-            </tr>
-            <tr>
               <td align="right">Shipping address：</td>
               <td> {$address.proname}{$address.cityname}{$address.disname} {$address.address}</td>
+            </tr>
+            <tr <if condition="!$address['cityname']"> class="hide"</if>>
+              <td align="right">City：</td>
+              <td>{$address.cityname}</td>
             </tr>
           </table></a> </div>
                 <div class="clr"></div>

@@ -4,7 +4,7 @@ $(function() {
 });
 (function() {
     $.delFav = function(id) { 
-        var title = "ÄúÈ·¶¨ÒªÉ¾³ý¸ÃÊÕ²ØÂð£¿";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½ï¿½Õ²ï¿½ï¿½ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				 $.ajax({
@@ -17,7 +17,7 @@ $(function() {
 		});
     };
     $.clrHistory = function(id) { 
-        var title = "ÄúÈ·¶¨ÒªÇå¿Õä¯ÀÀ¼ÇÂ¼Âð£¿";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				$.ajax({
@@ -30,7 +30,6 @@ $(function() {
 		});
     };
     $.SubmitOrder = function() {
-		
         var OrderInfo = "";
         OrderInfo = $("#UseAddressID").val();
         var info = "";
@@ -39,21 +38,21 @@ $(function() {
         pm = $('input:radio[name="paymethod"]:checked').val();
         pm = (pm==0 ? 0: 1);
         if (OrderInfo == "" || OrderInfo == "0") {
-            jAlert("¶Ô²»Æð£¬ÇëÏÈÌîÐ´ÊÕ»õµØÖ·£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð´ï¿½Õ»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½",SYSTITLE);
             return false
         };
 		$.ajax({
                 url: "/m/Cart.asp?Action=SubmitOrder&OrderInfo=" + OrderInfo + "&info=" + info + "&pm=" + pm + "&" + Math.random(),
                 success: function(msg) {
                     if (msg != "") {
-                        var msgArr = (msg.split("¡é"));
+                        var msgArr = (msg.split("ï¿½ï¿½"));
                         if (msgArr[0] == "1") {
                             location = "/m/M_UOrderStatus.asp?orderno=" + msgArr[2]
                         } else {
 							if(confirm(msgArr[0],SYSTITLE)){
 								     window.location.href="/m/M_UCenter.asp";
 									   }
-                            if (msgArr[0].indexOf("Óà¶î²»×ã") != -1) {
+                            if (msgArr[0].indexOf("ï¿½ï¿½î²»ï¿½ï¿½") != -1) {
                                 location = "/m/M_UCenter.asp"
                             }
                         }
@@ -62,19 +61,19 @@ $(function() {
                     }
                 }
 				
-      /*  var title = "ÄúÈ·ÈÏÒªÌá½»¶©µ¥Âð£¿";
+      /*  var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				$.ajax({
                 url: "/m/Cart.asp?Action=SubmitOrder&OrderInfo=" + OrderInfo + "&info=" + info + "&pm=" + pm + "&" + Math.random(),
                 success: function(msg) {
                     if (msg != "") {
-                        var msgArr = (msg.split("¡é"));
+                        var msgArr = (msg.split("ï¿½ï¿½"));
                         if (msgArr[0] == "1") {
                             location = "/m/M_UOrderStatus.asp?orderno=" + msgArr[2]
                         } else {
                             jAlert(msgArr[0],SYSTITLE);
-                            if (msgArr[0].indexOf("Óà¶î²»×ã") != -1) {
+                            if (msgArr[0].indexOf("ï¿½ï¿½î²»ï¿½ï¿½") != -1) {
                                 location = "/m/M_UCenter.asp"
                             }
                         }
@@ -95,16 +94,16 @@ $(function() {
         })
     };
     $.addComment = function(id, PID, title, orderno) {; 
-        var title1 = "ÄúÈ·¶¨Òª·¢±íÆÀ¼ÛÂð£¿Ò»µ©Ìá½»³É¹¦£¬ÆÀ¼ÛÄÚÈÝ²»¿ÉÐÞ¸Ä£¡";
+        var title1 = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½á½»ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½ï¿½Þ¸Ä£ï¿½";
 		jConfirm(title1,SYSTITLE,function(msg){
 			if(msg){
 				 $.ajax({
                 url: "/m/Ajax/?Action=AddComment&id=" + id + "&PID=" + PID + "&ConstTbl=" + escape(title) + "&orderno=" + orderno + "&" + Math.random(),
                 success: function(msg) {
                     if (msg == "1") {
-                        jAlert("¹§Ï²£¬ÆÀ¼Û·¢±í³É¹¦£¡",SYSTITLE)
+                        jAlert("ï¿½ï¿½Ï²ï¿½ï¿½ï¿½ï¿½ï¿½Û·ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½",SYSTITLE)
                     } else {
-                        jAlert("¶Ô²»Æð£¬ÆÀÂÛÊ§°Ü£¡",SYSTITLE)
+                        jAlert("ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½Ü£ï¿½",SYSTITLE)
                     }
                 }
             })
@@ -113,7 +112,7 @@ $(function() {
     };
 	
     $.PayOrder = function(act, orderno, tradeno) {
-        var title = "ÄúÈ·¶¨ÒªÖ§¸¶±¾¶©µ¥Âð£¿¿îÏî½«´ÓÄúµÄÓà¶îÖÐ¿Û³ý£¡";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½ÒªÖ§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ð£¿¿ï¿½ï¿½î½«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¿Û³ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				$.ajax({
@@ -136,7 +135,7 @@ $(function() {
         $.zCancel(act, orderno, productid, num)
     };
     $.zLogOut = function() {
-        var title = "ÄúÈ·¶¨ÒªÍË³öÂð£¿";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½Ë³ï¿½ï¿½ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				location = "M_Login.asp?Action=Exit"
@@ -144,11 +143,11 @@ $(function() {
 		});
     };
     $.zCancel = function( act, orderno, productid, num) {	
-        var title = "ÄúÈ·¶¨ÒªÈ¡Ïû¸Ã¶©µ¥Âð£¿";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½ÒªÈ¡ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½";
 		var action="";
 			action = "EditO_Order";
 		if (act=="3"){
-			title = "ÄúÈ·¶¨ÒÑÊÕµ½»õÁËÂð£¿È·ÈÏÊÕ»õºó¿É»ñµÃÏàÓ¦»ý·Ö£¡";	
+			title = "ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½É»ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ö£ï¿½";	
 			action = "ConfirmOrder";
 		}
 		jConfirm(title,SYSTITLE,function(msg){
@@ -169,7 +168,7 @@ $(function() {
 		
     };
     $.zAddressDel = function(id) {
-        var title = "ÄúÈ·¶¨ÒªÉ¾³ý¸ÃµØÖ·Âð£¿";
+        var title = "ï¿½ï¿½È·ï¿½ï¿½ÒªÉ¾ï¿½ï¿½Ãµï¿½Ö·ï¿½ï¿½";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
 				location = "M_UAddressEdit.asp?Action=Del&id=" + id	
