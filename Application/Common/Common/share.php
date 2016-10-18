@@ -245,4 +245,29 @@ function getRealIp(){
     $realip = !empty($onlineip[0]) ? $onlineip[0] : '0.0.0.0';
     return $realip;
 }
+
+/**时间格式化
+ * @param $time
+ * @return string
+ */
+function getDateFormat($time){
+    $m=date('m',$time);
+    $mn = '';
+    switch($m){
+        case 1 :$mn ='Jan';break;
+        case 2 :$mn ='Feb';break;
+        case 3 :$mn ='Mar';break;
+        case 4 :$mn ='Apr';break;
+        case 5 :$mn ='May';break;
+        case 6 :$mn ='Jun';break;
+        case 7 :$mn ='Jul';break;
+        case 8 :$mn ='Aug';break;
+        case 9 :$mn ='Sept';break;
+        case 10 :$mn ='Oct';break;
+        case 11 :$mn ='Nov';break;
+        case 12 :$mn ='Dec';break;
+    }
+    return  date('d',$time).','.$mn;
+}
+
 ?>

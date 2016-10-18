@@ -360,6 +360,11 @@ class LoginController extends Controller
         return get_verify();
     }
 
+    public function findpwdAction(){
+        $keywrod = I('post.keywrod');
+        UserModel::reSetPwd($keywrod);
+    }
+
     public function findpwd()
     {
         if (IS_POST) {

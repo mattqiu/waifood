@@ -20,15 +20,7 @@
             }
         }
         ?>
-        $(function () {
-            $('#delivertime').calendar({
-                format: 'yyyy-MM-dd',
-                minDate: '%y-%M-%d',
-                disWeek: "{:lbl('disabled_week')}",
-                btnBar: false,
-                disDate: {$strdates}
-            });
-        });
+
     </script>
 </head>
 
@@ -213,31 +205,43 @@
     <label for="invoice2">no</label>
 </div>
 <h2>Delivery date</h2>
-
 <div class="txt02">
-    <input name="delivertime[]" id="delivertime" type="text" class="input03" style="background:#eee;"
-           readonly="readonly"/>
     <?php
           $deliverinfo=nl2br(lbl('deliverinfo'));
           ?>
     <notempty name="deliverinfo">
-           <span class="fr" style=" width:785px;color:#f00;">
+           <span class="" style="color:#f00;">
           {$deliverinfo}
           </span>
     </notempty>
-
     <br/>
     <br/>
-
+    <volist name="dateData" id="vo">
+            <div data-date_num="{$i}" class="js_date_obj  <if condition='$vo.isholiday eq 1'>isholiday<else/>date_btn </if>" data-date="{$vo.time}" title="{$vo.time}">
+                <if condition="$i eq 1">
+                    Today
+                    <elseif condition='$i eq 2'/>
+                    Tomorrow
+                    <else/>
+                    {$vo.date}
+                </if>
+            </div>
+    </volist>
+    <!--<input  type="text" class=" date_btn " value="Other" id="getOtherDate" />-->
+    <div class=" date_btn"  id="getOtherDate">
+       Other
+    </div>
+    <input  type="text" name="delivertime[]" class="date_val"  id="delivertime" />
+    <div style="clear: both"></div>
+    <br/>
     <div>
         <?php
-	            $times = str2arr(lbl('delivertime'),"\r\n");
+	            $times = str2arr(lbl('delivertime'),"\r\n");//配送时段
 	            foreach($times as $k=>$v){
         ?>
-        <div><br/>
-            <input type="checkbox" value=" {$v}" name="delivertime[]" id="delivertime{$k}"/>
-            <label for="delivertime{$k}">{$v}</label>
-        </div>
+            <div class="time_list js_time_obj " data-date="{$v}" ><br/>
+               {$v}
+            </div>
         <?php
 	            }
             ?>
@@ -245,7 +249,6 @@
 </div>
 
 <h2>Order remarks</h2>
-
 <div class="txt02">
     <textarea type="text" id="info" name="info" value="" placeholder="the order remarks" size="80" class="input03"
               style="width:500px; height:80px;"></textarea>
@@ -261,6 +264,55 @@
 <include file="Index:footer"/>
 <script>
     $(function(){
+        //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
+        var date = $(".date_btn").eq(0).data('date');
+        $('#delivertime').val(date);
+        $(".date_btn").eq(0).addClass('click');
+        checkTime(date);
+        //选择时间
+        $(".js_date_obj").click(function(){
+            $('.js_time_obj').removeClass('click');
+            $('.js_time_obj').find('input').remove();
+            if($(this).hasClass('isholiday')){
+                $('.js_delivertime').parent().addClass('old_time');
+            }else{
+                checkTime($(this).data('date'));
+                $('#delivertime').val($(this).data('date'));
+                $('.js_date_obj').removeClass('click');
+                $(this).addClass('click');
+            }
+        })
+        //选择其他时间
+        $('#getOtherDate').calendar({
+            format: 'yyyy-MM-dd',
+            minDate: '%y-%M-%d',
+            disWeek: "{:lbl('disabled_week')}",
+            btnBar: false,
+            disDate: {$strdates},
+            onSetDate:function(){
+                var date = this.year+'-'+this.month+'-'+this.day;
+                $('#getOtherDate').text(this.day+','+getDateFormat(this.month));
+                $('#getOtherDate').addClass('click');
+                $('#delivertime').val(date);
+                $('.js_date_obj').removeClass('click');
+                checkTime(date);
+            }
+        });
+
+        $('.js_time_obj').click(function () {
+            if($(this).hasClass('click')){
+                $(this).removeClass('click');
+                $(this).find('input').remove();
+            }else{
+                if($(this).hasClass('time_list')){
+                    $(this).addClass('click');
+                    var arr=$(this).data('date');
+                    var html ='<input type="text" value="'+arr+'" name="delivertime[]" id="delivertime_'+arr+'"/>';
+                    $(this).addClass('click');
+                    $(this).append(html);
+                }
+            }
+        })
         $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
         $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
         $('#addr_list label').click(function(){
@@ -268,6 +320,43 @@
             $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
         })
     })
+
+    //根据时间选择时间段
+    function checkTime($now){
+        var myDate = new Date();
+        var date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();        //获取当前年份(2位)
+        if($now ==date){
+            $(".js_time_obj").each(function () {
+                var arr=$(this).data('date').split('-');
+                var arr1=arr[0].split(':');
+                var hours = (parseInt(myDate.getHours())+1);
+                if(hours>=arr1[0]){ //已过时段
+                    $(this).addClass('old_time');
+                    $(this).removeClass('time_list');
+                    $(this).removeClass('click');
+                }
+            })
+            if(!$('.js_time_obj').hasClass('time_list')){
+                $(".js_date_obj ").eq(0).removeClass('click');
+                $(".js_date_obj ").eq(0).addClass('isholiday');
+                $(".js_date_obj ").eq(0).removeClass('date_btn');
+                $(".date_btn").eq(0).addClass('click');
+
+                var date = $(".date_btn").eq(0).data('date');
+                $('#delivertime').val(date);
+                $(".date_btn").eq(0).addClass('click');
+                checkTime(date);
+
+              //  $(".date_btn").eq(0).click();
+
+            }
+        }else{
+            $('.js_time_obj').removeClass('old_time');
+            $('.js_time_obj').removeClass('click');
+            $('.js_time_obj').addClass('time_list');
+        }
+    }
+
 </script>
 </body>
 </html>

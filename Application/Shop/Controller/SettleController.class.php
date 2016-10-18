@@ -3,10 +3,10 @@
 namespace Shop\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\DateModel;
 
 class SettleController extends BaseController {
-	
-	
+
 	/**
 	 * 购物车
 	 *
@@ -73,21 +73,21 @@ class SettleController extends BaseController {
 			$this->assign ( 'isShop', $isShop );
 			$this->assign ( 'cart', $data );
 		}
-
 		$mycoupon=get_my_coupon();
 		$maxuse=get_coupon_maxuse($data['cart_amount']);
 		if($usecoupon>$maxuse){
 		    $usecoupon=$maxuse;
 		}
-
-		$this->assign ( 'mycoupon', $mycoupon );
+        if($dateData = DateModel::getFutureDay()){
+            $this->assign ( 'dateData',$dateData);
+        }
+        $this->assign ( 'mycoupon', $mycoupon );
 		$this->assign ( 'maxuse', $maxuse );
 		$this->assign ( 'usecoupon', to_price($usecoupon) );
-
 		$this->assign ( 'title', 'Cashier' );
 		$this->display ();
 	}
-	
+
 	/**
 	 * 订单支付
 	 *

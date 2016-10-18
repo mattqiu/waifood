@@ -10,6 +10,9 @@ class UserModel extends Model
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();
     }
+    public static function getUserByCon($con){
+        return M('member')->where($con)->find();
+    }
 
     /**
      * 检查用户名是否存在
@@ -51,10 +54,6 @@ class UserModel extends Model
             return $db;
         }
         return false;
-    }
-
-    public static function updataUserLogin(){
-
     }
 
     /**
@@ -99,6 +98,51 @@ class UserModel extends Model
             }
         } else {
             return false;
+        }
+    }
+
+    /**重置密码
+     * @param $keywrod
+     */
+    public static function reSetPwd($keywrod){
+        $con['_string'] = "`username` = '$keywrod' or `email` = '$keywrod'";
+        $user = UserModel::getUserByCon($con);
+        if($email = $user['email']){
+            $ctrl=new \Org\Util\String();
+            $pwd = $ctrl->randString(6,1);
+            $body=lbl('tpl_findpwd');
+            if(isN($body)){
+                apiReturn(CodeModel::ERROR,'sorry,email sent failed');
+            }
+            $preg="/{(.*)}/iU";
+            $n=preg_match_all($preg,$body,$rs);
+            $rs=$rs[1];
+            if($n>0){
+                foreach($rs as $v){
+                    if(trim($v)=='name'){
+                        $oArr[]='{ name }';
+                        $tArr[]= $user['username']?$user['username']:$email;
+                        $body=str_replace($oArr,$tArr,$body);
+                    }
+                    if(trim($v) == 'pwd'){
+                        $oArr[]='{ pwd }';
+                        $tArr[]= $pwd;
+                        $body=str_replace($oArr,$tArr,$body);
+                    }
+                }
+            }
+            $subject='[waifood]retrive my password';
+            if(send_mail($email,$subject,$body)){
+                $where['username']=$user['username'];
+                $where['email']=$email;
+                if( M('member')->where($where)->setField('userpwd',md5($pwd))){
+                    apiReturn(CodeModel::CORRECT,'sorry,email sent success','/login/index');
+                }
+            }else{
+                apiReturn(CodeModel::ERROR,'sorry,email sent failed');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'sorry,Could not find the user information');
         }
     }
 

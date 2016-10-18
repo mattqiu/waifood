@@ -25,6 +25,17 @@ fieldset,img { border: none;}
 .btn-highlight, .btn-highlight:visited { background:#E8B406; border-color:#E8B406; color:#fff;}
 .btn-highlight:hover, .btn-highlight:active { background-color: #E4A400; border-color: #E4A400; color:#fff;}
 
+
+.date_btn,.city li,.language li,.default li{background:#fff;text-align:center;font-size:12px;width :75px; height:32px;line-height: 32px;border:solid 1px #333;border-radius:4px;cursor:pointer;float: left;margin-left: 5px;}
+.click{background:url("../images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
+.isholiday{text-align:center;color: #c2cbe0;font-size:12px;width :75px; height:32px;line-height: 32px;border:solid 1px #c2cbe0;border-radius:4px;cursor:pointer;float: left;margin-left: 5px;}
+.time_list{text-align:center;color: #000;font-size:12px;width :125px; height:32px;border:solid 1px #000;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 13px;}
+.old_time{text-align:center;color: #c2cbe0;font-size:12px;width :125px; height:32px;border:solid 1px #c2cbe0;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 13px;}
+.date_btn:hover,.click:hover,.time_list:hover,.city li:hover,.language li:hover,.default li:hover,.city .hover,.language .hover,.default .hover{background:url("../images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
+/*添加收货人地址*/
+.language li{ width: 115px;}
+.language li:hover{width: 115px; }
+
 .top{width: 1090px; height: 100px; margin:0 auto; overflow:hidden;}
 .logo{ float:left;}
 .kouhao{float: left; padding-left:10px; overflow:hidden;}
@@ -231,11 +242,6 @@ a#reglink{ float:right; color:#0e87d8;}
 .reg td{ padding:15px 5px;}
 a#cxfs{ height:34px; padding:0 10px; background:#F8F8F8; display:inline-block;  border:1px solid #EEE; font:normal 12px/34px verdana,Arial;}
 a#cxfs:hover{  background:#e5fff1; border-color:#b1dec5; color:#00923f;}
-
-/*添加收货人地址*/
-.city li,.language li,.default li{display:inline-block;cursor: pointer; height:32px; line-height:32px; font-size:14px; border: 1px solid #c2cbe0;  padding:0 10px; }
-.city li:hover,.language li:hover,.default li:hover{  background:url("../images/selected-icon.png") no-repeat 100% 20px ; color:#555; text-decoration:none;border: 2px solid red}
-.city .hover,.language .hover,.default .hover{ background:url("../images/selected-icon.png") no-repeat 100% 20px ; color:#555; text-decoration:none;border: 2px solid red}
 
 /*订单详情*/
 .ddtit{ height:36px; line-height:36px; border-bottom:1px solid #DDD;}

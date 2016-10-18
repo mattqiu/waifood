@@ -50,6 +50,9 @@
 <include file="Index:footer" />
 <script>
     $(function(){
+        showVeritf();
+    })
+    function showVeritf(){
         if($('#verify').hasClass('hide')){
             var $num = getCookie('verify_err_num');
             if($num>=3){
@@ -57,7 +60,7 @@
                 $('#verify input').attr('name','verify');
             }
         }
-    })
+    }
 
     function login(){
         var d={
@@ -69,6 +72,7 @@
             if(data.code==200){
                 clearpopj(data.message,data.data);
             }else{
+                showVeritf();
                 clearpopj(data.message);
             }
         })

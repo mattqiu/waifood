@@ -49,3 +49,29 @@ function getUrlParam(name){
     }
     return null;    //如果没有，则返回null
 }
+
+/**时间格式化
+ * @param $time
+ * @return string
+ */
+function getDateFormat($month){
+   // var myDate = new Date();
+   //// var date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();        //获取当前年份(2位)
+   // var $m= parseInt(myDate.getMonth())+1;
+    var $mn = '';
+    switch($month){
+        case 1 :$mn ='Jan';break;
+        case 2 :$mn ='Feb';break;
+        case 3 :$mn ='Mar';break;
+        case 4 :$mn ='Apr';break;
+        case 5 :$mn ='May';break;
+        case 6 :$mn ='Jun';break;
+        case 7 :$mn ='Jul';break;
+        case 8 :$mn ='Aug';break;
+        case 9 :$mn ='Sept';break;
+        case 10 :$mn ='Oct';break;
+        case 11 :$mn ='Nov';break;
+        case 12 :$mn ='Dec';break;
+    }
+    return $mn;
+}

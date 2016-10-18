@@ -20,67 +20,20 @@ class LoginController extends Controller {
 	public function test(){
         we(ini_get('session.gc_maxlifetime'));
 	}
-	
-	public function findpwd(){
-		if(IS_POST){
-			$data = empty ( $data ) ? $_POST : $data;
-			$username=$data['username'];
-			$email=$data['email'];
-			if (isN($username)) {
-				$this->error('sorry, user name cannot be empty.');
-			}
-			if (!is_email($email)) {
-				$this->error('sorry, email illegal.');
-			}
-			$where=array();
-			$where['username']=$username;
-			$where['email']=$email;
-			$db=M('member')->where($where)->find();
-			if($db){
-				//发送邮件;
-				$ctrl=new \Org\Util\String();
-				$pwdcode=$ctrl->randString(6);
-				$to=$email;
-				$subject='[waifood]retrive my password';
-				//$body='To reset your password, please click the link next: <a href="" target="_blank">Reset my password</a>.  verification code:'.$pwdcode;
-				$body=lbl('tpl_findpwd');
-				if(isN($body)){
-					$this->error('sorry,email sent failed');
-				}
-				$preg="/{(.*)}/iU";
-				$n=preg_match_all($preg,$body,$rs);
-				$rs=$rs[1];
-				if($n>0){
-					foreach($rs as $v){
-						if(isset($$v)){
-							$oArr[]='{'.$v.'}';
-							$tArr[]=$$v;
-							$body=str_replace($oArr,$tArr,$body);
-						}
-					}
-				}
-				if(send_mail($to,$subject,$body)){
-					M('member')->where($where)->setField('pwdcode',$pwdcode);
-					$this->redirect('Login/findpwd2?email='.$to);
-				}else{
-					$this->error('sorry,email sent failed');
-				}
-				
-			}else{
-				$this->error('sorry,the information does not match.');
-			} 
-			
-		}else{
 
-			$title = 'Retrieve my password - step 1.';
-			$keywords = $title.lbl('subtitleshop');
-			$description = $title.lbl('subtitleshop');
-			$this->assign('title',$title);
-			$this->assign('keywords',$keywords);
-			$this->assign('description',$description);
-				
-			$this->display();
-		}
+    public function findpwdAction(){
+        $keywrod = I('post.keywrod');
+        UserModel::reSetPwd($keywrod);
+    }
+
+	public function findpwd(){
+        $title = 'Retrieve my password - step 1.';
+        $keywords = $title.lbl('subtitleshop');
+        $description = $title.lbl('subtitleshop');
+        $this->assign('title',$title);
+        $this->assign('keywords',$keywords);
+        $this->assign('description',$description);
+        $this->display();
 	}
 	
 	Public function findpwd2($email=''){

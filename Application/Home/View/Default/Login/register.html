@@ -25,7 +25,8 @@
             </p>
             <p><span class="fc_red">*</span> Phone：</p>
               <p class="clearfix">
-                  <input type="text" name="telephone" id="telephone"  placeholder="Phone to contact you"class="pure-input-1" required>
+                <input type="text" name="telephone" id="telephone" maxlength="13" placeholder="Phone to contact you"
+                            class="pure-input-1" onkeydown="this.value=this.value.replace(/\D/g,'').replace(/....(?!$)/g,'$&-')" required>
               </p>
             <p><span class="fc_red">*</span> Password：</p>
             <p class="clearfix">

@@ -4,6 +4,7 @@ namespace Shop\Controller;
 
 use Common\Model\AddressModel;
 use Common\Model\UserModel;
+use Common\Model\DateModel;
 
 class OrderController extends BaseController
 {
@@ -168,12 +169,14 @@ class OrderController extends BaseController
             $db = $ctrl->getCartInfo($shop_id);
             if ($db['cart_num'] > 0) {
                 $data = empty($data) ? $_POST : $data;
-
                 if(!is_date($data['delivertime'][0])){
                 	$this->error('Sorry, please select the delivery date.');
                 }
+                if(!DateModel::checkTimeForOrder($_POST['delivertime'])){
+                	$this->error('Sorry, today is no longer delivery');
+                }
                 $data['delivertime'] = arr2str($data['delivertime'], '');
-               
+
                 // 校验订单：1. 查库存
                 $check = $this->checkOrder($data);
                 if ($check > 0) {
