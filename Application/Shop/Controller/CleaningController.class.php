@@ -88,7 +88,7 @@ class CleaningController extends BaseController
 		
 		$this->assign('title', 'Success');
 		$this->assign('orderno', $orderno);
-		$this->display();
+		$this->display('submitSuccess');
 	}
 }
 ?>

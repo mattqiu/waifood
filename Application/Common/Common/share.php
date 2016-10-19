@@ -14,6 +14,17 @@ function isVerifyCorrect(){
     return false;
 }
 
+/**
+ *
+ * @param type $cate 日志分类 （方便筛选）
+ * @param type $message 日志消息
+ * @param type $level 日志级别
+ */
+function GLog($cate,$message){
+    $msg = "($cate) $message";
+    \Common\Model\CodeModel::Glog($msg);
+}
+
 //生成验证码
  function verify(){
    \Common\Model\ImagesModel::buildImageVerify(rand(3, 5), 1, "png");

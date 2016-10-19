@@ -1,5 +1,6 @@
 <?php
 namespace Common\Model;
+use Think\Log;
 use Think\Model;
 
 class CodeModel extends Model
@@ -15,5 +16,10 @@ class CodeModel extends Model
             default: return "An unknown error";
         }
     }
+
+    public static function Glog($msg,$level=Log::INFO){
+       Log::record($msg,$level);
+    }
+
 
 }

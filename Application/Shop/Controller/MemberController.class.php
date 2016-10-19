@@ -99,7 +99,7 @@ class MemberController extends AuthController {
 		
 		$title='Select shipping address';
 		$this->assign('title',$title);
-		$this->display ();
+		$this->display ('selectAddress');
 		}
 	}
 		
@@ -218,7 +218,7 @@ class MemberController extends AuthController {
 			$db = M ( 'address' )->where('userid='.get_userid())->find ( $id );
 			$this->assign('db',$db);
 			$this->assign ( 'title', 'Modify the shipping address!' );
-			$this->display ();
+			$this->display ('editAddress');
 		}
 	}
 	
@@ -601,7 +601,7 @@ class MemberController extends AuthController {
 		$this->assign ( 'isShop', $isShop );
 		
 		$this->assign ( 'title', 'View order detail-'.$orderno );
-		$this->display ();
+		$this->display ('orderView');
 	}
 	
 	/**
@@ -703,14 +703,14 @@ class MemberController extends AuthController {
 		if( !$order ){
 			$this->error('error');
 		}
-	
+
 		$recordList = M('CleaningRecord')->where(array('cleaning_id'=>$order['cleaning_id']))->select();
-	
+
 		$this->assign ( 'title', 'Cleaning detail' );
 		$this->assign ( 'statusArr', C('ORDERNEW_STATUS'));
 		$this->assign ( 'db', $order );
 		$this->assign ( 'recordList', $recordList );
-		$this->display();
+		$this->display('cleaningView');
 	}
 	
 	/**
@@ -744,7 +744,7 @@ class MemberController extends AuthController {
 		$this->assign ( 'statusArr', C('ORDERNEW_STATUS'));
 		$this->assign ( 'db', $order );
 		$this->assign ( 'detailList', $detailList );
-		$this->display();
+		$this->display('carrentalView');
 	}
 }
 ?>

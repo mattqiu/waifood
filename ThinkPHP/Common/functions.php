@@ -762,17 +762,6 @@ function dump($var, $echo=true, $label=null, $strict=true) {
 }
 
 /**
- *
- * @param type $cate 日志分类 （方便筛选）
- * @param type $message 日志消息
- * @param type $level 日志级别
- */
-function GLog($cate,$message,$level=Log::INFO){
-    $msg = "($cate) $message";
-    \Think\Log::record($msg,$level);
-}
-
-/**
  * 设置当前页面的布局
  * @param string|false $layout 布局名称 为false的时候表示关闭布局
  * @return void
