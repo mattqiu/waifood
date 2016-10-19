@@ -844,8 +844,7 @@ class CmsController extends BaseController {
 			$where['status']=1;
 			$list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 			$this->assign ( "supplylist", $list );
-			
-			$this->display ();
+			$this->display ('addContent');
 		}
 	}
 	
@@ -934,7 +933,7 @@ class CmsController extends BaseController {
 			$where['status']=1;
 			$list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 			$this->assign ( "supplylist", $list );
-			$this->display ();
+			$this->display ('editContent');
 		}
 	}
 
@@ -1116,7 +1115,7 @@ class CmsController extends BaseController {
 			// 输出模型列表
 			$modellist = M ( "model" )->where ( 'status=1' )->select ();
 			$this->assign ( "modellist", $modellist );
-			$this->display ();
+			$this->display ('editChannel');
 		}
 	}
 	
@@ -1631,7 +1630,7 @@ class CmsController extends BaseController {
 	        $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 	        $this->assign ( "supplylist", $list );
 	        	
-	        $this->display ();
+	        $this->display ('addProduct');
 	    }
 	}
 	
@@ -1720,7 +1719,7 @@ class CmsController extends BaseController {
 	        $where['status']=1;
 	        $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 	        $this->assign ( "supplylist", $list );
-	        $this->display ();
+	        $this->display ('editProduct');
 	    }
 	}
 	

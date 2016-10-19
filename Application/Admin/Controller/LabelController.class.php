@@ -74,7 +74,7 @@ class LabelController extends BaseController {
 
 			$sort = M ( "label" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
-			$this->display ();
+			$this->display ('addLabel');
 		}
 	}
 	
@@ -100,7 +100,7 @@ class LabelController extends BaseController {
 			$db = M ( "label" )->find ( $id );
 			$this->assign ( "db", $db ); 
 			
-			$this->display ();
+			$this->display ('editLabel');
 		}
 	}
 	

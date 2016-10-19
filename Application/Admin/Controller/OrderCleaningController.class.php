@@ -67,7 +67,7 @@ class OrderCleaningController extends BaseController
 		//详细
 		$cleaningRecord = M('CleaningRecord')->where(array('cleaning_id'=>$db['cleaning_id']))->select();
 		$this->assign('cleaningRecord', $cleaningRecord);
-		$this->display ();
+		$this->display ('editOrder');
 	}
 	
 	// 删除订单

@@ -121,7 +121,7 @@ class MemberController extends BaseController {
 			$list = M ( "balancetype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('editBalance');
 		}
 	}
 	
@@ -708,7 +708,7 @@ class MemberController extends BaseController {
 			$this->assign ( "addresslist", $addresslist );
             $db = UserModel::getUserById($id);
             $this->assign ( "db", $db );
-			$this->display ();
+			$this->display ('editMember');
 		}
 	}
 	
@@ -826,7 +826,7 @@ class MemberController extends BaseController {
 			$list = M ( "level" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('editLevel');
 		}
 	}
 	

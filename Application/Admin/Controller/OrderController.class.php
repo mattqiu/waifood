@@ -268,7 +268,7 @@ class OrderController extends BaseController {
 					$this->display('Cms/printOrder');
 				}
 			}else{
-			$this->display ();
+			$this->display ('editOrder');
 			}
 		}
 	}

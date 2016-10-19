@@ -110,7 +110,7 @@ class SystemController extends BaseController {
 			$list = M ( "supply" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 				
-			$this->display ();
+			$this->display ('editSupply');
 		}
 	}
 	
@@ -610,7 +610,7 @@ class SystemController extends BaseController {
 			$db = M ( "config" )->find ( $id );
 			$this->assign ( "db", $db );
 			
-			$this->display ();
+			$this->display ('editConfig');
 		}
 	}
 	

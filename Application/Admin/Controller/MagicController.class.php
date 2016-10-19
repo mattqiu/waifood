@@ -160,7 +160,7 @@ class MagicController extends BaseController {
 // 			// 输出当前Magic列表
 // 			$list = M ( "magic_detail" )->where ( 'magicno=' . $db ['magicno'] )->order ( 'id asc' )->select ();
 // 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editMagic');
 		}
 	}
 	
@@ -228,7 +228,7 @@ class MagicController extends BaseController {
 	
 			$db = M ( "magictype" )->find ( $id );
 			$this->assign ( "db", $db ); 
-			$this->display ();
+			$this->display ('editMagictype');
 		}
 	}
 	

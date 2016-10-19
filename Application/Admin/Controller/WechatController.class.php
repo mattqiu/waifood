@@ -203,7 +203,7 @@ class WechatController extends BaseController {
 			$detail = M ( "wechat_reply_detail" )->where ( $where )->order('id asc')->select ();
 			$this->assign ( "detail", $detail );
 			
-			$this->display ();
+			$this->display ('editReply');
 		}
 	}
 	
