@@ -146,7 +146,7 @@ class UserModel extends Model
                 $where['username']=$user['username'];
                 $where['email']=$email;
                 if( M('member')->where($where)->setField('userpwd',md5($pwd))){
-                    apiReturn(CodeModel::CORRECT,'sorry,email sent success','/login/index');
+                    apiReturn(CodeModel::CORRECT,'email sent success','/login/index');
                 }
             }else{
                 apiReturn(CodeModel::ERROR,'sorry,email sent failed');

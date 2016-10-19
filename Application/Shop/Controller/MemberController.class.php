@@ -159,7 +159,7 @@ class MemberController extends AuthController {
 			}
 		} else {
 			$this->assign ( 'title', 'Adding shipping address' );
-			$this->display ();
+			$this->display ('addAddress');
 		}
 	}
 	
