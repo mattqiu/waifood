@@ -143,7 +143,7 @@ class WechatController extends BaseController {
 			$sort = M ( "wechat_reply" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
 			
-			$this->display ();
+			$this->display ('addReply');
 		}
 	}
 	
@@ -302,7 +302,7 @@ class WechatController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {  
-			$this->display ();
+			$this->display ('addMsg');
 		}
 	}
 	
@@ -331,7 +331,7 @@ class WechatController extends BaseController {
 		} else {
 			$db = M ( "wechat_msg" )->find ( $id );
 			$this->assign ( "db", $db );
-			$this->display ();
+			$this->display ('editMsg');
 		}
 	}
 	

@@ -379,7 +379,7 @@ class RbacController extends BaseController {
 			$list = M ( "user" )->select ();
 			$list = node_merge ( $list );
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editUser');
 		}
 	}
 	

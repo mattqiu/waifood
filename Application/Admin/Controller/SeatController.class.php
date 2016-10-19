@@ -107,7 +107,7 @@ class SeatController extends BaseController {
 			$list = M ( "order_seat" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 				
-			$this->display ();
+			$this->display ('addOrder');
 		}
 	}
 	
@@ -181,7 +181,7 @@ class SeatController extends BaseController {
 			// 输出当前Order列表
 			$list = M ( "order_detail" )->where ( 'orderno=' . $db ['orderno'] )->order ( 'id asc' )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editOrder');
 		}
 	}
 	
@@ -301,7 +301,7 @@ class SeatController extends BaseController {
 			$this->assign ( "shoplist", $list );
 			$this->assign ( "shop_id", session('shop_id') );
 			
-			$this->display ();
+			$this->display ('addSeat');
 		}
 	}
 	
@@ -343,7 +343,7 @@ class SeatController extends BaseController {
 			
 			$db = M ( "seat" )->find ( $id );
 			$this->assign ( "db", $db );
-			$this->display ();
+			$this->display ('editSeat');
 		}
 	}
 	

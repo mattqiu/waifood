@@ -107,7 +107,7 @@ class SpecialController extends BaseController
 		}
 		$this->assign ('db', $db);
 		$this->assign ('params', $params);
-		$this->display ();
+		$this->display ('Special/editSetting');
 	}
 	
 	// 删除
