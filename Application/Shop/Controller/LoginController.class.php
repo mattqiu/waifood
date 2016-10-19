@@ -122,6 +122,7 @@ class LoginController extends Controller {
 
     public function reg(){
         $data = I('post.');
+        $data['telephone'] = str_replace("-", "",$data['telephone']);
         if( !isVerifyCorrect()){
             apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
         }
@@ -158,9 +159,9 @@ class LoginController extends Controller {
             sendEmail($data['email'],$subject);
             //注册完后自动登录
             if(UserModel::login($username, $userpwd)){//注册后自动登录
-                apiReturn(CodeModel::CORRECT,'','/member/index');
+                apiReturn(CodeModel::CORRECT,'register successfully','/member/index');
             }else{
-                apiReturn(CodeModel::CORRECT,'注册成功','/login/index?returnurl=/member/index');
+                apiReturn(CodeModel::CORRECT,'register successfully','/login/index?returnurl=/member/index');
             }
         }else{
             apiReturn(CodeModel::ERROR,'Registration failed');

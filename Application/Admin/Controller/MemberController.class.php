@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Common\Model\UserModel;
+
 class MemberController extends BaseController {
 	public function index() {
 	}
@@ -680,20 +682,15 @@ class MemberController extends BaseController {
 		if (IS_POST) {
 			$db = D ( "member" );
 			$data = empty ( $data ) ? $_POST : $data;
-			
 			if ($data ['usertype'] == '0') {
 				$this->error ( '必须选择会员等级！' );
 			}
-			
 			$userpwd = $data ['userpwd'];
 			if (strlen ( $userpwd ) != 32) {
 				$data ['userpwd'] = md5 ( $userpwd );
 			}
-			
-			$data = $db->create ( $data );
-			
 			if ($data) {
-				if ($db->save ( $data ) !== false) {
+				if (UserModel::modifyMember($data['id'],$data) !== false) {
 					$this->success ( "编辑会员成功！" );
 				} else {
 					$this->error ( '编辑会员失败' );
@@ -702,18 +699,15 @@ class MemberController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
-			
 			// 输出当前Member等级列表
 			$list = M ( "level" )->where ( 'status=1' )->order ( 'id desc' )->select ();
 			$this->assign ( "list", $list );
-			
 			$where=array();
 			$where['userid']=$id;
 			$addresslist = M ( "address" )->where ( $where )->order ( 'id desc' )->select ();
 			$this->assign ( "addresslist", $addresslist );
-			
-			$db = M ( "member" )->find ( $id );
-			$this->assign ( "db", $db );
+            $db = UserModel::getUserById($id);
+            $this->assign ( "db", $db );
 			$this->display ();
 		}
 	}

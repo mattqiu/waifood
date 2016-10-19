@@ -11,14 +11,18 @@ $(function(){
 	function initPage(){
 		_WIDTH=$(window).width();
 		_HEIGHT=$(window).height();
-		$("#Lefter").height(_HEIGHT-_TOP); 
+        console.log('_WIDTH='+_WIDTH);
+        console.log('_HEIGHT='+_HEIGHT);
+        console.log('_TOP='+_TOP);
+        console.log('_LEFT='+_LEFT);
+        console.log('_SPLIT='+_SPLIT);
+		$("#Lefter").height(_HEIGHT-_TOP);
 		$("#Lefter").width(_LEFT);
-		$("#Righter").width(_WIDTH-$("#Lefter").width()-_SPLIT);
-		$("#Righter").height($("#Lefter").height()); 
+		$("#Righter").width(_WIDTH-_LEFT-_SPLIT-2);
+		$("#Righter").height($("#Lefter").height());
 		$("#Spliter").width(_SPLIT-2);
-		$("#Spliter").height($("#Lefter").height()); 
-		$(".container").height($("#Lefter").height()); 
-		
+		$("#Spliter").height($("#Lefter").height());
+		$(".container").height($("#Lefter").height());
 		setLocation("","");
 		
 		//$("#tester").text(_WIDTH-$("#Lefter").width()-_SPLIT+","+_HEIGHT); 

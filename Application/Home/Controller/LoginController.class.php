@@ -82,6 +82,7 @@ class LoginController extends Controller
     {
         if (IS_POST) {
             $data = I('post.');
+            $data['telephone'] = str_replace("-", "",$data['telephone']);
             if( !isVerifyCorrect()){
                 apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
             }
@@ -126,7 +127,6 @@ class LoginController extends Controller
                 apiReturn(CodeModel::ERROR,'Registration failed');
             }
         } else {
-            
             // 输出当前Member等级列表
             $levels = M("level")->where('status=1')
                 ->order('id asc')

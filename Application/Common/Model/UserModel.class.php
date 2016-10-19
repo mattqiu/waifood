@@ -76,10 +76,10 @@ class UserModel extends Model
             $where ['userpwd'] =md5($userpwd);
             $user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {
-                $data ['id'] = $user ['id' ] ;
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
                 $data ['logtimes'] = $user ['logtimes'] + 1;
+                self::modifyMember($user['id' ],$data);
                 M ( 'member' )->save ( $data );
                 //取用户折扣
                 $level=M('level')->where('id='.$user['usertype'])->find();
@@ -99,6 +99,16 @@ class UserModel extends Model
         } else {
             return false;
         }
+    }
+
+    public static function modifyMember($userid,$data){
+        if(regex($userid,'number') && !empty($data)){
+            $con['id'] = $userid;
+             return M('member')->where($con)->save($data);
+        }else{
+            return false;
+        }
+
     }
 
     /**重置密码
