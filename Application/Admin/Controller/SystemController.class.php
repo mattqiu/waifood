@@ -54,7 +54,7 @@ class SystemController extends BaseController {
 				
 			// 取父级绑定的模型
 			$model_id = M ( 'supply' )->getFieldById ( $pid, 'model_id' );
-			$this->display ();
+			$this->display ('addSupply');
 		}
 	}
 	
@@ -586,7 +586,7 @@ class SystemController extends BaseController {
 		} else {
 			$sort = M ( "config" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
-			$this->display ();
+			$this->display ('addConfig');
 		}
 	}
 	

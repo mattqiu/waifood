@@ -82,7 +82,7 @@ class FormController extends BaseController {
 			$list = M ( "form" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 	
-			$this->display ();
+			$this->display ('addForm');
 		}
 	}
 	
@@ -112,9 +112,7 @@ class FormController extends BaseController {
 			// 输出反馈分类列表
 			$typelist = M ( "formtype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "typelist", $typelist );
-	 
-			
-			$this->display ();
+			$this->display ('editForm');
 		}
 	}
 	
@@ -179,7 +177,7 @@ class FormController extends BaseController {
 			$list = M ( "formtype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			 
-			$this->display ();
+			$this->display ('addFormtype');
 		}
 	}
 	
@@ -238,7 +236,7 @@ class FormController extends BaseController {
 			// 输出当前Formtype列表
 			$list = M ( "formtype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list ); 
-			$this->display ();
+			$this->display ('editFormtype');
 		}
 	}
 	

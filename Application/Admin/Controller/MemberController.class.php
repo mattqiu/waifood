@@ -98,7 +98,7 @@ class MemberController extends BaseController {
 			$list = M ( "balancetype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('addBalance');
 		}
 	}
 	
@@ -209,7 +209,7 @@ class MemberController extends BaseController {
 		} else {
 			$sort = M ( "balancetype" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
-			$this->display ();
+			$this->display ('addBalancetype');
 		}
 	}
 	
@@ -261,7 +261,7 @@ class MemberController extends BaseController {
 			$db = M ( "balancetype" )->find ( $id );
 			$this->assign ( "db", $db );
 			
-			$this->display ();
+			$this->display ('editBalancetype');
 		}
 	}
 	
@@ -365,7 +365,7 @@ class MemberController extends BaseController {
 			$list = M ( "credittype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('addCredit');
 		}
 	}
 	
@@ -388,7 +388,7 @@ class MemberController extends BaseController {
 			$list = M ( "credittype" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('editCredit');
 		}
 	}
 	
@@ -475,7 +475,7 @@ class MemberController extends BaseController {
 		} else {
 			$sort = M ( "credittype" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
-			$this->display ();
+			$this->display ('addCredittype');
 		}
 	}
 	
@@ -527,7 +527,7 @@ class MemberController extends BaseController {
 			$db = M ( "credittype" )->find ( $id );
 			$this->assign ( "db", $db );
 			
-			$this->display ();
+			$this->display ('editCredittype');
 		}
 	}
 	
@@ -672,7 +672,7 @@ class MemberController extends BaseController {
 			$list = M ( "level" )->where ( 'status=1' )->order ( 'id desc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('addMember');
 		}
 	}
 	
@@ -770,7 +770,7 @@ class MemberController extends BaseController {
 			
 			// 取父级绑定的模型
 			$model_id = M ( 'level' )->getFieldById ( $pid, 'model_id' );
-			$this->display ();
+			$this->display ('addLevel');
 		}
 	}
 	

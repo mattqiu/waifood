@@ -421,8 +421,7 @@ class CmsController extends BaseController {
 			}
 		}
 		$this->assign('title','订单统计');
-		$this->display();
-		
+		$this->display('addShop');
 	}
 	/**
 	 * 
@@ -606,7 +605,7 @@ class CmsController extends BaseController {
 			// 输出当前Shop列表
 			$list = M ( "shop" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list ); 
-			$this->display ();
+			$this->display ('editShop');
 		}
 	}
 	
@@ -1048,7 +1047,7 @@ class CmsController extends BaseController {
 			//取父级绑定的模型
 			$model_id=M('channel')->getFieldById($pid,'model_id'); 
 			$this->assign ( "model_id", $model_id );
-			$this->display ();
+			$this->display ('addChannel');
 		}
 	}
 	
@@ -1163,7 +1162,7 @@ class CmsController extends BaseController {
 			// 输出当前Field列表
 			$list = M ( "field" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('addField');
 		}
 	}
 	
@@ -1184,7 +1183,7 @@ class CmsController extends BaseController {
 			// 输出当前Field列表
 			$list = M ( "field" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editField');
 		}
 	}
 	
@@ -1225,7 +1224,7 @@ class CmsController extends BaseController {
 			// 输出当前Model列表
 			$list = M ( "model" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('addModel');
 		}
 	}
 	
@@ -1246,7 +1245,7 @@ class CmsController extends BaseController {
 			// 输出当前Model列表
 			$list = M ( "model" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editModel');
 		}
 	}
 	
@@ -1376,7 +1375,7 @@ class CmsController extends BaseController {
 	        $list = M ( "comment" )->order ( 'sortpath asc' )->select ();
 	        $this->assign ( "list", $list );
 	
-	        $this->display ();
+	        $this->display ('addComment');
 	    }
 	}
 	
@@ -1429,7 +1428,7 @@ class CmsController extends BaseController {
 	        // 输出当前Comment列表
 	        $list = M ( "comment_detail" )->where ( 'commentno=' . $db ['commentno'] )->order ( 'id asc' )->select ();
 	        $this->assign ( "list", $list );
-	        $this->display ();
+	        $this->display ('editComment');
 	    }
 	}
 	

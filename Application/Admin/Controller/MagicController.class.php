@@ -103,7 +103,7 @@ class MagicController extends BaseController {
 			$list = M ( "magic" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 				
-			$this->display ();
+			$this->display ('addMagic');
 		}
 	}
 	
@@ -203,7 +203,7 @@ class MagicController extends BaseController {
 			$sort = M ( "magictype" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
 			$this->assign ( "pid", $pid ); 
-			$this->display ();
+			$this->display ('addMagictype');
 		}
 	}
 	

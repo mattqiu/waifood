@@ -128,7 +128,7 @@ class OrderController extends BaseController {
 			$list = M ( "order" )->order ( 'sortpath asc' )->select ();
 			$this->assign ( "list", $list );
 			
-			$this->display ();
+			$this->display ('addOrder');
 		}
 	}
 	

@@ -144,7 +144,7 @@ class RbacController extends BaseController {
 			// 输出当前Role列表
 			$list = M ( "role" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('addRole');
 		}
 	}
 	
@@ -165,7 +165,7 @@ class RbacController extends BaseController {
 			// 输出当前Role列表
 			$list = M ( "role" )->select ();
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editRole');
 		}
 	}
 	
@@ -212,7 +212,7 @@ class RbacController extends BaseController {
 			$list = M ( "node" )->order ( "sort asc" )->select ();
 			$list = node_merge ( $list );
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('addNode');
 		}
 	}
 	
@@ -234,7 +234,7 @@ class RbacController extends BaseController {
 			$list = M ( "node" )->where('level in (1,2) and status=1')->order ( "sort asc" )->select ();
 			$list = node_merge( $list );
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('editNode');
 		}
 	}
 	
@@ -306,7 +306,7 @@ class RbacController extends BaseController {
 			$list = M ( "user" )->select ();
 			$list = node_merge ( $list );
 			$this->assign ( "list", $list );
-			$this->display ();
+			$this->display ('addUser');
 		}
 	}
 	
