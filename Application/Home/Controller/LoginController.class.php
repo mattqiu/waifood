@@ -23,59 +23,31 @@ class LoginController extends Controller
 
     public function index($code = '')
     {
-        if (IS_POST) {
-            $key = 'verify_err_num';
-            $num = cookie($key);
-            if(isset($num) && $num>=3){
-                if( !isVerifyCorrect()){
-                    apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.');
-                }
-            }
-            // 登录
-            $username = I('username');
-            $userpwd = I('userpwd');
-            if (UserModel::login($username, $userpwd)) {
-                cookie($key,0);//成功登陆清除登陆失败记录次数
-                apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/member/index');
-            } else {
-                //记录登录失败的次数
-                $num = cookie($key);
-                if(!$num){
-                    $num =1;
-                }else{
-                    $num++;
-                }
-                cookie($key,$num);
-                apiReturn(CodeModel::ERROR, 'wrong user name or password.');
-            }
-        } else {
-            if (is_wechat()) {
-                if (get_userid() == 0) {
-                    $weChat = get_wechat_obj();
-                    if ($code == '') {
-                        $url = $weChat->getOauthRedirect(get_current_url());
-                        redirect($url);
-                    } else {
-                        $accessToken = $weChat->getOauthAccessToken();
-                        if ($accessToken) {
-                            $openid = $accessToken['openid'];
-                            openid($openid); 
-                            $this->loginWechat ( $openid );
-                            // 判断是否绑定，提示绑定
-                            if (! is_bind($openid)) {
-                                redirect(U('Login/bind'));
-                            }
-                        } else {
-                            echo ('access denied.');
-                            exit();
+        if (is_wechat()) {
+            if (get_userid() == 0) {
+                $weChat = get_wechat_obj();
+                if ($code == '') {
+                    $url = $weChat->getOauthRedirect(get_current_url());
+                    redirect($url);
+                } else {
+                    $accessToken = $weChat->getOauthAccessToken();
+                    if ($accessToken) {
+                        $openid = $accessToken['openid'];
+                        openid($openid);
+                        $this->loginWechat ( $openid );
+                        // 判断是否绑定，提示绑定
+                        if (! is_bind($openid)) {
+                            redirect(U('Login/bind'));
                         }
+                    } else {
+                        echo ('access denied.');
+                        exit();
                     }
                 }
             }
-            
-            $this->assign('title', 'Login');
-            $this->display();
         }
+        $this->assign('title', 'Login');
+        $this->display();
     }
 
     public function register()
@@ -288,6 +260,33 @@ class LoginController extends Controller
                 $this->loginWechat(openid());
             }
             return $db;
+        }
+    }
+
+    public function loginAtion(){
+        $key = 'verify_err_num';
+        $num = cookie($key);
+        if(isset($num) && $num>=3){
+            if( !isVerifyCorrect()){
+                apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.');
+            }
+        }
+        // 登录
+        $username = I('username');
+        $userpwd = I('userpwd');
+        if (UserModel::login($username, $userpwd)) {
+            cookie($key,0);//成功登陆清除登陆失败记录次数
+            apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/member/index');
+        } else {
+            //记录登录失败的次数
+            $num = cookie($key);
+            if(!$num){
+                $num =1;
+            }else{
+                $num++;
+            }
+            cookie($key,$num);
+            apiReturn(CodeModel::ERROR, 'wrong user name or password.');
         }
     }
 

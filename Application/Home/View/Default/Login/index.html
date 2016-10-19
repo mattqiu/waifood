@@ -68,7 +68,7 @@
            userpwd:$('#userpwd').val(),
             verify:$('#verify input[name=verify]').val()
         }
-        $.post('/login/index',d,function(data){
+        $.post('/login/loginAtion',d,function(data){
             if(data.code==200){
                 clearpopj(data.message,data.data);
             }else{

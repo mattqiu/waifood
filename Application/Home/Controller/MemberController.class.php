@@ -135,7 +135,7 @@ class MemberController extends AuthController
             $this->assign('listcount', count($list));
             
             $this->assign('title', 'Choose shipping address');
-            $this->display();
+            $this->display('selectAddress');
         }
     }
 
@@ -173,7 +173,7 @@ class MemberController extends AuthController
                 $this->assign('addr',AddressModel::getUserAddressById($addrId,get_userid()));
             }
             $this->assign('title', 'Add shipping address');
-            $this->display();
+            $this->display('addAddress');
         }
     }
 
@@ -217,7 +217,7 @@ class MemberController extends AuthController
             $db = M('address')->where('userid=' . get_userid())->find($id);
             $this->assign('db', $db);
             $this->assign('title', 'Modify shipping address');
-            $this->display();
+            $this->display('editAddress');
         }
     }
 
@@ -531,7 +531,7 @@ class MemberController extends AuthController
             ->select();
         $this->assign('list', $list);
         $this->assign('title', 'View order detail-' . $orderno);
-        $this->display();
+        $this->display('orderView');
     }
 
     /**
@@ -727,7 +727,7 @@ class MemberController extends AuthController
         $this->assign('list', $list);
         
         $this->assign('title', '订单评价');
-        $this->display();
+        $this->display('orderComment');
     }
 
     /**
