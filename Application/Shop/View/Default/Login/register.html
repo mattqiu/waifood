@@ -174,7 +174,8 @@
               <tr>
                 <td align="right">Captcha：</td>
                 <td>
-                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
+                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />&nbsp;&nbsp;
+                    <span class="fc_red" >*</span>
                 </td>
               </tr>
               <tr>

@@ -1,5 +1,5 @@
 #ignore these files
-Runtime/
+Runtime
 Temp/*.php
 .buildpath
 .project
