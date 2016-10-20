@@ -231,7 +231,7 @@
     <div class=" date_btn"  id="getOtherDate">
        Other
     </div>
-    <input  type="text" name="delivertime[]" class="date_val"  id="delivertime" />
+    <input  type="hidden" name="delivertime[]" class="date_val"  id="delivertime" />
     <div style="clear: both"></div>
     <br/>
     <div>
@@ -307,7 +307,7 @@
                 if($(this).hasClass('time_list')){
                     $(this).addClass('click');
                     var arr=$(this).data('date');
-                    var html ='<input type="text" value="'+arr+'" name="delivertime[]" id="delivertime_'+arr+'"/>';
+                    var html ='<input type="hidden" value="'+arr+'" name="delivertime[]" id="delivertime_'+arr+'"/>';
                     $(this).addClass('click');
                     $(this).append(html);
                 }
