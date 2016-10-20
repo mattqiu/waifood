@@ -36,6 +36,7 @@
   <div class="clr"></div>
 </div>
 <include file="Index:footer" />
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <script>
     function findpwd(){
         $.post('/login/findpwdAction',{keywrod:$('input[name=keywrod]').val(),verify:$('#verify').val()},function(data){

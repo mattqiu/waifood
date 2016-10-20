@@ -850,6 +850,78 @@ function checklogform() {
     }
 }
 
+function addAddress() {
+    var consingee = $('#userreal').val();
+    var telephone = $('#telephone').val();
+    var address = $('#address').val();
+    if (!consingee) {
+        jAlert("Sorry,please enter user name.", SYSTITLE, function () {
+            $("#userreal").focus();
+        });
+        return false
+    }
+
+    if (!telephone) {
+        jAlert("The recipient phone can not be empty", SYSTITLE, function () {
+            $("#telephone").focus();
+        });
+        return false
+    }
+    if (!address) {
+        jAlert("Receives an address can't be empty", SYSTITLE, function () {
+            $("#address").focus();
+        });
+        return false
+    }
+    var d = {
+        username: consingee,
+        address: address,
+        telephone: telephone,
+        telephone2: $('#telephone_con').val(),
+        sex: $('#sex').val(),
+        cityname: $('.city .hover').data('city'),
+        isdefault: $('.default .hover').data('val'),
+        language: $('#language .hover').data('id'),
+        info: $('#info').val()
+    }
+    $.post('/member/modifyShoppingAddr', d, function (data) {
+        if (data.code == 200) {
+            if (data.data) {
+                window.location.href = data.data;
+            }
+        } else {
+            jAlert(data.message);
+        }
+    });
+}
+
+/**
+ * 找回密码
+ * @returns {boolean}
+ */
+function findpwd(){
+    var keywrod = $('input[name=keywrod]').val();
+    var verify = $('#verify').val();
+    if (!keywrod) {
+        jAlert("Sorry,please enter your username or Email.", SYSTITLE, function () {
+            $('input[name=keywrod]').focus();
+        });
+        return false
+    } ;
+    if (!verify) {
+        jAlert("Sorry,please enter your username or Email.", SYSTITLE, function () {
+            $('#verify').focus();
+        });
+        return false
+    };
+    $.post('/login/findpwdAction',{keywrod:keywrod,verify:verify},function(data){
+        if(data.code ==200){
+            clearpopj(data.message,data.data);
+        }else{
+            clearpopj(data.message);
+        }
+    })
+}
 
 var SYSTITLE = "Waifood";
 

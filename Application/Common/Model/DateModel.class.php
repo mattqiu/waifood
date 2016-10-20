@@ -31,12 +31,20 @@ class DateModel extends Model
         $dataarr = array();
         $holiday = self::getHoliday();
         $date = intval($day);
+        $disabledweek = lbl('disabled_week');
+        $week = array(0,1,2,3,4,5,6);
         for($i=0;$i<=$date;$i++){
             $dataarr[$i]['time']=date('Y-m-d',strtotime("+$i day"));
             $dataarr[$i]['date']= getDateFormat(strtotime("+$i day"));
             foreach($holiday as $key=>$val){
-                if($val == date('Y-m-d',strtotime("+$i day"))){
+                if($val == date('Y-m-d',strtotime("+$i day"))){//节假日
                     $dataarr[$i]['isholiday']=1;
+                }else{
+                    if(in_array($disabledweek,$week)){//判断是否有周末不配送设置
+                        if($w =date("w",strtotime("+$i day")) == $disabledweek){
+                            $dataarr[$i]['isholiday']=1;
+                        }
+                    }
                 }
             }
         }

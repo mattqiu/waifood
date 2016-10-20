@@ -137,12 +137,12 @@
                 </tr>
                 <tr>
                   <td colspan="2" align="left"><a href="/" id="jxgw">Continue shopping</a></td>
-                  <td colspan="4" align="right"><eq name="cart.cart_num" value="0"> <span class="jixu">proceed to checkout1</span>
+                  <td colspan="4" align="right"><eq name="cart.cart_num" value="0"> <span class="jixu">proceed to checkout</span>
                       <else/>
                       <if condition="(get_userid() eq 0)">
-                          <a href="/login/index.html?returnurl=/settle/cashier" class="jixu" style="color:#fff" id="b1tnCheckout111">proceed to checkout2</a>
+                          <a href="/login/index.html?returnurl=/settle/cashier" class="jixu" style="color:#fff" id="b1tnCheckout111">proceed to checkout</a>
                         <else/>
-                        <a href="{:U('Settle/cashier')}" class="jixu" style="color:#fff" >proceed to checkout3</a> </if>
+                        <a href="{:U('Settle/cashier')}" class="jixu" style="color:#fff" >proceed to checkout</a> </if>
                     </eq></td>
                 </tr>
               </tfoot>

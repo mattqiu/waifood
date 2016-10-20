@@ -175,8 +175,7 @@ class OrderController extends BaseController
                 if(!DateModel::checkTimeForOrder($_POST['delivertime'])){
                 	$this->error('Sorry, today is no longer delivery');
                 }
-                $data['delivertime'] = arr2str($data['delivertime'], '');
-
+                $data['delivertime'] = arr2str($data['delivertime'], ' ');
                 // 校验订单：1. 查库存
                 $check = $this->checkOrder($data);
                 if ($check > 0) {
