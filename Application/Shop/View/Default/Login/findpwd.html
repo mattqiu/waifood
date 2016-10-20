@@ -18,9 +18,16 @@
             <div class="reg">
                 <p>Please enter your account</p>
                 <p>
-                    <input type="text"  class="reginput" name="keywrod"
-                          placeholder="enter your user username/Email" required="required" />
+                    <input type="text"  class="reginput" name="keywrod" size="40"
+                          placeholder="enter your username or Email" required="required" />
+                    <br/>
+                    <p style="font-size: 9px; color: #999" id="msg">An Email with the new password will be sent to your registered Email box.</p>
                 </p>
+                <p>
+                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />
+                    <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
+                </p>
+                <div style="clear: both"></div>
                 <p><button  class="lgbtn" onclick="findpwd()">Next step</button></p>
 
             </div>
@@ -34,7 +41,7 @@ __PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 
 <script>
     function findpwd(){
-        $.post('/login/findpwdAction',{keywrod:$('input[name=keywrod]').val()},function(data){
+        $.post('/login/findpwdAction',{keywrod:$('input[name=keywrod]').val(),verify:$('#verify').val()},function(data){
             if(data.code ==200){
                 clearpopj(data.message,data.data);
             }else{

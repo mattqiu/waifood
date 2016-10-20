@@ -47,6 +47,15 @@
                         <span class="fc_red">*</span></td>
                 </tr>
                 <tr>
+                    <td align="right">Gender：</td>
+                    <td>
+                        <label><input name="sex" type="radio" id="sex1" value="1" />
+                            Male</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <label><input type="radio" name="sex" id="sex2" value="0" checked/>
+                            Female</label>
+                    </td>
+                </tr>
+                <tr>
                     <td align="right">Living city in China：</td>
                     <td>
                         <ul id="levecity" class="city">
@@ -174,8 +183,9 @@
               <tr>
                 <td align="right">Captcha：</td>
                 <td>
-                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />                       <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />&nbsp;&nbsp;
-                    <span class="fc_red" >*</span>
+                    <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />
+                    <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
+                  &nbsp;&nbsp;&nbsp;  <span class="fc_red" style="display: block">*</span>
                 </td>
               </tr>
               <tr>

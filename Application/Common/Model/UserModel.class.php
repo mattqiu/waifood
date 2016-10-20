@@ -146,7 +146,13 @@ class UserModel extends Model
                 $where['username']=$user['username'];
                 $where['email']=$email;
                 if( M('member')->where($where)->setField('userpwd',md5($pwd))){
-                    apiReturn(CodeModel::CORRECT,'email sent success','/login/index');
+                    list($name,$end)=explode('@',$email);
+                    if(strlen($name)>5){
+                        $email =  substr($name,0,3).'***@'.$end;
+                    }else{
+                        $email =  substr($name,0,1).'***@'.$end;
+                    }
+                    apiReturn(CodeModel::CORRECT,"An Email with your new password was \r\n just sent to your Email: $email,",'/login/index');
                 }
             }else{
                 apiReturn(CodeModel::ERROR,'sorry,email sent failed');

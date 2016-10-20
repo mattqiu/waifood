@@ -6,7 +6,8 @@
 <include file="Index:header" />
 </head>
 <body> 
-<include file="Index:bar" /><div class="container">
+<include file="Index:bar" />
+<div class="container">
   <div class="content">
     <div class="main-list">
       <div class="main-item">
@@ -14,8 +15,15 @@
         <form onsubmit="return false" class="pure-form">
             <p>Please enter your account</p>
             <p class="clearfix">
-                <input type="text" placeholder="enter your user username/Email" class="pure-input-1"  name="keywrod"/>
+                <input type="text" placeholder="enter your username or Email" class="pure-input-1"  name="keywrod"/>
+                <p style="font-size: 9px; color: #999" id="msg">An Email with the new password will be sent to your registered Email box.</p>
             </p>
+            <p>
+                <input type="text" class="reginput fl" size="24"  maxlength="5" name="verify" id="verify"  placeholder="enter captcha" required="required" />
+                <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/shop/index/verify.html?random='+Math.random()" src="/shop/index/verify.html?v={:rand(0,999)}" />
+            </p>
+            <div style="clear: both"></div>
+
             <p class="clearfix ">
                 <button class="pure-button pure-button-success" style="width:100%;" onclick="findpwd()">Next step</button>
             </p>
@@ -30,7 +38,7 @@
 <include file="Index:footer" />
 <script>
     function findpwd(){
-        $.post('/login/findpwdAction',{keywrod:$('input[name=keywrod]').val()},function(data){
+        $.post('/login/findpwdAction',{keywrod:$('input[name=keywrod]').val(),verify:$('#verify').val()},function(data){
             if(data.code ==200){
                 clearpopj(data.message,data.data);
             }else{
