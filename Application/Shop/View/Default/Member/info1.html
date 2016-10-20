@@ -46,7 +46,7 @@
                                 <td align="right">Gender：</td>
                                 <td>
                                     <input name="sex" type="radio" id="radio" value="1" <if condition="$db['sex'] eq 1">checked</if> />
-                                    <label for="radio">Male</label>
+                                    <label for="radio">Male</label>&nbsp;&nbsp;&nbsp;&nbsp;
                                     <input type="radio" name="sex" id="radio2" value="0" <if condition="$db['sex'] eq 0">checked</if>/>
                                     <label for="radio2">Female</label>
                                 </td>
@@ -57,8 +57,8 @@
                                     <ul class="city">
                                         <li <if condition="$db['cityname'] eq 'chengdu'">class="hover" </if>  data-city="chengdu">Chengdu</li>
                                         <li <if condition="$db['cityname'] eq 'chongqing'">class="hover" </if>   data-city="chongqing">Chongqing</li>
-                                        <li <if condition="$db['cityname'] eq 'shenzhen'">class="hover" </if> data-city="shenzhen">Shenzhen</li>
-                                        <li <if condition="$db['cityname'] eq 'Shanghai'">class="hover" </if> data-city="Shanghai">Shanghai</li>
+                                        <li <if condition="$db['cityname'] eq 'xi\'an'">class="hover" </if> data-city="xi'an">Xi'an</li>
+                                        <li <if condition="$db['cityname'] eq 'kunming'">class="hover" </if> data-city="kunming">Kunming</li>
                                         <li <if condition="$db['cityname'] eq 'other'">class="hover" </if>  data-city="other">Other</li>
                                     </ul>
                                 </td>
@@ -66,16 +66,16 @@
                             <tr>
                                 <td align="right">Address：</td>
                                 <td>
-                                    <textarea name="address" id="address" cols="63"  style="resize: none" placeholder="enter your detailed address" rows="4">{$db.address}</textarea>
+                                    <textarea name="address" id="address" cols="63"  style="resize: none" placeholder="enter your detailed address" rows="2">{$db.address}</textarea>
                                 </td>
 
                             </tr>
                             <tr>
-                                <td align="right">Default address：</td>
+                                <td align="right">Set to default address：</td>
                                 <td>
                                     <ul id="default" class="default">
-                                        <li data-val="1" <if condition="$db['isdefault'] eq 1"> class="hover"</if>>Default</li>
-                                        <li data-val="0" <if condition="$db['isdefault'] eq 0"> class="hover"</if>>Other</li>
+                                        <li data-val="1" <if condition="$db['isdefault'] eq 1"> class="hover"</if>>Yes</li>
+                                        <li data-val="0" <if condition="$db['isdefault'] eq 0"> class="hover"</if>>No</li>
                                     </ul>
                                 </td>
                             </tr>
@@ -83,17 +83,9 @@
                                 <td align="right">Language：</td>
                                 <td>
                                     <ul id="language" class="language">
-                                        <li data-id="1"  <if condition="$db['language'] eq 1">class="hover" </if> >Chinese general</li>
-                                        <li  <if condition="$db['language'] eq 2">class="hover" </if> data-id="2">Fluent in Chinese</li>
                                         <li  <if condition="$db['language'] eq 3">class="hover" </if> data-id="3">English</li>
+                                        <li data-id="1"  <if condition="$db['language'] eq 1">class="hover" </if> >Chinese</li>
                                     </ul>
-                                </td>
-                            </tr>
-
-                            <tr class="hide">
-                                <td align="right">Remark：</td>
-                                <td><textarea id="info" name="info" type="text" placeholder="enter your remark"
-                                              maxlength="50" class="input03" style="width:576px; height:100px;">{$db.info}</textarea>
                                 </td>
                             </tr>
                             <tr>

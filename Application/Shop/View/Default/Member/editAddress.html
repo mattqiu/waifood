@@ -21,14 +21,12 @@
           </tr>
           <tr>
             <td align="right">Gender：</td>
-            <td><select name="sex" id="sex">
-                <option value="1">Male</option>
-                <eq name="db.sex" value="0">
-                <option value="0" selected="selected">Female</option>
-                <else/>
-                <option value="0">Female</option>
-                </eq>
-              </select></td>
+            <td>
+                <input name="sex" type="radio" id="radio" value="1" <if condition="$db['sex'] eq 1">checked</if> />
+                <label for="radio">Male</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="radio" name="sex" id="radio2" value="0" <if condition="$db['sex'] eq 0">checked</if>/>
+                <label for="radio2">Female</label>
+            </td>
           </tr>
           <tr>
             <td align="right">Phone：</td>

@@ -273,7 +273,7 @@ class MemberController extends AuthController {
                 session('gocashier',null);
                 apiReturn(CodeModel::CORRECT,'','/settle/cashier');
             }else{
-                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/info');
+                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/address');
             }
         }else {
             apiReturn(CodeModel::ERROR,'Personal information modified failed!');

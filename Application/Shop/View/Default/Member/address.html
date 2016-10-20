@@ -40,7 +40,7 @@
                 <td> {$vo.telephone}</td>
                 <td>{$vo.email}</td>
                 <td>{$vo.proname}{$vo.cityname}{$vo.disname} {$vo.address}</td>
-                <td><a href="{:U('Member/editAddress?url=uc&id='.$vo['id'])}">Modification</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="$.delAddress({$vo.id});">Delete</a></td>
+                <td><a href="/member/info1.html?addressid={$vo.id}">Modification</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="javascript:void(0);" onclick="$.delAddress({$vo.id});">Delete</a></td>
                </tr>
                
                       

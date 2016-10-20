@@ -33,20 +33,20 @@
                 <tr>
                     <td align="right">Gender：</td>
                     <td>
-                        <select name="sex" id="sex">
-                            <option value="1">Male</option>
-                            <option value="0" selected="selected">Female</option>
-                        </select>
+                        <input name="sex" type="radio" id="radio" value="1"/>
+                        <label for="radio">Male</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="radio" name="sex" id="radio2" value="0" checked/>
+                        <label for="radio2">Female</label>
                     </td>
                 </tr>
                 <tr>
                     <td align="right">City：</td>
                     <td>
                         <ul class="city">
-                            <li class="hover" data-city="chengdu">Chengdu</li>
+                            <li class="hover"  data-city="chengdu">Chengdu</li>
                             <li data-city="chongqing">Chongqing</li>
-                            <li data-city="shenzhen">Shenzhen</li>
-                            <li data-city="Shanghai">Shanghai</li>
+                            <li data-city="xi'an">Xi'an</li>
+                            <li data-city="kunming">Kunming</li>
                             <li data-city="other">Other</li>
                         </ul>
                     </td>
@@ -54,15 +54,15 @@
                 <tr>
                     <td align="right">Address：</td>
                     <td>
-                        <textarea name="address" id="address" cols="63"  style="resize: none" placeholder="enter your detailed address" rows="4"></textarea>
+                        <textarea name="address" id="address" cols="63"  style="resize: none" placeholder="enter your detailed address" rows="2"></textarea>
                     </td>
                 </tr>
                 <tr>
-                    <td align="right">Default address：</td>
+                    <td align="right">Set to default address：</td>
                     <td>
                         <ul id="default" class="default">
-                            <li data-val="1" class="hover">Default</li>
-                            <li data-val="0">Other</li>
+                            <li data-val="1" class="hover">Yes</li>
+                            <li data-val="0">No</li>
                         </ul>
                     </td>
                 </tr>
@@ -70,9 +70,8 @@
                     <td align="right">Language：</td>
                     <td>
                         <ul id="language" class="language">
-                            <li data-id="1" class="hover">Chinese general</li>
-                            <li data-id="2">Fluent in Chinese</li>
-                            <li data-id="3">English</li>
+                            <li data-id="3"  class="hover">English</li>
+                            <li data-id="1">Chinese</li>
                         </ul>
                     </td>
                 </tr>

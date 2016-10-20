@@ -46,14 +46,15 @@
                             <input type="radio"  name="consingee" data-cityname="{$vo.cityname}" <if condition="$vo['isdefault'] eq 1"> checked</if> value="{$vo.id}"/>
                             {$vo.username}-{$vo.telephone}- {$vo.address} -{$vo.cityname}
                             <a href="/member/info1.html?goto=cashier&addressid={$vo.id}" >Modify</a>
-
                         </label>
                         <br/>
                     </volist>
                 </div>
-            <h2>
+            <label class="addr_list">
                 <a href="/Member/addAddress.html" style="padding-left: 30px;">Add Address</a>
-                <a href="{:U('Settle/cart')}">Back to shopping cart</a>
+            </label>
+            <h2>
+
                 Product list
             </h2>
             <div class="spqd">
