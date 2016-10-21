@@ -30,20 +30,20 @@
         <input type="submit" class="btn1" value="查询" /></td>
     </tr>
     <tr>
-      <td>订单状态： <a href="{:U('Cms/Orderpoint')}" >全部</a>
+      <td>订单状态： <a href="{:U('Cms/orderpoint')}" >全部</a>
        <switch name="status">
        <case value="0">
-          <a href="{:U('Cms/Orderpoint','status=0')}" class="fc_red">未处理</a>
-          <a href="{:U('Cms/Orderpoint','status=1')}" >已处理</a>
+          <a href="{:U('Cms/orderpoint','status=0')}" class="fc_red">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" >已处理</a>
        
        </case>
        <case value="1">
-          <a href="{:U('Cms/Orderpoint','status=0')}">未处理</a>
-          <a href="{:U('Cms/Orderpoint','status=1')}" class="fc_red" >已处理</a>
+          <a href="{:U('Cms/orderpoint','status=0')}">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" class="fc_red" >已处理</a>
        </case>
        <default/>
-          <a href="{:U('Cms/Orderpoint','status=0')}">未处理</a>
-          <a href="{:U('Cms/Orderpoint','status=1')}" >已处理</a>
+          <a href="{:U('Cms/orderpoint','status=0')}">未处理</a>
+          <a href="{:U('Cms/orderpoint','status=1')}" >已处理</a>
        </switch> </td>
     </tr>
   </table>

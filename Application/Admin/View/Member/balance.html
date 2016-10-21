@@ -20,13 +20,13 @@
 			</tr>
             
 			<tr>
-				<td>收支类型： <a href="{:U('Member/Balance')}" >全部</a>
+				<td>收支类型： <a href="{:U('Member/balance')}" >全部</a>
 					<if condition="($type eq 1)"> <a
-						href="{:U('Member/Balance','type=1')}" class="fc_red">收入</a> <else />
-					<a href="{:U('Member/Balance','type=1')}">收入</a> </if> <if
+						href="{:U('Member/balance','type=1')}" class="fc_red">收入</a> <else />
+					<a href="{:U('Member/balance','type=1')}">收入</a> </if> <if
 						condition="($type eq '0')"> <a
-						href="{:U('Member/Balance','type=0')}" class="fc_red">支出</a> <else />
-					<a href="{:U('Member/Balance','type=0')}">支出</a> </if>
+						href="{:U('Member/balance','type=0')}" class="fc_red">支出</a> <else />
+					<a href="{:U('Member/balance','type=0')}">支出</a> </if>
 				</td>
 			</tr>
 
