@@ -40,16 +40,16 @@
         <input type="submit" class="btn1" value="查询" /></td>
     </tr>
     <tr>
-      <td>产品状态： <a href="{:U('Cms/Content','rootid='.$rootid)}" >全部</a>
+      <td>产品状态： <a href="{:U('Cms/content','rootid='.$rootid)}" >全部</a>
         <if condition="($status eq 1)"> <a
-						href="{:U('Cms/Content','rootid='.$rootid.'&status=1')}" class="fc_red">上架</a>
+						href="{:U('Cms/content','rootid='.$rootid.'&status=1')}" class="fc_red">上架</a>
           <else />
-          <a href="{:U('Cms/Content','rootid='.$rootid.'&status=1')}">上架</a> </if>
+          <a href="{:U('Cms/content','rootid='.$rootid.'&status=1')}">上架</a> </if>
         <if
 						condition="($status eq '0')"> <a
-						href="{:U('Cms/Content','rootid='.$rootid.'&status=0')}" class="fc_red">下架</a>
+						href="{:U('Cms/content','rootid='.$rootid.'&status=0')}" class="fc_red">下架</a>
           <else />
-          <a href="{:U('Cms/Content','rootid='.$rootid.'&status=0')}">下架</a> </if></td>
+          <a href="{:U('Cms/content','rootid='.$rootid.'&status=0')}">下架</a> </if></td>
     </tr>
   </table>
 </form>

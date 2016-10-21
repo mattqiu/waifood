@@ -2,7 +2,7 @@
 <volist name="tree" id="list">
   <tr class="row{:($key+1) % 2+1}">
     <td>{$list.id}</td>
-    <td>{:str_repeat("&nbsp;",($list['depth']-1)*4)}|- <a href="{:U('Cms/Content','searchtype=2&keyword='.$list['id'])}">{$list.name}</a></td>
+    <td>{:str_repeat("&nbsp;",($list['depth']-1)*4)}|- <a href="{:U('Cms/content','searchtype=2&keyword='.$list['id'])}">{$list.name}</a></td>
     <td>{$list.remark}</td>
     <td><input name="Item_{$list.id}" id="Item_{$list.id}" onchange="setVal('channel','sort',{$list.id},$(this).val())" class="inputText1 numeric w50" value="{$list.sort}" /></td>
     <td><eq name="list.status" value="1"> <a
