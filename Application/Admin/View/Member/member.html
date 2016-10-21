@@ -43,7 +43,7 @@
 			</tr>
 
 			<tr>
-				<td>会员类型： <a href="{:U('Member/Member')}" >全部</a>
+				<td>会员类型： <a href="{:U('Member/member')}" >全部</a>
 					<volist name="levels" id="vo">
 					<a href="{:U('Member/member','searchtype=4&keyword='.$vo['id'])}" <eq name="level" value="$vo['id']">class="fc_red"</eq>>{$vo.name}</a>&nbsp;
 					</volist>
