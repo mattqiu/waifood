@@ -281,4 +281,23 @@ function getDateFormat($time){
     return  date('d',$time).','.$mn;
 }
 
+/**时间格式化
+ * @param $time
+ * @return string
+ */
+function getWeek($time){
+    $w=date('w',$time);
+    $week = '';
+    switch($w){
+        case 0 :$week ='Sun';break;
+        case 1 :$week ='Mon';break;
+        case 2 :$week ='Tues';break;
+        case 3 :$week ='Wed';break;
+        case 4 :$week ='Thurs';break;
+        case 5 :$week ='Fri';break;
+        case 6 :$week ='Sat';break;
+    }
+    return  $week;
+}
+
 ?>

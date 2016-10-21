@@ -7,8 +7,9 @@
 <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js" />
 <script language="javascript">
 <?php
+        /*
 $strdates=lbl('disabled_dates');
-if($strdates){ 
+if($strdates){
 	$strdates = str_replace ( "\r\n", ",", $strdates );
 	$strdates = str_replace ( "，", ",", $strdates );
 	$arr=arr2clr(str2arr($strdates));
@@ -17,14 +18,16 @@ if($strdates){
 	}else{
 		$strdates='""';
 	}
-}
+}*/
 ?>
-$(function(){ 
+/*
+$(function(){
 	$('#delivertime').calendar({
 		minDate:'%y-%M-%d',
 		disWeek:"{:lbl('disabled_week')}",
-		disDate:{$strdates} }); 
+		disDate:{$strdates} });
 });
+ */
 </script>
 </head>
 
@@ -180,7 +183,25 @@ You have <span class="fc_red">&yen;{$mycoupon}</span> coupons in total <br>and m
               </div>
               <div class="item-info ">
                  <div class="txt02 ">
-          <div class="pure-form"><input name="delivertime[]" id="delivertime" type="text" class="pure-input calendar3" style="background:#eee;" readonly /> </div>
+          <div class="pure-form">
+              <select name="delivertime" id="delivertime[]">
+                  <volist name="dateData" id="vo" class="pure-input-1">
+                      <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
+                          <option data-delay="{$i}" value="{$vo.time}">
+                              <if condition="$i eq 1">
+                                  Today&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;
+                                  )
+                                  <elseif condition='$i eq 2'/>
+                                  Tomorrow&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                  <else/>
+                                  {$vo.date}&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                              </if>
+                          </option>
+                      </if>
+                  </volist>
+              </select>
+              <!--<input name="delivertime[]" id="delivertime" type="text" class="pure-input calendar3" style="background:#eee;" readonly /> -->
+          </div>
          <?php
           $deliverinfo=lbl('deliverinfo');
           ?>

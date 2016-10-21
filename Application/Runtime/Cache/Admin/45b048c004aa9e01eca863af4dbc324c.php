@@ -33,33 +33,33 @@ var CONST_UPLOAD="<?php echo U('Admin/File/upload');?>";
                 <input type="submit" class="btn1" value="查询"/></td>
         </tr>
         <tr>
-            <td>订单状态： <a href="<?php echo U('Cms/Order');?>">全部</a>
-                <?php $_result=parse_field_attr(C('config.CONFIG_STATUS_LIST'));if(is_array($_result)): $i = 0; $__LIST__ = $_result;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$type): $mod = ($i % 2 );++$i; if((strlen($status)) == "0"): ?><a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"><?php echo ($type); ?></a>
+            <td>订单状态： <a href="<?php echo U('Cms/order');?>">全部</a>
+                <?php $_result=parse_field_attr(C('config.CONFIG_STATUS_LIST'));if(is_array($_result)): $i = 0; $__LIST__ = $_result;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$type): $mod = ($i % 2 );++$i; if((strlen($status)) == "0"): ?><a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"><?php echo ($type); ?></a>
                         <?php else: ?>
-                        <?php if(($key) == $status): ?><a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"
+                        <?php if(($key) == $status): ?><a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"
                                class="fc_red"><?php echo ($type); ?></a>
                             <?php else: ?>
-                            <a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"><?php echo ($type); ?></a><?php endif; endif; endforeach; endif; else: echo "" ;endif; ?>
+                            <a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay);?>"><?php echo ($type); ?></a><?php endif; endif; endforeach; endif; else: echo "" ;endif; ?>
             </td>
         </tr>
         <tr>
-            <td>付款状态： <a href="<?php echo U('Cms/Order');?>">全部</a>
-                <?php if(($pay == 1)): ?><a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status);?>" class="fc_red">已付款</a>
+            <td>付款状态： <a href="<?php echo U('Cms/order');?>">全部</a>
+                <?php if(($pay == 1)): ?><a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&pay=1&status='.$status);?>" class="fc_red">已付款</a>
                     <?php else: ?>
-                    <a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status);?>">已付款</a><?php endif; ?>
-                <?php if(($pay == '0')): ?><a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status);?>" class="fc_red">未付款</a>
+                    <a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&pay=1&status='.$status);?>">已付款</a><?php endif; ?>
+                <?php if(($pay == '0')): ?><a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&pay=0&status='.$status);?>" class="fc_red">未付款</a>
                     <?php else: ?>
-                    <a href="<?php echo U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status);?>">未付款</a><?php endif; ?>
+                    <a href="<?php echo U('Cms/order','orderfrom='.$orderfrom.'&pay=0&status='.$status);?>">未付款</a><?php endif; ?>
             </td>
         </tr>
         <tr>
-            <td>订单来源： <a href="<?php echo U('Cms/Order');?>">全部</a>
-                <?php if(($orderfrom == 1)): ?><a href="<?php echo U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status);?>" class="fc_red">微信</a>
+            <td>订单来源： <a href="<?php echo U('Cms/order');?>">全部</a>
+                <?php if(($orderfrom == 1)): ?><a href="<?php echo U('Cms/order','orderfrom=1&pay='.$pay.'&status='.$status);?>" class="fc_red">微信</a>
                     <?php else: ?>
-                    <a href="<?php echo U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status);?>">微信</a><?php endif; ?>
-                <?php if(($orderfrom == '0')): ?><a href="<?php echo U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status);?>" class="fc_red">网站</a>
+                    <a href="<?php echo U('Cms/order','orderfrom=1&pay='.$pay.'&status='.$status);?>">微信</a><?php endif; ?>
+                <?php if(($orderfrom == '0')): ?><a href="<?php echo U('Cms/order','orderfrom=0&pay='.$pay.'&status='.$status);?>" class="fc_red">网站</a>
                     <?php else: ?>
-                    <a href="<?php echo U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status);?>">网站</a><?php endif; ?>
+                    <a href="<?php echo U('Cms/order','orderfrom=0&pay='.$pay.'&status='.$status);?>">网站</a><?php endif; ?>
             </td>
         </tr>
     </table>

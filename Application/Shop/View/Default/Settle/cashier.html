@@ -24,7 +24,7 @@
     </script>
 </head>
 
-<body>
+<body data-beyond="{$beyond}" >
 <include file="Index:bar"/>
 <include file="Index:nav"/>
 <div class="container">
@@ -263,6 +263,8 @@
 <div class="clr"></div>
 </div>
 <include file="Index:footer"/>
+<js href="__PUBLIC__/js/cashier.js"/>
+
 <script>
     $(function(){
         //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
@@ -322,41 +324,7 @@
         })
     })
 
-    //根据时间选择时间段
-    function checkTime($now){
-        var myDate = new Date();
-        var date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();        //获取当前年份(2位)
-        if($now ==date){
-            $(".js_time_obj").each(function () {
-                var arr=$(this).data('date').split('-');
-                var arr1=arr[0].split(':');
-                var hours = (parseInt(myDate.getHours())+1);
-                if(hours>=arr1[0]){ //已过时段
-                    $(this).addClass('old_time');
-                    $(this).removeClass('time_list');
-                    $(this).removeClass('click');
-                }
-            })
-            if(!$('.js_time_obj').hasClass('time_list')){
-                $(".js_date_obj ").eq(0).removeClass('click');
-                $(".js_date_obj ").eq(0).addClass('isholiday');
-                $(".js_date_obj ").eq(0).removeClass('date_btn');
-                $(".date_btn").eq(0).addClass('click');
 
-                var date = $(".date_btn").eq(0).data('date');
-                $('#delivertime').val(date);
-                $(".date_btn").eq(0).addClass('click');
-                checkTime(date);
-
-              //  $(".date_btn").eq(0).click();
-
-            }
-        }else{
-            $('.js_time_obj').removeClass('old_time');
-            $('.js_time_obj').removeClass('click');
-            $('.js_time_obj').addClass('time_list');
-        }
-    }
 
 </script>
 </body>
