@@ -31,44 +31,44 @@
                 <input type="submit" class="btn1" value="查询"/></td>
         </tr>
         <tr>
-            <td>订单状态： <a href="{:U('Cms/Order')}">全部</a>
+            <td>订单状态： <a href="{:U('Cms/order')}">全部</a>
                 <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
                     <eq name="status|strlen" value="0">
-                        <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}">{$type}</a>
+                        <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}">{$type}</a>
                         <else/>
                         <eq name="key" value="$status">
-                            <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}"
+                            <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}"
                                class="fc_red">{$type}</a>
                             <else/>
-                            <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}">{$type}</a>
+                            <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}">{$type}</a>
                         </eq>
                     </eq>
                 </volist>
             </td>
         </tr>
         <tr>
-            <td>付款状态： <a href="{:U('Cms/Order')}">全部</a>
+            <td>付款状态： <a href="{:U('Cms/order')}">全部</a>
                 <if condition="($pay eq 1)">
-                    <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}" class="fc_red">已付款</a>
+                    <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}" class="fc_red">已付款</a>
                     <else/>
-                    <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}">已付款</a></if>
+                    <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&pay=1&status='.$status)}">已付款</a></if>
                 <if condition="($pay eq '0')">
-                    <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}" class="fc_red">未付款</a>
+                    <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}" class="fc_red">未付款</a>
                     <else/>
-                    <a href="{:U('Cms/Order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}">未付款</a>
+                    <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&pay=0&status='.$status)}">未付款</a>
                 </if>
             </td>
         </tr>
         <tr>
-            <td>订单来源： <a href="{:U('Cms/Order')}">全部</a>
+            <td>订单来源： <a href="{:U('Cms/order')}">全部</a>
                 <if condition="($orderfrom eq 1)">
-                    <a href="{:U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status)}" class="fc_red">微信</a>
+                    <a href="{:U('Cms/order','orderfrom=1&pay='.$pay.'&status='.$status)}" class="fc_red">微信</a>
                     <else/>
-                    <a href="{:U('Cms/Order','orderfrom=1&pay='.$pay.'&status='.$status)}">微信</a></if>
+                    <a href="{:U('Cms/order','orderfrom=1&pay='.$pay.'&status='.$status)}">微信</a></if>
                 <if condition="($orderfrom eq '0')">
-                    <a href="{:U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status)}" class="fc_red">网站</a>
+                    <a href="{:U('Cms/order','orderfrom=0&pay='.$pay.'&status='.$status)}" class="fc_red">网站</a>
                     <else/>
-                    <a href="{:U('Cms/Order','orderfrom=0&pay='.$pay.'&status='.$status)}">网站</a>
+                    <a href="{:U('Cms/order','orderfrom=0&pay='.$pay.'&status='.$status)}">网站</a>
                 </if>
             </td>
         </tr>

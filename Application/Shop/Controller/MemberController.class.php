@@ -158,6 +158,9 @@ class MemberController extends AuthController {
 				$this->error ( 'Sorry, address Failed to add!' );
 			}
 		} else {
+            if(I('goto')=='cashier'){
+                session('gocashier',true);
+            }
 			$this->assign ( 'title', 'Adding shipping address' );
 			$this->display ('addAddress');
 		}

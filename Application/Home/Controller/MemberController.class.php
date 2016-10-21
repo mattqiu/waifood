@@ -172,6 +172,9 @@ class MemberController extends AuthController
             if(regex($addrId,'number')){
                 $this->assign('addr',AddressModel::getUserAddressById($addrId,get_userid()));
             }
+            if(I('goto')=='cashier'){
+                session('gocashier',true);
+            }
             $this->assign('title', 'Add shipping address');
             $this->display('addAddress');
         }
