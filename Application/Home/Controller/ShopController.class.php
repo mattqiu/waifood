@@ -62,15 +62,19 @@ class ShopController extends BaseController {
             if(regex($addrId,'number')){
                 $address = AddressModel::getUserAddressById($addrId,get_userid());
             }else{
-                $address =AddressModel::getUserDefaultAddress( get_userid());
-
+                $addresslist =AddressModel:: getUserAddress(get_userid());
+                //$address =AddressModel::getUserDefaultAddress( );
             }
-			if ($address == false) {
+			if ($address == false && $addresslist == false) {
 			    session('gocashier',true);
 				$this->redirect ( 'Member/addAddress' );
 			} else {
-				$this->assign ( 'address', $address );
-			} 
+                if($addresslist){
+                    $this->assign ( 'addresslist', $addresslist );
+                }else{
+                    $this->assign ( 'address', $address );
+                }
+			}
 			$this->assign ( 'cart', $data );
 		}
         $date = DateModel::getFutureDay(15,true);//获取未来15天的日期

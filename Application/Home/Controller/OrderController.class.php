@@ -249,7 +249,7 @@ class OrderController extends BaseController {
 	            if(!is_date($data['delivertime'][0])){
 	            	$this->error('Sorry, please select the delivery date.');
 	            }
-	            $data['delivertime'] = arr2str($data['delivertime'], '');
+	            $data['delivertime'] = arr2str($data['delivertime'], ' ');
 	             
 	            // 校验订单：1. 查库存
 	            $check = $this->checkOrder($data);
@@ -291,7 +291,7 @@ class OrderController extends BaseController {
 				    $data['couponamount']=0;
 				}
 				unset($data['usecoupon']);
-	
+                unset($data['consingee']);
 	            $data ['orderfrom'] = 1;//微信订单
 	            $data ['orderno'] = $orderno;
 	            $data ['num'] = $db ['cart_num'];
