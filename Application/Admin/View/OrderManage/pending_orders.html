@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>未处理订单</title>
+    <include file="Index:header" />
+</head>
+<body>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl" id="mainTbl">
+
+    <tr class="toolbar">
+        <td colspan="15" class="tc">【 未处理订单 】<input type="button" class="btn1" onclick="getPendingOrderTable()" value="导出" /></td>
+    </tr>
+    <tr class="header">
+        <th width="20">id</th>
+        <th width="80">用户名</th>
+        <th width="40">电话</th>
+        <th width="60">地址</th>
+        <th width="40">城市</th>
+        <th width="40">送货时间</th>
+        <th width="20">发票</th>
+        <th width="20">在线</th>
+        <th width="20">KC肉</th>
+        <th width="20">自营肉</th>
+        <th width="20">莲娜</th>
+        <th width="20">强力</th>
+        <th width="20">酸奶油</th>
+        <th width="60">客户留言</th>
+        <th width="60">内部留言</th>
+    </tr>
+    <tbody class="body">
+
+    </tbody>
+</table>
+<include file="Index:footer" />
+<script>
+    $.post('/admin/orderManage/getPendingOrders','',function(data){
+        if(data.code ==200){
+            if(data.data){
+                var $obj = data.data,count = $obj.length,$body='',$str='';
+                for(var i = 0;i<count;i++){
+                    $body += '<tr><td>'+$obj[i].id+'</td>'
+                    $body += '<td>'+$obj[i].username+'</td>'
+                    $body += '<td>'+$obj[i].telephone+'</td>'
+                    $body += '<td>'+$obj[i].address+'</td>'
+                    $body += '<td>'+$obj[i].cityname+'</td>'
+                    $body += '<td>'+$obj[i].delivertime+'</td>'
+                    if($obj[i].invoice==1){
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    if($obj[i].paymethod==1){
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+
+                    if($obj[i].supplyid.indexOf("2,")>0){ //KC肉
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    if($obj[i].supplyid.indexOf("10,")>0){ //自营肉
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    if($obj[i].supplyid.indexOf("3,")>0){ //莲娜
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    if($obj[i].supplyid.indexOf("11,")>0){ //强力
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    if($obj[i].supplyid.indexOf("5,")>0){ //酸奶油
+                        $body += '<td>是</td>'
+                    }else{
+                        $body += '<td></td>'
+                    }
+                    $body += '<td>'+$obj[i].info+'</td>'
+                    $body += '<td>'+$obj[i].info0+'</td></tr>'
+                }
+                $('#mainTbl .body').html($body);
+            }
+        }else{
+
+            }
+
+    })
+
+    function getPendingOrderTable(){
+        $.post('/admin/orderManage/getPendingOrderTable','',function(data){
+
+        })
+    }
+</script>
+</body>
+</html>
