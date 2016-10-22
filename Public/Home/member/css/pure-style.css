@@ -27,11 +27,16 @@ body{ font-size:14px;}
 .button-small {font-size: 85%;}
 .button-large {font-size: 110%;}
 .button-xlarge {font-size: 125%;}		
- 
+
 .menu{width:150px; text-align:center; position:absolute; right:2px; top:38px; display:none; background:#fff; z-index:10001}
 .menu .title{background-image: -moz-linear-gradient(top, #fff, #ccc);background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #ccc));  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#cccccc', GradientType='0'); border-bottom:1px #B7B7B7 solid;padding:5px 10px; margin-top:0px; font-weight:bold; font-size:14px;}
 .menu .split{ border-bottom:1px #B7B7B7 solid;}
 .menu .odd{background-color:#f2f2f2}
+
+.time_list{text-align:center;color: #000;font-size:12px;width :125px; height:30px;border:solid 1px #000;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 30px;}
+.old_time{text-align:center;color: #c2cbe0;font-size:12px;width :125px; height:30px;border:solid 1px #c2cbe0;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 30px;}
+.click{background:url("../../../Shop/images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
+.click:hover,.time_list:hover,{background:url("../../../Shop/images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
 
 /*内容框架*/
 .content{ }

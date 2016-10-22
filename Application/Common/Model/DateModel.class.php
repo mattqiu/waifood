@@ -7,6 +7,8 @@ class DateModel extends Model
 {
     const FUTURE_DAY = 5;//未来5天的日期
     const ADD_DELIVERTIME = 1;//配送准备时间计算
+    const DELIVERTIME_BEYOND = 30;//配送准备时间计算(分)
+    const DELIVERTIME = 30;//配送准备时间计算(分)
     /**
      * 获取本月不配送日
      * @return bool|\multitype
@@ -32,10 +34,11 @@ class DateModel extends Model
         $holiday = self::getHoliday();
         $date = intval($day);
         $disabledweek = lbl('disabled_week');
-        $week = array(0,1,2,3,4,5,6);
+        $week = array(0,1,2,3,4,5,6);//周末到周一
         for($i=0;$i<=$date;$i++){
             $dataarr[$i]['time']=date('Y-m-d',strtotime("+$i day"));
             $dataarr[$i]['date']= getDateFormat(strtotime("+$i day"));
+            $dataarr[$i]['week']=getWeek(strtotime("+$i day"));
             foreach($holiday as $key=>$val){
                 if($val == date('Y-m-d',strtotime("+$i day"))){//节假日
                     $dataarr[$i]['isholiday']=1;

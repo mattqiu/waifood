@@ -19,7 +19,6 @@
                         <div class="address-info">
                             <div class="address-form">
                                 <fieldset>
-                                    <label for="username"> User Name： {:get_displayname()}</label>
                                     <input type="hidden" name="id" value="{$addr.id}"/>
                                     <label for="username"> Consingee：</label>
                                     <input id="username" name="username" type="text" value="{$addr.username}"
@@ -58,39 +57,36 @@
                                         <if condition="$addr['cityname'] eq 'chongqing'">selected</if>
                                         value="chongqing">Chongqing</option>
                                         <option
-                                        <if condition="$addr['cityname'] eq 'shenzhen'">selected</if>
-                                        value="shenzhen">Shenzhen</option>
+                                        <if condition="$addr['cityname'] eq 'xi\'an'">selected</if>
+                                        value="xi'an">Xi'an</option>
                                         <option
-                                        <if condition="$addr['cityname'] eq 'Shanghai'">selected</if>
-                                        value="shanghai">Shanghai</option>
+                                        <if condition="$addr['cityname'] eq 'kunming'">selected</if>
+                                        value="kunming">Kunming</option>
                                         <option
                                         <if condition="$db['cityname'] eq 'other'">selected</if>
                                         value="other">Other</option>
                                     </select>
-                                    <label>Default address：</label>
+                                    <label>Set as default address：</label>
                                     <label for="isdefault" style="float: left;width: 40%">
                                         <input name="isdefault" type="radio" id="isdefault" value="1"
                                         <if condition="$addr['isdefault'] eq 1"> checked</if>
-                                        />Default
+                                        />Yes
                                     </label>
                                     <label>
                                         <input type="radio" name="isdefault" id="isdefault" value="0"
                                         <if condition="$addr['isdefault'] eq 0"> checked</if>
-                                        /> Other
+                                        /> No
                                     </label>
 
                                     <div style="clear: both"></div>
                                     <label for="language">Language：</label>
                                     <select name="language" id="language">
                                         <option
-                                        <if condition="$addr['language'] eq 1">selected</if>
-                                        value="1">Chinese general</option>
-                                        <option
-                                        <if condition="$addr['language'] eq 2">selected</if>
-                                        value="2">Fluent in Chinese</option>
-                                        <option
                                         <if condition="$addr['language'] eq 3">selected</if>
                                         value="3">English</option>
+                                        <option
+                                        <if condition="$addr['language'] eq 1">selected</if>
+                                        value="1">Chinese general</option>
                                     </select>
 
                                 </fieldset>

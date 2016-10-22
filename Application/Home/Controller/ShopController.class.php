@@ -3,6 +3,7 @@
 namespace Home\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\DateModel;
 
 class ShopController extends BaseController {
 	/**
@@ -51,7 +52,6 @@ class ShopController extends BaseController {
 	            }
 	        }
 	    }
-
 		// 购物车
 		$ctrl = A ( 'Home/Cart' );
 		$data = $ctrl->loadCart (); 
@@ -62,18 +62,28 @@ class ShopController extends BaseController {
             if(regex($addrId,'number')){
                 $address = AddressModel::getUserAddressById($addrId,get_userid());
             }else{
-                $address =AddressModel::getUserDefaultAddress( get_userid());
-
+                $addresslist =AddressModel:: getUserAddress(get_userid());
+                //$address =AddressModel::getUserDefaultAddress( );
             }
-			if ($address == false) {
+			if ($address == false && $addresslist == false) {
 			    session('gocashier',true);
 				$this->redirect ( 'Member/addAddress' );
 			} else {
-				$this->assign ( 'address', $address );
-			} 
+                if($addresslist){
+                    $this->assign ( 'addresslist', $addresslist );
+                }else{
+                    $this->assign ( 'address', $address );
+                }
+			}
 			$this->assign ( 'cart', $data );
 		}
+        $date = DateModel::getFutureDay(15,true);//获取未来15天的日期
+        $this->assign ( 'date', $date );
 
+        if($dateData = DateModel::getFutureDay(15)){
+            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
+            $this->assign ( 'dateData',$dateData);
+        }
 	    $mycoupon=get_my_coupon();
 		$maxuse=get_coupon_maxuse($data['cart_amount']);
 		if($usecoupon>$maxuse){
@@ -82,7 +92,7 @@ class ShopController extends BaseController {
 		$this->assign ( 'mycoupon', $mycoupon );
 		$this->assign ( 'maxuse', $maxuse );
 		$this->assign ( 'usecoupon', to_price($usecoupon) );
-		
+
 		$this->assign ( 'title', 'Cashier' ); 
 		$this->display ();
 	}

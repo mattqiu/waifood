@@ -79,6 +79,7 @@ class SettleController extends BaseController {
 		    $usecoupon=$maxuse;
 		}
         if($dateData = DateModel::getFutureDay()){
+            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
             $this->assign ( 'dateData',$dateData);
         }
         $this->assign ( 'mycoupon', $mycoupon );
