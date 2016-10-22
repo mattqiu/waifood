@@ -10,7 +10,7 @@ var CONST_PUBLIC="/Public";
 var CONST_UPLOAD="<?php echo U('Admin/File/upload');?>";
 </script>
 <script type="text/javascript" src="/Public/Admin/js/jquery-1.4.4.min.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.page.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.lhgcalendar.min.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.numeric.only.js"></script><script type="text/javascript" src="/Public/Admin/js/uploadify/jquery.uploadify.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/Public/Admin/images/style.css" />
+<link rel="stylesheet" type="text/css" href="/Public/Admin/images/style.css" /><link rel="stylesheet" type="text/css" href="/Public/Admin/js/alerts/jquery.alerts.css" />
 </head>
 <body>
 <form action="" method="get" name="form1" id="form1">
@@ -67,7 +67,9 @@ var CONST_UPLOAD="<?php echo U('Admin/File/upload');?>";
 <div class="dot"></div>
 <table>
     <tr class="toolbar">
-        <td colspan="10" class="tc">【 管理订单 】</td>
+        <td colspan="10" class="tc">【 管理订单 】
+                <span class="btn2"  style="display: block;width: 80px;height: 25px; float: right;margin-left: 120px;" onclick="downloadExcel()">导出</span></td>
+        </form>
     </tr>
     <tr class="row0">
         <td colspan="10">
@@ -160,11 +162,18 @@ var CONST_UPLOAD="<?php echo U('Admin/File/upload');?>";
     </tr>
 </table>
 
+<script type="text/javascript" src="/Public/Admin/js/alerts/jquery.alerts.js"></script>
 <script>
     $(function(){
         $('.hasmemo').css({'background':'orange','color':'#fff'});
         $('.hasmemo td').css({'background':'orange','color':'#fff'});
     })
+    function downloadExcel(){
+        var ids=new Array()
+        $('.MainTbl input[name=SelectIDs]:checked ').each(function(i){
+            window.location.href = '/admin/orderManage/getOrderForGJP.html?id='+$(this).val();
+        })
+    }
 </script>
 </body>
 </html>

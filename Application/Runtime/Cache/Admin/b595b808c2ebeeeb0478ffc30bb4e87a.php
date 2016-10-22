@@ -9,7 +9,7 @@ var CONST_PUBLIC="/Public";
 var CONST_UPLOAD="<?php echo U('Admin/File/upload');?>";
 </script>
 <script type="text/javascript" src="/Public/Admin/js/jquery-1.4.4.min.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.page.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.lhgcalendar.min.js"></script><script type="text/javascript" src="/Public/Admin/js/jquery.numeric.only.js"></script><script type="text/javascript" src="/Public/Admin/js/uploadify/jquery.uploadify.min.js"></script>
-<link rel="stylesheet" type="text/css" href="/Public/Admin/images/style.css" />
+<link rel="stylesheet" type="text/css" href="/Public/Admin/images/style.css" /><link rel="stylesheet" type="text/css" href="/Public/Admin/js/alerts/jquery.alerts.css" />
 <script type="text/javascript" src="/Public/Admin/js/jquery.setui.js"></script> 
 <style>
 html {

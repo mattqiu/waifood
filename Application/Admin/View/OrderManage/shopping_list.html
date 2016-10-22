@@ -10,10 +10,11 @@
 <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
     <tr>
         <td>
-            <form action="/admin/orderManage/getShoppingList.html" method="get" name="form1" id="form1">
-                时间：
-                <input type="text" class="inputText1" id="datetime" name="datetime" value="{$_REQUEST['datetime']}"/>
-                <input type="submit" class="btn1" value="查询"/>
+            <form action="/admin/orderManage/getShoppingList.html" method="get"  name="form1" id="form1">
+                送货日期：
+                <input type="hidden" name="datetime" id="datetime" />
+                <input type="submit" class="btn1" onclick="$('#datetime').val('{$today}')" value="今天"/>
+                <input type="submit" class="btn1"  onclick="$('#datetime').val('{$tomorrow}')" value="明天"/>
             </form>
         </td>
     </tr>
@@ -62,12 +63,5 @@
     </tr>
 </table>
 <include file="Index:footer"/>
-<script>
-    $(function () {
-        $('#datetime').calendar({
-            minDate: '%y-%M-%d'
-        })
-    })
-</script>
 </body>
 </html>

@@ -333,6 +333,63 @@ function getWeek($time)
     return $week;
 }
 
+ function downloadExcel($data,$filename,$headArray,$setwidth=false){
+    vendor ( 'PHPexcel/PHPExcel' );
+    vendor ( 'PHPexcel/PHPExcel/IOFactory' );
+    vendor ( 'PHPexcel/PHPExcel/Reader/Excel5' );
+    error_reporting(E_ALL);
+//         date_default_timezone_set('Europe/London');
+    $objPHPExcel = new PHPExcel();
+    /*以下是一些设置 ，什么作者  标题啊之类的*/
+    $objPHPExcel->getProperties()->setCreator("0xiao")
+        ->setLastModifiedBy("0xiao");
+    if($setwidth!==false && regex($setwidth,'number')){
+        $objPHPExcel->getActiveSheet()->getDefaultColumnDimension()->setAutoSize(true)->setWidth($setwidth);//设置单元格宽度
+    }
+     $objPHPExcel->getActiveSheet()->getStyle()->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+     //所有垂直居中
+     $objPHPExcel->getActiveSheet()->getStyle()->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+    //设置表格的宽度  手动
+    /*以下就是对处理Excel里的数据， 横着取数据，主要是这一步，其他基本都不要改*/
+    $row = 1;
+    if(!empty($headArray) && is_array($headArray)) {
+        $acObj = $objPHPExcel->setActiveSheetIndex(0);
+        $clo = 0;
+        foreach($headArray as $value){
+            $acObj->setCellValueByColumnAndRow($clo,$row,$value);
+            $clo++;
+        }
+    }
+    foreach($data as $k => $v){
+        $row++;
+        $clo = 0;
+        foreach($v as $lv){
+            $objPHPExcel->setActiveSheetIndex(0)
+                ->setCellValueByColumnAndRow($clo,$row,$lv);
+            $clo++;
+        }
+    }
+    $objPHPExcel->getActiveSheet()->setTitle('order');
+    $objPHPExcel->setActiveSheetIndex(0);
+
+    header('Content-Type: application/vnd.ms-excel');
+    $filename = $filename.".xls";
+    $encoded_filename = urlencode($filename);
+    $encoded_filename = str_replace("+", "%20", $encoded_filename);
+    $ua = $_SERVER["HTTP_USER_AGENT"];
+
+    if (preg_match("/MSIE/", $ua)) {
+        header('Content-Disposition: attachment; filename="'.$encoded_filename . '"');
+    } else if (preg_match("/Firefox/", $ua)) {
+        header('Content-Disposition: attachment; filename*="utf8\'\'' . $filename . '"');
+    } else {
+        header('Content-Disposition: attachment; filename="'. $filename .'"');
+    }
+    header('Cache-Control: max-age=0');
+    $objWriter =PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+    $objWriter->save('php://output');
+}
+
 function float_fee($float){
     if(empty($float)){
         return 0;
@@ -340,44 +397,5 @@ function float_fee($float){
         return (float)round($float,2);
     }
 }
-
-/**
- * 导出数据为excel表格
- *@param $data    一个二维数组,结构如同从数据库查出来的数组
- *@param $title   excel的第一行标题,一个数组,如果为空则没有标题
- *@param $filename 下载的文件名
- *@examlpe
-$stu = M ('User');
-$arr = $stu -> select();
-exportexcel($arr,array('id','账户','密码','昵称'),'文件名!');
- */
-function exportexcel($data=array(),$title=array(),$filename='report'){
-    header("Content-type:application/octet-stream");
-    header("Accept-Ranges:bytes");
-    header("Content-type:application/vnd.ms-excel");
-    header("Content-Disposition:attachment;filename=".$filename.".xls");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-    //导出xls 开始
-    if (!empty($title)){
-        foreach ($title as $k => $v) {
-            $title[$k]=iconv("UTF-8", "GB2312",$v);
-        }
-        $title= implode("\t", $title);
-        echo "$title\n";
-    }
-    if (!empty($data)){
-        foreach($data as $key=>$val){
-            foreach ($val as $ck => $cv) {
-                $data[$key][$ck]=iconv("UTF-8", "GB2312", $cv);
-            }
-            $data[$key]=implode("\t", $data[$key]);
-
-        }
-        echo implode("\n",$data);
-    }
-}
-
-
 
 ?>

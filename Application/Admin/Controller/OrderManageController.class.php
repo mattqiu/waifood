@@ -3,6 +3,7 @@
 namespace Admin\Controller;
 use Admin\Model\MemberMemoModel;
 use Admin\Model\OrderManageModel;
+use Admin\Model\OrderModel;
 use Common\Model\CodeModel;
 
 class OrderManageController extends BaseController {
@@ -11,8 +12,7 @@ class OrderManageController extends BaseController {
      */
 	public function getPendingOrders(){
         $list = OrderManageModel::getPendingOrders();
-        $this->assign ( "list", $list[1]);
-        $this->assign ( "page", $list[0] );
+        $this->assign ( "list", $list);
         $this->display('pending_orders');
     }
 
@@ -27,7 +27,46 @@ class OrderManageController extends BaseController {
         $list = OrderManageModel::getShoppingList($date);
         $this->assign ( "list", $list[1]);
         $this->assign ( "page", $list[0] );
+        $this->assign ( "today", date('Y-m-d') );
+        $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
         $this->display('shopping_list');
+    }
+
+    /**
+     * 查找订单详情（符合导入管家婆模板，任何符号都不能变动、excel的列宽必须是25）
+     * @return mixed|void
+     */
+    public function getOrderForGJP(){
+        $id = I('id');
+        $list = OrderManageModel::getOrderForGJP($id);
+        $data= array();
+        $status = '';
+        foreach($list as $key=>$val){
+            if($status == OrderModel::DRAFT){
+                $status = 'draft';
+            }elseif($status == OrderModel::CONFIRMED){
+                $status = 'confirmed';
+            }elseif($status == OrderModel::DELIVERING){
+                $status = 'delivering';
+            }elseif($status == OrderModel::COMPLETED){
+                $status = 'completed';
+            }else{
+                $status = 'cancelled';
+            }
+            $data[$key]['no'] = $val['no'];
+            $data[$key]['productid'] = $val['productid'];
+            $data[$key]['name'] = $val['name'];
+            $data[$key]['num'] = $val['num'];
+            $data[$key]['price'] = $val['price'];
+            $data[$key]['zk'] = $val['zk'];
+            $data[$key]['note'] = $val['note'];
+        }
+        $filename = $id.'-'.$status;
+        $title = array('商品条码',
+            '商品编号','商品名称', '数量','单价',
+            '折扣(0.9为9折)','备注(不能超过200个字符)');
+        downloadExcel($data,$filename,$title,25);
+
     }
 
     /**
