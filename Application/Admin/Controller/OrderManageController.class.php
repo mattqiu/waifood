@@ -10,14 +10,9 @@ class OrderManageController extends BaseController {
      * 待售清单
      */
 	public function getPendingOrders(){
-        if(IS_POST){
-            $list = OrderManageModel::getPendingOrders();
-            if(!empty($list)){
-                apiReturn(CodeModel::CORRECT,'',$list);
-            }else{
-                apiReturn(CodeModel::ERROR,'emtyp');
-            }
-        }
+        $list = OrderManageModel::getPendingOrders();
+        $this->assign ( "list", $list[1]);
+        $this->assign ( "page", $list[0] );
         $this->display('pending_orders');
     }
 
@@ -30,7 +25,8 @@ class OrderManageController extends BaseController {
             $date = date('Y-m-d');
         }
         $list = OrderManageModel::getShoppingList($date);
-        $this->assign ( "list", $list );
+        $this->assign ( "list", $list[1]);
+        $this->assign ( "page", $list[0] );
         $this->display('shopping_list');
     }
 

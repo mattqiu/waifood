@@ -25,10 +25,13 @@ class OrderManageModel extends Model {
      */
     public static function getShoppingList($date){
         $con['o.status'] = array('lt',OrderModel::DELIVERING);
+        $con['d.supplyid'] = array(array('eq',2),array('eq',3),array('eq',5),array('eq',10),array('eq',11), 'or');
         $con['_string'] = "o.delivertime like '$date%'";
+        $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)->group('d.productid')->order('d.supplyid desc')->select();
+        $page = new Page(count($list),15);
         $field = 'o.delivertime,d.productid,d.productname,d.unit,sum(d.num) as num,d.supplyname,group_concat(d.num) as info';
-        $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)->field($field)->group('d.productid')->order('d.supplyid desc')->select();
-        return $list;
+        $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)->field($field)->group('d.productid')->order('d.supplyid desc')->limit($page->firstRow,$page->listRows)->select();
+        return array($page->show(),$list);;
     }
 
     /**#待售清单-全部
@@ -36,8 +39,10 @@ class OrderManageModel extends Model {
      */
     public static function getPendingOrders(){
         $con['status'] = array('lt',OrderModel::COMPLETED);
+        $count = M('order')->where($con)->count();
+        $page = new Page($count,15);
         $field = 'id,username,telephone,address,cityname,delivertime,invoice,paymethod,orderno,info,info0';
-        $order = M('order')->where($con)->field($field)->order('delivertime') ->select();
+        $order = M('order')->where($con)->field($field)->order('delivertime')->limit($page->firstRow,$page->listRows)->select();
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
             $field = 'distinct(supplyid)';
@@ -46,6 +51,6 @@ class OrderManageModel extends Model {
                 $val['supplyid'] .= $v['supplyid'].',';
             }
         }
-        return $order;
+        return array($page->show(),$order);
     }
 }
