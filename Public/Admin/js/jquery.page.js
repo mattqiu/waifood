@@ -185,21 +185,28 @@ function getSelectIDs(){
 	return selectids;
 };
 
-function setVal(tbl,col,id,val){
+function setVal(tbl,col,id,val,showmsg){
 	$.ajax({url:APP_PATH+"/Admin/Rbac/batch?table="+tbl+"&id="+id+"&col="+col+"&v="+val+"&"+Math.random(),success:function(msg){
 		msg=eval(msg);
 		if(msg.status=="1"){
 			var str=col.substring(0,3).toLowerCase();
 			if(str=="tag"||str=="pri"||str=="sor"){
+
 			}else{
-				location.reload();	
+               if(showmsg == true){
+                   clearpopj('操作成功!');
+                   return ;
+               }else{
+                   location.reload();
+               }
 			}
 		}else{
-			
+
 		}
 	}
-	}); 	
+	});
 }
+
 
 function setGroup(obj,id,col){
 	var tbl,val;
@@ -208,12 +215,13 @@ function setGroup(obj,id,col){
 	setVal(tbl,col,id,val)
 }
 
-function setOrder(obj,id){
+function setOrder(obj,id,showmsg){
 	var tbl,col,val;
 	tbl = "order";
 	col = "status";
 	val=$(obj).find('option:selected').val();
-	setVal(tbl,col,id,val)
+    setVal(tbl,col,id,val,showmsg)
+
 }
 
 function setOrdernew(obj,id){

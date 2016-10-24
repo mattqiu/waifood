@@ -152,7 +152,7 @@
             </td>
             <td>{$vo.info}</td>
             <td>
-                <select onchange="setOrder(this,'{$vo.id}')">
+                <select onchange="setOrder(this,'{$vo.id}',true)">
                     <volist name="statuslist" id="type">
                         <if condition="($vo.status eq $key)">
                             <option value="{$key}" selected="selected">{$type}</option>
