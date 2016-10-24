@@ -421,7 +421,7 @@ class CmsController extends BaseController {
 			}
 		}
 		$this->assign('title','订单统计');
-		$this->display('addShop');
+		$this->display();
 	}
 	/**
 	 * 
