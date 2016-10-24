@@ -33,7 +33,7 @@
             <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}">{$vo.id}</a></td>
             <td>{$vo.username}<br/>{$vo.telephone}</td>
             <td>{$vo.address}</td>
-            <td>{$vo.cityname}</td>
+            <td> {:getCityByCity($vo['cityname'])} </td>
             <td>{$vo.delivertime}</td>
             <td>
                 <if condition="$vo['paymethod'] eq 4">
