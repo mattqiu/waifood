@@ -21,6 +21,7 @@ class Palpay extends \Think\Pay\Pay {
         $param = array(
             'cmd' => '_xclick',
             'charset' => 'utf-8',
+            'locale.x' => $this->config['lang'],// 'en_GB',
             'business' => $this->config['business'],
             'currency_code' => 'USD',
             'notify_url' => $this->config['notify_url'],

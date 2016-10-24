@@ -17,7 +17,8 @@ return array(
             'partner' => C('config.ALIPAY_PARTNERID')
         ),
         'palpay' => array(
-            'business' =>  C('config.PAYPAL_BUSINESS')
+            'business' =>  C('config.PAYPAL_BUSINESS'),
+            'lang' =>  'en_GB',//zh_HK 繁体中文 en_GB 英文
         )
     )
 );
