@@ -98,7 +98,7 @@
         <th width="100">付款方式</th>
         <th>留言</th>
         <th width="100">状态</th>
-        <th width="50">操作</th>
+        <th width="60">操作</th>
     </tr>
     <volist id="vo" name="list">
             <if condition="$vo['memo']">
@@ -171,9 +171,8 @@
                     <else/>
                     <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="">编辑</a>
                 </if>
-                <br/>
                 <a href="/admin/orderManage/getOrderForGJP.html?id={$vo['id']}" target="_blank" class="">导出</a><br/>
-                <a href="{:U('Cms/editOrder','act=print&id='.$vo['id'])}" target="_blank" class="">打印</a><br/>
+                <a href="{:U('Cms/editOrder','act=print&id='.$vo['id'])}" target="_blank" class="">打印</a>
                 <a href="{:U('Cms/editOrder','act=print&act1=1&id='.$vo['id'])}" target="_blank" class="">内打</a>
             </td>
         </tr>
