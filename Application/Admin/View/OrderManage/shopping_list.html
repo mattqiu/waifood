@@ -11,10 +11,12 @@
     <tr>
         <td>
             <form action="/admin/orderManage/getShoppingList.html" method="get"  name="form1" id="form1">
-                送货日期：
+               <div style="float: left">送货日期：</div>
                 <input type="hidden" name="datetime" id="datetime" />
-                <input type="submit" class="btn1" onclick="$('#datetime').val('{$today}')" value="今天"/>
-                <input type="submit" class="btn1"  onclick="$('#datetime').val('{$tomorrow}')" value="明天"/>
+                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1" onclick="$('#datetime').val('{$today}')" value="今天"/></div>
+                <div style="float: left;margin-left: 5px;">  <input type="submit" class="btn1"  onclick="$('#datetime').val('{$tomorrow}')" value="明天"/></div>
+                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1"  onclick="$('#datetime').val('{$afterTomorrow}')" value="后天"/></div>
+                <div style="float: left;margin-left: 5px;cursor: pointer" class="btn1" id="getOtherDate">Other</div>
             </form>
         </td>
     </tr>
@@ -63,5 +65,20 @@
     </tr>
 </table>
 <include file="Index:footer"/>
+<js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
+<script>
+    //选择其他时间
+        $('#getOtherDate').calendar({
+            format: 'yyyy-MM-dd',
+            minDate: '%y-%M-%d',
+            disWeek: "{:lbl('disabled_week')}",
+            btnBar: false,
+            onSetDate:function(){
+                var date = this.year+'-'+this.month+'-'+this.day;
+                $('input[name=datetime]').val(date)
+                $('#form1').submit();
+            }
+        });
+</script>
 </body>
 </html>

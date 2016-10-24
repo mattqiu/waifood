@@ -39,7 +39,7 @@ class OrderManageModel extends Model {
      */
     public static function getPendingOrders(){
         $con['status'] = array('lt',OrderModel::COMPLETED);
-        $field = 'id,username,telephone,address,cityname,delivertime,invoice,paymethod,orderno,info,info0';
+        $field = 'id,username,telephone,address,cityname,delivertime,amount,status,invoice,paymethod,pay,orderno,info,info0';
         $order = M('order')->where($con)->field($field)->order('delivertime')->select();
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
@@ -53,10 +53,6 @@ class OrderManageModel extends Model {
     }
 
     public static function getOrderForGJP($id){
-     /*   select mx.ext as 商品条码,mx.productid as 商品编号,mx.ext as 商品名称,mx.num as 数量,
-mx.price as 单价,mx.ext as "折扣(0.9为9折)",mx.ext as "备注(不能超过200个字符)"
-from my_order dd, my_order_detail mx
-where dd.orderno=mx.orderno and dd.id=5977*/
         $con['o.id'] = $id;
         $filed = 'o.status,d.ext as no,d.productid,d.ext as name ,d.num,d.price,d.ext as zk,d.ext as note';
        return M('order')->alias('o')->join('my_order_detail as d on o.orderno = d.orderno')

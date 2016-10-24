@@ -4,38 +4,49 @@
     <meta charset="UTF-8">
     <title>未处理订单</title>
     <include file="Index:header" />
+
 </head>
 <body>
-<table border="0" cellpadding="3" cellspacing="1" class="MainTbl" id="mainTbl">
+<table border="0" cellpadding="0" cellspacing="0" id="mainTbl"   class="order_ul MainTbl">
 
     <tr class="toolbar">
-        <td colspan="15" class="tc">【 未处理订单 】</td>
+        <td colspan="18" class="tc">【 未处理订单 】</td>
     </tr>
     <tr class="header">
-        <th width="20">id</th>
-        <th width="60">用户名</th>
-        <th width="40">电话</th>
-        <th width="50">地址</th>
-        <th width="40">城市</th>
-        <th width="40">送货时间</th>
-        <th width="20">发票</th>
-        <th width="20">在线</th>
-        <th width="20">KC肉</th>
-        <th width="20">自营肉</th>
-        <th width="20">莲娜</th>
-        <th width="20">强力</th>
-        <th width="20">酸奶油</th>
-        <th width="60">客户留言</th>
-        <th width="60">内部留言</th>
+        <td width="3%">id</td>
+        <td width="6%">用户名/电话</td>
+        <td width="10%">地址</td>
+        <td width="5%">城市</td>
+        <td width="6%">送货时间</td>
+        <td width="5%">付款方式</td>
+        <td width="5%">金额</td>
+        <td width="3%">发票</td>
+        <td width="3%">在线</td>
+        <td width="3%">KC肉</td>
+        <td width="4%">自营肉</td>
+        <td width="3%">莲娜</td>
+        <td width="3%">强力</td>
+        <td width="4%">酸奶油</td>
+        <td width="10%">客户留言</td>
+        <td width="10%">内部留言</td>
+        <td width="5%">状态</td>
+        <td width="10%">操作</td>
     </tr>
     <volist name="list" id="vo">
-        <tr>
-            <td>{$vo.id}</td>
-            <td>{$vo.username}</td>
-            <td>{$vo.telephone}</td>
+        <tr class="row{$i % 2+1}">
+            <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}">{$vo.id}</a></td>
+            <td>{$vo.username}<br/>{$vo.telephone}</td>
             <td>{$vo.address}</td>
             <td>{$vo.cityname}</td>
             <td>{$vo.delivertime}</td>
+            <td>
+                <if condition="$vo['paymethod'] eq 4">
+                    货到付款
+                    <else/>
+                    在线支付
+                </if>
+            </td>
+            <td>{$vo.amount}</td>
             <td><if condition="$vo['invoice'] eq 1">是</if></td>
             <td><if condition="$vo['paymethod'] eq 1">是</if></td>
             <td><if condition="strpos($vo['supplyid'],'2,') gt 0">是</if></td>
@@ -45,6 +56,27 @@
             <td><if condition="strpos($vo['supplyid'],'5,') gt 0">是</if></td>
             <td>{$vo.info}</td>
             <td>{$vo.info0}</td>
+            <td>
+                <select onchange="setOrder(this,'{$vo.id}')">
+                    <volist name="statuslist" id="type">
+                        <if condition="($vo.status eq $key)">
+                            <option value="{$key}" selected="selected">{$type}</option>
+                            <else/>
+                            <option value="{$key}">{$type}</option>
+                        </if>
+                    </volist>
+                </select>
+            </td>
+            <td>
+                <if condition="($vo['status'] eq 3)">
+                    <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="btnEdit">查看</a>
+
+                    <else/>
+                    <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="btnEdit">编辑</a>
+                </if>
+                <a href="{:U('Cms/editOrder','act=print&id='.$vo['id'])}" target="_blank" class="btnAdd">打印</a>
+                <a href="{:U('Cms/editOrder','act=print&act1=1&id='.$vo['id'])}" target="_blank" class="btnAdd">内打</a>
+            </td>
         </tr>
     </volist>
     <tr class="footer">
