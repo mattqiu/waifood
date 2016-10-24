@@ -46,7 +46,7 @@
                 <td width="80">{$vo.delivertime}</td>
                 <td><span class="jiage02">&yen;{:to_price($vo['amount'])}</span> </td>
                 <td><eq name="vo.paymethod" value="4">Cash on delivery<else/>Payment online (Paypal)</eq> </td>
-                <td><strong>{:get_status($vo['status'])}</strong></td>
+                <td><strong>{:getStatus($vo['status'])}</strong></td>
                 <td>
                 <eq name="vo.pay" value="1"> 
                  	<switch name="vo.status">

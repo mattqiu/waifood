@@ -398,4 +398,32 @@ function float_fee($float){
     }
 }
 
+
+
+/**
+ * 根据索引数字获取状态
+ *
+ * @param unknown $status_id
+ */
+function getStatus($status_id) {
+    switch($status_id){
+        case \Admin\Model\OrderModel::DRAFT:
+            return 'Draft';
+            break ;
+        case \Admin\Model\OrderModel::CONFIRMED:
+            return 'Confirmed';
+            break ;
+        case \Admin\Model\OrderModel::DELIVERING:
+            return 'Delivering';
+            break ;
+        case \Admin\Model\OrderModel::COMPLETED:
+            return 'Completed';
+            break ;
+        case \Admin\Model\OrderModel::CANCELLED:
+            return 'Cancelled';
+            break ;
+    }
+}
+
+
 ?>
