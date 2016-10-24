@@ -27,8 +27,7 @@ class OrderManageController extends BaseController {
             $date = date('Y-m-d');
         }
         $list = OrderManageModel::getShoppingList($date);
-        $this->assign ( "list", $list[1]);
-        $this->assign ( "page", $list[0] );
+        $this->assign ( "list", $list);
         $this->assign ( "today", date('Y-m-d') );
         $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
         $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+3 day')) );
