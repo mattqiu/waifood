@@ -630,8 +630,7 @@ function get_status($status_id) {
 	foreach ( $arr as $key => $value ) {
 		$arr2 = str2arr ( $value, ':' );
 		if ($arr2 [0] == $status_id) {
-			return $arr2 [1];
-			break;
+			return $arr2[1];
 		}
 	}
 }
