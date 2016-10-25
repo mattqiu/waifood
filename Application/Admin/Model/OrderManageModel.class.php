@@ -35,23 +35,42 @@ class OrderManageModel extends Model {
         return $list;
     }
 
-    /**#待售清单-全部
+    /**#待售清单
      * @param $orderId
      */
     public static function getPendingOrders(){
         $con['status'] = array('lt',OrderModel::COMPLETED);
-        $field = 'id,username,telephone,address,cityname,delivertime,
+        $field = 'id,username,userid,telephone,address,cityname,delivertime,
         amount,status,invoice,paymethod,pay,orderno,info,info0';
         $order = M('order')->where($con)->field($field)->order('delivertime')->select();
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
             $field = 'distinct(supplyid)';
+            $val['date'] = substr($val['delivertime'],0,10);
+            $val['time'] = substr($val['delivertime'],11);
+           // list($val['date'],$val['time']) = explode(' ',$val['delivertime']);
             $datd = M('order_detail')->where($where)->field($field)->select();
             foreach($datd as $k=>$v){
                 $val['supplyid'] .= $v['supplyid'].',';
             }
         }
         return $order;
+    }
+
+    /**获取日销售额
+     * @param $orderId
+     */
+    public static function getDailySalesList($date){
+        $con['o.status'] = array('lt',OrderModel::DELIVERING);
+//        $con['d.supplyid'] = array(array('eq',2),array('eq',3),
+//            array('eq',5),array('eq',10),array('eq',11), 'or');
+//
+        $con['_string'] = "o.delivertime like '$date%'";
+
+        $field = 'o.delivertime,d.productid,d.productname,d.unit,sum(d.num) as num,
+        d.supplyname,group_concat(d.num) as info';
+        $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)
+            ->field($field)->group('d.productid')->order('d.supplyid desc')->select();
     }
 
     public static function getOrderForGJP($id){

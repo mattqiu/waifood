@@ -14,7 +14,7 @@ a{text-decoration:none; color:#333}
 a:hover{ color:#39F}
 .w350{width:350px;}
 .w50{width:50px;}
-
+a.underline:hover{ text-decoration:underline}
 .clr{clear:both;}
 .fc_white { color: #fff; }
 #tip,.fc_red { color: #f00; }

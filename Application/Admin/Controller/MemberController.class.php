@@ -2,6 +2,7 @@
 
 namespace Admin\Controller;
 
+use Common\Model\AddressModel;
 use Common\Model\UserModel;
 
 class MemberController extends BaseController {
@@ -702,9 +703,7 @@ class MemberController extends BaseController {
 			// 输出当前Member等级列表
 			$list = M ( "level" )->where ( 'status=1' )->order ( 'id desc' )->select ();
 			$this->assign ( "list", $list );
-			$where=array();
-			$where['userid']=$id;
-			$addresslist = M ( "address" )->where ( $where )->order ( 'id desc' )->select ();
+			$addresslist = AddressModel::getUserAddress($id);
 			$this->assign ( "addresslist", $addresslist );
             $db = UserModel::getUserById($id);
             $this->assign ( "db", $db );

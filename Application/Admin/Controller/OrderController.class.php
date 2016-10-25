@@ -4,6 +4,7 @@ namespace Admin\Controller;
 
 use Admin\Model\MemberMemoModel;
 use Common\Model\CodeModel;
+use Common\Model\UserModel;
 
 class OrderController extends BaseController {
 	public function index() {
@@ -235,6 +236,8 @@ class OrderController extends BaseController {
 			}
 		} else {
 			$db = M ( "order" )->find ( $id );
+            $user = UserModel::getUserById($db['userid']) ;
+            $db['email'] = $user['email'];
 			$this->assign ( "db", $db );
             //dump($db);exit;
 			// 输出门店列表

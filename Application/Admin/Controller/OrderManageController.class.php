@@ -35,6 +35,20 @@ class OrderManageController extends BaseController {
     }
 
     /**
+     * 获取日销售额
+     */
+	public function getDailySalesList(){
+        $date = I('datetime');
+        if(!$date){
+            $date = date('Y-m-d');
+        }
+        $list = OrderManageModel::getDailySalesList($date);
+        $this->assign ( "list", $list);
+        $this->assign ( "today", date('Y-m-d') );
+        $this->display('daily_sales');
+    }
+
+    /**
      * 查找订单详情（符合导入管家婆模板，任何符号都不能变动、excel的列宽必须是25）
      * @return mixed|void
      */
