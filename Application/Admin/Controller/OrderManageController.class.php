@@ -49,6 +49,21 @@ class OrderManageController extends BaseController {
     }
 
     /**
+     *
+     * 商品销售情况
+     */
+	public function commoditySales(){
+        $contentid = I('contentid');
+        $date = I('datetime');
+        if($contentid || $date){
+            $list = OrderManageModel::getCommoditySales($contentid,$date);
+            $this->assign ( "list", $list);
+        }
+        $this->assign ( "today", date('Y-m-d') );
+        $this->display('commodity_sales');
+    }
+
+    /**
      * 查找订单详情（符合导入管家婆模板，任何符号都不能变动、excel的列宽必须是25）
      * @return mixed|void
      */

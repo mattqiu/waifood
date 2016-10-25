@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8"/>
+    <title>产品销售状况</title>
+    <include file="Index:header"/>
+</head>
+<body>
+<form action="" method="get" name="form1" id="form1">
+    产品ID:<input type="text" class="inputText1"  name="contentid" value="{$_REQUEST['contentid']}"/>
+    日期:<input type="text" class="inputText1" id="date"
+           name="datetime" value="{$_REQUEST['datetime']}"/>
+         <input type="submit" class="btn1" value="查询"/></td>
+</form>
+<div class="dot"></div>
+<table>
+    <tr class="toolbar">
+        <td colspan="10" class="tc">
+            【 产品销售状况 】
+        </td>
+    </tr>
+</table>
+<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
+    <tr class="header">
+        <th width="100">订单号</th>
+        <th width="100">用户名</th>
+        <th width="80">送货时间</th>
+        <th width="120">产品名称</th>
+        <th width="50">单位</th>
+        <th width="50">单价</th>
+        <th width="50">数量</th>
+        <th width="100">供应商</th>
+        <th width="100">操作</th>
+    </tr>
+    <volist id="vo" name="list">
+            <if condition="$vo['memo']">
+                <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" >
+            <else/>
+                <tr class="row{$i % 2+1}" >
+            </if>
+            <td>{$vo.orderno} </td>
+            <td>{$vo.username}</td>
+            <td>{$vo.delivertime}</td>
+            <td>{$vo.productname}</td>
+            <td>{$vo.unit}</td>
+            <td>{$vo.price}</td>
+            <td>{$vo.num}</td>
+            <td>{$vo.supplyname}</td>
+            <td></td>
+        </tr>
+    </volist>
+</table>
+<include file="Index:footer"/>
+<script>
+    //选择其他时间
+    $('#date').calendar({
+        format: 'yyyy-MM-dd'
+    });
+</script>
+</body>
+</html>

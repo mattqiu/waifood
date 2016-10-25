@@ -62,15 +62,35 @@ class OrderManageModel extends Model {
      */
     public static function getDailySalesList($date){
         $con['o.status'] = array('lt',OrderModel::DELIVERING);
-//        $con['d.supplyid'] = array(array('eq',2),array('eq',3),
-//            array('eq',5),array('eq',10),array('eq',11), 'or');
-//
         $con['_string'] = "o.delivertime like '$date%'";
-
         $field = 'o.delivertime,d.productid,d.productname,d.unit,sum(d.num) as num,
         d.supplyname,group_concat(d.num) as info';
         $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)
             ->field($field)->group('d.productid')->order('d.supplyid desc')->select();
+        return $list;
+    }
+
+    /**获取日销售额
+     * @param $orderId
+     */
+    public static function getCommoditySales($contentid,$date){
+        if(regex($contentid,'number')){
+            $con['productid'] = $contentid;
+        }
+        if($date){
+            $con['_string'] = "addtime like '$date%'";
+        }
+        $filed = 'productid,productname,unit,num,supplyname,orderno,price';
+        $list =  M('order_detail')->where($con)->field($filed)->select();
+        $orderfiled = 'delivertime,userid,username';
+        foreach($list as &$val){
+            $where['orderno'] = $val['orderno'];
+            $order= M('order')->where($where)->field($orderfiled)->find();
+            $val['delivertime'] = $order['delivertime'];
+            $val['userid'] = $order['userid'];
+            $val['username'] = $order['username'];
+        }
+        return $list;
     }
 
     public static function getOrderForGJP($id){

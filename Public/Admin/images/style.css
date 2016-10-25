@@ -39,7 +39,6 @@ a.underline:hover{ text-decoration:underline}
 
 .hide{display:none;}
 .show{display:block;}
-
 #Header{width:100%; height:95px; float:left; background:url(bg.jpg) 0px 0px repeat-x;}
 
 #Lefter{width:200px; height:auto; float:left; background:#fff; overflow:hidden; overflow-y:auto;}
@@ -95,6 +94,7 @@ a.underline:hover{ text-decoration:underline}
 #go{ font-family:Arial, Helvetica, sans-serif}
 #popup_ok,.uploadify,#go,.btn1{ width:50px; height:24px; background:url(btn0.gif) no-repeat 0px 0px; line-height:24px; border:none; text-align:center}
 #popup_ok:hover,.uploadify:hover,#go:hover,.btn1:hover{background:url(btn0.gif) no-repeat 0px -24px;}
+.click{background:url("../../Shop/images/selected-icon.png") no-repeat 100% 10px ; border: 1px solid red}
 
 /*上传相关*/
 #indexpic,.uploadify{ float:left; position:relative;}

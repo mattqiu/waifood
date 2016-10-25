@@ -13,8 +13,8 @@
             <form action="/admin/orderManage/getDailySalesList.html" method="get"  name="form1" id="form1">
                <div style="float: left">送货日期：</div>
                 <input type="hidden" name="datetime" id="datetime" />
-                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1" onclick="$('#datetime').val('{$today}')" value="今天"/></div>
-                <div style="float: left;margin-left: 5px;cursor: pointer" class="btn1" id="getOtherDate">Other</div>
+                <div style="float: left;margin-left: 5px;"><input type="submit" class="btn1 <if condition='!isset($_REQUEST["datetime"]) or ($_REQUEST["datetime"] eq $today)'>click</if>" onclick="$('#datetime').val('{$today}')" value="今天"/></div>
+                <div style="float: left;margin-left: 5px;cursor: pointer" class="btn1 <if condition='isset($_REQUEST["datetime"]) and $_REQUEST["datetime"] neq $today'>click</if>" id="getOtherDate">Other</div>
             </form>
         </td>
     </tr>
@@ -68,9 +68,6 @@
     //选择其他时间
         $('#getOtherDate').calendar({
             format: 'yyyy-MM-dd',
-            minDate: '%y-%M-%d',
-            disWeek: "{:lbl('disabled_week')}",
-            btnBar: false,
             onSetDate:function(){
                 var date = this.year+'-'+this.month+'-'+this.day;
                 $('input[name=datetime]').val(date)
