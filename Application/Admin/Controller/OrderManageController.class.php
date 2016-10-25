@@ -35,7 +35,7 @@ class OrderManageController extends BaseController {
     }
 
     /**
-     * 获取日销售额
+     * 获取日销售
      */
 	public function getDailySalesList(){
         $date = I('datetime');

@@ -35,10 +35,10 @@
         <tr class="row{$i % 2+1}">
             <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">{$vo.id}</a></td>
             <td><a href="{:U('Member/editMember','id='.$vo['userid'])}"  class="underline">{$vo.username}</a><br/>{$vo.telephone}</td>
-            <td title="{$vo.address}">{$vo.address|msubstr=0,25,'utf-8',true}</td>
+            <td title="{$vo.address}">{$vo.address}</td>
             <td> {:getCityByCity($vo['cityname'])} </td>
             <td>{$vo.date|substr=5}</td>
-            <td title="{$vo.time}">{$vo.time|msubstr=0,22,'utf-8',true}</td>
+            <td title="{$vo.time}">{$vo.time}</td>
             <td>
                 <if condition="$vo['paymethod'] eq 4">
                     货到付款
@@ -77,8 +77,8 @@
             <!--<td><if condition="strpos($vo['supplyid'],'3,') gt 0">是</if></td>-->
             <!--<td><if condition="strpos($vo['supplyid'],'11,') gt 0">是</if></td>-->
             <!--<td><if condition="strpos($vo['supplyid'],'5,') gt 0">是</if></td>-->
-            <td title="{$vo.info}">{$vo.info|msubstr=0,25,'utf-8',true}</td>
-            <td title="{$vo.info0}">{$vo.info0|msubstr=0,25,'utf-8',true}</td>
+            <td title="{$vo.info}">{$vo.info}</td>
+            <td title="{$vo.info0}">{$vo.info0}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
                     <volist name="statuslist" id="type">
