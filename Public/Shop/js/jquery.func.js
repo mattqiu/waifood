@@ -789,6 +789,13 @@ function checkregform() {
         return false
     }
     ;
+    if ($("#telephone").val().length<7) {
+        jAlert("Sorry,the phone number format is wrong!", SYSTITLE, function () {
+            $("#telephone").focus();
+        });
+        return false
+    }
+    ;
 
     if (!$("#verify").val()) {
         jAlert("Sorry, verification code can not be empty!", SYSTITLE, function () {
@@ -867,6 +874,13 @@ function addAddress() {
         });
         return false
     }
+    if (telephone.length<7) {
+        jAlert("Phone number format is wrong", SYSTITLE, function () {
+            $("#telephone").focus();
+        });
+        return false
+    }
+    telephone.replace("-", "");
     if (!address) {
         jAlert("Receives an address can't be empty", SYSTITLE, function () {
             $("#address").focus();

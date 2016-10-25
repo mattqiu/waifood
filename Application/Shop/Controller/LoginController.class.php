@@ -125,7 +125,7 @@ class LoginController extends Controller {
 
     public function reg(){
         $data = I('post.');
-        $data['telephone'] = str_replace("-", "",$data['telephone']);
+        $data['telephone'] = replaceTel($data['telephone']);
         if( !isVerifyCorrect()){
             apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
         }
@@ -298,13 +298,7 @@ class LoginController extends Controller {
 			// 设置id,username, wechatid
 			$where = array ();
 			$where ['status'] = 1;
-            if(regex($username,'email')){ //邮箱登录
-                $where ['email'] = $username;
-            }elseif(regex($username,'mob')){//手机登录
-                $where ['telephone'] = $username;
-            }else{
-                $where ['username'] = $username;//用户名登录
-            }
+			$where ['_string'] = "email = {$username} or telephone = {". replaceTel($username)."} or username = {$username}";
 			$where ['userpwd'] = $userpwd;
 			$user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {

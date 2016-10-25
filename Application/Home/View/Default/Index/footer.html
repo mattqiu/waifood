@@ -45,3 +45,11 @@
   </footer>
   <div class="clr"></div>
 </div>
+<script>
+    if(document.getElementById("telephone")) {
+        document.getElementById("telephone").onkeyup = function () {
+            this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1-");
+            ;
+        };
+    }
+</script>

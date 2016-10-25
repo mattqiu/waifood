@@ -54,15 +54,18 @@ class LoginController extends Controller
     {
         if (IS_POST) {
             $data = I('post.');
-            $data['telephone'] = str_replace("-", "",$data['telephone']);
+            $data['telephone'] = replaceTel($data['telephone']);
             if( !isVerifyCorrect()){
                 apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
+            }
+            if(!regex($data['telephone'],'mob')){
+                apiReturn(CodeModel::ERROR,'sorry,the phone number format is wrong!');
             }
             if (!regex($data['username'],'username') ) {
                 apiReturn(CodeModel::ERROR,'sorry,the user name format is not correct');
             }
             if (strlen($data['userpwd'])>20 || strlen($data['userpwd'])<4) {
-                $this->error('Sorry,the password should be 4 to 20 characters!');
+                apiReturn(CodeModel::ERROR,'Sorry,the password should be 4 to 20 characters!');
             }
             if ($data['userpwd'] !== $data['userpwd1']) {
                 apiReturn(CodeModel::ERROR,'enter the password twice inconsistent.');
@@ -303,13 +306,7 @@ class LoginController extends Controller
             // 设置id,username, wechatid
             $where = array();
             $where['status'] = 1;
-            if(regex($username,'email')){ //邮箱登录
-                $where ['email'] = $username;
-            }elseif(regex($username,'mob')){//手机登录
-                $where ['telephone'] = $username;
-            }else{
-                $where ['username'] = $username;//用户名登录
-            }
+            $where ['_string'] = "email = {$username} or telephone = {". replaceTel($username)."} or username = {$username}";
             $where['userpwd'] = $userpwd;
             $db = M('member')->where($where)->find();
             if ($db != false) {

@@ -62,7 +62,7 @@ $(function(){
                     <if condition="!empty($addresslist)">
                         <volist name="addresslist" id="vo">
                             <label class="addr_list">
-                                <input type="radio"  name="consingee" data-cityname="{$vo.cityname}" <if condition="$vo['isdefault'] eq 1"> checked</if> value="{$vo.id}"/>
+                                <input type="radio"  name="consingee" data-cityname="{$vo.cityname}" <if condition="$vo['isdefault'] eq 1"> checked<elseif condition="$i eq 1"/>checked</if> value="{$vo.id}"/>
                                 {$vo.username}-{$vo.telephone}- {$vo.address} -{$vo.cityname}
                                 <!--<a href="/member/info1.html?goto=cashier&addressid={$vo.id}" >Modify</a>-->
                             </label>

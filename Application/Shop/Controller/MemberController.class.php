@@ -110,14 +110,16 @@ class MemberController extends AuthController {
 	public function addAddress($url='') {
 		If (IS_POST) {
 			$data = empty ( $data ) ? $_POST : $data;
-			
 			if(isN($data['username'])){
 				$this->error('Sorry,your name cannot be empty.');
 			}
 			if(isN($data['telephone'])){
 				$this->error('Sorry,telephone number cannot be empty.');
 			}
-			
+			if(strlen($data['telephone'])<7){
+				$this->error('Sorry, phone number format is wrong');
+			}
+			$data['telephone'] = replaceTel($data['telephone']);
 			$data ['userid'] = get_userid ();
 			// $data['username']=get_username(get_userid());
 			$data ['addip'] = get_client_ip ();
@@ -161,6 +163,7 @@ class MemberController extends AuthController {
             if(I('goto')=='cashier'){
                 session('gocashier',true);
             }
+            $this->assign('user',UserModel::getUserById(get_userid()));
 			$this->assign ( 'title', 'Adding shipping address' );
 			$this->display ('addAddress');
 		}
@@ -188,10 +191,10 @@ class MemberController extends AuthController {
 			if(isN($data['username'])){
 				$this->error('Sorry,your name cannot be empty.');
 			}
-			if(isN($data['telephone'])){
-				$this->error('Sorry,telephone number cannot be empty.');
-			}
-			
+			if(!regex($data['telephone'],'mob')){
+                $this->error('Sorry, the phone number format is wrong!');
+            }
+            $data['telephone'] = replaceTel($data['telephone']);
 			$where ['id'] = $data ['id'];
 			$where ['userid'] = get_userid ();
 			// $data['username']=get_username(get_userid());
@@ -256,9 +259,10 @@ class MemberController extends AuthController {
 	}
 
     public function modifyShoppingAddr(){
+        $data = I('post.');
         $consingee = I('post.username');
         $address = I('post.address');
-        $tel = I('post.telephone');
+        $tel = $data['telephone'] = replaceTel($data['telephone']);
         if(isN($consingee)){
             apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
         }
@@ -268,7 +272,6 @@ class MemberController extends AuthController {
         if(isN($address)){
             apiReturn(CodeModel::ERROR,'Sorry,  address can not be empty!');
         }
-        $data = I('post.');
         $userid = get_userid();
         if(true === AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
@@ -290,6 +293,10 @@ class MemberController extends AuthController {
 			$data = $db->create ( $data );
 			if(isN($data['telephone'])){
 				$this->error ('Sorry, the phone number can not be empty!' );
+			}
+            $data['telephone'] = replaceTel($data['telephone']);
+            if(strlen($data['telephone'])<7){
+				$this->error ('Sorry, the phone number format is wrong!' );
 			}
 			if(isN($data['email'])){
 				$this->error ('Sorry, email can not be empty!' );

@@ -66,13 +66,7 @@ class UserModel extends Model
         if ($username && $userpwd) {
             $where = array ();
             $where ['status'] = 1;
-            if(regex($username,'email')){ //邮箱登录
-                $where ['email'] = $username;
-            }elseif(regex($username,'mob')){//手机登录
-                $where ['telephone'] = $username;
-            }else{
-                $where ['username'] = $username;//用户名登录
-            }
+            $where ['_string'] = "email = '{$username}' or telephone = '".str_replace("-", "", $username)."' or username = '{$username}'";
             $where ['userpwd'] =md5($userpwd);
             $user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {

@@ -171,6 +171,8 @@ class MemberController extends AuthController
             $addrId = I('addr_id');
             if(regex($addrId,'number')){
                 $this->assign('addr',AddressModel::getUserAddressById($addrId,get_userid()));
+            }else{
+                $this->assign('addr',UserModel::getUserById(get_userid()));
             }
             if(I('goto')=='cashier'){
                 session('gocashier',true);
@@ -247,9 +249,10 @@ class MemberController extends AuthController
      * 添加或修改地址
      */
     public function modifyShoppingAddr(){
+        $data = I('post.');
         $username = I('post.username');
         $address = I('post.address');
-        $tel = I('post.telephone');
+        $tel = $data['telephone'] =replaceTel(I('post.telephone'));
         if(isN($username)){
             apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
         }
@@ -259,7 +262,6 @@ class MemberController extends AuthController
         if(isN($address)){
             apiReturn(CodeModel::ERROR,'Sorry,  address can not be empty!');
         }
-        $data = I('post.');
         $userid = get_userid();
         if(true === AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
@@ -289,7 +291,10 @@ class MemberController extends AuthController
             if (isN($data['telephone'])) {
                 $this->error('Sorry, the phone number can not be empty!');
             }
-            
+            $data['telephone'] = replaceTel($data['telephone']);
+            if(strlen($data['telephone'])<7){
+                $this->error('Sorry, phone number format is wrong');
+            }
             if (isN($data['email'])) {
                 $this->error('Sorry, email can not be empty!');
             }
@@ -297,7 +302,7 @@ class MemberController extends AuthController
                 $this->error('Sorry,  address can not be empty!');
             }
             if ($data != false) {
-                $saveData['telephone'] = $data['13713730081'];
+                $saveData['telephone'] = $data['telephone'];
                 $saveData['address'] = $data['address'];
                 if (AddressModel:: modifyDefaultAddress(get_userid(),$saveData) !==false) {
                    $cashier= session('gocashier');

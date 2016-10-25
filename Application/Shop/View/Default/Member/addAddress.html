@@ -18,12 +18,12 @@
                 <table border="0" cellspacing="0" cellpadding="0" style="margin:0px auto">
                     <tr>
                         <td align="right">Consingee：</td>
-                        <td><input id="userreal" name="userreal" type="text" value="" placeholder="3-50 characters"
+                        <td><input id="userreal" name="userreal" type="text" value="{$user.username}" placeholder="3-50 characters"
                                    class="input03" size="40" required="required"></td>
                     </tr>
                     <tr>
                         <td align="right">Phone：</td>
-                        <td><input id="telephone" name="telephone" type="text" maxlength="20" value=""
+                        <td><input id="telephone" name="telephone" type="text" maxlength="20" value="{$user.telephone|default='+86'}"
                                    placeholder="enter your mobile" class="input03" size="40" required="required"></td>
                     </tr>
                     <tr>

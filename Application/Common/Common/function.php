@@ -1646,7 +1646,7 @@ function regex($value, $rule){
         'short_tel'=>'/^(\d){3,6}$/',
         'china'=>'/^[\x{4e00}-\x{9fa5}]+$/u',
         'mob_tel'=>'/^(\d{11})|((\d{3}-\d{8})|(8\d{10})|(9\d{9})|(\d{7})|(\d{4}-\d{7}))$/', //移动电话
-        'mob'=>'/\d{11}/', //手机
+        'mob'=>'/\S{7,20}/', //7-20位
         'username'=>'/\w{3,50}/', //3-50字符串
     );
     // 检查是否有内置的正则表达式
@@ -1663,6 +1663,13 @@ function apiReturn($code = CodeModel::CORRECT,$msg="", $data = array()){
     $result['data'] = $data;
     header('Content-Type:application/json; charset=utf-8');
     exit(json_encode($result));
+}
+
+function replaceTel($tel){
+    if(strpos($tel,'-')>0){
+        return str_replace("-", "",$tel);
+    }
+    return $tel;
 }
 
 ?>
