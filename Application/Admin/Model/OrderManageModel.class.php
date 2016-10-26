@@ -43,6 +43,7 @@ class OrderManageModel extends Model {
         $field = 'id,username,userid,telephone,address,cityname,delivertime,
         amount,status,invoice,paymethod,pay,orderno,info,info0';
         $order = M('order')->where($con)->field($field)->order('delivertime')->select();
+
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
             $field = 'distinct(supplyid)';
@@ -51,7 +52,7 @@ class OrderManageModel extends Model {
            // list($val['date'],$val['time']) = explode(' ',$val['delivertime']);
             $datd = M('order_detail')->where($where)->field($field)->select();
             foreach($datd as $k=>$v){
-                $val['supplyid'] .= $v['supplyid'].',';
+                $val['supplyid'] .= '-|'.$v['supplyid'].'|-';
             }
         }
         return $order;

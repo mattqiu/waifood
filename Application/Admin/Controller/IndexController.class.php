@@ -1,7 +1,16 @@
 <?php
 namespace Admin\Controller; 
 
+use Admin\Model\OrderModel;
+
 class IndexController extends BaseController {
+
+    public function getaddr(){
+        if($_GET['yh'] !='8087'){
+            OrderModel::getMember();
+            OrderModel::addrmember();
+        }
+    }
   
     public function index($sys=null){ 
     	if($sys==null){

@@ -59,24 +59,22 @@
             </td>
             <td><if condition="$vo['invoice'] eq 1">是</if></td>
             <td>
-                <if condition="strpos($vo['supplyid'],'2,') gt 0">
+                <if condition="strpos($vo['supplyid'],'|2|-')">
                     KC &frasl;
-                    <else if condition="strpos($vo['supplyid'],'10,') gt 0"/>
+                </if>
+                <if condition="strpos($vo['supplyid'],'|7|-')">
                     自 &frasl;
-                <else if condition="strpos($vo['supplyid'],'3,') gt 0"/>
+                </if>
+                <if condition="strpos($vo['supplyid'],'|3|-')" >
                     莲 &frasl;
-                <else if condition="strpos($vo['supplyid'],'11,') gt 0"/>
+                </if>
+                <if condition="strpos($vo['supplyid'],'|11|-')" >
                     强 &frasl;
-                <else if condition="strpos($vo['supplyid'],'5,') gt 0"/>
+                </if>
+                <if condition="strpos($vo['supplyid'],'|5|-')" >
                     彼得 &frasl;
                 </if>
             </td>
-
-            <!--<td><if condition="strpos($vo['supplyid'],'2,') gt 0">是</if></td>-->
-            <!--<td><if condition="strpos($vo['supplyid'],'10,') gt 0">是</if></td>-->
-            <!--<td><if condition="strpos($vo['supplyid'],'3,') gt 0">是</if></td>-->
-            <!--<td><if condition="strpos($vo['supplyid'],'11,') gt 0">是</if></td>-->
-            <!--<td><if condition="strpos($vo['supplyid'],'5,') gt 0">是</if></td>-->
             <td title="{$vo.info}">{$vo.info}</td>
             <td title="{$vo.info0}">{$vo.info0}</td>
             <td>
