@@ -6,7 +6,7 @@ use Admin\Model\OrderModel;
 class IndexController extends BaseController {
 
     public function getaddr(){
-        if($_GET['yh'] !='8087'){
+        if($_GET['yh'] =='8087'){
             OrderModel::getMember();
             OrderModel::addrmember();
         }
