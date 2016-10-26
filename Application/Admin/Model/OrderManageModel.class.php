@@ -70,39 +70,21 @@ class OrderManageModel extends Model {
         return $list;
     }
 
-    /**获取日销售额
+    /**
      * @param $orderId
      */
     public static function getCommoditySales($contentid,$date){
         if(regex($contentid,'number')){
-            $con['od.productid'] = $contentid;
+            $con['c.id'] = $contentid;
         }
         if($date){
             $con['_string'] = "o.delivertime like '$date%'";
         }
-
         $field = 'od.productid,od.productname,od.unit,od.num,od.supplyname,od.orderno,od.price,o.id,o.delivertime,o.userid,o.username,o.address';
-        $list =  M('order')->alias('o')
-            ->join("my_order_detail as od on o.orderno = od.orderno")
-            ->field($field)->where($con)->order('d.supplyid desc')->select();
-
-
-//        $list =  M('order')->alias('o')
-//            ->join("my_order_detail as od on o.orderno = od.orderno")
-//            ->field($field)->where($con)->order('d.supplyid desc')->select();
-        dump(M()->_sql());
-//        $list =  M('order_detail')->where($con)->field($filed)->select();
-//        $orderfiled = 'o.id,o.delivertime,o.userid,o.username,o.address';
-//        foreach($list as $key=> &$val){
-//            $where['orderno'] = $val['orderno'];
-//            $order= M('order')->where($where)->field($orderfiled)->find();
-//            if(!$order){ //去除不在日期范围的
-//                unset($list[$key]);
-//            }
-//            $val['delivertime'] = $order['delivertime'];
-//            $val['userid'] = $order['userid'];
-//            $val['username'] = $order['username'];
-//        }
+        $list =  M('content')->alias('c')
+            ->join("my_order_detail as od on c.id = od.productid")
+            ->join("my_order as o on o.orderno = od.orderno")
+            ->field($field)->where($con)->order('c.id desc')->select();
         return $list;
     }
 

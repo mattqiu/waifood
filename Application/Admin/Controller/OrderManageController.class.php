@@ -4,7 +4,6 @@ namespace Admin\Controller;
 use Admin\Model\MemberMemoModel;
 use Admin\Model\OrderManageModel;
 use Admin\Model\OrderModel;
-use Common\Model\CodeModel;
 
 class OrderManageController extends BaseController {
     /**
@@ -57,10 +56,11 @@ class OrderManageController extends BaseController {
 	public function commoditySales(){
         $contentid = I('contentid');
         $date = I('datetime');
-        if($contentid || $date){
-            $list = OrderManageModel::getCommoditySales($contentid,$date);
-            $this->assign ( "list", $list);
+        if(!$date){
+            $date = date('Y-m-d');
         }
+        $list = OrderManageModel::getCommoditySales($contentid,$date);
+        $this->assign ( "list", $list);
         $this->assign ( "today", date('Y-m-d') );
         $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
         $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+2 day')) );
