@@ -834,7 +834,7 @@ function checkfindform() {
 
 }
 
-function checklogform() {
+function subLogin() {
     var v = "#username";
     if (isN(v)) {
         jAlert("Sorry,please enter user name.", SYSTITLE, function () {
@@ -849,6 +849,23 @@ function checklogform() {
         });
         return false
     }
+    var d = {
+        username:$('#username').val(),
+        userpwd:$('#userpwd').val(),
+        verify: $('#verify input[name=verify]').val()
+    }
+    $.post('/Login/index',d,function(data){
+        if(data.code ==200){
+            clearpopj(data.message,data.data);
+        }else{
+            if(data.data >=3 ){
+                $('#verify').removeClass('hide');
+                $('#verify input').attr('name','verify');
+            }
+            clearpopj(data.message);
+        }
+    })
+
 }
 
 function addAddress() {

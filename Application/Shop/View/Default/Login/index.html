@@ -15,7 +15,7 @@
       <div class="lgbox">
       <div class="login" style="float: right;overflow: hidden;zoom: 1;">
         <div><strong>Member login</strong></div>
-        <form  action="{:U('Login/index')}"  method="post" id="frm_login" onsubmit="return checklogform()">
+        <form id="frm_login" onsubmit="return false">
             <if condition="$_REQUEST['returnurl']">
                 <input type="hidden" name="returnurl" value="{$_REQUEST['returnurl']}"/>
                 <else/>
@@ -28,9 +28,9 @@
            <tr>
              <td>Password<br /> <input type="password" maxlength="32"  name="userpwd" id="userpwd"  placeholder="enter your password" required="required" class="mima" /></td>
            </tr>
-            <tr class="" id="verify" >
+            <tr class="hide" id="verify" >
                 <td>Captcha<br />
-                <input type="text" name="verify" class="reginput fl" size="18" maxlength="5" placeholder="enter captcha" />
+                <input type="text" class="reginput fl" size="18" maxlength="5" placeholder="enter captcha" />
                 <img style="cursor:pointer; cursor: hand; width:80px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
                 </td>
             </tr>
@@ -41,7 +41,7 @@
              </td>
            </tr>
            <tr>
-            <td><input type="submit" name="imageField" id="imageField" class="lgbtn"  value="Login Now" /></td>
+            <td><input type="submit" name="imageField" id="imageField" class="lgbtn" onclick="subLogin()"  value="Login Now" /></td>
            </tr>
         </table>
         </form>
@@ -55,17 +55,17 @@
   <div class="clr"></div>
 </div>
 <include file="Index:footer_login" />
-<script src="__PUBLIC__/js/common.js"></script>
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <script>
-//    $(function(){
-//        if($('#verify').hasClass('hide')){
-//            var $num = getCookie('verify_err_num');
-//            if($num>=3){
-//                $('#verify').removeClass('hide');
-//                $('#verify input').attr('name','verify');
-//            }
-//        }
-//    })
+    $(function(){
+        if($('#verify').hasClass('hide')){
+            var $num = getCookie('verify_err_num');
+            if($num>=3){
+                $('#verify').removeClass('hide');
+                $('#verify input').attr('name','verify');
+            }
+        }
+    })
 </script>
 </body>
 </html>
