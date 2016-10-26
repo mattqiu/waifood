@@ -15,7 +15,7 @@
       <div class="lgbox">
       <div class="login" style="float: right;overflow: hidden;zoom: 1;">
         <div><strong>Member login</strong></div>
-        <form  action="{:U('Login/index')}"  method="post" id="frm_login" onsubmit="return checklogform()">
+        <form id="frm_login" onsubmit="return false">
             <if condition="$_REQUEST['returnurl']">
                 <input type="hidden" name="returnurl" value="{$_REQUEST['returnurl']}"/>
                 <else/>
@@ -41,7 +41,7 @@
              </td>
            </tr>
            <tr>
-            <td><input type="submit" name="imageField" id="imageField" class="lgbtn"  value="Login Now" /></td>
+            <td><input type="submit" name="imageField" id="imageField" class="lgbtn" onclick="subLogin()"  value="Login Now" /></td>
            </tr>
         </table>
         </form>
@@ -55,7 +55,7 @@
   <div class="clr"></div>
 </div>
 <include file="Index:footer_login" />
-<script src="__PUBLIC__/js/common.js"></script>
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <script>
     $(function(){
         if($('#verify').hasClass('hide')){
