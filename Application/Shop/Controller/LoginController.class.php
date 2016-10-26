@@ -85,12 +85,12 @@ class LoginController extends Controller {
         $key = 'verify_err_num';
         $url=I('returnurl')?I('returnurl'):'/';
         if(IS_POST){
-           $num = cookie($key);
-            if(isset($num) && $num>=3){
+          // $num = cookie($key);
+         //   if(isset($num) && $num>=3){
                 if( !isVerifyCorrect()){
                     $this->error ( 'sorry,verifycation code is illegal.');
                 }
-            }
+          //  }
             //登录
 			$username=I('username');
 			$userpwd=I('userpwd');

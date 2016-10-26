@@ -28,9 +28,9 @@
            <tr>
              <td>Password<br /> <input type="password" maxlength="32"  name="userpwd" id="userpwd"  placeholder="enter your password" required="required" class="mima" /></td>
            </tr>
-            <tr class="hide" id="verify" >
+            <tr class="" id="verify" >
                 <td>Captcha<br />
-                <input type="text" class="reginput fl" size="18" maxlength="5" placeholder="enter captcha" />
+                <input type="text" name="verify" class="reginput fl" size="18" maxlength="5" placeholder="enter captcha" />
                 <img style="cursor:pointer; cursor: hand; width:80px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
                 </td>
             </tr>
@@ -57,15 +57,15 @@
 <include file="Index:footer_login" />
 <script src="__PUBLIC__/js/common.js"></script>
 <script>
-    $(function(){
-        if($('#verify').hasClass('hide')){
-            var $num = getCookie('verify_err_num');
-            if($num>=3){
-                $('#verify').removeClass('hide');
-                $('#verify input').attr('name','verify');
-            }
-        }
-    })
+//    $(function(){
+//        if($('#verify').hasClass('hide')){
+//            var $num = getCookie('verify_err_num');
+//            if($num>=3){
+//                $('#verify').removeClass('hide');
+//                $('#verify input').attr('name','verify');
+//            }
+//        }
+//    })
 </script>
 </body>
 </html>

@@ -797,13 +797,6 @@ function checkregform() {
     }
     ;
 
-    if (!$("#verify").val()) {
-        jAlert("Sorry, verification code can not be empty!", SYSTITLE, function () {
-            $("#verify").focus();
-        });
-        return false
-    }
-    ;
     var $data = $("#myform").serialize();
     $data += '&cityname=' + $('#levecity .hover').data('city');
     $.post('/Login/reg', $data, function (data) {
@@ -814,6 +807,7 @@ function checkregform() {
         }
     })
 }
+
 function checkfindform() {
     var v = "#username";
     if (isN(v)) {
