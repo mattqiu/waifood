@@ -75,21 +75,34 @@ class OrderManageModel extends Model {
      */
     public static function getCommoditySales($contentid,$date){
         if(regex($contentid,'number')){
-            $con['productid'] = $contentid;
+            $con['od.productid'] = $contentid;
         }
         if($date){
-            $con['_string'] = "addtime like '$date%'";
+            $con['_string'] = "o.delivertime like '$date%'";
         }
-        $filed = 'productid,productname,unit,num,supplyname,orderno,price';
-        $list =  M('order_detail')->where($con)->field($filed)->select();
-        $orderfiled = 'delivertime,userid,username';
-        foreach($list as &$val){
-            $where['orderno'] = $val['orderno'];
-            $order= M('order')->where($where)->field($orderfiled)->find();
-            $val['delivertime'] = $order['delivertime'];
-            $val['userid'] = $order['userid'];
-            $val['username'] = $order['username'];
-        }
+
+        $field = 'od.productid,od.productname,od.unit,od.num,od.supplyname,od.orderno,od.price,o.id,o.delivertime,o.userid,o.username,o.address';
+        $list =  M('order')->alias('o')
+            ->join("my_order_detail as od on o.orderno = od.orderno")
+            ->field($field)->where($con)->order('d.supplyid desc')->select();
+
+
+//        $list =  M('order')->alias('o')
+//            ->join("my_order_detail as od on o.orderno = od.orderno")
+//            ->field($field)->where($con)->order('d.supplyid desc')->select();
+        dump(M()->_sql());
+//        $list =  M('order_detail')->where($con)->field($filed)->select();
+//        $orderfiled = 'o.id,o.delivertime,o.userid,o.username,o.address';
+//        foreach($list as $key=> &$val){
+//            $where['orderno'] = $val['orderno'];
+//            $order= M('order')->where($where)->field($orderfiled)->find();
+//            if(!$order){ //去除不在日期范围的
+//                unset($list[$key]);
+//            }
+//            $val['delivertime'] = $order['delivertime'];
+//            $val['userid'] = $order['userid'];
+//            $val['username'] = $order['username'];
+//        }
         return $list;
     }
 

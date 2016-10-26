@@ -30,7 +30,7 @@ class OrderManageController extends BaseController {
         $this->assign ( "list", $list);
         $this->assign ( "today", date('Y-m-d') );
         $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
-        $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+3 day')) );
+        $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+2 day')) );
         $this->display('shopping_list');
     }
 
@@ -45,6 +45,8 @@ class OrderManageController extends BaseController {
         $list = OrderManageModel::getDailySalesList($date);
         $this->assign ( "list", $list);
         $this->assign ( "today", date('Y-m-d') );
+        $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
+        $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+2 day')) );
         $this->display('daily_sales');
     }
 
@@ -60,6 +62,8 @@ class OrderManageController extends BaseController {
             $this->assign ( "list", $list);
         }
         $this->assign ( "today", date('Y-m-d') );
+        $this->assign ( "tomorrow", date('Y-m-d',strtotime('+1 day')) );
+        $this->assign ( "afterTomorrow", date('Y-m-d',strtotime('+2 day')) );
         $this->display('commodity_sales');
     }
 
