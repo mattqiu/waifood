@@ -39,37 +39,26 @@ class OrderModel extends Model {
 
         foreach($user as $key=>$val){
             //用户有默认地址的,将用户地址更新到默认地址中
-            if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
-                $con['id'] = $daddr['id'];
-                $con['userid'] = $val['id'];
-                $data['address'] = $val['address'];
-//                echo '----de----<br>';
-//                dump($data);
-//                dump($con);
-//                echo '----de----<br>';continue;
-                M('address')->where($con)->save($data);
-                M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
-            }else if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
+//            if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
+//                $con['id'] = $daddr['id'];
+//                $con['userid'] = $val['id'];
+//                $data['address'] = $val['address'];
+//                M('address')->where($con)->save($data);
+//                M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
+//            }else
+                if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
                 if (count($addr) > 1) {//有多条数据
                     $con1['id'] =$addr[0]['id'];
                     $con1['userid'] = $val['id'];
                     $data['address'] = $val['address'];
                     $data['isdefault'] = 1;
-//                    echo '----11----<br>';
-//                    dump($addr);
-//                    dump($con1);
-//                    echo '----11----<br>';continue;
                     M('address')->where($con1)->save($data);//去出用户最近添加的一条地址,修改地址并设为默认
                     M('address')->where('id !='.$addr[0]['id'] .' and userid='. $con1['userid'])->delete($data);//删除其他的
                 }else{
-                    $con1['userid'] = $val['id'];
-                    $data['address'] = $val['address'];
-                    $data['isdefault'] = 1;
-//                    echo '----111----<br>';
-//                    dump($addr);
-//                    dump($con1);
-//                    echo '----11----<br>';continue;
-                    M('address')->where($con1)->save($data);
+//                    $con1['userid'] = $val['id'];
+//                    $data['address'] = $val['address'];
+//                    $data['isdefault'] = 1;
+//                    M('address')->where($con1)->save($data);
                 }
             }
         }
