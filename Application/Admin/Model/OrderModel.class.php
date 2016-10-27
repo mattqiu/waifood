@@ -31,6 +31,7 @@ class OrderModel extends Model {
     }
 
 
+
     public static function addrmember(){
         //获取用户地址不为空的
         $con['_string'] = "address is not null and address !=''";
@@ -55,10 +56,10 @@ class OrderModel extends Model {
                     M('address')->where($con1)->save($data);//去出用户最近添加的一条地址,修改地址并设为默认
                     M('address')->where('id !='.$addr[0]['id'] .' and userid='. $con1['userid'])->delete($data);//删除其他的
                 }else{
-//                    $con1['userid'] = $val['id'];
-//                    $data['address'] = $val['address'];
-//                    $data['isdefault'] = 1;
-//                    M('address')->where($con1)->save($data);
+                    $con1['userid'] = $val['id'];
+                    $data['address'] = $val['address'];
+                    $data['isdefault'] = 1;
+                    M('address')->where($con1)->save($data);
                 }
             }
         }
