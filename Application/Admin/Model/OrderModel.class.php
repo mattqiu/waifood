@@ -18,6 +18,15 @@ class OrderModel extends Model {
     const    COMPLETED = 3;//
     const    CANCELLED = 4;//
 
+    /**
+     * 获取用户最近的订单
+     * @param $userid
+     * @return mixed
+     */
+    public static function getOrderByUserId($userid){
+        return M('order')->where('userid = '.$userid)->order('addtime desc')->find();
+    }
+
 
     public static function getMember(){
         $con['_string'] = "address is null or  address =''";
@@ -40,14 +49,13 @@ class OrderModel extends Model {
 
         foreach($user as $key=>$val){
             //用户有默认地址的,将用户地址更新到默认地址中
-//            if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
-//                $con['id'] = $daddr['id'];
-//                $con['userid'] = $val['id'];
-//                $data['address'] = $val['address'];
-//                M('address')->where($con)->save($data);
-//                M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
-//            }else
-                if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
+            if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
+                $con['id'] = $daddr['id'];
+                $con['userid'] = $val['id'];
+                $data['address'] = $val['address'];
+                M('address')->where($con)->save($data);
+                M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
+            }else if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
                 if (count($addr) > 1) {//有多条数据
                     $con1['id'] =$addr[0]['id'];
                     $con1['userid'] = $val['id'];

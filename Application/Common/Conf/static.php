@@ -86,7 +86,10 @@ $config = array(
     'RBAC_USER_TABLE' => 'my_role_user', // RBAC_USER_TABLE 用户表名称
     'RBAC_ACCESS_TABLE' => 'my_access', // RBAC_ACCESS_TABLE 权限表名称
     'RBAC_NODE_TABLE' => 'my_node', // RBAC_NODE_TABLE 节点表名称
-    'ADMIN_AUTH_KEY' => 'administrator'
+    'ADMIN_AUTH_KEY' => 'administrator',
+    'USER_LOGIN_KEY' =>'QWaiF00d.CoM_20612'
+
+
 ); // 超级管理员
 $config2 = require 'coupon.php';
 $config = array_merge($config, $config2);
