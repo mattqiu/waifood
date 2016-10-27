@@ -57,7 +57,7 @@
                       <td align="left"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  />{$vo.name}</a></td>
                       <td><span class="jiage">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span></td>
                       <td><a href="javascript:void(null)" class="jian btnDeduct" ></a>
-                        <input type="text" class="num"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{$sub}" maxlength="3" />
+                        <input type="text" class="num"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{$sub}" maxlength="5" />
                         <a href="javascript:void(null)" class="jia btnPlus" ></a></td>
                       <td>{:to_price($sub)}</td>
                       <td><a href="javascript:void(0);" onclick="$.delCart({$vo.id},'{$vo.ext}')">delete</a></td>
@@ -107,7 +107,7 @@
                       <td align="left"><a href="{:U('Service/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  />{$vo.name}</a></td>
                       <td><span class="jiage">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span></td>
                       <td><a href="javascript:void(null)" class="jian btnDeduct" ></a>
-                        <input type="text" class="num"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{$sub}" maxlength="3" />
+                        <input type="text" class="num"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{$sub}" maxlength="5" />
                         <a href="javascript:void(null)" class="jia btnPlus" ></a></td>
                       <td>{:to_price($sub)}</td>
                       <td><a href="javascript:void(0);" onclick="$.delCart({$vo.id},'{$vo.ext}')">delete</a></td>

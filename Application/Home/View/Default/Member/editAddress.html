@@ -35,7 +35,7 @@
                   <label for="telephone"><span class="fc_red">*</span> Phone：</label>
                   <input id="telephone" name="telephone" type="text" maxlength="20" value="{$db.telephone}" placeholder="enter your mobile" class="pure-input-1" required />
                   <label for="telephone"><span class="fc_red">*</span> Email：</label>
-                  <input id="email" name="email" type="text" maxlength="50" value="{$db.email}" placeholder="enter your email" class="pure-input-1" required />
+                  <input id="email" name="email" type="text" maxlength="150" value="{$db.email}" placeholder="enter your email" class="pure-input-1" required />
                  <!-- <label for="China_Province">省/市/区：</label>
                   <select id="China_Province" class="common-input" name="China_Province">
                   {get_area('china_province',0,$db['provinceid'])}
@@ -47,9 +47,9 @@
                   {get_area('china_district',$db['cityid'],$db['districtid'])}
                   </select>-->
                   <label for="address">Shipping address：</label>
-                  <input id="address" name="address" type="text" maxlength="50" value="{$db.address}" placeholder="enter your address" class="pure-input-1" required />
+                  <input id="address" name="address" type="text"  value="{$db.address}" placeholder="enter your address" class="pure-input-1" required />
                   <label for="info">Remark：</label>
-                  <input id="info" name="info" type="text" maxlength="50" value="{$db.info}" placeholder="Remark" class="pure-input-1" required />
+                  <input id="info" name="info" type="text"  value="{$db.info}" placeholder="Remark" class="pure-input-1" required />
                   <div align="center" style="padding:10px 0px;">
                     <button type="submit" class="pure-button pure-button-primary w49" >Save</button>
                     <button type="button" class="pure-button w49" onClick="history.back();">Back</button>
