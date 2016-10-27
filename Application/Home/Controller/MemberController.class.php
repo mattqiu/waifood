@@ -172,7 +172,7 @@ class MemberController extends AuthController
             if(regex($addrId,'number')){
                 $this->assign('addr',AddressModel::getUserAddressById($addrId,get_userid()));
             }else{
-                $this->assign('addr',UserModel::getUserById(get_userid()));
+               // $this->assign('addr',UserModel::getUserById(get_userid()));
             }
             if(I('goto')=='cashier'){
                 session('gocashier',true);
