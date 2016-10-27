@@ -36,9 +36,8 @@ class OrderModel extends Model {
         $con['_string'] = "address is not null and address !=''";
         $user =  M('member')->where($con)->select();
         $hasDefault = 0;
-        $ids = array(574,714,1813,431,1478);
+
         foreach($user as $key=>$val){
-            if(in_array($val['id'],$ids)){
             //用户有默认地址的,将用户地址更新到默认地址中
             if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
                 $con['id'] = $daddr['id'];
@@ -73,7 +72,6 @@ class OrderModel extends Model {
                     M('address')->where($con1)->save($data);
                 }
             }
-        }
         }
 
     }
