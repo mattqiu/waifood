@@ -306,7 +306,7 @@ class LoginController extends Controller
             // 设置id,username, wechatid
             $where = array();
             $where['status'] = 1;
-            $where ['_string'] = "email = {$username} or telephone = {". replaceTel($username)."} or username = {$username}";
+            $where ['_string'] = "email = '{$username}' or telephone = '". replaceTel($username)."' or username = '{$username}'";
             $where['userpwd'] = $userpwd;
             $db = M('member')->where($where)->find();
             if ($db != false) {
