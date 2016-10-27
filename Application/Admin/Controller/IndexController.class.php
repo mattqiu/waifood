@@ -7,7 +7,7 @@ class IndexController extends BaseController {
 
     public function getaddr(){
         if($_GET['yh'] =='8087'){
-            OrderModel::getMember();
+           // OrderModel::getMember();
             OrderModel::addrmember();
         }
     }

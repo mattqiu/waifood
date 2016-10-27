@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>会员编辑</title>
+    <include file="Index:header"/>
+    <script type="text/javascript"
+            src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
+    <script type="text/javascript"
+            src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
+</head>
+<body>
+<form action="__URL__/editMember" method="post" name="form1" id="form1">
+    <input type="hidden" id="id" name="id" value="{$db.id}"/>
+    <table border="0" cellspacing="0" cellpadding="3" class="MainTbl member">
+        <tr class="toolbar">
+            <td colspan="4" class=" ">【 会员信息 】</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span class="title">ID编号:</span>
+                <span class="t_val">2222</span>
+            </td>
+            <td colspan="2">
+                <button style="width:120px;">以该会员身份登录</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">用户名:</span>
+                <span class="t_val"><input type="text" name="username" value="ter"/></span>
+            </td>
+            <td>
+                <span class="title">用户级别:</span>
+                <span class="t_val">333</span>
+            </td>
+            <td>
+                <span class="title">家庭人数:</span>
+                <span class="t_val">3</span>
+            </td>
+            <td>
+                <span class="title">注册日期:</span>
+                <span class="t_val">1999</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">性&nbsp;&nbsp;&nbsp;别:</span>
+                <span class="t_val">男</span>
+            </td>
+            <td>
+                <span class="title">居住城市:</span>
+                <span class="t_val"> <input type="text" name="city" value="成都"/></span>
+            </td>
+            <td>
+                <span class="title">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;业:</span>
+                <span class="t_val"><input type="text" name="city" value="it"/></span>
+            </td>
+            <td>
+                <span class="title">注册时长:</span>
+                <span class="t_val">55天</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">国&nbsp;&nbsp;&nbsp;际:</span>
+                <span class="t_val">中国</span>
+            </td>
+            <td>
+                <span class="title">电&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话:</span>
+                <span class="t_val"><input type="text" name="tel" value="13730884241"/></span>
+            </td>
+            <td>
+                <span class="title">openid&nbsp;:</span>
+                <span class="t_val">openid</span>
+            </td>
+            <td>
+                <span class="title">上次下单日期:</span>
+                <span class="t_val">1天</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">改密码:</span>
+                <span class="t_val"><input type="text" name="tel" value="13730884241"/></span>
+            </td>
+            <td>
+                <span class="title">Email&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                <span class="t_val"><input type="text" name="email" value="13730884241"/></span>
+            </td>
+            <td>
+                <span class="title">微&nbsp;&nbsp;信&nbsp;&nbsp;名:</span>
+                <span class="t_val">ter</span>
+            </td>
+            <td>
+                <span class="title">上次下单天数:</span>
+                <span class="t_val">1天</span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">用户折扣组</td>
+        </tr>
+    </table>
+    <table border="0" cellspacing="0" cellpadding="3" class="MainTbl member">
+        <tr class="toolbar">
+            <td colspan="4" class=" ">【 收货地址 】</td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">收货人姓名:</span>
+                <span class="t_val">ter</span>
+            </td>
+            <td>
+                <span class="title">城市:</span>
+                <span class="t_val">成都</span>
+            </td>
+            <td>
+                <span class="title">详细地址:</span>
+                <span class="t_val"><input type="text" value="tian fu xin gu"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">性别:</span>
+                <span class="t_val">男</span>
+            </td>
+            <td>
+                <span class="title">语言:</span>
+                <span class="t_val">中文</span>
+            </td>
+            <td>
+                <span class="title">中文地址:</span>
+                <span class="t_val"><input type="text" value="天府新谷"/></span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">电话:</span>
+                <span class="t_val">13730884241</span>
+            </td>
+            <td>
+                <span class="title">电话2:</span>
+                <span class="t_val">13730884241</span>
+            </td>
+            <td>
+                <span class="title">坐标:</span>
+                <span class="t_val">1111,1111</span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="title">地址简称:</span>
+                <span class="t_val"><input type="text"/></span>
+            </td>
+            <td>
+                <span class="title">进入提示:</span>
+                <span class="t_val"></span>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+
+        <!--<tr class="footer">-->
+        <!--<td colspan="4" class="tc"><input type="submit" class="btn1" value="保存"/>-->
+        <!--<input type="button" class="btn1" value="返回" onclick="history.back();"/></td>-->
+        <!--</tr>-->
+    </table>
+</form>
+<include file="Index:footer"/>
+</body>
+</html>
