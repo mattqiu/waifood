@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Model;
+use Common\Model\AddressModel;
 use Think\Model;
 
 class OrderModel extends Model {
@@ -32,9 +33,26 @@ class OrderModel extends Model {
 
     public static function addrmember(){
         $con['_string'] = "address is not null and address !=''";
-        $re =  M('member')->where($con)->select();
-        foreach($re as $key=>$val){
-           // $con1['']
+        $user =  M('member')->where($con)->select();
+        $hasDefault = 0;
+        foreach($user as $key=>$val){
+            //获取用户地址
+            if( $addr = AddressModel::getUserAddress($val['id'])){
+                foreach($addr as $k=>$v){
+                    if($v['isdefault'] == 1){
+                        $con['userid'] = $val['id'];
+                        $data['address'] = $val['address'];
+                        M('address')->where($con)->save($data);
+                        $hasDefault =1;
+                    }
+                    if(count($addr)>1){//有多条数据,包括一条
+                        if($hasDefault == 0){//
+
+                        }
+                    }
+                }
+            }
+
             $data['userid'] = $val['id'];
             $data['username'] = $val['username'];
             $data['sex'] = $val['sex'];

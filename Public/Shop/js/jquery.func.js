@@ -834,6 +834,18 @@ function checkfindform() {
 
 }
 
+//自动消失的弹出提示框
+function clearpop(txt,time){
+    if(!time){time=1000;}
+    if($("#clearpop").length>0){
+        $("#clearpop").html("<p>"+txt+"</p>").show();
+    }else{
+        var str='<div id="clearpop"><p>'+txt+'</p></div>';
+        $("body").append(str);
+    }
+    setTimeout(function(){$("#clearpop").hide(500);},time);
+}
+
 function checklogform() {
     var v = "#username";
     if (isN(v)) {
