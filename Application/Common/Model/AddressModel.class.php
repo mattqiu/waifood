@@ -99,4 +99,18 @@ class AddressModel extends Model
        return false;
     }
 
+    /**修改用户地址
+     * @param $addrid
+     * @param $data
+     * @return bool
+     */
+    public static function modifyAddr($addrid,$data){
+        if(regex($addrid,'number') && !empty($data)){
+            $con['id'] = $addrid;
+            return M('address')->where($con)->save($data);
+        }else{
+            return false;
+        }
+    }
+
 }

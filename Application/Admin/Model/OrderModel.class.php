@@ -18,6 +18,15 @@ class OrderModel extends Model {
     const    COMPLETED = 3;//
     const    CANCELLED = 4;//
 
+    /**
+     * 获取用户最近的订单
+     * @param $userid
+     * @return mixed
+     */
+    public static function getOrderByUserId($userid){
+        return M('order')->where('userid = '.$userid)->order('addtime desc')->find();
+    }
+
 
     public static function getMember(){
         $con['_string'] = "address is null or  address =''";
@@ -44,10 +53,6 @@ class OrderModel extends Model {
                 $con['id'] = $daddr['id'];
                 $con['userid'] = $val['id'];
                 $data['address'] = $val['address'];
-//                echo '----de----<br>';
-//                dump($data);
-//                dump($con);
-//                echo '----de----<br>';continue;
                 M('address')->where($con)->save($data);
                 M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
             }else if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
@@ -56,20 +61,12 @@ class OrderModel extends Model {
                     $con1['userid'] = $val['id'];
                     $data['address'] = $val['address'];
                     $data['isdefault'] = 1;
-//                    echo '----11----<br>';
-//                    dump($addr);
-//                    dump($con1);
-//                    echo '----11----<br>';continue;
                     M('address')->where($con1)->save($data);//去出用户最近添加的一条地址,修改地址并设为默认
                     M('address')->where('id !='.$addr[0]['id'] .' and userid='. $con1['userid'])->delete($data);//删除其他的
                 }else{
                     $con1['userid'] = $val['id'];
                     $data['address'] = $val['address'];
                     $data['isdefault'] = 1;
-//                    echo '----111----<br>';
-//                    dump($addr);
-//                    dump($con1);
-//                    echo '----11----<br>';continue;
                     M('address')->where($con1)->save($data);
                 }
             }

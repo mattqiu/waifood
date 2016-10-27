@@ -95,6 +95,35 @@ class UserModel extends Model
         }
     }
 
+    /**
+     *超级管理员使用用户登录
+     * @param $userid
+     * @return bool
+     */
+    public static  function loginByAdmin($userid) {
+        if ($userid) {
+            $user =  self::getUserById($userid);
+            if (!empty($user)) {
+                //取用户折扣
+                $level=M('level')->where('id='.$user['usertype'])->find();
+                $rate=$level['rate'];
+                if(!is_numeric($rate)){
+                    $rate=1;
+                }
+                session ( 'userrate', $rate );
+                session ( 'userid', $user ['id'] );
+                session ( 'username', $user ['username'] );
+                session ( 'usertype', $user ['usertype'] );
+                session ( 'wechatid', $user ['wechatid'] );
+                return true;
+            }else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
     public static function modifyMember($userid,$data){
         if(regex($userid,'number') && !empty($data)){
             $con['id'] = $userid;
@@ -102,7 +131,6 @@ class UserModel extends Model
         }else{
             return false;
         }
-
     }
 
     /**重置密码

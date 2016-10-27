@@ -239,14 +239,18 @@ function modifyUser(userid){
         clearpopj('参数错误');
         return false;
     }
+    if($('#member input[name=password]').val().length<4){
+        clearpopj('密码长度最小4位');
+        return false;
+    }
     var user = {
-        userid:userid,
+        id:userid,
         username:$('#member input[name=username]').val(),
         email:$('#member input[name=email]').val(),
         occupation:$('#member input[name=occupation]').val(),
         telephone:$('#member input[name=telephone]').val(),
-        cityname:$('#member input[name=cityname]').val(),
-        password:$('#member input[name=password]').val(),
+      //  cityname:$('#member input[name=cityname]').val(),
+        userpwd:$('#member input[name=password]').val(),
         hobby:$('#member input[name=hobby]').val(),
         usertype:$('#member select[name=usertype]').val(),
         sex:$('#member input[name=sex]:checked').val()
@@ -256,5 +260,22 @@ function modifyUser(userid){
     })
 }
 function modifyAddr($id){
-
+    if(!$id){
+        clearpopj('参数错误');
+        return false;
+    }
+    var addr = {
+        id:$id,
+        username:$('.addr_tabel_'+$id+' input[name=username]').val(),
+        telephone:$('.addr_tabel_'+$id+' input[name=telephone]').val(),
+        address_or:$('.addr_tabel_'+$id+' input[name=address_or]').val(),
+        sex:$('.addr_tabel_'+$id+' input[name=sex'+$id+']:checked').val(),
+        telephone2:$('.addr_tabel_'+$id+' input[name=telephone2]').val(),
+      //  cityname:$('.addr_tabel_'+$id+' input[name=cityname]').val(),
+        address:$('.addr_tabel_'+$id+' input[name=address]').val(),
+        address_reserve:$('.addr_tabel_'+$id+' input[name=address_reserve]').val(),
+    }
+    $.post('/admin/member/modifyAddr.html',addr,function(data){
+        clearpopj(data.message);
+    })
 }
