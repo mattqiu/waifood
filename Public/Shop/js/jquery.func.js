@@ -834,6 +834,23 @@ function checkfindform() {
 
 }
 
+function checklogform() {
+    var v = "#username";
+    if (isN(v)) {
+        jAlert("Sorry,please enter user name.", SYSTITLE, function () {
+            $(v).focus();
+        });
+        return false
+    }
+    v = "#userpwd";
+    if (isN(v)) {
+        jAlert("Sorry, please enter your password!", SYSTITLE, function () {
+            $(v).focus();
+        });
+        return false
+    }
+}
+
 function subLogin() {
     var v = "#username";
     if (isN(v)) {

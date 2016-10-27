@@ -85,22 +85,22 @@ class LoginController extends Controller {
         $key = 'verify_err_num';
         $url=I('returnurl')?I('returnurl'):'/';
         if(IS_POST){
-           $num = cookie($key);
-            if(isset($num) && $num>=3){
+//            $num = cookie($key);
+//            if(isset($num) && $num>=3){
                 if( !isVerifyCorrect()){
-                    apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.',$num);
+                    $this->error ( 'sorry,verifycation code is illegal.');
                 }
-            }
+//            }
             //登录
-			$username=I('username');
-			$userpwd=I('userpwd');
-			if(UserModel::login($username,$userpwd)){
+            $username=I('username');
+            $userpwd=I('userpwd');
+            if(UserModel::login($username,$userpwd)){
                 cookie($key,0);//成功登陆清除登陆失败记录次数
                 if(!strpos(strtolower($url),'login')){
-                    apiReturn(CodeModel::CORRECT,'',$url);
-			    }else{
-                    apiReturn(CodeModel::CORRECT,'','/Member/index');
-			    }
+                    redirect($url);
+                }else{
+                    $this->redirect('Member/index');
+                }
             }else{
                 //记录登录失败的次数
                 $num = cookie($key);
@@ -110,8 +110,8 @@ class LoginController extends Controller {
                     $num++;
                 }
                 cookie($key,$num);
-                apiReturn(CodeModel::ERROR,'wrong user name or password.',$num);
-			}
+                $this->error('wrong user name or password.');
+            }
 		}else{
             $title = 'login';
 			$keywords = $title.lbl('subtitleshop');
