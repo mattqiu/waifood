@@ -687,6 +687,12 @@ class MemberController extends BaseController {
         if ($userpwd && strlen ( $userpwd ) != 32) {
             $data ['userpwd'] = md5 ( $userpwd );
         }
+        if(UserModel::checkEmail($data['email'])){
+            apiReturn(CodeModel::ERROR,'sorry,the email already exists');
+        }
+        if(UserModel::checkUsername($data['username'])){
+            apiReturn(CodeModel::ERROR,'sorry,the username already exists');
+        }
         if ($data) {
             if (UserModel::modifyMember($data['id'],$data) !== false) {
                 apiReturn(CodeModel::CORRECT, "编辑会员成功！" );
