@@ -32,40 +32,49 @@ class OrderModel extends Model {
 
 
     public static function addrmember(){
+        //获取用户地址不为空的
         $con['_string'] = "address is not null and address !=''";
         $user =  M('member')->where($con)->select();
         $hasDefault = 0;
+        $ids = array(574,714,1813,431,1478);
         foreach($user as $key=>$val){
-            //获取用户地址
-            if( $addr = AddressModel::getUserAddress($val['id'])){
-                foreach($addr as $k=>$v){
-                    if($v['isdefault'] == 1){
-                        $con['userid'] = $val['id'];
-                        $data['address'] = $val['address'];
-                        M('address')->where($con)->save($data);
-                        $hasDefault =1;
-                    }
-                    if(count($addr)>1){//有多条数据,包括一条
-                        if($hasDefault == 0){//
-
-                        }
-                    }
+            if(in_array($val['id'],$ids)){
+            //用户有默认地址的,将用户地址更新到默认地址中
+            if($daddr = AddressModel::getUserDefaultAddress($val['id'])){
+                $con['id'] = $daddr['id'];
+                $con['userid'] = $val['id'];
+                $data['address'] = $val['address'];
+//                echo '----de----<br>';
+//                dump($data);
+//                dump($con);
+//                echo '----de----<br>';continue;
+                M('address')->where($con)->save($data);
+                M('address')->where('id !='.$daddr['id'] .' and userid='. $val['id'])->delete($data);//删除其他的
+            }else if( $addr = AddressModel::getUserAddress($val['id'])) {//获取用户地址
+                if (count($addr) > 1) {//有多条数据
+                    $con1['id'] =$addr[0]['id'];
+                    $con1['userid'] = $val['id'];
+                    $data['address'] = $val['address'];
+                    $data['isdefault'] = 1;
+//                    echo '----11----<br>';
+//                    dump($addr);
+//                    dump($con1);
+//                    echo '----11----<br>';continue;
+                    M('address')->where($con1)->save($data);//去出用户最近添加的一条地址,修改地址并设为默认
+                    M('address')->where('id !='.$addr[0]['id'] .' and userid='. $con1['userid'])->delete($data);//删除其他的
+                }else{
+                    $con1['userid'] = $val['id'];
+                    $data['address'] = $val['address'];
+                    $data['isdefault'] = 1;
+//                    echo '----111----<br>';
+//                    dump($addr);
+//                    dump($con1);
+//                    echo '----11----<br>';continue;
+                    M('address')->where($con1)->save($data);
                 }
             }
-
-            $data['userid'] = $val['id'];
-            $data['username'] = $val['username'];
-            $data['sex'] = $val['sex'];
-            $data['telephone'] = $val['telephone'];
-            $data['address'] = $val['address'];
-
-            M('address')->add($data);
-
+        }
         }
 
     }
-
-
-
-
 }

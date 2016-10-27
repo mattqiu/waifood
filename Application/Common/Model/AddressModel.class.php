@@ -56,7 +56,7 @@ class AddressModel extends Model
     public static function getUserAddress($userid){
         if(regex($userid,'number')){
             $con['userid'] =  $userid;
-            $order = 'isdefault desc,id desc';
+            $order = 'isdefault desc,addtime desc';
             return D( 'address' )->where($con)->order ( $order )->select ();
         }
        return false;
