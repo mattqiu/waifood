@@ -10,21 +10,18 @@ class MemberController extends AuthController {
 	public function pwd() {
 		if (IS_POST) {
 			$data = empty ( $data ) ? $_POST : $data;
-
-			if(strlen($data['userpwd']==0)){
+			if(strlen($data['userpwd'])==0){
 				$this->error ('sorry, the original password can not be empty!' );
 			}
-			if(strlen($data['userpwd1']<2)){
+			if(strlen($data['userpwd1'])<2){
 				$this->error ('sorry, the password must be at least 2!' );
 			}
-			
 			if(isN($data['userpwd1'])||isN($data['userpwd2'])){
 				$this->error ('Sorry, the new password can not be empty!' );
 			}
 			if(!($data['userpwd1']==$data['userpwd2'])){
 				$this->error ('Sorry, enter the new password twice inconsistent!' );
 			}
-				
 			$where=array();
 			$where['id']=get_userid();
 			$where['userpwd']=md5($data['userpwd']);
