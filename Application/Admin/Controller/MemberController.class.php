@@ -3,6 +3,7 @@
 namespace Admin\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\CodeModel;
 use Common\Model\UserModel;
 
 class MemberController extends BaseController {
@@ -662,7 +663,6 @@ class MemberController extends BaseController {
 					$this->error ( '添加会员失败！' );
 				}
 			} else {
-				
 				$this->error ( $db->getError () );
 			}
 		} else {
@@ -676,7 +676,22 @@ class MemberController extends BaseController {
 			$this->display ('addMember');
 		}
 	}
-	
+
+    public function modifyUser(){
+        $data = $_POST;
+        $userpwd = $data ['userpwd'];
+        if ($userpwd && strlen ( $userpwd ) != 32) {
+            $data ['userpwd'] = md5 ( $userpwd );
+        }
+        if ($data) {
+            if (UserModel::modifyMember($data['id'],$data) !== false) {
+                apiReturn(CodeModel::CORRECT, "编辑会员成功！" );
+            } else {
+                apiReturn(CodeModel::CORRECT, "编辑会员失败！" );
+            }
+        }
+    }
+
 	// 编辑会员
 	public function editMember() {
 		$id = I ( 'id' );
@@ -702,12 +717,12 @@ class MemberController extends BaseController {
 		} else {
 			// 输出当前Member等级列表
 			$list = M ( "level" )->where ( 'status=1' )->order ( 'id desc' )->select ();
-			$this->assign ( "list", $list );
+			$this->assign ( "level", $list );
 			$addresslist = AddressModel::getUserAddress($id);
 			$this->assign ( "addresslist", $addresslist );
-            $db = UserModel::getUserById($id);
-            $this->assign ( "db", $db );
-			$this->display ('editMember');
+            $user = UserModel::getUserById($id);
+            $this->assign ( "user", $user );
+            $this->display ('editMember');
 		}
 	}
 	

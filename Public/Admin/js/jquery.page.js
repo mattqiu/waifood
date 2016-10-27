@@ -231,3 +231,30 @@ function setOrdernew(obj,id){
 	val=$(obj).find('option:selected').val();
 	setVal(tbl,col,id,val)
 }
+
+
+
+function modifyUser(userid){
+    if(!userid){
+        clearpopj('参数错误');
+        return false;
+    }
+    var user = {
+        userid:userid,
+        username:$('#member input[name=username]').val(),
+        email:$('#member input[name=email]').val(),
+        occupation:$('#member input[name=occupation]').val(),
+        telephone:$('#member input[name=telephone]').val(),
+        cityname:$('#member input[name=cityname]').val(),
+        password:$('#member input[name=password]').val(),
+        hobby:$('#member input[name=hobby]').val(),
+        usertype:$('#member select[name=usertype]').val(),
+        sex:$('#member input[name=sex]:checked').val()
+    }
+    $.post('/admin/member/modifyUser.html',user,function(data){
+        clearpopj(data.message);
+    })
+}
+function modifyAddr($id){
+
+}
