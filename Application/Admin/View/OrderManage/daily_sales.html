@@ -35,6 +35,7 @@
         <td width="80">产品名称</td>
         <td width="60">单位</td>
         <td width="80">数量</td>
+        <td width="60">库存</td>
         <td width="100">供应商</td>
         <td width="80">明细</td>
         <td width="50">操作</td>
@@ -46,6 +47,7 @@
             <td>{$vo.productname}</td>
             <td>{$vo.unit|float_fee}</td>
             <td>{$vo.num|float_fee}</td>
+            <td>{$vo.stock|default=0}</td>
             <td>{$vo.supplyname}</td>
             <td>{$vo.info}</td>
             <td><a href="/admin/orderManage/commoditySales.html?contentid={$vo.productid}&datetime={$_REQUEST['datetime']}">明细</a></td>

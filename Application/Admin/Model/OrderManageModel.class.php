@@ -65,8 +65,11 @@ class OrderManageModel extends Model {
         $con['o.status'] = array('lt',OrderModel::DELIVERING);
         $con['_string'] = "o.delivertime like '$date%'";
         $field = 'o.delivertime,d.productid,d.productname,d.unit,sum(d.num) as num,
-        d.supplyname,group_concat(d.num) as info';
-        $list =  M('order')->alias('o')->join("my_order_detail as d on o.orderno = d.orderno")->where($con)
+        d.supplyname,group_concat(d.num) as info,c.stock';
+        $list =  M('order')->alias('o')
+            ->join("my_order_detail as d on o.orderno = d.orderno")
+            ->join("my_content as c on c.id = d.productid")
+            ->where($con)
             ->field($field)->group('d.productid')->order('d.supplyid desc')->select();
         return $list;
     }
@@ -95,4 +98,5 @@ class OrderManageModel extends Model {
        return M('order')->alias('o')->join('my_order_detail as d on o.orderno = d.orderno')
             ->field($filed)->where($con)->select();
     }
+
 }

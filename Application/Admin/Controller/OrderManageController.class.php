@@ -103,64 +103,10 @@ class OrderManageController extends BaseController {
         downloadExcel($data,$filename,$title,25);
 
     }
+//
+//    public function unfinishedMatters(){
+//        MemberMemoModel::getAllMemo();
+//    }
 
-    /**
-     * 导出数据
-     */
-	public function getPendingOrderTable(){
-        $list = OrderManageModel::getPendingOrders();
-        $data= array();
-        foreach($list as $key=>$val){
-            $data[$key]['id'] = $val['id'];
-            $data[$key]['username'] = $val['username'];
-            $data[$key]['telephone'] = $val['telephone'];
-            $data[$key]['address'] = $val['address'];
-            $data[$key]['cityname'] = $val['cityname'];
-            $data[$key]['cityname'] = $val['cityname'];
-            $data[$key]['delivertime'] = $val['delivertime'];
-            if($val['invoice']==1){
-                $data[$key]['delivertime'] = '是';
-            }else{
-                $data[$key]['delivertime'] = '';
-            }
-            if($val['paymethod']==1){
-                $data[$key]['paymethod'] = '是';
-            }else{
-                $data[$key]['paymethod'] = '';
-            }
-            if(strpos($val['supplyid'],'2,')){
-                $data[$key]['kc'] = '是';
-            }else{
-                $data[$key]['kc'] = '';
-            }
-            if(strpos($val['supplyid'],'10,')){
-                $data[$key]['zy'] = '是';
-            }else{
-                $data[$key]['zy'] = '';
-            }
-            if(strpos($val['supplyid'],'3,')){
-                $data[$key]['ln'] = '是';
-            }else{
-                $data[$key]['ln'] = '';
-            }
-            if(strpos($val['supplyid'],'11,')){
-                $data[$key]['ql'] = '是';
-            }else{
-                $data[$key]['ql'] = '';
-            }
-            if(strpos($val['supplyid'],'5,')){
-                $data[$key]['sny'] = '是';
-            }else{
-                $data[$key]['sny'] = '';
-            }
-            $data[$key]['info'] = $val['info'];
-            $data[$key]['info0'] = $val['info0'];
-        }
-        exportexcel($data,array('id',
-            '用户名','电话', '地址','城市',
-            '送货时间','发票','在线', 'KC肉',
-            '自营肉','莲娜','强力','酸奶油','客户留言','内部留言'),'pendingOrder');
-
-    }
 }
 ?>

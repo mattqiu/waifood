@@ -10,7 +10,7 @@ class RbacController extends BaseController {
 	 * 批量操作
 	 */
 	public function batch($table, $id, $col, $v) {
-		$cols=array('sort','status','isresume','__del__','__sta__','tag1','tag2','tag3','tag4','price','sort1');
+		$cols=array('sort','status','stock','isresume','__del__','__sta__','tag1','tag2','tag3','tag4','price','sort1');
 		if (in_array($col, $cols)) {
 			switch ($col) {
 				case '__del__' :
@@ -24,7 +24,6 @@ class RbacController extends BaseController {
 					if (substr ( $id, strlen ( $id ) - 1, 1 ) == ',') {
 						$id = $id . '0';
 					}
-					
 					$db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '`  set `status`=' . $v . '  where `id` in (' . $id . ') ' );
 					
 					break;
@@ -97,8 +96,7 @@ class RbacController extends BaseController {
 						}
 						
 					}else{
-						$db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '` set `' . $col . '`=' . $v . ' where `id` in (' . $id . ') ' );
-					
+                        $db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '` set `' . $col . '`=' . $v . ' where `id` in (' . $id . ') ' );
 					}
 					break;
 			}

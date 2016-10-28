@@ -30,6 +30,7 @@ $config = array(
         '/^m_success/'=>'home/shop/success',
         '/^m_error/'=>'home/shop/error',
         '/^m_pay/'=>'home/shop/pay',
+        '/^moveing/'=>'home/activity/move',
     ),
     
     // 模型设置

@@ -190,7 +190,7 @@ function setVal(tbl,col,id,val,showmsg){
 		msg=eval(msg);
 		if(msg.status=="1"){
 			var str=col.substring(0,3).toLowerCase();
-			if(str=="tag"||str=="pri"||str=="sor"){
+			if(str=="tag"||str=="pri"||str=="sor"||str=="sto"){  //指定指定不执行操作
 
 			}else{
                if(showmsg == true){

@@ -69,6 +69,7 @@
     <td>供应商</td>
     <td width="70">价格</td>
     <td width="30">销量</td>
+    <td width="70">库存</td>
     <td width="70">排序</td>
     <td width="80">图标</td>
     <td width="50">推荐</td>
@@ -86,6 +87,7 @@
       <td><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a></td>
       <td><input type="text" class="inputText1 numeric w50" value="{$vo.price}" onchange="setVal('content','price',{$vo.id},$(this).val())" /></td>
       <td>{$vo.sold}</td>
+      <td><input type="text" class="inputText1 numeric w50" value="{$vo.stock}" onchange="setVal('content','stock',{$vo.id},$(this).val())" /></td>
       <td><input name="Item_1" id="Item_1"
 				onchange="setVal('content','sort',{$vo.id},$(this).val())"
 				class="inputText1 numeric w50" value="{$vo.sort}" /></td>

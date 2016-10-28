@@ -27,6 +27,25 @@ class MemberMemoModel extends Model{
         }
     }
 
+//    /**
+//     * 获取所有用户未完事项
+//     * @param $mid
+//     * @return bool
+//     */
+//    public static function getAllMemo(){
+//        $field = 'distinct mm.userid,mm.content,mm.create_time,mm.state,SUM(mm.m_id),o.id';
+//        $rs = M('MemberMemo')->alias('mm')->join('my_order o on o.userid=mm.user_id')->where()
+//            ->field($field)->select();
+//        dump(M()->_sql());
+//        dump($rs);
+//        exit;
+//        if($rs){
+//            return true;
+//        }else{
+//            return false;
+//        }
+//    }
+
     /**
      * 添加备忘录
      * @param $userId
@@ -63,6 +82,7 @@ class MemberMemoModel extends Model{
             return false;
         }
     }
+
 
     /**
      * 添加备忘录
