@@ -103,10 +103,12 @@ class OrderManageController extends BaseController {
         downloadExcel($data,$filename,$title,25);
 
     }
-//
-//    public function unfinishedMatters(){
-//        MemberMemoModel::getAllMemo();
-//    }
+
+    public function unfinishedMatters(){
+        $list = MemberMemoModel::getAllMemo();
+        dump(M()->_sql());
+        dump($list);
+    }
 
 }
 ?>

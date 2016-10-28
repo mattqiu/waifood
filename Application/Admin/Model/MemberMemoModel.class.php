@@ -27,24 +27,22 @@ class MemberMemoModel extends Model{
         }
     }
 
-//    /**
-//     * 获取所有用户未完事项
-//     * @param $mid
-//     * @return bool
-//     */
-//    public static function getAllMemo(){
-//        $field = 'distinct mm.userid,mm.content,mm.create_time,mm.state,SUM(mm.m_id),o.id';
-//        $rs = M('MemberMemo')->alias('mm')->join('my_order o on o.userid=mm.user_id')->where()
-//            ->field($field)->select();
-//        dump(M()->_sql());
-//        dump($rs);
-//        exit;
-//        if($rs){
-//            return true;
-//        }else{
-//            return false;
-//        }
-//    }
+    /**
+     * 获取所有用户未完事项
+     * @param $mid
+     * @return bool
+     */
+    public static function getAllMemo(){
+        $con['state'] = self::UNTREATED;
+        $memo = M('MemberMemo')->where($con)->order('create_time desc')->select();
+        if($memo){
+            foreach($memo as &$val){
+                $con1['user_id'] = $val['user_id'];
+                $val['count'] =  M('MemberMemo')->where($con1)->count();
+            }
+        }
+        return $memo;
+    }
 
     /**
      * 添加备忘录
@@ -94,6 +92,7 @@ class MemberMemoModel extends Model{
         if($userId>0 && !empty($content)){
             $data['user_id'] = $userId;
             $data['content'] = $content;
+          //  $data['orderid'] = $orderid;
             $rs = M('MemberMemo')->add($data);
             if($rs){
                 return true;
