@@ -12,21 +12,14 @@
     <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
         <tr>
             <td>关 键 词：
-                <input type="text" class="inputText1" id="keyword"
-                       name="keyword" value="{$keyword}"/>
-                <select id="searchtype"
-                        name="searchtype">
-                    <option value="0">订单号</option>
-                    <if condition="($searchtype eq 1)">
-                        <option value="1" selected="selected">姓名</option>
-                        <else/>
-                        <option value="1">姓名</option>
-                    </if>
-                    <if condition="($searchtype eq 2)">
-                        <option value="2" selected="selected">手机号</option>
-                        <else/>
-                        <option value="2">手机号</option>
-                    </if>
+                <input type="text" class="inputText1" id="keyword" name="keyword" value="{$keyword}"/>
+                <select id="searchtype" name="searchtype">
+                    <option value="1" <if condition="$_REQUEST['searchtype'] eq 1"> selected</if>>订单长号</option>
+                    <option value="2" <if condition="$_REQUEST['searchtype'] eq 2"> selected</if>>订单短号</option>
+                    <option value="3" <if condition="$_REQUEST['searchtype'] eq 3"> selected</if>>收件人姓名</option>
+                    <option value="4" <if condition="$_REQUEST['searchtype'] eq 4"> selected</if>>收件人电话</option>
+                    <option value="5" <if condition="$_REQUEST['searchtype'] eq 5"> selected</if>>收件地址</option>
+                    <option value="6" <if condition="$_REQUEST['searchtype'] eq 6"> selected</if>>留言</option>
                 </select>
                 <input type="submit" class="btn1" value="查询"/></td>
         </tr>
@@ -107,28 +100,24 @@
                 <tr class="row{$i % 2+1}" >
             </if>
             <td>
-                <input type="checkbox" name="SelectIDs" value="{$vo.id}"/>
-                {$vo.id}
-                <!--<if condition="$vo['memo']"><img src="__PUBLIC__/Admin/images/message.png" width="20" alt=""/></if>-->
-            </td>
-            <td>{$vo.addtime}<br/>
+                <!--<input type="checkbox" name="SelectIDs" value="{$vo.id}"/>-->
+                <a href="{:U('Cms/editOrder','id='.$vo['id'])}"  class="underline">{$vo.id}</a>
+                <br/>
                 <eq name="vo.orderfrom" value="1"><span class="fc_red" title="该订单来自微信">微</span></eq>
             </td>
+            <td>{$vo.addtime}</td>
             <td>{$vo.delivertime}</td>
             <td>
-                <eq name="vo.usertype" value="2">
-                    {$vo.username}
-                    <else/>
-                    {:get_username($vo['userid'])}
-                </eq>
+                <a href="{:U('Member/editMember','id='.$vo['id'])}"  class="underline">
+                    <eq name="vo.usertype" value="2">
+                        {$vo.username}
+                        <else/>
+                        {:get_username($vo['userid'])}
+                    </eq>
+                </a>
                 <br/>{$vo.telephone}
             </td>
-            <td> {$vo.amount}<br/>
-                <switch name="vo.ordertype">
-                    <case value="0"><span class="fc_red">物</span></case>
-                    <case value="1"><span class="fc_red">洗</span></case>
-                    <case value="2"><span class="fc_red">物+洗</span></case>
-                </switch>
+            <td> {$vo.amount}
             </td>
             <td>
                 <eq name="vo.invoice" value="1">
@@ -153,7 +142,7 @@
             <td>{$vo.info}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
-                    <volist name="statuslist" id="type">
+                    <volist name="statuslist" id="type" key="j">
                         <if condition="($vo.status eq $key)">
                             <option value="{$key}" selected="selected">{$type}</option>
                             <else/>

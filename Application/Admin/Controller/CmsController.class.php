@@ -2,6 +2,9 @@
 
 namespace Admin\Controller;
 
+use Admin\Model\SugCatModel;
+use Common\Model\CodeModel;
+
 class CmsController extends BaseController {
 	public function index() {
 	}
@@ -671,31 +674,31 @@ class CmsController extends BaseController {
 		$where = null;
 		$searchtype = I ( 'searchtype' );
 		$keyword = I ( 'keyword' );
-		
-		switch ($searchtype) {
-			case '0' :
-				$title = $keyword;
-				break;
-			case '1' :
-				$content = $keyword;
-				break;
-			case '2' :
-				if (is_numeric ( $keyword )) {
-					$pid = $keyword;
-				}
-				break;
-			case '3' :
-				if (is_numeric ( $keyword )) {
-					$where ['id'] = $keyword;
-				}
-				break;
-			case '4' :
-				if (is_numeric ( $keyword )) {
-					$where ['supplyid'] = $keyword;
-				}
-				break;
-		}
-		
+        if($searchtype && $keyword){
+            switch ($searchtype) {
+                case '1' :
+                    $where ['title'] = array ( 'like','%' . $keyword . '%');
+                    break;
+                case '2' :
+                    $where['channelname'][]= array('like','%'.$keyword.'%');
+                    break;
+                case '3' :
+                    if (is_numeric ( $keyword )) {
+                        $where ['id'] = $keyword;
+                    }
+                    break;
+                case '4' :
+                    if (is_numeric ( $keyword ) && $keyword != 0) {
+                        $where['sortpath'][]= array('like','%,'.$keyword.',%');
+                    }
+                    break;
+                case '5' :
+                    if (is_numeric ( $keyword )) {
+                        $where ['supplyid'] = $keyword;
+                    }
+                    break;
+            }
+        }
 		if (is_numeric ( $status )) {
 			$where ['status'] = $status;
 		}
@@ -703,13 +706,13 @@ class CmsController extends BaseController {
 		if (! isN ( $title )) {
 			$where ['title'] = array (
 					'like',
-					'%' . $title . '%' 
+					'%' . $title . '%'
 			);
 		}
 		if (! isN ( $content )) {
 			$where ['content'] = array (
 					'like',
-					'%' . $content . '%' 
+					'%' . $content . '%'
 			);
 		}
 		// 输出当前Content列表
@@ -1733,10 +1736,81 @@ class CmsController extends BaseController {
 	        $this->error ( "删除失败" );
 	    }
 	}
+
     //完成未完事项
     public function finishMemo(){
         $ctrl = A('Admin/Order');
         $ctrl->finishMemo();
     }
+
+
+    public function addCat(){
+        $name = I('catname');
+        if($cat = SugCatModel::addCat($name)){
+            apiReturn(CodeModel::CORRECT,'添加货源成功');
+        }else{
+            apiReturn(CodeModel::ERROR,'添加货源失败');
+        }
+    }
+
+    //下架管理
+    public function shelvesManagement(){
+        $cat = SugCatModel::getCat();
+        $where = null;
+        $searchtype = I ( 'searchtype' );
+        $keyword = I ( 'keyword' );
+        if($searchtype && $keyword){
+            switch ($searchtype) {
+                case '1' :
+                    $where ['title'] = array ( 'like','%' . $keyword . '%');
+                    break;
+                case '2' :
+                    $where['channelname'][]= array('like','%'.$keyword.'%');
+                    break;
+                case '3' :
+                    if (is_numeric ( $keyword )) {
+                        $where ['id'] = $keyword;
+                    }
+                    break;
+                case '4' :
+                    if (is_numeric ( $keyword ) && $keyword != 0) {
+                        $where['sortpath'][]= array('like','%,'.$keyword.',%');
+                    }
+                    break;
+            }
+        }
+        if (is_numeric($_REQUEST['status'])) {
+            $where ['status'] = $_REQUEST['status'];
+        }
+        //售状
+        if (is_numeric($_REQUEST['sale_state'])) {
+            $where ['sale_state'] = $_REQUEST['sale_state'];
+        }
+        //货源
+        if(is_numeric($_REQUEST['sugcatid'])){
+            $where['sugcatid']= array('eq',$_REQUEST['sugcatid']);
+        }
+        // 分页
+        $p = intval ( I ( 'p' ) );
+        $p = $p ? $p : 1;
+        $row = C ( 'VAR_PAGESIZE' );
+
+        $rs = M ( "content" )->where ( $where )->order ( 'id desc' )->page ( $p, $row );
+        $list = $rs->select ();
+        $this->assign ( "list", $list );
+        $count = $rs->where ( $where )->count ();
+
+        if ($count > $row) {
+            $page = new \Think\Page ( $count, $row );
+            $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+            $this->assign ( 'page', $page->show () );
+        }
+
+        $this->assign ( "keyword", $keyword );
+        $this->assign ( "searchtype", $searchtype );
+        $this->assign ( "catlist", $cat );
+        $this->display ('shelves_management');
+    }
+
 }
 ?>

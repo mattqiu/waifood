@@ -462,5 +462,15 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true){
     return $slice;
 }
 
+function getDay($datetime){
+    if(!$datetime){
+        return false;
+    }else{
+        $now = date('Y-m-d');
+        $datetime = substr($datetime,0,10);
+        $time = (strtotime($now) - strtotime($datetime))/86400;
+        return $time;
+    }
+}
 
 ?>

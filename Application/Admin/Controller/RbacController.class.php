@@ -2,16 +2,48 @@
 
 namespace Admin\Controller;
 
+use Admin\Model\ContentModel;
+use Common\Model\CodeModel;
+
 class RbacController extends BaseController {
 	public function index() {
 	}
-	
+
+    /**
+     * 批量操作
+     */
+    public function batchForModify() {
+        $table = I('table');
+        $id = I('id');
+        $col = I('col');
+        $v = I('val');
+        $cols=array('cartname','status');
+        if (in_array($col, $cols)) {
+            switch($table){
+                case 'sugcat' :
+                    $db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '`  set `' . $col . '`="' . $v . '"  where `id` = (' . $id . ')' );
+                    break;
+            }
+
+            if ($db !== false) {
+               apiReturn(CodeModel::CORRECT,'操作成功');
+            } else {
+                apiReturn(CodeModel::ERROR,'操作失败');
+            }
+        }else {
+            apiReturn(CodeModel::ERROR,'系统错误');
+        }
+    }
+
+
+
 	/**
 	 * 批量操作
 	 */
 	public function batch($table, $id, $col, $v) {
-		$cols=array('sort','status','stock','isresume','__del__','__sta__','tag1','tag2','tag3','tag4','price','sort1');
+		$cols=array('sort','status','stock','isresume','__del__','__under__','__sta__','tag1','tag2','tag3','tag4','price','sort1','sale_state','sugcatid');
 		if (in_array($col, $cols)) {
+
 			switch ($col) {
 				case '__del__' :
 					if (substr ( $id, strlen ( $id ) - 1, 1 ) == ',') {
@@ -25,7 +57,13 @@ class RbacController extends BaseController {
 						$id = $id . '0';
 					}
 					$db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '`  set `status`=' . $v . '  where `id` in (' . $id . ') ' );
-					
+
+					break;
+				case '__under__' : //上下架
+                    $db = M ()->execute ( 'update `' . C ( 'DB_PREFIX' ) . $table . '` set `status`=' . $v . ' where `id` in (' . $id . ') ' );
+					if ($v ==0 && $db) {
+                        ContentModel::underCenter($id);//下架
+					}
 					break;
 				default :
 					if($table=='order'){ 
@@ -106,12 +144,12 @@ class RbacController extends BaseController {
 				) );
 			} else {
 				$this->ajaxReturn ( Array (
-						'status' => 0 
+						'status' => 0
 				) );
 			}
 		} else {
 			$this->ajaxReturn ( Array (
-					'status' => 0 
+					'status' => 0
 			) );
 		}
 	}

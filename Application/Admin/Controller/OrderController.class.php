@@ -19,23 +19,23 @@ class OrderController extends BaseController {
 		$username = null;
 		$telephone = null;
 		$where = null;
-		$searchtype = I ( 'searchtype' );
-		$keyword = I ( 'keyword' );
 		$status = I ( 'status' );
 		$pay = I ( 'pay' );
 		$orderfrom = I ( 'orderfrom' );
-		switch ($searchtype) {
-			case '0' :
-				$orderno = $keyword;
-				break;
-			case '1' :
-				$username = $keyword;
-				break;
-			case '2' :
-				$telephone = $keyword;
-				break;
-		}
-		
+
+
+        $searchtype = I ( 'searchtype' );
+        $keyword = I ( 'keyword' );
+        if($searchtype && $keyword){
+            switch ($searchtype) {
+                case '1' : $where['orderno'] = array ( 'like','%' . $keyword . '%');break;
+                case '2' : $where['id'] = array ( 'eq',$keyword );break;
+                case '3' : $where['username'] = array ( 'like','%' . $keyword . '%');break;
+                case '4' : $where['telephone'] = array ( 'like','%' . $keyword . '%');break;
+                case '5' : $where['address'] = array ( 'like','%' . $keyword . '%');break;
+                case '6' : $where['info'] = array ( 'like','%' . $keyword . '%');break;
+            }
+        }
 		if (is_numeric ( $status )) {
 			$where ['status'] = $status;
 		}
@@ -45,32 +45,11 @@ class OrderController extends BaseController {
 		if (is_numeric ( $orderfrom )) {
 			$where ['orderfrom'] = $orderfrom;
 		}
-		
-		if (! isN ( $orderno )) {
-			$where ['orderno'] = array (
-					'like',
-					'%' . $orderno . '%' 
-			);
-		}
-		if (! isN ( $username )) {
-			$where ['username'] = array (
-					'like',
-					'%' . $username . '%' 
-			);
-		}
-		if (! isN ( $telephone )) {
-			$where ['telephone'] = array (
-					'like',
-					'%' . $telephone . '%' 
-			);
-		}
 		$where['shop_id']=get_role('shop');
-		
 		// 分页
 		$p = intval ( I ( 'p' ) );
 		$p = $p ? $p : 1;
 		$row = C ( 'VAR_PAGESIZE' );
-		
 		$rs = M ( "order" )->where ( $where )->order ( 'id desc' )->page ( $p, $row );
 		$list = $rs->select ();
         foreach($list as &$val){
@@ -152,7 +131,7 @@ class OrderController extends BaseController {
 
                    }
                 }else{
-                    if(!$re= MemberMemoModel::addMemo($data['userid'],$data['memo_content'])){
+                    if(!$re= MemberMemoModel::addMemo($data['userid'],$data['memo_content'],$id)){
                         $this->error ( '未完事项添加失败' );
                     }
                 }
@@ -500,6 +479,6 @@ class OrderController extends BaseController {
             }
         }
     }
-	
+
 }
 ?>

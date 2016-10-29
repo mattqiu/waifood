@@ -69,5 +69,11 @@ class ContentModel extends Model {
     		return $pos;
     	}
     }
+
+    public static function underCenter($id){
+        $con['id'] = $id;
+        $data['under_time'] = date('Y-m-d H:i:s',time());
+        M('content')->where($con)->save($data);
+    }
     
 }

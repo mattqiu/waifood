@@ -41,7 +41,7 @@
             </td>
             <td>
                 <span class="title">注册时长:</span>
-                <span class="t_val js_reg_time">0天</span>
+                <span class="t_val js_reg_time">{:getDay($info['addtime'])}</span>
             </td>
         </tr>
         <tr>
@@ -63,7 +63,7 @@
             </td>
             <td>
                 <span class="title">上次下单天数:</span>
-                <span class="t_val js_order_time">1天</span>
+                <span class="t_val js_order_time">{:getDay($order_time)}</span>
             </td>
 
         </tr>
@@ -94,7 +94,7 @@
             </td>
             <td>
                 <span class="title">上次下单日期:</span>
-                <span class="t_val">{$order_time}</span>
+                <span class="t_val">{$order_time|default='无'}</span>
             </td>
             <td style="text-align: center" rowspan="2">
                 <button onclick="modifyUser({$info.id})" style="height: 35px;width: 80px;">保存</button>
@@ -193,15 +193,15 @@
     </div>
 <include file="Index:footer"/>
 <script>
-    var login_key =     '{$login_key}',
-        regist_time = '{$info.addtime}',
-        order_time = '{$order_time}';
-    $(function(){
-        var myDate = new Date(),
-            date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();//获取当前时间,
-        $('.js_reg_time').html( DateDiff(date,regist_time.substr(0,10))+'天');
-        $('.js_order_time').html( DateDiff(date,order_time.substr(0,10))+'天');
-    })
+    var login_key =     '{$login_key}';
+//        regist_time = '{$info.addtime}',
+//        order_time = '{$order_time}';
+//    $(function(){
+//        var myDate = new Date(),
+//            date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate();//获取当前时间,
+//        $('.js_reg_time').html( DateDiff(date,regist_time.substr(0,10))+'天');
+//        $('.js_order_time').html( DateDiff(date,order_time.substr(0,10))+'天');
+//    })
 
     function DateDiff(sDate1, sDate2) {  //sDate1和sDate2是yyyy-MM-dd格式
 

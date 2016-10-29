@@ -10,11 +10,11 @@ select,textarea,input{font-family:微软雅黑,Arial, Helvetica, sans-serif; fon
 div,img,form{border:0px; margin:0px; padding:0px; }
 ul,li{margin:0; padding:0; float:left; display:inline; }
 li{display:inline;}
-a{text-decoration:none; color:#333}
+a{text-decoration:none; color:#333;cursor: pointer}
 a:hover{ color:#39F}
 .w350{width:350px;}
 .w50{width:50px;}
-a.underline:hover{ text-decoration:underline;cursor: pointer}
+a.underline:hover{ text-decoration:underline;}
 .clr{clear:both;}
 .fc_white { color: #fff; }
 #tip,.fc_red { color: #f00; }
@@ -70,8 +70,8 @@ a.underline:hover{ text-decoration:underline;cursor: pointer}
 .MainTbl .header{ height:26px; background-color:#f1f1f1;}
 .MainTbl .header td{ font-weight:bold; color:#666;}
 .MainTbl tr td{background-color:#F2F2F2;border-left:1px solid #FFF;border-top:1px solid #FFF;color:#333;font-size:12px; line-height:20px; padding:2px 4px;}
-.MainTbl .row2 td{  background:#f1f1f1;  }
-.MainTbl .row1 td{ background:#fff;  }
+.MainTbl .row2 td{background:#fff;  }
+.MainTbl .row1 td{  background:#f1f1f1;   }
 
 .MainTbl .row0 td{ background:#fff}
 .MainTbl .row0 .col1{ background:#F5F5F5; text-align:right;}
@@ -90,7 +90,6 @@ a.underline:hover{ text-decoration:underline;cursor: pointer}
 .MainTbl .hover td{background:#EAF4FB;}
 .MainTbl .footer td{ height:28px; background:url(bg.jpg) 0px -149px repeat-x; line-height:28px;}
 .MainTbl .row0 strong{color:#000;}
-
 #go{ font-family:Arial, Helvetica, sans-serif}
 #popup_ok,.uploadify,#go,.btn1{ width:50px; height:24px; background:url(btn0.gif) no-repeat 0px 0px; line-height:24px; border:none; text-align:center}
 #popup_ok:hover,.uploadify:hover,#go:hover,.btn1:hover{background:url(btn0.gif) no-repeat 0px -24px;}
@@ -101,20 +100,20 @@ a.underline:hover{ text-decoration:underline;cursor: pointer}
 .uploadify { margin-left:2px;}
 .uploadify-queue{display:none;}
 .uploadify .swfupload{ margin:0px; padding:0px; left:0px;}
-
-.btn2{ width:80px; height:24px; background:url(btn0.gif) no-repeat -50px 0px; line-height:24px; border:none; text-align:center}
+.btn2,.btn3{  height:24px; line-height:24px; text-align:center}
+.btn2{  width:80px; border-right: 1px #333333 solid;background:url(btn0.gif) no-repeat -50px 0px;  border:none;}
 .btn2:hover{background:url(btn0.gif) no-repeat -50px -24px;}
 
-.btnAdd{ width:30px; height:25px; background:url(btn.gif) no-repeat 0px 0px; float:left; line-height:25px; padding-left:20px; margin:1px 0px 2px 0px; color:#000;}
+.btnAdd{ width:30px; height:25px;/*  background:url(btn.gif) no-repeat 0px 0px; */float:left; line-height:25px; margin:1px 0px 2px 0px; color:#000;}
 .btnAdd:hover{ background-position: 0px -25px;}
-.btnEdit{ width:30px; height:25px; background:url(btn.gif) no-repeat -50px 0px;float:left; line-height:25px; padding-left:20px;margin:1px 0px 2px 0px;}
+.btnEdit{ width:30px; height:25px;/* background:url(btn.gif) no-repeat -50px 0px;*/float:left; line-height:25px;margin:1px 0px 2px 0px;}
 .btnEdit:hover{ background-position: -50px -25px;}
-.btnDel{ width:30px; height:25px; background:url(btn.gif) no-repeat -100px 0px;float:left; line-height:25px; padding-left:20px;margin:1px 0px 2px 0px;}
+.btnDel{ width:30px; height:25px; /* background:url(btn.gif) no-repeat -100px 0px;float:left; */line-height:25px; margin:1px 0px 2px 0px;}
 .btnDel:hover{ background-position: -100px -25px;}
-.btnBack{ width:30px; height:25px; background:url(btn.gif) no-repeat -150px 0px;float:left; line-height:25px; padding-left:20px;margin:1px 0px 2px 0px;}
+.btnBack{ width:30px; height:25px;/*  background:url(btn.gif) no-repeat -150px 0px;float:left;*/ line-height:25px; margin:1px 0px 2px 0px;}
 .btnBack:hover{ background-position: -150px -25px;}
 
-.dot{width:100%; height:20px; margin:0px auto; background:url(Dot.gif) repeat-x center; display:block; overflow:hidden; clear:both;}
+.dot{width:100%; height:20px; margin:0px auto; /* background:url(Dot.gif) repeat-x center; */display:block; overflow:hidden; clear:both;}
 
 /*Login*/
 
@@ -155,3 +154,7 @@ ul.ztree {margin-top: 10px;border: 1px solid #ccc;background:#fff;width: 220px;h
 .bookArea{ width:280px; float:left;}
 .bookArea span{ width:30px; height:30px; line-height:30px; float:left; margin:1px 1px; background:#F5F5F5; border:1px #ccc solid; padding:2px; cursor:pointer;}
 .bookArea .selected{   background:#FFC; border:1px #C30008 solid; color:#000; background:url(tick.png) no-repeat right bottom; }
+/*cms*/
+.addtyle{text-decoration:underline;cursor: pointer; color: #0000ff;float: right;padding-right: 120px;}
+.mlr5{margin:0 5px}
+

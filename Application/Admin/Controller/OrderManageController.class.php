@@ -105,9 +105,10 @@ class OrderManageController extends BaseController {
     }
 
     public function unfinishedMatters(){
-        $list = MemberMemoModel::getAllMemo();
-        dump(M()->_sql());
-        dump($list);
+        $userid = I('userid');
+        $list = MemberMemoModel::getAllMemo($userid);
+        $this->assign ( "list", $list);
+        $this->display('unfinished_matters_list');
     }
 
 }

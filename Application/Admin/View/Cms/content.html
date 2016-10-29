@@ -13,29 +13,10 @@
       <td>关 键 词：
         <input type="text" class="inputText1" id="keyword"
 					name="keyword" value="{$keyword}" />
-        <select id="searchtype"
-					name="searchtype">
-          <option value="0">标题</option>
-          <if condition="($searchtype eq 1)">
-            <option value="1" selected="selected">内容</option>
-            <else />
-            <option value="1">内容</option>
-          </if>
-          <if condition="($searchtype eq 2)">
-            <option value="2" selected="selected">分类ID</option>
-            <else />
-            <option value="2">分类ID</option>
-          </if>
-          <if condition="($searchtype eq 3)">
-            <option value="3" selected="selected">产品ID</option>
-            <else />
-            <option value="3">产品ID</option>
-          </if>
-          <if condition="($searchtype eq 4)">
-            <option value="4" selected="selected">供应商ID</option>
-            <else />
-            <option value="4">供应商ID</option>
-          </if>
+        <select id="searchtype"	name="searchtype">
+            <option value="1">商品名</option>
+            <option value="2" <if condition="($searchtype eq 2)"> selected="selected"</if> >分类名</option>
+            <option value="3" <if condition="($searchtype eq 3)"> selected="selected" </if>>产品ID</option>
         </select>
         <input type="submit" class="btn1" value="查询" /></td>
     </tr>
@@ -71,10 +52,9 @@
     <td width="30">销量</td>
     <td width="70">库存</td>
     <td width="70">排序</td>
-    <td width="80">图标</td>
-    <td width="50">推荐</td>
+    <td width="100">图标/推荐</td>
     <td width="50">状态</td>
-    <td width="110">操作</td>
+    <td width="80">操作</td>
   </tr>
   <volist id="vo" name="list">
     <tr class="row{$i % 2+1}" data="{$vo.indexpic}">
@@ -83,28 +63,28 @@
       <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}</a>
         <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
         <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq></td>
-      <td><a href="{:U('Cms/content','searchtype=2&keyword='.$vo['pid'])}">{:cutstring($vo['channelname'])}</a></td>
-      <td><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a></td>
+      <td><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['pid'])}">{:cutstring($vo['channelname'])}</a></td>
+      <td><a href="{:U('Cms/content','searchtype=5&keyword='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a></td>
       <td><input type="text" class="inputText1 numeric w50" value="{$vo.price}" onchange="setVal('content','price',{$vo.id},$(this).val())" /></td>
       <td>{$vo.sold}</td>
       <td><input type="text" class="inputText1 numeric w50" value="{$vo.stock}" onchange="setVal('content','stock',{$vo.id},$(this).val())" /></td>
       <td><input name="Item_1" id="Item_1"
 				onchange="setVal('content','sort',{$vo.id},$(this).val())"
 				class="inputText1 numeric w50" value="{$vo.sort}" /></td>
-      <td><eq name="vo.tag1" value="1">
-          <input type="checkbox" value="1" checked="checked" onclick="setGroup(this,'{$vo.id}','tag1')" />
-          <else/>
-          <input type="checkbox" value="1"  onclick="setGroup(this,'{$vo.id}','tag1')" />
-        </eq>
-        H
-        <eq name="vo.tag2" value="1">
-          <input type="checkbox" value="1" checked="checked" onclick="setGroup(this,'{$vo.id}','tag2')" />
-          <else/>
-          <input type="checkbox" value="1"  onclick="setGroup(this,'{$vo.id}','tag2')" />
-        </eq>
-        D
-        </td>
-      <td><if condition="($vo.isresume eq 1)"> <a
+      <td>
+          <if condition="$vo['tag1'] eq 1">
+              <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',0)" class="fc_red"> H </a>
+              <else/>
+              <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',1)"> H </a>
+          </if>
+            &nbsp;&nbsp;
+          <if condition="$vo['tag2'] eq 1">
+              <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',0)" class="fc_red"> D</a>
+              <else/>
+              <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',1)"> D</a>
+          </if>
+          &nbsp;&nbsp;
+        <if condition="($vo.isresume eq 1)"> <a
 					href="javascript:void(0);"
 					onclick="setVal('content','isresume',{$vo.id},0)" class="fc_red">推荐</a>
           <else />
@@ -112,12 +92,13 @@
 					onclick="setVal('content','isresume',{$vo.id},1)">未推荐</a> </if></td>
       <td><if condition="($vo.status eq 1)"> <a
 					href="javascript:void(0);"
-					onclick="setVal('content','status',{$vo.id},0,this,'下架')"  class="fc_red">上架</a>
+					onclick="setVal('content','__under__',{$vo.id},0,this,'下架')"  class="fc_red">上架</a>
           <else />
           <a href="javascript:void(0);"
-					onclick="setVal('content','status',{$vo.id},1,this,'上架')">下架</a> </if></td>
+					onclick="setVal('content','__under__',{$vo.id},1,this,'上架')">下架</a> </if>
+      </td>
       <td><a href="{:U('Cms/editContent','id='.$vo['id'])}"
-				class="btnEdit">修改</a> <a class="btnDel" href="javascript:void(0);"
+				class="btnEdit">修改</a>&nbsp;&nbsp; <a class="btnDel" href="javascript:void(0);"
 				onclick="var url='{:U("Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
     </tr>
   </volist>
@@ -167,9 +148,15 @@ $(function(){
 	 },function(){
 		  $("#hoverimg").hide();
 	 });
-	 
-});
 
+});
+function changeState(id,val){
+    $.post('/admin/content/changeState',{id:id,status:val},function(data){
+        if(data.code ==200){
+            window.location.reload();
+        }
+    })
+}
 </script>
 </body>
 </html>

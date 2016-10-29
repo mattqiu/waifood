@@ -32,9 +32,16 @@ class MemberMemoModel extends Model{
      * @param $mid
      * @return bool
      */
-    public static function getAllMemo(){
-        $con['state'] = self::UNTREATED;
-        $memo = M('MemberMemo')->where($con)->order('create_time desc')->select();
+    public static function getAllMemo($userid = 0){
+
+        if($userid>0){
+            $con['user_id'] = $userid;
+            $memo = M('MemberMemo')->where($con)->order('create_time desc')->select();
+        }else{
+            $con['state'] = self::UNTREATED;
+            $memo = M('MemberMemo')->where($con)->order('create_time desc')->group('user_id')->select();
+        }
+
         if($memo){
             foreach($memo as &$val){
                 $con1['user_id'] = $val['user_id'];
@@ -88,11 +95,11 @@ class MemberMemoModel extends Model{
      * @param $content
      * @return bool
      */
-    public static function addMemo($userId,$content){
+    public static function addMemo($userId,$content,$orderid){
         if($userId>0 && !empty($content)){
             $data['user_id'] = $userId;
             $data['content'] = $content;
-          //  $data['orderid'] = $orderid;
+            $data['orderid'] = $orderid;
             $rs = M('MemberMemo')->add($data);
             if($rs){
                 return true;

@@ -190,7 +190,7 @@ function setVal(tbl,col,id,val,showmsg){
 		msg=eval(msg);
 		if(msg.status=="1"){
 			var str=col.substring(0,3).toLowerCase();
-			if(str=="tag"||str=="pri"||str=="sor"||str=="sto"){  //指定指定不执行操作
+			if(str=="pri"||str=="sor"||str=="sto"){  //指定指定不执行操作
 
 			}else{
                if(showmsg == true){
@@ -208,13 +208,31 @@ function setVal(tbl,col,id,val,showmsg){
 }
 
 
+function modifyVal(tbl,col,id,val,needReload){
+    var data = {
+        table:tbl,
+        id:id,
+        col:col,
+        val:val
+    }
+    $.post('/Admin/Rbac/batchForModify.html',data,function(data){
+        if(data.code ==200){
+            clearpop(data.message);
+            if(needReload ==true){
+                window.location.reload();
+            }
+        }
+        clearpop(data.message);
+    })
+}
+
+
 function setGroup(obj,id,col){
 	var tbl,val;
 	tbl = "content";
 	val = $(obj).attr("checked")?1:0;
 	setVal(tbl,col,id,val)
 }
-
 function setOrder(obj,id,showmsg){
 	var tbl,col,val;
 	tbl = "order";
@@ -279,3 +297,33 @@ function modifyAddr($id){
         clearpopj(data.message);
     })
 }
+
+function showModifySugCatBox(){
+    //var $dragModuleDashStr="<tr class='drag_module_dash'><td colspan='5'>&nbsp;</td></tr>";
+    //getHauling().haulingShow({"box":".drag_module_box2","listClassStr":"drag_module_main2","callBack":classifyPullsort});
+    getMask().maskShow({"width":430,"tit":"添加/修改货源类型","cont":'#modifyCate1'})
+}
+
+////拖拽排序
+////参数：当前拖拽对象|被拖拽对象作用群
+//var classifyPullsort  = function(currentObj,listObj){
+//    console.log(currentObj);
+//    console.log(listObj);
+//};
+
+function addCat(){
+    var $newcat = $('#modifyCate1 input[name=new_cate]').val();
+    if($newcat){
+        $.post('/admin/cms/addCat.html',{'catname':$newcat},function(data){
+            if(data.code == 200){
+                window.location.reload();
+            }
+            clearpop(data.data);
+        })
+    }else{
+        clearpop('请填写货源名称');
+    }
+}
+
+
+
