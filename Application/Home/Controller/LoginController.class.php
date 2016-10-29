@@ -31,11 +31,11 @@ class LoginController extends Controller
                     redirect($url);
                 } else {
                     $accessToken = $weChat->getOauthAccessToken();
-                    GLog('//////////accessToken=',$accessToken);
+                    GLog('////////////////////////////accessToken=',json_encode($accessToken));
                     if ($accessToken) {
                         $openid = $accessToken['openid'];
                         openid($openid);
-                        GLog('//////////login:openid=',$openid);
+                        GLog('///////./////////////////////login:openid=',$openid);
                         $this->loginWechat ( $openid );
                         // 判断是否绑定，提示绑定
                         if (! is_bind($openid)) {
