@@ -31,9 +31,11 @@ class LoginController extends Controller
                     redirect($url);
                 } else {
                     $accessToken = $weChat->getOauthAccessToken();
+                    GLog('//////////accessToken=',$accessToken);
                     if ($accessToken) {
                         $openid = $accessToken['openid'];
                         openid($openid);
+                        GLog('//////////login:openid=',$openid);
                         $this->loginWechat ( $openid );
                         // 判断是否绑定，提示绑定
                         if (! is_bind($openid)) {
@@ -175,6 +177,7 @@ class LoginController extends Controller
         } else {
             if (is_wechat()) {
                 $cache = S('openid_' . openid());
+                Log::record('//////////cache',json_encode($cache));
                 if (! $cache) {
                     $weChat = get_wechat_obj();
                     $user = $weChat->getUserInfo(openid());

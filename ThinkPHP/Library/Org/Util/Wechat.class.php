@@ -1,5 +1,7 @@
 <?php
-namespace Org\Util; 
+namespace Org\Util;
+use Think\Log;
+
 /**
  *	微信公众平台PHP-SDK, 官方API部分
 *  @author  dodge <dodgepudding@gmail.com>
@@ -1309,6 +1311,7 @@ class Wechat
 	public function getUserInfo($openid){
 		if (!$this->access_token && !$this->checkAuth()) return false;
 		$result = $this->http_get(self::API_URL_PREFIX.self::USER_INFO_URL.'access_token='.$this->access_token.'&openid='.$openid);
+        Log::record('//////////1',json_encode($result));
 		if ($result)
 		{
 			$json = json_decode($result,true);
@@ -1505,6 +1508,7 @@ class Wechat
 		$code = isset($_GET['code'])?$_GET['code']:'';
 		if (!$code) return false;
 		$result = $this->http_get(self::OAUTH_TOKEN_PREFIX.self::OAUTH_TOKEN_URL.'appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$code.'&grant_type=authorization_code');
+        Log::record('//////////login:result=',json_encode($result));
 		if ($result)
 		{
 			$json = json_decode($result,true);
