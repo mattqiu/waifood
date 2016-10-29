@@ -177,7 +177,7 @@ class LoginController extends Controller
         } else {
             if (is_wechat()) {
                 $cache = S('openid_' . openid());
-                Log::record('//////////cache',json_encode($cache));
+                Glog('//////////cache',json_encode($cache));
                 if (! $cache) {
                     $weChat = get_wechat_obj();
                     $user = $weChat->getUserInfo(openid());
