@@ -827,6 +827,31 @@ class Wechat
 		return sprintf($format, $encrypt, $signature, $timestamp, $nonce);
 	}
 
+
+    public static function getUrl($url, $param = array()){
+        $url = self::buildUrl($url, $param);
+        return self::get($url);
+    }
+
+    public static function get($url, $timeout = 30){
+        GLog("httprequest","get url:".$url,Log::INFO);
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $resposne = curl_exec($ch);
+        return $resposne;
+    }
+
+    private static function buildUrl($url, $param){
+        $url = rtrim(trim($url),"?");
+        $url = $url."?";
+        $query = "";
+        if(!empty($param)){
+            $query = http_build_query($param);
+        }
+        return $url.$query;
+    }
+
 	/**
 	 * GET 请求
 	 * @param string $url
@@ -1310,7 +1335,7 @@ class Wechat
 	 */
 	public function getUserInfo($openid){
 		if (!$this->access_token && !$this->checkAuth()) return false;
-		$result = $this->http_get(self::API_URL_PREFIX.self::USER_INFO_URL.'access_token='.$this->access_token.'&openid='.$openid);
+		$result = $this->getUrl(self::API_URL_PREFIX.self::USER_INFO_URL.'access_token='.$this->access_token.'&openid='.$openid);
         Log::record('//////////1',json_encode($result));
 		if ($result)
 		{
