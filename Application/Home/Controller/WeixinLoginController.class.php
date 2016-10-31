@@ -26,7 +26,20 @@ class WeixinLoginController extends AuthController{
     }
 
     public function index(){
-      
+        $code ='021mO3tP1U2W5615yfpP1fF3tP1mO3tE&state';
+        $weChat = get_wechat_obj();
+
+//
+//        if ($code == '') {
+//            $url = $weChat->getOauthRedirect(get_current_url());
+//            redirect($url);
+//        } else {
+            $accessToken = $weChat->getOauthAccessToken();
+     //   }
+
+        dump($weChat);
+        dump($accessToken);
+        exit;
         $conf = $this->CONF;
         $state = mt_rand(100000,999999);
         session('verify_state', $state);
@@ -51,15 +64,17 @@ class WeixinLoginController extends AuthController{
         $HttpRequest  = new \HttpRequest();
         $data = json_decode($HttpRequest::get(sprintf($token, $code)), true);
         GLog('///////////======',json_encode($data));
-//        if (!isset($data['access_token'])) {
-//            $this->error("获取access_token失败",$this->return_url);
-//        }
+        if (!isset($data['access_token'])) {
+            GLog('/////////////',"获取access_token失败");
+            return false;
+        }
         $user = $HttpRequest::get(sprintf(
             $conf['USER_INFO_URL'],
             $data['access_token'],
             $data['openid']
         ));
         GLog('///////////==========user',json_encode($user));
+        exit;
         $this->wxccallback($user);
     }
 

@@ -24,7 +24,7 @@ class LoginController extends Controller
     public function index($code = '')
     {
         if (is_wechat()) {
-            if (get_userid() == 0) {
+//            if (get_userid() == 0) {
                 $weChat = get_wechat_obj();
                 if ($code == '') {
                     $url = $weChat->getOauthRedirect(get_current_url());
@@ -46,7 +46,7 @@ class LoginController extends Controller
                         exit();
                     }
                 }
-            }
+//            }
         }
         $this->assign('title', 'Login');
         $this->display();

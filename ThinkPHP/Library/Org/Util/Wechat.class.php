@@ -1530,9 +1530,10 @@ class Wechat
 	 * @return array {access_token,expires_in,refresh_token,openid,scope}
 	 */
 	public function getOauthAccessToken(){
-		$code = isset($_GET['code'])?$_GET['code']:'';
+		//$code = isset($_GET['code'])?$_GET['code']:'';
+        $code ='021mO3tP1U2W5615yfpP1fF3tP1mO3tE&state';
 		if (!$code) return false;
-		$result = $this->http_get(self::OAUTH_TOKEN_PREFIX.self::OAUTH_TOKEN_URL.'appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$code.'&grant_type=authorization_code');
+		$result = $this->getUrl(self::OAUTH_TOKEN_PREFIX.self::OAUTH_TOKEN_URL.'appid='.$this->appid.'&secret='.$this->appsecret.'&code='.$code.'&grant_type=authorization_code');
         Log::record('////////////////////login:result=',json_encode($result));
 		if ($result)
 		{
