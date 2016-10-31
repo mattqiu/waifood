@@ -108,7 +108,7 @@
             <td>{$vo.addtime}</td>
             <td>{$vo.delivertime}</td>
             <td>
-                <a href="{:U('Member/editMember','id='.$vo['id'])}"  class="underline">
+                <a href="{:U('Member/editMember','id='.$vo['userid'])}"  class="underline">
                     <eq name="vo.usertype" value="2">
                         {$vo.username}
                         <else/>
