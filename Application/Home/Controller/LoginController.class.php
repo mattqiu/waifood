@@ -4,6 +4,7 @@ namespace Home\Controller;
 
 use Common\Model\CodeModel;
 use Common\Model\UserModel;
+use Org\Util\weixin;
 Use \Think\Controller;
 
 class LoginController extends Controller
@@ -21,22 +22,20 @@ class LoginController extends Controller
         $this->assign('shoptitle', 'Waifood home');
     }
 
-    public function index($code = '')
+    public function index($code='')
     {
+
         if (is_wechat()) {
-//            if (get_userid() == 0) {
-                $weChat = get_wechat_obj();
+            if (get_userid() == 0) {
+                    $weChat = get_wechat_obj();
                 if ($code == '') {
                     $url = $weChat->getOauthRedirect(get_current_url());
                     redirect($url);
                 } else {
                     $accessToken = $weChat->getOauthAccessToken();
-                    GLog('////////////////////////////accessToken=',json_encode($accessToken));
                     if ($accessToken) {
                         $openid = $accessToken['openid'];
                         openid($openid);
-                        GLog('///////./////////////////////login:openid=',$openid);
-                        $this->loginWechat ( $openid );
                         // 判断是否绑定，提示绑定
                         if (! is_bind($openid)) {
                             redirect(U('Login/bind'));
@@ -46,7 +45,7 @@ class LoginController extends Controller
                         exit();
                     }
                 }
-//            }
+            }
         }
         $this->assign('title', 'Login');
         $this->display();
@@ -177,8 +176,7 @@ class LoginController extends Controller
         } else {
             if (is_wechat()) {
                 $cache = S('openid_' . openid());
-                Glog('//////////cache',json_encode($cache));
-                if (! $cache) {
+                if ( $cache) {
                     $weChat = get_wechat_obj();
                     $user = $weChat->getUserInfo(openid());
                     S('openid_' . openid(), $user);
