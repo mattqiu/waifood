@@ -123,7 +123,25 @@ class UserModel extends Model
             return false;
         }
     }
+    public static  function loginWechat($openid){
+        if (strlen($openid) == 28) {
+            $where = array();
+            $where['status'] = 1;
+            $where['wechatid'] = $openid;
+            $user = M('member')->where($where)->find();
+            if ($user != false) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
+    /**编辑用户
+     * @param $userid
+     * @param $data
+     * @return bool
+     */
     public static function modifyMember($userid,$data){
         if(regex($userid,'number') && !empty($data)){
             $con['id'] = $userid;

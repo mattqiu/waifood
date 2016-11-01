@@ -9,6 +9,8 @@ Use \Think\Controller;
 
 class LoginController extends Controller
 {
+    protected $conf='';
+    private  $returnUrl="http://www.waifood.com/home/"; //回调地址
 
     /**
      * 会员首页
@@ -19,32 +21,26 @@ class LoginController extends Controller
         if (C('config.WEB_SITE_TEMPLATE')) {
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
+        $this->conf=C('config');
         $this->assign('shoptitle', 'Waifood home');
     }
 
-    public function index($code='')
+    public function index()
     {
 
         if (is_wechat()) {
-            if (get_userid() == 0) {
-                    $weChat = get_wechat_obj();
-                if ($code == '') {
-                    $url = $weChat->getOauthRedirect(get_current_url());
-                    redirect($url);
-                } else {
-                    $accessToken = $weChat->getOauthAccessToken();
-                    if ($accessToken) {
-                        $openid = $accessToken['openid'];
-                        openid($openid);
-                        // 判断是否绑定，提示绑定
-                        if (! is_bind($openid)) {
-                            redirect(U('Login/bind'));
-                        }
-                    } else {
-                        echo ('access denied.');
-                        exit();
-                    }
-                }
+           if($openid = openid()){
+               UserModel::loginWechat($openid);
+           }
+            if (!get_userid()) { //没有用户信息,进行微信授权
+                $conf =  $this->conf;
+                $state = mt_rand(100000,999999);
+                session('verify_state', $state);
+                $appid = $conf['WECHAT_APPID'];
+                $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
+                trace("url $url");
+                header("Location:$url");
+                exit();
             }
         }
         $this->assign('title', 'Login');
@@ -175,13 +171,10 @@ class LoginController extends Controller
             }
         } else {
             if (is_wechat()) {
-                $cache = S('openid_' . openid());
-                if ( $cache) {
-                    $weChat = get_wechat_obj();
-                    $user = $weChat->getUserInfo(openid());
-                    S('openid_' . openid(), $user);
-                } else {
-                    $user = $cache;
+                $user = S('openid_' . openid());
+                if (!$user) {//没有用户信息进入微信授权
+                    session ( 'userid','');
+                    redirect(U('Login/index'));
                 }
                 $this->assign('user', $user);
             } else {
