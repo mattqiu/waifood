@@ -180,61 +180,7 @@ class LoginController extends Controller {
         $this->assign('description',$description);
         $this->display();
 	}
-	
-	public function loginWechat($openid = null) {
-		if (null== $openid){$openid=I('openid');};
-		if (strlen ( $openid ) == 28) { 
-			if (get_userid () == 0) {
-				$where = array ();
-				$where ['status'] = 1;
-				$where ['wechatid'] = $openid;
-				$db = M ( 'member' )->where ( $where )->find ();
-				if ($db != false) {
 
-					$this->login ( $db ['username'], $db ['userpwd'] );
-				} else {
-					$newid = $this->createWechatUser ( $openid );
-					$db= M ( 'member' )->where ( $where )->find ($newid);
-					if ($db != false) {
-						$this->login ( $db ['username'], $db ['userpwd']);
-					}
-				}
-			}else{
-				return false; 
-			}
-		} else {
-			return false;
-			//$this->redirect ( 'Login/index' );
-		}
-	}
-	public function createWechatUser($openid = null) {
-		if (strlen ( $openid ) != 28) {
-			return false;
-		}
-		$where = array ();
-		$where ['wechatid'] = $openid;
-		$db = M ( 'member' )->where ( $where )->find ();
-		if ($db != false) {
-			return $db ['id'];
-		} else {
-			$maxid = M ( 'member' )->count ();
-			$username = 'wechat_' . ($maxid + 1);
-			$data = array ();
-			$data ['usertype'] = 1;
-			$data ['sort'] = $maxid;
-			$data ['username'] = $username;
-			$data ['userpwd'] = md5 ( $username );
-			$data ['addip'] = get_client_ip ();
-			$data ['sex'] = 1;
-			$data ['wechatid'] = $openid;
-			$data ['status'] = 1;
-			$db = M ( 'member' )->add ( $data );
-			return $db;
-		}
-
-		
-	}
-	
 	//自动创建用户
 	public function create($openid = null) { 
 		if ( $openid==null) {

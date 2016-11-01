@@ -48,12 +48,22 @@ class WeixinController extends Controller {
         trace("user ".var_export($user ,true));
         openid($data['openid']);//缓存openid
         GLog('weixin:login:user',$user);
-        // 判断是否绑定，提示绑定
-        if (! is_bind($data['openid'])) {
-            redirect(U('Login/bind'));
+        if(UserModel::getUserByOpenid($data['openid'])){
+            if( UserModel::loginWechat($data['openid'])){
+                redirect('/');
+            }
         }else{
-            UserModel::loginWechat($data['openid']);
+            if( UserModel::createWechatUser($data['openid'])){
+                redirect('/');
+            }
         }
+
+//        // 判断是否绑定，提示绑定
+//        if (! is_bind($data['openid'])) {
+//            redirect(U('Login/bind'));
+//        }else{
+//
+//        }
     }
 
 }

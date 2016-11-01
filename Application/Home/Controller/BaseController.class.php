@@ -1,6 +1,7 @@
 <?php
 namespace Home\Controller;
 
+use Common\Model\UserModel;
 use Think\Controller;
 
 class BaseController extends Controller
@@ -48,8 +49,7 @@ class BaseController extends Controller
         $openid = I('_openid');
         if (strlen($openid) == 28) {
             openid($openid);
-            $ctrl = A ( 'Login' );
-            $ctrl->loginWechat ( $openid );
+            UserModel::loginWechat($openid);
         }
     }
 }

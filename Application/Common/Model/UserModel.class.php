@@ -56,6 +56,56 @@ class UserModel extends Model
         return false;
     }
 
+
+    /**
+     * 微信注册新账号
+     * @param string $openid
+     * @return mixed
+     */
+    public static function createWechatUser($openid)
+    {
+        $user = S('openid_' . $openid);
+        $maxid = time();
+        $data = array();
+        $data['usertype'] = 3;
+        $data['sort'] = $maxid;
+        $data['username'] =  $user['nickname'];
+        $data['userpwd'] = md5($user['nickname']);
+        $data['indexpic'] = $user['headimgurl'];
+        $data['addip'] = get_client_ip();
+        $data['sex'] = $user['sex'];
+        $data['wechatid'] = $openid;
+        $data['weixin'] = $user['nickname'] ;
+        // 推荐人
+        $u=M('member')->where('id='.get_fid())->find();
+        if($u){
+            $data['fatherid'] = get_fid();
+        }
+        $db = M('member')->add($data);
+        if ($db) {
+            M('member')->where('id=' . $db)->setField(array( 'sort' => $db ));
+            self::loginWechat($openid);
+        }
+        return $db;
+    }
+
+    /**
+     * 根据openid获取用户
+     * @param $openid
+     * @return bool|mixed
+     */
+    public static function getUserByOpenid($openid){
+        if (strlen($openid) == 28) {
+            $where = array();
+            $where['status'] = 1;
+            $where['wechatid'] = $openid;
+            return M('member')->where($where)->find();
+        }else{
+            return false;
+        }
+    }
+
+
     /**
      *用户登录
      * @param $username
@@ -123,13 +173,32 @@ class UserModel extends Model
             return false;
         }
     }
+
+    /**
+     * 根据openid登录
+     * @param $openid
+     * @return bool
+     */
     public static  function loginWechat($openid){
         if (strlen($openid) == 28) {
-            $where = array();
-            $where['status'] = 1;
-            $where['wechatid'] = $openid;
-            $user = M('member')->where($where)->find();
+            $user = self::getUserByOpenid($openid);
             if ($user != false) {
+                $data = array ();
+                $data ['lastlogtime'] = time_format ();
+                $data ['lastlogip'] = get_client_ip ();
+                $data ['logtimes'] = $user ['logtimes'] + 1;
+                self::modifyMember( $user ['id' ],$data);
+                //取用户折扣
+                $level=M('level')->where('id='.$user['usertype'])->find();
+                $rate=$level['rate'];
+                if(!is_numeric($rate)){
+                    $rate=1;
+                }
+                session('userrate', $rate );
+                session ( 'userid', $user ['id'] );
+                session ( 'username', $user ['username'] );
+                session ( 'usertype', $user ['usertype'] );
+                session ( 'wechatid', $user ['wechatid'] );
                 return true;
             }
         } else {

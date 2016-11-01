@@ -4,7 +4,6 @@ namespace Home\Controller;
 
 use Common\Model\CodeModel;
 use Common\Model\UserModel;
-use Org\Util\weixin;
 Use \Think\Controller;
 
 class LoginController extends Controller
@@ -27,12 +26,10 @@ class LoginController extends Controller
 
     public function index()
     {
-
         if (is_wechat()) {
            if($openid = openid()){
                UserModel::loginWechat($openid);
-           }
-            if (!get_userid()) { //没有用户信息,进行微信授权
+           }else if (!get_userid()) { //没有用户信息,进行微信授权
                 $conf =  $this->conf;
                 $state = mt_rand(100000,999999);
                 session('verify_state', $state);
@@ -43,8 +40,6 @@ class LoginController extends Controller
                 exit();
             }
         }
-        $this->assign('title', 'Login');
-        $this->display();
     }
 
     public function register()
@@ -109,45 +104,6 @@ class LoginController extends Controller
         }
     }
 
-    public function loginWechat($openid = null)
-    {
-        if (null == $openid) {
-            $openid = openid();
-        }
-        if (strlen($openid) == 28) {
-            if (get_userid() == 0) {
-                $where = array();
-                $where['status'] = 1;
-                $where['wechatid'] = $openid;
-                $db = M('member')->where($where)->find();
-                if ($db != false) {
-                    $login=$this->login($db['username'], $db['userpwd']);
-                    if($login){
-                     $this->redirect('Member/index');
-                    }
-                } else {
-                    // TODO:未登录，是自动注册还是跳转到是否绑定页面
-                    // $newid = $this->createWechatUser($openid);
-                    // $db = M('member')->where($where)->find($newid);
-                    // if ($db != false) {
-                    // $this->login($db['username'], $db['userpwd'], '');
-                    // }
-                    // redirect(U('Login/bind'));
-                }
-            } else {
-                if (isN(session('wechatid'))) {
-                    // 已登录自动绑定，可能是有问题滴
-                    // $wid = M('member')->where('id=' . get_userid())->setField('wechatid', $openid);
-                    // session('wechatid', $openid);
-                    // redirect(U('Login/bind'));
-                }
-                return false;
-            }
-        } else {
-            // return false;
-            $this->redirect('Login/index');
-        }
-    }
 
     /**
      * 绑定
@@ -194,70 +150,6 @@ class LoginController extends Controller
         $wid = M('member')->where('id=' . get_userid())->setField('wechatid', $openid);
         session('wechatid', $openid);
         redirect(U('m_cashier'));
-    }
-
-    /**
-     * 直接用微信登录
-     */
-    public function createWechat()
-    { 
-        $db = $this->createWechatUser();
-        if ($db) {
-            redirect(U('Member/index'));
-        } else {
-            redirect(U('Login/index'));
-        }
-    }
-
-    private function createWechatUser($openid = '')
-    {
-        if ($openid == '') {
-            $openid = openid();
-        }
-        if (strlen($openid) != 28) {
-            return false;
-        }
-        $where = array();
-        $where['wechatid'] = $openid;
-        $db = M('member')->where($where)->find();
-        if ($db != false) {
-            $this->loginWechat($openid);
-            return $db['id'];
-        } else {
-            $maxid = time();
-            $username = 'wechat_' . $maxid;
-            $data = array();
-            $data['usertype'] = 3;
-            $data['sort'] = $maxid;
-            $data['username'] = $username;
-            $data['userpwd'] = md5($username);
-            $data['addip'] = get_client_ip();
-            $data['sex'] = 1;
-            $data['wechatid'] = $openid;
-            $data['status'] = 1;
-            
-            // 推荐人
-            $u=M('member')->where('id='.get_fid())->find();
-            if($u){
-            $data['fatherid'] = get_fid();
-            }
-            $db = M('member')->add($data);
-            if ($db) {
-                $user = S('openid_' . $openid);
-                if ($user) {
-                    $username = $user['nickname'] . '_' . $db;
-                } else {
-                    $username = 'wechat_' . $db;
-                }
-                M('member')->where('id=' . $db)->setField(array(
-                    'username' => $username,
-                    'weixin' => $user['nickname'],
-                    'sort' => $db
-                ));
-                $this->loginWechat(openid());
-            }
-            return $db;
-        }
     }
 
     public function loginAtion(){
@@ -321,7 +213,7 @@ class LoginController extends Controller
                 if (isN($db['avatar'])) {
                     $wid = M('member')->where('id=' . $db['id'])->setField('avatar', $avatar);
                 }
-                
+
                 session('userid', $db['id']);
                 session('username', $db['username']);
                 session('userrate', $rate); // 没作用1

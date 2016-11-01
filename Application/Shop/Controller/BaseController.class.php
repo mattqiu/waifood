@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Controller;
 
+use Common\Model\UserModel;
 use Think\Controller;
 
 class BaseController extends Controller
@@ -19,8 +20,7 @@ class BaseController extends Controller
     public function checkOpenid()
     {
         $openid = I('openid');
-        $ctrl = A('Login');
-        $ctrl->loginWechat($openid);
+        UserModel::loginWechat($openid);
     }
 
     /**

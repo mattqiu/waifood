@@ -10,7 +10,16 @@
 <body style=" background:#F8F8F8; ">
 
 <!--顶部-->
-<header><a id="list" href="{:Uu('Category/index')}"></a>  {$shoptitle}  </header>
+<header>
+    <ul>
+        <li class="fl">
+            <span>Chendu</span>
+        </li>
+        <li class="fl"><input type="text" placeholder="Keywrods" style="width: 100%;" /></li>
+        <li class="fl"><span></span><span></span></li>
+    </ul>
+    <!--<a id="list" href="{:Uu('Category/index')}"></a> -->
+</header>
 <!--banner-->
 <div id="wrapper">
   <div class="swipe">
@@ -22,12 +31,17 @@
 </div>
 
 <!--图标-->
-<div class="icoboxindex"> 
+<div class="icoboxindex">
 <volist name="list" id="vo">
-<a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
-  <h1>{$vo.name}</h1>
-  </a> 
+    <if condition="$i elt 7">
+        <a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
+            <p>{$vo.name}</p>
+        </a>
+    </if>
   </volist>
+    <a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
+        <h1>more</h1>
+    </a>
   </div>
 <!--新品上市-->
 <div class="imgbox"> 
