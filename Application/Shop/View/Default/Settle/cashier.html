@@ -326,9 +326,7 @@
     //根据时间选择时间段
     function checkTime($now){
         var myDate = new Date(),
-                month = (myDate.getMonth()+1)<10 ? "0"+(myDate.getMonth()+1):(myDate.getMonth()+1),
-                day = (myDate.getDate())<10 ? "0"+(myDate.getDate()):(myDate.getDate());
-            date =  myDate.getFullYear()+'-'+month+'-'+day,//获取当前时间,(+1: 月份为0-11)
+            date =  getDate(),
             beyond = parseInt($('body').data('beyond'));
         if($now ==date){ //今天
 
