@@ -1060,7 +1060,7 @@ class CmsController extends BaseController {
 			$db = D ( "channel" );
 			$data = empty ( $data ) ? $_POST : $data;
 			$validate = $db->create ( $data );
-			
+
 			// 上级分类不能是自己
 			if ($data ['pid'] == $id) {
 				$this->error ( '上级不能是自己！' );

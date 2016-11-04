@@ -1,85 +1,91 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header"/>
 </head>
 
 <body>
-<include file="Index:bar" /> 
+<include file="Index:bar"/>
 <div class="container">
-  <div class="content">
-    <div class="main-body">
-      <div class="main-list">
-        <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
-          <input type="hidden" name="shop_id" id="shop_id" value="1" />
-          <eq name="cartnum" value="0">
-            <div class="main-item">
-              <div class="item-title bdnone"> <span>Your shopping cart is empty!</span> </div>
-              <div class="clr"></div>
-            </div>
-            <else/>
-            <if condition="(get_userid() eq 0)">
-              <div class="main-item">
-                <div class="item-title bdnone"> You should  <a href="{:U('Login/index')}" class="alogin"  >login</a> to checkout.  </div>
-                <div class="clr"></div>
-              </div>
-            </if>
-            <div class="main-item">
-              <div class="item-title">
-                <h3 class="fl">Product list</h3>
-                <span class="fr"><a href="javascript:void(0);" onClick="$.clearCart();">Empty cart</a></span> </div>
-              <div class="item-info">
-                <volist name="cart.cart_items" id="vo">
-                  <div class="item-li">
-                    <div class="item-img"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" /></a></div>
-                    <div class="item-name">
-                      <h3><a  href="{:U('Product/view?id='.$vo['id'])}">{$vo.name}</a></h3>
-                      <div class="item-no">Price：<span class="fc_red">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span> 
-                      	<neq name="vo.ext" value="">
-                      	Specifications：{$vo.ext}
-                      	</neq>
-                      	</div>
-                    </div>
-                    <div class="item-cart">
-                      <div class="item-num cart-pad"> <a href="javascript:void(0);" onClick="$.delCart({$vo.id},'{$vo.ext}')" class="fl"><i class="icon_ icon_trash"></i></a>
-                        <div class="item-cart-info">Quantity： <a href="javascript:void(0);" class="btnDeduct"  id="btnDeduct" >-</a>
-                          <input type="number" class="input-cart-num" min="1" max="999" maxlength="5"  onchange="$.editCart({$vo.id},(parseInt($(this).val())),'{$vo.ext}')" value="{$vo.num}" data="{:get_price($vo['id'],$vo['price'],$vo['ext'])}" />
-                          <a href="javascript:void(0);" class="btnPlus"   id="btnPlus"  >+</a> Total：<span class="fc_red">&yen;<font class="CartAmount">{:to_price(get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'])}</font></span></div>
-                      </div>
-                    </div>
-                    <div class="clr"></div>
-                  </div>
-                </volist>
-                <div class="item-msg">
-                  <div class="item-status"> </div>
-                  <div class="item-count">
-                  Amount：<span  >&yen;{$cart.cart_amount}</span><br />
-                  Delivery Fee：<span  >&yen;{$cart.cart_shipfee|to_price}</span><br />
-                 Total amount：<span >&yen;<font id="CartAmount">{:to_price($cart['cart_amount']+$cart['cart_shipfee'])}</font></span></div>
-                </div>
-                <div class="clr"></div>
-              </div>
-              <div class="clr"></div>
-            </div>
-            <div class="item-pay-container">
-              <div class="item-pay">
-                <eq name="cart.cart_num" value="0">
-                  <button  class="pure-button pure-button-error pure-button-disabled "   disabled="disabled">procced to checkout</button>
-                  <else/>
-                  <input type="button"  class="pure-button pure-button-error" onClick="location='/m_cashier';" style="width:100%;" value="procced to checkout" />
-                </eq>
-              </div>
-              <div class="clr"></div>
-            </div>
-          </eq>
-        </form>
-      </div>
+    <div class="itemg-title">
+        <p class="fl" style="color: #64c73e;font-size: 17px;">Product list</p>
+        <div class="fr icon_trash" style="margin: 17px  10px;" onClick="clearCart();">
+            <a href="javascript:void(0);" onClick="clearCart();" class="emptycart">Empty cart</a></div>
     </div>
-  </div>
-  <div class="clr"></div>
+    <div style="height: 5px;background: #EEEEEE;border-top: 1px solid #cccccc "></div>
+    <!--购物车商品-->
+    <div class="clr" id="content">
+
+    </div>
+    <div class="cart_foot" id="cart_foot" data-delivery_fee="{$cart.cart_shipfee|to_price}">
+        <div class="fl calculate">
+            <table>
+            <tr>
+                <td class="jstotalmoney">0</td>
+                <td>+</td>
+                <td class="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</td>
+                <td>=</td>
+                <td class="totalmoney">0</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td></td>
+                <td>Delivery</td>
+                <td></td>
+                <td>Total amount</td>
+            </tr>
+            </table>
+        </div>
+        <div class="fr checkout" onclick="goCashier();"></div>
+    </div>
 </div>
-<include file="Index:footer" /> 
- </body>
+<include file="Index:footer"/>
+<script>
+    $(function () {
+        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0,delivery_fee=parseFloat('{$cart.cart_shipfee|to_price}');
+        if (myfood) {
+            var obj = $.parseJSON(myfood);
+            if (obj) {
+                for (var i in obj) {
+                    $html += '<div class="itemg-li" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '">';
+                    $html += '<a href="/Product/view.html?id=' + obj[i]['id'] + '">';
+                    $html += '<div class="itemg-img fl tc">';
+                    $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="100"/>';
+                    $html += '</div>';
+                    $html += '<div class="itemg-name fr">';
+                    $html += '<p>' + obj[i]['name'] + '</p>';
+                    $html += '<p><span class="green num-item">&yen;' + obj[i]['price'] + '</span></p>';
+                    $html += '</div>';
+                    $html += '</a>';
+                    $html += '<div class="clr"></div>';
+                    $html += '<div class="item-foot tc ">';
+                    $html += '<div class="fl icon_trash _trash " onClick="delGood(' + obj[i]['id'] + ');"></div>';
+                    $html += '<div class=" fr item-foot-r">';
+                    $html += '<div class="fl g_btn cartbtn">';
+                    $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
+                    $html += '<input type="text" class="num cartgoodnum fl tc" id="js_goods_num_' + obj[i]['id'] + '" value="' + obj[i]['amount'] + '"/>';
+                    $html += '<div class="add_cart_num  fl" data-id="{$vo.id}" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
+                    $html += '</div>';
+                    $html += '<div class="fr ptotal" style="margin-top: 10px;color: #f15800;    font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (obj[i]['amount'] *obj[i]['price'])+ '</span></div>';
+                    $html += '</div>';
+                    $html += '</div>';
+                    $html += '<div class="clr"></div>';
+                    $html += '<hr width="108%" color="#cccccc" size="1px" style="margin-left: -2%; "/>';
+                    $html += '</div>';
+                    $('#content').html($html);
+                    totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                    totalNum +=  obj[i]['amount'];
+                }
+            }
+        }
+        $('#cart_foot .jstotalmoney').html('&yen;'+totalMoney);
+        $('#cart_foot .totalmoney').html('&yen;'+parseFloat(delivery_fee+totalMoney));
+    })
+
+
+</script>
+
+</body>
 </html>

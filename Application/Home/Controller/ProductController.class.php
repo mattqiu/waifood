@@ -3,13 +3,14 @@
 namespace Home\Controller;
 
 class ProductController extends BaseController {
-	public function channel($id = null) {
+
+    public function channel($id = null) {
 		$where = array ();
 		$where ['status'] = 1;
 		$where ['pid'] = $id;
 		$order = 'sort asc';
 		$db = M ( 'channel' )->order ( $order )->where ( $where )->select ();
-		
+
 		$this->display ();
 	}
 	/**
@@ -38,7 +39,7 @@ class ProductController extends BaseController {
 		$p = $p ? $p : 1;
 		$row = C ( 'VAR_PAGESIZE' );
 		
-		$rs = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand' )->where ( $where )->order ( $orderstr )->page ( $p, $row );
+		$rs = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock' )->where ( $where )->order ( $orderstr )->page ( $p, $row );
 		$list = $rs->select ();
 		$this->assign ( "list", $list );
 		$count = $rs->where ( $where )->count ();

@@ -4,6 +4,7 @@ namespace Home\Controller;
 
 use Common\Model\AddressModel;
 use Common\Model\DateModel;
+use Common\Model\UserModel;
 
 class ShopController extends BaseController {
 	/**
@@ -31,15 +32,61 @@ class ShopController extends BaseController {
 	 * @param number $shop_id        	
 	 */
 	public function cashier($shop_id = 0,$coupon='',$code='',$openid='',$usecoupon='') {
+        // 用户权限检查
+        if (get_userid() == 0) {
+            if($_REQUEST['gocashier']){
+                session('gocashier',true);
+            }
+            if(is_wechat()){
+                $openid = openid();
+                if (strlen($openid) == 28) {
+                    openid($openid);
+                    UserModel::loginWechat($openid);
+                }
+            }else{
+                $this->redirect ( 'Login/index' );
+            }
+        }
+        /*获取用户地址*/
+        $addrId = I('addr_id');
+        if(regex($addrId,'number')){
+            $address = AddressModel::getUserAddressById($addrId,get_userid());
+        }else{
+            $addresslist =AddressModel:: getUserAddress(get_userid());
+        }
+        if ($address == false && $addresslist == false) {
+            session('gocashier',true);
+            $this->redirect ( 'Member/addAddress' );
+        }else {
+            if($addresslist){
+                $this->assign ( 'address', $addresslist[0]);
+            }else{
+                $this->assign ( 'address', $address );
+            }
+        }
+        //获取可配送日期
+        $date = DateModel::getFutureDay(15,true);//获取未来15天的日期
+        $this->assign ( 'date', $date );
+        if($dateData = DateModel::getFutureDay(15)){
+            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
+            $this->assign ( 'dateData',$dateData);
+        }
+
+        $this->assign ( 'deliverinfo',lbl('deliverinfo') );
+        $this->assign ( 'times',  $times = str2arr(lbl('delivertime'),"\r\n"));
+        $this->assign ( 'title', 'Cashier' );
+        $this->display ();
+    }
+	public function cashier1($shop_id = 0,$coupon='',$code='',$openid='',$usecoupon='') {
 	    if(is_wechat()){
-	        $weChat = get_wechat_obj ( ); 
+	        $weChat = get_wechat_obj ( );
 	        if ($code == '') {
-	            $url = $weChat->getOauthRedirect ( get_current_url () ); 
+	            $url = $weChat->getOauthRedirect ( get_current_url () );
 	            redirect ( $url );
 	        } else {
-	            $accessToken = $weChat->getOauthAccessToken (); 
+	            $accessToken = $weChat->getOauthAccessToken ();
 	            if ($accessToken) {
-	                $openid = $accessToken ['openid']; 
+	                $openid = $accessToken ['openid'];
 	                openid($openid );
 	                //判断是否绑定，提示绑定
 	                if(!is_bind($openid)){
@@ -54,8 +101,8 @@ class ShopController extends BaseController {
 	    }
 		// 购物车
 		$ctrl = A ( 'Home/Cart' );
-		$data = $ctrl->loadCart (); 
-		if ($data['cart_num'] == 0) { 
+		$data = $ctrl->loadCart ();
+		if ($data['cart_num'] == 0) {
 			$this->assign ( 'cartnum', 0 );
 		} else {
             $addrId = I('addr_id');

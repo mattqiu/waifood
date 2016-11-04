@@ -1,373 +1,264 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
-<js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js" />
-<script language="javascript">
-<?php
-        /*
-$strdates=lbl('disabled_dates');
-if($strdates){
-	$strdates = str_replace ( "\r\n", ",", $strdates );
-	$strdates = str_replace ( "，", ",", $strdates );
-	$arr=arr2clr(str2arr($strdates));
-	if($arr){
-		$strdates=json_encode($arr);
-	}else{
-		$strdates='""';
-	}
-}*/
-?>
-/*
-$(function(){
-	$('#delivertime').calendar({
-		minDate:'%y-%M-%d',
-		disWeek:"{:lbl('disabled_week')}",
-		disDate:{$strdates} });
-});
- */
-</script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header"/>
+    <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
 </head>
-
 <body data-beyond="{$beyond}">
-<include file="Index:bar" />
+<include file="Index:bar"/>
 <div class="container">
-  <div class="content">
-    <div class="main-body">
-      <div class="main-list">
-        <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
-          <input type="hidden" name="shop_id" id="shop_id" value="1" />
-          <input type="hidden" name="UseAddressID" id="UseAddressID" value=""/>
-          <input type="hidden" name="cityname" id="cityname" value=""/>
-          <eq name="cartnum" value="0">
-            <div class="main-item">
-              <div class="item-title bdnone"> <span>Your shopping cart is empty!</span> </div>
-              <div class="clr"></div>
-            </div>
-            <else/>
-            <if condition="(get_userid() eq 0)">
-              <div class="main-item">
-                <div class="item-title bdnone"> You should  <a href="{:U('Login/index')}" class="alogin"  >login</a> to submit the order.  </div>
-                <div class="clr"></div>
-              </div>
-            </if>
-            <div class="main-item">
-              <div class="item-title">
-                <h3 style="width:100%;"><span class="fl" style="width:auto;">Receiving information</span> <a href="{:U('Member/address','goto=cashier')}" style="width:auto; float:right" class="fr">Choose</a></h3>
-              </div>
-              <div class="item-info">
-                <div class="address-list" id="addr_list">
-                    <if condition="!empty($addresslist)">
-                        <volist name="addresslist" id="vo">
-                            <label class="addr_list">
-                                <input type="radio"  name="consingee" data-cityname="{$vo.cityname}" <if condition="$vo['isdefault'] eq 1"> checked<elseif condition="$i eq 1"/>checked</if> value="{$vo.id}"/>
-                                {$vo.username}-{$vo.telephone}- {$vo.address} -{$vo.cityname}
-                                <!--<a href="/member/info1.html?goto=cashier&addressid={$vo.id}" >Modify</a>-->
-                            </label>
-                            <br/>
-                        </volist>
-                        <else/>
-                        <label class="addr_list">
-                            <input type="radio"  name="consingee" data-cityname="{$address.cityname}" checked value="{$address.id}"/>
-                            {$address.username}-{$address.telephone}- {$address.address} -{$address.cityname}
-                            <!--<a href="/member/info1.html?goto=cashier&addressid={$vo.id}" >Modify</a>-->
-                        </label>
-                    </if>
+    <div class="content">
+        <div class="main-body">
+            <div class="main-list">
+                <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
+                    <input type="hidden" name="shop_id" id="shop_id" value="1"/>
+                    <input type="hidden" name="UseAddressID" id="UseAddressID" value="{$address.id}"/>
+                    <input type="hidden" name="cityname" id="cityname" value="{$address.cityname}"/>
+                        <div class="main-item">
+                            <div class="item-title">
+                                <h3 style="width:100%;">
+                                <span class="fl" style="width:auto;">Receiving information</span>
+                                <a href="{:U('Member/address','goto=cashier')}" style="width:auto; float:right" class="fr">Choose</a></h3>
+                            </div>
+                            <div class="item-info">
+                                <label class="addr_list">
+                                    <input type="radio" name="consingee" checked value="{$address.id}"/>
+                                    {$address.username}-{$address.telephone}- {$address.address}
+                                    -{$address.cityname}
+                                </label>
+                            </div>
+                        </div>
 
-                </div>
+                        <div class="main-item">
+                            <div class="item-title">
+                                <h3>Product list</h3>
+                            </div>
+                            <div class="item-info" id="product_list">
+                                <div class="item-li">
+                                    <div class="item-img">
+                                        <a href="/Product/view?id=2">
+                                            <img alt="333" src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg"/>
+                                        </a>
+                                    </div>
+                                    <div class="item-name">
+                                        <h3><a href="/Product/view?id={$vo['id']}">sdasdsa</a></h3>
+                                        <div class="item-no">Price：<span class="fc_red">&yen;233</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="item-msg">
+                                <div class="item-count">
+                                    Amount：<span class="fc_red" style="color:#666;" id="amount"></span><br>
+                                    Delivery Fee：<span class="fc_red" style="color:#666;" id="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</span>
+                                    <br/>
+                                    Total amount：<span class="fc_red" id="total_money"></span>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="clr"></div>
-          </div>
-              <div class="clr"></div>
-            </div>
-            <div class="main-item">
-              <div class="item-title">
-                <h3>Product list</h3>
-              </div>
-              <div class="item-info">
-                <volist name="cart.cart_items" id="vo">
-                  <div class="item-li">
-                    <div class="item-img"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}" src="{$vo.indexpic}" /></a></div>
-                    <div class="item-name">
-                      <h3><a  href="{:U('Product/view?id='.$vo['id'])}">{$vo.name}</a></h3>
-                      <div class="item-no">Price：<span class="fc_red">&yen;{:get_price($vo['id'],$vo['price'],$vo['ext'])}</span>
-                        <neq name="vo.ext" value=""> Specifications：{$vo.ext} </neq>
-                      </div>
-                    </div>
-                    <div class="item-cart">
-                      <div class="item-num cart-pad">
-                        <div class="item-cart-info">Quantity： <span class="fc_red">{$vo.num}</span> ，
-                          Total：<span class="fc_red">&yen;{:to_price(get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'])}</span></div>
-                      </div>
-                    </div>
-                    <div class="clr"></div>
-                  </div>
-                </volist>
-                <div class="clr"></div>
-              </div>
-               <if condition="(get_usercredit() gt 0)" >
-                  <div class="pure-control-group" style="display:none;">
-                    <label for="credit">Credits：</label>
-                    <input type="text"  class="pure-input"  placeholder="{:get_usercredit()} credits available" name="credit" id="credit" value="" maxlength="10"  size="5" style="width:130px;" />
-                    can be deducted &yen; <strong id="creditamount" style="color:#f00;">0</strong>，the integral is not refundable </div>
-                </if>
-                  <div class="pure-control-group pure-form" style="display:none;">
-               
-<p style="line-height:20px; text-align:right">
-<gt name="maxuse" value="0">
-Use coupon:&nbsp; <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" maxlength="10" style="width:50px;" onChange="location='/m_cashier?usecoupon='+$(this).val()" />
-<else/>
-Use coupon:&nbsp;  <input type="text" class="pure-input fr" value="{$usecoupon}" id="usecoupon" name="usecoupon" style="width:50px;"  disabled="disabled"/>
-</gt>
-</p>
-<p style="line-height:20px; text-align:right">
-You have <span class="fc_red">&yen;{$mycoupon}</span> coupons in total <br>and maximum <span class="fc_red">&yen;{$maxuse}</span> applicable for this order. </p>
-                  </div>
-                  
-                  <div class="item-msg">
-                <div class="item-count"> Amount：<span class="fc_red" style="color:#666;" id="money_amount" data-value="{$cart.cart_amount}">&yen;{$cart.cart_amount}</span><br>
-                  Delivery Fee：<span class="fc_red" style="color:#666;" id="money_shipfee">&yen;{$cart.cart_shipfee|to_price}</span> <br />
-                  <gt name="usecoupon" value="0"> 
-                  Coupon：<span class="fc_red" style="color:#666;" id="money_shipfee"> - &yen;{$usecoupon}</span>
-                  <hr />
-                     Total amount：<span class="fc_red" id="money_all_amount">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee']-$usecoupon)}</span>
-                  <else/>
-                 
-                  <hr />
-                    Total amount：<span class="fc_red" id="money_all_amount">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee'])}</span>
-                  
-                  </gt>
-                  </div>
-              </div>
-              <div class="clr"></div>
-            </div>
-            <div class="main-item">
-              <div class="item-title">
-                <h3>Payment</h3>
-              </div>
-              <div class="item-info pure-form">
-               
-                <div class="item-pay-method" style="padding:10px 0px;">
-                  <label for="paymethod2" style="display:inline;"><input name="paymethod" type="radio" id="paymethod2" value="2" data-shipfee="{$cart.cart_shipfee}" >
-                  Paypal</label>
-                  &nbsp;
-                 <!-- <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
-                  <label for="paymethod3" style="display:inline;">微支付</label>
-                  &nbsp;-->
-                 <label for="paymethod4" style="display:inline;"><input type="radio" name="paymethod" id="paymethod4" value="4" data-shipfee="{$cart.cart_shipfee}" checked>
-                  Cash on delivery</label>
-                </div>
-                <div class="clr"></div>
-              </div>
-              <div class="clr"></div>
-            </div>
-            
-            <div class="main-item">
-              <div class="item-title">
-                <h3>Invoice required</h3>
-              </div>
-              <div class="item-info ">
-                 <label for="invoice1"><input name="invoice" type="radio" id="invoice1" value="1" >
-          yes</label>
-          <label for="invoice2"><input type="radio" name="invoice" id="invoice2" value="0" checked>
-          no</label> 
-                <div class="clr"></div>
-              </div>
-              <div class="clr"></div>
-            </div>
-            
-            
-            <div class="main-item">
-              <div class="item-title">
-                <h3>Delivery time</h3>
-              </div>
-              <div class="item-info ">
-                 <div class="txt02 ">
-          <div class="pure-form">
-              <select name="delivertime[]" id="delivertimeselect">
-                  <volist name="dateData" id="vo" class="pure-input-1">
-                      <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
-                          <option data-delay="{$i}" value="{$vo.time}">
-                              <if condition="$i eq 1">
-                                  Today&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;
-                                  )
-                                  <elseif condition='$i eq 2'/>
-                                  Tomorrow&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
-                                  <else/>
-                                  {$vo.date}&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
-                              </if>
-                          </option>
-                      </if>
-                  </volist>
-              </select>
-              <!--<input name="delivertime[]" id="delivertime" type="text" class="pure-input calendar3" style="background:#eee;" readonly /> -->
-          </div>
-         <?php
-          $deliverinfo=lbl('deliverinfo');
-          ?>
-          <notempty name="deliverinfo">
-              <div class="item-info " style="color:#f00;">
-          {$deliverinfo}
-          </div>
-              <div style="clear: both"></div>
+                        <div class="main-item">
+                            <div class="item-title">
+                                <h3>Payment</h3>
+                            </div>
+                            <div class="item-info pure-form">
+                                <div class="item-pay-method" style="padding:10px 0px;">
+                                    <label for="paymethod2" style="display:inline;">
+                                        <input name="paymethod" type="radio" id="paymethod2" value="2" data-shipfee="{$cart.cart_shipfee}"> Paypal
+                                    </label>
+                                    &nbsp;
+                                    <!-- <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
+                                     <label for="paymethod3" style="display:inline;">微支付</label>
+                                     &nbsp;-->
+                                    <label for="paymethod4" style="display:inline;">
+                                        <input type="radio" name="paymethod" id="paymethod4" value="4" data-shipfee="{$cart.cart_shipfee}" checked> Cash on delivery
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
-          </notempty>
-          <?php
-            $times = str2arr(lbl('delivertime'),"\r\n");
-            foreach($times as $k=>$v){
-            ?>
-          <div class="time_list js_time_obj " data-date="{$v}">
-              {$v}
-          </div>
-          <?php
-            }
-            ?>
+                        <div class="main-item">
+                            <div class="item-title">
+                                <h3>Invoice required</h3>
+                            </div>
+                            <div class="item-info ">
+                                <label for="invoice1">
+                                    <input name="invoice" type="radio" id="invoice1" value="1">
+                                    yes
+                                </label>
+                                <label for="invoice2">
+                                    <input type="radio" name="invoice" id="invoice2" value="0" checked> no
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="main-item">
+                            <div class="item-title">
+                                <h3>Delivery time</h3>
+                            </div>
+                            <div class="item-info ">
+                                <div class="txt02 pure-form ">
+                                    <select name="delivertime[]" id="delivertimeselect">
+                                        <volist name="dateData" id="vo" class="pure-input-1">
+                                            <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
+                                                <option data-delay="{$i}" value="{$vo.time}">
+                                                    <if condition="$i eq 1"> Today&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                    <elseif condition='$i eq 2'/>
+                                                        Tomorrow&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                    <else/>
+                                                        {$vo.date}&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                    </if>
+                                                </option>
+                                            </if>
+                                        </volist>
+                                    </select>
+
+                                    <notempty name="deliverinfo">
+                                        <div class="item-info " style="color:#f00;">
+                                            {$deliverinfo}
+                                        </div>
+                                        <div style="clear: both"></div>
+                                    </notempty>
+
+                                    <volist name="times" id="vo">
+                                        <div class="time_list js_time_obj " data-date="{$v}">
+                                            {$vo}
+                                        </div>
+                                    </volist>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item-pay-container">
+                            <div class="item-pay pure-form">
+                                <textarea id="info" name="info" value="" placeholder="the order remarks" class="pure-input-1"></textarea>
+                            </div>
+
+                            <div class="item-pay">
+                                <input type="button" class="pure-button pure-button-error" onClick="submitOrder()" style="width:100%;" value="Submit order"/>
+                            </div>
+                        </div>
+                </form>
+            </div>
         </div>
-                <div class="clr"></div>
-              </div>
-              
-              <div class="clr"></div>
-            </div>
-             
-            <div class="item-pay-container">
-              <div class="item-pay pure-form">
-               <textarea  id="info" name="info" value="" placeholder="the order remarks" class="pure-input-1" ></textarea>
-              </div>
-              <div class="item-pay">
-                <eq name="cart.cart_num" value="0">
-                  <button  class="pure-button pure-button-error pure-button-disabled "   disabled="disabled">Submit order</button>
-                  <else/>
-                  <input type="button"  class="pure-button pure-button-error" onClick="$.SubmitOrder()" style="width:100%;" value="Submit order" />
-                </eq>
-              </div>
-              <div class="clr"></div>
-            </div>
-          </eq>
-        </form>
-      </div>
     </div>
-  </div>
-  <div class="clr"></div>
 </div>
-<include file="Index:footer" />
+<include file="Index:footer"/>
 <script>
-$(function(){
-    $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
-    $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-    $('#addr_list label').click(function(){
+    $(function () {
         $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
+
         $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-    })
-	var maxCredit="{:get_usercredit()}";
-	$("#credit").change(function(){
-		var credit=$(this).val();
-			maxCredit = parseFloat(maxCredit);
-		if(!(credit>maxCredit)){
-      		 $.getCreditAmount(credit);
-		}else{
-			alert("对不起，您只有积分："+maxCredit);
-			$(this).val(maxCredit);
-		}
-	});
-
-    //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
-    var date = $("#delivertimeselect").val();
-    checkTime(date);
-    $("#delivertimeselect").change(function(){
-        var date = $("#delivertimeselect").val();
-        $('.js_time_obj').removeClass('old_time');
-        $('.js_time_obj').removeClass('click');
-        $('.js_time_obj').addClass('time_list');
-        checkTime(date);
-    })
-
-    //选择时段值
-    $('.js_time_obj').click(function () {
-        if($(this).hasClass('click')){
-            $(this).removeClass('click');
-            $(this).find('input').remove();
-        }else{
-            if($(this).hasClass('time_list')){
-                $(this).addClass('click');
-                var arr=$(this).data('date');
-                var html ='<input type="hidden" value="'+arr+'" name="delivertime[]" id="delivertime_'+arr+'"/>';
-                $(this).addClass('click');
-                $(this).append(html);
+        $('#addr_list label').click(function () {
+            $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
+            $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
+        })
+        var maxCredit = "{:get_usercredit()}";
+        $("#credit").change(function () {
+            var credit = $(this).val();
+            maxCredit = parseFloat(maxCredit);
+            if (!(credit > maxCredit)) {
+                $.getCreditAmount(credit);
+            } else {
+                alert("对不起，您只有积分：" + maxCredit);
+                $(this).val(maxCredit);
             }
-        }
-    })
+        });
 
-	//更改了支付方式
-	function changeTotalMoney(){
-		var total;
-		
-		var $paymethod = $('input[name="paymethod"]:checked');
-		var v = $paymethod.val();
-		var shipfee = $paymethod.data("shipfee");
-		if( v != "1" ){
-			$("#money_servicemoney_box").css("display", "block");
-			total = parseFloat( $("#money_amount").data("value") ) + parseFloat( shipfee ) + parseFloat( $("#money_servicemoney").data("value") );
-		}else{
-			$("#money_servicemoney_box").css("display", "none");
-			total = parseFloat( $("#money_amount").data("value") ) + parseFloat( shipfee );
-		}
-		$("#money_shipfee").html("￥"+shipfee);
-		$("#money_all_amount").html("￥"+total.toFixed(2) );
-	}
-	/*$("input[name='paymethod']").change(function(){
-		changeTotalMoney();
-	});
-	changeTotalMoney();*/
-	
-});
+        //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
+        var date = $("#delivertimeselect").val();
+        checkTime(date);
+        $("#delivertimeselect").change(function () {
+            var date = $("#delivertimeselect").val();
+            $('.js_time_obj').removeClass('old_time');
+            $('.js_time_obj').removeClass('click');
+            $('.js_time_obj').addClass('time_list');
+            checkTime(date);
+        })
 
-//根据时间选择时间段
-function checkTime($now){
-    var myDate = new Date(),
-        date =  myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate(),//获取当前时间,(+1: 月份为0-11)
-        beyond = parseInt($('body').data('beyond'));
-    if($now ==date){ //今天
-        $(".js_time_obj").each(function () {
-            var arr=$(this).data('date').split('-'),
-                    arr1= arr[0].split(':'),
-                    hours= parseInt(myDate.getHours()),
-                    min= parseInt(myDate.getMinutes());
-            //以下午16点为分割线, 16点以前,当前时间加30,反之减300
-            if(15>hours && 15>arr1[0]){ //15点以前,
-                //当前时间所在的时间段开始30分钟内可以选择 (例:当前时间:14:30;可选14:00-16:00)
-
-                if((hours>arr1[0]) || (hours == parseInt(arr1[0]) && min > beyond)){
-                    $(this).addClass('old_time');
-                    $(this).removeClass('time_list');
-                    $(this).removeClass('click');
-                }
-            }else{
-                //比当前时间所在的时间段提前开始30分钟以上可以选择 (例:当前时间:15:31;不能选16:00-18:00)
-                if((hours>=arr1[0]) || ((arr1[0]-1) == hours &&  min > beyond )){
-                    $(this).addClass('old_time');
-                    $(this).removeClass('time_list');
-                    $(this).removeClass('click');
+        //选择时段值
+        $('.js_time_obj').click(function () {
+            if ($(this).hasClass('click')) {
+                $(this).removeClass('click');
+                $(this).find('input').remove();
+            } else {
+                if ($(this).hasClass('time_list')) {
+                    $(this).addClass('click');
+                    var arr = $(this).data('date');
+                    var html = '<input type="hidden" value="' + arr + '" name="delivertime[]" id="delivertime_' + arr + '"/>';
+                    $(this).addClass('click');
+                    $(this).append(html);
                 }
             }
         })
-        if(!$('.js_time_obj').hasClass('time_list')){ //今天没有可选时段了
-            $("select[name=delivertime]").find('option').eq(0).remove();
-            $(".js_date_obj ").eq(0).removeClass('click');
-            $(".js_date_obj ").eq(0).addClass('isholiday');
-            $(".js_date_obj ").eq(0).removeClass('date_btn');
-            var date = $("select[name=delivertime]").val(date);
-            checkTime(date);
-            //  $(".date_btn").eq(0).click();
 
+        //更改了支付方式
+        function changeTotalMoney() {
+            var total;
+
+            var $paymethod = $('input[name="paymethod"]:checked');
+            var v = $paymethod.val();
+            var shipfee = $paymethod.data("shipfee");
+            if (v != "1") {
+                $("#money_servicemoney_box").css("display", "block");
+                total = parseFloat($("#money_amount").data("value")) + parseFloat(shipfee) + parseFloat($("#money_servicemoney").data("value"));
+            } else {
+                $("#money_servicemoney_box").css("display", "none");
+                total = parseFloat($("#money_amount").data("value")) + parseFloat(shipfee);
+            }
+            $("#money_shipfee").html("￥" + shipfee);
+            $("#money_all_amount").html("￥" + total.toFixed(2));
         }
-    }else{
-        $('.js_time_obj').removeClass('old_time');
-        $('.js_time_obj').removeClass('click');
-        $('.js_time_obj').addClass('time_list');
+
+    });
+
+    //根据时间选择时间段
+    function checkTime($now) {
+        var myDate = new Date(),
+                date = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate(),//获取当前时间,(+1: 月份为0-11)
+                beyond = parseInt($('body').data('beyond'));
+        if ($now == date) { //今天
+            $(".js_time_obj").each(function () {
+                var arr = $(this).data('date').split('-'),
+                        arr1 = arr[0].split(':'),
+                        hours = parseInt(myDate.getHours()),
+                        min = parseInt(myDate.getMinutes());
+                //以下午16点为分割线, 16点以前,当前时间加30,反之减300
+                if (15 > hours && 15 > arr1[0]) { //15点以前,
+                    //当前时间所在的时间段开始30分钟内可以选择 (例:当前时间:14:30;可选14:00-16:00)
+
+                    if ((hours > arr1[0]) || (hours == parseInt(arr1[0]) && min > beyond)) {
+                        $(this).addClass('old_time');
+                        $(this).removeClass('time_list');
+                        $(this).removeClass('click');
+                    }
+                } else {
+                    //比当前时间所在的时间段提前开始30分钟以上可以选择 (例:当前时间:15:31;不能选16:00-18:00)
+                    if ((hours >= arr1[0]) || ((arr1[0] - 1) == hours && min > beyond )) {
+                        $(this).addClass('old_time');
+                        $(this).removeClass('time_list');
+                        $(this).removeClass('click');
+                    }
+                }
+            })
+            if (!$('.js_time_obj').hasClass('time_list')) { //今天没有可选时段了
+                $("select[name=delivertime]").find('option').eq(0).remove();
+                $(".js_date_obj ").eq(0).removeClass('click');
+                $(".js_date_obj ").eq(0).addClass('isholiday');
+                $(".js_date_obj ").eq(0).removeClass('date_btn');
+                var date = $("select[name=delivertime]").val(date);
+                checkTime(date);
+            }
+        } else {
+            $('.js_time_obj').removeClass('old_time');
+            $('.js_time_obj').removeClass('click');
+            $('.js_time_obj').addClass('time_list');
+        }
     }
-}
 
 </script>
 </body>

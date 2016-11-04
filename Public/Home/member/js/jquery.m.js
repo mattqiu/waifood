@@ -29,7 +29,7 @@ $(function() {
     $("#btnBuy").click(function() {
         var productstr = $("#allprod").val();
         if (productstr == "") {
-            jAlert("¶Ô²»Æð£¬ÇëÏÈÑ¡ÔñÒª¹ºÂòµÄÉÌÆ·£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½",SYSTITLE);
             return false
         }
         $.ajax({
@@ -40,7 +40,7 @@ $(function() {
         })
     });
 	
-	/*ÏêÇéÍ¼Æ¬100%*/
+	/*ï¿½ï¿½ï¿½ï¿½Í¼Æ¬100%*/
 	$.resetInfo();
 	$.getCartNo();
 }); 
@@ -62,18 +62,18 @@ $(function() {
         var color = $.trim($("#Color").val()) + "," + $.trim($("#Base").val());
 			color = escape(color);
 		
-		//1. ÐèÒªµÇÂ¼
-		//2. ¼ì²é»ý·Ö
-		//3. Ìá½»¶Ò»»¶©µ¥£¬Á¢¼´¿Û»ý·Ö
+		//1. ï¿½ï¿½Òªï¿½ï¿½Â¼
+		//2. ï¿½ï¿½ï¿½ï¿½ï¿½
+		//3. ï¿½á½»ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û»ï¿½ï¿½
 		
-			var title = "ÄúÈ·¶¨Òª¶Ò»»¸Ã²úÆ·Âð£¿";
+			var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½Ò»ï¿½ï¿½Ã²ï¿½Æ·ï¿½ï¿½";
 			jConfirm(title,SYSTITLE,function(msg){
 				if(msg){
 				 $.ajax({
 					url: "/Include/Ajax/?Action=CreditCart&id=" + id + "&orderno=" + color + "&num=" + num + "&" + Math.random(),
 					success: function(msg) {
 						if(msg==""){
-							jAlert("¹§Ï²£¬¶Ò»»¶©µ¥ÒÑÌá½»³É¹¦£¡",SYSTITLE);
+							jAlert("ï¿½ï¿½Ï²ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½É¹ï¿½ï¿½ï¿½",SYSTITLE);
 						}else{
 							jAlert(msg,SYSTITLE);	
 						}
@@ -89,7 +89,7 @@ $(function() {
         $.ajax({
             url: "/m/Ajax/?Action=AddFav&id=" + id + "&" + Math.random(),
             success: function(msg) {
-                jAlert("¹§Ï²£¬ÒÑ¾­³É¹¦¼ÓÈëÊÕ²Ø¼Ð£¡",SYSTITLE)
+                jAlert("ï¿½ï¿½Ï²ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ²Ø¼Ð£ï¿½",SYSTITLE)
             }
         })
     };
@@ -108,7 +108,7 @@ $(function() {
         var color = $.trim($("#Color").val()) + "," + $.trim($("#Base").val());
         var n1 = 0;
         if (num == 0) {
-            jAlert("¶Ô²»Æð£¬ÇëÊäÈë¹ºÂòÊýÁ¿£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¹ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",SYSTITLE);
             $("#buycount").focus();
             return false
         };
@@ -116,7 +116,7 @@ $(function() {
             num = 1
         };
         if (parseInt(num) > parseInt(num1)) {
-            jAlert("¶Ô²»Æð£¬¸ÃÉÌÆ·Ö»Ê£" + num1 + "¼þ£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ð£¬¸ï¿½ï¿½ï¿½Æ·Ö»Ê£" + num1 + "ï¿½ï¿½ï¿½ï¿½",SYSTITLE);
             return false
         }
         color = escape(color);
@@ -136,7 +136,7 @@ $(function() {
         var color = $.trim($("#Color").val()) + "," + $.trim($("#Base").val());
         var n1 = 0;
         if (num == 0) {
-            jAlert("¶Ô²»Æð£¬ÇëÊäÈë¹ºÂòÊýÁ¿£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ë¹ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½",SYSTITLE);
             $("#buycount").focus();
             return false
         };
@@ -144,14 +144,14 @@ $(function() {
             num = 1
         };
         if (parseInt(num) > parseInt(num1)) {
-            jAlert("¶Ô²»Æð£¬¸ÃÉÌÆ·Ö»Ê£" + num1 + "¼þ£¡",SYSTITLE);
+            jAlert("ï¿½Ô²ï¿½ï¿½ð£¬¸ï¿½ï¿½ï¿½Æ·Ö»Ê£" + num1 + "ï¿½ï¿½ï¿½ï¿½",SYSTITLE);
             return false
         }
         color = escape(color);
         $.ajax({
             url: "/m/Cart.asp?Action=Add&num=" + num + "&id=" + n + "&color=" + color + "&" + Math.random(),
             success: function(msg) {
-				var title="¹§Ï²£¬ÒÑ³É¹¦¼ÓÈë¹ºÎï³µ£¡<br /><br /><div style='display:block; text-align:center;'><input type='button' value ='ÔÙ¹ä¹ä' class='cart-cancel' onclick=\"location='/m/m_category.asp'\"/> <input type='button' value ='È¥½áËã' class='cart-go' onclick=\"location='M_MyCart.asp';\"/></div>"; 
+				var title="ï¿½ï¿½Ï²ï¿½ï¿½ï¿½Ñ³É¹ï¿½ï¿½ï¿½ï¿½ë¹ºï¿½ï³µï¿½ï¿½<br /><br /><div style='display:block; text-align:center;'><input type='button' value ='ï¿½Ù¹ï¿½ï¿½' class='cart-cancel' onclick=\"location='/m/m_category.asp'\"/> <input type='button' value ='È¥ï¿½ï¿½ï¿½ï¿½' class='cart-go' onclick=\"location='M_MyCart.asp';\"/></div>"; 
                 jBox(title,SYSTITLE);
 				 $.getCartNo();
             }
@@ -161,7 +161,7 @@ $(function() {
         color = escape(color);
         if (num == 0) {
            
-			var title = "ÄúÈ·¶¨Òª´Ó¹ºÎï³µÖÐÒÆ³ý¸Ã²úÆ·Âð£¿";
+			var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½Ó¹ï¿½ï¿½ï³µï¿½ï¿½ï¿½Æ³ï¿½Ã²ï¿½Æ·ï¿½ï¿½";
 			jConfirm(title,SYSTITLE,function(msg){
 				if(msg){
 					$.delCart(id, 0, color) 
@@ -183,7 +183,7 @@ $(function() {
         color = escape(color);
         if (p2 != "0") {
               
-			var title = "ÄúÈ·¶¨Òª´Ó¹ºÎï³µÖÐÒÆ³ý¸Ã²úÆ·Âð£¿";
+			var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½Ó¹ï¿½ï¿½ï³µï¿½ï¿½ï¿½Æ³ï¿½Ã²ï¿½Æ·ï¿½ï¿½";
 			jConfirm(title,SYSTITLE,function(msg){
 				if(msg){
 					 $.ajax({
@@ -216,7 +216,7 @@ $(function() {
     };
     $.clearCart = function() {
        
-			var title = "ÄúÈ·¶¨ÒªÇå¿Õ¹ºÎï³µÂð£¿";
+			var title = "ï¿½ï¿½È·ï¿½ï¿½Òªï¿½ï¿½Õ¹ï¿½ï¿½ï³µï¿½ï¿½";
 			jConfirm(title,SYSTITLE,function(msg){
 				if(msg){
 					 $.ajax({

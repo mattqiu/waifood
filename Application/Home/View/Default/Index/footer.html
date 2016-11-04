@@ -1,4 +1,35 @@
+<footer>
+    <ul class="tc">
+        <li>
+            <a href="/"><div class="foot_home home foot_item"><span class="ietm"> Home</span></div></a>
+        </li>
+        <li>
+            <a href="/Category/index.html"><div class="foot_cat cat foot_item"><span class="ietm"> Category</span></div></a>
+        </li>
+        <li>
+            <a href="/m_cart.html"> <div class="foot_cart cart foot_item" id="gwc"><span id="CartNo"class="num-item "></span>
+                <span class="ietm"> Cart</span></div></a>
+        </li>
+        <li>
+            <a href="/member/index"> <div class="foot_item foot_me me"><span class="ietm"> Me</span></div></a>
+        </li>
 
+        <!-- <li><a href="{:Uu('Member/index')}" id="hy"></a></li>
+         <li onClick="$('.tcbox').toggle()">
+           <div class="tcbox">
+               <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">Suggestion</a><a href="{:Uu('Content/lists','id=1')}">Help</a></div>
+             <div class="jiao">
+               <svg  height="5" >
+                 <polygon points="0,0 10,0 5,5 "
+        style="fill:#90B830" />
+               </svg>
+             </div>
+           </div>
+           <a href="javascript:void(0);" id="help"></a></li>-->
+    </ul>
+</footer>
+
+<!--
 <div class="container">
   <div class="main-list">
     <div class="main-item">
@@ -44,8 +75,34 @@
     </ul>
   </footer>
   <div class="clr"></div>
-</div>
+</div>-->
+
+<script src="__PUBLIC__/js/common.js"></script>
 <script>
+    $(function(){
+        var pathinfo =(window.location.pathname).toLowerCase();
+        console.log(pathinfo.indexOf('login'))
+        if( pathinfo.length < 3){
+            console.log('home');
+            $('footer .home span').addClass('green');
+            $('footer .home').removeClass('foot_home');
+            $('footer .home').addClass('foot_home_c');
+        }else if(pathinfo.indexOf('member')>0 || pathinfo.indexOf('login')>0){
+            console.log('cccc');
+            $('footer .me span').addClass('green');
+            $('footer .me').removeClass('foot_me');
+            $('footer .me').addClass('foot_me_c');
+        }else if((pathinfo.indexOf('cart'))>0 || (pathinfo.indexOf('shop'))>0 || (pathinfo.indexOf('cashier'))>0){
+            $('footer .cart span').addClass('green');
+            $('footer .cart').removeClass('foot_cart');
+            $('footer .cart').addClass('foot_cart_c');
+        }else{
+            $('footer .cat span').addClass('green');
+            $('footer .cat').removeClass('foot_cat');
+            $('footer .cat').addClass('foot_cat_c');
+        }
+    })
+
     if(document.getElementById("telephone")) {
         document.getElementById("telephone").onkeyup = function () {
             this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1-");

@@ -223,7 +223,7 @@ $(function(){
                 var o = eval(msg);
                 if (o.status == "1") {
 					var arr=(o.info+"|").split("|");
-                   $("#CartNo,#CartNum").html(arr[0]);
+                   //$("#CartNo,#CartNum").html(arr[0]);
                    $("#CartAmount").html(arr[1]);
 				   if(arr[0]!="0"){
 						//显示提交订单按钮

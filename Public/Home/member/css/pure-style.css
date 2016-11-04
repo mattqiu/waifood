@@ -7,7 +7,7 @@ body{ font-size:14px;}
 .hauto{height:auto;}.wauto{width:auto;}
 .hide{display:none;}.show{display:block;}
 .container{  height:auto; margin:0px auto; padding:0px; } 
-
+.top15{margin-top: 15px;}
 .btn-bar{ background:none; padding:0px 2px; }
 .btn-center{vertical-align:top; font-size:12px; padding:0.5em 1em;} 
 .div-fixed{position:fixed;top:0;left:0;width:100%}
@@ -74,9 +74,9 @@ body{ font-size:14px;}
 
 
 /*订单单个产品*/
-.item-li{border-bottom: 1px solid #EAEAEA; padding-bottom:10px; margin-bottom:10px; }
+.item-li{border-bottom: 1px solid #EAEAEA; padding-bottom:10px; margin-bottom:10px; width: 90%;margin: 0 auto}
 .item-li .item-img{ width:70px; height:80px; float:left;}
-.item-li .item-img img{ width:60px; height:60px; border:1px #ccc solid; padding:1px; float:left;}
+.item-li .item-img img{ width:70px; height:70px;padding:1px; float:left;}
 .item-li .item-name{ display:table-cell; clear:both; word-break: break-all; word-wrap: break-word;}
 .item-li .item-name h3{  font-size:16px; margin:0px; padding:0px; font-weight:normal; height:40px; line-height:20px; overflow:hidden;}
 .item-li .item-name .item-no{color:#666; font-size:12px;}
@@ -94,6 +94,8 @@ body{ font-size:14px;}
 .input-cart-num{ width:30px; height:16px; line-height:16px; border:1px #ccc solid; text-align:center; margin:0px; padding:2px 0px;}
 .item-cart .item-cart-info{   width:auto; display:inline; float:right}
 .item-cart .cart-pad{padding:0px 5px;}
+
+
 
 /*发表评论*/
 .item-comment{ position:relative;}
@@ -130,7 +132,6 @@ body{ font-size:14px;}
 .icon_ {background-repeat: no-repeat;display: inline-block;}
 .icon_back {background-image: url("../images/icons.png");background-position: -76px -34px;height: 13px;vertical-align: text-bottom;width: 6px;}
 .icon_pen {background-image: url("../images/icons.png");background-position: -76px -51px;height: 12px;margin-right: 5px;vertical-align: -1px;width: 12px;}
-.icon_trash {background-image: url("../images/icons.png");background-position: -93px 0;height: 14px;vertical-align: -2px;width: 13px;} 
 .icon_icenter {background-image: url("../images/icons.png");background-position: -31px 0;height: 22px;width: 22px;}
 .icon_cart {background-image: url("../images/icons.png");background-position: -31px -23px;height: 22px;width: 22px;}
 .icon_goback {background-image: url("../images/icons.png");background-position: -31px -46px;height: 22px;width: 22px;}

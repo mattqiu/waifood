@@ -6,22 +6,30 @@
 <include file="Index:header" /> 
 <script src="__PUBLIC__/Home/js/touchslider.dev.js"></script>
 <script src="__PUBLIC__/Home/js/banner.js"></script>
-</head>
-<body style=" background:#F8F8F8; ">
 
+    <style>
+
+    </style>
+</head>
+<body>
 <!--顶部-->
 <header>
-    <ul>
+    <ul style="width: 100%;">
         <li class="fl">
-            <span>Chendu</span>
+            <span>Chengdu </span><img src="__PUBLIC__/Home/images/chengdu.png" height="15"alt=""/>
         </li>
-        <li class="fl"><input type="text" placeholder="Keywrods" style="width: 100%;" /></li>
-        <li class="fl"><span></span><span></span></li>
+        <li class="fl keywrod">
+            <input type="text" class="input_keywrod" placeholder="&nbsp; Keywords"/>
+            <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+        </li>
+        <li class="fr" >
+            <img src="__PUBLIC__/Home/images/share.png"  width="25">
+        </li>
     </ul>
-    <!--<a id="list" href="{:Uu('Category/index')}"></a> -->
 </header>
+
 <!--banner-->
-<div id="wrapper">
+<div id="wrapper" >
   <div class="swipe">
     <ul id="slider">
       {:lbl('wx_banner')}
@@ -31,38 +39,188 @@
 </div>
 
 <!--图标-->
-<div class="icoboxindex">
+<div class="icoboxindex" style="border-bottom: 1px solid #ccc;">
 <volist name="list" id="vo">
     <if condition="$i elt 7">
-        <a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
+        <a href="{:Uu('Product/lists','id='.$vo['id'])}" class=" <if condition="$i gt 4">top15</if>">
+        <span><img src="{$vo.indexpic}" ></span>
             <p>{$vo.name}</p>
         </a>
     </if>
   </volist>
-    <a href="{:Uu('Product/lists','id='.$vo['id'])}"><span><img src="__PUBLIC__/Home/images/icons/{$i}.png"></span>
-        <h1>more</h1>
+    <a href="/Category/index.html" class="top15"><span><img src="__PUBLIC__/Home/images/icons/more.png"></span>
+        <h1>More</h1>
     </a>
   </div>
+<!--Promotion-->
+<div style="width: 100%;height: 10px;background: #EEEEEE;"></div>
+<div class="good_body">
+    <div class="g_title" style="border-bottom: 1px solid #ccc;border-top: 1px solid #ccc">&nbsp;&nbsp;
+        <img src="__PUBLIC__/Home/images/promotion.png" style="position: relative;bottom: -4px;" width="25"/>
+        <span class="tic">Promotion</span>
+        <span class="fr more">More
+            <img src="__PUBLIC__/Home/images/more.png" width="15" style="position: relative;bottom: -3px;"/>
+        </span>
+    </div>
+    <div class="g_goods tl">
+        <div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc">   <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div><div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc"> <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div>
+    </div>
+
+    <!--New Arrvial-->
+    <div class="clr"></div>
+    <div class="g_title" style="border-bottom: 1px solid #ccc;border-top: 1px solid #cccccc;">&nbsp;&nbsp;
+        <img src="__PUBLIC__/Home/images/new_arrvial.png" style="position: relative;bottom: -4px;" width="25"/>
+        <span class="tic">New Arrvial</span>
+        <span class="fr more">More
+            <img src="__PUBLIC__/Home/images/more.png" width="15" style="position: relative;bottom: -3px;"/>
+        </span>
+    </div>
+    <div class="g_goods tl">
+        <div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc">   <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div><div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc">   <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div>
+    </div>
+
+    <!--Recommend-->
+    <div class="clr"></div>
+    <div class="g_title" style="border-bottom: 1px solid #ccc;border-top: 1px solid #cccccc;">&nbsp;&nbsp;
+        <img src="__PUBLIC__/Home/images/recommend.png" style="position: relative;bottom: -4px;" width="25"/>
+        <span class="tic">Recommend</span>
+        <span class="fr more">More
+            <img src="__PUBLIC__/Home/images/more.png" width="15" style="position: relative;bottom: -3px;"/>
+        </span>
+    </div>
+    <div class="g_goods tl">
+        <div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc">   <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div><div class="fl g_l" >
+           <div class="tc">
+               <br/>
+               <img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/>
+           </div>
+           <div style="width: 90%; margin: auto ">
+               <p class="good_title">dfsdfgsfdgsdfgafgergrargadgagsasdfasdf</p>
+               <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+           </div>
+        </div>
+        <div class="fr g_r" >
+            <div class="tc">   <br/><img src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg " width="135" alt=""/></div>
+            <div style="width: 90%; margin: auto ">
+                <p class="good_title">sdfsdfgsfdggadgadgsdfaseedddfasdf</p>
+                <p><span class="price num-item">&yen;51.00</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;52:00</s></p>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="clr"></div>
 <!--新品上市-->
-<div class="imgbox"> 
+<div class="imgbox">
 {:lbl("wx_ad")}
 </div>
 <!--版权-->
 <hr class="spliter" />
 <div class="footindex">{:C("config.WEB_SITE_ICP")}</div>
 <!--底部-->
-
   <div class="footer-form hide" id="searchform">
     <form class="pure-form" id="formSearch" name="formSearch" method="get" action="/Home/Search/index.html">
       <input type="text" value="{:I('get.keyword')}" id="keyword1" name="keyword" placeholder="keyword" class="pure-input pure-input-1">
       <button class="pure-button btnSearch" type="submit"><i class="fa fa-search"></i></button>
     </form>
   </div>
-<footer>
-  <ul>
-    <li><a href="{:Uu('Search/index')}" id="sou"></a></li>
-    <li><a href="{:Uu('/m_cart')}" id="gwc"><span id="CartNo">0</span></a></li>
-    <li><a href="{:Uu('Member/index')}" id="hy"></a></li>
+<include file="Index:footer" />
+<!--<footer>
+  <ul class="tc">
+    <li>
+        <div class="foot_home"><span style="position: relative;bottom: -28px;"> Home</span></div>
+    </li>
+    <li>
+        <div class="foot_cat"><span style="position: relative;bottom: -28px;"> Category</span></div>
+    </li>
+    <li>
+        <div class="foot_cart" id="gwc"><span id="CartNo"></span><span style="position: relative;bottom: -28px;"> Cart</span></div>
+    </li>
+    <li>
+        <div class="foot_me"><span style="position: relative;bottom: -28px;"> Me</span></div>
+    </li>
+
+   &lt;!&ndash; <li><a href="{:Uu('Member/index')}" id="hy"></a></li>
     <li onClick="$('.tcbox').toggle()">
       <div class="tcbox">
           <div class="smenu"><a href="javascript:void(0);" onClick="WeixinJSBridge.call('closeWindow');">Suggestion</a><a href="{:Uu('Content/lists','id=1')}">Help</a></div>
@@ -73,8 +231,8 @@
           </svg>
         </div>
       </div>
-      <a href="javascript:void(0);" id="help"></a></li>
+      <a href="javascript:void(0);" id="help"></a></li>&ndash;&gt;
   </ul>
-</footer>
+</footer>-->
 </body>
 </html>

@@ -40,6 +40,8 @@ class LoginController extends Controller
                 exit();
             }
         }
+        $this->assign('title', 'Login');
+        $this->display();
     }
 
     public function register()
@@ -165,7 +167,11 @@ class LoginController extends Controller
         $userpwd = I('userpwd');
         if (UserModel::login($username, $userpwd)) {
             cookie($key,0);//成功登陆清除登陆失败记录次数
-            apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/member/index');
+            if( session('gocashier')){
+                session('gocashier','');
+                apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/m_cashier');
+            }
+            apiReturn(CodeModel::CORRECT, 'Congratulations, login successfully','/');
         } else {
             //记录登录失败的次数
             $num = cookie($key);

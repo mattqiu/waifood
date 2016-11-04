@@ -6,7 +6,6 @@
 <include file="Index:header" />
 </head>
 <body>
-
 	<form action="__URL__/editChannel" method="post" name="form1"
 		id="form1"> 
 		<input type="hidden" id="id" name="id" value="{$db.id}" /> 
@@ -35,11 +34,16 @@
 			  <td class="col1">形象图：</td>
 			  <td><input type="text" class="inputText1 w350" name="indexpic"
 					id="indexpic" maxlength="100" value="{$db.indexpic}" /> <input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
-		  </tr>
+		    </tr>
+			<tr class="row0">
+			  <td class="col1">字体颜色：</td>
+                <td><input type="text" class="inputText1" name="color"
+               id="color" maxlength="100" value="{$db.color}" /><span style="font-size: 12px; color: #cccccc">例：#cccccc</span></td>
+		    </tr>
 			<tr class="row0">
 				<td class="col1" >外部链接：</td>
-				<td><input type="text" class="inputText1" id="url" name="url"
-					maxlength="100" value="{$db.url}" /></td>
+				<td><input type="text" class="inputText1" id="linkurl" name="linkurl"
+					maxlength="100" value="{$db.linkurl}" /></td>
 			</tr>
 			<tr class="row0">
 			  <td class="col1">绑定模型：</td>

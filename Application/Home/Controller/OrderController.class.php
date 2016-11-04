@@ -213,11 +213,13 @@ class OrderController extends BaseController {
 	 * 普通订单提交
 	 * @param number $shop_id
 	 */
-	public function submitOrder($shop_id=0){
+	public function submitOrder(){
 	    if(get_userid()==0){
 	        $this->redirect('Login/index');
 	    }
+
 	    $orderno=$this->createOrder($shop_id);
+
 	    if($orderno){
 	        $where=array();
 	        $where['orderno']=$orderno;
@@ -405,7 +407,7 @@ class OrderController extends BaseController {
 	                $data = array();
 	                $data['touser'] = M('member')->where('id='.get_userid())->getField('wechatid');
 	                $data['msgtype'] = 'text';
-	                $data['text'] =array('content'=>'thank you for order, we will delvier on time.');
+	                $data['text'] =array('content'=>'thank you for order, we will deliver on time.');
                     $weChat = get_wechat_obj();
 	                $ret = $weChat->sendCustomMessage($data);
 	                	

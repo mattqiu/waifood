@@ -48,6 +48,10 @@ class WeixinController extends Controller {
         trace("user ".var_export($user ,true));
         openid($data['openid']);//缓存openid
         GLog('weixin:login:user',$user);
+        if( session('gocashier')){
+            session('gocashier','');
+            redirect('/m_cashier');
+        }
         if(UserModel::getUserByOpenid($data['openid'])){
             if( UserModel::loginWechat($data['openid'])){
                 redirect('/');

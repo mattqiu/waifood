@@ -13,7 +13,7 @@ class TestController extends BaseController
         $data = array();
         $data['touser'] = 'o7dnet6IL31Mwp05jIWruW7dS40k';
         $data['msgtype'] = 'text';
-        $data['text'] =array('content'=>'thank you for order, we will delvier on time.');
+        $data['text'] =array('content'=>'thank you for order, we will deliver on time.');
         $ret = $weChat->sendCustomMessage($data);
         we($ret);
     }

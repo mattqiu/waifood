@@ -1,78 +1,102 @@
 <!doctype html>
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header"/>
 </head>
 
 <body>
-<include file="Index:bar" />
+<include file="Index:bar"/>
 <?php
 $so=($sort=='desc'?'asc':'desc');
 ?>
 <div class="container pdt5">
-  <div class="saixuan">
-    <ul>
-      <li><a href="{:Uu('Product/lists','id='.$id.'&order=1')}"  
-        <eq name="order" value="1"> class="selected" </eq>
-        >Default</a></li>
-      <li>
-       <eq name="order" value="2">
-      <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"   
-        <eq name="order" value="2"> class="selected" </eq>
-        ><eq name="sort" value="desc">
-        <span class="down">Price</span>
-        <else/><span class="up">Price</span>
-        </eq></a>
-      <else/>
-      <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"  ><span class="">Price</span></a>
-      </eq>
-    </li>
-      <li>
-      <eq name="order" value="3">
-      <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"   
-        <eq name="order" value="3"> class="selected" </eq>
-        ><eq name="sort" value="desc">
-        <span class="down">Sold</span>
-        <else/><span class="up">Sold</span>
-        </eq></a>
-      <else/>
-      <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"  ><span class="">Sold</span></a>
-      </eq>
-      
-      </li> 
-    </ul>
-  </div>
-  <div class="clr"></div>
-  <div class="splist">
-    <ul>
-      <volist name="list" id="vo">
-        <li>
-          <div class="box"> <a href="{:Uu('Product/view','id='.$vo['id'])}"> <img  src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" alt="{$vo.title}"   width="100%" /> <strong  >{$vo.title}</strong><br> 
-            <div>Unit:{$vo.unit}</div>
-            <div>Preservation:{$vo.storage}</div>
-            <div>Origin:{$vo.origin}</div>
-            <notempty name="vo.brand">
-              <div>Brand:{$vo.brand}</div>
-            </notempty></a>
-            <div class="spjg">
-              <div class="fl">
-              <i class="price">&yen;{$vo.price}</i>
-              <gt name="vo.price1" value="0">
-              <i class="price-delete">&yen;{$vo.price1}</i>
-                <else/>
-                &nbsp;</gt> </div>
-              <a href="javascript:void(0);" onClick="$.addCart({$vo.id});" class="pure-button pure-button-success fr" >+ Cart</a>
-              </div>
-             </div>
-        </li>
-      </volist>
-    </ul>
-  </div>
-  <div class="fybox">{$page}</div>
-  <div class="clr"></div>
+    <div class="saixuan">
+        <ul>
+            <li><a href="{:Uu('Product/lists','id='.$id.'&order=1')}"
+                <eq name="order" value="1"> class="selected"</eq>
+                >Default</a></li>
+            <li>
+                <eq name="order" value="2">
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"
+                    <eq name="order" value="2"> class="selected"</eq>
+                    >
+                    <eq name="sort" value="desc">
+                        <span class="down">Price</span>
+                        <else/>
+                        <span class="up">Price</span>
+                    </eq>
+                    </a>
+                    <else/>
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"><span class="">Price</span></a>
+                </eq>
+            </li>
+            <li>
+                <eq name="order" value="3">
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"
+                    <eq name="order" value="3"> class="selected"</eq>
+                    >
+                    <eq name="sort" value="desc">
+                        <span class="down">Sold</span>
+                        <else/>
+                        <span class="up">Sold</span>
+                    </eq>
+                    </a>
+                    <else/>
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"><span class="">Sold</span></a>
+                </eq>
+
+            </li>
+        </ul>
+    </div>
+    <div class="clr"></div>
+    <div class="splist">
+        <ul>
+            <volist name="list" id="vo">
+                <li id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                    data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                    <div class="good_box">
+                        <a href="{:Uu('Product/view','id='.$vo['id'])}">
+                            <img src="__PUBLIC__/Shop/images/grey.gif" class="lazy" style="margin-left: 15px;"
+                                 data-original="{$vo.indexpic}" alt="{$vo.title}" width="90%"/>
+                            <span class="g_title">{$vo.title}</span>
+                            <br>
+                            <br>
+
+                            <div class="clo9">Unit:{$vo.unit}</div>
+                            <div class="clo9">Preservation:{$vo.storage}</div>
+                            <div class="clo9">Origin:{$vo.origin}</div>
+                            <notempty name="vo.brand">
+                                <div class="clo9">Brand:{$vo.brand}</div>
+                            </notempty>
+                        </a>
+
+                        <div class="spjg">
+                            <div class="fl">
+                                <br/>
+                                <i class="price">&yen;{$vo.price}</i>
+                                <gt name="vo.price1" value="0">
+                                    <s>&yen;{$vo.price1}</s>
+                                    <else/>
+                                    &nbsp;</gt>
+                            </div>
+                            <div class="fr g_btn">
+                                <div class="cat_cart_num fl" onclick="prepGood('{$vo.id}')"></div>
+                                <div class="num fl tc" id="js_goods_num_{$vo['id']}">0</div>
+                                <div class="add_cart_num fl" data-id="{$vo.id}"
+                                     onClick="addgood('{$vo.id}',event);"></div>
+                            </div>
+                            <!--<a href="javascript:void(0);" onClick="$.addCart({$vo.id});" class="pure-button pure-button-success fr" >+ Cart</a>-->
+                        </div>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    <div class="fybox">{$page}</div>
+    <div class="clr"></div>
 </div>
-<include file="Index:footer" />
+<include file="Index:footer"/>
 </body>
 </html>

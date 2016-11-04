@@ -13,7 +13,7 @@ class BaseController extends Controller
         if (C('config.WEB_SITE_TEMPLATE')) {
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
-        $this->checkLogin();
+        //$this->checkLogin();
         $this->setFatherId();
         $this->assign('shoptitle', 'Waifood home');
     }
@@ -37,20 +37,17 @@ class BaseController extends Controller
     {
         // 用户权限检查
         if (get_userid() == 0) {
-            $this->checkOpenid();
+            if(is_wechat()){
+                $openid = openid();
+                if (strlen($openid) == 28) {
+                    openid($openid);
+                    UserModel::loginWechat($openid);
+                }
+            }else{
+                $this->redirect ( 'Login/index' );
+            }
         }
     }
-    
-    /**
-     * 设置openid
-     */
-    public function checkOpenid()
-    {
-        $openid = I('_openid');
-        if (strlen($openid) == 28) {
-            openid($openid);
-            UserModel::loginWechat($openid);
-        }
-    }
+
 }
 ?>

@@ -6,22 +6,30 @@
 <include file="Index:header" />
 </head>
 
-<body>
+<body >
 <include file="Index:bar" />
 <div class="container pdt5">
-  <div class="spfenlei">
+  <div class="spfenlei" >
     <volist name="channel" id="vo">
-    <eq name="vo.pid" value="2">
-       <a href="{:U('Product/lists?id='.$vo['id'].'&fid='.get_fid())}"><h1>{$vo.name}</h1></a> 
-      <p id="son{$i}">
-        <volist name="channel" id="vo1">
-          <eq name="vo1.pid" value="$vo['id']"> <a href="{:Uu('Product/lists','id='.$vo1['id'])}">{$vo1.name} </a></eq>
-        </volist>
-      </p>
-      </eq>
+        <div style="height: 47px;width: 100%;border-top: 1px solid #cccccc; ">
+            <img src="{$vo.indexpic}" height="29" alt="" style="margin-top: 10px;padding-left: 20px;"/>
+            <a href="{:U('Product/lists?id='.$vo['id'].'&fid='.get_fid())}">
+                <span style="font-size: 16px; color: {$vo.color};position: relative;bottom: 10px; left: 15px;">{$vo.name}</span>
+            </a>
+        </div>
+        <if condition="!empty($vo['child'])">
+            <hr size="1" color="#cccccc" style="margin-left: 20px;"/>
+            <div id="son{$i}" style="margin: 0 auto;width: 90%">
+                <volist name="vo['child']" id="vo1">
+                     <a href="{:Uu('Product/lists','id='.$vo1['id'])}"  style="display: block;width: 48%;margin-left: 2%;margin-top: 5px;" class="fl">
+                       {$vo1.name}
+                     </a>
+                </volist>
+            </div>
+        </if>
+        <div class="clr"></div>
     </volist>
   </div>
-  <div class="clr"></div>
 </div>
 <include file="Index:footer" />
 </body>

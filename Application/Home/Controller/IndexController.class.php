@@ -17,7 +17,7 @@ class IndexController extends BaseController {
 // 		}
 		$this->display ();
 	} 
-	
+
 	public function img(){
 	    $font=(LIB_PATH.'\Think\Verify\ttfs\1.ttf');
 	    $pic='1.jpg';

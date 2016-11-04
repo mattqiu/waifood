@@ -89,4 +89,44 @@ function get_list($id=null,$tbl='content',$col='*',$order='id desc',$num=0,$ch=t
     return $cache;
 
 }
+
+/**
+ * 产品分类列表
+ *
+ * @param number $pid
+ * @param number $num
+ * @param number $type
+ */
+function get_product_channel($pid = 0, $num = 10, $type = 1)
+{
+    $where = array();
+    if ($type == 2) {
+        $where['isresume'] = 1;
+    }
+    // $where['sortpath']=array('like','%,'.$pid.',%');
+    $where['pid'] = $pid;
+    $where['status'] = 1;
+    $key = md5($pid);
+    $db = F($key);
+    if (! $db) {
+        $db = M('channel')->where($where)
+            ->order('sort asc')
+            ->limit($num)
+            ->select();
+        F($key, $db);
+    }
+
+    if ($db) {
+        return $db;
+    } else {
+        $pid1 = M('channel')->where('id=' . $pid)->getField('pid');
+        $db1 = M('channel')->where($where)
+            ->order('sort asc')
+            ->limit($num)
+            ->select();
+        return $db1;
+    }
+}
+
+
 ?>

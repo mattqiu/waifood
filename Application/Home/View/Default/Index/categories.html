@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Categories</title>
+<include file="Index:header" />
+</head>
+<body>
+<include file="Index:bar" />
+
+<!--分类-->
+<div class="icoboxindex" style="border-bottom: 1px solid #ccc;margin: auto">
+
+    <volist name="list" id="vo">
+        <eq name="vo.pid" value="2">
+            <div style="height: 47px;width: 100%;border-top: 1px solid #cccccc">
+                <img src="{$vo.indexpic}" height="29" alt="" style="margin-top: 10px;padding-left: 20px;"/>
+                <span style="font-size: 16px; color: #f0cd40;position: relative;bottom: 10px; left: 15px;">{$vo.name}</span>
+                <div style="width: 90%;height: 207px;border-top: 1px solid #cccccc;" id="son{$i}">
+                    <volist name="channel" id="vo1">
+                        <eq name="vo1.pid" value="$vo['id']"> <a href="{:Uu('Product/lists','id='.$vo1['id'])}">{$vo1.name} </a></eq>
+                    </volist>
+                </div>
+            </div>
+            <!--<a href="{:U('Product/lists?id='.$vo['id'].'&fid='.get_fid())}"><h1>{$vo.name}</h1></a>-->
+            <!--<p id="son{$i}">-->
+                <!--<volist name="channel" id="vo1">-->
+                    <!--<eq name="vo1.pid" value="$vo['id']"> <a href="{:Uu('Product/lists','id='.$vo1['id'])}">{$vo1.name} </a></eq>-->
+                <!--</volist>-->
+            <!--</p>-->
+        </eq>
+    </volist>
+
+    <!--<volist name=":get_product_channel(2,20)" id="vo">
+        <li><span>
+        <empty name="vo.linkurl"> <a href="{:U('Product/lists','id='.$vo['id'])}" >{$vo.name}</a>
+            <else/>
+            <a href="{$vo.linkurl}" >{$vo.name}</a> </empty>
+        </span>
+            <div class="submenu">
+                <volist name=":get_product_channel($vo['id'],20)" id="vo1">
+                    <empty name="vo1.linkurl"> <a href="{:U('Product/lists','id='.$vo1['id'])}" >{$vo1.name}</a>
+                        <else/>
+                        <a href="{$vo1.linkurl}" > {$vo1.name}</a> </empty>
+                </volist>
+            </div>
+        </li>
+    </volist>-->
+    <!---->
+    <!--<volist name="list" id="vo">-->
+            <!--<a href="{:Uu('Product/lists','id='.$vo['id'])}" class=" <if condition="$i gt 4">top15</if>">-->
+            <!--<span><img src="{$vo.indexpic}" ></span>-->
+                <!--<p>{$vo.name}</p>-->
+            <!--</a>-->
+    <!--</volist>-->
+
+</div>
+<footer>
+  <ul class="tc">
+    <li>
+        <div class="foot_home"><span style="position: relative;bottom: -28px;"> Home</span></div>
+    </li>
+    <li>
+        <div class="foot_cat"><span style="position: relative;bottom: -28px;"> Categories</span></div>
+    </li>
+    <li>
+        <div class="foot_cart" id="gwc"><span id="CartNo"></span><span style="position: relative;bottom: -28px;"> Cart</span></div>
+    </li>
+    <li>
+        <div class="foot_me"><span style="position: relative;bottom: -28px;"> Me</span></div>
+    </li>
+  </ul>
+</footer>
+</body>
+</html>

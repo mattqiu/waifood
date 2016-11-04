@@ -6,7 +6,7 @@ class ChannelModel extends Model{
 
     protected $_validate = array(
         array('name', 'require', '栏目名称不能为空', self::EXISTS_VALIDATE, 'regex', self::MODEL_BOTH), 
-    	array('name','','相同栏目名称已经存在！',self::EXISTS_VALIDATE,'unique', self::MODEL_BOTH),
+//    	array('name','','相同栏目名称已经存在！',self::EXISTS_VALIDATE,'unique', self::MODEL_BOTH),
     );
 
     protected $_auto = array(
