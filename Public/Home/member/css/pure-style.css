@@ -33,11 +33,6 @@ body{ font-size:14px;}
 .menu .split{ border-bottom:1px #B7B7B7 solid;}
 .menu .odd{background-color:#f2f2f2}
 
-.time_list{text-align:center;color: #000;font-size:12px;width :125px; height:30px;border:solid 1px #000;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 30px;}
-.old_time{text-align:center;color: #c2cbe0;font-size:12px;width :125px; height:30px;border:solid 1px #c2cbe0;border-radius:4px;cursor:pointer;margin-top: 5px;line-height: 30px;}
-.click{background:url("../../../Shop/images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
-.click:hover,.time_list:hover,{background:url("../../../Shop/images/selected-icon.png") no-repeat 100% 20px ; border: 1px solid red}
-
 /*内容框架*/
 .content{ }
 .content a{color:#666; text-decoration:none;}

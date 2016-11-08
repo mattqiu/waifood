@@ -1,3 +1,14 @@
+/**
+ * 单选框设置
+ * @param $obj 点击对象
+ * @param valObj 赋值对象
+ */
+function setRadioVal($obj,valObj){
+    if(!$($obj).hasClass('on')){
+        $($obj).addClass('on').siblings().removeClass('on');
+        $(valObj).val($($obj).attr('data-val'));
+    }
+}
 
 //读取cookies
 function getCookie(name)

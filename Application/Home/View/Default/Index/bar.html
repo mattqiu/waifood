@@ -4,8 +4,12 @@
             <li class="fl">
             </li>
             <li class="fl keywrod">
-                <input type="text" class="input_keywrod" placeholder="Keywords"/>
-                <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+                <if condition="$title">
+                    <span style="line-height: 45px;color: #333333;font-size: 21px;">{$title}</span>
+                    <else/>
+                    <input type="text" class="input_keywrod" placeholder="Keywords"/>
+                    <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+                </if>
             </li>
             <li class="fr" >
                 <img src="__PUBLIC__/Home/images/share.png"  width="25">

@@ -2,6 +2,8 @@
 // 订单处理类
 namespace Home\Controller; 
 use Common\Model\AddressModel;
+use Common\Model\CodeModel;
+use Common\Model\OrderModel;
 
 class OrderController extends BaseController {
 	
@@ -22,10 +24,10 @@ class OrderController extends BaseController {
 		$orderno=str_replace('.html','',$orderno);
 		//we($orderno);
 		$where = array ();
-		$where ['orderno'] = $orderno; 
+		$where ['orderno'] = $orderno;
 		$db = M ( 'order' )->where ( $where )->find ();
 		$this->assign ( 'db', $db );
-		 
+
 		$this->assign ( 'title', '订单详情' );
 		$this->display ('Pay/orderView');
 	}
@@ -122,7 +124,6 @@ class OrderController extends BaseController {
 		}
 	}
 
-	
 	/**
 	 * 取消订单
 	 * @param string $orderno
@@ -207,18 +208,41 @@ class OrderController extends BaseController {
 			$this->error('对不起，该订单无法确认！');
 		}
 	}
-	
 
-	/**
-	 * 普通订单提交
-	 * @param number $shop_id
-	 */
-	public function submitOrder(){
+    /**
+     * 订单提交
+     * @param number $shop_id
+     */
+    public function submitOrder(){
+        $userid = get_userid();
+        if(!regex($userid,'number')){
+            apiReturn(CodeModel::ERROR,'Sorry, please login first!');
+        }
+        $data = I('post.');
+        $orderno = OrderModel::createOrder($data,$userid);
+        if($orderno){
+            $where=array();
+            $where['orderno']=$orderno;
+            $order=M('order')->where($where)->find();
+            if($order['paymethod'] == OrderModel::PAYPAL){
+                $url = "/m_pay?orderno={$order['orderno']}";
+                apiReturn(CodeModel::CORRECT,'Place an order successfully',$url);
+            }else{
+                apiReturn(CodeModel::CORRECT,'Place an order successfully','/member/order.html');
+            }
+        }else{
+            $this->assign('title','Failed.');
+            $this->display('Shop/error');
+        }
+    }
+
+
+	public function submitOrder1(){
 	    if(get_userid()==0){
 	        $this->redirect('Login/index');
 	    }
 
-	    $orderno=$this->createOrder($shop_id);
+	    $orderno=$this->createOrder();
 
 	    if($orderno){
 	        $where=array();
@@ -258,7 +282,8 @@ class OrderController extends BaseController {
 	            if ($check > 0) {
 	            	//$this->error('Sorry, the  product numbered [' . $check . '] inventory shortage.', '', 6);
 	            	$this->error('The stock is insufficient, we will try to have it soon.[#'.$check.']');
-	            } 
+	            }
+
 	            $addressid = $data['UseAddressID'];
                 $address = AddressModel::getUserAddressById($addressid, get_userid ());
 	            if($address){
@@ -279,8 +304,8 @@ class OrderController extends BaseController {
 	                $data ['remark']=$address['info'];
 	            }else{
 	                $this->error ( 'Sorry,address error.' );
-	                	
-	            } 
+
+	            }
 	           //使用优惠券抵扣
 				if($data['usecoupon']){
 				    //金额以购物车商品总额为准
@@ -302,7 +327,7 @@ class OrderController extends BaseController {
 	            $data ['shipfee'] = $db ['cart_shipfee'];
 	            $data ['userid'] = get_userid ();
 	            $data ['usertype'] = get_cate(get_userid (),'member','usertype');
-	
+
 	            $rate=lbl('rate');
 	            if(is_decimal($rate)){
 	                $data ['rate'] = $rate;
@@ -312,10 +337,10 @@ class OrderController extends BaseController {
 	            }else{
 	                $data['status']=0;
 	            }
-	
+
 	            $data ['addip'] = get_client_ip ();
 	            $data ['shop_id'] = $shop_id;
-	
+
 	            unset($data['UseAddressID']);
 	            //如果有积分支付，默认0
 	            $credit=(!is_numeric($data['credit'])?0:$data['credit']);
@@ -324,41 +349,41 @@ class OrderController extends BaseController {
 	                if(($credit>get_usercredit($data ['userid']))){
 	                    $this->error('Points less!');
 	                }
-	                	
+
 	                //计算积分抵扣的金额，要读取CREDIT_MONEY_RATE
 	                $credit_money_rate=(!is_numeric(C('config.CREDIT_MONEY_RATE'))?0:C('config.CREDIT_MONEY_RATE'));
 	                $creditamount=$credit*$credit_money_rate;
 	                $data['creditamount']=$creditamount;
 	                $data ['amount'] = $data ['amount']-$creditamount;
-	                	
+
 	                //参数 3:积分抵扣
 	                $ret = $this->insertCredit ( $data ['userid'], 3, $credit, $orderno );
-	                	
+
 	            }
-	
+
 	            $db = M ( 'order' )->add ( $data );
 	            if ($db != false) {
-	
+
 	                //抵扣优惠券
 	                create_coupon(get_userid(),$data['couponamount'],4,$orderno);
-	
+
 	                $this->createSubOrder ( $orderno, $shop_id,$data['status'] );
 	                $ctrl->updateCartInfo ();
-	
+
 	                $mailhtml = '';
 	                $mailhtml=$this->mailhtml($orderno);
-	                	
+
 	                $data=array();
 	                $where=array();
 	                $where['orderno']=$orderno;
 	                $data=M('order')->where($where)->find();
-	
+
 	                //客户邮件：send_mail();
 	                $to=M('member')->where('id='.$data['userid'])->getField('email');
 	                $subject='[waifood]order submit successfully';
 	                $body=lbl('tpl_createorder');
 	                if(!isN($body)){
-	                    	
+
 	                    $preg="/{(.*)}/iU";
 	                    $n=preg_match_all($preg,$body,$rs);
 	                    $rs=$rs[1];
@@ -373,17 +398,17 @@ class OrderController extends BaseController {
 	                    }
 	                    $body.=$mailhtml;
 	                    if(send_mail($to,$subject,$body)){
-	                        	
+
 	                    }
 	                }
-	                	
+
 	                //管理员邮件：
 	                //send_mail();
 	                $to=C('config.WEB_SITE_COPYRIGHT');
 	                $subject='[waifood]new order from '.get_username(get_userid());
 	                $body=lbl('tpl_receiveorder');
 	                if(!isN($body)){
-	                    	
+
 	                    $preg="/{(.*)}/iU";
 	                    $n=preg_match_all($preg,$body,$rs);
 	                    $rs=$rs[1];
@@ -402,7 +427,7 @@ class OrderController extends BaseController {
 	                    if(send_mail($to,$subject,$body)){
 	                    }
 	                }
-	                
+
 	                //微信客服消息
 	                $data = array();
 	                $data['touser'] = M('member')->where('id='.get_userid())->getField('wechatid');
@@ -410,11 +435,11 @@ class OrderController extends BaseController {
 	                $data['text'] =array('content'=>'thank you for order, we will deliver on time.');
                     $weChat = get_wechat_obj();
 	                $ret = $weChat->sendCustomMessage($data);
-	                	
+
 	                set_order_onoff($orderno);
 	                return $orderno;
-	                	
-	                	
+
+
 	            } else {
 	                return false;
 	            }
@@ -468,9 +493,7 @@ class OrderController extends BaseController {
 			$html.='<hr /><br /><br />Delivery date:'.$data['delivertime'].'<br />';
 			$html.='Remarks:'.$data['info'].'<br />';
 			}
-	
 	    }
-	
 	    return($html);
 	}
 	

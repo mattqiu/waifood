@@ -8,54 +8,39 @@
 
 <body>
 <include file="Index:bar" />
-<div class="container">
-  <div class="content"> <include file="Index:top" />
-    <div class="main-body">
-      <eq name="listcount" value="0">
-        <div class="main-list">
-          <div class="main-item">
-            <div class="item-title bdnone"> <span>Not found.</span> </div>
-            <div class="clr"></div>
-          </div>
-        </div>
-        <else/>
-        <div class="main-list">
-          <volist name="list" id="vo">
-            <div class="main-item">
-              <div class="item-title"> <a style="width:auto;" href="{:U('Member/orderView?orderno='.$vo['orderno'])}">
-                <h3>{:get_status($vo['status'])} (<span class="fc_red">
-                  <eq name="vo.pay" value="1">Paid
-                    <else/>
-                    Unpaid</eq>
-                  </span>)</h3>
-                </a> <span class="fr">&yen;{$vo.amount}</span> </div>
-              <div class="item-info">
-                <?php 
-           $vo1 = get_order_products($vo['orderno'],1);
-            ?>
-                <div class="item-li">
-                  <div class="item-img"><a href="{:U('Product/view?id='.$vo1[0]['productid'])}"><img src="{$vo1[0]['indexpic']}" alt="{$vo1[0]['productname']}" /></a></div>
-                  <div class="item-name" > <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">
-                    <h3>{$vo1[0]['productname']}</h3>
-                    <div class="item-no tr"> <span class="fc_red">&yen;{:to_price($vo1[0]['price'])} </span>* {$vo1[0]['num']}</div>
-                    </a> </div>
-                  <div class="clr"></div>
-                </div>
-                <div class="item-msg">
-                  <div class="item-status">Delivery time:{$db.delivertime}</div>
-                </div>
-                <div class="clr"></div>
-              </div>
-              <div class="clr"></div>
+<div class="container member">
+    <div class="userinfo" >
+        <a href="/Member/editMember.html">
+            <div class="userhead">
+                <img src="{$user.indexpic|default='__PUBLIC__/Home/images/nohead.png'}" alt=""/>
             </div>
-          </volist>
-        </div>
-      </eq>
+            <div class="green tc user_tie">{$user.username}</div>
+        </a>
     </div>
-    <div class="clr"></div>
-  </div>
-  <div class="clr"></div>
+    <div class="divide" style="height: 10px;"></div>
+
+    <div class="useritem">
+        <div class="userAddr uitem">
+            <a href="/member/address">
+                <img src="__PUBLIC__/Home/images/address.png" alt=""  /><br/>
+                <div class="tc item_tic">My address</div>
+            </a>
+        </div>
+        <div class="userbind uitem">
+            <a href="/member/bind.html">
+                <img src="__PUBLIC__/Home/images/bind.png" alt="" /><br/>
+                <div class="tc item_tic">Bind My Account</div>
+            </a>
+        </div>
+        <div class="userorder uitem">
+            <a href="/member/order.html">
+                <img src="__PUBLIC__/Home/images/order.png" alt="" /><br/>
+                <div class="tc item_tic">My Order</div>
+            </a>
+        </div>
+    </div>
 </div>
+
 <include file="Index:footer" />
 </body>
 </html>

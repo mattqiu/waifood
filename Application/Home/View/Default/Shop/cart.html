@@ -8,43 +8,32 @@
 
 <body>
 <include file="Index:bar"/>
-<div class="container">
-    <div class="itemg-title">
+<div class="container" style="padding-bottom: 85px;">
+    <div class="itemg-title" id="itemg-title" >
         <p class="fl" style="color: #64c73e;font-size: 17px;">Product list</p>
         <div class="fr icon_trash" style="margin: 17px  10px;" onClick="clearCart();">
-            <a href="javascript:void(0);" onClick="clearCart();" class="emptycart">Empty cart</a></div>
+            <a href="javascript:void(0);" onClick="clearCart();" class="empty">Empty cart</a></div>
     </div>
-    <div style="height: 5px;background: #EEEEEE;border-top: 1px solid #cccccc "></div>
+    <div class="emptycart" id="emptycart">
+        <div class="fl"><img src="__PUBLIC__/Home/images/tishi.png" alt="" width="30"/></div>
+        <div class="fl" > Your shopping cart is empty</div>
+    </div>
+    <div class="divide"></div>
     <!--购物车商品-->
     <div class="clr" id="content">
 
     </div>
-    <div class="cart_foot" id="cart_foot" data-delivery_fee="{$cart.cart_shipfee|to_price}">
-        <div class="fl calculate">
-            <table>
-            <tr>
-                <td class="jstotalmoney">0</td>
-                <td>+</td>
-                <td class="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</td>
-                <td>=</td>
-                <td class="totalmoney">0</td>
-            </tr>
-            <tr>
-                <td>Amount</td>
-                <td></td>
-                <td>Delivery</td>
-                <td></td>
-                <td>Total amount</td>
-            </tr>
-            </table>
-        </div>
-        <div class="fr checkout" onclick="goCashier();"></div>
+    <div class="cart_foot  hide" id="cart_foot" onclick="goCashier();" >
+       <span class="fl total-m"> Total:<span class="totalMoney num-item">&yen;0</span></span>
+        <span class="fr tc checkout">Check out</span>
     </div>
+
+
 </div>
 <include file="Index:footer"/>
 <script>
     $(function () {
-        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0,delivery_fee=parseFloat('{$cart.cart_shipfee|to_price}');
+        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0;
         if (myfood) {
             var obj = $.parseJSON(myfood);
             if (obj) {
@@ -75,13 +64,21 @@
                     $html += '<hr width="108%" color="#cccccc" size="1px" style="margin-left: -2%; "/>';
                     $html += '</div>';
                     $('#content').html($html);
-                    totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                    totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
                     totalNum +=  obj[i]['amount'];
                 }
             }
+            if(parseFloat(totalMoney)){
+                $('#cart_foot').removeClass('hide');
+            }
+            $('#itemg-title').removeClass('hide');
+            $('#emptycart').addClass('hide');
+            $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
+        }else{
+            $('#itemg-title').addClass('hide');
+            $('#emptycart').removeClass('hide');
+            $('#cart_foot').addClass('hide');
         }
-        $('#cart_foot .jstotalmoney').html('&yen;'+totalMoney);
-        $('#cart_foot .totalmoney').html('&yen;'+parseFloat(delivery_fee+totalMoney));
     })
 
 

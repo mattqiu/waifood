@@ -375,6 +375,7 @@ class CartController extends BaseController {
 		session ( $this->cart_name, $cart );
 		return true;
 	}
+
 	protected function getShipfee($n = 0) {
 		$freight = lbl ( 'freight' );
 		if (isN ( $freight )) {
@@ -387,7 +388,7 @@ class CartController extends BaseController {
 			$i = 0;
 			foreach ( $arr as $k => $v ) {
 				if ($n >= $i && $n < $k) {
-					return $v;
+					return $k;
 					break;
 				}
 				$i = $k;

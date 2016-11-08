@@ -8,7 +8,6 @@ class PayController extends BaseController {
         if (IS_POST) {
             //页面上通过表单选择在线支付类型，支付宝为alipay 财付通为tenpay
             $paytype = I('post.paytype');
-
             $pay = new \Think\Pay($paytype, C('payment.' . $paytype));
             $orderno=I('post.WIDout_trade_no');
             $totalfee=I('post.WIDtotal_fee');
@@ -16,13 +15,10 @@ class PayController extends BaseController {
             
             if($paytype=='palpay'){
             	//paypal要转汇率 
-            	
-            	$db=M('order')->where(array('orderno'=>$orderno))->find(); 
+            	$db=M('order')->where(array('orderno'=>$orderno))->find();
             	$rate=$db['rate']; 
 				$totalfee=round($db['amount']/$rate, 2);
-				
-            } 
-            
+            }
             $vo = new \Think\Pay\PayVo();
             $vo->setBody('')
                     ->setFee($totalfee) //支付金额

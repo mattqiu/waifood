@@ -5,6 +5,7 @@
     <title>{$title}</title>
     <include file="Index:header"/>
     <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
+    <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 </head>
 <body data-beyond="{$beyond}">
 <include file="Index:bar"/>
@@ -14,77 +15,74 @@
             <div class="main-list">
                 <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
                     <input type="hidden" name="shop_id" id="shop_id" value="1"/>
-                    <input type="hidden" name="UseAddressID" id="UseAddressID" value="{$address.id}"/>
+                    <input type="hidden" name="UseAddressID" id="UseAddressID" value="{$address['id']}"/>
                     <input type="hidden" name="cityname" id="cityname" value="{$address.cityname}"/>
-                        <div class="main-item">
-                            <div class="item-title">
-                                <h3 style="width:100%;">
-                                <span class="fl" style="width:auto;">Receiving information</span>
-                                <a href="{:U('Member/address','goto=cashier')}" style="width:auto; float:right" class="fr">Choose</a></h3>
+                        <div class="good-item">
+                            <div class="good-item-title">Delivery address</div>
+                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
+                            <div class="address-list">
+                                <a href="{:U('Member/address','goto=cashier')}">
+                                    <div class="fl" style="width: 10%;"><img src="__PUBLIC__/Home/images/ov_address.png" style="margin-top: 45px" width="15" alt=""/></div>
+                                    <div class="addr_list fl" style="width: 85%;text-indent: 0">
+                                        <!--<input type="radio" name="consingee" checked value="{$address.id}"/>-->
+                                        {$address.username}-{$address.telephone}- {$address.address}
+                                        -{$address.cityname}
+                                    </div>
+                                    <div class="fl" style="width: 3%;">
+                                       <img src="__PUBLIC__/Home/images/tapnext.png" style="margin-top: 45px" alt="" width="10"/>
+                                    </div>
+                                </a>
                             </div>
-                            <div class="item-info">
-                                <label class="addr_list">
-                                    <input type="radio" name="consingee" checked value="{$address.id}"/>
-                                    {$address.username}-{$address.telephone}- {$address.address}
-                                    -{$address.cityname}
-                                </label>
+                            <img src="__PUBLIC__/Home/images/xinfeng_address.png" width="110%" style="margin-left: -5%" height="10" alt=""/>
+                        </div>
+                    <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
+                        <div class="good-item">
+                            <div class="good-item-title">Product list</div>
+                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
+                            <div class="good-info" id="product_list">
+
                             </div>
                         </div>
 
-                        <div class="main-item">
-                            <div class="item-title">
-                                <h3>Product list</h3>
+                        <div class="good-item">
+                            <div class="good-item-title">Payment</div>
+                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
+                            <div class="radio-box">
+                                <label class="radio on paymethod" data-val="4" onclick="setRadioVal(this,'#paymethod')"><i></i>Cash on delivery</label>
+                                <p></p>
+                                <label class="radio paymethod" data-val="2"  onclick="setRadioVal(this,'#paymethod')"><i></i>Paypal</label>
+                                <input type="hidden" name="paymethod" id="paymethod" value="4" />
                             </div>
-                            <div class="item-info" id="product_list">
-                                <div class="item-li">
-                                    <div class="item-img">
-                                        <a href="/Product/view?id=2">
-                                            <img alt="333" src="__PUBLIC__/Home/images/57a1b435bf3f0.jpg"/>
-                                        </a>
-                                    </div>
-                                    <div class="item-name">
-                                        <h3><a href="/Product/view?id={$vo['id']}">sdasdsa</a></h3>
-                                        <div class="item-no">Price：<span class="fc_red">&yen;233</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="item-msg">
-                                <div class="item-count">
-                                    Amount：<span class="fc_red" style="color:#666;" id="amount"></span><br>
-                                    Delivery Fee：<span class="fc_red" style="color:#666;" id="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</span>
-                                    <br/>
-                                    Total amount：<span class="fc_red" id="total_money"></span>
-                                    <hr/>
-                                </div>
-                            </div>
-                        </div>
 
-                        <div class="main-item">
-                            <div class="item-title">
-                                <h3>Payment</h3>
-                            </div>
-                            <div class="item-info pure-form">
+                           <!-- <div class="item-info pure-form">
                                 <div class="item-pay-method" style="padding:10px 0px;">
+
                                     <label for="paymethod2" style="display:inline;">
                                         <input name="paymethod" type="radio" id="paymethod2" value="2" data-shipfee="{$cart.cart_shipfee}"> Paypal
                                     </label>
                                     &nbsp;
-                                    <!-- <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
+                                    &lt;!&ndash; <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
                                      <label for="paymethod3" style="display:inline;">微支付</label>
-                                     &nbsp;-->
+                                     &nbsp;&ndash;&gt;
                                     <label for="paymethod4" style="display:inline;">
                                         <input type="radio" name="paymethod" id="paymethod4" value="4" data-shipfee="{$cart.cart_shipfee}" checked> Cash on delivery
                                     </label>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
+                    <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
+                        <div class="good-item">
+                            <div class="good-item-title">Invoice required </div>
+                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
 
-                        <div class="main-item">
-                            <div class="item-title">
-                                <h3>Invoice required</h3>
+                            <div class="radio-box">
+                                <label class="radio radiofl paymethod" data-val="1" onclick="setRadioVal(this,'#invoice')"><i></i>yes</label>
+                                <label class="radio radiofl on paymethod" data-val="0"  onclick="setRadioVal(this,'#invoice')"><i></i>no</label>
+                                <br/>
+                                <input type="hidden" name="invoice" id="invoice" value="0" />
                             </div>
-                            <div class="item-info ">
+
+                            <!--<div class="item-info " style="    padding-bottom: 12px;">
                                 <label for="invoice1">
                                     <input name="invoice" type="radio" id="invoice1" value="1">
                                     yes
@@ -92,16 +90,14 @@
                                 <label for="invoice2">
                                     <input type="radio" name="invoice" id="invoice2" value="0" checked> no
                                 </label>
-                            </div>
+                            </div>-->
                         </div>
-
-
-                        <div class="main-item">
-                            <div class="item-title">
-                                <h3>Delivery time</h3>
-                            </div>
+                    <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
+                        <div class="good-item">
+                            <div class="good-item-title">Delivery time</div>
+                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                             <div class="item-info ">
-                                <div class="txt02 pure-form ">
+                                <div class="txt02 pure-form " id="deliverydate">
                                     <select name="delivertime[]" id="delivertimeselect">
                                         <volist name="dateData" id="vo" class="pure-input-1">
                                             <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
@@ -118,14 +114,14 @@
                                     </select>
 
                                     <notempty name="deliverinfo">
-                                        <div class="item-info " style="color:#f00;">
+                                        <div class="item-info green cashie-tic">
                                             {$deliverinfo}
                                         </div>
                                         <div style="clear: both"></div>
                                     </notempty>
 
                                     <volist name="times" id="vo">
-                                        <div class="time_list js_time_obj " data-date="{$v}">
+                                        <div class="time_list js_time_obj " data-date="{$vo}">
                                             {$vo}
                                         </div>
                                     </volist>
@@ -133,15 +129,19 @@
                             </div>
                         </div>
 
+                    <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
                         <div class="item-pay-container">
-                            <div class="item-pay pure-form">
-                                <textarea id="info" name="info" value="" placeholder="the order remarks" class="pure-input-1"></textarea>
-                            </div>
-
-                            <div class="item-pay">
-                                <input type="button" class="pure-button pure-button-error" onClick="submitOrder()" style="width:100%;" value="Submit order"/>
-                            </div>
+                            <textarea id="info" name="info" value="" rows="3" class="cashier-info" placeholder="the order remarks" ></textarea>
+                    </div>
+                    <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
+                    <div class="good-count">
+                        <div class="foot-item fl">
+                            <div class="fi-li">Quantity: <span id="quantity">22</span></div>
+                            <div  class="fi-li"> Delivery Fee：<span class="" id="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</span></div>
                         </div>
+                        <div class="foot-item fl tc" style="margin-top: 13px;">Total：<span class="fc_orange"  id="amount">&yen;3242</span></div>
+                        <div class="foot-item fr submit-button" onClick="submitOrder()"><span class="tc">Submit order</span></div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -150,13 +150,6 @@
 <include file="Index:footer"/>
 <script>
     $(function () {
-        $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
-
-        $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-        $('#addr_list label').click(function () {
-            $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
-            $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-        })
         var maxCredit = "{:get_usercredit()}";
         $("#credit").change(function () {
             var credit = $(this).val();
@@ -199,7 +192,6 @@
         //更改了支付方式
         function changeTotalMoney() {
             var total;
-
             var $paymethod = $('input[name="paymethod"]:checked');
             var v = $paymethod.val();
             var shipfee = $paymethod.data("shipfee");
@@ -213,8 +205,55 @@
             $("#money_shipfee").html("￥" + shipfee);
             $("#money_all_amount").html("￥" + total.toFixed(2));
         }
+        /***********************购物车商品**************************************/
+        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0;
+        if (myfood) {
+            var obj = $.parseJSON(myfood);
+            if (obj) {
+                for (var i in obj) {
+                    $html += '<a href="/Product/view?id=' + obj[i]['id'] + '">';
+                    $html += '<div class="good-img fl">';
+                    $html += '<img  src="' + obj[i]['indexpic'] + '"/>';
+                    $html += '</div>';
+                    $html += '<div class="good-name fr">';
+                    $html += '<div  class="good-title">' + obj[i]['name'] + '</div>';
+                    $html += '<br/>';
+                    $html += '<br/>';
+                    $html += '<div class="good-money-info">';
+                    $html += '<div class="item-no good-money ">&yen;<span class="fc_orange">' + obj[i]['price'] + '</span>';
+                    $html += '<span class="tr good-num good-title num-item">x ' + obj[i]['amount'] + '</span></div>';
+                    $html += '</div>';
+                    $html += '</div>';
+                    $html += '</a>';
+                    $html += '<hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>';
+                    $html += '<div class="good-money tr">';
+                    $html += ' <span class="good-title">Quantity:' + obj[i]['amount'] + '</span>&nbsp;&nbsp;&nbsp;';
+                    $html += '<span class="good-title">Total:&yen;<span class="fc_orange">' + parseFloat( obj[i]['amount'] * obj[i]['price']) + '</span></span>';
+                    $html += '</div>';
+                    $html += '<div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>';
+                    totalMoney += parseFloat( obj[i]['amount'] * obj[i]['price']);
+                    totalNum += obj[i]['amount'];
+                }
+                $('#product_list').html($html);
+                $('#quantity').html(totalNum);
+                getAmountMoney(totalMoney,'#amount','#delivery_fee');
+            }
+            if(parseFloat(totalMoney)){
+                $('#cart_foot').removeClass('hide');
+            }
+            $('#itemg-title').removeClass('hide');
+            $('#emptycart').addClass('hide');
+            $('#cart_foot .totalMoney').html('&yen;'+parseFloat(totalMoney));
+        }else{
+            $('#itemg-title').addClass('hide');
+            $('#emptycart').removeClass('hide');
+            $('#cart_foot').addClass('hide');
+        }
 
     });
+
+
+
 
     //根据时间选择时间段
     function checkTime($now) {

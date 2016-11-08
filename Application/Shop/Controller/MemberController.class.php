@@ -70,7 +70,6 @@ class MemberController extends AuthController {
             //seo信息
             $title = 'Member Center';
             $this->assign('title',$title);
-
             $this->display ();
 		}else{
 			session ( 'userid',null );
@@ -458,17 +457,14 @@ class MemberController extends AuthController {
 		$where = array ();
 	 	$where ['status'] = $status; 
 		$where ['userid'] = get_userid ();
-		
 		// 分页
 		$p = intval ( I ( 'p' ) );
 		$p = $p ? $p : 1;
 		$row = C ( 'VAR_PAGESIZE' );
-		
 		$rs = M ( "order" )->where ( $where )->order ( 'id desc' )->page ( $p, $row );
 		$list = $rs->select ();
 		$this->assign ( "list", $list );
 		$count = $rs->where ( $where )->count ();
-		
 		if ($count > $row) {
 			$page = new \Think\Page ( $count, $row );
 			$page->setConfig ( 'theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%' );

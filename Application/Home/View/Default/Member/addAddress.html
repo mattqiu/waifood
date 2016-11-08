@@ -3,110 +3,98 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{$title}</title>
-    <include file="Index:header"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <script>
+        var APP_PATH="__APP__";
+        var CONST_PUBLIC="__PUBLIC__";
+        var CONST_CART="{:U('Cart/URL')}";
+        var EXTRA_PARAM="{:get_fid()}";
+    </script>
+    <js href="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js,__PUBLIC__/Shop/js/jquery-1.8.0.min.js,__PUBLIC__/Home/newjs/jquery.cookies.2.2.0.js,__PUBLIC__/Home/newjs/jquery.fly.min.js,__PUBLIC__/Home/newjs/json.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Home/js/jquery.func.js,__PUBLIC__/Home/newjs/home.js" />
+    <css href="__PUBLIC__/Home/member/css/pure-style.css,__PUBLIC__/Home/css/main.css,__PUBLIC__/Home/css/main.css" />
 </head>
 
 <body>
-<include file="Index:bar"/>
+<header>
+    <a href="javascript:void(0);" onclick="history.back();" id="back" style="color: #000000"></a>
+    <ul style="width: 100%;">
+        <li class="fl">
+        </li>
+        <li class="fl keywrod">
+            <if condition="$title">
+                <span style="line-height: 45px;color: #333333;font-size: 21px;">{$title}</span>
+                <else/>
+                <input type="text" class="input_keywrod" placeholder="Keywords"/>
+                <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+            </if>
+        </li>
+        <li class="fr"  onclick="subAddress()" style="margin-right: 10px;">Save</li>
+    </ul>
+</header>
 <div class="container">
     <div class="content">
         <div class="main-body">
-            <include file="Index:top"/>
             <div class="main-list">
-                <form onsubmit="return false" method="post" name="form1" id="form1"
-                      class="pure-form pure-form-stacked">
-                    <div class="main-item">
-                        <div class="address-info">
-                            <div class="address-form">
-                                <fieldset>
-                                    <input type="hidden" name="id" value="{$addr.id}"/>
-                                    <label for="username"> Consingee：</label>
-                                    <input id="username" name="username" type="text" value="{$addr.username}"
-                                           placeholder="enter your name" class="pure-input-1" maxlength="20">
-                                    <label for="telephone"> <span class="fc_red">*</span> Mobile：</label>
-                                    <input id="telephone" name="telephone" type="text" value="{$addr.telephone|default='+86'}"
-                                           placeholder="enter your mobile" class="pure-input-1" maxlength="20" required>
-                                    <label for="telephone2">Alternative phone：</label>
-                                    <input id="telephone2" name="telephone2" type="text"
-                                           value="{$addr.telephone2}" placeholder="enter your alternative phone"
-                                           class="pure-input-1" required>
-                                    <label for="address"><span class="fc_red">*</span> Address：</label>
-                                    <input id="address" name="address" type="text" value="{$addr.address}"
-                                           placeholder="enter your address" class="pure-input-1"
-                                           required>
-                                    <label>Gender：</label>
-                                    <label for="sex1" style="float: left;width: 40%">
-                                        <input type="radio" name="sex" id="sex1" value="1"
-                                        <if condition="$addr['sex'] eq 1"> checked</if>
-                                        />Male
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="sex" id="sex1" value="0"
-                                        <if condition="$addr['sex'] eq 0"> checked</if>
-                                        /> Female
-                                    </label>
+                <form onsubmit="return false" method="post" name="form1" id="form1" class="pure-form addrform">
+                    <div class="address_info">
+                        <input type="hidden" name="id" value="{$addr.id}"/>
+                        <label for="username"> Consingee：</label>
+                        <input id="username" name="username" type="text" value="{$addr.username}"
+                               placeholder="enter your name" class="re_style" >
+                        <hr size="1" width="100%" color="#cccccc"/>
 
-                                    <div style="clear: both"></div>
+                        <label for="telephone">Phone：</label>
+                        <input id="telephone" name="telephone" type="text" value="{$addr.telephone|default='+86'}"
+                               placeholder="enter your mobile" class="re_style" maxlength="20" required>
+                        <hr size="1" width="100%" color="#cccccc"/>
 
-                                    <label for="cityname">City：</label>
-                                    <select name="cityname" id="cityname">
-                                        <option
-                                        <if condition="$addr['cityname'] eq 'chengdu'">selected</if>
-                                        value="chengdu">Chengdu</option>
-                                        <option
-                                        <if condition="$addr['cityname'] eq 'chongqing'">selected</if>
-                                        value="chongqing">Chongqing</option>
-                                        <option
-                                        <if condition="$addr['cityname'] eq 'xi\'an'">selected</if>
-                                        value="xi'an">Xi'an</option>
-                                        <option
-                                        <if condition="$addr['cityname'] eq 'kunming'">selected</if>
-                                        value="kunming">Kunming</option>
-                                        <option
-                                        <if condition="$db['cityname'] eq 'other'">selected</if>
-                                        value="other">Other</option>
-                                    </select>
-                                    <label>Set as default address：</label>
-                                    <label for="isdefault" style="float: left;width: 40%">
-                                        <input name="isdefault" type="radio" id="isdefault" value="1"
-                                        <if condition="$addr['isdefault'] eq 1"> checked</if>
-                                        />Yes
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="isdefault" id="isdefault" value="0"
-                                        <if condition="$addr['isdefault'] eq 0"> checked</if>
-                                        /> No
-                                    </label>
+                        <label for="telephone2">Alternative phone：</label>
+                        <input id="telephone2" name="telephone2" type="text"
+                               value="{$addr.telephone2}" placeholder="enter your alternative phone"
+                               class="re_style" required>
+                        <hr size="1" width="100%" color="#cccccc"/>
 
-                                    <div style="clear: both"></div>
-                                    <label for="language">Language：</label>
-                                    <select name="language" id="language">
-                                        <option
-                                        <if condition="$addr['language'] eq 3">selected</if>
-                                        value="3">English</option>
-                                        <option
-                                        <if condition="$addr['language'] eq 1">selected</if>
-                                        value="1">Chinese general</option>
-                                    </select>
+                        <label>Gender：</label>
+                        <select name="sex" id="sex" class="re_style">
+                            <option value="1" <if condition="$user['sex'] eq 1">selected</if>>Male</option>
+                            <option value="0" <if condition="$user['sex'] eq 0">selected</if>>Female</option>
+                        </select>
+                        <hr size="1" width="100%" color="#cccccc"/>
 
-                                </fieldset>
-                            </div>
-                            <div class="clr"></div>
-                        </div>
-                        <div class="clr"></div>
+                        <label for="cityname">City：</label>
+                        <select name="cityname" class="re_style" id="cityname">
+                            <option <if condition="$addr['cityname'] eq 'chengdu'">selected</if> value="chengdu">Chengdu</option>
+                            <option <if condition="$addr['cityname'] eq 'chongqing'">selected</if> value="chongqing">Chongqing</option>
+                            <option <if condition="$addr['cityname'] eq 'xi\'an'">selected</if> value="xi'an">Xi'an</option>
+                            <option
+                            <if condition="$addr['cityname'] eq 'kunming'">selected</if>
+                            value="kunming">Kunming</option>
+                            <option
+                            <if condition="$addr['cityname'] eq 'other'">selected</if>
+                            value="other">Other</option>
+                        </select>
+                        <hr size="1" width="100%" color="#cccccc"/>
+
+                        <label for="address">Address：</label>
+                        <input id="address" name="address" type="text" value="{$addr.address}"
+                               placeholder="enter your address" class="re_style" required>
+                        <hr size="1" width="100%" color="#cccccc"/>
+
+                        <label for="language">Language：</label>
+                        <select name="language" class="re_style" id="language">
+                            <option
+                            <if condition="$addr['language'] eq 3">selected</if>
+                            value="3">English</option>
+                            <option
+                            <if condition="$addr['language'] eq 1">selected</if>
+                            value="1">Chinese general</option>
+                        </select>
+                        <hr size="1" width="100%" color="#cccccc"/>
                     </div>
-                    <if condition="is_bind() neq true">
-                        <div class="tr" style="line-height:30px; margin:10px;">
-                            <a href="{:U('Member/pwd')}" style="color:#00f;">Click here to modify password</a>
-                        </div>
-                    </if>
-                    <div align="center" style="padding:10px 0px;">
-                        <button type="button" class="pure-button pure-button-primary w49" onclick="subAddress()">Save
-                        </button>
-                        <button type="button" class="pure-button w49" onClick="window.location.href='/m_cart.html';">Back</button>
-                    </div>
+                    <div class="divide clr" style="height: 10px;margin-top: -10px;"></div>
+                    <div  onClick="$.delAddress('{$addr.id}','/member/address');" style="border-bottom: 1px solid #cccccc;font-size: 14px; height: 45px;line-height: 45px;" class="green">Delete Address</div>
                 </form>
-
             </div>
         </div>
 

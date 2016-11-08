@@ -2,13 +2,30 @@ $(function(){
     loadGood();
 })
 
+function getStockCount(){
+    var myfood = $.cookie("myfood");
+    if (myfood) {
+        var obj = $.parseJSON(myfood);
+        for (var i in obj) {
+            if(obj[i]['id']){
+                console.log(obj[i]['id'])
+               var stock = $('#js_goods_'+obj[i]['id']).data("stock");
+                myfood[obj[i]['id']]['stock'] = stock;
+            }
+        }
+    }
+    var json = $.toJSON(myfood_array);
+    $.cookie(key,json,{
+        "path":"/"
+    });
+}
 /**
  *添加商品
  * @param id
  * @param event
  * @returns {boolean}
  */
-function addgood(id,event){
+function addgood(id,event,isbuynow){
     var key = "myfood",
         myfood = $.cookie(key),
         id = $('#js_goods_'+id).data("id"),
@@ -18,6 +35,7 @@ function addgood(id,event){
         stock = $('#js_goods_'+id).data("stock");
         if(stock<1){ //没有库存
             jAlert("Insufficient stock!",SYSTITLE);
+            return false;
         }
         var myfood_array = {};
         myfood_array = $.parseJSON(myfood);
@@ -44,6 +62,9 @@ function addgood(id,event){
             "path":"/"
         });
         loadGood();
+        if(isbuynow == true){
+            window.location.href = '/m_cart.html';
+        }
 }
 
 /**
@@ -62,7 +83,9 @@ function prepGood(id){
                 myshop_array[id]['amount'] = parseInt(single['amount']) - 1;
             }else{
                  myshop_array[id]= undefined;
-                $('#js_goods_'+id).remove();
+                if( $('#js_goods_'+id).hasClass('jsCart')){
+                    $('#js_goods_'+id).remove();
+                }
             }
         }else{
             jAlert("Sorry, improve plate does not exist, please refresh retry!",SYSTITLE);
@@ -93,6 +116,7 @@ function delGood(id){
     $.cookie(key,json,{
         "path":"/"
     });
+    loadGood();
     $('#js_goods_'+id).remove();
 }
 
@@ -100,11 +124,20 @@ function delGood(id){
  * 清空购物车
  */
 function clearCart(){
+    $('#content').remove();
+    $('#itemg-title').addClass('hide');
+    $('#emptycart').removeClass('hide');
+    $('#CartNo').css('display','none');
     $.cookie("myfood", "", {"path": "/"});
 }
 
 function fly(event){
-    var offset = $("#CartNo").offset();
+    if($("#CartNo").css('display') == 'none'){
+        var offset = $("#offset").offset();
+    }else{
+        var offset = $("#CartNo").offset();
+    }
+
     var flyer = $('<img width="30px;" class="u-flyer" src="http://www.waifood.com/public/home/images/flycart.png">');
     flyer.fly({
         start: {
@@ -122,36 +155,44 @@ function fly(event){
     });
 }
 
-
 /*加载缓存中的购物车数据到页面*/
 function loadGood(){
-    var myfood =  $.cookie("myfood"),amount= 0,totalMoney= 0,delivery_fee =parseFloat($('#cart_foot').data('delivery_fee'));
+    var myfood =  $.cookie("myfood"),amount= 0,totalMoney= 0;
     if(myfood){
         var obj = $.parseJSON(myfood);
+        $('#CartNo').css('display','block');
         if(obj){
             for(var i in obj) {
-                amount+=parseInt(obj[i]['amount']);
-                if($('#js_goods_num_'+obj[i]['id']).attr('type') =='text'){
-                    $('#js_goods_num_'+obj[i]['id']).val(obj[i]['amount']);
-                }else{
-                    $('#js_goods_num_'+obj[i]['id']).html(obj[i]['amount']);
+                if(obj[i]['id']){
+                    amount+=parseInt(obj[i]['amount']);
+                    if($('#js_goods_num_'+obj[i]['id']).attr('type') =='text'){
+                        $('#js_goods_num_'+obj[i]['id']).val(obj[i]['amount']);
+                    }else{
+                        $('#js_goods_num_'+obj[i]['id']).html(obj[i]['amount']);
+                    }
+                    totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                    $('#js_goods_'+obj[i]['id']+' .js_total').html(parseFloat((obj[i]['amount']*obj[i]['price'])));
+                    $('#CartNo').html(amount);
+                    if(parseInt(obj[i]['amount'])<1){
+                        $('#js_goods_'+obj[i]['id']).remove();
+                    }
                 }
-                totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
-                $('#js_goods_'+obj[i]['id']+' .js_total').html(parseFloat((obj[i]['amount']*obj[i]['price'])));
-                $('#CartNo').html(amount);
             }
-            if(parseInt(obj[i]['amount'])<1){
-                $('#js_goods_'+obj[i]['id']).remove();
+            if(!amount){
+                $('#CartNo').css('display','none');
             }
+            $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
+
         }
-        $('#cart_foot .jstotalmoney').html('&yen;'+totalMoney);
-        $('#cart_foot .totalmoney').html('&yen;'+parseFloat(delivery_fee+totalMoney));
-
     }else{
-
+        $('#CartNo').css('display','none');
     }
 }
 
+/**
+ * 进入结算页面
+ * @returns {boolean}
+ */
 function goCashier(){
     var myfood =  $.cookie("myfood");
     var obj = $.parseJSON(myfood);
@@ -164,200 +205,62 @@ function goCashier(){
 }
 
 function submitOrder(){
-    var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate;
-    var obj = $.parseJSON(myfood);
-    if(!obj){
+    var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
+    var myfood_array = $.parseJSON(myfood);
+    if(!myfood_array){
         jAlert("Order content cannot be empty!",SYSTITLE);
         return false;
     }
-    if ($("#UseAddressID").val()) {
+    for(var i in myfood_array){
+        order +=  myfood_array[i]['id'] + "," + myfood_array[i]['amount']+ "," + myfood_array[i]['price'] +"|"; //订单信息
+    }
+    if (!$("#UseAddressID").val()) {
         jAlert("I'm sorry, please select a shipping address!",SYSTITLE);
         return false
     };
-    var pm = $('input:radio[name="paymethod"]:checked').val();
-    pm = (pm==0 ? 0: 1);
-
-
-    deliverydate = $("#delivertime").val();
-    if(deliverydate==''){
-        jAlert("Sorry, please select the delivery date!",SYSTITLE);
-        return false
-    }
-
+    $(".click input[type=hidden]").each(function () {
+        deliverydate += $(this).val()+' ';
+    })
     var data = {
         shop_id : $("#shop_id").val(),
-        OrderInfo : $("#UseAddressID").val(),
+        UseAddressID : $("#UseAddressID").val(),
         cityname : $("#cityname").val(),
-        invoice : $('input:radio[name="invoice"]:checked').val(),
-        date :$('#delivertimeselect').val(),
-        date :$('#delivertimeselect').val(),
+        paymethod : $('#paymethod').val(),
+        invoice : $('#invoice').val(),
         info : $.trim($("#Info").val()),
-        pm : (pm==0 ? 0: 1),
-        deliverydate : deliverydate
+        delivertime : deliverydate,
+        order : order
     }
-    console.log(data)
-return
-    var title = "Are you sure you want to submit the order?";
-    jConfirm(title,SYSTITLE,function(msg){
-        if(msg){
-       //     $("#form1").submit();
-        }else{
-            return false;
-        };
-    });
 
+    $.post('/home/order/submitOrder.html',data,function(data){
+        if(data.code == 200){
+            if(data.data){
+                clearCart(); //清空购物车
+                clearpopj(data.message,data.data,SYSTITLE)
+            }
+        }else{
+            clearpopj(data.message,'',SYSTITLE)
+            return false;
+        }
+    })
 }
 
-
-//提交订单
-function createOrder(){
-        var note = $.trim($("#noteH").text()),
-            order = "",
-            resId = $body.attr("res_id"),
-            handle = $('#priceTotal').text(),//应付金额
-            member_blance =  $('#member_blance').text(),//会员卡余额
-            key = "myfood",
-            myfood = $.cookie(key),
-            price_count = 0,
-            type = 0,
-            cardState =  $('#sub_food_order').attr('rel'),//会员卡余额,
-            is_online_pay =  $('.pay_list .hover').attr('rel');
-        //会员卡支付判断会员卡余额
-        if(member_blance - handle < 0 && is_online_pay==5){
-            clearpop(jsLangChange('会员卡余额不足!'));
-            subBlock = false;//解除阻塞
-            return;
+function getdeliveryFee(money,obj){
+    $.post('/home/shop/getdeliveryFee.html',{money:money},function(data){
+        if(data.code == 200){
+            $(obj).html('&yen;'+data.data)
+            $(obj).attr('deliveryFee',data.data)
         }
-        if(is_online_pay==5 && cardState==1){//会员卡被禁用
-            clearpop(jsLangChange('该会员卡已被商家禁用，请尽快联系商家处理!'));
-            subBlock = false;//解除阻塞
-            return;
+    })
+}
+function getAmountMoney(totalMoney,obj,deliveryFee){
+    $.post('/home/shop/getdeliveryFee.html',{money:totalMoney},function(data){
+        if(data.code == 200){
+            $(obj).html('&yen;'+data.data);
+            $(deliveryFee).html('&yen;'+data.data);
+            var $total = parseFloat(totalMoney)+parseFloat(data.data)
+            console.log($total);
+            $(obj).html('&yen;'+$total);//总金额= 配送费+商品总金额
         }
-        var from_type   = $body.attr("from_type");//正常订单
-        var extra_fee   = $body.attr("extra_fee");
-        if(myfood){
-            var myfood_array = $.parseJSON(myfood);
-            if(myfood_array[resId]){// 该餐厅存在
-                for(var i in myfood_array[resId]){
-                    order  = order + myfood_array[resId][i]['food_id'] + "," + myfood_array[resId][i]['amount'] +','+myfood_array[resId][i]['food_pack']+"|";
-                    price_count = price_count + parseFloat(myfood_array[resId][i]['food_price'])*parseInt(myfood_array[resId][i]['amount']);
-                }
-                order = order.substr(0,order.length-1);
-            }
-        }
-        price_count = price_count.toFixed(1);
-        contact = $.trim($("#contact .contact").text());
-        tel = $.trim($("#contact .tel").text());
-        address = $.trim($("#contact .address").text());
-        if(res_type == 2){
-            if(tel.length == 0 || !(regex(tel,"mob") || regex(tel,"tel") || regex(tel,"short_tel"))){
-                clearpop(jsLangChange('电话格式不正确'));
-                subBlock = false;//解除阻塞
-                return;
-            }
-            var send_time = $.trim($("select[name=send_time]").val());
-            if(!send_time){
-                clearpop(jsLangChange('送时不能为空'));
-                subBlock = false;//解除阻塞
-                return;
-            }
-            if(send_time==-1 || send_time<0){
-                clearpop('已不在营业时间');
-                subBlock = false;//解除阻塞
-                return;
-            }
-            if(address.length == 0){
-                clearpop(jsLangChange('地址不能为空'));
-                subBlock = false;//解除阻塞
-                return;
-            }
-            if(min_price - price_count > 0){
-                clearpop(jsLangChange('未达起送价')+min_price);
-                subBlock = false;//解除阻塞
-                return;
-            }
-            send_time = $.trim($("select[name=send_time_bf]").val()) + " " + send_time;
-        }else{
-            tel = $.trim($("#peoples").val());
-            address = $.trim($("#dasknum").val());
-            contact = $.trim($("#contacts").val());
-            var send_time = $.trim($("select[name=send_time_get]").val());;
-            var reg = new RegExp("^[0-9]*$");
-            if(!send_time){
-                clearpop(jsLangChange('到时不能为空'));
-                subBlock = false;//解除阻塞
-                return;
-            }
-
-            if(!address || !tel){
-                clearpop(jsLangChange('桌号')+"/"+jsLangChange('人数不能为空'));
-                subBlock = false;//解除阻塞
-                return;
-            }
-            send_time = $.trim($("select[name=send_time_get_bf]").val()) + " " +send_time;
-            type = 3;  //堂吃
-            extra_fee = 0;
-        }
-        if(order == ""){
-            clearpop(jsLangChange('订单内容不能为空'));
-            subBlock = false;//解除阻塞
-            return;
-        }
-        var $is_form_weixin = parseInt($body.attr('form_weixin'));
-        if(is_online_pay == ""){
-            clearpop(jsLangChange('请先选择支付方式！'));
-            subBlock = false;//解除阻塞
-            return;
-        }else if(is_online_pay == 3 && $is_form_weixin){
-//        clearpop(jsLangChange('微信中不支持支付宝支付!'));
-//        subBlock = false;//解除阻塞
-//        return;
-        }else if(is_online_pay ==2 && !$is_form_weixin){
-            clearpop(jsLangChange('请在微信中下微信支付订单！'));
-            subBlock = false;//解除阻塞
-            return;
-        }
-        if(is_online_pay == 5){
-            var mid =  $('.pay_list .hover').attr('mid');//会员Id
-        }
-        clearSubOrderCss();
-        var activity_desc  = $("#activity").html();//优惠方案
-        var money       = $("#money").html();//优惠金额
-        var spread_id = $body.attr("spread_id");//盟主ID
-        var pack_fee =   $('#pack_total_fee .js_pack_fee').text();
-        var table_id=$("#dasknum").val();//桌号名称
-        var tableUserId = $("#order_table_id").val();//桌位号
-        $.post("/Common/Order/createOrder",{'code':code,"restaurant_id":resId,"tel":tel,
-                "address":address,"contact":contact,"description":note,"order":order,
-                "from_type":from_type,"send_time":send_time,"type":type,"extra_fee":extra_fee
-                ,"pack_fee":pack_fee, "discounts":money,"activity_desc":activity_desc,'sign_type':res_type,
-                "is_online_pay": is_online_pay, "table_id":tableUserId,"spread_id": spread_id,'mid':mid},function(data){
-                subBlock = false;//解除阻塞
-                if(data['code'] == 100){
-                    clear_food_order(resId);
-                    if(res_type==1){
-                        clearpop(jsLangChange('恭喜您!下单成功。请按时到店就餐～'));
-                    }else{
-                        clearpop(jsLangChange('恭喜您!下单成功。坐等美食送上门～'));
-                    }
-                    setTimeout(function(){
-                        window.location.href="/index/orderinfo?order_id="+data['data']['order_id'];
-                    },1000);
-                }else if(data['code'] == 206){    //支付跳转
-                    clear_food_order(resId);
-                    window.location.href=data['data']['pay_url'];
-                }else if(data['code'] == 201){
-                    clearpop(data.message);
-                    $('#sub_food_order').removeAttr("disabled");
-                    $('#sub_food_order').val('提交订单');
-                    $('#sub_food_order').css('background','#ff8a00');
-                    needAuthed(data.data);
-                }else{
-                    clearpop(data.message);
-                    $('#sub_food_order').removeAttr("disabled");
-                    $('#sub_food_order').val('提交订单');
-                    $('#sub_food_order').css('background','#ff8a00');
-                }
-            }
-            ,"json");
-    }
+    })
+}

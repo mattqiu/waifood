@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <script>
+        var APP_PATH="__APP__";
+        var CONST_PUBLIC="__PUBLIC__";
+        var CONST_CART="{:U('Cart/URL')}";
+        var EXTRA_PARAM="{:get_fid()}";
+    </script>
+    <js href="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js,__PUBLIC__/Shop/js/jquery-1.8.0.min.js,__PUBLIC__/Home/newjs/jquery.cookies.2.2.0.js,__PUBLIC__/Home/newjs/jquery.fly.min.js,__PUBLIC__/Home/newjs/json.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Home/js/jquery.func.js,__PUBLIC__/Home/newjs/home.js" />
+
+    <css href="__PUBLIC__/Home/member/css/pure-style.css,__PUBLIC__/Home/css/main.css,__PUBLIC__/Home/css/main.css" />
+</head>
+
+<body>
+<header>
+    <a href="javascript:void(0);" onclick="history.back();" id="back" style="color: #000000"></a>
+    <ul style="width: 100%;">
+        <li class="fl">
+        </li>
+        <li class="fl keywrod">
+            <if condition="$title">
+                <span style="line-height: 45px;color: #333333;font-size: 21px;">{$title}</span>
+                <else/>
+                <input type="text" class="input_keywrod" placeholder="Keywords"/>
+                <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+            </if>
+        </li>
+        <li class="fr" style="margin-right: 10px;" onclick="editMember();">Save</li>
+    </ul>
+</header>
+<div class="content">
+    <form action="{:U('Member/modifyMember')}" method="post" id="editForm" class="pure-form user-form">
+        <input type="hidden" value="{$user.id}" name="id" id="id">
+        <fieldset>
+            <label for="username">User Name:</label>
+                <input id="username" name="username" type="text"  value="{$user.username}" placeholder="enter your name" class="re_style" required/>
+            <hr size="1" width="100%" color="#cccccc"/>
+            <label for="username">Gender：</label>
+            <select name="sex" id="sex" class="re_style">
+                <option value="1" <if condition="$user['sex'] eq 1">selected</if>>Male</option>
+                <option value="0" <if condition="$user['sex'] eq 0">selected</if>>Female</option>
+            </select>
+
+            <hr size="1" width="100%" color="#cccccc"/>
+            <label for="telephone">Phone：</label>
+            <input id="telephone" name="telephone" type="text" maxlength="20" value="{$user.telephone|default='+86'}"  placeholder="enter your mobile" class="re_style" required/>
+            <hr size="1" width="100%" color="#cccccc"/>
+
+            <label for="email"> Email：</label>
+            <input id="email" name="email" type="text"  value="{$user.email}"
+                   placeholder="enter your email" class="re_style" required/>
+            <hr size="1" width="100%" color="#cccccc"/>
+
+            <label for="address"> Address：</label>
+            <input id="address" name="address" type="text"  value="{$user.address}"
+                   placeholder="living city in China" class="re_style" required/>
+            <hr size="1" width="100%" color="#cccccc"/>
+
+            <label for="nationality"> Your Nationality：</label>
+            <select name="nationality" id="nationality" class="re_style">
+                <volist name="nationality" id="vo">
+                    <option value="{$nationality[$i]}" <if condition="$user['nationality'] eq $nationality[$i]">selected</if>>{$nationality[$i]}</option>
+                </volist>
+            </select>
+        </fieldset>
+    </form>
+</div>
+<include file="Index:footer"/>
+<script language="javascript">
+    function editMember(){
+        $('#editForm').submit();
+    }
+</script>
+</body>
+</html>

@@ -86,34 +86,41 @@ class MemberController extends AuthController
     /**
      * 会员首页
      */
-    public function index($status = 0)
+    public function index()
     {
-        $this->redirect('Member/order');
-        exit();
-        $where = array();
-        $where['status'] = 1;
-        $where['id'] = get_userid();
-        $db = M('member')->where($where)->find();
-        if ($db) {
-            
-            $this->assign('db', $db);
-            $where = array();
-            $where['status'] = $status;
-            $where['userid'] = get_userid();
-            $list = M('order')->where($where)
-                ->order('id desc')
-                ->limit(10)
-                ->select();
-            $this->assign('list', $list);
-            $this->assign('status', $status);
-            $this->assign('listcount', count($list));
-            
-            $this->assign('title', 'Member Center');
-            $this->display();
+        $user = UserModel::getUserById(get_userid());
+        $this->assign('user', $user);
+        $this->assign('title', 'Me');
+        $this->display();
+
+    }
+
+    /**
+     * 会员编辑
+     */
+    public function editMember()
+    {
+        $nationality = require_once '/nationality.php';
+        $user = UserModel::getUserById(get_userid());
+        $this->assign('user', $user);
+        $this->assign('title', 'Me');
+        $this->assign('nationality',$nationality);
+        $this->display();
+    }
+
+    /**
+     * 会员编辑
+     */
+    public function modifyMember()
+    {
+       $data = I('post.');
+        $userid = $data['id'];
+        unset($data['id']);
+        if(UserModel::modifyMember($userid,$data)){
+            $this->success('Modify the success!', U('Member/index'));
         } else {
-            session('userid', null);
-            $this->redirect('Login/index');
-        }
+            $this->error('Sorry,repair failure!');
+        };
     }
 
     /**
@@ -134,7 +141,7 @@ class MemberController extends AuthController
             $this->assign('list', $list);
             $this->assign('listcount', count($list));
             
-            $this->assign('title', 'Choose shipping address');
+            $this->assign('title', 'Address');
             $this->display('selectAddress');
         }
     }
@@ -181,7 +188,7 @@ class MemberController extends AuthController
             if(I('goto')=='cashier'){
                 session('gocashier',true);
             }
-            $this->assign('title', 'Add shipping address');
+            $this->assign('title', 'Address');
             $this->display('addAddress');
         }
     }
@@ -225,7 +232,7 @@ class MemberController extends AuthController
         } else {
             $db = M('address')->where('userid=' . get_userid())->find($id);
             $this->assign('db', $db);
-            $this->assign('title', 'Modify shipping address');
+            $this->assign('title', 'Address');
             $this->display('editAddress');
         }
     }
@@ -273,7 +280,7 @@ class MemberController extends AuthController
                 session('gocashier',null);
                 apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/m_cashier');
             }else{
-                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/m_cashier');
+                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/address');
             }
         }else {
             apiReturn(CodeModel::ERROR,'Personal information modified failed!');
@@ -354,7 +361,6 @@ class MemberController extends AuthController
         $where['userid'] = get_userid();
         $db = M('address')->where($where)->delete();
         if ($db) {
-            
             $this->success('地址已删除！');
         } else {
             $this->error('对不起，地址删除失败！');
@@ -368,7 +374,9 @@ class MemberController extends AuthController
      */
     public function address()
     {
-        
+        if($_GET['goto'] == 'cashier'){
+            session('gocashier',true);
+        }
         // TODO:加分页
         $where = array();
         $where['userid'] = get_userid();
@@ -384,7 +392,6 @@ class MemberController extends AuthController
         $list = $rs->select();
         $this->assign("list", $list);
         $count = $rs->where($where)->count();
-        
         if ($count > $row) {
             $page = new \Think\Page($count, $row);
             $page->setConfig('theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%');
@@ -392,8 +399,7 @@ class MemberController extends AuthController
             $page->setConfig('next', '下一页');
             $this->assign('page', $page->showm());
         }
-        
-        $this->assign('title', 'Shipping address');
+        $this->assign('title', 'Address');
         $this->assign('listcount', count($list));
         $this->display();
     }
@@ -538,11 +544,9 @@ class MemberController extends AuthController
         $this->assign('db', $db);
         $where = array();
         $where['orderno'] = $orderno;
-        $list = M('order_detail')->where($where)
-            ->order('id asc')
-            ->select();
+        $list = M('order_detail')->where($where) ->order('id asc') ->select();
         $this->assign('list', $list);
-        $this->assign('title', 'View order detail-' . $orderno);
+        $this->assign('title', 'Order detail');
         $this->display('orderView');
     }
 

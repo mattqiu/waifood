@@ -16,8 +16,7 @@ class PayController extends BaseController {
             
             if($paytype=='palpay'){
             	//paypal要转汇率 
-            	
-            	$db=M('order')->where(array('orderno'=>$orderno))->find(); 
+            	$db=M('order')->where(array('orderno'=>$orderno))->find();
             	$rate=$db['rate']; 
 				$totalfee=round($db['amount']/$rate, 2);
 				

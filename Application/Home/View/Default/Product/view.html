@@ -32,7 +32,7 @@
     </div>
   </neq>
   
-  <div class="pro-wrap" id="js_goods_{$db['id']}" data-id="{$db['id']}" data-price="{$db['price']}"  data-stock="{$vo['stock']}" data-indexpic="{$db.indexpic}" data-name="{$db['title']}">
+  <div class="pro-wrap" id="js_goods_{$db['id']}" data-id="{$db['id']}" data-price="{$db['price']}"  data-stock="{$db['stock']}" data-indexpic="{$db.indexpic}" data-name="{$db['title']}">
     <div class="pro-info">
       <div class="pro-title">{$db.title}</div>
         <br/>
@@ -41,7 +41,7 @@
 		<span class="price num-item" id="ProductPrice">&yen;{$db.price}</span>
       </div>
         <div class="fr g_btn" style="margin-top: 0px;">
-            <div class="cat_cart_num fl" onclick="prepGood('{$vo.id}')"></div>
+            <div class="cat_cart_num fl" onclick="prepGood('{$db.id}')"></div>
             <div class="num fl tc" id="js_goods_num_{$db['id']}" >0</div>
             <div  class="add_cart_num fl" data-id="{$vo.id}" onClick="addgood('{$db.id}',event);" ></div>
         </div>
@@ -52,52 +52,16 @@
              Preservation:{$db.storage}<br>
              Origin: {$db.origin}<br>
              <notempty name="db.brand">
-                 Brand:{$db.brand}<br />
+                 Storage:{$db.brand}<br />
              </notempty>
          </div>
-          <div class="fr buyNow" id="btnBuyCart"> </div>
+          <div class="fr buyNow" id="btnBuyCart" onclick="addgood('{$db.id}',event,true);"> </div>
       </div>
-
-    <!--<neq name="db.priceinfo" value="">-->
-      <!--<div class="pro-property">-->
-        <!--<div class="property-title">Specifications：</div>-->
-        <!--<div class="property-item" data="ext" id="extinfo"> <span class=" selected" data="{$db.price}">normal</span> </div>-->
-        <!--<div class="clr"></div>-->
-      <!--</div>-->
-    <!--</neq>-->
-    <!--<div class="pro-num pro-num-pad">-->
-      <!--<div class="num-title">Quantity：</div>-->
-      <!--<div class="num-item"> <span class="quantity"> <span class="minus btnDeduct"><i></i></span>-->
-      <!--<gt name="db.minbuy" value="0">-->
-        <!--<input type="number" id="buycount" name="buycount" value="{$db.minbuy}" min="{$db.minbuy}" max="999" data-stock="{$db.stock}" class="cartnum">-->
-      <!--<else/>-->
-        <!--<input type="number" id="buycount" name="buycount" value="1" min="1" max="999" data-stock="{$db.stock}" class="cartnum">-->
-        <!--</gt>-->
-        <!--<span class="plus btnPlus"><i></i></span> </span>-->
-		<!--<span class="hide">Stock：{$db.stock}</span>-->
-		<!--<a href="javascript:void(0);" onClick="$.addFav({$db.id})" style="display:none;" class="fr"> Add favorite</a>-->
-	<!--</div>-->
-    <!--</div>-->
-	<!--<gt name="db.minbuy" value="0">-->
-      <!--<div class="pro-property">-->
-        <!--<div class="property-title">MOQ：</div>-->
-        <!--<div class="property-item"><span style="border:none; padding-left:0px;">{$db.minbuy}（Minimum order quantity-->
-<!--）</span>  </div>-->
-        <!--<div class="clr"></div>-->
-      <!--</div> -->
-    <!--</gt>-->
-    <!--<div class="pro-buy">-->
-      <!--<button class="pure-button pure-button-success w49" id="btnAddCart">Add to cart</button>-->
-      <!--<button class="pure-button pure-button-error w49" id="btnBuyCart">Buy now</button>-->
-      <!--<input type="hidden" name="stock" id="stock" value="{$db.stock}" />-->
-      <!--<input type="hidden" name="ext" id="ext" value="" /> -->
-      <!--<input type="hidden" name="priceinfo" id="priceinfo" value="{$db.priceinfo}" />-->
-    <!--</div>-->
     <div class="pro-detail">
       <div class="detail-box" style="border: none">
         <div class="view-title">
             <a href="javascript:void(0);" rel="#detail-info" class="viewselected">Description</a>
-            <a href="javascript:void(0);" rel="#detail-comment" class="hide" style="display: ;">Comment （<span class="fc_blue" id="COUNTALL">0</span>）</a>
+            <!--<a href="javascript:void(0);" rel="#detail-comment" class="hide" style="display: ;">Comment （<span class="fc_blue" id="COUNTALL">0</span>）</a>-->
         </div>
 
         <div class="db-info">
@@ -113,7 +77,6 @@
           <div id="LoadInfo"> {:str_replace(' src=',' src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original=',$db['content'])}</div> </div>
           <div class="detail-info" id="detail-comment">
             <div id="LoadComments">
-              
             </div>
             <div class="clr"></div>
           </div>
@@ -195,19 +158,7 @@ $(function(){
 		var ext=$("#ext").val();
 		$.addCart(id,num,ext);
 	});
-	$("#btnBuyCart").click(function(){
-		var id="{:I('id')}"; 
-		var num = $("#buycount").val(); 
-		var stock = parseInt($("#stock").val());
-		if( stock<num ){
-			alert("Sorry, Inventory shortage."); return;
-		}
-		var ext=$("#ext").val();
-		$.buyCart(id,num,ext);
-	});
-	 
-	//$.getResult(1); 
-	 
+
 	$('#attention').click(function(){
 		$.addFav("{$db.id}");
 	});
@@ -239,10 +190,11 @@ $(function(){
 			txt = (txt=='标配'?'':txt);
 		$("#"+id).val(txt);
 	});
- 
 })
-	
-			   
+
+
+
+
 </script>
 </body>
 </html>

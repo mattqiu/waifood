@@ -33,25 +33,10 @@ class ProductController extends BaseController {
 				$orderstr = 'price '.$sort;
 				break; 
 		}
-		
-		// 分页
-		$p = intval ( I ( 'p' ) );
-		$p = $p ? $p : 1;
-		$row = C ( 'VAR_PAGESIZE' );
-		
-		$rs = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock' )->where ( $where )->order ( $orderstr )->page ( $p, $row );
-		$list = $rs->select ();
+
+        $list = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock' )->where ( $where )->order ( $orderstr )->select ();
 		$this->assign ( "list", $list );
-		$count = $rs->where ( $where )->count ();
-		
-		if ($count > $row) {
-			$page = new \Think\Page ( $count, $row );
-			$page->setConfig ( 'theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%' );
-			$page->setConfig ( 'prev', 'prev' );
-			$page->setConfig ( 'next', 'next' );
-			$this->assign ( 'page', $page->showm () );
-		}
-		
+
 		$subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $id )->select ();
 		if (count ( $subchannel ) == 0) {
 			$pid = M ( 'channel' )->where ( 'id=' . $id )->getField ( 'pid' );
@@ -61,7 +46,6 @@ class ProductController extends BaseController {
 		$this->assign ( 'order', $order );
 		$this->assign ( 'sort', $sort );
 		$this->assign ( 'id', $id );
-		$this->assign ( 'title', get_data( $id,'channel' ) );
 		$this->display ();
 	}
 	
@@ -90,15 +74,12 @@ class ProductController extends BaseController {
 			$credit = $db ['price'] * C ( 'config.CREDIT_RATE' );
 			$this->assign ( "db", $db );
 			$this->assign ( "gallery", $gallery );
-			$this->assign ( 'title', $db ['title'] );
 			$this->assign ( 'credit', $credit );
-			
 			$subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $db ['pid'] )->select ();
 			if (count ( $subchannel ) == 0) {
 				$pid = M ( 'channel' )->where ( 'id=' . $db ['pid'] )->getField ( 'pid' );
 				$subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $pid )->select ();
 			}
-			
 			$backrate=0;
 			if(get_data(get_userid(),'member','usertype')==2){
 				$backrate =$db['price']*$db['backrate'];

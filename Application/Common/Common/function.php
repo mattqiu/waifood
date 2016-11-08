@@ -133,6 +133,8 @@ function to_price($num) {
 	$num = sprintf ( "%01.2f", $num );
 	return $num;
 }
+
+
 function to_percent($num) {
 	if (! is_numeric ( $num )) {
 		$num = 0;
@@ -1670,6 +1672,31 @@ function replaceTel($tel){
         return str_replace("-", "",$tel);
     }
     return $tel;
+}
+
+/**配送费
+ * @param int $n
+ * @return int
+ */
+function getShipfee($n = 0) {
+    $freight = lbl ( 'freight' );
+    if (isN ( $freight )) {
+        return 0;
+    } else {
+        $arr = parse_field_attr ( $freight );
+
+        $arr = arr2clr ( $arr );
+        ksort ( $arr );
+        $i = 0;
+        foreach ( $arr as $k => $v ) {
+            if ($n >= $i && $n < $k) {
+                return $v;
+                break;
+            }
+            $i = $k;
+        }
+        return 0;
+    }
 }
 
 ?>

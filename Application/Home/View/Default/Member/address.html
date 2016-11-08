@@ -9,57 +9,40 @@
 <body>
 <include file="Index:bar"/>
 <div class="container">
-    <div class="content">
-        <div class="main-body">
-            <div class="main-list">
-                <div class="main-item">
-                    <div class="item-title">
-                        <h3>Receiving information</h3>
-                        <a href="{:U('Member/addAddress')}" class="item-add"><i class="fa fa-plus-square"></i> Add
-                            new</a></div>
-                    <eq name="listcount" value="0">
-
-                        <div class="item-title bdnone"><span>Not found.</span></div>
-                        <div class="clr"></div>
-
-                    </eq>
-                    <volist name="list" id="vo">
-                        <a href="/m_cashier.html?addr_id={$vo.id}">
-                            <div class="address-info">
-                                <span style="font-size: 10px; color: #999; line-height: 0;">Click on the select the address</span>
-
-                                <div class="address-name">{$i}. {$vo.username}，{$vo.telephone}<br/>&nbsp;&nbsp;&nbsp;&nbsp;{$vo.proname}{$vo.cityname}{$vo.disname}
-                                    &nbsp; {$vo.address}
-                                </div>
-                                <div class="address-act">
-                                    <div class="pure-g">
-                                        <div class="pure-u-1-3"><a href="/Member/addaddress.html?addr_id={$vo['id']}"
-                                                                   class="pure-button">Edit</a></div>
-                                        <div class="pure-u-1-3 tc">
-                                            <eq name="vo.isdefault" value="1">
-                                                <button class="pure-button pure-button-error">Default</button>
-                                                <else/>
-                                                <button class="pure-button " onClick="$.setDefaultAddress({$vo.id});">
-                                                    Set default
-                                                </button>
-                                            </eq>
-                                        </div>
-                                        <div class="pure-u-1-3 tr"><a class="pure-button" href="javascript:void(0);"
-                                                                      onClick="$.delAddress({$vo.id});">Remove</a></div>
-                                    </div>
-                                </div>
-                                <div class="clr"></div>
-                            </div>
-                        </a>
-                    </volist>
-                    <div class="clr"></div>
-                </div>
-                <div class="paging">
-                    {$page}
-                </div>
+    <div class="main-item" style="box-shadow:none">
+        <volist name="list" id="vo">
+            <div class="address-info">
+                <a href="/m_cashier.html?addr_id={$vo.id}">
+                    <div class="address-name">
+                        <span class="fl">{$vo.username}</span>
+                        <span class="fr" style="margin-left: 50px;">{$vo.telephone}</span>
+                    </div>
+                    <div class="addr-info clr">
+                        {$vo.address}
+                    </div>
+                    <hr size="1" color="#cccccc" width="110%" style="margin-left: -5%"/>
+                    <div class="addr_btn">
+                        <if condition="$vo['isdefault'] eq 1">
+                            <a href="javascript:void(0);" class="fl">
+                                <img src="__PUBLIC__/Home/images/choose.png" alt="" width="16"/>
+                                <span class="green">Default Address</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            </a>
+                        <else/>
+                            <a onclick="$.setDefaultAddress('{$vo.id}');" class="fl">
+                                <img src="__PUBLIC__/Home/images/noselect.png" alt="" width="16"/>Set as default Address
+                            </a>
+                        </if>
+                        &nbsp;&nbsp;
+                        <a href="/Member/addaddress.html?addr_id={$vo['id']}"><img src="__PUBLIC__/Home/images/edit.png" alt="" width="19"/>Edit</a> &nbsp;
+                        <a  onClick="$.delAddress('{$vo.id}');"><img src="__PUBLIC__/Home/images/delete.png" alt=""width="19"/>Delete</a>
+                    </div>
+                </a>
             </div>
-        </div>
+            <div class="divide clr" style="height: 10px;width: 110%;margin-left: -5%"></div>
+        </volist>
     </div>
+    <div class="newAddr tc"><a href="/member/addaddress.html">+ New Address</a></div>
+    <div style="padding-bottom:30px;;"></div>
 </div>
 <include file="Index:footer"/>
 </body>

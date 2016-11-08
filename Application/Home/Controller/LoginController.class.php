@@ -29,7 +29,7 @@ class LoginController extends Controller
         if (is_wechat()) {
            if($openid = openid()){
                UserModel::loginWechat($openid);
-           }else if (!get_userid()) { //没有用户信息,进行微信授权
+           }else{ //没有用户信息,进行微信授权
                 $conf =  $this->conf;
                 $state = mt_rand(100000,999999);
                 session('verify_state', $state);
@@ -39,9 +39,10 @@ class LoginController extends Controller
                 header("Location:$url");
                 exit();
             }
+        }else{
+            $this->assign('title', 'Login');
+            $this->display();
         }
-        $this->assign('title', 'Login');
-        $this->display();
     }
 
     public function register()

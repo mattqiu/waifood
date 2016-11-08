@@ -3,10 +3,19 @@
 namespace Home\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\CodeModel;
 use Common\Model\DateModel;
 use Common\Model\UserModel;
 
 class ShopController extends BaseController {
+
+    public function getdeliveryFee(){
+        $money = I('money');
+        if($money){
+           $deliveryFee = getShipfee(intval($money));
+            apiReturn(CodeModel::CORRECT,'',$deliveryFee);
+        }
+    }
 	/**
 	 * 购物车
 	 *
@@ -21,7 +30,8 @@ class ShopController extends BaseController {
 		} else { 
 			$this->assign ( 'cart', $data );
 		}
-	
+
+		$this->assign ( 'cart_shipfee',  lbl ( 'freight' ));
 		$this->assign ( 'title', 'Shopping cart' );
 		$this->display ();
 	}
@@ -31,7 +41,7 @@ class ShopController extends BaseController {
 	 *
 	 * @param number $shop_id        	
 	 */
-	public function cashier($shop_id = 0,$coupon='',$code='',$openid='',$usecoupon='') {
+	public function cashier() {
         // 用户权限检查
         if (get_userid() == 0) {
             if($_REQUEST['gocashier']){
@@ -150,29 +160,13 @@ class ShopController extends BaseController {
 	 * @param string $orderno        	
 	 * @param string $type        	
 	 */
-	public function pay($orderno = null, $type = 'dish',$paytype='paypal') {
+	public function pay($orderno = null,$paytype='paypal') {
 		$where = array ();
-		switch ($type) {
-			case 'dish' :
-				$where ['orderno'] = $orderno;
-				$where ['paymethod'] = array (
-						'neq',
-						4 
-				);
-				$where ['status'] = array (
-						'not in',
-						array (
-								3,
-								4 
-						) 
-				);
-				$db = M ( 'order' )->where ( $where )->find ();
-				
-				break;
-		 
-		}
+        $where ['orderno'] = $orderno;
+        $where ['paymethod'] = array ('neq',4 );
+        $where ['status'] = array ('not in',	array (3,4 ));
+        $db = M ( 'order' )->where ( $where )->find ();
 		if ($db) {
-			
 			$payapiurl = U('Shop/Pay/index');
 			$amount = $db ['amount'];
 			$html = '';
@@ -186,6 +180,44 @@ class ShopController extends BaseController {
 			$html .= '<script>document.forms["alipay_submit"].submit();</script>';
 			echo($html);
 			
+		} else {
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+		}
+	}
+
+    /**
+	 * 订单支付==============={{{{{{{{$type不确定，确认后可删除}}}}}}=======================
+	 *
+	 * @param string $orderno
+	 * @param string $type
+	 */
+	public function pay_old($orderno = null, $type = 'dish',$paytype='paypal') {
+		$where = array ();
+		switch ($type) {
+			case 'dish' :
+				$where ['orderno'] = $orderno;
+				$where ['paymethod'] = array ('neq',4 );
+				$where ['status'] = array ('not in',	array (3,4 )
+				);
+				$db = M ( 'order' )->where ( $where )->find ();
+				break;
+
+		}
+		if ($db) {
+
+			$payapiurl = U('Shop/Pay/index');
+			$amount = $db ['amount'];
+			$html = '';
+			$html .= '<form name="alipay_submit" action="' . $payapiurl . '" method="post" >';
+			$html .= '  <input type="hidden" name="paytype" value="palpay"/>';
+			$html .= '  <input type="hidden" name="WIDout_trade_no" value="' . $orderno . '"/>';
+			$html .= '  <input type="hidden" name="WIDtotal_fee" value="' . $amount . '" />';
+			$html .= '  <input type="hidden" name="WIDsubject"  value="[paypal]online pay system."  />';
+			$html .= '  <button type="submit" style="text-align:center;display:none;">submit</button>';
+			$html .= '</form>';
+			$html .= '<script>document.forms["alipay_submit"].submit();</script>';
+			echo($html);
+
 		} else {
 			//$this->error ( '订单' . $orderno . '不存在或无需支付！' );
 			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );

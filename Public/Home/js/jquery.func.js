@@ -362,7 +362,7 @@ $(function(){
 		return false;
     };
 	
-	$.delAddress =  function(id) { 
+	$.delAddress =  function(id,jurl) {
         var title = "Are you sure you want to delete this address?";
 		jConfirm(title,SYSTITLE,function(msg){
 			if(msg){
@@ -372,8 +372,15 @@ $(function(){
 						"url": url,
 						success: function(msg) {
 							var o = eval(msg);
+                            console.log(msg)
+                            console.log(o)
+
 							if (o.status == "1") {
-								location.reload();
+                                if(jurl){
+                                    window.location.href = jurl;
+                                }else{
+                                    window.location.href = '/member/address.html';
+                                }
 							} else {
 								alert(o.info);
 							}
