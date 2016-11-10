@@ -101,6 +101,13 @@ function getDateFormat($month){
     return $mn;
 }
 
+function hideobj(obj){
+    $(obj).hide();
+}
+function showojb(obj){
+    $(obj).show();
+}
+
 //自动消失的弹出提示框
 function clearpop(txt,time){
     if(!time){time=1500;}
@@ -463,3 +470,4 @@ Hauling.prototype = {
         });
     }
 }
+

@@ -1,23 +1,66 @@
 
 $(function(){
     var pagename = $("body").attr('pagename');
-    var resId = $("body").attr("restaurant_id");
     switch(pagename){
-        case "orderView":{paymethod();}
-        case "order":{paymethod();}
-        default :{   loadGood();break;}
+        case "orderView":{paymethod();break}
+        case "order":{paymethod();break}
+
     }
+    loadGood();
+    modelBox();
 })
 
+/**
+ * 弹出框
+ */
+function modelBox(){
+    var $html = '<div class="lean_overlay hide" ></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+    $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
+    $('body').append($html);
+    $('.lean_overlay').click(function(){
+        if($(this).css('display') !='none'){
+            $(this).hide();
+            $('.leanModal').hide();
+        }
+    })
+    $('#showQr').click(function(){
+        $('.lean_overlay').show();
+        $('#showQr-box').show();
+    })
+
+    $('#choosHeadAddr').click(function(){
+        $('.lean_overlay').show();
+        $('#showAddr').show();
+    })
+    $('#showAddr .addr').click(function(){
+        $('.lean_overlay').hide();
+        $('.leanModal').hide();
+    })
+}
+/**
+ * 加载支付方式列表到页面
+ */
 function paymethod(){
-    var $html = '  <div class="radio-box hide" id="paymethod" >';
+    var $html = '<div class="radio-box leanModal hide" id="paymethod" >';
         $html += '<label class="radio on paymethod" data-val="4" onclick="gopay(this)"><i></i>Cash on delivery</label>';
         $html += ' <p></p>';
         $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
         $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
         $html += ' </div>';
     $('body').append($html);
-
+}
+/**
+ * 点击支付方式
+ * @param obj
+ */
+function showPaymethod(obj){
+    $('#paymethod').show();
+    $('#paymethod').attr('data-id',$(obj).data('id'));
+    if( $(obj).data('paymethod') ==2){
+        $('#paymethod .paymethod').removeClass('on');
+        $('#paymethod .paypal').addClass('on');
+    }
+    $('.lean_overlay').show();
 }
 
 function gopay(obj){
@@ -28,8 +71,8 @@ function gopay(obj){
             if($paymethod ==2){ //Paypal支付
                 clearpopj('Modify payment success',"/m_pay?orderno="+orderno)
             }else{
-                $('#lean_overlay').hide();
-                $('#paymethod').hide();
+                $('.lean_overlay').hide();
+                $('.leanModal').hide();
                 clearpopj('Modify payment success')
             }
         }else{

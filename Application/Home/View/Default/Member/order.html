@@ -56,7 +56,7 @@
                                 <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
                                 <!--（显示条件）未完成并且未支付的-->
                                 <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
-                                    <span id="ov-pay-btn"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn">Pay now</span>
+                                    <span onclick="showPaymethod(this)"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn">Pay now</span>
                                 </if>
                             </div>
                         </div>
@@ -104,7 +104,7 @@
                                     <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
                                     <!--（显示条件）未完成并且未支付的-->
                                     <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
-                                        <span  id="ov-pay-btn1"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn" class="view-btn pay-btn">Pay now</span>
+                                        <span onclick="showPaymethod(this);"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn" class="view-btn pay-btn">Pay now</span>
                                     </if>
                                 </div>
                             </div>
@@ -120,30 +120,5 @@
     </div>
 </div>
 <include file="Index:footer"/>
-<script>
-    $('#ov-pay-btn').leanModal({ top: 110, overlay: 0.5});
-    $('#ov-pay-btn').click(function(){
-        $('#paymethod').show();
-        $('#paymethod').attr('data-id',$(this).data('id'));
-        if( $(this).data('paymethod') ==2){
-            $('#paymethod .paymethod').removeClass('on');
-            $('#paymethod .paypal').addClass('on');
-        }
-    })
-
-    $('#ov-pay-btn1').leanModal({ top: 110, overlay: 0.5});
-    $('#ov-pay-btn1').click(function(){
-        $('#paymethod').show();
-        $('#paymethod').attr('data-id',$(this).data('id'));
-        if( $(this).data('paymethod') ==2){
-            $('#paymethod .paymethod').removeClass('on');
-            $('#paymethod .paypal').addClass('on');
-        }
-    })
-
-    $('#lean_overlay').click(function(){
-        $('#paymethod').hide();
-    })
-</script>
 </body>
 </html>

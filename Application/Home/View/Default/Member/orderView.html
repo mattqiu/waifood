@@ -94,26 +94,11 @@
 </div>
 <div class="money-total">
     Total amount: <span class="fc_orange">&yen;{$db.amount}</span>
-    <span class="pay-btn ov-pay-btn tc" id="ov-pay-btn" data-id="{$db['orderno']}" data-paymethod="{$db['paymethod']}">Pay</span>
+    <span class="pay-btn ov-pay-btn tc" onclick="showPaymethod(this)" data-id="{$db['orderno']}" data-paymethod="{$db['paymethod']}">Pay</span>
     <!--<span class="pay-btn ov-pay-btn tc"><a href="/m_pay?orderno={$db['orderno']}">Pay</a></span>-->
 </div>
 <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <include file="Index:footer"/>
-<script>
-    $('#ov-pay-btn').leanModal({ top: 110, overlay: 0.5});
 
-    $('#ov-pay-btn').click(function(){
-        $('#paymethod').show();
-        $('#paymethod').attr('data-id',$(this).data('id'));
-        if( $(this).data('paymethod') ==2){
-            $('#paymethod .paymethod').removeClass('on');
-            $('#paymethod .paypal').addClass('on');
-        }
-    })
-
-    $('#lean_overlay').click(function(){
-        $('#paymethod').hide();
-    })
-</script>
 </body>
 </html>
