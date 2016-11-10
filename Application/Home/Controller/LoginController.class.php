@@ -33,19 +33,18 @@ class LoginController extends Controller
                    GLog('login/////////////////openid login',1);
                    $this->redirect ( '/member/index' );
                }
-               openid(false);
-               //没有用户信息,进行微信授权
-               GLog('login/////////////////weixin login',2);
-               $conf =  $this->conf;
-               $state = mt_rand(100000,999999);
-               session('verify_state', $state);
-               $appid = $conf['WECHAT_APPID'];
-               $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
-               trace("url $url");
-               header("Location:$url");
-               exit();
-               GLog('login/////////////////weixin login',3);
-           } GLog('login/////////////////weixin login',4);
+           }
+           openid(false);
+           //没有用户信息,进行微信授权
+           GLog('login/////////////////weixin login',2);
+           $conf =  $this->conf;
+           $state = mt_rand(100000,999999);
+           session('verify_state', $state);
+           $appid = $conf['WECHAT_APPID'];
+           $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
+           trace("url $url");
+           header("Location:$url");
+           exit();
         }else{
             GLog('login/////////////////login login',5);
             $this->assign('title', 'Login');
