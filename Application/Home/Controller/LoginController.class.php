@@ -27,10 +27,13 @@ class LoginController extends Controller
     public function index()
     {
         if (is_wechat()) {
-               if($openid = openid()){
-                   if( UserModel::loginWechat($openid)){
-                       $this->redirect ( '/member/index' );
-                  }else{ //没有用户信息,进行微信授权
+           if($openid = openid()){
+               GLog('login/////////////////openid',$openid);
+               if( UserModel::loginWechat($openid)){
+                   GLog('login/////////////////openid login',1);
+                   $this->redirect ( '/member/index' );
+               }else{ //没有用户信息,进行微信授权
+                   GLog('login/////////////////weixin login',2);
                    $conf =  $this->conf;
                    $state = mt_rand(100000,999999);
                    session('verify_state', $state);
@@ -40,8 +43,10 @@ class LoginController extends Controller
                    header("Location:$url");
                    exit();
                }
-            }
+               GLog('login/////////////////weixin login',3);
+           } GLog('login/////////////////weixin login',4);
         }else{
+            GLog('login/////////////////login login',5);
             $this->assign('title', 'Login');
             $this->display();
         }

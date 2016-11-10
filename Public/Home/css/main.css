@@ -14,7 +14,7 @@ ul, li { margin: 0; padding: 0; list-style: none; }
 .radio-box {padding: 5px 0;}
 .radio-box i{ float:left; width:14px; height:14px; display:block; margin:2px 5px 0 0; background:url(../images/radio.gif) no-repeat;  }
 .radio-box .on i{ background-position:0 -14px;}
-
+.borderd{ border-bottom: 1px solid #ccc;}
 
 /** modal window styles **/
 #lean_overlay {
@@ -308,7 +308,7 @@ header a,header a:hover{color:#fff; display:block;}
 .swipe #pagenavi a.active { background: #64c37e; }
 
 /*ico*/
-.icoboxindex{ background:#FFF; overflow:hidden;}
+.icoboxindex{ background:#FFF; overflow:hidden;padding-bottom: 25px;}
 .icoboxindex a{ width:25%; font-size: 12xp; height:90px; text-align:center; float:left; }
 .icoboxindex a span{ width:100%; height:50px; display:block; text-align:center;}
 .icoboxindex a span img{ width:auto; height:50px; margin-top:8px;}
