@@ -15,6 +15,10 @@ function isVerifyCorrect()
     return false;
 }
 
+function version(){
+    return 'v-1.0';
+}
+
 /**
  *
  * @param type $cate 日志分类 （方便筛选）
