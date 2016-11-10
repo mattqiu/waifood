@@ -100,11 +100,9 @@ class MemberController extends AuthController
      */
     public function editMember()
     {
-        $nationality = require_once 'http://www.waifood.com/nationality.php';
         $user = UserModel::getUserById(get_userid());
         $this->assign('user', $user);
         $this->assign('title', 'Me');
-        $this->assign('nationality',$nationality);
         $this->display();
     }
 
