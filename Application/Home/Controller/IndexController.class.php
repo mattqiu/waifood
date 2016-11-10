@@ -2,19 +2,21 @@
 
 namespace Home\Controller;
 
+use Common\Model\ContentModel;
+
 class IndexController extends BaseController {
 	public function index() { 
-		$title = C ( 'config.WEB_SITE_TITLE' );
-		$this->assign ( 'title', $title );
-		$where=array();
+	    $where=array();
 		$where['status']=1;
 		$where['pid']=2; 
-		$channel=M('Channel')->where($where)->order('sort asc')->select(); 
-		
+		$channel=M('Channel')->where($where)->order('sort asc')->select();
+        $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
+        $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
+        $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
+		$this->assign('recommend',$recommend);
+		$this->assign('newArrival',$newArrival);
+		$this->assign('promotion',$promotion);
 		$this->assign('list',$channel);
-// 		for($i=2;$i<10;$i++){
-// 			$this->assign('index_'.$i,get_index($i));
-// 		}
 		$this->display ();
 	} 
 

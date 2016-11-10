@@ -482,7 +482,7 @@ function getStatus($status_id) {
  * @param bool $suffix 是否在截取后的字符后面显示省略号，默认true显示，false为不显示
  * @return string
  */
-function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true){
+function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=false){
     if(!$str){
         return '';
     }

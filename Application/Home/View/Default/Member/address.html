@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
+    <title>{$shoptitle}</title>
     <include file="Index:header"/>
 </head>
 
@@ -13,11 +13,12 @@
         <volist name="list" id="vo">
             <div class="address-info">
                 <a href="/m_cashier.html?addr_id={$vo.id}">
-                    <div class="address-name">
-                        <span class="fl">{$vo.username}</span>
+                    <div class="address-name" >
+                        <span class="fl" style="text-indent: 0;">{$vo.username}</span>
                         <span class="fr" style="margin-left: 50px;">{$vo.telephone}</span>
                     </div>
-                    <div class="addr-info clr">
+                    <br/>
+                    <div class="addr-info clr" style="text-indent: 0;line-height: 17px;">
                         {$vo.address}
                     </div>
                     <hr size="1" color="#cccccc" width="110%" style="margin-left: -5%"/>
@@ -29,12 +30,12 @@
                             </a>
                         <else/>
                             <a onclick="$.setDefaultAddress('{$vo.id}');" class="fl">
-                                <img src="__PUBLIC__/Home/images/noselect.png" alt="" width="16"/>Set as default Address
+                                <img src="__PUBLIC__/Home/images/noselect.png" alt="" width="16"/>&nbsp;Set as default Address
                             </a>
                         </if>
                         &nbsp;&nbsp;
-                        <a href="/Member/addaddress.html?addr_id={$vo['id']}"><img src="__PUBLIC__/Home/images/edit.png" alt="" width="19"/>Edit</a> &nbsp;
-                        <a  onClick="$.delAddress('{$vo.id}');"><img src="__PUBLIC__/Home/images/delete.png" alt=""width="19"/>Delete</a>
+                        <a  onClick="$.delAddress('{$vo.id}');" style="float: right;margin-right: 9px;"><img src="__PUBLIC__/Home/images/delete.png" alt=""width="17"/>Del</a>
+                        <a href="/Member/addaddress.html?addr_id={$vo['id']}" style="float: right;"><img src="__PUBLIC__/Home/images/edit.png" alt="" width="19"/>Edit</a> &nbsp;
                     </div>
                 </a>
             </div>
@@ -42,8 +43,6 @@
         </volist>
     </div>
     <div class="newAddr tc"><a href="/member/addaddress.html">+ New Address</a></div>
-    <div style="padding-bottom:30px;;"></div>
 </div>
-<include file="Index:footer"/>
 </body>
 </html>

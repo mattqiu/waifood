@@ -28,24 +28,12 @@ class SearchController extends BaseController {
 				break; 
 		}
 		// 分页
-		$p = intval ( I ( 'p' ) );
-		$p = $p ? $p : 1;
-		$row = C ( 'VAR_PAGESIZE' );
-		
-		$rs = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand' )->where ( $where )->order ( $orderstr )->page ( $p, $row );
-		$list = $rs->select ();
-		
-		$this->assign ( "list", $list );
-		$count = $rs->where ( $where )->count ();
-		
-		if ($count > $row) {
-			$page = new \Think\Page ( $count, $row );
-			$page->setConfig ( 'theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%' );
-			$page->setConfig ( 'prev', '<' );
-			$page->setConfig ( 'next', '>' );
-			$this->assign ( 'page', $page->showm () );
-		}
-		
+        $list = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand' )->where ( $where )->order ( $orderstr )->select ();
+        if(empty($list)){
+            $this->assign ( "noSearch", 'No Results Found' );
+        }else{
+            $this->assign ( "list", $list );
+        }
 		$cateinfo = M ( 'channel' )->field ( 'id,pid' )->where ( 'id=' . $id )->find ();
 		
 		$this->assign ( 'id', $id );
@@ -53,29 +41,7 @@ class SearchController extends BaseController {
 		$this->assign ( 'price', $price );
 		$this->assign ( 'order', $order );
 		$this->assign ( 'sort', $sort );
-		
-		// 1. 上下页
-		$pagecount = $page->totalPages;
-		if (! is_numeric ( $pagecount )) {
-			$pagecount = 1;
-		}
-		$pageprev = '';
-		$pagenext = '';
-		if ($pagecount > 1) {
-			if ($p == 1) {
-				$pagenext = $p + 1;
-			} else {
-				if ($p == $pagecount) {
-					$pageprev = $p - 1;
-				} else {
-					$pageprev = $p - 1;
-					$pagenext = $p + 1;
-				}
-			}
-		}
-		$this->assign ( 'pageprev', $pageprev );
-		$this->assign ( 'pagenext', $pagenext );
-		
+
 		// 4. seo信息
 		if ($group != '') {
 			switch($group){
@@ -87,7 +53,7 @@ class SearchController extends BaseController {
 					break;
 			}
 		} else {
-			$title = $keyword . ' - search ';
+			$title = $keyword;
 		}
 		
 		$keywords = $keyword . ',' . $title;
@@ -97,7 +63,7 @@ class SearchController extends BaseController {
 		$this->assign ( 'keywords', $keywords );
 		$this->assign ( 'description', $description );
 		$this->assign ( 'keyword', $keyword );
-		$this->display ();
+        $this->display('Product/lists');
 	}
 	
 	/**

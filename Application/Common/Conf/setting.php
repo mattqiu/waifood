@@ -6,9 +6,9 @@ return array (
     'WEB_SITE_DESCRIPTION' => 'Waifood | Western and Imported Foods for Expats in Chengdu, Chongqing, Xi\'an, Kunming.',
     'WEB_SITE_KEYWORD' => 'Imported foods, western foods, expats foods, Chengdu imported foods, Chongqing imported foods, Cheese, Meat.',
     'WEB_SITE_CLOSE' => '1',
-    'WEB_SITE_TEMPLATE' => 'Default',
+    'WEB_SITE_TEMPLATE' => 'default',
     'WEB_SITE_ICP' => '',
-    'WEB_SITE_COPYRIGHT' => 'admin@waifood.com',
+    'WEB_SITE_COPYRIGHT' => 'gavin@waifood.com',
     'DATA_BACKUP_PATH' => './Public/data/',
     'DATA_BACKUP_PART_SIZE' => '20971520',
     'DATA_BACKUP_COMPRESS' => '1',
@@ -22,13 +22,8 @@ return array (
     'SMTP_EMAIL' => 'service@waifood.com',
     'SMTP_USERNAME' => 'service@waifood.com',
     'SMTP_USERPWD' => 'Waifood2016',
-
-    'WECHAT_APPID' => 'wx50d2c7139fe6cd3e',
-    'WECHAT_APPSECRET' => 'a7cd48cf28e8c4adb043c0e3a9ffb7a4',
-
-    //'WECHAT_APPID' => 'wxe149a1e8bab9e7d5',
-    //'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',
-
+    'WECHAT_APPID' => 'wxe149a1e8bab9e7d5',
+    'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',
     'WECHAT_TOKEN' => 'weixin',
     'WECHAT_ORIGINALID' => '',
     'WECHAT_MCHID' => '',

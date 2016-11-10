@@ -159,7 +159,7 @@ class Settle1Controller extends BaseController {
 		}
 			echo ($html);
 		} else {
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying4!' );
 		}
 	}
 }

@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$shoptitle}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <script>
+        var APP_PATH="__APP__";
+        var CONST_PUBLIC="__PUBLIC__";
+        var CONST_CART="{:U('Cart/URL')}";
+        var EXTRA_PARAM="{:get_fid()}";
+    </script>
+    <js href="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js,__PUBLIC__/Shop/js/jquery-1.8.0.min.js,__PUBLIC__/Home/newjs/jquery.cookies.2.2.0.js,__PUBLIC__/Home/newjs/jquery.fly.min.js,__PUBLIC__/Home/newjs/json.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Home/js/jquery.func.js,__PUBLIC__/Home/newjs/home.js" />
+
+    <css href="__PUBLIC__/Home/member/css/pure-style.css,__PUBLIC__/Home/css/main.css,__PUBLIC__/Home/css/main.css" />
+<script>
+$(function(){
+	$("#confirmWeixin").click(function(){
+		var url=$(this).attr("href"); 
+		var html='<div class="weixin"><div class="wx_user"><img src="{$user.headimgurl|default='/Public/Home/images/wx_default.png'}" width="100" height="100" />{$user.nickname|default='weixin'}</div></div>';
+		jConfirm(html+'Are you sure you want to login by WeChat account?',SYSTITLE,function(ret){
+			if (ret){
+				location=url;	
+			};
+		});
+		return false;	
+	});	
+});
+</script>
+<style>
+    .bind-head-img{width: 50%;margin: 21px auto}
+    .bind-head-img img  {width: 90%;}
+    .pure-form{margin-top: 50px; }
+    .input-item{width: 70%;margin: 0 auto;font-size: 14px; color: #999999}
+    .input-item img  {position: relative;bottom: -10px}
+    .bind-btn{height: 38px;background: #64c73e;border-radius: 5px;font-size: 15px;color: #FFFFFF;line-height: 38px;border: none; margin-left: 15%;margin-top: 20px;}
+    .main-text{width: 90%;margin: 0 auto;margin-top: 50px; font-size: 13px; color: #999999}
+</style>
+</head>
+
+<body>
+<include file="Index:bar" /> 
+<div class="container">
+    <div class="bind-head-img tc"><img src="__PUBLIC__/Shop/images/logo.jpg" alt=""/></div>
+    <form  action="{:U('Login/bind')}" method="post" class="pure-form"   >
+        <div class="settings p_b">
+            <div class=" input-item">
+                <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
+                <input type="text" class="re_style"  <if condition="!empty($user)"> value="{$user['username']}" readonly</if>
+                       placeholder="enter your user name" name="username"  />
+            </div>
+            <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
+            <div class=" input-item">
+                <img src="__PUBLIC__/Home/images/password.png" width="20" alt=""/>
+                <input type="password" class="re_style" <if condition="!empty($user)"> value="{$user['userpwd']|substr=0,6}" readonly</if>
+                       placeholder="enter your user password" name="userpwd" />
+            </div>
+            <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
+            <button class="input-item bind-btn tc" <if condition="!empty($user)"> disabled</if> >Bind Your Account </button>
+            <div class="main-text">If you already have an account on waifood.com, we strongly recommend you to bind your waifood account with your WeChat (simply by login here), so that you can share the account's information,like balance, points,coupons,etc.</div>
+        </div>
+    </form>
+</div>
+<include file="Index:footer"/>
+</body>
+</html>

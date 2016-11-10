@@ -2,6 +2,8 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\ContentModel;
+
 class ProductController extends BaseController {
 
     public function channel($id = null) {
@@ -17,31 +19,43 @@ class ProductController extends BaseController {
 	 * 产品列表
 	 */
 	public function lists($id = null, $order = 1,$sort='desc') {
-		$where = array ();
-		$where ['status'] = 1;
-		if(isset($id)){
-    		$where['sortpath'][]= array('like','%,'.$id.',%');
-    	}else{ 
-    		$where['sortpath'][]= array('like','%,2,%');
-    	}
-		$orderstr = 'sort desc';
-		switch ($order) {
-			case 3 :
-				$orderstr = 'sold '.$sort;
-				break;
-			case 2 :
-				$orderstr = 'price '.$sort;
-				break; 
-		}
-
-        $list = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock' )->where ( $where )->order ( $orderstr )->select ();
-		$this->assign ( "list", $list );
-
-		$subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $id )->select ();
+        $orderstr = 'sort desc';
+        switch ($order) {
+            case 3 :
+                $orderstr = 'sold '.$sort;
+                break;
+            case 2 :
+                $orderstr = 'price '.$sort;
+                break;
+        }
+        if($_REQUEST['group'] == ContentModel::NEW_ARRIVAL){
+            $this->assign ( 'title', 'New Arrvial' );
+            $list  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL,$orderstr);
+        }else if($_REQUEST['group'] == ContentModel::RECOMMEND){
+            $this->assign ( 'title', 'Recommend');
+            $list  =  ContentModel::getGroupContent(ContentModel::RECOMMEND,$orderstr);
+        }else if($_REQUEST['group'] == ContentModel::PROMOTION){
+            $this->assign ( 'title', 'Promotion');
+            $list  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
+        }else{
+            $where = array ();
+            $where ['status'] = 1;
+            if(isset($id)){
+                $where['sortpath'][]= array('like','%,'.$id.',%');
+            }else{
+                $where['sortpath'][]= array('like','%,2,%');
+            }
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock';
+            $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->select ();
+        }
+        $this->assign ( "list", $list );
+        $subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $id )->select ();
 		if (count ( $subchannel ) == 0) {
 			$pid = M ( 'channel' )->where ( 'id=' . $id )->getField ( 'pid' );
 			$subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $pid )->select ();
 		}
+
+
 		$this->assign ( 'subchannel', $subchannel );
 		$this->assign ( 'order', $order );
 		$this->assign ( 'sort', $sort );
@@ -58,6 +72,7 @@ class ProductController extends BaseController {
 		$where = array ();
 		$where ['status'] = 1;
 		$db = M ( "content" )->where ( $where )->find ( $id );
+
 		if ($db) {
 			$arr = str2arr ( cookie ( 'view_history' ) );
 			$arr = arr2clr ( $arr );
@@ -65,8 +80,8 @@ class ProductController extends BaseController {
 				$arr [] = $id;
 				cookie ( 'view_history', arr2str ( $arr ) );
 			}
-			
-			if($db['images']){
+
+			if(strpos($db['images'],'.')){
 			    $gallery=get_imgs ($db ['images'] );
 			}else{
 			    $gallery=array($db['indexpic']);

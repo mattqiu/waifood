@@ -2,10 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
+    <title>{$shoptitle}</title>
     <include file="Index:header"/>
+    <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 </head>
-<body>
+<body  pagename="order">
 <include file="Index:bar"/>
 <div class="container order" style="padding-bottom: 15px;">
     <div class="view-title ordertap">
@@ -17,128 +18,132 @@
             <if  condition="$_REQUEST['show'] eq 'all' ">
                 <div class="divide clr" style="height: 10px;"></div>
                 <div class="main-item">
-                    <div class="order-title">
-                        <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
-                            <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
-                    <span class="fl unpaid">
-                       <if condition="$vo['paymethod'] eq 2 ">
-                           <if condition="$vo['pay'] eq 0 ">
-                               <img src="__PUBLIC__/Home/images/unpaid.png" width="90%" alt=""/>
-                               <else/>
-                               Paid
-                           </if>
-                       </if>
-                    </span>
-                        </a>
-                    </div>
-
-                    <div class="order-info ">
-                        <p><span class="info-l">Delivery time:</span><span class="info-r" >{$vo.delivertime}</span></p>
-                        <p>
-                            <span class="info-l">Payment method:</span>
-                    <span class="info-r">
-                        <if condition="$vo['paymethod'] eq 2">
-                            Paypal
-                            <else/>
-                            Cash on delivery Confirmed
-                        </if>
-                    </span>
-                        </p>
-                        <p><span class="info-l">Order status:</span>
-                            <span class="info-r">{:get_status($vo['status'])}</span>
-                        </p>
-                        <div class="clr"></div>
-                    </div>
-                    <div class="order-money">
-                        <if condition="$vo['paymethod'] eq 2 && $vo['pay'] eq 0">
-                            <div class="o_money fl">
-                                <p>Total Amount: <span>&yen;{$vo.amount}</span></p>
-                                <p>
-                                    <if condition="$vo['status'] lt 3"><span class="cancal-btn">Cancel</span></if>
-                                    <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                </p>
-                            </div>
-                            <div class="o_m_btn fl" onclick=""></div>
-                            <else/>
-                            <div class="o_money fr" style="padding: 5px 0;" >
-                                Total Amount: <span>&yen;{$vo.amount}</span>
-                            </div>
-                            <div class="clr btns">
-                                <div class="tr" style="padding: 7px 0;">
-                                    <if condition="$vo['status'] lt 3"><span class="cancal-btn">Cancel</span></if>
-                                    <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                </div>
-                            </div>
-                        </if>
-                    </div>
-                </div>
-                <else/>
-                <if condition="$vo['status'] lt 2">
-                    <div class="divide clr" style="height: 10px;"></div>
-                    <div class="main-item">
+                    <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
                         <div class="order-title">
-                            <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
-                                <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
-                    <span class="fl unpaid">
-                       <if condition="$vo['paymethod'] eq 2 ">
-                           <if condition="$vo['pay'] eq 0 ">
-                               <img src="__PUBLIC__/Home/images/unpaid.png" width="90%" alt=""/>
-                               <else/>
-                               Paid
-                           </if>
-                       </if>
-                    </span>
-                            </a>
+                            <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
+                                <span class="fl unpaid">
+                                      <!--（Unpaid）未完成并且未支付的-->
+                                   <if condition="$vo['pay'] eq 1">
+                                       Paid <else/> Unpaid
+                                   </if>
+                                </span>
                         </div>
-
                         <div class="order-info ">
                             <p><span class="info-l">Delivery time:</span><span class="info-r" >{$vo.delivertime}</span></p>
                             <p>
                                 <span class="info-l">Payment method:</span>
-                    <span class="info-r">
-                        <if condition="$vo['paymethod'] eq 2">
-                            Paypal
-                            <else/>
-                            Cash on delivery Confirmed
-                        </if>
-                    </span>
+                                <span class="info-r">
+                                    <if condition="$vo['paymethod'] eq 2">
+                                        Paypal
+                                        <else/>
+                                        Cash on delivery
+                                    </if>
+                                </span>
                             </p>
                             <p><span class="info-l">Order status:</span>
                                 <span class="info-r">{:get_status($vo['status'])}</span>
                             </p>
                             <div class="clr"></div>
                         </div>
+                    </a>
+                    <div class="order-money">
+                        <div class="o_money fr">
+                            Total Amount: <span>&yen;{$vo.amount}</span>
+                        </div>
+                        <div class="clr btns">
+                            <div class="tr" style="padding: 13px 0;">
+                                <if condition="$vo['status'] lt 3"><span class="cancal-btn" onClick="$.cancelOrder('{$vo.orderno}');">Cancel</span></if>
+                                <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
+                                <!--（显示条件）未完成并且未支付的-->
+                                <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
+                                    <span id="ov-pay-btn"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn">Pay now</span>
+                                </if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <else/>
+                <!--正在进行中的订单-->
+                <if condition="$vo['status'] lt 3">
+                    <div class="divide clr" style="height: 10px;"></div>
+                    <div class="main-item" >
+                        <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
+                            <div class="order-title">
+                                    <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
+                                    <span class="fl unpaid">
+                                      <!--（Unpaid）未完成并且未支付的-->
+                                        <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0"> Unpaid <else/>Paid</if>
+                                    </span>
+                            </div>
+
+                            <div class="order-info ">
+                                <p><span class="info-l">Delivery time:</span><span class="info-r" >{$vo.delivertime}</span></p>
+                                <p>
+                                    <span class="info-l">Payment method:</span>
+                                    <span class="info-r">
+                                        <if condition="$vo['paymethod'] eq 2">
+                                            Paypal
+                                            <else/>
+                                            Cash on delivery
+                                        </if>
+                                    </span>
+                                </p>
+                                <p><span class="info-l">Order status:</span>
+                                    <span class="info-r">{:get_status($vo['status'])}</span>
+                                </p>
+                                <div class="clr"></div>
+                            </div>
+                        </a>
                         <div class="order-money">
-                            <if condition="$vo['paymethod'] eq 2 && $vo['pay'] eq 0">
-                                <div class="o_money fl">
-                                    <p>Total Amount: <span>&yen;{$vo.amount}</span></p>
-                                    <p>
-                                        <if condition="$vo['status'] lt 3"><span class="cancal-btn">Cancel</span></if>
-                                        <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                    </p>
+                            <div class="o_money fr" >
+                                Total Amount: <span>&yen;{$vo.amount}</span>
+                            </div>
+                            <div class="clr btns">
+                                <div class="tr" style="padding: 13px 0;">
+                                    <if condition="$vo['status'] lt 3"><span class="cancal-btn"  onClick="$.cancelOrder('{$vo.orderno}');" >Cancel</span></if>
+                                    <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
+                                    <!--（显示条件）未完成并且未支付的-->
+                                    <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
+                                        <span  id="ov-pay-btn1"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn" class="view-btn pay-btn">Pay now</span>
+                                    </if>
                                 </div>
-                                <div class="o_m_btn fl" onclick=""></div>
-                                <else/>
-                                <div class="o_money fr" style="padding: 5px 0;" >
-                                    Total Amount: <span>&yen;{$vo.amount}</span>
-                                </div>
-                                <div class="clr btns">
-                                    <div class="tr" style="padding: 7px 0;">
-                                        <if condition="$vo['status'] lt 3"><span class="cancal-btn">Cancel</span></if>
-                                        <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                    </div>
-                                </div>
-                            </if>
+                            </div>
                         </div>
                     </div>
                 </if>
             </if>
         </volist>
+        <hr size="1" color="#cccccc" width="100%"/>
     </div>
     <div class="paging">
         {$page}
     </div>
 </div>
 <include file="Index:footer"/>
+<script>
+    $('#ov-pay-btn').leanModal({ top: 110, overlay: 0.5});
+    $('#ov-pay-btn').click(function(){
+        $('#paymethod').show();
+        $('#paymethod').attr('data-id',$(this).data('id'));
+        if( $(this).data('paymethod') ==2){
+            $('#paymethod .paymethod').removeClass('on');
+            $('#paymethod .paypal').addClass('on');
+        }
+    })
+
+    $('#ov-pay-btn1').leanModal({ top: 110, overlay: 0.5});
+    $('#ov-pay-btn1').click(function(){
+        $('#paymethod').show();
+        $('#paymethod').attr('data-id',$(this).data('id'));
+        if( $(this).data('paymethod') ==2){
+            $('#paymethod .paymethod').removeClass('on');
+            $('#paymethod .paypal').addClass('on');
+        }
+    })
+
+    $('#lean_overlay').click(function(){
+        $('#paymethod').hide();
+    })
+</script>
 </body>
 </html>

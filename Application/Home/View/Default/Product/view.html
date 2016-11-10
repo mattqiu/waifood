@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
+<title>{$shoptitle}</title>
 <include file="Index:header" />
 <js href="__PUBLIC__/Home/member/js/jquery.swipe.js" />
 <js href="__PUBLIC__/Home/js/jquery.idTabs.min.js" />
@@ -36,26 +36,25 @@
     <div class="pro-info">
       <div class="pro-title">{$db.title}</div>
         <br/>
-      <div class="pro-price fl"> <gt name="db.price1" value="0">
-		<span class="price1 num-item">&yen;{$db.price1}</span></gt>
-		<span class="price num-item" id="ProductPrice">&yen;{$db.price}</span>
+      <div class="pro-price fl">
+          <span class="price num-item" id="ProductPrice">&yen;{$db.price}</span>
+          <gt name="db.price1" value="0">
+              <span class="price1 num-item">&yen;{$db.price1}</span>
+          </gt>
       </div>
         <div class="fr g_btn" style="margin-top: 0px;">
-            <div class="cat_cart_num fl" onclick="prepGood('{$db.id}')"></div>
-            <div class="num fl tc" id="js_goods_num_{$db['id']}" >0</div>
-            <div  class="add_cart_num fl" data-id="{$vo.id}" onClick="addgood('{$db.id}',event);" ></div>
+            <div class="cat_cart_num hide fl" onclick="prepGood('{$db.id}')"></div>
+            <div class="num fl hide tc" id="js_goods_num_{$db['id']}" >0</div>
+            <div  class="add_cart_num fr" data-id="{$vo.id}" onClick="addgood('{$db.id}',event);" ></div>
         </div>
     </div>
       <div class="goodinfo">
-         <div class="fl">
-             Unit: {$db.unit}<br>
-             Preservation:{$db.storage}<br>
-             Origin: {$db.origin}<br>
-             <notempty name="db.brand">
-                 Storage:{$db.brand}<br />
-             </notempty>
-         </div>
-          <div class="fr buyNow" id="btnBuyCart" onclick="addgood('{$db.id}',event,true);"> </div>
+         <span>Unit:</span>  <span>{$db.unit}</span><br>
+         <span>Origin: </span>   <span>{$db.origin}</span><br>
+         <span>Preservation:</span>   <span>{$db.storage}</span><br>
+         <notempty name="db.brand">
+             <span>Brand:</span>   <span>{$db.brand}</span><br />
+         </notempty>
       </div>
     <div class="pro-detail">
       <div class="detail-box" style="border: none">

@@ -2,14 +2,14 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
+    <title>{$shoptitle}</title>
     <include file="Index:header"/>
     <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
     <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 </head>
 <body data-beyond="{$beyond}">
 <include file="Index:bar"/>
-<div class="container">
+<div class="container" style="overflow: hidden">
     <div class="content">
         <div class="main-body">
             <div class="main-list">
@@ -24,9 +24,8 @@
                                 <a href="{:U('Member/address','goto=cashier')}">
                                     <div class="fl" style="width: 10%;"><img src="__PUBLIC__/Home/images/ov_address.png" style="margin-top: 45px" width="15" alt=""/></div>
                                     <div class="addr_list fl" style="width: 85%;text-indent: 0">
-                                        <!--<input type="radio" name="consingee" checked value="{$address.id}"/>-->
-                                        {$address.username}-{$address.telephone}- {$address.address}
-                                        -{$address.cityname}
+                                        <div class="addr-user"><span class="fl">{$address.username}</span><span class="fr tc">{$address.telephone}</span></div>
+                                        <div class="clr">{$address.address}-{$address.cityname}</div>
                                     </div>
                                     <div class="fl" style="width: 3%;">
                                        <img src="__PUBLIC__/Home/images/tapnext.png" style="margin-top: 45px" alt="" width="10"/>
@@ -50,7 +49,7 @@
                             <div class="radio-box">
                                 <label class="radio on paymethod" data-val="4" onclick="setRadioVal(this,'#paymethod')"><i></i>Cash on delivery</label>
                                 <p></p>
-                                <label class="radio paymethod" data-val="2"  onclick="setRadioVal(this,'#paymethod')"><i></i>Paypal</label>
+                                <label class="radio paymethod" data-val="2"  onclick="setRadioVal(this,'#paymethod')"><i></i>Paypal(USD)</label>
                                 <input type="hidden" name="paymethod" id="paymethod" value="4" />
                             </div>
 
@@ -126,21 +125,25 @@
                                         </div>
                                     </volist>
                                 </div>
+                                <br/>
                             </div>
                         </div>
 
                     <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
                         <div class="item-pay-container">
-                            <textarea id="info" name="info" value="" rows="3" class="cashier-info" placeholder="the order remarks" ></textarea>
+                            <textarea id="info" name="info" value="" rows="3" class="cashier-info" placeholder="remarks here" ></textarea>
                     </div>
                     <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                     <div class="good-count">
                         <div class="foot-item fl">
-                            <div class="fi-li">Quantity: <span id="quantity">22</span></div>
+                            <div class="fi-li">Quantity: <span id="quantity">0</span></div>
                             <div  class="fi-li"> Delivery Fee：<span class="" id="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</span></div>
                         </div>
-                        <div class="foot-item fl tc" style="margin-top: 13px;">Total：<span class="fc_orange"  id="amount">&yen;3242</span></div>
-                        <div class="foot-item fr submit-button" onClick="submitOrder()"><span class="tc">Submit order</span></div>
+                        <div class="foot-item fl tc" style="margin-top: 13px;">Total：<span class="fc_orange"  id="amount">&yen;0</span></div>
+                        <div class="foot-item fr submit-button" onClick="submitOrder()" id="submit-button"><span class="tc">
+                            Submit <br/>
+                            order</span>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -220,19 +223,14 @@
                     $html += '<br/>';
                     $html += '<br/>';
                     $html += '<div class="good-money-info">';
-                    $html += '<div class="item-no good-money ">&yen;<span class="fc_orange">' + obj[i]['price'] + '</span>';
-                    $html += '<span class="tr good-num good-title num-item">x ' + obj[i]['amount'] + '</span></div>';
+                    $html += '<div class="item-no good-money "><span class="fc_orange">&yen;' + obj[i]['price'] +'</span> x ' + obj[i]['amount']  ;
+                    $html += '<span class="tr good-num num-item fc_orange">&yen; ' + parseFloat( obj[i]['amount'] * obj[i]['price']) + '</span></div>';
                     $html += '</div>';
                     $html += '</div>';
                     $html += '</a>';
-                    $html += '<hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>';
-                    $html += '<div class="good-money tr">';
-                    $html += ' <span class="good-title">Quantity:' + obj[i]['amount'] + '</span>&nbsp;&nbsp;&nbsp;';
-                    $html += '<span class="good-title">Total:&yen;<span class="fc_orange">' + parseFloat( obj[i]['amount'] * obj[i]['price']) + '</span></span>';
-                    $html += '</div>';
                     $html += '<div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>';
                     totalMoney += parseFloat( obj[i]['amount'] * obj[i]['price']);
-                    totalNum += obj[i]['amount'];
+                    totalNum += parseFloat(obj[i]['amount']);
                 }
                 $('#product_list').html($html);
                 $('#quantity').html(totalNum);

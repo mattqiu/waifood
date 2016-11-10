@@ -1,6 +1,42 @@
+
 $(function(){
-    loadGood();
+    var pagename = $("body").attr('pagename');
+    var resId = $("body").attr("restaurant_id");
+    switch(pagename){
+        case "orderView":{paymethod();}
+        case "order":{paymethod();}
+        default :{   loadGood();break;}
+    }
 })
+
+function paymethod(){
+    var $html = '  <div class="radio-box hide" id="paymethod" >';
+        $html += '<label class="radio on paymethod" data-val="4" onclick="gopay(this)"><i></i>Cash on delivery</label>';
+        $html += ' <p></p>';
+        $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
+        $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
+        $html += ' </div>';
+    $('body').append($html);
+
+}
+
+function gopay(obj){
+    var $paymethod = $(obj).data('val');
+    var orderno =  $('#paymethod').data('id');
+    $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
+        if(data.code ==200){
+            if($paymethod ==2){ //Paypal支付
+                clearpopj('Modify payment success',"/m_pay?orderno="+orderno)
+            }else{
+                $('#lean_overlay').hide();
+                $('#paymethod').hide();
+                clearpopj('Modify payment success')
+            }
+        }else{
+            clearpopj('Modify payment failure')
+        }
+    })
+}
 
 function getStockCount(){
     var myfood = $.cookie("myfood");
@@ -19,13 +55,36 @@ function getStockCount(){
         "path":"/"
     });
 }
+
+function setGoodNum(id,number){
+    if(number>0 && id >0){
+        var key = "myfood",
+            myfood = $.cookie(key),
+            myfood_array = {};
+         myfood_array = $.parseJSON(myfood);
+        // 看该产品是否存在
+        if(myfood_array && myfood_array[id]){
+            if(myfood_array[id]){
+                var single = myfood_array[id];
+                myfood_array[id]['amount'] = number;
+            }
+
+            var json = $.toJSON(myfood_array);
+            $.cookie(key,json,{
+                "path":"/"
+            });
+            loadGood();
+        }
+    }
+}
+
 /**
  *添加商品
  * @param id
  * @param event
  * @returns {boolean}
  */
-function addgood(id,event,isbuynow){
+function addgood(id,event){
     var key = "myfood",
         myfood = $.cookie(key),
         id = $('#js_goods_'+id).data("id"),
@@ -56,15 +115,14 @@ function addgood(id,event,isbuynow){
             jAlert("Insufficient stock!",SYSTITLE);
             return false;
         }
-        fly(event);
+        $('#CartNo').css('display','block');
         var json = $.toJSON(myfood_array);
         $.cookie(key,json,{
             "path":"/"
         });
+        fly(event);
         loadGood();
-        if(isbuynow == true){
-            window.location.href = '/m_cart.html';
-        }
+
 }
 
 /**
@@ -82,14 +140,19 @@ function prepGood(id){
             if( myshop_array[id]['amount'] >1){
                 myshop_array[id]['amount'] = parseInt(single['amount']) - 1;
             }else{
-                 myshop_array[id]= undefined;
                 if( $('#js_goods_'+id).hasClass('jsCart')){
                     $('#js_goods_'+id).remove();
+                }else{
+                    $('#js_goods_'+id +' .g_btn .cat_cart_num').addClass('hide');
+                    $('#js_goods_'+id +' .g_btn .num').addClass('hide');
                 }
+                myshop_array[id]= undefined;
             }
         }else{
-            jAlert("Sorry, improve plate does not exist, please refresh retry!",SYSTITLE);
-            return false;
+            if( $('#js_goods_'+id).hasClass('jsCart')){
+                $('#js_goods_'+id).remove();
+            }
+            myshop_array[id]= undefined;
         }
     }
     var json = $.toJSON(myshop_array);
@@ -128,6 +191,7 @@ function clearCart(){
     $('#itemg-title').addClass('hide');
     $('#emptycart').removeClass('hide');
     $('#CartNo').css('display','none');
+    $('#cart_foot .totalMoney').html('&yen;0');
     $.cookie("myfood", "", {"path": "/"});
 }
 
@@ -145,8 +209,8 @@ function fly(event){
             top: event.clientY
         },
         end: {
-            left: offset.left+1,
-            top: offset.top+1,
+            left: offset.left+3,
+            top: offset.top+3,
             width: 0,
             height: 0
         },
@@ -176,18 +240,35 @@ function loadGood(){
                     if(parseInt(obj[i]['amount'])<1){
                         $('#js_goods_'+obj[i]['id']).remove();
                     }
+                    //有商品数量的显示减号与商品数量
+                    $('#js_goods_'+obj[i]['id'] +' .g_btn .cat_cart_num').removeClass('hide');
+                    $('#js_goods_'+obj[i]['id'] +' .g_btn .num').removeClass('hide');
                 }
             }
             if(!amount){
                 $('#CartNo').css('display','none');
+                $('#cart_foot').css('display','none');
+                $('#submit-button').css('display','none');
             }
             $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
-
         }
     }else{
         $('#CartNo').css('display','none');
     }
 }
+
+
+/**
+ * 选择头部地址
+ */
+function setHeadAddr(addr){
+    if(addr == 'Xian'){
+        addr = "Xi'an";
+    }
+    setCookie('headaddr',addr);
+   $('#headaddr').html(addr);
+}
+
 
 /**
  * 进入结算页面
@@ -203,7 +284,10 @@ function goCashier(){
         return false;
     }
 }
-
+/**
+ * 提交订单
+ * @returns {boolean}
+ */
 function submitOrder(){
     var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
     var myfood_array = $.parseJSON(myfood);
@@ -227,11 +311,10 @@ function submitOrder(){
         cityname : $("#cityname").val(),
         paymethod : $('#paymethod').val(),
         invoice : $('#invoice').val(),
-        info : $.trim($("#Info").val()),
+        info : $.trim($("#info").val()),
         delivertime : deliverydate,
         order : order
     }
-
     $.post('/home/order/submitOrder.html',data,function(data){
         if(data.code == 200){
             if(data.data){
@@ -244,7 +327,11 @@ function submitOrder(){
         }
     })
 }
-
+/**
+ * 获取配送费
+ * @param money
+ * @param obj
+ */
 function getdeliveryFee(money,obj){
     $.post('/home/shop/getdeliveryFee.html',{money:money},function(data){
         if(data.code == 200){
@@ -253,13 +340,18 @@ function getdeliveryFee(money,obj){
         }
     })
 }
+/**
+ * 获取订单总金额
+ * @param totalMoney
+ * @param obj
+ * @param deliveryFee
+ */
 function getAmountMoney(totalMoney,obj,deliveryFee){
     $.post('/home/shop/getdeliveryFee.html',{money:totalMoney},function(data){
         if(data.code == 200){
             $(obj).html('&yen;'+data.data);
             $(deliveryFee).html('&yen;'+data.data);
             var $total = parseFloat(totalMoney)+parseFloat(data.data)
-            console.log($total);
             $(obj).html('&yen;'+$total);//总金额= 配送费+商品总金额
         }
     })

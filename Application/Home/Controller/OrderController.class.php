@@ -112,7 +112,6 @@ class OrderController extends BaseController {
 		}
 		$orderno=$this->createSeatOrder($shop_id);
 		if($orderno){
-
 			$where=array();
 			$where['orderno']=$orderno;
 			$db=M('order_seat')->where($where)->find();
@@ -234,6 +233,18 @@ class OrderController extends BaseController {
             $this->assign('title','Failed.');
             $this->display('Shop/error');
         }
+    }
+
+    public function modifyOrderPaymethod(){
+        $orderno = I('post.orderno');
+        $paymethod = I('post.paymethod');
+        if($orderno && $paymethod){
+            $data['paymethod'] = $paymethod;
+            if(is_number(OrderModel::modifyOrder($orderno,$data))){
+                apiReturn(CodeModel::CORRECT);
+            }
+        }
+        apiReturn(CodeModel::ERROR,M()->_sql());
     }
 
 

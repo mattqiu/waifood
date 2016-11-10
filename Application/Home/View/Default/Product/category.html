@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
+<title>{$shoptitle}</title>
 <include file="Index:header" />
 </head>
 
@@ -11,7 +11,7 @@
 <div class="container pdt5" style="padding-bottom: 30px;">
   <div class="spfenlei" >
     <volist name="channel" id="vo">
-        <div style="height: 47px;width: 100%;border-top: 1px solid #cccccc; ">
+        <div {$i} style="height: 47px;width: 100%; <if condition='$i gt 1'>border-top: 1px solid #cccccc; </if>">
             <img src="{$vo.indexpic}" height="29" alt="" style="margin-top: 10px;padding-left: 20px;"/>
             <a href="{:U('Product/lists?id='.$vo['id'].'&fid='.get_fid())}">
                 <span style="font-size: 16px; color: {$vo.color};position: relative;bottom: 10px; left: 15px;">{$vo.name}</span>
@@ -20,7 +20,7 @@
         <if condition="!empty($vo['child'])">
             <hr size="1" color="#cccccc" style="margin-left: 20px;"/>
             <div id="son{$i}" style="margin: 0 auto;width: 90%">
-                <volist name="vo['child']" id="vo1">
+                <volist name="vo['child']" id="vo1"  key="j">
                      <a href="{:Uu('Product/lists','id='.$vo1['id'])}"  style="display: block;width: 48%;margin-left: 2%;margin-top: 5px;" class="fl">
                        {$vo1.name}
                      </a>

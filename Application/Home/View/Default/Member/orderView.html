@@ -2,18 +2,18 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
+    <title>{$shoptitle}</title>
     <include file="Index:header"/>
 </head>
 
-<body>
+<body pagename="orderView">
 <include file="Index:bar"/>
-<div class="main-list">
+<div class="main-list" style="overflow: hidden">
     <div>
         <div class="divide clr" style="height: 10px;"></div>
             <div class="ov-title">Order ID:
                 <span class="ov_no">{$db.orderno}</span>
-                <span class="ov_status"> {:get_status($db['status'])}</span>
+                <span class="ov_status fc_orange fr" >{:get_status($db['status'])}</span>
             </div>
             <div class="address-list">
                 <div class="ov_addr_img"><img src="__PUBLIC__/Home/images/ov_address.png" width="25" alt=""/></div>
@@ -48,18 +48,13 @@
                     <span  class="fc_orange ov-pay">Unpaid</span>
                 </if>
                 <br/>
-                Faipiao(Invoic):
+                Fapiao(Invoice):
                     <if condition="$db['invoice'] eq 1">
-                        Yse
+                        Yes
                         <else/>
                         No
                     </if>
                 </div>
-                <if condition="$db['paymethod'] neq 4 && $db['pay'] neq 1">
-                    <div class="fr">
-                        <img src="__PUBLIC__/Home/images/Pay.png" width="77" height="50" alt=""/>
-                    </div>
-                </if>
             </div>
             <div class="clr"></div>
             Customer Message:{$db.info}
@@ -80,8 +75,8 @@
                 <div class="good-li">
                     <div class="ov-good-img fl"><img src="{$vo.indexpic}" alt="{$vo.productname}"/></div>
                     <div class="ov-good fr" >
-                        <div >{$vo.productname}</div>
-                        <div><span class="fc_orange">&yen;{$vo.price} </span><span class="fr" style="margin-right: 30px;color: #333;font-size: 13px;">x {$vo.num|float_fee}</span> </div>
+                        <div style="height: 40px; overflow: hidden;">{$vo.productname}</div>
+                        <div><span class="fc_orange">&yen;{$vo.price} </span>x {$vo.num|float_fee}<span class="fr fc_orange" style="margin-right: 30px;font-size: 13px;">&yen; {$vo['num'] * $vo['price']}</span> </div>
                     </div>
                 </div>
                 <hr width="99%" color="#ccc" size="1px"/>
@@ -95,12 +90,30 @@
             Delivery Fee:&yen;{$db.shipfee}<br/>
         </div>
         <hr width="99%" color="#ccc" size="1px"/>
-            <div class="money-total">Total amount: <span class="fc_orange">&yen;{$db.amount}</span>
-        </div>
     </div>
-    <hr width="99%" color="#ccc" size="1px"/>
-    <div class=" clr divide" style="height: 10px;"></div>
 </div>
+<div class="money-total">
+    Total amount: <span class="fc_orange">&yen;{$db.amount}</span>
+    <span class="pay-btn ov-pay-btn tc" id="ov-pay-btn" data-id="{$db['orderno']}" data-paymethod="{$db['paymethod']}">Pay</span>
+    <!--<span class="pay-btn ov-pay-btn tc"><a href="/m_pay?orderno={$db['orderno']}">Pay</a></span>-->
+</div>
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <include file="Index:footer"/>
+<script>
+    $('#ov-pay-btn').leanModal({ top: 110, overlay: 0.5});
+
+    $('#ov-pay-btn').click(function(){
+        $('#paymethod').show();
+        $('#paymethod').attr('data-id',$(this).data('id'));
+        if( $(this).data('paymethod') ==2){
+            $('#paymethod .paymethod').removeClass('on');
+            $('#paymethod .paypal').addClass('on');
+        }
+    })
+
+    $('#lean_overlay').click(function(){
+        $('#paymethod').hide();
+    })
+</script>
 </body>
 </html>

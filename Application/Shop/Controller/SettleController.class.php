@@ -157,8 +157,8 @@ class SettleController extends BaseController {
 		}
 			echo ($html);
 		} else {
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying3!' );
 		}
 	}
 }
-?>
+?>b

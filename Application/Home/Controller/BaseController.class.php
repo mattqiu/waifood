@@ -15,7 +15,7 @@ class BaseController extends Controller
         }
         //$this->checkLogin();
         $this->setFatherId();
-        $this->assign('shoptitle', 'Waifood home');
+        $this->assign('shoptitle', 'Waifood');
     }
     
     /**

@@ -6,6 +6,7 @@ class UserModel extends Model
 {
 	const MALE = 1;//男
 	const FEMALE = 0;//女
+	const WeCHAT_USER = 3;//微信用户
 
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();

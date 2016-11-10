@@ -21,23 +21,25 @@ class LoginController extends Controller
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
         $this->conf=C('config');
-        $this->assign('shoptitle', 'Waifood home');
+        $this->assign('shoptitle', 'Waifood');
     }
 
     public function index()
     {
         if (is_wechat()) {
-           if($openid = openid()){
-               UserModel::loginWechat($openid);
-           }else{ //没有用户信息,进行微信授权
-                $conf =  $this->conf;
-                $state = mt_rand(100000,999999);
-                session('verify_state', $state);
-                $appid = $conf['WECHAT_APPID'];
-                $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
-                trace("url $url");
-                header("Location:$url");
-                exit();
+               if($openid = openid()){
+                   if( UserModel::loginWechat($openid)){
+                       $this->redirect ( '/member/index' );
+                  }else{ //没有用户信息,进行微信授权
+                   $conf =  $this->conf;
+                   $state = mt_rand(100000,999999);
+                   session('verify_state', $state);
+                   $appid = $conf['WECHAT_APPID'];
+                   $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
+                   trace("url $url");
+                   header("Location:$url");
+                   exit();
+               }
             }
         }else{
             $this->assign('title', 'Login');
@@ -114,32 +116,32 @@ class LoginController extends Controller
     public function bind()
     {
         if (IS_POST) {
+            if(!openid()){
+                redirect(U('/login/index'));
+            }
             $data = $_POST;
-            $login = $this->login($data['username'], md5($data['userpwd']));
-            if ($login) {
-                if ($data['bind']) {
-                    // 已登录自动绑定，可能是有问题滴
+            if($data['username'] && $data['userpwd']){
+                $login = $this->login($data['username'], md5($data['userpwd']));
+                if ($login) {
                     $openid = openid();
-                    $data=array();
                     $wid = M('member')->where('id=' . get_userid())->setField('wechatid', $openid);
                     session('wechatid', $openid);
-                } else {}
-                redirect(U('Member/index'));
-            } else {
-                $this->error('wrong user name or password.');
-            }
-        } else {
-            if (is_wechat()) {
-                $user = S('openid_' . openid());
-                if (!$user) {//没有用户信息进入微信授权
-                    session ( 'userid','');
-                    redirect(U('Login/index'));
+                    redirect(U('Member/index'));
                 }
-                $this->assign('user', $user);
-            } else {
-                // we('请使用微信浏览');
             }
-            $this->assign('title', 'Login');
+            $this->error('wrong user name or password.');
+        } else {
+            if (!get_userid()) {//没有用户信息进入微信授权
+                session ( 'userid','');
+                openid('');
+                redirect(U('Login/index'));
+            }else{
+               $user =  UserModel::getUserByOpenid(openid());//获取已绑定的账号
+                if($user['usertype'] != UserModel::WeCHAT_USER){
+                    $this->assign('user', $user);
+                }
+            }
+            $this->assign('title', 'Me');
             $this->display();
         }
     }

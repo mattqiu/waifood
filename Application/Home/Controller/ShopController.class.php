@@ -163,7 +163,7 @@ class ShopController extends BaseController {
 	public function pay($orderno = null,$paytype='paypal') {
 		$where = array ();
         $where ['orderno'] = $orderno;
-        $where ['paymethod'] = array ('neq',4 );
+        //$where ['paymethod'] = array ('neq',4 );
         $where ['status'] = array ('not in',	array (3,4 ));
         $db = M ( 'order' )->where ( $where )->find ();
 		if ($db) {
@@ -181,7 +181,7 @@ class ShopController extends BaseController {
 			echo($html);
 			
 		} else {
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying111!' );
 		}
 	}
 
@@ -220,7 +220,7 @@ class ShopController extends BaseController {
 
 		} else {
 			//$this->error ( '订单' . $orderno . '不存在或无需支付！' );
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying222!' );
 		}
 	}
 }

@@ -6,10 +6,36 @@ class OrderModel extends Model{
     const WECAHT = 1;//微信订单
     const PAYPAL = 2;//Paypal支付
 
+    /**根据订单号获取订单详情
+     * @param $orderNo
+     * @return bool|mixed
+     */
+    public static function getOrderDetailByOrderno($orderNo){
+        if($orderNo){
+            $ocn['orderno'] = $orderNo;
+           return M ( 'order_detail' )->where($ocn)->select();
+        }
+        return false;
+    }
+
+    public static function modifyOrder($orderno,$data){
+        if($orderno && !empty($data)){
+            $con['orderno'] = $orderno;
+            return M ( 'order' )->where($con)->save($data );
+        }
+        return false;
+    }
+
+    /**下单
+     * @param $data
+     * @param $userId
+     * @return bool|string
+     */
     public static function createOrder($data,$userId){
         if(empty($data['order'])){
             apiReturn(CodeModel::ERROR,'Sorry, Order content cannot be empty!');
         }
+       // self::catStock('20161110121951');return;
         if(!is_date(substr($data['delivertime'],0,10))){
             apiReturn('Sorry, please select the delivery date.');
         }
@@ -55,7 +81,7 @@ class OrderModel extends Model{
         $orderid = M ( 'order' )->add ( $data );
         if ($orderid != false) {
              self::createOrderDetail($order,$orderno,$userId,$data['status']);//添加订单详情
-             self::catStock($order);
+             self::catStock($orderno);
              self::sendEmail($orderno,$userId);
             return $orderno;
         }else {
@@ -218,15 +244,19 @@ class OrderModel extends Model{
      * @param $id
      * @param $num
      */
-    public static function catStock($order){
-        foreach ( $order as $key => $value ) {
-            if($value['id'] && $value['num']){
-                M('content')->where('id='.$value['id'])->setDec('stock',$value['num']);
-                M('content')->where('id='.$value['id'])->setInc('sold',$value['num']);
+    public static function catStock($orderno){
+       $info =  self::getOrderDetailByOrderno($orderno);
+        foreach ( $info as $key => $value ) {
+            if($value['productid'] && $value['num']){
+                $con['id'] = $value['productid'];
+                M('content')->where($con)->setDec('stock',$value['num']);
+                M('content')->where($con)->setInc('sold',$value['num']);
+                $con2['stock'] = 0;
+                $data['status'] = 0;
+                M('content')->where($con2)->save($data);
             }
         }
     }
-
 
 
     /**

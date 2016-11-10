@@ -1,6 +1,6 @@
 @charset "utf-8";
 body{ font-size:14px;}
-*,input[type="text"],input[type="button"],textarea,select{font-family:Microsoft YaHei; }
+*,input[type="text"],input[type="button"],textarea,select{font-family: "Microsoft Yahei", "Helvetica", "Arial" }
 .clr{clear:both;}.fc_white { color: #fff; }.fc_red { color: #f00; }.fc_blue { color: #00f; }.fc_grey { color: #ccc; }.fc_green { color: green; } 
 .tl { text-align: left; }.tc { text-align: center; }.tr { text-align: right;} 
 .fl{float:left;}.fr{float:right;}
@@ -164,7 +164,7 @@ body{ font-size:14px;}
 .fa-back-home{ width:30px; height:30px; background-position:-10px -660px;}
 
 /*遮罩层*/ 
-#popup_container {font-family: Arial, sans-serif;font-size: 12px;min-width: 200px; /* Dialog will be no smaller than this */max-width: 320px; /* Dialog will wrap after this width */background: #FFF;color: #000; box-shadow:0px 0px 5px #000;}
+#popup_container {font-size: 12px;min-width: 200px; /* Dialog will be no smaller than this */max-width: 320px; /* Dialog will wrap after this width */background: #FFF;color: #000; box-shadow:0px 0px 5px #000;}
 
 #popup_title {font-size: 14px;text-align: center;line-height: 1.75em;color: #333;background: #CCC url(../images/alert/title.gif) top repeat-x;border: solid 1px #FFF;border-bottom: solid 1px #999;cursor: default;padding: 0em;margin: 0em;}
 #popup_content {background: 16px 16px no-repeat url(../images/alert/info.gif);padding: 1em 1.75em;margin: 0em;}

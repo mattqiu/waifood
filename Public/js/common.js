@@ -31,7 +31,7 @@ function setCookie(name,value,time){
     }else{
         exp.setTime(exp.getTime() + Days*24*60*60*1000);
     }
-    document.cookie = name + "="+ escape (value) + ";domain=.3cfood.com;path=/;expires=" + exp.toGMTString();
+    document.cookie = name + "="+ escape (value) + ";domain=.waifood.com;path=/;expires=" + exp.toGMTString();
 }
 
 /*各种正则检测*/
@@ -110,6 +110,10 @@ function getMask(){
     if(mymask==null){mymask = new  Mask();}
     return mymask;
 }
+//点任何地方关闭弹出框
+$('body').click(function(){
+   closeMask();
+})
 //关闭弹出框
 function closeMask(){
     $(".clo").click();

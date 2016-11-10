@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
+    <title>{$shoptitle}</title>
     <include file="Index:header"/>
 </head>
 
@@ -52,49 +52,58 @@ $so=($sort=='desc'?'asc':'desc');
     </div>
     <div class="clr"></div>
     <div class="splist">
-        <ul>
-            <volist name="list" id="vo">
-                <li id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
-                    data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                    <div class="good_box">
-                        <a href="{:Uu('Product/view','id='.$vo['id'])}">
-                            <img src="__PUBLIC__/Shop/images/grey.gif" class="lazy" style="margin-left: 15px;"
-                                 data-original="{$vo.indexpic}" alt="{$vo.title}" width="90%"/>
-                            <span class="g_title">{$vo.title}</span>
-                            <br>
-                            <br>
+        <if condition="!empty($noSearch) && empty($list)">
+            <br/>
+            <br/>
+            <h3 class="tc">{$noSearch}</h3>
+            <else/>
+            <ul>
+                <volist name="list" id="vo">
+                    <li id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                        data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                        <div class="good_box">
 
-                            <div class="clo9">Unit:{$vo.unit}</div>
-                            <div class="clo9">Preservation:{$vo.storage}</div>
-                            <div class="clo9">Origin:{$vo.origin}</div>
-                            <notempty name="vo.brand">
-                                <div class="clo9">Brand:{$vo.brand}</div>
-                            </notempty>
-                        </a>
-
-                        <div class="spjg">
-                            <div class="fl">
-                                <br/>
-                                <i class="price">&yen;{$vo.price}</i>
-                                <gt name="vo.price1" value="0">
-                                    <s>&yen;{$vo.price1}</s>
-                                    <else/>
-                                    &nbsp;</gt>
+                            <div class="list-good-img fl">
+                                <a href="{:Uu('Product/view','id='.$vo['id'])}">
+                                    <img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"
+                                         data-original="{$vo.indexpic}" alt="{$vo.title}" width="100%"/>
+                                </a>
                             </div>
-                            <div class="fr g_btn">
-                                <div class="cat_cart_num fl" onclick="prepGood('{$vo.id}')"></div>
-                                <div class="num fl tc" id="js_goods_num_{$vo['id']}">0</div>
-                                <div class="add_cart_num fl" data-id="{$vo.id}"
-                                     onClick="addgood('{$vo.id}',event);"></div>
+                            <div class="list-good-title fr">
+                                <div class="good-k">
+                                    <a href="{:Uu('Product/view','id='.$vo['id'])}">
+                                        <span class="g_title" >{$vo.title}</span><br/>
+                                        <span class="clo9">Unit:{$vo.unit}</span><br/>
+                                        <span class="clo9">Preservation:{$vo.storage}</span><br/>
+                                        <span class="clo9">Origin:{$vo.origin}</span>
+                                        <notempty name="vo.brand">
+                                            <!--<span class="clo9">Brand:{$vo.brand}</span><br/>-->
+                                        </notempty>
+                                    </a>
+                                </div>
+                                <div class="spjg">
+                                    <div class="fl">
+                                        <i class="price num-item">&yen;{$vo.price}</i>
+                                        <gt name="vo.price1" value="0">
+                                            <s class="num-item" style="color: #999999;font-size: 13px;">&yen;{$vo.price1}</s>
+                                            <else/>
+                                            &nbsp;</gt>
+                                    </div>
+                                    <div class="fr g_btn">
+                                        <div class="cat_cart_num hide fl" onclick="prepGood('{$vo.id}')"></div>
+                                        <div class="num fl tc hide" id="js_goods_num_{$vo['id']}">0</div>
+                                        <div class="add_cart_num fr" data-id="{$vo.id}"
+                                             onClick="addgood('{$vo.id}',event);"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <!--<a href="javascript:void(0);" onClick="$.addCart({$vo.id});" class="pure-button pure-button-success fr" >+ Cart</a>-->
                         </div>
-                    </div>
-                </li>
-            </volist>
-        </ul>
+                    </li>
+                </volist>
+            </ul>
+        </if>
     </div>
-    <div style="text-align: center;color: #999999;margin-top: 20px; ">www.waifood.com</div>
+    <div style="text-align: center;color: #999999;margin-top: 20px; ">www.waifood.com </div>
     <div class="fybox">{$page}</div>
     <div class="clr"></div>
 </div>

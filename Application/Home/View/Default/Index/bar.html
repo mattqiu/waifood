@@ -1,18 +1,40 @@
 <header>
     <a href="javascript:void(0);" onclick="history.back();" id="back" style="color: #000000"></a>
         <ul style="width: 100%;">
-            <li class="fl">
+            <li class="fl" style="width: 22%">
             </li>
             <li class="fl keywrod">
                 <if condition="$title">
-                    <span style="line-height: 45px;color: #333333;font-size: 21px;">{$title}</span>
+                    <span style="line-height: 45px;color: #333333;font-size: 21px;text-indent: 0">{$title}</span>
                     <else/>
-                    <input type="text" class="input_keywrod" placeholder="Keywords"/>
-                    <img src="__PUBLIC__/Home/images/searching.png" class="searching" onclick="alert(222)" height="20">
+                    <form id="formSearch" name="formSearch" method="get" action="/Home/Search/index.html">
+                        <input type="search" results="s" class="input_keywrod fl" name="keyword" placeholder="Keywords"/>
+                    </form>
                 </if>
             </li>
-            <li class="fr" >
-                <img src="__PUBLIC__/Home/images/share.png"  width="25">
+            <li class="fr" id="showQr">
+                <img src="__PUBLIC__/Home/images/qrbtn.png"  width="25">
             </li>
         </ul>
 </header>
+<script>
+    $(function(){
+        $('body').append('<div id="showQr-box" style="display: none;" class=" leanModal" > <img src="/Public/Shop/images/qr.jpg" width="150" alt=""/></div>');
+        $('#showQr').leanModal({ top: 0, overlay: 0.5});
+        $('#showQr').click(function(){
+            $('#showQr-box').show();
+        })
+
+
+        var $html = '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';
+        $('body').append($html);
+        $('#choosHeadAddr').leanModal({ top: 110, overlay: 0.5});
+        $('#choosHeadAddr').click(function(){
+            $('#showAddr').show();
+        })
+        $('#lean_overlay').click(function(){
+            $('#showQr-box').hide();
+            $('#showAddr').hide();
+        })
+    })
+</script>
