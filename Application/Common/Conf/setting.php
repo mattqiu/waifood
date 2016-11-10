@@ -6,7 +6,7 @@ return array (
     'WEB_SITE_DESCRIPTION' => 'Waifood | Western and Imported Foods for Expats in Chengdu, Chongqing, Xi\'an, Kunming.',
     'WEB_SITE_KEYWORD' => 'Imported foods, western foods, expats foods, Chengdu imported foods, Chongqing imported foods, Cheese, Meat.',
     'WEB_SITE_CLOSE' => '1',
-    'WEB_SITE_TEMPLATE' => 'default',
+    'WEB_SITE_TEMPLATE' => 'Default',
     'WEB_SITE_ICP' => '',
     'WEB_SITE_COPYRIGHT' => 'gavin@waifood.com',
     'DATA_BACKUP_PATH' => './Public/data/',
