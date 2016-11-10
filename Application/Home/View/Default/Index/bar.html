@@ -7,8 +7,10 @@
                 <if condition="$title">
                     <span style="line-height: 45px;color: #333333;font-size: 21px;text-indent: 0">{$title}</span>
                     <else/>
-                    <form id="formSearch" name="formSearch" method="get" action="/Home/Search/index.html">
-                        <input type="search" results="s" class="input_keywrod fl" name="keyword" placeholder="Keywords"/>
+                    <form  id="formSearch" style="position: relative;" name="formSearch" method="get" action="/Home/Search/index.html" >
+                        <input type="text" results="s" class="input_keywrod fl" name="keyword" placeholder="Keywords"/>
+                        <input type="submit" value=" "  class="searching"/>
+                        <input type="reset" value=" "  class="searching_clr"/>
                     </form>
                 </if>
             </li>
@@ -17,6 +19,7 @@
             </li>
         </ul>
 </header>
+<script src="__PUBLIC__/Home/newjs/jquery.leanModal.min.js"></script>
 <script>
     $(function(){
         $('body').append('<div id="showQr-box" style="display: none;" class=" leanModal" > <img src="/Public/Shop/images/qr.jpg" width="150" alt=""/></div>');
@@ -24,7 +27,6 @@
         $('#showQr').click(function(){
             $('#showQr-box').show();
         })
-
 
         var $html = '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';
         $('body').append($html);

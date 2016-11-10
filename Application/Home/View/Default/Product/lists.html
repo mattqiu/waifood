@@ -84,10 +84,11 @@ $so=($sort=='desc'?'asc':'desc');
                                 <div class="spjg">
                                     <div class="fl">
                                         <i class="price num-item">&yen;{$vo.price}</i>
-                                        <gt name="vo.price1" value="0">
+                                        <if condition="$vo['price1'] gt 0">
                                             <s class="num-item" style="color: #999999;font-size: 13px;">&yen;{$vo.price1}</s>
                                             <else/>
-                                            &nbsp;</gt>
+                                            &nbsp;
+                                        </if>
                                     </div>
                                     <div class="fr g_btn">
                                         <div class="cat_cart_num hide fl" onclick="prepGood('{$vo.id}')"></div>

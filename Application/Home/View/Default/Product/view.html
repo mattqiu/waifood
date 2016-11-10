@@ -38,9 +38,9 @@
         <br/>
       <div class="pro-price fl">
           <span class="price num-item" id="ProductPrice">&yen;{$db.price}</span>
-          <gt name="db.price1" value="0">
+          <if condition="$db['price1']  gt 0">
               <span class="price1 num-item">&yen;{$db.price1}</span>
-          </gt>
+          </if>
       </div>
         <div class="fr g_btn" style="margin-top: 0px;">
             <div class="cat_cart_num hide fl" onclick="prepGood('{$db.id}')"></div>
