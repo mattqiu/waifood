@@ -34,8 +34,7 @@ class WeixinController extends Controller {
         $appid = $conf['WECHAT_APPID'];
         $appsecret = $conf['WECHAT_APPSECRET'];
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$appsecret&code=$code&grant_type=authorization_code" ;
-        import('ORG.Util.HttpRequest');
-        $data = json_decode(\HttpRequest::http_get($url), true);
+        $data = json_decode($this->http_get($url), true);
         trace("user ".var_export($data ,true));
         GLog('weixin:login:token',json_encode($data));
         if (!isset($data['access_token'])) {
@@ -43,7 +42,7 @@ class WeixinController extends Controller {
             return false;
         }
         $url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $data['access_token'] . '&openid=' . $data['openid'];
-        $user = json_decode(\HttpRequest::http_get($url), true);
+        $user = json_decode($this->http_get($url), true);
         S('openid_' . openid(),$user);//缓存微信用户信息
         trace("user ".var_export($user ,true));
         openid($data['openid']);//缓存openid
@@ -68,6 +67,28 @@ class WeixinController extends Controller {
 //        }else{
 //
 //        }
+    }
+
+    /**
+     * GET 请求
+     * @param string $url
+     */
+    private function http_get($url){
+        $oCurl = curl_init();
+        if(stripos($url,"https://")!==FALSE){
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            curl_setopt($oCurl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        }
+        curl_setopt($oCurl, CURLOPT_URL, $url);
+        curl_setopt($oCurl, CURLOPT_RETURNTRANSFER, 1 );
+        $sContent = curl_exec($oCurl);
+        $aStatus = curl_getinfo($oCurl);
+        curl_close($oCurl);
+        if(intval($aStatus["http_code"])==200){
+            return $sContent;
+        }else{
+            return false;
+        }
     }
 
 }
