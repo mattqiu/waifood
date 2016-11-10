@@ -202,7 +202,7 @@ function fly(event){
         var offset = $("#CartNo").offset();
     }
 
-    var flyer = $('<img width="30px;" class="u-flyer" src="http://www.waifood.com/public/home/images/flycart.png">');
+    var flyer = $('<img width="30px;" class="u-flyer" src="http://www.waifood.com/Public/Home/images/flycart.png">');
     flyer.fly({
         start: {
             left:  event.clientX,
