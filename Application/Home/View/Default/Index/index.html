@@ -9,7 +9,7 @@
 </head>
 <script type="text/javascript">
 //    if(/iphone|ipad|ipod/i.test(navigator.userAgent))
-$('input').focus(function(){
+/*$('input').focus(function(){
     var _this = this;
     //无键盘时输入框到浏览器窗口顶部距离
     var noInputViewHeight = $(window).height() - $(_this).height();
@@ -60,18 +60,9 @@ $('input').focus(function(){
 $('input').blur(function(){ //输入框失焦后还原初始状态
     $(".div-input").removeAttr('style');
     $(window).unbind('scroll');
-});
+});*/
 </script>
-<script>
-//    (function bottonm(){
-//        if($(document).height()<$(window).height()){
-//            console.log($(document).height())
-//            console.log($(window).height())
-//            $('.bottom_fix').css({'position':'fixed','bottom':'0px'});
-//            $(document).height($(window).height()+'px');
-//        }
-    //})();
-</script>
+
 <body>
 <!--顶部-->
 
@@ -223,29 +214,29 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
    if(addr){
        $('#headaddr').html(addr);
    }
-
-   $(function(){
-       $('body').append('<div id="showQr-box" style="display: none;    padding: 2px;" class=" leanModal" > <img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>');
-       $('#showQr').leanModal({ top: 0, overlay: 0.5});
-       $('#showQr').click(function(){
-           $('#showQr-box').show();
-       })
-
-       var $html = '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';
-       $('body').append($html);
-       $('#choosHeadAddr').leanModal({ top: 110, overlay: 0.5});
-       $('#choosHeadAddr').click(function(){
-           $('#showAddr').show();
-       })
-       $('#lean_overlay').click(function(){
-           $('#showQr-box').hide();
-           $('#showAddr').hide();
-       })
-       $('#showAddr .addr').click(function(){
-           $('#showAddr').hide();
-           $('#lean_overlay').hide();
-       })
-   })
+//
+//   $(function(){
+//       $('body').append('<div id="showQr-box" style="display: none;    padding: 2px;" class=" leanModal" > <img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>');
+//       $('#showQr').leanModal({ top: 0, overlay: 0.5});
+//       $('#showQr').click(function(){
+//           $('#showQr-box').show();
+//       })
+//
+//       var $html = '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';
+//       $('body').append($html);
+//       $('#choosHeadAddr').leanModal({ top: 110, overlay: 0.5});
+//       $('#choosHeadAddr').click(function(){
+//           $('#showAddr').show();
+//       })
+//       $('#lean_overlay').click(function(){
+//           $('#showQr-box').hide();
+//           $('#showAddr').hide();
+//       })
+//       $('#showAddr .addr').click(function(){
+//           $('#showAddr').hide();
+//           $('#lean_overlay').hide();
+//       })
+//   })
 </script>
 
 </body>
