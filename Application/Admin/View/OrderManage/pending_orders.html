@@ -32,13 +32,17 @@
         <th width="60">操作</th>
     </tr>
     <volist name="list" id="vo">
-        <tr class="row{$i % 2+1}">
+        <if condition="$vo['memo']">
+            <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" >
+                <else/>
+            <tr class="row{$i % 2+1}" >
+        </if>
             <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">{$vo.id}</a></td>
             <td><a href="{:U('Member/editMember','id='.$vo['userid'])}"  class="underline">{$vo.username}</a><br/>{$vo.telephone}</td>
-            <td title="{$vo.address}">{$vo.address}</td>
+            <td >{$vo.address}</td>
             <td> {:getCityByCity($vo['cityname'])} </td>
             <td>{$vo.date|substr=5}</td>
-            <td title="{$vo.time}">{$vo.time}</td>
+            <td >{$vo.time}</td>
             <td>
                 <if condition="$vo['paymethod'] eq 4">
                     货到付款
@@ -75,11 +79,11 @@
                     彼得 &frasl;
                 </if>
             </td>
-            <td title="{$vo.info}">{$vo.info}</td>
-            <td title="{$vo.info0}">{$vo.info0}</td>
+            <td>{$vo.info}</td>
+            <td>{$vo.info0}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
-                    <volist name="statuslist" id="type">
+                    <volist name="statuslist" id="type" key="j">
                         <if condition="($vo.status eq $key)">
                             <option value="{$key}" selected="selected">{$type}</option>
                             <else/>
@@ -110,6 +114,12 @@
         </td>
     </tr>
 </table>
+<script>
+    $(function(){
+        $('.hasmemo').css({'background':'orange','color':'#fff'});
+        $('.hasmemo td').css({'background':'orange','color':'#fff'});
+    })
+</script>
 <include file="Index:footer" />
 </body>
 </html>

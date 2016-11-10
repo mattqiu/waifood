@@ -40,10 +40,9 @@ class OrderManageModel extends Model {
      */
     public static function getPendingOrders(){
         $con['status'] = array('lt',OrderModel::COMPLETED);
-        $field = 'id,username,userid,telephone,address,cityname,delivertime,
+        $field = 'id,username,userid,telephone,address,cityname,delivertime,userid,
         amount,status,invoice,paymethod,pay,orderno,info,info0';
         $order = M('order')->where($con)->field($field)->order('delivertime')->select();
-
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
             $field = 'distinct(supplyid)';
@@ -51,6 +50,12 @@ class OrderManageModel extends Model {
             $val['time'] = substr($val['delivertime'],11);
            // list($val['date'],$val['time']) = explode(' ',$val['delivertime']);
             $datd = M('order_detail')->where($where)->field($field)->select();
+            if(regex($val['userid'],'number')){
+                $memo = MemberMemoModel::getMemo($val['userid']);
+                if($memo){
+                    $val['memo'] ='未完事项:'. $memo['content'];
+                }
+            }
             foreach($datd as $k=>$v){
                 $val['supplyid'] .= '-|'.$v['supplyid'].'|-';
             }

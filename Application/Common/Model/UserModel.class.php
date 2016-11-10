@@ -8,6 +8,7 @@ class UserModel extends Model
 	const FEMALE = 0;//女
 	const WeCHAT_USER = 3;//微信用户
 
+
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();
     }
@@ -27,6 +28,40 @@ class UserModel extends Model
         $where = "username = '$username'";
         $rs  =M ( 'member' )->where ( $where )->find ();
         if(!empty($rs)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查用户名是否存在
+     * @param $username
+     * @return bool
+     */
+    public static  function checkUsernameToUp($username,$id){
+        if(!$username){
+            return false;
+        }
+        $where = "username = '$username'";
+        $rs  =M ( 'member' )->where ( $where )->find ();
+        if(!empty($rs) && $rs['id']!=$id){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 检查邮箱是否存在
+     * @param $username
+     * @return bool
+     */
+    public static  function checkEmailToUp($email,$id){
+        if(!$email){
+            return false;
+        }
+        $where = "username = '$email'";
+        $rs  =M ( 'member' )->where ( $where )->find ();
+        if(!empty($rs) && $rs['id']!=$id){
             return true;
         }
         return false;
@@ -215,7 +250,7 @@ class UserModel extends Model
     public static function modifyMember($userid,$data){
         if(regex($userid,'number') && !empty($data)){
             $con['id'] = $userid;
-             return M('member')->where($con)->save($data);
+            return M('member')->where($con)->save($data);
         }else{
             return false;
         }

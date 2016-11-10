@@ -23,6 +23,20 @@ function getCookie(name)
 }
 
 //设置cookie
+function getDate(time){
+    var myDate = new Date(),
+        month =  myDate.getMonth()+ 1+ "",
+        day =  myDate.getDate()+ "";
+    if(month.length = 1){
+        month = month < 10?"0"+month:month;
+    }
+    if(day.length = 1){
+        day = day < 10?"0"+day:day;
+    }
+  return  myDate.getFullYear()+'-'+month+'-'+day;
+}
+
+//设置cookie
 function setCookie(name,value,time){
     var Days = 30;
     var exp = new Date();
