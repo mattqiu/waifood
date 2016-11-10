@@ -220,10 +220,10 @@ class UserModel extends Model
             $user = self::getUserByOpenid($openid);
             if ($user != false) {
                 $data = array ();
-                $user = S('openid_' . $openid);
-                if($user){
-                    $data['indexpic'] = $user['headimgurl'];
-                    $data['weixin'] = $user['nickname'] ;
+                $weixinuser = S('openid_' . $openid);
+                if($weixinuser){
+                    $data['indexpic'] = $weixinuser['headimgurl'];
+                    $data['weixin'] = $weixinuser['nickname'] ;
                 }
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
