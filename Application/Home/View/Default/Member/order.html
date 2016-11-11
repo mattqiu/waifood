@@ -33,7 +33,7 @@
             if(data.data){
                 var $data = data.data.list,$totalpage = data.data.totalpage;
                 var $count = $data.length,$html ='';
-                if(page>=$totalpage){
+                if(page>=$totalpage || !data.data || !$data){
                     $('#loadmore').hide();
                 }
                 for(var i=0;i<$count;i++){
