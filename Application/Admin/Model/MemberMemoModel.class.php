@@ -61,7 +61,7 @@ class MemberMemoModel extends Model{
         if($mid>0 && !empty($content)){
             $con['m_id'] = $mid;
             $data['content'] = $content;
-            $rs = M('MemberMemo')->where($mid)->save($data);
+            $rs = M('MemberMemo')->where($con)->save($data);
             if(false !== $rs){
                 return true;
             }else{
