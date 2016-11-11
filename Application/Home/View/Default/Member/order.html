@@ -9,116 +9,90 @@
 <body  pagename="order">
 <include file="Index:bar"/>
 <div class="container order" style="padding-bottom: 15px;">
+    <input type="hidden" id="ordertype" <if condition="$_REQUEST['show']"> value="{$_REQUEST['show']}"<else/> value="ongoing"</if>/>
     <div class="view-title ordertap">
-        <a href="?show=going" <if condition="!isset($_REQUEST['show']) || $_REQUEST['show'] neq 'all'">class="select_tap"</if> >Ongoing orders</a>
+        <a href="?show=going" <if condition="$_REQUEST['show'] neq 'all'">class="select_tap"</if> >Ongoing orders</a>
         <a href="?show=all" <if condition="$_REQUEST['show'] eq 'all'">class="select_tap"</if>  >All Orders</a>
     </div>
-    <div class="order_center">
-        <volist name="list" id="vo">
-            <if  condition="$_REQUEST['show'] eq 'all' ">
-                <div class="divide clr" style="height: 10px;"></div>
-                <div class="main-item">
-                    <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
-                        <div class="order-title">
-                            <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
-                                <span class="fl unpaid">
-                                      <!--（Unpaid）未完成并且未支付的-->
-                                   <if condition="$vo['pay'] eq 1">
-                                       Paid <else/> Unpaid
-                                   </if>
-                                </span>
-                        </div>
-                        <div class="order-info ">
-                            <p><span class="info-l">Delivery time:</span><span class="info-r" >{$vo.delivertime}</span></p>
-                            <p>
-                                <span class="info-l">Payment method:</span>
-                                <span class="info-r">
-                                    <if condition="$vo['paymethod'] eq 2">
-                                        Paypal
-                                        <else/>
-                                        Cash on delivery
-                                    </if>
-                                </span>
-                            </p>
-                            <p><span class="info-l">Order status:</span>
-                                <span class="info-r">{:get_status($vo['status'])}</span>
-                            </p>
-                            <div class="clr"></div>
-                        </div>
-                    </a>
-                    <div class="order-money">
-                        <div class="o_money fr">
-                            Total Amount: <span>&yen;{$vo.amount}</span>
-                        </div>
-                        <div class="clr btns">
-                            <div class="tr" style="padding: 13px 0;">
-                                <if condition="$vo['status'] lt 3"><span class="cancal-btn" onClick="$.cancelOrder('{$vo.orderno}');">Cancel</span></if>
-                                <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                <!--（显示条件）未完成并且未支付的-->
-                                <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
-                                    <span onclick="showPaymethod(this)"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn">Pay now</span>
-                                </if>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <else/>
-                <!--正在进行中的订单-->
-                <if condition="$vo['status'] lt 3">
-                    <div class="divide clr" style="height: 10px;"></div>
-                    <div class="main-item" >
-                        <a style="width:auto;" href="/Member/orderView.html?orderno={$vo['orderno']}">
-                            <div class="order-title">
-                                    <span class="fl order_id">Order ID:<span class="or_no">{$vo.orderno}</span></span>
-                                    <span class="fl unpaid">
-                                      <!--（Unpaid）未完成并且未支付的-->
-                                        <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0"> Unpaid <else/>Paid</if>
-                                    </span>
-                            </div>
+    <div class="order_center" id="order_center">
 
-                            <div class="order-info ">
-                                <p><span class="info-l">Delivery time:</span><span class="info-r" >{$vo.delivertime}</span></p>
-                                <p>
-                                    <span class="info-l">Payment method:</span>
-                                    <span class="info-r">
-                                        <if condition="$vo['paymethod'] eq 2">
-                                            Paypal
-                                            <else/>
-                                            Cash on delivery
-                                        </if>
-                                    </span>
-                                </p>
-                                <p><span class="info-l">Order status:</span>
-                                    <span class="info-r">{:get_status($vo['status'])}</span>
-                                </p>
-                                <div class="clr"></div>
-                            </div>
-                        </a>
-                        <div class="order-money">
-                            <div class="o_money fr" >
-                                Total Amount: <span>&yen;{$vo.amount}</span>
-                            </div>
-                            <div class="clr btns">
-                                <div class="tr" style="padding: 13px 0;">
-                                    <if condition="$vo['status'] lt 3"><span class="cancal-btn"  onClick="$.cancelOrder('{$vo.orderno}');" >Cancel</span></if>
-                                    <a  href="/Member/orderView.html?orderno={$vo['orderno']}" class="view-btn">View</a>
-                                    <!--（显示条件）未完成并且未支付的-->
-                                    <if condition="$vo['status'] lt 3 && $vo['pay'] eq 0">
-                                        <span onclick="showPaymethod(this);"  data-id="{$vo['orderno']}" data-paymethod="{$vo['paymethod']}" class="view-btn pay-btn" class="view-btn pay-btn">Pay now</span>
-                                    </if>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </if>
-            </if>
-        </volist>
-        <hr size="1" color="#cccccc" width="100%"/>
     </div>
-    <div class="paging">
-        {$page}
-    </div>
+    <hr size="1" color="#cccccc" width="100%"/>
 </div>
+<div class="loadmore" id="loadmore" onclick="getOrderList(1)">加载更多>>></div>
+
 <include file="Index:footer"/>
+<script>
+    var page =1;
+    function getOrderList($num){
+        if($num){
+            page ++;
+        }
+       var type = $('#ordertype').val();
+        $.post('/home/member/getOrderList.html',{'page':page,'type':type},function(data){
+            if(data.data){
+                var $data = data.data.list,$totalpage = data.data.totalpage;
+                var $count = $data.length,$html ='';
+                if(page>=$totalpage){
+                    $('#loadmore').hide();
+                }
+                for(var i=0;i<$count;i++){
+                    $html+='<div class="divide clr" style="height: 10px;"></div>';
+                    $html+='<div class="main-item" >';
+                    $html+='<a style="width:auto;" href="/Member/orderView.html?orderno='+$data[i]['orderno']+'">';
+                    $html+='<div class="order-title">';
+                    $html+='<span class="fl order_id">Order ID:<span class="or_no">'+$data[i]['orderno']+'</span></span>';
+                    if($data[i]['pay']==1 ){
+                        $html+='<span class="fl unpaid">Paid</span>';
+                    }else{
+                        $html+='<span class="fl unpaid">Unpaid</span>';
+                    }
+                    $html+='</div>';
+
+                    $html+='<div class="order-info ">';
+                    $html+='<p><span class="info-l">Delivery time:</span><span class="info-r" >'+$data[i]['delivertime']+'</span></p>';
+                    $html+='<p>';
+                    $html+='<span class="info-l">Payment method:</span>';
+                    $html+='<span class="info-r">';
+                    if($data[i]['paymethod']==2 ){
+                        $html+='Paypal';
+                    }else{
+                        $html+='Cash on delivery';
+                    }
+                    $html+='</span>';
+                    $html+='</p>';
+                    $html+='<p><span class="info-l">Order status:</span>';
+                    $html+='<span class="info-r">'+$data[i]['status']+'</span>';
+                    $html+='</p>';
+                    $html+='<div class="clr"></div>';
+                    $html+='</div>';
+                    $html+='</a>';
+                    $html+='<div class="order-money">';
+                    $html+='<div class="o_money fr" >';
+                    $html+='Total Amount: <span>&yen;'+$data[i]['amount']+'</span>';
+                    $html+='</div>';
+                    $html+='<div class="clr btns">';
+                    $html+='<div class="tr" style="padding: 13px 0;">';
+                    if($data[i]['status']<3 ){
+                        $html+='<span class="cancal-btn"  onClick="$.cancelOrder('+$data[i]['orderno']+');" >Cancel</span>';
+                    }
+                    $html+='<a  href="/Member/orderView.html?orderno='+$data[i]['orderno']+'" class="view-btn">View</a>';
+                    if($data[i]['pay']!=1){
+                        $html+='<span onclick="showPaymethod(this);"  data-id="'+$data[i]['orderno']+'" data-paymethod="'+$data[i]['paymethod']+'" class="view-btn pay-btn" class="view-btn pay-btn">Pay now</span>';
+                    }
+                    $html+='</div>';
+                    $html+='</div>';
+                    $html+='</div>';
+                    $html+='</div>';
+                }
+                $('#order_center').append($html);
+            }else{
+
+            }
+        })
+    }
+    getOrderList();
+
+</script>
 </body>
 </html>

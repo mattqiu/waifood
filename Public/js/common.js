@@ -101,11 +101,16 @@ function getDateFormat($month){
     return $mn;
 }
 
-function hideobj(obj){
-    $(obj).hide();
+//加载图
+function loading(){
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="color: #FFFFFF">loading...</h3></div>';
+    $('body').append($html);
 }
-function showojb(obj){
-    $(obj).show();
+//关闭加载
+function closeLoad(){
+    $('.bkpanl').hide();
+    $('.loadingbox').hide();
+
 }
 
 //自动消失的弹出提示框

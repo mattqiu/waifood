@@ -215,8 +215,14 @@
 <include file="Index:footer"/>
 <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <script>
+    window.subBlock=false;
     function regSub() {
+        if(subBlock){
+            return false;
+        }
+        subBlock = true;
         $.post('/login/register', $("#myform").serialize(), function (data) {
+            subBlock = false;
             if (data.code == 200) {
                 clearpopj('Congratulations, registered success!', '/');
             } else {

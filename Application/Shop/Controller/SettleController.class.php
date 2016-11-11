@@ -4,7 +4,6 @@ namespace Shop\Controller;
 
 use Common\Model\AddressModel;
 use Common\Model\DateModel;
-
 class SettleController extends BaseController {
 
 	/**
@@ -28,20 +27,20 @@ class SettleController extends BaseController {
 		      if(strpos($v['sortpath'],',3,')){
 		          $isService=true;
 		      }
-		    } 
+		    }
 			$this->assign ( 'isService', $isService );
 			$this->assign ( 'isShop', $isShop );
 			$this->assign ( 'cart', $data );
 		}
-	
+
 		$this->assign ( 'title', 'My shopping cart' );
 		$this->display ();
 	}
-	
+
 	/**
 	 * 购物车结算
 	 *
-	 * @param number $shop_id        	
+	 * @param number $shop_id
 	 */
 	public function cashier($shop_id = 0,$usecoupon='') {
 		// 购物车
@@ -92,8 +91,8 @@ class SettleController extends BaseController {
 	/**
 	 * 订单支付
 	 *
-	 * @param string $orderno        	
-	 * @param string $type        	
+	 * @param string $orderno
+	 * @param string $type
 	 */
 	public function pay($orderno = null, $type = 'dish',$paytype='paypal') {
 		$where = array ();
@@ -102,26 +101,26 @@ class SettleController extends BaseController {
 				$where ['orderno'] = $orderno;
 				$where ['paymethod'] = array (
 						'neq',
-						4 
+						4
 				);
 				$where ['status'] = array (
 						'not in',
 						array (
 								3,
-								4 
-						) 
+								4
+						)
 				);
 				$db = M ( 'order' )->where ( $where )->find ();
-				
+
 				break;
-				
+
 			case 'charge' :
 				dump ( 'charge' );
 				break;
 		}
 		if ($db) {
 			// 正常订单，选择支付方式:alipay
-			 
+
 		switch ($paytype) {
 			case 'alipay' :
 				//Alipay
@@ -136,11 +135,11 @@ class SettleController extends BaseController {
 				$html .= '  <button type="submit" style="text-align:center;display:none;">submit</button>';
 				$html .= '</form>';
 				$html .= '<script>document.forms["alipay_submit"].submit();</script>';
-				
+
 				break;
 			case 'paypal':
 				//paypal
-			
+
 				$payapiurl = U('Pay/index');
 				$amount = $db ['amount'];
 				$html = '';
@@ -152,7 +151,7 @@ class SettleController extends BaseController {
 				$html .= '  <button type="submit" style="text-align:center;display:none;">submit</button>';
 				$html .= '</form>';
 				$html .= '<script>document.forms["alipay_submit"].submit();</script>';
-					
+
 				break;
 		}
 			echo ($html);
@@ -161,4 +160,4 @@ class SettleController extends BaseController {
 		}
 	}
 }
-?>b
+?>

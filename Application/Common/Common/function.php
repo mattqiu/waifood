@@ -780,7 +780,7 @@ function get_order_details($orderno = '') {
  * 生成随机订单号
  */
 function get_order_no() {
-	return date ( 'YmdHis' ) .  rand ( 1000, 2000 );
+	return date ( 'YmdHis' ) .  rand ( 1000, 9999 );
 }
 
 /**

@@ -527,6 +527,7 @@ footer #CartNo{display: block; width: 20px;height: 20px;background: #f17a02; col
 #paymethod label{ border-bottom: 1px solid #cccccc}
 #paymethod label i{margin-top: 9px;}
 .ov-foot{padding-bottom: 50px;}
+.loadmore{width: 100%;height: 35px; line-height: 35px;color: #999999;text-align:center;padding-bottom: 50px; }
 /************************addresss*********************************/
 .main-item{width: 90%;margin: 0 auto;}
 .address-name ,.addr-info{font-size: 14px; color: #444444 }

@@ -22,7 +22,7 @@
 <script>
     $(function(){
         var pathinfo =(window.location.pathname).toLowerCase();
-        if( pathinfo.length < 3){
+        if(pathinfo=='/home' ||  pathinfo.length < 3){
             $('footer .home span').addClass('green');
             $('footer .home').removeClass('foot_home');
             $('footer .home').addClass('foot_home_c');

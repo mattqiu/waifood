@@ -130,7 +130,11 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                             </div>
                             <div style="width: 90%; margin: auto ">
                                 <p class="good_title">{$vo.title}</p>
-                                <p><span class="price num-item">&yen;{$vo.price}</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;{$vo.price1}</s></p>
+                                <p><span class="price num-item">&yen;{$vo.price}</span>
+                                    <if condition="$vo['price1'] gt 0">
+                                        &nbsp;&nbsp;<s class="price_old num-item">&yen;{$vo.price1}</s>
+                                    </if>
+                                 </p>
                             </div>
                         </a>
                     </div>
@@ -191,7 +195,11 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                             </div>
                             <div style="width: 90%; margin: auto ">
                                 <p class="good_title">{$vo.title}</p>
-                                <p><span class="price num-item">&yen;{$vo.price}</span>&nbsp;&nbsp;<s class="price_old num-item">&yen;{$vo.price1}</s></p>
+                                <p><span class="price num-item">&yen;{$vo.price}</span>
+                                    <if condition="$vo['price1'] gt 0">
+                                        &nbsp;&nbsp;<s class="price_old num-item">&yen;{$vo.price1}</s>
+                                    </if>
+                                  </p>
                             </div>
                         </a>
                     </div>

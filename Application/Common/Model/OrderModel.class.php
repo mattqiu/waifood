@@ -6,6 +6,13 @@ class OrderModel extends Model{
     const WECAHT = 1;//微信订单
     const PAYPAL = 2;//Paypal支付
 
+    const  DRAFT = 0;//
+    const   CONFIRMED  = 1;//
+    const    DELIVERING  = 2;//
+    const    COMPLETED = 3;//
+    const    CANCELLED = 4;//
+
+
     /**根据订单号获取订单详情
      * @param $orderNo
      * @return bool|mixed

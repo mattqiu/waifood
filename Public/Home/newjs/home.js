@@ -1,10 +1,8 @@
-
 $(function(){
     var pagename = $("body").attr('pagename');
     switch(pagename){
         case "orderView":{paymethod();break}
         case "order":{paymethod();break}
-
     }
     loadGood();
     modelBox();
@@ -14,9 +12,12 @@ $(function(){
  * 弹出框
  */
 function modelBox(){
-    var $html = '<div class="lean_overlay hide" ></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
-    $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
-    $('body').append($html);
+    if(!$('body').find('.lean_overlay').data('show')){
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
+        $('body').append($html);
+    }
+
     $('.lean_overlay').click(function(){
         if($(this).css('display') !='none'){
             $(this).hide();
@@ -47,7 +48,7 @@ function paymethod(){
         $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
         $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
         $html += ' </div>';
-    $('body').append($html);
+    //$('body').append($html);
 }
 /**
  * 点击支付方式
@@ -327,15 +328,22 @@ function goCashier(){
         return false;
     }
 }
+
+/*阻塞标志，防止重复下单；预设不阻塞*/
+window.subBlock=false;
 /**
  * 提交订单
  * @returns {boolean}
  */
 function submitOrder(){
+    if(subBlock){
+        return false;
+    }
     var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
     var myfood_array = $.parseJSON(myfood);
     if(!myfood_array){
         jAlert("Order content cannot be empty!",SYSTITLE);
+        subBlock = false;//解除阻塞
         return false;
     }
     for(var i in myfood_array){
@@ -343,6 +351,7 @@ function submitOrder(){
     }
     if (!$("#UseAddressID").val()) {
         jAlert("I'm sorry, please select a shipping address!",SYSTITLE);
+        subBlock = false;//解除阻塞
         return false
     };
     $(".click input[type=hidden]").each(function () {
@@ -358,7 +367,11 @@ function submitOrder(){
         delivertime : deliverydate,
         order : order
     }
+    loading();
+    subBlock = true;
     $.post('/home/order/submitOrder.html',data,function(data){
+        subBlock = false;//解除阻塞
+        closeLoad();
         if(data.code == 200){
             if(data.data){
                 clearCart(); //清空购物车
@@ -370,6 +383,7 @@ function submitOrder(){
         }
     })
 }
+
 /**
  * 获取配送费
  * @param money

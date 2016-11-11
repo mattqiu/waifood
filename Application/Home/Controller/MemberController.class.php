@@ -4,6 +4,7 @@ namespace Home\Controller;
 
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
+use Common\Model\OrderModel;
 use Common\Model\UserModel;
 
 class MemberController extends AuthController
@@ -485,7 +486,7 @@ class MemberController extends AuthController
     /**
      * 订单列表
      *
-     * @param number $status            
+     * @param number $status
      */
     public function order($status = 0)
     {
@@ -493,19 +494,19 @@ class MemberController extends AuthController
         //$where['status'] = $status;
         $where['status'] = array('neq',4);
         $where['userid'] = get_userid();
-        
+
         // 分页
         $p = intval(I('p'));
         $p = $p ? $p : 1;
         $row = C('VAR_PAGESIZE');
-        
+
         $rs = M("order")->where($where)
             ->order('id desc')
             ->page($p, $row);
         $list = $rs->select();
         $this->assign("list", $list);
         $count = $rs->where($where)->count();
-        
+
         if ($count > $row) {
             $page = new \Think\Page($count, $row);
             $page->setConfig('theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%');
@@ -513,19 +514,44 @@ class MemberController extends AuthController
             $page->setConfig('next', 'Next');
             $this->assign('page', $page->showm());
         }
-        
+
         $this->assign('title', 'My orders');
         $this->assign('status', $status);
         $this->assign('listcount', count($list));
-        
+
 //         $num = array();
 //         $num[0]=M('order')->where(array('status'=>0,'userid'=>get_userid()))->count();
 //         $num[1]=M('order')->where(array('status'=>1,'userid'=>get_userid()))->count();
 //         $num[2]=M('order')->where(array('status'=>2,'userid'=>get_userid()))->count();
 //         $num[3]=M('order')->where(array('status'=>3,'userid'=>get_userid()))->count();
 //         $this->assign('num', $num);
-        
+
         $this->display();
+    }
+
+    /**
+     * 加载更多
+     */
+    public function getOrderList(){
+        $type = I('post.type');
+        $where['userid'] = get_userid();
+        if($type == 'all'){
+            $where['status'] = array('lt',OrderModel::CANCELLED);
+        }else{
+            $where['status'] = array('lt',OrderModel::COMPLETED);
+        }
+        $page = intval(I('post.page'));
+        $page = $page ? $page : 1;
+        $row = 10;
+        $star = ($page-1)*$row;
+        $count = M("order")->where($where)->count();//总数
+        $list = M("order")->where($where)->order('id desc')->limit($star, $row)->select();
+        $data['totalpage'] =  ceil($count/$row);
+        foreach($list as &$val){
+            $val['status'] = get_status($val['status']);
+        }
+        $data['list'] = $list;
+        apiReturn(CodeModel::CORRECT,'',$data);
     }
 
     /**
