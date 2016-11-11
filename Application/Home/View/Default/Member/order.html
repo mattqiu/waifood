@@ -32,10 +32,10 @@
         $.post('/home/member/getOrderList.html',{'page':page,'type':type},function(data){
             if(data.data){
                 var $data = data.data.list,$totalpage = data.data.totalpage;
-                var $count = $data.length,$html ='';
-                if(page>=$totalpage || !data.data || !$data){
+                if(page>=$totalpage || !$data || !$data.length){
                     $('#loadmore').hide();
                 }
+                var $count = $data.length,$html ='';
                 for(var i=0;i<$count;i++){
                     $html+='<div class="divide clr" style="height: 10px;"></div>';
                     $html+='<div class="main-item" >';
