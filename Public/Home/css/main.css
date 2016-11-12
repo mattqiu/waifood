@@ -394,8 +394,10 @@ footer #CartNo{display: block; width: 20px;height: 20px;background: #f17a02; col
 .g_title .tic{font: bolder;color: #f17b02;font-size: 21px;margin-top: -5px;}
 .good_body .good_title{color: #555555;font-size: 14px;width: 95%;height: 40px;overflow: hidden; margin: auto}
 .g_title .more{color: #666;font-size: 15px;margin-top: 7px; margin-right: 15px;}
-.g_goods{width: 100%;background: #EDEDED;height: 517px; }
-.g_goods .g_l,.g_goods .g_r{width: 49%;background: #FFFFFF;border-bottom: 1px solid #ccc;margin-bottom:2% }
+.g_goods{width: 100%;background: #EDEDED;height: auto; }
+.g_goods .g_l,.g_goods .g_r{width: 49%;height: 250px; background: #FFFFFF;border-bottom: 1px solid #ccc; padding-top: 20px;margin-bottom:2% }
+.g_goods .g_l img{width: 135px;height: 135px;}
+
 .price{color: #f17b02;font-size: 18px;}
 .price_old{color: #999;font-size: 15px;}
 

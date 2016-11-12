@@ -125,7 +125,6 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                     <div <if condition="$i % 2 eq 1">class="fl g_l"<else/>class="fr g_r"</if>  >
                         <a href="{:Uu('Product/view','id='.$vo['id'])}">
                             <div class="tc">
-                                <br/>
                                 <img src="{$vo.indexpic}" width="135" alt=""/>
                             </div>
                             <div style="width: 90%; margin: auto ">
@@ -138,6 +137,9 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                             </div>
                         </a>
                     </div>
+                </if>
+                <if condition="$i % 2 eq 0">
+                    <div class="clr"></div>
                 </if>
             </volist>
         </div>
@@ -159,7 +161,6 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                     <div <if condition="$i % 2 eq 1">class="fl g_l"<else/>class="fr g_r"</if>  >
                         <a href="{:Uu('Product/view','id='.$vo['id'])}">
                             <div class="tc">
-                                <br/>
                                 <img src="{$vo.indexpic}" width="135" alt=""/>
                             </div>
                             <div style="width: 90%; margin: auto ">
@@ -168,6 +169,9 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                             </div>
                         </a>
                     </div>
+                </if>
+                <if condition="$i % 2 eq 0">
+                    <div class="clr"></div>
                 </if>
             </volist>
         </div>
@@ -190,7 +194,6 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                     <div <if condition="$i % 2 eq 1">class="fl g_l"<else/>class="fr g_r"</if>  >
                         <a href="{:Uu('Product/view','id='.$vo['id'])}">
                             <div class="tc">
-                                <br/>
                                 <img src="{$vo.indexpic}" width="135" alt=""/>
                             </div>
                             <div style="width: 90%; margin: auto ">
@@ -203,6 +206,9 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
                             </div>
                         </a>
                     </div>
+                </if>
+                <if condition="$i % 2 eq 0">
+                    <div class="clr"></div>
                 </if>
             </volist>
         </div>
