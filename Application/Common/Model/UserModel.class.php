@@ -353,12 +353,13 @@ class UserModel extends Model
                 GLog('bindMember','账号密码错误');
                 return false;
             }
+            $savedata = array();
             $wechatuser =  self::getUserByOpenid($openid);//获取当前微信用户信息
-            $data['wechatid'] = $openid;
-            $data['indexpic'] = $wechatuser['indexpic'];
-            $data['weixin'] = $wechatuser['weixin'];
-            $data['amount'] = floatval($wechatuser['amount'] + $pcuser['amount']);
-            $data['balance'] = floatval($wechatuser['balance'] + $pcuser['balance']);
+            $savedata['wechatid'] = $openid;
+            $savedata['indexpic'] = $wechatuser['indexpic'];
+            $savedata['weixin'] = $wechatuser['weixin'];
+            $savedata['amount'] = floatval($wechatuser['amount'] + $pcuser['amount']);
+            $savedata['balance'] = floatval($wechatuser['balance'] + $pcuser['balance']);
             //使用事务保证绑定成功
             M()->startTrans();
             //将微信用户的订单绑定到pc用户上
@@ -389,7 +390,7 @@ class UserModel extends Model
                 return false;
             }
             $con['id'] = $pcuser['id'];
-            $rs = UserModel::modifyMemberByCon($con,$data);
+            $rs = UserModel::modifyMemberByCon($con,$savedata);
             if(!$rs){
                 GLog('bindMember','合并微信与pc用户的信息');
                 M()->rollback();
