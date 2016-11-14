@@ -392,7 +392,7 @@ class UserModel extends Model
             $con['id'] = $pcuser['id'];
             $rs = UserModel::modifyMemberByCon($con,$savedata);
             if(!$rs){
-                GLog('bindMember','合并微信与pc用户的信息');
+                GLog('bindMember','合并微信与pc用户的信息'.M()->getError());
                 M()->rollback();
                 return false;
             }
