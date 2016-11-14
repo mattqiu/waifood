@@ -548,7 +548,7 @@ class MemberController extends AuthController
         $list = M("order")->where($where)->order('id desc')->limit($star, $row)->select();
         $data['totalpage'] =  ceil($count/$row);
         foreach($list as &$val){
-            $val['status'] = get_status($val['status']);
+            $val['status_type'] = get_status($val['status']);
         }
         $data['list'] = $list;
         apiReturn(CodeModel::CORRECT,'',$data);

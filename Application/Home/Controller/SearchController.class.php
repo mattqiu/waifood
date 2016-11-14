@@ -28,7 +28,7 @@ class SearchController extends BaseController {
 				break; 
 		}
 		// 分页
-        $list = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand' )->where ( $where )->order ( $orderstr )->select ();
+        $list = M ( "content" )->field ( 'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock' )->where ( $where )->order ( $orderstr )->select ();
         if(empty($list)){
             $this->assign ( "noSearch", 'No Results Found' );
         }else{
