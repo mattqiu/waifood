@@ -368,8 +368,8 @@ class UserModel extends Model
             $rs = OrderModel::modifyOrderByCon($ordercon,$orderSaveData);
             if(!$rs){
                 GLog('bindMember','修改微信用户订单失败');
-                M()->rollback();
-                return false;
+              //  M()->rollback();
+              //  return false;
             }
 
             //将微信用户的收货地址绑定到pc用户上
@@ -378,8 +378,8 @@ class UserModel extends Model
             $rs = AddressModel::modifyAddrByCon($addrcon,$addrSaveData);
             if(!$rs){
                 GLog('bindMember','修改微信用户收货地址失败');
-                M()->rollback();
-                return false;
+             //   M()->rollback();
+               // return false;
             }
             //删除该微信用户
             $deletecon['id'] = $wechatuser['id'];
