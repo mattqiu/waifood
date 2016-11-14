@@ -628,17 +628,7 @@ function get_rate() {
  */
 function get_status($status_id) {
 	$str = C ( 'config.CONFIG_STATUS_LIST' );
-    GLog('///////////////1',json_encode($str));
-	$arr = str2arr ( $str, "\r\n" );GLog('////////////////2',json_encode($arr));
-	foreach ( $arr as $key => $value ) {
-		$arr2 = str2arr ( $value, ':' );
-        GLog('///////////////3',json_encode($arr2));
-        GLog('///////////////status_id',$status_id);
-		if ($arr2 [0] == $status_id) {
-            GLog('///////////////4',$arr2[1]);
-			return $arr2[1];
-		}
-	}
+    return $str[$status_id];
 }
 
 /**
