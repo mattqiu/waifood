@@ -47,11 +47,8 @@ return array (
             'CONFIG_GROUP_LIST' => '1:基本
 2:系统
 3:接口',
-            'CONFIG_STATUS_LIST' => '0: Draft
-1: Confirmed 
-2: Delivering 
-3: Completed 
-4: Cancelled',
+//            'ORDER_STATUS_LIST' => array('Draft','Confirmed','Delivering','Completed','Cancelled'),
+            'CONFIG_STATUS_LIST' =>array('Draft','Confirmed','Delivering','Completed','Cancelled'),
             'CONFIG_PAYMETHOD_LIST' => '0:余额支付
 1:支付宝
 2:Paypal

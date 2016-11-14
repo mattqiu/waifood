@@ -56,7 +56,7 @@
     <tr class="row0">
       <td class="col1">状态：</td>
       <td colspan="3"><select name="status" id="status" >
-          <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
+          <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
             <if condition="($db.status eq $key)">
               <option value="{$key}"  selected="selected">{$type}</option>
               <else/>

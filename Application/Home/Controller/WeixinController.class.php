@@ -43,11 +43,10 @@ class WeixinController extends Controller {
         }
         $url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $data['access_token'] . '&openid=' . $data['openid'];
         $user = json_decode($this->http_get($url), true);
-        S('openid_' . openid(),$user);//缓存微信用户信息
         trace("user ".var_export($user ,true));
         openid($data['openid']);//缓存openid
-        GLog('weixin:login:user',$user);
-
+        S('openid_' . openid(),$user);//缓存微信用户信息
+        GLog('weixin:login:user',json_encode($user));
         if(UserModel::getUserByOpenid($data['openid'])){
             if( UserModel::loginWechat($data['openid'])){
                 redirect('/');

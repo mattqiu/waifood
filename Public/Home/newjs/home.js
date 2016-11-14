@@ -48,7 +48,7 @@ function paymethod(){
         $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
         $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
         $html += ' </div>';
-    //$('body').append($html);
+       $('body').append($html);
 }
 /**
  * 点击支付方式

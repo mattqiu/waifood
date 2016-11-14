@@ -538,7 +538,7 @@ class MemberController extends AuthController
         if($type == 'all'){
             $where['status'] = array('lt',OrderModel::CANCELLED);
         }else{
-            $where['status'] = array('lt',OrderModel::COMPLETED);
+            $where['_string'] = '`status` < '.OrderModel::COMPLETED.' or (`status` < '.OrderModel::CANCELLED .' and pay = '.OrderModel::UNPAID.')';
         }
         $page = intval(I('post.page'));
         $page = $page ? $page : 1;
@@ -548,7 +548,7 @@ class MemberController extends AuthController
         $list = M("order")->where($where)->order('id desc')->limit($star, $row)->select();
         $data['totalpage'] =  ceil($count/$row);
         foreach($list as &$val){
-            $val['status'] = get_status($val['status']);
+            $val['status_type'] = get_status($val['status']);
         }
         $data['list'] = $list;
         apiReturn(CodeModel::CORRECT,'',$data);

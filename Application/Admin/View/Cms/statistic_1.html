@@ -44,7 +44,7 @@
     <tr class="row0">
       <td class="col1">订单状态：</td>
       <td >
-       <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
+       <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
       <input type="checkbox" id="status_{$key}" name="status[]" value="{$key}"    <if condition="(in_array($key,$data['status']) eq true)">checked="checked"</if> />
         <label for="status_{$key}">{$type}</label>
       </volist></td>

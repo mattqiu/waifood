@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
 use Common\Model\DateModel;
+use Common\Model\OrderModel;
 use Common\Model\UserModel;
 
 class ShopController extends BaseController {
@@ -164,7 +165,7 @@ class ShopController extends BaseController {
 		$where = array ();
         $where ['orderno'] = $orderno;
         //$where ['paymethod'] = array ('neq',4 );
-        $where ['status'] = array ('not in',	array (3,4 ));
+        $where ['status'] = array('neq',OrderModel::CANCELLED);// array ('not in',	array (3,4 ));
         $db = M ( 'order' )->where ( $where )->find ();
 		if ($db) {
 			$payapiurl = U('Shop/Pay/index');
@@ -181,7 +182,7 @@ class ShopController extends BaseController {
 			echo($html);
 			
 		} else {
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying111!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
 		}
 	}
 
@@ -220,7 +221,7 @@ class ShopController extends BaseController {
 
 		} else {
 			//$this->error ( '订单' . $orderno . '不存在或无需支付！' );
-			$this->error ( 'Order ' . $orderno . ' does not exist or without paying222!' );
+			$this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
 		}
 	}
 }

@@ -6,6 +6,9 @@ class OrderModel extends Model{
     const WECAHT = 1;//微信订单
     const PAYPAL = 2;//Paypal支付
 
+    const PAID = 1;//已支付
+    const UNPAID = 0;//未支付
+
     const  DRAFT = 0;//
     const   CONFIRMED  = 1;//
     const    DELIVERING  = 2;//

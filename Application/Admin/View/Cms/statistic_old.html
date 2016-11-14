@@ -26,7 +26,7 @@
 						</if>
 				</select> 
                 <select name="status" id="status">
-                <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
+                <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
         <eq name="status|strlen" value="0">
         <option value="{$key}">{$type}</option> 
         <else/>
