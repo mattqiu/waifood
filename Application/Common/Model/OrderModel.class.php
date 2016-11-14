@@ -33,6 +33,19 @@ class OrderModel extends Model{
         return false;
     }
 
+    /**
+     * 根据条件更改订单
+     * @param $con
+     * @param $data
+     * @return bool
+     */
+    public static function modifyOrderByCon($con,$data){
+        if($con && !empty($data)){
+            return M ( 'order' )->where($con)->save($data );
+        }
+        return false;
+    }
+
     /**下单
      * @param $data
      * @param $userId

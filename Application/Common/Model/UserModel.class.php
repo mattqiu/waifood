@@ -8,6 +8,8 @@ class UserModel extends Model
 	const FEMALE = 0;//女
 	const WeCHAT_USER = 3;//微信用户
 
+	const NORMAL_USERS = 1;//正常使用的账号
+
 
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();
@@ -156,6 +158,9 @@ class UserModel extends Model
             $where ['userpwd'] =md5($userpwd);
             $user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {
+//                if(!$user ['id']){
+//                    $data ['id'] = $user['no_id'];
+//                }
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
                 $data ['logtimes'] = $user ['logtimes'] + 1;
@@ -225,10 +230,17 @@ class UserModel extends Model
                     $data['indexpic'] = $weixinuser['headimgurl'];
                     $data['weixin'] = $weixinuser['nickname'] ;
                 }
+                if(!$oldUserOpenid = S('oldUserOpenid')){
+                    $con['wechatid'] = $oldUserOpenid;
+                    $data['wechatid'] = $openid;//跟换openid
+                }else{
+                    $con['id'] =  $user ['id'];
+                }
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
                 $data ['logtimes'] = $user ['logtimes'] + 1;
-                self::modifyMember( $user ['id' ],$data);
+                self::modifyMemberByCon($con,$data);
+                //self::modifyMember( $user ['id' ],$data);
                 //取用户折扣
                 $level=M('level')->where('id='.$user['usertype'])->find();
                 $rate=$level['rate'];
@@ -255,6 +267,19 @@ class UserModel extends Model
     public static function modifyMember($userid,$data){
         if(regex($userid,'number') && !empty($data)){
             $con['id'] = $userid;
+            return M('member')->where($con)->save($data);
+        }else{
+            return false;
+        }
+    }
+
+    /**编辑用户
+     * @param $userid
+     * @param $data
+     * @return bool
+     */
+    public static function modifyMemberByCon($con,$data){
+        if(!empty($con) && !empty($data)){
             return M('member')->where($con)->save($data);
         }else{
             return false;
@@ -309,6 +334,72 @@ class UserModel extends Model
             }
         }else{
             apiReturn(CodeModel::ERROR,'sorry,Could not find the user information');
+        }
+    }
+
+    /**绑定用户，将微信用户信息合并到pc用户（金额，积分，订单，地址。。。）
+     * @param $openid
+     * @param $data
+     * @return bool
+     */
+    public static function bindMember($openid,$data){
+        GLog('bindMember','star');
+        if (strlen($openid) == 28 && $data['username'] && $data['userpwd']) {
+            $where['status'] = UserModel::NORMAL_USERS;
+            $where ['_string'] = "email = '{$data['username']}' or telephone = '". replaceTel($data['username'])."' or username = '{$data['username']}'";
+            $where['userpwd'] = md5($data['userpwd']);
+            $pcuser = M('member')->where($where)->find();
+            if(!$pcuser){
+                GLog('bindMember','账号密码错误');
+                return false;
+            }
+            $wechatuser =  self::getUserByOpenid($openid);//获取当前微信用户信息
+            $data['wechatid'] = $openid;
+            $data['indexpic'] = $wechatuser['indexpic'];
+            $data['weixin'] = $wechatuser['weixin'];
+            $data['amount'] = floatval($wechatuser['amount'] + $pcuser['amount']);
+            $data['balance'] = floatval($wechatuser['balance'] + $pcuser['balance']);
+            //使用事务保证绑定成功
+            M()->startTrans();
+            //将微信用户的订单绑定到pc用户上
+            $ordercon['userid'] = $wechatuser['id'];
+            $orderSaveData['userid'] = $pcuser['id'];
+            $rs = OrderModel::modifyOrderByCon($ordercon,$orderSaveData);
+            if(!$rs){
+                GLog('bindMember','修改微信用户订单失败');
+                M()->rollback();
+                return false;
+            }
+
+            //将微信用户的收货地址绑定到pc用户上
+            $addrcon['userid'] = $wechatuser['id'];
+            $addrSaveData['userid'] = $pcuser['id'];
+            $rs = AddressModel::modifyAddrByCon($addrcon,$addrSaveData);
+            if(!$rs){
+                GLog('bindMember','修改微信用户收货地址失败');
+                M()->rollback();
+                return false;
+            }
+            //删除该微信用户
+            $deletecon['id'] = $wechatuser['id'];
+            $rs = M('member')->where($deletecon)->delete();
+            if(!$rs){
+                GLog('bindMember','删除微信用户失败');
+                M()->rollback();
+                return false;
+            }
+            $con['id'] = $pcuser['id'];
+            $rs = UserModel::modifyMemberByCon($con,$data);
+            if(!$rs){
+                GLog('bindMember','合并微信与pc用户的信息');
+                M()->rollback();
+                return false;
+            }
+            self::login($data['username'],$data['userpwd']);
+            M()->commit();
+            return true;
+        }else{
+            return false;
         }
     }
 

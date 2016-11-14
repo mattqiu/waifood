@@ -113,4 +113,16 @@ class AddressModel extends Model
         }
     }
 
+    /**
+     * 根据条件更改订单
+     * @param $con
+     * @param $data
+     * @return bool
+     */
+    public static function modifyAddrByCon($con,$data){
+        if($con && !empty($data)){
+            return M ( 'address' )->where($con)->save($data );
+        }
+        return false;
+    }
 }

@@ -47,10 +47,7 @@ class WeixinController extends Controller {
         trace("user ".var_export($user ,true));
         openid($data['openid']);//缓存openid
         GLog('weixin:login:user',$user);
-        if( session('gocashier')){
-            session('gocashier','');
-            redirect('/m_cashier');
-        }
+
         if(UserModel::getUserByOpenid($data['openid'])){
             if( UserModel::loginWechat($data['openid'])){
                 redirect('/');
@@ -60,13 +57,10 @@ class WeixinController extends Controller {
                 redirect('/');
             }
         }
-
-//        // 判断是否绑定，提示绑定
-//        if (! is_bind($data['openid'])) {
-//            redirect(U('Login/bind'));
-//        }else{
-//
-//        }
+        if( session('gocashier')){
+            session('gocashier','');
+            redirect('/m_cashier');
+        }
     }
 
     /**

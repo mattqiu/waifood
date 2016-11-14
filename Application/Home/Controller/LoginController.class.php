@@ -28,15 +28,12 @@ class LoginController extends Controller
     {
         if (is_wechat()) {
             if($openid = openid()){
-                GLog('login/////////////////openid',$openid);
                 if( UserModel::loginWechat($openid)){
-                    GLog('login/////////////////openid login',1);
                     $this->redirect ( '/member/index' );
                 }
             }
             openid(false);
             //没有用户信息,进行微信授权
-            GLog('login/////////////////weixin login',2);
             $conf =  $this->conf;
             $state = mt_rand(100000,999999);
             session('verify_state', $state);
@@ -46,7 +43,6 @@ class LoginController extends Controller
             header("Location:$url");
             exit();
         }else{
-            GLog('login/////////////////login login',5);
             $this->assign('title', 'Login');
             $this->display();
         }
@@ -125,17 +121,11 @@ class LoginController extends Controller
                 redirect(U('/login/index'));
             }
             $data = $_POST;
-            if($data['username'] && $data['userpwd']){
-                $login = $this->login($data['username'], md5($data['userpwd']));
-                if ($login) {
-                    $openid = openid();
-                    $wechatuser =  UserModel::getUserByOpenid($openid);//获取已绑定的账号
-                    $data['wechatid'] = $openid;
-                    $data['indexpic'] = $wechatuser['indexpic'];
-                    $data['weixin'] = $wechatuser['weixin'];
-                    $wid = M('member')->where('id=' . get_userid())->setField('wechatid', $openid);
-                    session('wechatid', $openid);
+            if($username = $data['username'] && $data['userpwd']){
+                if(UserModel::bindMember(openid(),$data)){
                     redirect(U('Member/index'));
+                }else{
+                    $this->error('Binding failure.');
                 }
             }
             $this->error('wrong user name or password.');
