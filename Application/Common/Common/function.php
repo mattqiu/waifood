@@ -627,7 +627,7 @@ function get_rate() {
  * @param unknown $status_id        	
  */
 function get_status($status_id) {
-	$str = C ( 'config.ORDER_STATUS_LIST' );
+	$str = C ( 'config.CONFIG_STATUS_LIST' );
     return $str[$status_id];
     /*
     GLog('///////////////1',json_encode($str));

@@ -11,7 +11,7 @@ class OrderManageController extends BaseController {
      */
 	public function getPendingOrders(){
         $list = OrderManageModel::getPendingOrders();
-        $statuslist=parse_field_attr(C('config.CONFIG_STATUS_LIST'));
+        $statuslist=C('config.CONFIG_STATUS_LIST');
         $this->assign("statuslist",$statuslist);
         $this->assign ( "list", $list);
         $this->display('pending_orders');

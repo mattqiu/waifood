@@ -69,7 +69,7 @@ class OrderController extends BaseController {
 			$this->assign ( 'page', $page->show () );
 		}
 		
-		$statuslist=parse_field_attr(C('config.CONFIG_STATUS_LIST'));
+		$statuslist=C('config.CONFIG_STATUS_LIST');
 		$this->assign("statuslist",$statuslist);
 		$this->assign ( "keyword", $keyword );
 		$this->assign ( "status", $status );

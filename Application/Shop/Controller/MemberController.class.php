@@ -612,7 +612,7 @@ class MemberController extends AuthController {
 	 * @param number $userid
 	 */
 	protected function orderStat($userid=0){
-		$data=parse_field_attr(C('config.CONFIG_STATUS_LIST'));
+		$data=C('config.CONFIG_STATUS_LIST');
 		$arr=array();
 		foreach ($data as $k=>$v){
 			$where=array();

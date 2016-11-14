@@ -25,7 +25,7 @@
         </tr>
         <tr>
             <td>订单状态： <a href="{:U('Cms/order')}">全部</a>
-                <volist name=":parse_field_attr(C('config.CONFIG_STATUS_LIST'))" id="type">
+                <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
                     <eq name="status|strlen" value="0">
                         <a href="{:U('Cms/order','orderfrom='.$orderfrom.'&status='.$key.'&pay='.$pay)}">{$type}</a>
                         <else/>
