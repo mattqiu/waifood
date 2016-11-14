@@ -20,8 +20,8 @@ function get_wechat_obj()
     $options = array(
         'token' => C('config.WECHAT_TOKEN'), // 填写你设定的key
         'encodingaeskey' => '',
-        'appid' => C('config.WECHAT_APPID'), // 填写高级调用功能的app id
-        'appsecret' => C('config.WECHAT_APPSECRET'), // 填写高级调用功能的密钥
+        'appid' => C('WECHAT_APPID'), // 填写高级调用功能的app id
+        'appsecret' => C('WECHAT_APPSECRET'), // 填写高级调用功能的密钥
         'partnerid' => '', // 财付通商户身份标识
         'partnerkey' => '', // 财付通商户权限密钥Key
         'paysignkey' => '', // 商户签名密钥Key

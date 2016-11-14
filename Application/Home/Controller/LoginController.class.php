@@ -8,7 +8,7 @@ Use \Think\Controller;
 
 class LoginController extends Controller
 {
-    protected $conf='';
+  //  protected $conf='';
     private  $returnUrl=''; //回调地址
 
     /**
@@ -21,7 +21,7 @@ class LoginController extends Controller
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
         $this->returnUrl = C('DOMAIN').'home/';
-        $this->conf=C('config');
+      //  $this->conf=C('config');
         $this->assign('shoptitle', 'Waifood');
     }
 
@@ -35,10 +35,10 @@ class LoginController extends Controller
             }
             openid(false);
             //没有用户信息,进行微信授权
-            $conf =  $this->conf;
+          // $conf =  $this->conf;
             $state = mt_rand(100000,999999);
             session('verify_state', $state);
-            $appid = $conf['WECHAT_APPID'];
+            $appid = C('WECHAT_APPID');
             $url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri=' . urlencode($this->returnUrl.'/Weixin/weixin_callback') . '&response_type=code&scope=snsapi_userinfo&state=' . $state . '#wechat_redirect';
             trace("url $url");
             header("Location:$url");

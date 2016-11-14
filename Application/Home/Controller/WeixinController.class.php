@@ -32,8 +32,8 @@ class WeixinController extends Controller {
             return false;
         }
         $conf =  $this->conf;
-        $appid = $conf['WECHAT_APPID'];
-        $appsecret = $conf['WECHAT_APPSECRET'];
+        $appid = C('WECHAT_APPID');
+        $appsecret = C('WECHAT_APPSECRET');
         $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=$appid&secret=$appsecret&code=$code&grant_type=authorization_code" ;
         $data = json_decode($this->http_get($url), true);
         trace("user ".var_export($data ,true));

@@ -23,10 +23,10 @@ return array (
             'SMTP_USERNAME' => 'service@waifood.com',
             'SMTP_USERPWD' => 'Waifood2016',
 
-            'WECHAT_APPID' => 'wx50d2c7139fe6cd3e',
+         /*   'WECHAT_APPID' => 'wx50d2c7139fe6cd3e',
             'WECHAT_APPSECRET' => 'a7cd48cf28e8c4adb043c0e3a9ffb7a4',
             //'WECHAT_APPID' => 'wxe149a1e8bab9e7d5',
-            //'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',
+            //'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',*/
 
             'WECHAT_TOKEN' => 'weixin',
             'WECHAT_ORIGINALID' => '',
