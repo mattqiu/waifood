@@ -43,7 +43,8 @@ $(function(){
 <include file="Index:bar" /> 
 <div class="container">
     <div class="bind-head-img tc"><img src="__PUBLIC__/Shop/images/logo.jpg" alt=""/></div>
-    <if condition="!empty($user) && $user['wechatid']">
+    <!--网站用户并且有openid-->
+    <if condition="!empty($user) && $user['usertype'] eq 1 && $user['wechatid']">
         <br/>
         <br/>
         <br/>
