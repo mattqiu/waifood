@@ -18,7 +18,7 @@ class ShowEnvBehavior {
     // 行为扩展的执行入口必须是run
     public function run(&$params){
         // 调用Trace页面模板
-        if(HIDDEN_ENV_FLAG && 'local'==DEPLOY_ENV){
+        if(HIDDEN_ENV_FLAG && ('local'==DEPLOY_ENV || 'test'==DEPLOY_ENV)){
             ob_start();
             include THINK_PATH.'Tpl/show_env.tpl';
             echo  ob_get_clean();
