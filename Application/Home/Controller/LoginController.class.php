@@ -9,7 +9,7 @@ Use \Think\Controller;
 class LoginController extends Controller
 {
     protected $conf='';
-    private  $returnUrl="http://www.waifood.com/home/"; //回调地址
+    private  $returnUrl=''; //回调地址
 
     /**
      * 会员首页
@@ -20,6 +20,7 @@ class LoginController extends Controller
         if (C('config.WEB_SITE_TEMPLATE')) {
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
+        $this->returnUrl = C('DOMAIN').'home/';
         $this->conf=C('config');
         $this->assign('shoptitle', 'Waifood');
     }

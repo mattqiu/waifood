@@ -116,7 +116,7 @@ function get_furl($uid)
 {
     $prefix = C('COUPON.PREFIX');
     $fid = C('COUPON.FID');
-    $url = "http://www.waifood.com/"; 
+    $url =  C('DOMAIN');
     if ($uid != 0) {
         $url .= "?" . $fid . "=" . $prefix . $uid;
     }

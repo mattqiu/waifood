@@ -9,5 +9,8 @@ return array(
     'DB_PORT' => '3306',
     'SHOW_ERROR_MSG' => true,
     'DB_PREFIX' => 'my_',
+    'DOMAIN' => 'http://test.waifood.com/',
+    'WECHAT_APPID' => 'wxe149a1e8bab9e7d5',
+    'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',
 );
 ?>

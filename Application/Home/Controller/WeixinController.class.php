@@ -8,10 +8,11 @@ use Think\Controller;
 class WeixinController extends Controller {
 
     protected $conf='';
-    private  $returnUrl="http://www.waifood.com/home/"; //回调地址
+    private  $returnUrl=''; //回调地址
 
     public function _initialize() {
         $this->conf=C('config');
+        $this->returnUrl= C('DOMAIN')."home/";
     }
 
     /**

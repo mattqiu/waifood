@@ -12,5 +12,9 @@ return array(
     // Redis配置
     "REDIS_HOST"=>'192.168.2.250',
     "REDIS_PORT"=>'6379',
+    'DOMAIN' => 'http://www.waifood.com/',
+
+    'WECHAT_APPID' => 'wx50d2c7139fe6cd3e',
+    'WECHAT_APPSECRET' => 'a7cd48cf28e8c4adb043c0e3a9ffb7a4',
 );
 ?>
