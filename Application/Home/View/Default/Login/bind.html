@@ -43,24 +43,35 @@ $(function(){
 <include file="Index:bar" /> 
 <div class="container">
     <div class="bind-head-img tc"><img src="__PUBLIC__/Shop/images/logo.jpg" alt=""/></div>
-    <form  action="{:U('Login/bind')}" method="post" class="pure-form"   >
-        <div class="settings p_b">
-            <div class=" input-item">
-                <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
-                <input type="text" class="re_style"  <if condition="!empty($user)"> value="{$user['username']}" readonly</if>
-                       placeholder="enter your user name" name="username"  />
-            </div>
-            <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
-            <div class=" input-item">
-                <img src="__PUBLIC__/Home/images/password.png" width="20" alt=""/>
-                <input type="password" class="re_style" <if condition="!empty($user)"> value="{$user['userpwd']|substr=0,6}" readonly</if>
-                       placeholder="enter your user password" name="userpwd" />
-            </div>
-            <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
-            <button class="input-item bind-btn tc" <if condition="!empty($user)"> disabled</if> >Bind Your Account </button>
-            <div class="main-text">If you already have an account on waifood.com, we strongly recommend you to bind your waifood account with your WeChat (simply by login here), so that you can share the account's information,like balance, points,coupons,etc.</div>
+    <if condition="!empty($user) && $user['wechatid']">
+        <br/>
+        <br/>
+        <br/>
+        <h3 style="margin-left: 15%;">You has binded account</h3>
+        <div class=" input-item">
+            <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
+            <input type="text" class="re_style" value="{$user['username']}" readonly name="username"  />
         </div>
-    </form>
+    <else/>
+        <form  action="{:U('Login/bind')}" method="post" class="pure-form"   >
+            <div class="settings p_b">
+                <div class=" input-item">
+                    <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
+                    <input type="text" class="re_style"  <if condition="!empty($user)"> value="{$user['username']}" readonly</if>
+                           placeholder="enter your user name" name="username"  />
+                </div>
+                <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
+                <div class=" input-item">
+                    <img src="__PUBLIC__/Home/images/password.png" width="20" alt=""/>
+                    <input type="password" class="re_style" <if condition="!empty($user)"> value="{$user['userpwd']|substr=0,6}" readonly</if>
+                           placeholder="enter your user password" name="userpwd" />
+                </div>
+                <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
+                <button class="input-item bind-btn tc" <if condition="!empty($user)"> disabled</if> >Bind Your Account </button>
+                <div class="main-text">If you already have an account on waifood.com, we strongly recommend you to bind your waifood account with your WeChat (simply by login here), so that you can share the account's information,like balance, points,coupons,etc.</div>
+            </div>
+        </form>
+    </if>
 </div>
 <include file="Index:footer"/>
 </body>

@@ -118,8 +118,9 @@ class LoginController extends Controller
     public function bind()
     {
         if (IS_POST) {
-            if(!openid()){
-                redirect(U('/login/index'));
+            if(!is_wechat() || !openid()){
+                $this->error('Please open in WeChat');
+              //  redirect(U('/login/index'));
             }
             $data = $_POST;
             if($username = $data['username'] && $data['userpwd']){
@@ -131,12 +132,12 @@ class LoginController extends Controller
             }
             $this->error('wrong user name or password.');
         } else {
-            if (!get_userid()) {//没有用户信息进入微信授权
+            if (!get_userid()) {//没有用户信息进入微信授权登录
                 session ( 'userid','');
                 openid('');
                 redirect(U('Login/index'));
             }else{
-               $user =  UserModel::getUserByOpenid(openid());//获取已绑定的账号
+               $user =  UserModel::getUserById(get_userid());//获取已绑定的账号
                 if($user['usertype'] != UserModel::WeCHAT_USER){
                     $this->assign('user', $user);
                 }
