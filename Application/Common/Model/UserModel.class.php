@@ -233,6 +233,7 @@ class UserModel extends Model
                 if($oldUserOpenid = S('oldUserOpenid')){
                     $con['wechatid'] = $oldUserOpenid;
                     $data['wechatid'] = $openid;//跟换openid
+                    S('oldUserOpenid','');
                 }else{
                     $con['id'] =  $user ['id'];
                 }
