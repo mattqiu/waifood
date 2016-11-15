@@ -36,22 +36,25 @@ $(function(){
     .input-item img  {position: relative;bottom: -10px}
     .bind-btn{height: 38px;background: #64c73e;border-radius: 5px;font-size: 15px;color: #FFFFFF;line-height: 38px;border: none; margin-left: 15%;margin-top: 20px;}
     .main-text{width: 90%;margin: 0 auto;margin-top: 50px; font-size: 13px; color: #999999}
+    .binded{margin-left: 15%;color: #999999}
+    .bindeduser{font-size: 16px;font: bold;}
+    .louuotbtn{display: block;position: fixed; bottom: 154px;  right: 75px;border: 1px solid #cccccc;padding: 5px 10px; color: #cccccc;}
 </style>
 </head>
 
 <body>
-<include file="Index:bar" /> 
+<include file="Index:bar" />
 <div class="container">
     <div class="bind-head-img tc"><img src="__PUBLIC__/Shop/images/logo.jpg" alt=""/></div>
     <!--网站用户并且有openid-->
-    <if condition="!empty($user) && $user['usertype'] eq 1 && $user['wechatid']">
+    <if condition="!empty($user)">
         <br/>
         <br/>
         <br/>
-        <h3 style="margin-left: 15%;">You has binded account</h3>
+        <p class="binded">You have been bound to below account:</p>
         <div class=" input-item">
             <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
-            <input type="text" class="re_style" value="{$user['username']}" readonly name="username"  />
+            <input type="text" class="re_style bindeduser" value="{$user['username']}" readonly name="username"  />
         </div>
     <else/>
         <form  action="{:U('Login/bind')}" method="post" class="pure-form"   >
@@ -74,6 +77,9 @@ $(function(){
         </form>
     </if>
 </div>
+<if condition="DEPLOY_ENV == 'local' || DEPLOY_ENV == 'test'">
+    <a href="javascript:void(0);" onclick="$.logout()" class="louuotbtn">Log out</a>
+</if>
 <include file="Index:footer"/>
 </body>
 </html>

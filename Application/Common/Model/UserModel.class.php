@@ -105,7 +105,7 @@ class UserModel extends Model
         $user = S('openid_' . $openid);
         $maxid = time();
         $data = array();
-        $data['usertype'] = 3;
+        $data['usertype'] = self::WECHAT_USER;
         $data['sort'] = $maxid;
         $data['username'] =  $user['nickname'];
         $data['userpwd'] = md5($user['nickname']);
@@ -342,9 +342,16 @@ class UserModel extends Model
      * @param $data
      * @return bool
      */
-    public static function bindMember($openid,$data){
+    public static function bindMember($userid,$data){
         GLog('bindMember','star');
-        if (strlen($openid) == 28 && $data['username'] && $data['userpwd']) {
+        if (regex($userid,'number') && $data['username'] && $data['userpwd']) {
+            $wechatuser =  self::getUserById($userid);//获取当前登录用户信息
+            //能被openid找到的非微信用户（即：已绑定的不能再绑定）
+            if($wechatuser['usertype'] != self::WECHAT_USER){
+                GLog('bindMember','该微信号已经绑定网络账号');
+                return false;
+            }
+
             $where['status'] = UserModel::NORMAL_USERS;
             $where ['_string'] = "email = '{$data['username']}' or telephone = '". replaceTel($data['username'])."' or username = '{$data['username']}'";
             $where['userpwd'] = md5($data['userpwd']);
@@ -354,13 +361,7 @@ class UserModel extends Model
                 return false;
             }
             $savedata = array();
-            $wechatuser =  self::getUserByOpenid($openid);//获取当前微信用户信息
-            //能被openid找到的非微信用户（即：已绑定的不能再绑定）
-            if($wechatuser['usertype'] == self::NORMAL_USERS){
-                GLog('bindMember','该微信号已经绑定网络账号');
-                return false;
-            }
-            $savedata['wechatid'] = $openid;
+            $savedata['wechatid'] = $wechatuser['wechatid'];
             $savedata['indexpic'] = $wechatuser['indexpic'];
             $savedata['weixin'] = $wechatuser['weixin'];
             $savedata['amount'] = floatval($wechatuser['amount'] + $pcuser['amount']);

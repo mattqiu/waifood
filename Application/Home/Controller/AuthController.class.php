@@ -19,7 +19,7 @@ class AuthController extends BaseController {
 		}else{
             //没有头像或没有微信名的用户重新获取用户信息
             $user = UserModel::getUserById(get_userid ());
-            if($user['wechatid'] ){
+            if($user['wechatid']||empty($user)){
                 if(empty($user['indexpic']) || empty($user['weixin'])){
                     openid(false);
                     $this->redirect ( 'Login/index' );

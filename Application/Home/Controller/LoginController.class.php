@@ -124,7 +124,8 @@ class LoginController extends Controller
             }
             $data = $_POST;
             if($username = $data['username'] && $data['userpwd']){
-                if(UserModel::bindMember(openid(),$data)){
+                $userid = get_userid();
+                if(UserModel::bindMember($userid,$data)){
                     redirect(U('Member/index'));
                 }else{
                     $this->error('Binding failure.');
@@ -138,7 +139,7 @@ class LoginController extends Controller
                 redirect(U('Login/index'));
             }else{
                $user =  UserModel::getUserById(get_userid());//获取已绑定的账号
-                if($user['usertype'] != UserModel::WECHAT_USER){
+                if($user['usertype'] != UserModel::WECHAT_USER && !empty($user['wechatid'])){
                     $this->assign('user', $user);
                 }
             }
