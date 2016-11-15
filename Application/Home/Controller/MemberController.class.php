@@ -538,7 +538,7 @@ class MemberController extends AuthController
         if($type == 'all'){
             $where['status'] = array('lt',OrderModel::CANCELLED);
         }else{
-            $where['_string'] = '`status` < '.OrderModel::COMPLETED.' or (`status` < '.OrderModel::CANCELLED .' and pay = '.OrderModel::UNPAID.')';
+            $where['_string'] = '`status` < '.OrderModel::COMPLETED;
         }
         $page = intval(I('post.page'));
         $page = $page ? $page : 1;
