@@ -387,18 +387,18 @@ class UserModel extends Model
              //   M()->rollback();
                // return false;
             }
+            $con['id'] = $pcuser['id'];
+            $rs = UserModel::modifyMemberByCon($con,$savedata);
+            if(!$rs){
+                GLog('bindMember','合并微信与pc用户的信息失败：'.M()->getDbError());
+                M()->rollback();
+                return false;
+            }
             //删除该微信用户
             $deletecon['id'] = $wechatuser['id'];
             $rs = M('member')->where($deletecon)->delete();
             if(!$rs){
                 GLog('bindMember','删除微信用户失败');
-                M()->rollback();
-                return false;
-            }
-            $con['id'] = $pcuser['id'];
-            $rs = UserModel::modifyMemberByCon($con,$savedata);
-            if(!$rs){
-                GLog('bindMember','合并微信与pc用户的信息'.M()->getError());
                 M()->rollback();
                 return false;
             }
