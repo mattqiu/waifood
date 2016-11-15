@@ -138,7 +138,7 @@ class LoginController extends Controller
                 redirect(U('Login/index'));
             }else{
                $user =  UserModel::getUserById(get_userid());//获取已绑定的账号
-                if($user['usertype'] != UserModel::WeCHAT_USER){
+                if($user['usertype'] != UserModel::WECHAT_USER){
                     $this->assign('user', $user);
                 }
             }

@@ -6,7 +6,7 @@ class UserModel extends Model
 {
 	const MALE = 1;//男
 	const FEMALE = 0;//女
-	const WeCHAT_USER = 3;//微信用户
+	const WECHAT_USER = 3;//微信用户
 
 	const NORMAL_USERS = 1;//正常使用的账号
 
@@ -355,6 +355,11 @@ class UserModel extends Model
             }
             $savedata = array();
             $wechatuser =  self::getUserByOpenid($openid);//获取当前微信用户信息
+            //能被openid找到的非微信用户（即：已绑定的不能再绑定）
+            if($wechatuser['usertype'] == self::NORMAL_USERS){
+                GLog('bindMember','该微信号已经绑定网络账号');
+                return false;
+            }
             $savedata['wechatid'] = $openid;
             $savedata['indexpic'] = $wechatuser['indexpic'];
             $savedata['weixin'] = $wechatuser['weixin'];
