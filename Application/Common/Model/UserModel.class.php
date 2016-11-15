@@ -230,7 +230,7 @@ class UserModel extends Model
                     $data['indexpic'] = $weixinuser['headimgurl'];
                     $data['weixin'] = $weixinuser['nickname'] ;
                 }
-                if(!$oldUserOpenid = S('oldUserOpenid')){
+                if($oldUserOpenid = S('oldUserOpenid')){
                     $con['wechatid'] = $oldUserOpenid;
                     $data['wechatid'] = $openid;//跟换openid
                 }else{

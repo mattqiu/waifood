@@ -22,6 +22,7 @@ class AuthController extends BaseController {
             if($user['wechatid']||empty($user)){
                 if(empty($user['indexpic']) || empty($user['weixin'])){
                     openid(false);
+                    S('oldUserOpenid',$user['wechatid']);
                     $this->redirect ( 'Login/index' );
                 }
             }
