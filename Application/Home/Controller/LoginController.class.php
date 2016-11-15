@@ -119,19 +119,19 @@ class LoginController extends Controller
     {
         if (IS_POST) {
             if(!is_wechat() || !openid()){
-                $this->error('Please open in WeChat');
-              //  redirect(U('/login/index'));
+                apiReturn(CodeModel::ERROR,'Please open in WeChat');
             }
             $data = $_POST;
-            if($username = $data['username'] && $data['userpwd']){
+            if($data['username'] && $data['userpwd']){
                 $userid = get_userid();
                 if(UserModel::bindMember($userid,$data)){
-                    redirect(U('Member/index'));
+                    apiReturn(CodeModel::CORRECT,'Binding successful.','/member/index.html');
                 }else{
-                    $this->error('Binding failure.');
+                    apiReturn(CodeModel::ERROR,'Binding failure.');
                 }
+            }else{
+                apiReturn(CodeModel::ERROR,'Account or password cannot be empty.');
             }
-            $this->error('wrong user name or password.');
         } else {
             if (!get_userid()) {//没有用户信息进入微信授权登录
                 session ( 'userid','');

@@ -14,7 +14,7 @@
             <div class="userhead">
                 <img src="{$user.indexpic|default='__PUBLIC__/Home/images/nohead.png'}" alt=""/>
             </div>
-            <div class="green tc user_tie">{$user.weixin}<br/>({$user.username})</div>
+            <div class="green tc user_tie">{$user.weixin} <if condition="$user['usertype'] eq 1"> <br/>({$user.username})</if></div>
         </a>
     </div>
     <div class="divide" style="height: 10px;"></div>

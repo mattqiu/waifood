@@ -349,6 +349,7 @@ class UserModel extends Model
             //能被openid找到的非微信用户（即：已绑定的不能再绑定）
             if($wechatuser['usertype'] != self::WECHAT_USER){
                 GLog('bindMember','该微信号已经绑定网络账号');
+                apiReturn(CodeModel::ERROR,'You have been bound  PC account');
                 return false;
             }
 
@@ -358,6 +359,7 @@ class UserModel extends Model
             $pcuser = M('member')->where($where)->find();
             if(!$pcuser){
                 GLog('bindMember','账号密码错误');
+                apiReturn(CodeModel::ERROR,'Account or password error');
                 return false;
             }
             $savedata = array();
@@ -389,7 +391,7 @@ class UserModel extends Model
             }
             $con['id'] = $pcuser['id'];
             $rs = UserModel::modifyMemberByCon($con,$savedata);
-            if(!$rs){
+            if(!is_number($rs)){
                 GLog('bindMember','合并微信与pc用户的信息失败：'.M()->getDbError());
                 M()->rollback();
                 return false;

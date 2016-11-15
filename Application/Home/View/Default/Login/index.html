@@ -65,8 +65,8 @@
 
     function login(){
         var d={
-           username:$('#username').val(),
-           userpwd:$('#userpwd').val(),
+            username:$('#username').val(),
+            userpwd:$('#userpwd').val(),
             verify:$('#verify input[name=verify]').val()
         }
         $.post('/login/loginAtion',d,function(data){

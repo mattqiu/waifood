@@ -57,21 +57,19 @@ $(function(){
             <input type="text" class="re_style bindeduser" value="{$user['username']}" readonly name="username"  />
         </div>
     <else/>
-        <form  action="{:U('Login/bind')}" method="post" class="pure-form"   >
+        <form  onsubmit="return false " method="post" class="pure-form" >
             <div class="settings p_b">
                 <div class=" input-item">
                     <img src="__PUBLIC__/Home/images/account.png" width="20" alt=""/>
-                    <input type="text" class="re_style"  <if condition="!empty($user)"> value="{$user['username']}" readonly</if>
-                           placeholder="enter your user name" name="username"  />
+                    <input type="text" class="re_style"  placeholder="enter your user name" id="username"  />
                 </div>
                 <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
                 <div class=" input-item">
                     <img src="__PUBLIC__/Home/images/password.png" width="20" alt=""/>
-                    <input type="password" class="re_style" <if condition="!empty($user)"> value="{$user['userpwd']|substr=0,6}" readonly</if>
-                           placeholder="enter your user password" name="userpwd" />
+                    <input type="password" class="re_style" placeholder="enter your user password" id="userpwd" />
                 </div>
                 <hr size="1" width="70%" color="#64c73e" style="margin-top: 0px;margin-bottom: 15px;"/>
-                <button class="input-item bind-btn tc" <if condition="!empty($user)"> disabled</if> >Bind Your Account </button>
+                <button class="input-item bind-btn tc" onclick="bind()" >Bind Your Account </button>
                 <div class="main-text">If you already have an account on waifood.com, we strongly recommend you to bind your waifood account with your WeChat (simply by login here), so that you can share the account's information,like balance, points,coupons,etc.</div>
             </div>
         </form>
@@ -80,6 +78,29 @@ $(function(){
 <if condition="DEPLOY_ENV == 'local' || DEPLOY_ENV == 'test'">
     <a href="javascript:void(0);" onclick="$.logout()" class="louuotbtn">Log out</a>
 </if>
+<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <include file="Index:footer"/>
+<script>
+    window.subBlock=false;
+    function bind(){
+        if(subBlock){
+            return false;
+        }
+        var d={
+            username:$('#username').val(),
+            userpwd:$('#userpwd').val()
+        }
+        subBlock = true;
+        $.post('/login/bind',d,function(data){
+            subBlock = false;
+            if(data.code==200){
+                clearpopj(data.message,data.data);
+            }else{
+                clearpopj(data.message);
+            }
+        })
+
+    }
+</script>
 </body>
 </html>
