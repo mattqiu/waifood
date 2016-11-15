@@ -342,10 +342,10 @@ class UserModel extends Model
      * @param $data
      * @return bool
      */
-    public static function bindMember($userid,$data){
+    public static function bindMember($openid,$data){
         GLog('bindMember','star');
-        if (regex($userid,'number') && $data['username'] && $data['userpwd']) {
-            $wechatuser =  self::getUserById($userid);//获取当前登录用户信息
+        if (strlen($openid) == 28 && $data['username'] && $data['userpwd']) {
+            $wechatuser =  self::getUserByOpenid($openid);//获取当前登录用户信息
             //能被openid找到的非微信用户（即：已绑定的不能再绑定）
             if($wechatuser['usertype'] != self::WECHAT_USER){
                 GLog('bindMember','该微信号已经绑定网络账号');

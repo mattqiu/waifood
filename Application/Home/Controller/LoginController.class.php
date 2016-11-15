@@ -123,8 +123,8 @@ class LoginController extends Controller
             }
             $data = $_POST;
             if($data['username'] && $data['userpwd']){
-                $userid = get_userid();
-                if(UserModel::bindMember($userid,$data)){
+                $openid = openid();
+                if(UserModel::bindMember($openid,$data)){
                     apiReturn(CodeModel::CORRECT,'Binding successful.','/member/index.html');
                 }else{
                     apiReturn(CodeModel::ERROR,'Binding failure.');
