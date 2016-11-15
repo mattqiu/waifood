@@ -89,7 +89,7 @@ $(function(){
                 var o = eval(msg);
                 if (o.status == "1") {
                     //jAlert("恭喜，该商品已经成功加入购物车！");
-                    $.getCartNo()
+              //      $.getCartNo()
                 } else {
                     jAlert("对不起，加入购物车失败！")
                 }
@@ -511,11 +511,9 @@ $(function(){
 
 $(function(){
 	//初始化 
-	$.getCartNo();
+	//$.getCartNo();
 	$.resetInfo(); 
 	 $("img.lazy").lazyload({effect : "fadeIn" ,threshold : 200});
-	 
-	 
 	 $(".addCart").on("click",function() {
 		var pid=$(this).attr("data");
 		var ck=$(this).is(":checked");
