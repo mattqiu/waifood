@@ -8,6 +8,8 @@ $(function(){
     modelBox();
 })
 
+
+
 /**
  * 弹出框
  */
@@ -136,6 +138,7 @@ function addgood(id,event){
         indexpic = $('#js_goods_'+id).data("indexpic"),
         name = $('#js_goods_'+id).data("name"),
         stock = $('#js_goods_'+id).data("stock");
+
         if(stock<1){ //没有库存
             jAlert("Insufficient stock!",SYSTITLE);
             return false;
@@ -154,7 +157,8 @@ function addgood(id,event){
             myfood_array = {};
             myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
         }
-
+        console.log( myfood_array[id]['amount'])
+        console.log(stock)
         if( myfood_array[id]['amount'] > stock){ //库存不足
             jAlert("Insufficient stock!",SYSTITLE);
             return false;
@@ -279,11 +283,20 @@ function loadGood(){
                         $('#js_goods_num_'+obj[i]['id']).html(obj[i]['amount']);
                     }
                     totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
-                    $('#js_goods_'+obj[i]['id']+' .js_total').html(parseFloat((obj[i]['amount']*obj[i]['price'])));
+                    $('#js_goods_'+obj[i]['id']+' .js_total').html('&yen;'+parseFloat((obj[i]['amount']*obj[i]['price'])));
                     $('#CartNo').html(amount);
                     if(parseInt(obj[i]['amount'])<1){
                         $('#js_goods_'+obj[i]['id']).remove();
                     }
+                     if($('body').attr('pagename') == 'cart'){ //当前购物车页面
+                         //判断购物车库存
+                         if(parseInt(obj[i]['stock']) >= parseInt(obj[i]['amount'])){
+                             $('#js_goods_'+obj[i]['id']+' .cartptotal').html('Total: <span class="num-item js_total">&yen;' + (obj[i]['amount'] *obj[i]['price'])+ '</span>');
+                         }else{
+                             $('#js_goods_'+obj[i]['id']+' .cartptotal').html('out of stock');
+                         }
+                     }
+
                     //有商品数量的显示减号与商品数量
                     $('#js_goods_'+obj[i]['id'] +' .g_btn .cat_cart_num').removeClass('hide');
                     $('#js_goods_'+obj[i]['id'] +' .g_btn .num').removeClass('hide');
@@ -322,6 +335,12 @@ function goCashier(){
     var myfood =  $.cookie("myfood");
     var obj = $.parseJSON(myfood);
     if(obj){
+        for(var i in obj){
+            if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){
+                jAlert('Goods:'+obj[i]['name']+' Insufficient stock!',SYSTITLE);
+                return false;
+            }
+        }
         window.location.href = '/m_cashier.html?gocashier=gocashier';
     }else{
         jAlert("Order content cannot be empty!",SYSTITLE);
@@ -347,6 +366,11 @@ function submitOrder(){
         return false;
     }
     for(var i in myfood_array){
+        if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
+            jAlert('Goods:'+myfood_array[i]['name']+' Insufficient stock!',SYSTITLE);
+            subBlock = false;//解除阻塞
+            return false;
+        }
         order +=  myfood_array[i]['id'] + "," + myfood_array[i]['amount']+ "," + myfood_array[i]['price'] +"|"; //订单信息
     }
     if (!$("#UseAddressID").val()) {
@@ -413,3 +437,34 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
         }
     })
 }
+ function getCartGoodStock(){
+     var myfood = $.cookie("myfood"), $goodIds='', key = "myfood";
+     if (myfood) {
+         var myfood_array = $.parseJSON(myfood);
+         if (myfood_array) {
+             for (var i in myfood_array) {
+                 $goodIds += ',' + myfood_array[i]['id'];
+             }
+             if($goodIds){
+                 $.post('/home/cart/getCartGoodStock.html',{goodIds:$goodIds},function(data){
+                     if(data.code ==200){
+                         var obj = data.data;
+                         for (var i in obj) {
+                             if(obj[i]['id']){
+                                 myfood_array[obj[i]['id']]['id'] = obj[i]['id'];
+                                 myfood_array[obj[i]['id']]['name'] = obj[i]['title'];
+                                 myfood_array[obj[i]['id']]['price'] = obj[i]['price'];
+                                 myfood_array[obj[i]['id']]['indexpic'] = obj[i]['indexpic'];
+                                 myfood_array[obj[i]['id']]['stock'] = obj[i]['stock'];
+                             }
+                         }
+                         var json = $.toJSON(myfood_array);
+                         $.cookie(key,json,{
+                             "path":"/"
+                         });
+                     }
+                 })
+             }
+         }
+     }
+};

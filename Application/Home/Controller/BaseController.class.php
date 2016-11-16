@@ -2,6 +2,7 @@
 namespace Home\Controller;
 
 use Common\Model\UserModel;
+use Common\Model\WxJsSdkModel;
 use Think\Controller;
 
 class BaseController extends Controller
@@ -15,6 +16,8 @@ class BaseController extends Controller
         }
         //$this->checkLogin();
         $this->setFatherId();
+
+        $this->assign('WxJsSdk',WxJsSdkModel::getWxJsSdk());
         $this->assign('shoptitle', 'Waifood');
     }
     

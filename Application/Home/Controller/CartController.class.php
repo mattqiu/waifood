@@ -2,6 +2,8 @@
 // 购物车类
 namespace Home\Controller;
 
+use Common\Model\CodeModel;
+
 class CartController extends BaseController {
 	private $cart_name; // 购物车名
 	private $item_name; // 购物车名
@@ -425,5 +427,24 @@ class CartController extends BaseController {
 		echo ($creditamount);
 		exit ();
 	}
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * 获取商品信息，监测库存
+     */
+    public function getCartGoodStock(){
+        $goodids = I('post.goodIds');
+        if($goodids){
+            $where['id']=array('in',$goodids);
+            $where ['status'] = 1;
+            $field =  'id,title,indexpic,price,stock';
+            $list=M('content')->where($where)->field($field)->select();
+            apiReturn(CodeModel::CORRECT,'',$list);
+        }
+    }
+
+
+
+
 }
 ?>

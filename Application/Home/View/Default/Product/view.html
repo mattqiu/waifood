@@ -87,7 +87,17 @@
   <div class="clr"></div> 
 </div>
 <include file="Index:footer" /> 
-<script> 
+<script>
+window.weixinJs=function(){
+    wx.share={
+        title:"{$db.title}",
+        img:"{:C('DOMAIN')}{$db.indexpic}",
+        link:window.location.href,
+        desc:"waifood goods"
+    };
+    wx.wxshare();
+}
+
 var npage=1;
 var isOpen=false;
 $.getResult=function(page){
@@ -189,6 +199,7 @@ $(function(){
 			txt = (txt=='标配'?'':txt);
 		$("#"+id).val(txt);
 	});
+
 })
 
 

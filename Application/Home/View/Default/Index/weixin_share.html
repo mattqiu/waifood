@@ -1,0 +1,105 @@
+<if condition="FROM_WEIXIN">
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" charset="utf-8"></script>
+    <script>
+        $(function(){
+            wx.config({
+                debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                appId: '{$WxJsSdk.appId}', // 必填，公众号的唯一标识
+                timestamp: '{$WxJsSdk.timestamp}', // 必填，生成签名的时间戳
+                nonceStr: '{$WxJsSdk.nonceStr}', // 必填，生成签名的随机串
+                signature:  '{$WxJsSdk.sign}',// 必填，签名，见附录1
+                jsApiList:['uploadImage','chooseImage','onMenuShareTimeline','onMenuShareAppMessage','onMenuShareQQ','onMenuShareQZone','onMenuShareWeibo'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+            });
+            wx.ready(function(){
+                wx.wxshare=wxshare;
+                window.weixinJs();
+                if(typeof window.wxCallback=='function'){
+                    wxCallback();
+                }
+            });
+        });
+
+        function wxshare(){
+            /*分享到朋友圈*/
+            wx.onMenuShareTimeline({
+                title:wx.share.title,
+                link:wx.share.link,
+                imgUrl:wx.share.img,
+                success: function(){
+                    /*成功回调*/
+                    if(wx.shareSuccess){
+                        wx.shareSuccess();
+                    }
+                },
+                cancel: function(){
+                    /*失败回调*/
+                }
+            });
+            /*分享给朋友*/
+            wx.onMenuShareAppMessage({
+                title:wx.share.title,
+                desc:wx.share.desc,
+                link:wx.share.link,
+                imgUrl:wx.share.img,
+                type:'link',
+                success: function(){
+                    /*成功回调*/
+                    if(wx.shareSuccess){
+                        wx.shareSuccess();
+                    }
+                },
+                cancel: function(){
+                    /*失败回调*/
+                }
+            });
+            /*分享到QQ*/
+            wx.onMenuShareQQ({
+                title:wx.share.title,
+                desc:wx.share.desc,
+                link:wx.share.link,
+                imgUrl:wx.share.img,
+                success: function () {
+                    /*成功回调*/
+                    if(wx.shareSuccess){
+                        wx.shareSuccess();
+                    }
+                },
+                cancel: function () {
+                    /*失败回调*/
+                }
+            });
+            /*分享到腾讯微博*/
+            wx.onMenuShareWeibo({
+                title:wx.share.title,
+                desc:wx.share.desc,
+                link:wx.share.link,
+                imgUrl:wx.share.img,
+                success: function () {
+                    /*成功回调*/
+                    if(wx.shareSuccess){
+                        wx.shareSuccess();
+                    }
+                },
+                cancel: function () {
+                    /*失败回调*/
+                }
+            });
+            /*分享到QQ空间*/
+            wx.onMenuShareQZone({
+                title:wx.share.title,
+                desc:wx.share.desc,
+                link:wx.share.link,
+                imgUrl:wx.share.img,
+                success: function () {
+                    /*成功回调*/
+                    if(wx.shareSuccess){
+                        wx.shareSuccess();
+                    }
+                },
+                cancel: function () {
+                    /*失败回调*/
+                }
+            });
+        }
+    </script>
+</if>

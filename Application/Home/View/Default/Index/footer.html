@@ -19,7 +19,17 @@
     </ul>
 </footer>
 <script src="__PUBLIC__/js/common.js"></script>
+<include file="Index:weixin_share" />
 <script>
+    window.weixinJs=function(){
+        wx.share={
+            title:"waifood test share",
+            img:"http://www.waifood.com/Public/img/404.png",
+            link:"http://www.waifood.com/",
+            desc:"waifood home"
+        };
+        wx.wxshare();
+    }
     $(function(){
         var pathinfo =(window.location.pathname).toLowerCase();
         if(pathinfo=='/home/' ||  pathinfo.length < 3){

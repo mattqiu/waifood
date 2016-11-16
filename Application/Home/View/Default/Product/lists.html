@@ -109,5 +109,16 @@ $so=($sort=='desc'?'asc':'desc');
     <div class="clr"></div>
 </div>
 <include file="Index:footer"/>
+<script>
+    window.weixinJs=function(){
+        wx.share={
+            title:"waifood share",
+            img:"http://www.waifood.com/Public/img/404.png",
+            link:window.location.href,
+            desc:"waifood share"
+        };
+        wx.wxshare();
+    }
+</script>
 </body>
 </html>

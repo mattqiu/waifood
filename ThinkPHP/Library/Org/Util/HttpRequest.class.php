@@ -1,9 +1,11 @@
 <?php
+namespace Org\Util;
+use Think\Log;
 
 class HttpRequest{
 
     public static function postUrl($url, $params = array(), $timeout = 30){
-        Think\Log::record("httprequest","post url:".$url,Think\Log::INFO);
+        Log::record("httprequest","post url:".$url,Log::INFO);
           //编码特殊字符
         $p = http_build_query($params);
         $curl = curl_init();
@@ -19,10 +21,10 @@ class HttpRequest{
         // 运行cURL，请求网页
         $data = curl_exec($curl);
         if($data === false){
-            Think\Log::record("httprequest","post error:".curl_error($curl),Log::ERR);
+            Log::record("httprequest","post error:".curl_error($curl),Log::ERR);
             return false;
         }else{
-            Think\Log::record("httprequest","post result:".print_r($data,true),Think\Log::INFO);
+            Log::record("httprequest","post result:".print_r($data,true),Log::INFO);
             return $data;
         }
     }
@@ -32,6 +34,7 @@ class HttpRequest{
      * @param string $url
      */
     public static  function http_get($url){
+        Log::record("httprequest","get url:".$url,Log::INFO);
         $oCurl = curl_init();
         if(stripos($url,"https://")!==FALSE){
             curl_setopt($oCurl, CURLOPT_SSL_VERIFYPEER, FALSE);
