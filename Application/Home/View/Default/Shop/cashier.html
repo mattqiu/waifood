@@ -214,23 +214,28 @@
             var obj = $.parseJSON(myfood);
             if (obj) {
                 for (var i in obj) {
-                    $html += '<a href="/Product/view?id=' + obj[i]['id'] + '">';
-                    $html += '<div class="good-img fl">';
-                    $html += '<img  src="' + obj[i]['indexpic'] + '"/>';
-                    $html += '</div>';
-                    $html += '<div class="good-name fr">';
-                    $html += '<div  class="good-title">' + obj[i]['name'] + '</div>';
-                    $html += '<br/>';
-                    $html += '<br/>';
-                    $html += '<div class="good-money-info">';
-                    $html += '<div class="item-no good-money "><span class="fc_orange">&yen;' + obj[i]['price'] +'</span> x ' + obj[i]['amount']  ;
-                    $html += '<span class="tr good-num num-item fc_orange">&yen; ' + parseFloat( obj[i]['amount'] * obj[i]['price']) + '</span></div>';
-                    $html += '</div>';
-                    $html += '</div>';
-                    $html += '</a>';
-                    $html += '<div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>';
-                    totalMoney += parseFloat( obj[i]['amount'] * obj[i]['price']);
-                    totalNum += parseFloat(obj[i]['amount']);
+                    if(isNumber(obj[i]['status'])){
+                        getCartGoodStock(); //获取购物车中的库存
+                    }
+                    if(obj[i]['status'] ==1) {
+                        $html += '<a href="/Product/view?id=' + obj[i]['id'] + '">';
+                        $html += '<div class="good-img fl">';
+                        $html += '<img  src="' + obj[i]['indexpic'] + '"/>';
+                        $html += '</div>';
+                        $html += '<div class="good-name fr">';
+                        $html += '<div  class="good-title">' + obj[i]['name'] + '</div>';
+                        $html += '<br/>';
+                        $html += '<br/>';
+                        $html += '<div class="good-money-info">';
+                        $html += '<div class="item-no good-money "><span class="fc_orange">&yen;' + obj[i]['price'] + '</span> x ' + obj[i]['amount'];
+                        $html += '<span class="tr good-num num-item fc_orange">&yen; ' + parseFloat(obj[i]['amount'] * obj[i]['price']) + '</span></div>';
+                        $html += '</div>';
+                        $html += '</div>';
+                        $html += '</a>';
+                        $html += '<div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>';
+                        totalMoney += parseFloat(obj[i]['amount'] * obj[i]['price']);
+                        totalNum += parseFloat(obj[i]['amount']);
+                    }
                 }
                 $('#product_list').html($html);
                 $('#quantity').html(totalNum);

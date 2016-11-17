@@ -8,7 +8,11 @@ $(function(){
     modelBox();
 })
 
-
+function isNumber (x) {
+    if (typeof x === 'number') return true;
+    if (/^0x[0-9a-f]+$/i.test(x)) return true;
+    return /^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x);
+}
 
 /**
  * 弹出框
@@ -102,6 +106,7 @@ function getStockCount(){
 }
 
 function setGoodNum(id,number){
+    number = parseInt(number);
     if(number>0 && id >0){
         var key = "myfood",
             myfood = $.cookie(key),
@@ -111,6 +116,9 @@ function setGoodNum(id,number){
 
         if(myfood_array && myfood_array[id]){
             if(myfood_array[id]){
+                if(number > myfood_array[id]['stock']){ //如果输入的数字大于库存，默认库存
+                    number = myfood_array[id]['stock'];
+                }
                 myfood_array[id]['amount'] = number;
             }
             var json = $.toJSON(myfood_array);
@@ -272,32 +280,34 @@ function loadGood(){
         if(obj){
             for(var i in obj) {
                 if(obj[i]['id']){
-                    amount+=parseInt(obj[i]['amount']);
                     if($('#js_goods_num_'+obj[i]['id']).attr('type') =='text'){
                         $('#js_goods_num_'+obj[i]['id']).val(obj[i]['amount']);
                     }else{
                         $('#js_goods_num_'+obj[i]['id']).html(obj[i]['amount']);
                     }
-                    totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+
                     $('#js_goods_'+obj[i]['id']+' .js_total').html('&yen;'+parseFloat((obj[i]['amount']*obj[i]['price'])));
-                    $('#CartNo').html(amount);
+
                     if(parseInt(obj[i]['amount'])<1){
                         $('#js_goods_'+obj[i]['id']).remove();
                     }
-                     if($('body').attr('pagename') == 'cart'){ //当前购物车页面
-                         //判断购物车库存
-                         if(parseInt(obj[i]['stock']) >= parseInt(obj[i]['amount'])){
-                             $('#js_goods_'+obj[i]['id']+' .cartptotal').html('Total: <span class="num-item js_total">&yen;' + (obj[i]['amount'] *obj[i]['price'])+ '</span>');
-                         }else{
-                             $('#js_goods_'+obj[i]['id']+' .cartptotal').html('out of stock');
-                         }
-                     }
+
+                    if($('body').attr('pagename') == 'cart'){ //当前购物车页面
+                        if(obj[i]['status'] == 1){ //下架的不计数
+                            amount+=parseInt(obj[i]['amount']);
+                            totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                        }
+                    }else{
+                        totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                        amount+=parseInt(obj[i]['amount']);
+                    }
 
                     //有商品数量的显示减号与商品数量
                     $('#js_goods_'+obj[i]['id'] +' .g_btn .cat_cart_num').removeClass('hide');
                     $('#js_goods_'+obj[i]['id'] +' .g_btn .num').removeClass('hide');
                 }
             }
+            $('#CartNo').html(amount);
             if(!amount){
                 $('#CartNo').css('display','none');
                 $('#cart_foot').css('display','none');
