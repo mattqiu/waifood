@@ -69,24 +69,20 @@
 
                         $html += '</div>';
                     }else{
-                        $html += '';
                         $html += '<div class=" fr item-foot-r fc_orange">out of stock</div>';
                     }
-
-
-
-
-
-
-
 
                     $html += '</div>';
                     $html += '<div class="clr"></div>';
                     $html += '<hr width="108%" color="#cccccc" size="1px" style="margin-left: -2%; "/>';
                     $html += '</div>';
                     $('#content').html($html);
-                    totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
-                    totalNum +=  obj[i]['amount'];
+
+                    if(obj[i]['status'] == 1){ //下架的不计数
+                        totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
+                        totalNum +=  obj[i]['amount'];
+                    }
+
                 }
             }
             if(parseFloat(totalMoney)){
