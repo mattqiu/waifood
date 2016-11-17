@@ -52,20 +52,33 @@
                     $html += '<div class="clr"></div>';
                     $html += '<div class="item-foot tc ">';
                     $html += '<div class="fl icon_trash _trash " onClick="delGood(' + obj[i]['id'] + ');"></div>';
+                    if(obj[i]['status'] ==1){
+                        $html += '<div class=" fr item-foot-r">';
+                        $html += '<div class="fl g_btn cartbtn">';
+                        $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
+                        var goodsnum = 0;
+                        if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
+                            goodsnum = parseInt(obj[i]['stock']);
+                            setGoodNum(obj[i]['id'],obj[i]['stock']);
+                        }else{
+                            goodsnum = parseInt(obj[i]['amount']);
+                        }
+                        $html += '<input type="text" class="num cartgoodnum fl tc"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
+                        $html += '<div class="add_cart_num  fl" data-id="' + obj[i]['id'] + '" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
+                        $html += '</div>';
+                        $html += '<div class="fr ptotal cartptotal fc_orange" style="margin-top: 10px;font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (goodsnum *obj[i]['price'])+ '</span></div>';
 
-                    $html += '<div class=" fr item-foot-r">';
-                    $html += '<div class="fl g_btn cartbtn">';
-                    $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
-                    $html += '<input type="text" class="num cartgoodnum fl tc"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + obj[i]['amount'] + '"/>';
-                    $html += '<div class="add_cart_num  fl" data-id="' + obj[i]['id'] + '" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
-                    $html += '</div>';
-                    //判断购物车库存
-                    if(parseInt(obj[i]['stock']) >= parseInt(obj[i]['amount'])){
-                        $html += '<div class="fr ptotal cartptotal" style="margin-top: 10px;color: #f15800;font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (obj[i]['amount'] *obj[i]['price'])+ '</span></div>';
+                        $html += '</div>';
                     }else{
-                        $html += '<div class="fr ptotal cartptotal" style="margin-top: 10px;color: #f15800;font-size: 16px;">out of stock</div>';
+                        $html += '';
+                        $html += '<div class=" fr item-foot-r fc_orange">out of stock</div>';
                     }
-                    $html += '</div>';
+
+
+
+
+
+
 
 
                     $html += '</div>';

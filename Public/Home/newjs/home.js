@@ -456,6 +456,7 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
                                  myfood_array[obj[i]['id']]['price'] = obj[i]['price'];
                                  myfood_array[obj[i]['id']]['indexpic'] = obj[i]['indexpic'];
                                  myfood_array[obj[i]['id']]['stock'] = obj[i]['stock'];
+                                 myfood_array[obj[i]['id']]['status'] = obj[i]['status'];
                              }
                          }
                          var json = $.toJSON(myfood_array);
