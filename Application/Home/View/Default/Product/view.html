@@ -90,10 +90,10 @@
 <script>
 window.weixinJs=function(){
     wx.share={
-        title:"{$db.title}",
+        title:"Waifood",
         img:"{:C('DOMAIN')}{$db.indexpic}",
-        link:window.location.href,
-        desc:"waifood goods"
+        link:window.location.href+'?to=share',
+        desc:"{$db.title}"
     };
     wx.wxshare();
 }
