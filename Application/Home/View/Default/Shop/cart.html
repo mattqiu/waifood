@@ -59,7 +59,6 @@
                         var goodsnum = 0;
                         if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
                             goodsnum = parseInt(obj[i]['stock']);
-                            setGoodNum(obj[i]['id'],obj[i]['stock']);
                         }else{
                             goodsnum = parseInt(obj[i]['amount']);
                         }

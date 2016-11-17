@@ -90,7 +90,6 @@ function getStockCount(){
         var obj = $.parseJSON(myfood);
         for (var i in obj) {
             if(obj[i]['id']){
-                console.log(obj[i]['id'])
                var stock = $('#js_goods_'+obj[i]['id']).data("stock");
                 myfood[obj[i]['id']]['stock'] = stock;
             }
@@ -109,12 +108,11 @@ function setGoodNum(id,number){
             myfood_array = {};
          myfood_array = $.parseJSON(myfood);
         // 看该产品是否存在
+
         if(myfood_array && myfood_array[id]){
             if(myfood_array[id]){
-                var single = myfood_array[id];
                 myfood_array[id]['amount'] = number;
             }
-
             var json = $.toJSON(myfood_array);
             $.cookie(key,json,{
                 "path":"/"
@@ -157,8 +155,6 @@ function addgood(id,event){
             myfood_array = {};
             myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
         }
-        console.log( myfood_array[id]['amount'])
-        console.log(stock)
         if( myfood_array[id]['amount'] > stock){ //库存不足
             jAlert("Insufficient stock!",SYSTITLE);
             return false;
@@ -451,6 +447,9 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
                          var obj = data.data;
                          for (var i in obj) {
                              if(obj[i]['id']){
+                                 if(parseInt(  myfood_array[obj[i]['id']]['amount'])>parseInt(obj[i]['stock'])) { //库存小于当前购物车商品数量
+                                     myfood_array[obj[i]['id']]['amount'] = obj[i]['stock'];
+                                 }
                                  myfood_array[obj[i]['id']]['id'] = obj[i]['id'];
                                  myfood_array[obj[i]['id']]['name'] = obj[i]['title'];
                                  myfood_array[obj[i]['id']]['price'] = obj[i]['price'];

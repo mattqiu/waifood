@@ -27,9 +27,9 @@ table tr td div{line-height: 23px}
                 <div style="font-size: 20px;">(Padid 已付)</div>
             </div>
             <div class="fl" style="width: 250px;">
-                Order ID:201611111543044951 <br/>
-                Customer订购人：3333333333<br/>
-                Fapiao发票: Yes<br/>
+                Order ID:{$db['orderno']} <br/>
+                Customer订购人： {:get_username($db['userid'])}<br/>
+                Fapiao发票: <if condition="$db['invoice'] eq 1">Yes<else/>No</if><br/>
             </div>
             <hr size="1px" width="850px" color="#000000"/>
         </div>
