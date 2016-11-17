@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="top">
+    <div class="logo"><a href="/"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" style="margin-top: 10px;" alt=""/></a></div>
+	<div class="search">
+     <form action="{:U('Search/index')}" method="get" >
+	    <input type="text" name="keyword" id="keyword" placeholder="keywords..." 
+        <notempty name="keyword">value="{$keyword}"</notempty> 
+        />
+      <button type="submit"   value="" ></button>
+	    </form> 
+	</div>
+	<div class="txt">
+		{:lbl('adtop')}
+	</div>
+    
+  </div> 
+  <div class="clr"></div>
+</div>
+
+<div class="container"> 
+  <div class="nav">
+  <div class="nav_center"> 
+	  <ul class="navigation"> 
+	    <li ><a href="/" class="selected">Shopping</a></li>
+          <!--<li style="background-color:#FFAE00;"><a href="{:U('Service/lists','id=3')}"><span class="icon-new"></span>Laundry Service</a></li>
+		  <li><a href="{:U('Cleaning/index')}">House Cleaning</a></li>
+		  <li><a href="{:U('Special/index','id=2')}">Countryside Farm</a>
+		  <li><a href="{:U('Special/index','id=3')}">Chinese Training</a>
+          <li class="min-font"><a href="javascript:void(0);" >Planning more...</a></li>-->
+	  </ul>
+	  
+	  <div class="shopping"> <span class="gwcname"><a href="{:U('Settle/cart')}" style="color:#FFF;">Shopping Cart</a></span><span class="shuliang" id="CartNo">0</span>
+	    <div class="shop">
+	      
+	    </div>
+	  </div>
+	  <div class="username"></div>
+	  </div>
+	</div>  
+  <div class="clr"></div>
+</div>

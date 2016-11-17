@@ -5,16 +5,12 @@
 <title>{$title}</title>
 <meta name="keywords" content="{$keywords}" />
 <meta name="description" content="{$description}" />
-<!--[if lt IE 8]>
-<script src="__PUBLIC__/Shop/js/oldie-upgrade.js"></script>
-<![endif]-->
-<include file="Index:header"/>
+<include file="Index:header" />
 </head>
-<body id="top">
-
+<body>
 <include file="Index:bar" />
 <include file="Index:nav2" />
-<div class="container" >
+<div class="container">
   <div class="content">
     <div class="lbox">
       <include file="Index:nav2sub" />
@@ -45,7 +41,8 @@
            </ul>
         </div>
       </div>
-      <div class="clear"></div> 
+      <div class="clear"></div>
+      <div class="ho_title"><strong>Hot Products</strong></div>
       <div class="hot_txt">
         <ul>
         {:lbl('adcenter')}
@@ -67,7 +64,7 @@
         <span class="marketprice">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -89,7 +86,7 @@
         <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -111,7 +108,7 @@
         <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -133,7 +130,7 @@
         <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -155,7 +152,7 @@
         <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -177,7 +174,7 @@
         <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
         </neq></p>
               <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
+                <input type="number" value="1" class="num" />
                 <a href="javascript:void(null)" class="jia btnPlus"></a></p>
             </li>
           </volist>
@@ -189,12 +186,7 @@
   </div>
   <div class="clr"></div>
 </div>
-<a href="#top" target="_self">
-    <div class="back_top">
-        <img src="__PUBLIC__/Shop/images/5-120601160021.png" width="30" alt=""/>
-    </div>
-</a>
 <include file="Index:footer" />
-<js href="__PUBLIC__/Shop/js/jquery.touchslider.min.js" />
+<js href="__PUBLIC__/Shop/js/jquery.touchslider.min.js" /> 
 </body>
 </html>

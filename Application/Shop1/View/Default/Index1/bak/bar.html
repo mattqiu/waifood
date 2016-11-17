@@ -1,0 +1,17 @@
+
+<div class="container">
+  <div class="top">
+    <div class="logo"><a href="/"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" height="100"  alt=""/></a></div>
+    <div class="kouhao">{:lbl('adtop')}</div>
+    <div class="top_r">
+      <p>
+      <if condition="(get_userid() neq 0)" >
+  <a href="{:U('Member/index')}">My Waifood</a>/<a href="javascript:void(0);" onclick="$.logout()" class="fc_red">Log out</a>
+  <else/>
+   <a href="/">Home</a>|<a href="{:U('Login/index')}">Login</a>/<a href="{:U('Login/register')}">Register</a>
+  </if>|<a href="{:U('Member/order')}">My Order</a>|<a href="{:U('Form/view','id=1')}">Wish list</a>|<a href="{:U('Content/lists','id=15')}">About us</a></p>
+      <p class="tel">Customer Service: {:lbl('telephone')}</p>
+    </div>
+  </div> 
+  <div class="clr"></div>
+</div>  
