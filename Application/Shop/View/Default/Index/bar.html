@@ -1,14 +1,29 @@
-
 <div class="topbar">
-	<div class="wrap">
-		<div class="links">
-			 <if condition="(get_userid() neq 0)" >
-   <a href="/">Home</a>/<a href="javascript:void(0);" onclick="$.logout()" class="fc_red">Log out</a>
-  <else/>
-   <a href="/">Home</a>|<a href="{:U('Login/index')}">Login</a>/<a href="{:U('Login/register')}">Register</a>
-  </if>|<a href="{:U('Member/order')}">My Order</a>|<a href="{:U('Form/view','id=1')}">Wish list</a>|<a href="{:U('Content/lists','id=15')}">About us</a>
-		</div>
-		<div class="server-text"><a href="{:U('Member/index')}">{:get_displayname()}</a> Customer Service:{:lbl('telephone')}</div>
-	</div>
+    <div class="content">
+        <div class="links">
+            <a href="/">Home</a>
+            |<a href="{:U('Form/view','id=1')}">Wish list</a>
+            |<a href="/?l=en">English</a>
+        </div>
+        <div class="server-text">
+            <div class="fl">
+                <if condition="(get_userid() neq 0)" >
+                    <a href="javascript:void(0);"  onclick="$.logout()" class="fc_red">Log out</a>
+                <else/>
+                    <a href="{:U('Login/index')}" class="black">Login</a> | <a href="{:U('Login/register')}">Register</a>
+                </if> &nbsp;
+            </div>
+            <div class="fl myaccount">
+                <a href="/Member/index"> <img src="__PUBLIC__/Shop/images/myaccount.png" alt=""/>&nbsp;&nbsp; My account</a>
+            </div>
+            <div class="myaccount_box">
+                <ul>
+                    <li>My order</li>
+                    <li>My address</li>
+                    <li>Change password</li>
+                    <li onclick="logout()">Log out</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-

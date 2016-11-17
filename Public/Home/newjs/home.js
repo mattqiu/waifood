@@ -19,7 +19,7 @@ function isNumber (x) {
  */
 function modelBox(){
     if(!$('body').find('.lean_overlay').data('show')){
-        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/img/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
         $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
         $('body').append($html);
     }

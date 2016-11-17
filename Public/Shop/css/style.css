@@ -2,7 +2,7 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,th,td {margin:0;padding:0;}
 body { font-size: 12px; color: #666;margin:0px; background:#FFF;}
 body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}
-a{ color:#333; text-decoration:none;}
+a{ text-decoration:none;}
 a:hover{ color: #799e0f; text-decoration: underline; }
 :focus{outline:0}
 table {border-collapse:collapse;border-spacing:0;}
@@ -51,6 +51,7 @@ fieldset,img { border: none;}
 .navigation li{ float:left; line-height:38px;}
 .navigation li a{ display:block; color:#FFF; font-size:14px; font-weight:bold; padding:0 10px;}
 .navigation li a:hover,.navigation li .selected{ color:#FFF; text-decoration:none; background:#799e0f;}
+
 .search{ height:26px; margin:6px 0 0 0px; float:left; display:inline; background:#FFF;}
 .search input{ width:230px; height:26px; float:left; border:none; line-height:26px; font-family:Arial; padding:0 5px; background:#FFF;}
 .search button{ width:26px; height:26px; float:left; border:none; background:#FFF url(../images/sou.png) no-repeat center;}
@@ -448,6 +449,7 @@ a#ljzf{ width:104px; height:32px; background:url(../images/ljzf.gif) no-repeat c
 .topbar .links a { margin:0 3px;}
 .topbar .server-text { float:right; color:#799E0F;}
 .top .logo { }
+
 .top .search { float:right; border:2px solid #ddd; margin-top:35px; height:36px; }
 .top .search:hover { border-color:#90b830;}
 .top .search input { width:320px; height:20px; padding: 8px 15px;}

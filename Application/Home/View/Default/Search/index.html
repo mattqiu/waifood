@@ -50,7 +50,7 @@ $so=($sort=='desc'?'asc':'desc');
     <ul>
       <volist name="list" id="vo">
         <li>
-          <div class="box"> <a href="{:Uu('Product/view','id='.$vo['id'])}"> <img  src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" alt="{$vo.title}"   width="100%" /> <strong  >{:str_ireplace($keyword,'<font class="fc_red">'.$keyword.'</font>',$vo['title'])}</strong><br> 
+          <div class="box"> <a href="{:Uu('Product/view','id='.$vo['id'])}"> <img  src="__PUBLIC__/img/grey.gif" class="lazy"  data-original="{$vo.indexpic}" alt="{$vo.title}"   width="100%" /> <strong  >{:str_ireplace($keyword,'<font class="fc_red">'.$keyword.'</font>',$vo['title'])}</strong><br>
             <div>Unit:{$vo.unit}</div>
             <div>Preservation:{$vo.storage}</div>
             <div>Origin:{$vo.origin}</div>

@@ -1,0 +1,118 @@
+@charset "utf-8";
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,th,td {margin:0;padding:0;}
+body { font-size: 14px;color: #666;margin:0px; background:#FFF; font-family: "arial";}
+/*body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}*/
+a{ text-decoration:none;}
+a:hover{ color: #2eb661; text-decoration: none; }
+:focus{outline:0}
+table {border-collapse:collapse;border-spacing:0;}
+ol,ul,dl {list-style:none;}
+input,button,select{vertical-align:middle;}
+fieldset,img { border: none;}
+.clear{display:block;height:0;clear:both;content:"";overflow:hidden;visibility:hidden;}
+.hidden { display:none;}
+.tc { text-align: center}
+.clr{clear: both}
+.black{color: #000000}
+/************************************home**********************************************/
+.container{width:1090px; margin:0 auto;}
+
+/*头部*/
+.topbar {width: 100%;min-width: 1090px; height:40px; border-bottom:1px solid #cccccc; background:#f2f2f2; line-height:40px;}
+.topbar .links  { float:left; }
+.topbar .links a { margin:0 3px;color:#757575;}
+.topbar .server-text a {color:#757575;}
+.topbar .server-text { float:right;width: 232px;}
+.topbar .server-text .myaccount { display: block;width: 125px;background: #E0E0E0;text-align: center}
+.topbar .server-text .myaccount a { color: #666666;}
+.myaccount_box{width: 125px;border: 1px solid #cccccc; background: #FFFFFF;　-webkit-box-shadow: 3px 3px 3px #000000;-moz-box-shadow: 3px 3px 3px #000000;　box-shadow: 3px 10px 3px #000000; position: relative;z-index: 100}
+.myaccount_box ul{height: auto;}
+.myaccount_box ul li{height: 60px; line-height: 60px;}
+.myaccount_box ul li{height: 60px; line-height: 60px;}
+.myaccount_box ul .onselect{color: #2eb661;background: #f5f5f5}
+
+.topbar  a:hover ,.server-text  a:hover {color: #2eb661;}
+
+
+.logoAngsearch{height: 130px;}
+ .search { border:1px solid #2eb661; margin-top:40px;margin-left: 137px;  height:40px; width: 392px}
+ .search input { width:320px; height:38px; color: #999999}
+ .search button { width:62px; height:40px;background: url("../images/searching.png") no-repeat center #2eb661}
+.logoAngsearch .qrcode{margin-left: 160px;width: 106px;height: 106px;margin-top: 13px;}
+
+/*.nav{height: 38px; width:100%; position:relative; z-index:1001; float:left; }*/
+.nav_center{width: 100%;min-width: 1090px;  height:44px; margin:0 auto; background:#2eb661;}
+/*.allcp{ width:200px; height:38px;  background:#799e0f; line-height:38px; float:left; position:relative;}*/
+/*.allcp strong{ display:block; margin:0 10px; font-size:14px; background:url(../images/arr.gif) no-repeat right center; color:#FF0; cursor:default;}*/
+.navigation li{ float:left; line-height:44px; width: 210px; text-align: center}
+.navigation li a{ display:block; color:#FFF; font-size:14px; font-weight:bold; padding:0 10px;}
+.navigation li a:hover,.navigation li .selected{ color:#FFFFFF; font-weight: bold; background:#0a9b44;}
+.shopping{ width:200px; height:44px; float:right; background:#0a9b44;font-size: 16px;color: #FFFFFF;line-height: 44px; text-align: center }
+.shopping div img{margin-top: 2px;}
+.shopping div{margin-left: 8px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,7 +22,7 @@ $config = array(
     
     // 分页设置
     'VAR_PAGESIZE' => 32,
-    'DEFAULT_AVATAR' => '/Public/Shop/images/txzw.jpg',
+    'DEFAULT_AVATAR' => '/Public/img/txzw.jpg',
     
     // 路由设置
     'URL_CASE_INSENSITIVE' => true,
