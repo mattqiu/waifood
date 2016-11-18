@@ -19,7 +19,7 @@ table{ border-collapse:collapse; }
 
 </head>
 <body>
-<div style=";width: 850px;height:210px; margin:0 auto;" >
+<div style=";width: 850px; margin:0 auto;" id="head" >
     <div>
         <div>
             <div class="fl" style="width: 200px;"><img src="__PUBLIC__/Admin/images/printLogo.png" width="140" /></div>
@@ -69,7 +69,7 @@ table{ border-collapse:collapse; }
         $count = ceil(count($list)/23);
         for($i=0;$i<$count;$i++){
     ?>
-    <div style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;<else/>height: 900px;</if>width: 850px;;margin: 0 auto;">
+    <div id='js_content_{$i}'  style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;</if>width: 850px;;margin: 0 auto;">
     <table style=" margin-top:15px; text-align:center;"  cellpadding="0" cellspacing="0" class="table1">
         <tr>
             <td width="30">No.</td>
@@ -131,6 +131,9 @@ table{ border-collapse:collapse; }
 <?php
     }
 ?>
-
+<script src="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js"></script>
+<script>
+    $('#js_content_0').css('height', 1123 - parseInt($('#head').height())+'px')
+</script>
 </body>
 </html>
