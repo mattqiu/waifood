@@ -73,7 +73,7 @@ fieldset,img { border: none;}
 
 .content{ width:1090px; margin:0 auto; overflow:hidden; zoom:1;}
 #allSub,.lbox{ width:200px; float:left;}
- 
+
 .product_menu li{ width:100%;  float:left; height:40px; position:relative; margin:0; z-index:1000;}
 .product_menu li span a{ height:39px; line-height:39px; display:block; background:#FFF;  border:1px solid #DDD; border-top:none; padding:0 15px;  position:relative; z-index:99;}
 .submenu a:hover,.product_menu li span a:hover{ background:#f6f8f0}
@@ -310,17 +310,17 @@ a.qrsh{ width:62px; height:24px; display:inline-block; margin-top:3px; backgroun
 .fc_white { color: #fff; }
 #tip,.fc_red { color: #f00; }
 .fc_blue { color: #00f; }
-.fc_green { color: green; } 
-.tip{color:#666; } 
+.fc_green { color: green; }
+.tip{color:#666; }
 .tl { text-align: left; }
 .tc { text-align: center; }
-.tr { text-align: right;} 
+.tr { text-align: right;}
 
 .fl{float:left;}
 .fr{float:right;}
 
-.container{width:1090px; height:auto; margin:0px auto; padding:0px; } 
-.container1{width:100%; height:auto; margin:0px auto; padding:0px;  } 
+.container{width:1090px; height:auto; margin:0px auto; padding:0px; }
+.container1{width:100%; height:auto; margin:0px auto; padding:0px;  }
 
 .hauto{height:auto;}
 .wauto{width:auto;}
@@ -328,7 +328,7 @@ a.qrsh{ width:62px; height:24px; display:inline-block; margin-top:3px; backgroun
 .hide{display:none;}
 .show{display:block;}
 
-/*遮罩层*/ 
+/*遮罩层*/
 #popup_container {font-family: Arial, sans-serif;font-size: 12px;min-width: 300px; /* Dialog will be no smaller than this */max-width: 600px; /* Dialog will wrap after this width */background: #FFF;color: #000; box-shadow:0px 0px 5px #000; border:1px #ccc solid;}
 
 #popup_title {font-size: 14px;text-align: center;line-height: 1.75em;color: #333;background: #CCC url(../images/alert/title.gif) top repeat-x;border: solid 1px #FFF;border-bottom: solid 1px #999;cursor: default;padding: 0em;margin: 0em;}
@@ -422,12 +422,12 @@ a#ljzf{ width:104px; height:32px; background:url(../images/ljzf.gif) no-repeat c
 .gg_txt ul .qr_recommend a{ color:#799E0F; line-height:20px;}
 
 
-/*洗衣*/ 
+/*洗衣*/
  .nav_top{height:40px; line-height:40px; border:1px #799E0F solid; width:1088px; margin-bottom:10px;}
  .nav_top a{ float:left;  width:33.33%; text-align:center; font-size:18px; color:#799E0F;  }
  .nav_top a:hover,.nav_top .selected{   text-decoration:none; color:#fff; background:url(../images/bgTab.jpg) repeat-x #799E0F; }
- 
- 
+
+
 /*.service li{padding:0px; width:203px; height:306px; margin:0px 20px 15px 0px;}
 .service li img{ margin-left:8px;}
 .service li h2{ height:30px; line-height:30px; width:100%; border-top:1px #ccc solid; border-bottom:1px #ccc solid; background:#F2F1F1; color:#759A2E; text-align:center;}*/

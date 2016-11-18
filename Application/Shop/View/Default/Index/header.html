@@ -3,9 +3,8 @@ var APP_PATH="__APP__";
 var CONST_PUBLIC="__PUBLIC__";
 var CONST_CART="{:U('Cart/URL')}";
 </script>
-<js href="__PUBLIC__/js/jquery.2.2.1.min.js__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Shop/js/jquery.lazyload.js" />
-<script src="__PUBLIC__/Shop/js/jquery.func.js?v{:rand(0,999)}"></script>
+<js href="__PUBLIC__/js/jquery.2.2.1.min.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/js/jquery.lazyload.js" />
 <!--[if IE 6]>
 <js href="__PUBLIC__/Shop/js/pngfix.js" />
 <![endif]-->
-<css href="__PUBLIC__/Shop/css/shop.css?04241,__PUBLIC__/Admin/js/alerts/jquery.alerts.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Shop/css/shop.css?{:version()}" />

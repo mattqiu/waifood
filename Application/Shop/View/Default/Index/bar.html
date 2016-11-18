@@ -1,24 +1,24 @@
 <div class="topbar">
-    <div class="content">
+    <div class="container">
         <div class="links">
             <a href="/">Home</a>
             |<a href="{:U('Form/view','id=1')}">Wish list</a>
             |<a href="/?l=en">English</a>
         </div>
         <div class="server-text">
-            <div class="fl">
+            <div class="fl logon_reg">
                 <if condition="(get_userid() neq 0)" >
                     <a href="javascript:void(0);"  onclick="$.logout()" class="fc_red">Log out</a>
                 <else/>
                     <a href="{:U('Login/index')}" class="black">Login</a> | <a href="{:U('Login/register')}">Register</a>
                 </if> &nbsp;
             </div>
-            <div class="fl myaccount">
-                <a href="/Member/index"> <img src="__PUBLIC__/Shop/images/myaccount.png" alt=""/>&nbsp;&nbsp; My account</a>
+            <div class="fr myaccount" id="myaccount">
+                 <img src="__PUBLIC__/Shop/images/myaccount.png" alt=""/>&nbsp;&nbsp; My account
             </div>
             <div class="myaccount_box">
                 <ul>
-                    <li>My order</li>
+                    <li class="onselect">My order</li>
                     <li>My address</li>
                     <li>Change password</li>
                     <li onclick="logout()">Log out</li>
@@ -27,3 +27,24 @@
         </div>
     </div>
 </div>
+<script>
+    $(function(){
+        $('#myaccount').mouseover(function(){
+            $('.myaccount_box').show();
+        });
+        $('.myaccount').mouseleave(function(){
+            $('.myaccount_box').hide();
+        })
+        $('.myaccount_box').mouseover(function(){
+            $('.myaccount_box').show();
+        })
+        $('.myaccount_box').mouseleave(function(){
+            $('.myaccount_box').hide();
+        })
+        $('.myaccount_box li').mouseover(function(){
+            $('.myaccount_box li').removeClass('onselect');
+            $(this).addClass('onselect');
+        })
+    })
+
+</script>
