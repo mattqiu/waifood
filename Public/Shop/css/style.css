@@ -37,7 +37,7 @@ fieldset,img { border: none;}
 .language li:hover{width: 115px; }
 
 .top{width: 1090px; height: 100px; margin:0 auto; overflow:hidden;}
-.logo{ float:left;}
+.logo{width: 210px; float:left;}
 .kouhao{float: left; padding-left:10px; overflow:hidden;}
 .top_r{float: right; font-size:14px; text-align:right; width:440px; overflow:hidden;}
 .top_r p{ margin:20px 0 0;}
@@ -62,6 +62,7 @@ fieldset,img { border: none;}
 .shop{ width:420px; background:#FFF; border:1px solid #DDD; border-top:none; position:absolute; right:0; top:38px; display:none;}
 .shop tr{ border-bottom:1px solid #EEE;}
 .shop td{ padding:10px 5px;}
+
 .gwimg{width: 40px;height: 40px; border:1px solid #DDD; padding:2px; display:inline-block;}
 .jiage{ color:#F00;}
 .jian{ width: 17px;height: 17px; display:inline-block; background:url(../images/jian.jpg) no-repeat center; cursor:pointer;vertical-align:middle;}
