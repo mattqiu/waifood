@@ -19,29 +19,46 @@ function isNumber (x) {
  */
 function modelBox(){
     if(!$('body').find('.lean_overlay').data('show')){
-        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: ; padding: 2px;" class="hide leanModal" ><img src="/Public/img/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        $html += '<div id="attention" style="display:none ;width: 95%;top: 46px; margin: 0 auto; padding: 2px;" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
         $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
         $('body').append($html);
     }
 
+    if(getUrlParam('to') == 'share'){
+        $('.leanModal').css({'background':'none','right':'2%'});
+        $('.lean_overlay').show();
+        $('#attention').show();
+    }
+
     $('.lean_overlay').click(function(){
-        if($(this).css('display') !='none'){
-            $(this).hide();
-            $('.leanModal').hide();
-        }
+        //if($(this).css('display') !='none'){
+        $('#showQr-box').hide();
+        $('#attention').hide();
+        $('#showAddr').hide();
+        $('.leanModal').hide();
+        $('.lean_overlay').hide();
+        //}
     })
     $('#showQr').click(function(){
+        $('.leanModal').css({'background':'#FFFFFF','right':'25%'});
         $('.lean_overlay').show();
         $('#showQr-box').show();
+        $('#showAddr').hide();
+        $('#attention').hide();
     })
 
     $('#choosHeadAddr').click(function(){
+        $('.leanModal').css({'background':'#FFFFFF','right':'25%'});
         $('.lean_overlay').show();
         $('#showAddr').show();
+        $('#attention').hide();
+        $('#showQr-box').hide();
     })
     $('#showAddr .addr').click(function(){
         $('.lean_overlay').hide();
         $('.leanModal').hide();
+        $('#attention').hide();
     })
 }
 /**

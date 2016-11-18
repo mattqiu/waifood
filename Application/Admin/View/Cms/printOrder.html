@@ -10,48 +10,60 @@ body{font-family: '宋体'; word-break: break-all; word-wrap: break-word;font-si
 table tr td div{line-height: 23px}
 
 
-/*table tr td{border: 1px solid red;;}*/
+table tr td{border: 1px solid #000000;}
+table{ border-collapse:collapse; }
 
 .table1 td{height:25px;}
-.table1 tr td{line-height: 40px;}
+.table1 tr td{line-height: 30px;}
 </style>
 
 </head>
 <body>
-<div style=";width: 850px;margin:0 auto;" >
+<div style=";width: 850px;height: 1123px; margin:0 auto;" >
     <div>
         <div>
             <div class="fl" style="width: 200px;"><img src="__PUBLIC__/Admin/images/printLogo.png" width="140" /></div>
             <div class="fl"  style="width: 400px; text-align: center">
-                <div style="font-size: 30px;font-weight: bold;">Delivery Note 配送单</div>
-                <div style="font-size: 20px;">(Padid 已付)</div>
+                <div style="font-size: 30px;font-weight: bold;">Delivery Note <br/> 配送单</div>
             </div>
             <div class="fl" style="width: 250px;">
                 Order ID:{$db['orderno']} <br/>
-                Customer订购人： {:get_username($db['userid'])}<br/>
+                Customer订购人:{:get_username($db['userid'])}<br/>
                 Fapiao发票: <if condition="$db['invoice'] eq 1">Yes<else/>No</if><br/>
             </div>
             <hr size="1px" width="850px" color="#000000"/>
         </div>
         <div style="line-height: 25px;">
             <div class="fl" style="width: 400px;">
-                <div>Customer订购人：{$db.username}({$db.telephone})</div>
-                <div>Delivery Tiem 收货时间：{$db.delivertime}</div>
+                <div class="fl">Consignee收货人:</div>
+                <div class="fl" style="width: 200px;">{$db.username}({$db.telephone})</div>
             </div>
-            <div class="fl" style="width: 450px;">
-                Delivery Address地址：{$db.address}
+            <div class="fl" style="width: 400px; margin-left: 50px;">
+                <div class="fl"  style="clear: both">  Delivery Time收货时间:</div>
+                <div class="fl" style="width: 200px;word-break: normal">{$db.delivertime}</div>
+               <!--{$db.delivertime}-->
+            </div>
+            <div style="clear: both;width: 850px;">
+                <div class="fl" style="width: 170px;"> Delivery Address地址:</div>
+                <div class="fl" style="width: 670px;">{$db.address}</div>
             </div>
             <hr size="1px" width="850px" color="#000000"/>
         </div>
-
-        <div style="line-height: 25px;">
-            Customer Message:{$db.info}
-            <hr size="1px" width="850px" color="#000000"/>
-        </div>
+        <if condition="$db['info']">
+            <div style="line-height: 25px;">
+                Customer Message:{$db.info}
+                <hr size="1px" width="850px" color="#000000"/>
+            </div>
+        </if>
     </div>
 
-    <div style="  height: 35px;line-height: 35px;text-align: right;">Payable 应付金额: <span style="font-weight: bold;font-size: 25px; ">&yen;{$db.amount|default=0}</span></div>
-    <table border="1" style=" margin-top:15px; text-align:center; " cellpadding="2" cellspacing="0" class="table1">
+    <div style=" height: 35px;line-height: 35px;text-align: right;">
+        Payable 应付金额: <span style="font-weight: bold;font-size: 25px; ">&yen;{$db.amount|default=0}</span>
+        <span style="font-size: 20px;">
+            <if condition="$db['pay'] eq 1">(Paid 已付)<else/>(Unpaid 未付)</if>
+        </span>
+    </div>
+    <table style=" margin-top:15px; text-align:center; "  cellpadding="0" cellspacing="0" class="table1">
       <eq name="isShop" value="true">
         <?php
         $subtotal=0;
@@ -62,11 +74,11 @@ table tr td div{line-height: 23px}
         </tr>
                 </eq>
       <tr>
-        <td width="50">No.</td>
+        <td width="30">No.</td>
         <td width="452">Product Name</td>
-        <td width="65">Unit</td>
+        <td width="75">Unit</td>
         <td width="65">Price</td>
-        <td width="65 ">Qty</td>
+        <td width="30 ">Qty</td>
         <td width="65">Subtotal</td>
       </tr>
       <volist name="list" id="vo">
@@ -130,8 +142,8 @@ table tr td div{line-height: 23px}
         <tr>
             <td colspan="6"  align="left">
                 <div style="width: 580px;float: left;">
-                    <div>Delivery Fee运费：&yen;{$db.shipfee|default=0}</div>
-                    <!--<div>余额抵扣：&yen;{$db.discount|default=0}</div>-->
+                    <div style="padding-left: 5px;">Delivery Fee运费:&yen;{$db.shipfee|default=0}</div>
+                    <!--<div>余额抵扣:&yen;{$db.discount|default=0}</div>-->
                 </div>
                 <div  style="width: 260px;float: right;">
                     <div>Product Amount商品总额:&yen;{$db.amountall|default=0}</div>
@@ -139,13 +151,11 @@ table tr td div{line-height: 23px}
                 </div>
             </td>
         </tr>
-
     </table>
-
-    <div style="margin-top: 50px;">
-        <div class="fl" style="width: 80px;"><img src="__PUBLIC__/img/qr.jpg" width="80" alt=""/></div>
+    <div style="position: relative;bottom: 0">
+        <div class="fl" style="width: 80px;"><img src="__PUBLIC__/Shop/images/qr.jpg" width="80" alt=""/></div>
         <div class="fl" style="width: 600px;"><br/>
-           <div style="font-weight: bold">Gathering the best</div>
+            <div style="font-weight: bold">Gathering the best</div>
             service@waifood.com
         </div>
         <div class="fl"style="width: 170px; "><br/>
@@ -158,5 +168,6 @@ table tr td div{line-height: 23px}
         <input type="button" value="打印" onclick="this.style.display='none';window.print();" />
     </div>
 </div>
+
 </body>
 </html>
