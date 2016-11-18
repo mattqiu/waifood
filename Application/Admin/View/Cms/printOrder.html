@@ -19,8 +19,7 @@ table{ border-collapse:collapse; }
 
 </head>
 <body>
-
-<div style=";width: 850px;height:223px; margin:0 auto;" >
+<div style=";width: 850px;height:210px; margin:0 auto;" >
     <div>
         <div>
             <div class="fl" style="width: 200px;"><img src="__PUBLIC__/Admin/images/printLogo.png" width="140" /></div>
@@ -58,15 +57,14 @@ table{ border-collapse:collapse; }
         </if>
     </div>
 
-    <input type="button" value="打印" onclick="this.style.display='none';window.print();" />
-    <div style=" height: 35px;line-height: 35px;text-align: right;">
+    <div style="  height: 30px;line-height: 30px;text-align: right;">
+        <input type="button" value="打印" style="float: left;margin-top: 8px;" onclick="this.style.display='none';window.print();" />
         Payable 应付金额: <span style="font-weight: bold;font-size: 25px; ">&yen;{$db.amount|default=0}</span>
         <span style="font-size: 20px;">
             <if condition="$db['pay'] eq 1">(Paid 已付)<else/>(Unpaid 未付)</if>
         </span>
     </div>
 </div>
-
     <?php
         $count = ceil(count($list)/23);
         for($i=0;$i<$count;$i++){
