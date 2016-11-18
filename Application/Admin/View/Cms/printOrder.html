@@ -87,7 +87,7 @@ table{ border-collapse:collapse; }
               <td>{$vo.unit}</td>
               <td>{$vo.price}</td>
               <td>{$vo.num|float_fee}</td>
-              <td>{:to_price($sub)}</td>
+              <td>{$vo['price']*$vo['num']|float_fee}</td>
             </tr>
             </if>
         </volist>
