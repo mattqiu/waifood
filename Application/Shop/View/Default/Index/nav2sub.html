@@ -17,5 +17,14 @@
     $('.product_menu li').hover(function(){
         $('.product_menu li').removeClass('cate_select');
         $(this).addClass('cate_select');
+
+        var obj = $(this).find(".submenu");
+        if ($.trim(obj.text()) != "") {
+            obj.show();
+            if ($(this).children(".submenu").length > 0) {
+                $(this).addClass("current");
+            }
+        }
     })
+
 </script>
