@@ -65,6 +65,8 @@ fieldset,img { border: none;}
 .submenu li a{height: 30px;line-height: 30px;color: #757575}
 .submenu li a:hover{color: #2eb661}
 
+.banner-box{width: }
+
 
 .rbox{ width:880px; height: 600px; float:right; overflow:hidden; zoom:1;}
 .banner{width: 665px; height: 300px; float:left; margin-top:10px; overflow:hidden; position:relative;}
