@@ -68,7 +68,7 @@ table{ border-collapse:collapse; }
 </div>
 
     <?php
-        $count = ceil(count($list)/26);
+        $count = ceil(count($list)/23);
         for($i=0;$i<$count;$i++){
     ?>
     <div style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;<else/>height: 900px;</if>width: 850px;;margin: 0 auto;">
@@ -85,7 +85,7 @@ table{ border-collapse:collapse; }
             <td width="65">Subtotal</td>
         </tr>
         <volist name="list" id="vo" key="o">
-            <if condition="$o gt ($i)*26 and $o lt ($i+1)*26">
+            <if condition="$o gt ($i)*23 and $o lt ($i+1)*23">
             <tr align="center">
               <td>{$o}</td>
               <td align="left">{$vo.productname}</td>
