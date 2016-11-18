@@ -66,7 +66,7 @@ table{ border-collapse:collapse; }
     </div>
 </div>
     <?php
-        $count = ceil(count($list)/23);
+        $count = ceil(count($list)/25);
         for($i=0;$i<$count;$i++){
     ?>
     <div id='js_content_{$i}'  style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;</if>width: 850px;;margin: 0 auto;">
@@ -75,19 +75,19 @@ table{ border-collapse:collapse; }
             <td width="30">No.</td>
             <td width="452">Product Name</td>
             <td width="75">Unit</td>
-            <td width="65">Price</td>
+            <td width="60">Price</td>
             <td width="30 ">Qty</td>
-            <td width="65">Subtotal</td>
+            <td width="60">Subtotal</td>
         </tr>
         <volist name="list" id="vo" key="o">
-            <if condition="$o egt ($i)*23 and $o lt ($i+1)*23">
+            <if condition="$o egt ($i)*25 and $o lt ($i+1)*25">
             <tr align="center">
               <td>{$o}</td>
               <td align="left">{$vo.productname}</td>
               <td>{$vo.unit}</td>
-              <td>&yen;{$vo.price}</td>
+              <td>{$vo.price}</td>
               <td>{$vo.num|float_fee}</td>
-              <td>&yen;{:to_price($sub)}</td>
+              <td>{:to_price($sub)}</td>
             </tr>
             </if>
         </volist>
