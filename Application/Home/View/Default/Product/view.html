@@ -138,7 +138,7 @@ $(function(){
     window.weixinJs=function(){
         wx.share={
             title:"Waifood",
-            img:"{:C('DOMAIN')}{$db.indexpic}",
+            img: "{:C('DOMAIN')}"+$('#tapSlider img').eq(0).attr('src'),
             link:window.location.href+'?to=share',
             desc:"{$db.title}"
         };
