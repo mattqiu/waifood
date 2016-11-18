@@ -85,7 +85,7 @@ table{ border-collapse:collapse; }
             <td width="65">Subtotal</td>
         </tr>
         <volist name="list" id="vo" key="o">
-            <if condition="$o gt ($i)*23 and $o lt ($i+1)*23">
+            <if condition="$o egt ($i)*23 and $o lt ($i+1)*23">
             <tr align="center">
               <td>{$o}</td>
               <td align="left">{$vo.productname}</td>
