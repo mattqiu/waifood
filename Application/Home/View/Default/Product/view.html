@@ -88,15 +88,6 @@
 </div>
 <include file="Index:footer" /> 
 <script>
-window.weixinJs=function(){
-    wx.share={
-        title:"Waifood",
-        img:"{:C('DOMAIN')}{$db.indexpic}",
-        link:window.location.href+'?to=share',
-        desc:"{$db.title}"
-    };
-    wx.wxshare();
-}
 
 var npage=1;
 var isOpen=false;
@@ -144,7 +135,17 @@ function getTemp(){
 }
 
 $(function(){
-	//rendPriceInfo();
+    window.weixinJs=function(){
+        wx.share={
+            title:"Waifood",
+            img:"{:C('DOMAIN')}{$db.indexpic}",
+            link:window.location.href+'?to=share',
+            desc:"{$db.title}"
+        };
+        wx.wxshare();
+    }
+
+    //rendPriceInfo();
  	$(".btnDeduct").on("click",function() {
 		var minbuy = parseInt($("#buycount").attr("min")); 
 		var num = parseInt($("#buycount").val()); 

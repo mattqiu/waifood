@@ -21,15 +21,6 @@
 <script src="__PUBLIC__/js/common.js"></script>
 <include file="Index:weixin_share" />
 <script>
-    window.weixinJs=function(){
-        wx.share={
-            title:"Waifood",
-            img:"http://www.waifood.com/Public/Home/images/logo_small.jpg",
-            link:"http://www.waifood.com/?to=share",
-            desc:"Authentic Western & Imported Foods"
-        };
-        wx.wxshare();
-    }
     $(function(){
         var pathinfo =(window.location.pathname).toLowerCase();
         if(pathinfo=='/home/' ||  pathinfo.length < 3){
