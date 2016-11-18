@@ -14,11 +14,16 @@
     <include file="Index:bar" />
     <include file="Index:nav2" />
 <div class="container">
-        <div class="lbox">
-          <include file="Index:nav2sub" />
-          <div class="clear"></div>
-          <div class="ladbox" id="floatbox">{:lbl('adleft')}</div>
-        </div>
+    <div class="lbox">
+        <include file="Index:nav2sub" />
+        <div class="clear"></div>
+        <div class="ladbox" id="floatbox">{:lbl('adleft')}</div>
+    </div>
+    <div class="banner-box">
+
+
+    </div>
+
 
         <div class="rbox">
           <div class="banner">
@@ -29,27 +34,7 @@
             </div>
             <div class="arrow"><a href="javascript:void(null);" id="prev" ></a><a href="javascript:void(null);" id="next"></a></div>
           </div>
-          <div class="ggbox">
-            <div class="gg_title">Shopping on Phone</div>
-            <div class="gg_txt" style="position:relative">
-               <ul>
-               <li class="qr_img"><img src="__PUBLIC__/Shop/images/qr.jpg" align="Scan by WeChat" /><br />Scan by WeChat</li>
-               <li class="qr_recommend">
-               <if condition="get_userid() eq 0">
-               <a href="javascript:void(0);" onclick="var url='{:U('Member/invite')}';jAlert('You have to login before recommend friends',SYSTITLE,function(){location=url;});">Recommend Friends<br /> Get Coupons Forever</a>
-               <else/>
-               <a href="{:U('Member/invite')}">Recommend Friends<br /> Get Coupons Forever</a>
-               </if>
-               </li>
-               </ul>
-            </div>
-          </div>
-          <div class="clear"></div>
-          <div class="hot_txt">
-            <ul>
-            {:lbl('adcenter')}
-            </ul>
-          </div>
+        </div>
           <!--1F-->
           <div class="lou_title"><strong class="lou">1F</strong>
             <h2>{:get_cate(1,'magictype')}</h2>
@@ -193,6 +178,6 @@
     </a>
     <include file="Index:footer" />
     <js href="__PUBLIC__/js/jquery.touchslider.min.js" />
-</div>
+
 </body>
 </html>
