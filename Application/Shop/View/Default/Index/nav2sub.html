@@ -1,19 +1,21 @@
 <div class="product_menu">
   <ul>
     <volist name=":get_product_channel(2,20)" id="vo">
-      <li><span>
-        <empty name="vo.linkurl"> <a href="{:U('Product/lists','id='.$vo['id'])}" >{$vo.name}</a>
-          <else/>
-          <a href="{$vo.linkurl}" >{$vo.name}</a> </empty>
-        </span>
-        <div class="submenu">
-          <volist name=":get_product_channel($vo['id'],20)" id="vo1">
-            <empty name="vo1.linkurl"> <a href="{:U('Product/lists','id='.$vo1['id'])}" >{$vo1.name}</a>
-              <else/>
-              <a href="{$vo1.linkurl}" > {$vo1.name}</a> </empty>
-          </volist>
-        </div>
+      <li <if condition="$i eq 1">class='cate_select'</if>>
+          <a <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="{:U('Product/lists','id='.$vo['id'])}"</if>>{$vo.name} <i></i>
+          </a>
+          <div class="submenu">
+              <volist name=":get_product_channel($vo['id'],20)" id="vo1">
+                  <a <if condition="$vo1['linkurl']"> href="{$vo1.linkurl}" <else/>href="{:U('Product/lists','id='.$vo1['id'])}"</if>>{$vo1.name}</a>
+              </volist>
+          </div>
       </li>
     </volist>
   </ul>
 </div>
+<script>
+    $('.product_menu li').hover(function(){
+        $('.product_menu li').removeClass('cate_select');
+        $(this).addClass('cate_select');
+    })
+</script>

@@ -51,13 +51,20 @@ fieldset,img { border: none;}
 .shopping div{margin-left: 8px;}
 
 /*content*/
-.product_menu{width: 210px;}
-.product_menu li{height:48px; line-height: 48px;  z-index:1000;}
-.product_menu li span a{ height:39px; line-height:39px; display:block; background:#FFF;  border:1px solid #DDD; border-top:none; padding:0 15px;  position:relative; z-index:99;}
-.submenu a:hover,.product_menu li span a:hover{ background:#f6f8f0}
-.product_menu li.current span a{border-right:1px solid #FFF;}
-.submenu{ position:absolute; top:-1px; left:199px; background:#FFF; border:1px solid #DDD; display:none; z-index:5;}
-.submenu a{ display:block; line-height:40px; padding:0 20px; white-space:nowrap;}
+.product_menu{width: 210px;background:#333333;opacity: .6;}
+.product_menu li {height:48px; line-height: 48px;  z-index:1000;color: #FFFFFF; }
+.product_menu li a {color: #FFFFFF;font-size: 16px; }
+.product_menu li i{ padding: 6px 5px;margin-top: 17px; float: right; background: url("../images/left_unclick.png") no-repeat center}
+
+.product_menu .cate_select{ background: #FFFFFF;color: #2eb661}
+.product_menu .cate_select a{ color: #2eb661}
+.product_menu .cate_select i{ background: url("../images/left_clicked.png") no-repeat center}
+.submenu{display: none}
+/*.product_menu li span a{ height:39px; line-height:39px; display:block;  padding:0 15px;  position:relative; z-index:99;}*/
+/*.submenu a{ display:block; line-height:40px; padding:0 20px; white-space:nowrap;}*/
+
+/*.submenu a:hover,.product_menu li span a:hover{ background:#f6f8f0}*/
+/*.submenu{ position:absolute; top:-1px; left:199px; background:#FFF; display:none; z-index:5;}*/
 
 
 
