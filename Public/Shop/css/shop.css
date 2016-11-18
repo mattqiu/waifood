@@ -51,24 +51,38 @@ fieldset,img { border: none;}
 .shopping div{margin-left: 8px;}
 
 /*content*/
-.gwimg{width: 40px;height: 40px; border:1px solid #DDD; padding:2px; display:inline-block;}
-.jiage{ color:#F00;}
-.jian{ width: 17px;height: 17px; display:inline-block; background:url(../images/jian.jpg) no-repeat center; cursor:pointer;vertical-align:middle;}
-.jia{ width: 17px;height: 17px; display:inline-block; background:url(../images/jia.jpg) no-repeat center; cursor:pointer; vertical-align:middle;}
-.gwctj{ background:#EEE; text-align:right; padding:10px;}
-.jiesuan{ width:100px; height:28px; font-size:14px; font-weight:bold; color:#FFF; text-align:center; line-height:28px; background:#90b830; display:inline-block; margin-top:5px;}
-.jiesuan:hover{ background:#799e0f; color:#FFF; text-decoration:none;}
-.num{ width:30px; height:21px; border:1px solid #DDD; padding:0; margin:0 6px; text-align:center; line-height:21px; vertical-align:middle;}
-
-.content{ width:1090px; margin:0 auto; overflow:hidden; zoom:1;}
-#allSub,.lbox{ width:200px; float:left;}
-
-.product_menu li{ width:100%;  float:left; height:40px; position:relative; margin:0; z-index:1000;}
+.product_menu{width: 210px;}
+.product_menu li{height:48px; line-height: 48px;  z-index:1000;}
 .product_menu li span a{ height:39px; line-height:39px; display:block; background:#FFF;  border:1px solid #DDD; border-top:none; padding:0 15px;  position:relative; z-index:99;}
 .submenu a:hover,.product_menu li span a:hover{ background:#f6f8f0}
 .product_menu li.current span a{border-right:1px solid #FFF;}
 .submenu{ position:absolute; top:-1px; left:199px; background:#FFF; border:1px solid #DDD; display:none; z-index:5;}
 .submenu a{ display:block; line-height:40px; padding:0 20px; white-space:nowrap;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.gwimg{width: 40px;height: 40px; border:1px solid #DDD; padding:2px; display:inline-block;}*/
+/*.jiage{ color:#F00;}*/
+/*.jian{ width: 17px;height: 17px; display:inline-block; background:url(../images/jian.jpg) no-repeat center; cursor:pointer;vertical-align:middle;}*/
+/*.jia{ width: 17px;height: 17px; display:inline-block; background:url(../images/jia.jpg) no-repeat center; cursor:pointer; vertical-align:middle;}*/
+/*.gwctj{ background:#EEE; text-align:right; padding:10px;}*/
+/*.jiesuan{ width:100px; height:28px; font-size:14px; font-weight:bold; color:#FFF; text-align:center; line-height:28px; background:#90b830; display:inline-block; margin-top:5px;}*/
+/*.jiesuan:hover{ background:#799e0f; color:#FFF; text-decoration:none;}*/
+/*.num{ width:30px; height:21px; border:1px solid #DDD; padding:0; margin:0 6px; text-align:center; line-height:21px; vertical-align:middle;}*/
+
+/*.content{ width:1090px; margin:0 auto; overflow:hidden; zoom:1;}*/
+/*#allSub,.lbox{ width:200px; float:left;}*/
+
 
 .ladbox{ margin-top:15px; overflow:hidden; zoom:1; width:200px; }
 .float{position:fixed; left:0; top:0;}
