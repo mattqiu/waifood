@@ -399,11 +399,10 @@ function getCartData(){
 
             }
         }
-        if(parseFloat(totalMoney)){
-            $('#cart_foot').removeClass('hide');
-        }
+
         $('#itemg-title').removeClass('hide');
         $('#emptycart').addClass('hide');
+        $('#cart_foot').show();
         $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
     }else{
         $('#itemg-title').addClass('hide');
