@@ -3,9 +3,19 @@ $(function(){
     switch(pagename){
         case "orderView":{paymethod();break}
         case "order":{paymethod();break}
+        case "cart":{ getCartGoodStock('iscart');break}
     }
     loadGood();
     modelBox();
+    window.weixinJs=function(){
+        wx.share={
+            title:"Waifood",
+            img:"http://www.waifood.com/Public/Home/images/logo_small.jpg",
+            link:"http://www.waifood.com/?to=share",
+            desc:"Authentic Western & Imported Foods"
+        };
+        wx.wxshare();
+    }
 })
 
 function isNumber (x) {
@@ -337,6 +347,70 @@ function loadGood(){
     }
 }
 
+function getCartData(){
+    var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0;
+    if (myfood) {
+        var obj = $.parseJSON(myfood);
+        if (obj) {
+            for (var i in obj) {
+                $html += '<div class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
+                $html += '<a href="/Product/view.html?id=' + obj[i]['id'] + '">';
+                $html += '<div class="itemg-img fl tc">';
+                $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="100"/>';
+                $html += '</div>';
+                $html += '<div class="itemg-name fr">';
+                $html += '<p style=" height: 39px;overflow: hidden;">' + obj[i]['name'] + '</p>';
+                $html += '<p><span class="green num-item">&yen;' + obj[i]['price'] + '</span></p>';
+                $html += '</div>';
+                $html += '</a>';
+                $html += '<div class="clr"></div>';
+                $html += '<div class="item-foot tc ">';
+                $html += '<div class="fl icon_trash _trash " onClick="delGood(' + obj[i]['id'] + ');"></div>';
+                if(obj[i]['status'] ==1){
+                    $html += '<div class=" fr item-foot-r">';
+                    $html += '<div class="fl g_btn cartbtn">';
+                    $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
+                    var goodsnum = 0;
+                    if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
+                        goodsnum = parseInt(obj[i]['stock']);
+                    }else{
+                        goodsnum = parseInt(obj[i]['amount']);
+                    }
+                    $html += '<input type="text" class="num cartgoodnum fl tc"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
+                    $html += '<div class="add_cart_num  fl" data-id="' + obj[i]['id'] + '" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
+                    $html += '</div>';
+                    $html += '<div class="fr ptotal cartptotal fc_orange" style="margin-top: 10px;font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (goodsnum *obj[i]['price'])+ '</span></div>';
+
+                    $html += '</div>';
+                }else{
+                    $html += '<div class=" fr item-foot-r fc_orange" style="text-align: left;width: 65%">out of stock</div>';
+                }
+
+                $html += '</div>';
+                $html += '<div class="clr"></div>';
+                $html += '<hr width="108%" color="#cccccc" size="1px" style="margin-left: -2%; "/>';
+                $html += '</div>';
+                $('#content').html($html);
+
+                if(obj[i]['status'] == 1){ //下架的不计数
+                    totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
+                    totalNum +=  obj[i]['amount'];
+                }
+
+            }
+        }
+        if(parseFloat(totalMoney)){
+            $('#cart_foot').removeClass('hide');
+        }
+        $('#itemg-title').removeClass('hide');
+        $('#emptycart').addClass('hide');
+        $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
+    }else{
+        $('#itemg-title').addClass('hide');
+        $('#emptycart').removeClass('hide');
+        $('#cart_foot').addClass('hide');
+    }
+}
 
 /**
  * 选择头部地址
@@ -460,7 +534,7 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
         }
     })
 }
- function getCartGoodStock(){
+ function getCartGoodStock($obj){
      var myfood = $.cookie("myfood"), $goodIds='', key = "myfood";
      if (myfood) {
          var myfood_array = $.parseJSON(myfood);
@@ -489,9 +563,13 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
                          $.cookie(key,json,{
                              "path":"/"
                          });
+                     }  if($obj=='iscart'){
+                         getCartData();
                      }
                  })
+
              }
+
          }
      }
 };
