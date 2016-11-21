@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}{:lbl('subtitleshop')}</title>
+<meta name="keywords" content="{$keywords}" />
+<meta name="description" content="{$description}" />
+<include file="Index:header" />
+</head>
+
+<body style="background:#F8F8F8 ">
+<include file="Index:bar"/>
+<include file="Index:nav2"/>
+<div class="cat_list_sx">
+    <div class="container">
+        <div class="path">{:get_product_location($id)} </div>
+        <div class="cat_obj_sx">
+            <div  class="cat_name fl">Brand:</div>
+            <div  class="cat_val fl">
+                <a href="{:set_url('brand')}" <if condition="!$brand"> class="selected"</if>>All</a>
+                <volist name="brandlist" id="vo">
+                    <a href="{:set_url('brand',$vo)}" <if condition="(parse_param(I('get.brand'),true) eq strtolower($vo))" >class="selected"</if> >
+                        {$vo}
+                    </a>
+                </volist>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div class="cat_obj_sx cat_dashed">
+            <div class="cat_name fl">Origin:</div>
+            <div class="cat_val fl">
+                <a href="{:set_url('origin')}" <if condition="!$origin"> class="selected"</if>>All</a>
+                <volist name="originlist" id="vo">
+                    <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
+                        {$vo}
+                    </a>
+                </volist>
+            </div>
+        </div>
+      </div>
+</div>
+<div class="container">
+    <form class="px_tit" method="get" action="/Product/lists.html">
+        <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
+        <input type="hidden" value="" id="peixu"/>
+        <label class="px fl "  for="Defautt">
+            <input type="submit" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" id="Defautt" value="Defautt"/>
+        </label>
+
+        <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
+        onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','price');" >
+            <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="selected"</if>/>
+            <if condition="$_REQUEST['price'] eq 'asc'">
+                <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
+                <elseif condition="$_REQUEST['price'] eq 'desc'"/>
+                <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
+                <else/>
+                <img src="__PUBLIC__/Shop/images/down_.png" alt=""/>
+            </if>
+        </label>
+
+        <label  class="px fl" for="sales"  <if condition="$_REQUEST['sales'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
+        onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','sales');" >
+            <input type="submit" id="sales"value="Sales"  <if condition="$_REQUEST['sales']">class="selected"</if>/>
+            <if condition="$_REQUEST['sales'] eq 'asc'">
+                <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
+            <elseif condition="$_REQUEST['sales'] eq 'desc'"/>
+                <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
+            <else/>
+                <img src="__PUBLIC__/Shop/images/up_.png" alt=""/>
+            </if>
+        </label>
+    </form>
+    <div class="clr"></div>
+    <!--商品-->
+    <ul class=" good-contents" style="margin-top: 20px;">
+        <volist name="list" id="vo">
+            <li class="goods">
+                <div style="width: 262px;margin: 0 auto;" class="fl">
+                    <a href=""> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                    <div class="good-name">
+                        <a href=""> <div class="good_title">{$vo.title}</div></a>
+                        <div class="good_item_info">
+                            <div class="good_info fl">
+                                Unit: {$vo.unit}<br>
+                                Origin: {$vo.origin}<br>
+                                <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                            </div>
+                            <div class="good_shop_cart fr"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </volist>
+    </ul>
+    <div class="clr"></div>
+
+</div>
+<include file="Index:footer" />
+<script>
+    $('.good-contents .goods ').mouseover(function(){
+        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
+        $(this).addClass('good-hover');
+    })
+
+    $(' .goods ').mouseleave(function(){
+        $(this).removeClass('good-hover')
+        $(this).find(' .good_shop_cart').css({'background': 'none'})
+    })
+</script>
+</body>
+</html>

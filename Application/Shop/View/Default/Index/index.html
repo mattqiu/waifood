@@ -9,177 +9,162 @@
 <script src="__PUBLIC__/Shop/js/oldie-upgrade.js"></script>
 <![endif]-->
     <include file="Index:header"/>
+    <script src="__PUBLIC__/js/jquery.pack.js"></script>
+    <script src="__PUBLIC__/js/jQuery.blockUI.js"></script>
+    <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+
 </head>
 <body id="top">
     <include file="Index:bar" />
     <include file="Index:nav2" />
     <div class="banner-box">
-        <div class="container">
-            <div class="lbox ">
-                <include file="Index:nav2sub" />
-                <!--<div class="clear"></div>-->
-                <!--<div class="ladbox" id="floatbox">{:lbl('adleft')}</div>-->
-            </div>
-            <div class="rbox"></div>
+        <div class="tc" >
+            <img src="__PUBLIC__/Shop/images/test/2.jpg" alt=""/>
         </div>
-
     </div>
 
+
     <div class="container">
+        <div class="index-item clr">
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/nocard.png" alt=""/></div><div class="fl i-name" style="color: #40c8d6">No China's debit card required</div></div>
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/cashondelivery.png" alt=""/></div><div class="fl  i-name"style="color: #64c73e">Cash on delivery</div></div>
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/freeshipping.png" alt=""/></div><div class="fl i-name" style="color: #f0ac3f">Free shipping</div></div>
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/englishservice.png" alt=""/></div><div class="fl i-name" style="color: #e85464">English service</div></div>
+        </div>
+    </div>
+    <div class="clr"></div>
 
-        <div class="rbox">
-          <div class="banner">
-            <div class="touchslider-viewport">
-              <ul>
-                {:lbl('banner')}
-              </ul>
+    <div class="good-content" style="margin-top: -14px">
+        <div class="container">
+           <div class="index-title">
+               <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">PROMOTION <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+           </div>
+        </div>
+        <!-- PROMOTION轮播--->
+        <div class="good-promotion">
+            <div class="effect">
+                <div id="autoPage">
+                    <div class="bd">
+                        <ul class="picList">
+                            <volist name="promotion" id="vo">
+                                <php>$count = 0;</php>
+                                <li class="goods goods_li_{$i%4}">
+                                    <div style="width: 262px;margin: 0 auto;" class="fl">
+                                        <a href=""> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                                        <div class="good-name">
+                                            <a href=""> <div class="good_title">{$vo.title}</div></a>
+                                            <div class="good_item_info">
+                                                <div class="good_info fl">
+                                                    Unit: {$vo.unit}<br>
+                                                    Origin: {$vo.origin}<br>
+                                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                                    <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                                </div>
+                                                <div class="good_shop_cart fr"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                             </volist>
+                        </ul>
+                    </div>
+                    <div class="hd-solid hd container">
+                        <ul>
+                            <?php
+                            for($i=1;$i<=$count/4;$i++){
+                        ?>
+                            <li>$i</li>
+                            <?php
+                    }
+                    ?>
+                        </ul>
+                    </div>
+                </div>
+                <script type="text/javascript">jQuery("#autoPage").slide({ titCell:".hd ul", mainCell:".bd ul",effect:"left",vis:4,scroll:4,autoPlay:true,autoPage:true});</script>
             </div>
-            <div class="arrow"><a href="javascript:void(null);" id="prev" ></a><a href="javascript:void(null);" id="next"></a></div>
-          </div>
+            </div>
+        <!-- NEW ARRIVAL-->
+        <div class="container"  style="margin-top: -14px">
+            <div class="index-title">
+                <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">NEW ARRIVAL <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+            </div>
+            <ul class=" good-contents">
+                <volist name="newArrival" id="vo">
+                    <if condition="$i elt 8">
+                        <li class="goods">
+                            <div style="width: 262px;margin: 0 auto;" class="fl">
+                                <a href=""> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                                <div class="good-name">
+                                    <a href=""> <div class="good_title">{$vo.title}</div></a>
+                                    <div class="good_item_info">
+                                        <div class="good_info fl">
+                                            Unit: {$vo.unit}<br>
+                                            Origin: {$vo.origin}<br>
+                                            <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                            <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                        </div>
+                                        <div class="good_shop_cart fr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </if>
+                </volist>
+            </ul>
+            <div class="clr"></div>
         </div>
-          <!--1F-->
-          <div class="lou_title"><strong class="lou">1F</strong>
-            <h2>{:get_cate(1,'magictype')}</h2>
-            <a href="{:U('Search/index?group=1')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(1,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}"   alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--2F-->
-          <div class="lou_title"><strong class="lou">2F</strong>
-            <h2>{:get_cate(2,'magictype')}</h2>
-            <a href="{:U('Search/index?group=2')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(2,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" width="187" height="187"  alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--3F-->
-          <div class="lou_title"><strong class="lou">3F</strong>
-            <h2>{:get_cate(3,'magictype')}</h2>
-            <a href="{:U('Search/index?group=3')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(3,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" width="187" height="187"  alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--4F-->
-          <div class="lou_title"><strong class="lou">4F</strong>
-            <h2>{:get_cate(4,'magictype')}</h2>
-            <a href="{:U('Search/index?group=4')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(4,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" width="187" height="187"  alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--5F-->
-          <div class="lou_title"><strong class="lou">5F</strong>
-            <h2>{:get_cate(5,'magictype')}</h2>
-            <a href="{:U('Search/index?group=5')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(5,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" width="187" height="187"  alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--6F-->
-          <div class="lou_title"><strong class="lou">6F</strong>
-            <h2>{:get_cate(6,'magictype')}</h2>
-            <a href="{:U('Search/index?group=6')}" target="_blank" class="more">More products</a></div>
-          <div class="cptxt">
-            <ul>
-              <volist name=":get_product_magic(6,8)" id="vo">
-                <li><a href="{:U('Product/view','id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}" width="187" height="187"  alt="{$vo.title}" />
-                  <h2>{$vo.title}</h2>
-                  </a>
-                  <p>Unit: {$vo.unit}<br>
-                    Origin: {$vo.origin}<br>
-                    <span class="jiage02">&yen;{$vo.price}</span><neq name="vo.price1" value="0">
-            <span class="marketprice" style="text-decoration:line-through;">&yen;{$vo.price1}</span>
-            </neq></p>
-                  <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                    <input type="text" value="1" class="num cartnum" data-stock="{$vo.stock}" />
-                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-                </li>
-              </volist>
-            </ul>
-          </div>
-          <!--底部-->
 
+        <!-- RECOMMEND-->
+        <div class="container"  style="margin-top: -14px">
+            <div class="index-title">
+                <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">RECOMMEND <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+            </div>
+            <ul class=" good-contents">
+                <volist name="recommend" id="vo">
+                    <if condition="$i elt 8">
+                        <li class="goods">
+                            <div style="width: 262px;margin: 0 auto;" class="fl">
+                                <a href=""> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                                <div class="good-name">
+                                    <a href=""> <div class="good_title">{$vo.title}</div></a>
+                                    <div class="good_item_info">
+                                        <div class="good_info fl">
+                                            Unit: {$vo.unit}<br>
+                                            Origin: {$vo.origin}<br>
+                                            <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                            <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                        </div>
+                                        <div class="good_shop_cart fr"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </if>
+                </volist>
+            </ul>
+            <div class="clr"></div>
         </div>
-      <div class="clr"></div>
-    <a href="#top" target="_self">
-        <div class="back_top">
-            <img src="__PUBLIC__/Shop/images/5-120601160021.png" width="30" alt=""/>
-        </div>
-    </a>
+
     <include file="Index:footer" />
     <js href="__PUBLIC__/js/jquery.touchslider.min.js" />
+<script>
+    $(function(){
+        jQuery("").slide({ mainCell:".bd ul",effect:"leftLoop",vis:4,scroll:4,autoPlay:true}); //PROMOTION轮播
+        $(' .goods ').mouseover(function(){
+            $(this).find(' .good_shop_cart').css({'background': 'url("./Public/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
+        })
+        $('.good-contents .goods ').mouseover(function(){
+            $(this).addClass('good-hover');
+        })
 
+        $('.good_shop_cart').mouseover(function(){
+            $(this).find(' .good_shop_cart').css({'background': 'none'})
+        })
+        $(' .goods ').mouseleave(function(){
+            $(this).removeClass('good-hover')
+            $(this).find(' .good_shop_cart').css({'background': 'none'})
+        })
+    })
+</script>
 </body>
 </html>

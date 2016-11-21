@@ -2,11 +2,21 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller;
 
+use Common\Model\ContentModel;
+
 class IndexController extends BaseController
 {
 
     public function index()
     {
+        $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
+        $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
+        $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
+
+        $this->assign('catShow',true);
+        $this->assign('recommend',$recommend);
+        $this->assign('newArrival',$newArrival);
+        $this->assign('promotion',$promotion);
         $title = C('config.WEB_SITE_TITLE');
         $keywords = C('config.WEB_SITE_KEYWORD');
         $description = C('config.WEB_SITE_DESCRIPTION');
