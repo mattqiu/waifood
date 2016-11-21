@@ -13,7 +13,7 @@
 <include file="Index:nav2"/>
 <div class="cat_list_sx">
     <div class="container">
-        <div class="path">{:get_product_location($id)} </div>
+        <div class="path">{:get_product_location($_REQUEST['id'])} </div>
         <div class="cat_obj_sx">
             <div  class="cat_name fl">Brand:</div>
             <div  class="cat_val fl">
@@ -77,9 +77,9 @@
         <volist name="list" id="vo">
             <li class="goods">
                 <div style="width: 262px;margin: 0 auto;" class="fl">
-                    <a href=""> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                     <div class="good-name">
-                        <a href=""> <div class="good_title">{$vo.title}</div></a>
+                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
                         <div class="good_item_info">
                             <div class="good_info fl">
                                 Unit: {$vo.unit}<br>
@@ -95,7 +95,7 @@
         </volist>
     </ul>
     <div class="clr"></div>
-
+    <div class="pagelist">{$page}</div>
 </div>
 <include file="Index:footer" />
 <script>
