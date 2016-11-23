@@ -5,24 +5,22 @@
 <title>{$title}</title>
 <meta name="keywords" content="{$keywords}" />
 <meta name="description" content="{$description}" />
+    <include file="Index:header"/>
 <!--[if lt IE 8]>
 <script src="__PUBLIC__/Shop/js/oldie-upgrade.js"></script>
 <![endif]-->
-    <include file="Index:header"/>
-    <script src="__PUBLIC__/js/jquery.pack.js"></script>
-    <script src="__PUBLIC__/js/jQuery.blockUI.js"></script>
-    <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+
 
 </head>
 <body id="top">
     <include file="Index:bar" />
     <include file="Index:nav2" />
     <div class="banner-box">
-        <div class="tc" >
-            <img src="__PUBLIC__/Shop/images/test/2.jpg" alt=""/>
+        <div class="tc banner-img"  >
+            <include file="Index:nav2sub" />
+            <img src="__PUBLIC__/Shop/images/test/4.jpg" height="600" alt=""/>
         </div>
     </div>
-
 
     <div class="container">
         <div class="index-item clr">
@@ -48,7 +46,7 @@
                         <ul class="picList">
                             <volist name="promotion" id="vo">
                                 <php>$count = 0;</php>
-                                <li class="goods goods_li_{$i%4}">
+                                <li class="goods goods_li_{$i%4}" id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                                     <div style="width: 262px;margin: 0 auto;" class="fl">
                                         <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                                         <div class="good-name">
@@ -58,9 +56,9 @@
                                                     Unit: {$vo.unit}<br>
                                                     Origin: {$vo.origin}<br>
                                                     <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                                    <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                                    <if condition="$vo['price1'] gt 1"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                                 </div>
-                                                <div class="good_shop_cart fr"></div>
+                                                <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -80,7 +78,6 @@
                         </ul>
                     </div>
                 </div>
-                <script type="text/javascript">jQuery("#autoPage").slide({ titCell:".hd ul", mainCell:".bd ul",effect:"left",vis:4,scroll:4,autoPlay:true,autoPage:true});</script>
             </div>
             </div>
         <!-- NEW ARRIVAL-->
@@ -91,7 +88,7 @@
             <ul class=" good-contents">
                 <volist name="newArrival" id="vo">
                     <if condition="$i elt 8">
-                        <li class="goods">
+                        <li class="goods"   id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                             <div style="width: 262px;margin: 0 auto;" class="fl">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                                 <div class="good-name">
@@ -101,9 +98,8 @@
                                             Unit: {$vo.unit}<br>
                                             Origin: {$vo.origin}<br>
                                             <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                            <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                         </div>
-                                        <div class="good_shop_cart fr"></div>
+                                        <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
                                     </div>
                                 </div>
                             </div>
@@ -113,7 +109,6 @@
             </ul>
             <div class="clr"></div>
         </div>
-
         <!-- RECOMMEND-->
         <div class="container"  style="margin-top: -14px">
             <div class="index-title">
@@ -122,7 +117,8 @@
             <ul class=" good-contents">
                 <volist name="recommend" id="vo">
                     <if condition="$i elt 8">
-                        <li class="goods">
+                        <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                            data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                             <div style="width: 262px;margin: 0 auto;" class="fl">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                                 <div class="good-name">
@@ -132,9 +128,9 @@
                                             Unit: {$vo.unit}<br>
                                             Origin: {$vo.origin}<br>
                                             <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                            <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                            <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                         </div>
-                                        <div class="good_shop_cart fr"></div>
+                                        <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
                                     </div>
                                 </div>
                             </div>
@@ -144,12 +140,15 @@
             </ul>
             <div class="clr"></div>
         </div>
-
+    </div>
     <include file="Index:footer" />
-    <js href="__PUBLIC__/js/jquery.touchslider.min.js" />
+
+    <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+
 <script>
     $(function(){
-        jQuery("").slide({ mainCell:".bd ul",effect:"leftLoop",vis:4,scroll:4,autoPlay:true}); //PROMOTION轮播
+        $('#cat_menu_list').addClass('index_cate');
+        $("#autoPage").slide({ titCell:".hd ul", mainCell:".bd ul",effect:"left",vis:4,scroll:4,autoPlay:true,autoPage:true});//PROMOTION轮播
         $(' .goods ').mouseover(function(){
             $(this).find(' .good_shop_cart').css({'background': 'url("./Public/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
         })

@@ -44,7 +44,7 @@
         <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
         <input type="hidden" value="" id="peixu"/>
         <label class="px fl "  for="Defautt">
-            <input type="submit" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" id="Defautt" value="Defautt"/>
+            <input type="submit"  id="Defautt" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" value="Defautt"/>
         </label>
 
         <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
@@ -75,19 +75,25 @@
     <!--商品-->
     <ul class=" good-contents" style="margin-top: 20px;">
         <volist name="list" id="vo">
-            <li class="goods">
+            <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                 <div style="width: 262px;margin: 0 auto;" class="fl">
                     <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                     <div class="good-name">
                         <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                        <div class="good_item_info">
-                            <div class="good_info fl">
+                        <div class="good_item_info ">
+                            <div class="good_info list_good fl">
                                 Unit: {$vo.unit}<br>
                                 Origin: {$vo.origin}<br>
-                                <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                <div class="prict_info">
+                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                    <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                </div>
+                                <div class="quantity hide">
+                                     <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span> <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" value="1"/><span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
+                                </div>
                             </div>
-                            <div class="good_shop_cart fr"></div>
+                            <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event,'list')"></div>
                         </div>
                     </div>
                 </div>
@@ -102,9 +108,13 @@
     $('.good-contents .goods ').mouseover(function(){
         $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
         $(this).addClass('good-hover');
+        $(this).find('.prict_info').addClass('hide');
+        $(this).find('.quantity').removeClass('hide');
     })
 
     $(' .goods ').mouseleave(function(){
+        $(this).find('.quantity').addClass('hide');
+        $(this).find('.prict_info').removeClass('hide');
         $(this).removeClass('good-hover')
         $(this).find(' .good_shop_cart').css({'background': 'none'})
     })

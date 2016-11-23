@@ -12,7 +12,6 @@ class IndexController extends BaseController
         $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
         $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
         $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
-
         $this->assign('catShow',true);
         $this->assign('recommend',$recommend);
         $this->assign('newArrival',$newArrival);
@@ -25,6 +24,12 @@ class IndexController extends BaseController
         $this->assign('description', $description);
         $this->display();
     }
+
+    public function cart(){
+        $this->assign ( 'title', 'My shopping cart' );
+        $this->display();
+    }
+
 
     /**
      * 群发推荐朋友

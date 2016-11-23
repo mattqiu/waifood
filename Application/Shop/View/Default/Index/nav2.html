@@ -15,20 +15,51 @@
 <div class="nav_center">
     <div class="container">
         <ul class="navigation">
-            <li class="allcate"><a href="/" class="selected">All Categories</a>
-                    <include file="Index:nav2sub" />
+            <li class="allcate selected">All Categories
+                <include file="Index:nav2sub" />
             </li>
-            <!--<li style="background-color:#FFAE00;"><a href="{:U('Service/lists','id=3')}"><span class="icon-new"></span>Laundry Service</a></li>
-            <li><a href="{:U('Cleaning/index')}">House Cleaning</a></li>
-            <li><a href="{:U('Special/index','id=2')}">Countryside Farm</a>
-            <li><a href="{:U('Special/index','id=3')}">Chinese Training</a>
-            <li class="min-font"><a href="javascript:void(0);" >Planning more...</a></li>-->
         </ul>
         <div class="shopping">
-            <div class="fl"><img src="__PUBLIC__/Shop/images/shopping_cart.png" width="38" class="shopping_cart" alt=""/></div>
-            <div class="fl Shopping_text">Shopping Cart <span id="CartNo">(0)</span></div>
-            <!--<span class="gwcname"><a href="{:U('Settle/cart')}" style="color:#FFF;"></a></span><span class="shuliang">0</span>-->
+            <div class="fl"><img src="__PUBLIC__/Shop/images/shopping_cart.png"  width="38" class="shopping_cart" alt=""/></div>
+            <div class="fl Shopping_text ">Shopping Cart (<span id="CartNo">0</span>)
+                <div class="cart_box hide"  id="cart_box" >
+                    <div class="cart_good_box "  id="cart_good_box" >
+                    </div>
+                    <div class="cart_good_foot ">
+                        <div class="fl gfoot_info">
+                            Quantity: <span class="js_good_total_num">0</span><br/>
+                            Total: <span class="good_total">&yen;0</span>
+                        </div>
+                        <div class="fr goodcheckout" onclick="window.location.href='/index/cart.html'">check out</div>
+                        <div class="clr"></div>
+                    </div> <div class="clr"></div>
+                </div>
+            </div>
         </div>
     </div>
-
 </div>
+<script>
+    var pathinfo =(window.location.pathname).toLowerCase();
+    if( pathinfo.length > 4){
+        $('#cat_menu_list').removeClass('index_cate');
+        $('.allcate').click(function(){
+            $('#cat_menu_list').slideDown();
+        })
+        $('.allcate').mouseleave(function(){
+            $('#cat_menu_list').slideUp();
+            $('.product_menu li').removeClass('cate_select');
+        })
+    }else{
+        $('.allcate').html('All Categories');
+    }
+    $('.shopping').click(function(){
+        $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/cart_hover.png');
+        $(this).addClass('ongoodcart');
+        $('#cart_box').slideDown();
+    })
+    $('.shopping').mouseleave(function(){
+        $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/shopping_cart.png');
+        $(this).removeClass('ongoodcart');
+        $('#cart_box').slideUp();
+    })
+</script>

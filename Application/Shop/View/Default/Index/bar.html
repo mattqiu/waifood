@@ -13,7 +13,7 @@
                     <a href="{:U('Login/index')}" class="black">Login</a> | <a href="{:U('Login/register')}">Register</a>
                 </if> &nbsp;
             </div>
-            <div class="fr myaccount" id="myaccount">
+            <div class="fr myaccount" id="myaccount" data-userid="{$user.id}" data-user="22">
                 <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" class="main" alt=""/></div>
                 <div class="fl">&nbsp;My account&nbsp;</div>
                 <div class="fl">&nbsp;<img class="label" src="__PUBLIC__/Shop/images/dowm_my_account.png" alt=""/></div>
@@ -30,7 +30,6 @@
     </div>
 </div>
 <script>
-
         $(document).ready(function(){
             var theSpan = $('#myaccount');
             var theMenu = $(".myaccount_box");

@@ -1,14 +1,14 @@
-<div class="product_menu <if condition='!$catShow'>hide</if>">
+<div class="product_menu <if condition='!$catShow'>hide</if>" id="cat_menu_list">
   <ul>
     <volist name=":get_product_channel(2,20)" id="vo">
       <li>
-          <a <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="/product/lists.html?id={$vo['id']}"</if>>{$vo.name} <i></i>
+          <a  class="parent_cat" <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="/product/lists.html?id={$vo['id']}"</if>>{$vo.name} <i></i>
           </a>
           <div class="submenu">
               <ul>
-                  <volist name=":get_product_channel($vo['id'],20)" id="vo1">
-                      <li> <a <if condition="$vo1['linkurl']"> href="{$vo1.linkurl}" <else/>href="/product/lists.html?id={$vo1['id']}"</if>>{$vo1.name}</a></li>
-                  </volist>
+              <volist name=":get_product_channel($vo['id'],20)" id="vo1">
+                  <li> <a <if condition="$vo1['linkurl']"> href="{$vo1.linkurl}" <else/>href="/product/lists.html?id={$vo1['id']}"</if>>{$vo1.name}</a></li>
+              </volist>
               </ul>
           </div>
       </li>
@@ -28,7 +28,7 @@
         }
     })
     $('.product_menu li').mouseleave(function(){
+        $('.product_menu li').removeClass('cate_select');
         $(this).find(".submenu").hide();
     })
-
 </script>

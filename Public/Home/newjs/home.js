@@ -289,7 +289,7 @@ function fly(event){
         },
         end: {
             left: offset.left+3,
-            top: offset.top+3,
+            top: $(window).height()+5,//offset.top+3,
             width: 0,
             height: 0
         },
@@ -517,6 +517,7 @@ function getdeliveryFee(money,obj){
         }
     })
 }
+
 /**
  * 获取订单总金额
  * @param totalMoney
@@ -533,6 +534,7 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
         }
     })
 }
+
  function getCartGoodStock($obj){
      var myfood = $.cookie("myfood"), $goodIds='', key = "myfood";
      if (myfood) {

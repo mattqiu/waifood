@@ -155,7 +155,6 @@ class ProductController extends BaseController {
 //    			$arr[]=$id;
 //    			cookie('view_history',arr2str($arr));
 //    		}
-
 	    	$this->assign ( "gallery", get_imgs($good['images']) );
 //	    	$this->assign ( 'title', $db['title']);
     	}else{
