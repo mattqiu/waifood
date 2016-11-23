@@ -5,6 +5,7 @@ class ContentModel extends Model {
     const PROMOTION = 9;//Promotion
     const NEW_ARRIVAL = 8;//New Arrival
     const RECOMMEND = 11;//Recommend
+    const NORMAL = 1;//Recommend
 
     /**根据分组获取商品
      * @param $group

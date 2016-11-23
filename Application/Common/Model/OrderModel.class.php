@@ -290,12 +290,21 @@ class OrderModel extends Model{
     public static function checkOrder($data){
         $amount = 0;
         foreach ( $data as $key => $val) {
-            $product=M('content')->find($val['id']);
-            if($product['stock']<$val['num']){
-                apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
-                break;
+            if($val['id']){
+                $product=M('content')->find($val['id']);
+                if($product['status'] == ContentModel::NORMAL){ //只获取上架的商品
+                    if($product['stock']<$val['num']){
+                        apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
+                        break;
+                    }
+                    $amount+= floatval($product['price'] * $val['num']);
+                }else{ //商品下架了
+
+                    apiReturn(CodeModel::ERROR,$product['id'].'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
+                    break;
+                }
             }
-            $amount+= floatval($product['price'] * $val['num']);
+
         }
         return $amount;
     }
