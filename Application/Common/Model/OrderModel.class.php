@@ -315,6 +315,12 @@ class OrderModel extends Model{
                 $data[$key]['id'] = $ids[0];
                 $data[$key]['num'] = $ids[1];
                 $data[$key]['price'] = $ids[2];
+                if(!isset($data['amountnum'])){
+                    $data['amountnum'] = intval($ids[1]);
+                }
+                if(!isset($data['totalmoney'])){
+                    $data['totalmoney'] = floatval($ids[1] * $ids[2]);
+                }
                 $data['amountnum'] += intval($ids[1]);
                 $data['totalmoney'] += floatval($ids[1] * $ids[2]);
             }

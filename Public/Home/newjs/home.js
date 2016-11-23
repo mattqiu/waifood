@@ -469,7 +469,9 @@ function submitOrder(){
             subBlock = false;//解除阻塞
             return false;
         }
-        order +=  myfood_array[i]['id'] + "," + myfood_array[i]['amount']+ "," + myfood_array[i]['price'] +"|"; //订单信息
+        if(myfood_array[i]['status'] == 1){
+            order +=  myfood_array[i]['id'] + "," + myfood_array[i]['amount']+ "," + myfood_array[i]['price'] +"|"; //订单信息
+        }
     }
     if (!$("#UseAddressID").val()) {
         jAlert("I'm sorry, please select a shipping address!",SYSTITLE);
