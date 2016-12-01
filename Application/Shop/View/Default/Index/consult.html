@@ -13,7 +13,8 @@
     <div class="content">
         <div class="left leftmenu fl">
                 <div class="nyltit fr tc">Information Centre</div>
-                <ul class="hymenu fr">
+
+                <ul class="hymenu clr">
                     <volist name="channel" id="vo">
                         <li>
                             <a href="{:U('Content/lists?id='.$vo['id'])}"  <if condition="$vo['id'] eq $pid">class="selected"</if>>
@@ -22,21 +23,6 @@
                         </li>
                     </volist>
                 </ul>
-                <div class="clr"></div>
-       <!--     <script>
-                $(function(){
-                    var hash = window.location.hash;
-                    if(hash =='#address'){
-                        $('#l_address').addClass('selected');
-                    }else if(hash =='#order'){
-                        $('#l_order').addClass('selected');
-                    }else if(hash =='#pwd'){
-                        $('#l_pwd').addClass('selected');
-                    }else{
-                        $('#l_index').addClass('selected');
-                    }
-                });
-            </script>-->
 
         </div>
         <div class="right fr new">

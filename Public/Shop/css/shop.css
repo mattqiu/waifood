@@ -422,13 +422,11 @@ fieldset,img { border: none;}
 .orderview{width: 976px;padding:0 20px; background: #FFffff}
 /*.orderinfo{width: 820px; margin: 0 auto;}*/
 .order_head{height: 56px; line-height: 56px;font-size: 20px; color: #212121;border-bottom: 1px solid #E0E0E0}
-.order_head div{font-size: 20px; color: #2eb661}
-.order_item_title{font-size: 24px;color: #424242;margin-bottom: 7px;margin-top: 15px;}
+.order_item_title{font-size:18px;height: 25px;line-height: 25px;color: #424242;margin-bottom: 7px;margin-top: 15px;}
 .order_receiving{height: 120px;line-height: 25px;border-bottom: 1px solid #E0E0E0;}
 .order_item{border-bottom: 1px solid #E0E0E0;padding-bottom: 20px;}
 .order_item .order_item{line-height: 30px;}
 .order_view_table .thead{height:50px;line-height: 50px;background: #f8f8f8 }
-.plist .order_item_title{height: 40px;line-height: 45px;}
 .viem_row{color: #424242}
 .viem_row .good_name{width: 395px; float: right;margin-top: 15px;}
 .viem_row .price{color: #2eb661}
@@ -443,6 +441,8 @@ fieldset,img { border: none;}
 .ostatus a{margin-left: 20px;color: #424242}
 .ostatus a:first-child{margin-right: 20px;}
 .ostatus a:hover{color: #2eb661}
+.pay_btn{border:none;background: #2eb661;color: #FFffff;width: 80px;font-size: 14px;height: 30px;}
+.pay_btn:hover{background: #239d51}
 /****************************************changpwd****************************************************/
 .changpwd .order_item_title{color: #212121;height: 50px;line-height: 50px;padding-left: 30px;}
 .pwd_box{width: 550px;margin: 0 auto; text-align: right}
@@ -456,11 +456,11 @@ fieldset,img { border: none;}
 .addr_row{border-bottom: 1px solid #E0E0E0;}
 .addr_row td{padding: 15px 0;}
 /*********************************咨询中心******************************************/
-.leftmenu{width: 210px;background: #FFffff;height: 100%;padding-bottom: 50px;}
-.nyltit{font-size: 18px; color: #333333;width: 200px;height: 50px;line-height: 50px;}
-.hymenu{width: 173px;height: 100%}
-.hymenu li{height: 30px;line-height: 30px;border-bottom: 1px dashed #E0E0E0}
-.new{background: #FFffff;width: 995px;}
+.leftmenu{width: 190px;background: #FFffff;height: 100%;padding-bottom: 50px;}
+.nyltit{font-size: 18px; color: #333333;width: 190px;height: 50px;line-height: 50px;}
+.hymenu{width: 147px;height: 100%;margin: 0 auto}
+.hymenu li{height: 40px;line-height: 40px;border-bottom: 1px dashed #E0E0E0}
+.new{background: #FFffff;width: 1016px;}
 .newtitle{ height:40px; padding:0 10px; font:bold 14px/40px verdana,Arial; color:#2eb661; border-bottom:1px solid #EEE;}
 .news_title{ padding:10px; font:bold 18px/30px verdana,Arial; text-align:center;}
 .newcontent{ padding:20px; line-height:200%; overflow:hidden; zoom:1;}
@@ -469,8 +469,13 @@ fieldset,img { border: none;}
 .newslist{ padding:10px; overflow:hidden;zoom:1;}
 .newslist li{ height:36px; line-height:36px; border-bottom:1px dashed #EEE;}
 .newslist li span{ float:right;}
-
-
+/****************************************wishlist****************************************************/
+.wishlist{color: #212121;height: 50px;line-height: 50px;padding-left: 30px;}
+#wishlist span.fc_red{position: relative;top: 4px;left: -4px;}
+#wishlist span.remarks{position: relative;top: -90px;}
+#wishlist textarea#remarks{resize: none;width: 418px;height: 100px;border: 1px solid #E0E0E0}
+#wishlist textarea#remarks:hover{border: 1px solid #c4c4c4}
+#wishlist input,#wishlist textarea{padding-left: 5px;}
 
 
 

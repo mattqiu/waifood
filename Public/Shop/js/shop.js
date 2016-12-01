@@ -422,9 +422,22 @@ function gocashier(){
     $.cookie(key,json,{
         "path":"/"
     });
-    window.location.href='/index/cashier.html';
-}
 
+    if(!isNullObj($.parseJSON($.cookie('settlement')))){
+        window.location.href='/index/cashier.html';
+    }else{
+        clearpopj("Please select a goods!", "error",true);
+        return false;
+    }
+}
+function isNullObj(obj){
+    for(var i in obj){
+        if(obj.hasOwnProperty(i)){
+            return false;
+        }
+    }
+    return true;
+}
 function getSettleGood(){
     var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,
         $html = '<tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';

@@ -3,6 +3,7 @@
 namespace Shop\Controller;
 
 use Common\Model\AddressModel;
+use Common\Model\CodeModel;
 use Common\Model\ContentModel;
 use Common\Model\DateModel;
 use Common\Model\UserModel;
@@ -53,16 +54,6 @@ class IndexController extends BaseController
         $this->display();
     }
 
-    /**
-     * 咨询中心
-     */
-    function consult (){
-        $contentid = I('id');
-        if(regex($contentid,'number')){
-
-        }
-        $this->display();
-    }
 
     /**
      * 群发推荐朋友
@@ -97,6 +88,74 @@ class IndexController extends BaseController
             $this->success('Succeed.');
         } else {
             $this->error('Sorry, system error.');
+        }
+    }
+
+    public function wishlist(){
+        $this->display();
+    }
+
+
+    public function subWishList(){
+        $data = empty ( $data ) ? $_POST : $data;
+        if(isN($data['ext1'])){
+            apiReturn(CodeModel::ERROR,'Sorry, your name cannot be empty!');
+        }
+        if(isN($data['ext2'])){
+            apiReturn(CodeModel::ERROR,'Sorry, phone number cannot be empty!');
+        }
+        if(!is_email($data['ext3'])){
+            apiReturn(CodeModel::ERROR,'Sorry, email is illegal!');
+        }
+        if(isN($data['ext5'])){
+            apiReturn(CodeModel::ERROR,'Sorry, subject cannot be empty!');
+        }
+        if(isN($data['ext6'])){
+            apiReturn(CodeModel::ERROR,'Sorry, wish list can not be empty!');
+        }
+        $data ['addip'] = get_client_ip ();
+        if (false !== D ( "form" )->add ( $data )) {
+            //管理员邮件：
+            //send_mail();
+            $to=C('config.WEB_SITE_COPYRIGHT');
+            $subject='[waifood]new wishlist '.get_username(get_userid());
+            $html='';
+            $html.= "<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"> \n";
+            $html.= "    <tr class=\"row0\">\n";
+            $html.= "      <td width=\"100\" >反馈：</td>\n";
+            $html.= "      <td>Wishlist </td>\n";
+            $html.= "    </tr>\n";
+            $html.= "     <tr class=\"row0\">\n";
+            $html.= "      <td>创建时间：</td>\n";
+            $html.= "      <td>".time_format()."</td>\n";
+            $html.= "    </tr>\n";
+            $html.= "     <tr class=\"row0\">\n";
+            $html.= "      <td>姓名：</td>\n";
+            $html.= "      <td>".$data['ext1']."</td>\n";
+            $html.= "    </tr>\n";
+            $html.= "    <tr class=\"row0\">\n";
+            $html.= "      <td>电话：</td>\n";
+            $html.= "      <td>".$data['ext2']."</td>\n";
+            $html.= "    </tr>\n";
+            $html.= "    <tr class=\"row0\">\n";
+            $html.= "      <td>Email：</td>\n";
+            $html.= "      <td>".$data['ext3']."</td>\n";
+            $html.= "    </tr> \n";
+            $html.= "    <tr class=\"row0\">\n";
+            $html.= "      <td>主题：</td>\n";
+            $html.= "      <td>".$data['ext5']."</td>\n";
+            $html.= "    </tr>\n";
+            $html.= "    <tr class=\"row0\">\n";
+            $html.= "      <td>备注：</td>\n";
+            $html.= "      <td>".$data['ext6']."</td>\n";
+            $html.= "    </tr>\n";
+            $html.= "</table>\n";
+            $body=$html;
+            if(send_mail($to,$subject,$body)){
+            }
+            apiReturn(CodeModel::CORRECT,'Congratulations, submitted successfully!');
+        } else {
+            apiReturn(CodeModel::ERROR,'Sorry, submission failed!');
         }
     }
 

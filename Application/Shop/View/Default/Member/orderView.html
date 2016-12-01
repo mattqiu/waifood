@@ -18,7 +18,7 @@
         <div class="right fr orderview">
             <div class="orderinfo">
                 <div class="order_head">Order No.：{$order.orderno}
-                    <div class="fr">{:get_status($order['status'])} </div>
+                    <span class="selected" style="margin-left: 50px;">{:get_status($order['status'])} </span>
                 </div>
                 <div class="order_receiving">
                     <div class="order_item_title">Receiving information</div>
@@ -30,8 +30,12 @@
                 </div>
                 <div class="order_item">
                     <div class="order_item_title">Payment and Delivery date</div>
-                    <div class="order_address">
-                        Payment： <if condition="$vo['paymethod'] eq 4"> Cash on delivery <elseif condition="$vo['paymethod'] eq 2"/> Paypal</if><br />
+                    <div class="order_address" style=" line-height: 25px;">
+                        Payment： <if condition="$vo['paymethod'] eq 2">Paypal<else/> Cash on delivery</if>
+                        <if condition="$vo['pay'] eq 0">
+                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 80px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="paynow();" >Pay Now</button>
+                            </if>
+                        <div style="height: 7px;"></div>
                         Delivery date：{$order.delivertime}
                     </div>
                 </div>
@@ -44,7 +48,7 @@
                 <if condition="$order['info']">
                     <div class="order_item">
                         <div class="order_item_title">Remarks</div>
-                        <div class="order_address">
+                        <div class="order_address" >
                             {$order.info}
                         </div>
                     </div>
@@ -95,6 +99,17 @@
         <div class="clr"></div>
     </div>
 </div>
+<div id="paybox" style="text-align: center;line-height: 30px;" >
+    <label for="paypal" class="fl"><input type="radio" id="paypal" name="pay" checked/>&nbsp;Paypal</label><br/>
+    <br/>
+    <br/>
+    <button class="pay_btn" onclick="window.location.href='/home/shop/pay.html?orderno={$order[\'orderno\']}'" >Pay </button>
+</div>
 <include file="Index:footer" />
+<script>
+    function paynow(){
+        getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
+    }
+</script>
 </body>
 </html>

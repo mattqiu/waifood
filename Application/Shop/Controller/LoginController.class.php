@@ -141,5 +141,16 @@ class LoginController extends Controller {
 		session('[destroy]');
 		$this->redirect('/');
 	}
+
+    /**
+     * 找回密码
+     */
+    public function findpwdAction(){
+        if( !isVerifyCorrect()){
+            apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.');
+        }
+        $keywrod = I('post.keywrod');
+        UserModel::reSetPwd($keywrod);
+    }
 }
 ?>

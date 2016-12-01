@@ -2,7 +2,7 @@
     <div class="container">
         <div class="links">
             <a href="/">Home</a>
-            |<a href="Form/view.html?id=1">Wish list</a>
+            |<a href="/index/wishlist.html">Wish list</a>
             |<a href="/?l=en">English</a>
         </div>
         <div class="server-text">
@@ -23,10 +23,11 @@
                 <if condition="$user['id']">
                     <div class="myaccount_box">
                         <ul>
-                            <li>My order</li>
-                            <li>My address</li>
-                            <li>Change password</li>
+                            <li onclick="window.location.href='/member/order.html#order'">My order</li>
+                            <li onclick="window.location.href='/member/address.html#address'">My address</li>
+                            <li onclick="window.location.href='/member/pwd.html#pwd'">Change password</li>
                             <li onclick="window.location.href='/login/logout.html'">Log out</li>
+
                         </ul>
                     </div>
                 </if>

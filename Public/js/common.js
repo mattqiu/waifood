@@ -167,12 +167,12 @@ function Mask(){
     this.closeBox = ".clo";//关闭
     this.inside = ".inside";//负责存放内容
     this.pm = 5;//拖动层由于父层 padding 、margin 、 position引起的间差,目前设置为手动调节
-    this.t = 100;//移动速度
+    this.t = 150;//移动速度
     this.o = 0.5;//遮罩透明度
     this.k = 0.7;//回弹速度
     this.n = 1;//回弹次数
     this.width = 400;//弹出框宽度
-    this.tit = "弹出框标题";//标题
+    this.tit = "title";//标题
     this.cont="#cont";//弹出框div的id/class
     this.closeCallBack=function(){};//回调函数
 }
@@ -214,7 +214,7 @@ Mask.prototype = {
             var str = '<div class="maskWrap"></div>';
             str+='<div class="homepop">';
             str+='<div class="move">';
-            str+='  <a class="clo">关闭</a>';
+            str+='  <a class="clo"><img src="/Public/images/close.png" style="position: relative; top: 4px;" width="15"></a>';
             str+='  <span>'+this.tit+'</span>';
             str+='</div>';
             str+='<div class="inside"></div>';

@@ -13,31 +13,43 @@
 <include file="Index:nav2"/>
 <div class="cat_list_sx">
     <div class="container">
-        <div class="path">{:get_product_location($_REQUEST['id'])} </div>
-        <div class="cat_obj_sx">
-            <div  class="cat_name fl">Brand:</div>
-            <div  class="cat_val fl">
-                <a href="{:set_url('brand')}" <if condition="!$brand"> class="selected"</if>>All</a>
-                <volist name="brandlist" id="vo">
-                    <a href="{:set_url('brand',$vo)}" <if condition="(parse_param(I('get.brand'),true) eq strtolower($vo))" >class="selected"</if> >
+        <if condition="!isset($_REQUEST['group']) || !$_REQUEST['group']">
+            <div class="path">{:get_product_location($_REQUEST['id'])} </div>
+            <div class="cat_obj_sx">
+                <div  class="cat_name fl">Brand:</div>
+                <div  class="cat_val fl">
+                    <a href="{:set_url('brand')}" <if condition="!$brand"> class="selected"</if>>All</a>
+                    <volist name="brandlist" id="vo">
+                        <a href="{:set_url('brand',$vo)}" <if condition="(parse_param(I('get.brand'),true) eq strtolower($vo))" >class="selected"</if> >
                         {$vo}
-                    </a>
-                </volist>
+                        </a>
+                    </volist>
+                </div>
             </div>
-        </div>
-        <div class="clr"></div>
-        <div class="cat_obj_sx cat_dashed">
-            <div class="cat_name fl">Origin:</div>
-            <div class="cat_val fl">
-                <a href="{:set_url('origin')}" <if condition="!$origin"> class="selected"</if>>All</a>
-                <volist name="originlist" id="vo">
-                    <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
+            <div class="clr"></div>
+            <div class="cat_obj_sx cat_dashed">
+                <div class="cat_name fl">Origin:</div>
+                <div class="cat_val fl">
+                    <a href="{:set_url('origin')}" <if condition="!$origin"> class="selected"</if>>All</a>
+                    <volist name="originlist" id="vo">
+                        <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
                         {$vo}
-                    </a>
-                </volist>
+                        </a>
+                    </volist>
+                </div>
             </div>
-        </div>
-        <div class="clr"></div>
+            <div class="clr"></div>
+        <else/>
+            <div class="path"><a href="/">Home</a> &gt;
+                <if condition="$_REQUEST['group'] eq 8">
+                    <a href="/Product/lists/id/483.html">New Arrival</a>
+                    <elseif condition="$_REQUEST['group'] eq 9"/>
+                    <a href="/Product/lists/id/483.html">Promotion</a>
+                    <elseif condition="$_REQUEST['group'] eq 11"/>
+                    <a href="/Product/lists/id/483.html">Recommend</a>
+                </if>
+              </div>
+        </if>
       </div>
 </div>
 <div class="container">
@@ -81,7 +93,9 @@
                 <div style="width: 294px;margin: 0 auto;" class="fl">
                     <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                     <div class="good-name">
-                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                        <a href="/product/view.html?id={$vo.id}">
+                            <div class="good_title">{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</div>
+                        </a>
                         <div class="good_item_info ">
                             <div class="good_info list_good fl">
                                 Unit: {$vo.unit}<br>

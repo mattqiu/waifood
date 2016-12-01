@@ -1,7 +1,7 @@
 
 /*弹出可拖拽的功能型遮罩层*/
-.maskWrap{position:fixed;z-index:997;top:0;left:0;width:100%;background:#000;filter:alpha(opacity=00);-moz-opacity:0.00;opacity:0.00}
-.homepop{position:absolute;z-index:998;min-height:150px;background:#fff;display:none}
+.maskWrap{position:fixed;z-index:10000;top:0;left:0;width:100%;background:#000;filter:alpha(opacity=00);-moz-opacity:0.00;opacity:0.00}
+.homepop{position:absolute;z-index:10001;min-height:150px;background:#fff;display:none}
 .move{padding-left:15px;border-bottom: 1px solid #E0E0E0; cursor:move;text-align:left;font-size:16px;color:#212121;font-weight:bold;margin-top: 15px;padding-bottom: 12px;}
 .move a{float:right;color:#757575;padding-right:15px;cursor:pointer}
 .move a:hover{color: red}

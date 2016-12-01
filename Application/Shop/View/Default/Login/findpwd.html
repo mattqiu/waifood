@@ -7,43 +7,66 @@
     <meta name="keywords" content="{$keywords}"/>
     <meta name="description" content="{$description}"/>
     <include file="Index:header"/>
-    <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 </head>
 <body>
 <include file="Index:bar"/>
-<include file="Index:nav"/>
-<div class="container">
-    <div class="content">
-        <div class="regbox">
-            <form  method="post" id="frm_login" onsubmit="return false">
-                <h1><strong>Retrieve my password</strong></h1>
-                <div class="reg">
-                    <p>Please enter your account</p>
-                    <p>
-                        <input type="text" class="reginput" name="keywrod" size="40"
-                               placeholder="enter your username or Email" required="required"/>
-                        <br/>
-                    <p style="font-size: 9px; color: #999" id="msg">An Email with the new password will be sent to your
-                        registered Email box.</p>
-                    </p>
-                    <p>
-                        <input type="text" class="reginput fl" size="24" maxlength="5" name="verify" id="verify"
-                               placeholder="enter captcha" required="required"/>
-                        <img style="cursor:pointer;margin-left:5px; cursor: hand; width:100px; height:36px; float:left;"
-                             title="click to reload captcha" alt=""
-                             onclick="this.src='/index/verify.html?random='+Math.random()"
-                             src="/index/verify.html?v={:rand(0,999)}"/>
-                    </p>
-                    <div style="clear: both"></div>
-                    <p>
-                        <button class="lgbtn" onclick="findpwd()">Next step</button>
-                    </p>
-                </div>
-            </form>
+<include file="Index:nav2"/>
+<div class="container bg_white">
+    <div class="path" style="padding-left: 20px;"><a href="/">Home</a> &gt; <a href="/login/findpwd.html">findpwd</a> </div>
+    <div class="order_item_title " style="padding-left: 20px;">Retrieve my password</div>
+    <hr width="100%" size="1" color="#e0e0e0" style="margin: 0 auto"/>
+    <form id="findpwd" class="pwd_box" style="width: 600px;;" onsubmit="return false" >
+        <div class="pwd_ionput">Please enter your account&nbsp;&nbsp;<input type="text" class="text_input" name="keywrod"  placeholder="enter your username or Email"/></div>
+        <p style="font-size: 9px; color: #999" id="msg">An Email with the new password will be sent to your
+            registered Email box.</p>
+        <div class="pwd_ionput">
+            Captcha&nbsp;&nbsp;
+            <input type="text" class="text_input" style="width: 261px;" maxlength="5" name="verify" id="verify" placeholder="enter captcha" />
+            <img style="cursor:pointer;margin-left:5px; width:150px; height:50px; float:right;"
+                 title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()"
+                 src="/index/verify.html?v={:rand(0,999)}"/>
         </div>
-    </div>
+        <div class="clr"></div>
+        <div class=" submitOrder_b changpwd">
+            <button onclick="findpwd();" class="submitOrder ">Submit</button>
+        </div>
+    </form>
 </div>
 <include file="Index:footer"/>
+<script>
+    /**
+     * 找回密码
+     * @returns {boolean}
+     */
+    /*阻塞标志，防止重复提交；预设不阻塞 (发送邮件处理慢，防止重复提交)*/
+    window.subBlock=false;
+    function findpwd(){
+        if(subBlock){
+            return false;
+        }
+        var keywrod = $('#findpwd input[name=keywrod]').val();
+        var verify = $('#verify').val();
+        if (!keywrod) {
+            clearpopj("Sorry,please enter your username or Email.", "error",true);
+            subBlock = false;//解除阻塞
+            return false
+        } ;
+        if (!verify) {
+            clearpopj("Sorry,please enter your username or Email.", "error",true);
+            subBlock = false;//解除阻塞
+            return false
+        };
+        subBlock = true;
+        $.post('/login/findpwdAction',{keywrod:keywrod,verify:verify},function(data){
+            subBlock = false;//解除阻塞
+            if(data.code ==200){
+                clearpopj(data.message, "success",true,'/login/index.html');
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
 </body>
 </html>
 

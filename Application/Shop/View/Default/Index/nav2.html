@@ -2,7 +2,7 @@
     <div class="logoAngsearch container">
         <div class="logo fl"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210" height="74" style="margin-top: 30px;" alt=""/></a></div>
         <div class="search fl">
-         <form action="{:U('Search/index')}" method="get" >
+         <form action="/product/lists.html" method="get" >
             <input type="text" name="keyword"  id="keyword" placeholder="keywords..."  <if condition="$_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
             <button type="submit" value="" ></button>
             </form>
@@ -16,7 +16,7 @@
 <div class="nav_center">
     <div class="container">
         <ul class="navigation">
-            <li class="allcate selected">All Categories
+            <li class="allcate selected" onclick="window.location.href='/'">All Categories
                 <include file="Index:nav2sub" />
             </li>
         </ul>
@@ -31,7 +31,7 @@
                             Quantity: <span class="js_good_total_num">0</span><br/>
                             Total: <span class="good_total">&yen;0</span>
                         </div>
-                        <div class="fr goodcheckout" onclick="window.location.href='/index/cart.html'">check out</div>
+                        <div class="fr goodcheckout" >check out</div>
                         <div class="clr"></div>
                     </div> <div class="clr"></div>
                 </div>
@@ -43,8 +43,10 @@
     var pathinfo =(window.location.pathname).toLowerCase();
     if( pathinfo.length > 4){
         $('#cat_menu_list').removeClass('index_cate');
-        $('.allcate').click(function(){
-            $('#cat_menu_list').slideDown();
+        $('.allcate').mouseover(function(){
+            if($('#cat_menu_list').css('display') =='none') {
+                $('#cat_menu_list').slideDown();
+            }
         })
         $('.allcate').mouseleave(function(){
             $('#cat_menu_list').slideUp();
@@ -54,10 +56,15 @@
         $('.allcate').html('All Categories');
     }
 
-    $('.shopping').click(function(){
-        $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/cart_hover.png');
-        $(this).addClass('ongoodcart');
-        $('#cart_box').slideDown();
+    $('.shopping').mouseover(function(){
+        if($('#cart_box').css('display') =='none') {
+            if($('#cart_good_box').children().length>0){
+                $('#cart_box .goodcheckout').attr('onclick',"window.location.href='/index/cart.html'");
+            }
+            $('.shopping_cart').attr('src', CONST_PUBLIC + '/Shop/images/cart_hover.png');
+            $(this).addClass('ongoodcart');
+            $('#cart_box').slideDown();
+        }
     })
     $('.shopping').mouseleave(function(){
         $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/shopping_cart.png');
