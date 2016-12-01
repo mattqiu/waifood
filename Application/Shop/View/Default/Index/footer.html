@@ -80,13 +80,14 @@
     <div class="partnerShip">
         <div class="container">
             <span class="foot-list-p">PARTNERSHIP:</span>
-            <ul style="margin-left: 150px;margin-top: -15px;" id="partner">
-                <li style="width:120px;position: relative">
-                    <a href="" style="width:120px;border: 1px solid #e0e0e0;padding: 3px 8px; overflow: hidden;display:block" >
+            <ul style="margin-left: 150px;margin-top: -15px; " id="partner">
+                <li style="width:120px;position: relative;">
+                    <a href="" style="width:120px;position: relative; border: 1px solid #e0e0e0;padding: 3px 8px; overflow: hidden;display:block" >
                         <img src="__PUBLIC__/img/mmexport1480580358096.jpg" class="plogo" width="120" id="dd" alt=""/>
                     </a>
-                    <div class="pqr_box hide" style="position: absolute;width: 122px; top:-120px;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/img/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
+                    <div class="pqr_box hide" style="position: absolute;z-index: 0; width: 122px; top:0;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/img/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
                 </li>
+
             </ul>
         </div>
     </div>
@@ -96,11 +97,23 @@
 </div>
 <script>
     $(function () {
-        $('#partner li ').hover(function (e){
-            if( $(this).find('.pqr_box').css('display') == 'none')
-            $(this).find('.pqr_box').slideDown();
+        var  moveTime = 200,
+            curMove = null;
+        $('#partner li').hover(function (e){
+            $('#partner .pqr_box').show()
+            var curLi = $(this);
+            curMove = setTimeout(function (){
+                curLi.find('.pqr_box').animate({ top: '-120px' }, moveTime,function(){
+
+                });
+            }, 200);
         },function(e){
-            $(this).find('.pqr_box').slideUp();
+            clearTimeout(curMove);
+            $(this).find('.pqr_box').animate({ top: '0px' }, moveTime,function(){
+                $('#partner .pqr_box').hide()
+            });
+
+
         });
 
 
