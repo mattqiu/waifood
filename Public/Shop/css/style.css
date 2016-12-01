@@ -137,9 +137,11 @@ fieldset,img { border: none;}
 .fuwu li h2{ font-size:14px; margin-bottom:10px;}
 .fuwu li p{ margin:0; line-height:22px;}
 .foot{ width:1090px; margin:20px auto 0; text-align:center; line-height:22px; padding:20px 0 40px; font-family:Arial,"微软雅黑","宋体"}
-.partnerShip{height: 160px;background: #f8f8f8;margin-top: 20px;font-size: 18px;}
-.partnerShip span{position: relative;top: 68px;}
+
+.partnerShip{height: 73px;background: #f8f8f8;margin-top: 20px;font-size: 18px;}
+.partnerShip span{position: relative;top: 28px;}
 .partnerShip ul li{background: #FFffff}
+
 .rtitle01{ height:32px; line-height:32px; background:#eff5e1; border:1px solid #d8e6b8; padding:0 10px; margin-top:10px;}
 .rtitle01 strong,.saixuan_title strong{ font-size:18px; color:#799e0f;  vertical-align:middle;}
 .saixuan{ border:1px solid #d8e6b8; margin-top:10px;}
