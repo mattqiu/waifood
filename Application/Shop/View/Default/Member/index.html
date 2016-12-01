@@ -1,111 +1,89 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
 </head>
 
-<body>
+<body style="background: #f8f8f8">
 <include file="Index:bar" />
-<include file="Index:nav" />
+<include file="Index:nav2" />
 <div class="container">
-<div class="content">
-  <div class="box980">
-    <div class="left">
-		<include file="left" />    
-	</div>
-    <div class="right">
-      <div class="hybox">
-        <div class="txbox"><a href="{:U('Member/info')}"><img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" width="80" height="80"  alt=""/>My avatar</a></div>
-        <div class="jbzl">{:get_displayname()}<br>
-           </div> 
-        <div class="wdjf">My order<br>
-        
- <a href="{:U('Member/order?status=0')}">Draft（{$orderstat[0]}）</a> <br />
- <a href="{:U('Member/order?status=0')}">Confirmed（{$orderstat[1]}）</a> <br /> <a href="{:U('Member/order?status=2')}">Delivering（{$orderstat[2]}）</a> <br />  <a href="{:U('Member/order?status=3')}">Completed（{$orderstat[3]}）</a>  </div>
-      </div>
-      <div class="hybox">
-        <div class="hytit"><span style="float:right"><a href="{:U('Member/order')}">More&gt;&gt;</a></span><strong>Undelivered order list</strong></div>
-        <div class="ddlist">
-           <table width="100%" border="0" cellspacing="0" cellpadding="0">
-             <thead>
-              <tr>
-                <td>Order no</td>
-                <td width="80">Order place time</td>
-                <td width="80">Delivery time</td>
-                <td>Total amount</td>
-                <td>Payment method</td>
-                <td>Order status</td>
-                <td>Action</td>
-              </tr>
-             </thead>
-             <tbody> 
-             
-            <eq name="listcount" value="0">
-              <tr  >
-                <td colspan="7">not found.</td>
-               </tr>
-            <else/>
-            <volist name="list" id="vo"> 
-              <tr>
-                <td>
-               {$vo.orderno}
-             </td>
-                <td width="80">{$vo.addtime}</td>
-                <td width="80">{$vo.delivertime}</td>
-                <td><span class="jiage02">&yen;{:to_price($vo['amount'])}</span> </td>
-                <td><eq name="vo.paymethod" value="4">Cash on delivery<else/>Payment online (Paypal)</eq> </td>
-                <td><strong>{:get_status($vo['status'])}</strong></td>
-                <td>
-                <eq name="vo.pay" value="1"> 
-                 	<switch name="vo.status">
-                    <case value="3">
-                        <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a><!-- | 
-                        <a href="{:U('Member/orderComment?orderno='.$vo['orderno'])}">评价</a>-->
-                        </case>
-                    <case value="2" >
-                        <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a><br><a href="javascript:void(0);" onclick="$.confirmOrder('{$vo.orderno}');" class="qrsh"></a>
-                        </case>
-                    <default/>
-                  	  <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>
-                    </switch>
-                <else/>
-                	<eq name="vo.paymethod" value="4">
-                    
-                    <else/>
-            <in name="vo.status" value="0,1">
-                  	  <a href="{:U('Settle/pay?orderno='.$vo['orderno'])}" class="jixu" style="color:#fff" target="_blank">Pay now</a><br />
-                      </in>
-                      </eq>
-                 	<switch name="vo.status">
-                    <case value="0" >
-                    <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>   <a href="javascript:void(0);" onclick="$.cancelOrder('{$vo.orderno}');">Cancel</a>
-                    </case>
-                    <case value="1" >
-                    <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>   <a href="javascript:void(0);" onclick="$.cancelOrder('{$vo.orderno}');">Cancel</a>
-                    </case>
-                    <default/>
-                  	  <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>
-                    </switch> 
-                    
-                </eq>
-                </td>
-              </tr>  
-            </volist>
-            
-            </eq>
-              </tbody>
-          </table>
+    <div class="path"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
         </div>
-      </div>
+        <div class="right fr">
+            <div class="userinfo bg_white">
+                <div class="user_head">
+                    <img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" width="128" height="128"  alt=""/><br/>
+                    <div class="username">{$user.username}</div>
+                    <a href="javascript:void(0);" onclick="showUserInfo();" class="avatar"> My profile&gt;&gt;</a>
+                </div>
+                <hr width="965px" size="1" color="#e0e0e0" style="margin: 0 auto"/>
+                <div class="orderinfo">
+                    <div class="order-list">
+                        <div class="undelivered">Ongoing orders <div class="fr"><a href="/member/order.html" class="more_order">More&gt;&gt;</a></div></div>
+                        <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+                            <tr class="thead">
+                                <th width="165">Order no</th>
+                                <th width="125">Order place time</th>
+                                <th width="125">Delivery time</th>
+                                <th width="120">Total amount</th>
+                                <th width="100">Payment method</th>
+                                <th width="125">Order status</th>
+                                <th width="90">Action</th>
+                            </tr>
+                            <if condition="empty($list)">
+                                <tr>
+                                    <td colspan="7">not found.</td>
+                                </tr>
+                                <else/>
+                                <volist name="list" id="vo">
+                                    <tr align="center" class="order_row">
+                                        <td>{$vo.orderno}</td>
+                                        <td>{$vo.addtime}</td>
+                                        <td align="left">{$vo.delivertime}</td>
+                                        <td><span class="order_price">&yen;{:to_price($vo['amount'])}</span> </td>
+                                        <td>
+                                            <if condition="$vo['paymethod'] eq 4">
+                                                Cash on delivery
+                                                <elseif condition="$vo['paymethod'] eq 2"/>
+                                                Paypal
+                                            </if>
+                                        </td>
+                                        <td><span class="order_status">{:get_status($vo['status'])}</span></td>
+                                        <td>
+                                            <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
+                                            <if condition="$vo['status'] lt 3">
+                                                <br/>
+                                                <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}')" class="order_btn cancel">Cancel</a>
+                                            </if>
+                                        </td>
+                                    </tr>
+                                </volist>
+                            </if>
+                        </table>
+                    </div>
+                    <div style="height: 60px;"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="clear"></div>
-    
-  </div>
-</div> 
-  <div class="clr"></div>
 </div>
+<div class="clr"></div>
 <include file="Index:footer" />
+<div class="lean_overlay hide" data-show="1"></div>
+<div class="leanModal addressModal hide" id="userModal">
+    <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src="/member/info.html"></iframe>
+</div>
+<script>
+    function showUserInfo(){
+        $('.lean_overlay').show();
+        $('#userModal').show();
+    }
+</script>
 </body>
 </html>

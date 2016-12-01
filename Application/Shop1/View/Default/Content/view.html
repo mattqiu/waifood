@@ -23,13 +23,13 @@
       </div>
       <div class="right04">
         <eq name="cateinfo.viewtype" value="1">
-          <div class="bzxtit">{$db.title}</div>
-          <div class="txt03"> {$db.content} </div>
+          <div class="newtitle">{$db.title}</div>
+          <div class="newcontent"> {$db.content} </div>
           <else/>
-          <div class="news_title">{$db.title}</div>
+          <div class="newtitle">{$db.title}</div>
           <div class="news_date">Date：{$db.addtime}</div>
-          <div class="txt03"> {$db.content} </div>
-          <div class="txt03"> <span class="span5">Next: {$next}</span> <br />
+          <div class="newcontent"> {$db.content} </div>
+          <div class="newcontent"> <span class="span5">Next: {$next}</span> <br />
             <span class="span5">Prev: {$prev}</span> </div>
         </eq>
       </div>

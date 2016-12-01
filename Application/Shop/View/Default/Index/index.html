@@ -6,28 +6,38 @@
 <meta name="keywords" content="{$keywords}" />
 <meta name="description" content="{$description}" />
     <include file="Index:header"/>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script type="text/javascript"  src="__PUBLIC__/kindeditor/kindeditor-all-0xiao.js" charset="UTF-8"></script>
+    <script type="text/javascript"  src="__PUBLIC__/kindeditor/lang/zh_CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js"></script>
 <!--[if lt IE 8]>
 <script src="__PUBLIC__/Shop/js/oldie-upgrade.js"></script>
 <![endif]-->
-
-
 </head>
 <body id="top">
     <include file="Index:bar" />
     <include file="Index:nav2" />
     <div class="banner-box">
-        <div class="tc banner-img"  >
+        <div class="tc banner-img" id="banner">
             <include file="Index:nav2sub" />
-            <img src="__PUBLIC__/Shop/images/test/4.jpg" height="600" alt=""/>
+            <div class="bdc">
+                <ul>
+                    <li><img src="__PUBLIC__/Shop/images/test/5.jpg" height="600" alt=""/></li>
+                    <li><img src="__PUBLIC__/Shop/images/test/5.jpg" height="600" alt=""/></li>
+                    <li><img src="__PUBLIC__/Shop/images/test/2.jpg" height="600" alt=""/></li>
+                </ul>
+            </div>
+            <div class="hd-solid hdc container" style="position: absolute;bottom: 20px;">
+                <ul></ul>
+            </div>
         </div>
     </div>
-
-    <div class="container">
+    <div class="container bg_white">
         <div class="index-item clr">
             <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/nocard.png" alt=""/></div><div class="fl i-name" style="color: #40c8d6">No China's debit card required</div></div>
             <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/cashondelivery.png" alt=""/></div><div class="fl  i-name"style="color: #64c73e">Cash on delivery</div></div>
-            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/freeshipping.png" alt=""/></div><div class="fl i-name" style="color: #f0ac3f">Free shipping</div></div>
-            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/englishservice.png" alt=""/></div><div class="fl i-name" style="color: #e85464">English service</div></div>
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/freeshipping.png"  style="margin-left: 12px;" alt=""/></div><div class="fl i-name" style="left: 32px;;color: #f0ac3f">Free shipping</div></div>
+            <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/englishservice.png" style="    margin-left: 5px;" alt=""/></div><div class="fl i-name" style="left: 20px;;color: #e85464">English service</div></div>
         </div>
     </div>
     <div class="clr"></div>
@@ -35,61 +45,50 @@
     <div class="good-content" style="margin-top: -14px">
         <div class="container">
            <div class="index-title">
-               <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">PROMOTION <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+               <hr size="1" class="left-line" width="200" color="#000000;"/><div class="index-title-name">PROMOTION <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="200"/>
            </div>
         </div>
         <!-- PROMOTION轮播--->
         <div class="good-promotion">
-            <div class="effect">
-                <div id="autoPage">
-                    <div class="bd">
-                        <ul class="picList">
-                            <volist name="promotion" id="vo">
-                                <php>$count = 0;</php>
-                                <li class="goods goods_li_{$i%4}" id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                                    <div style="width: 262px;margin: 0 auto;" class="fl">
-                                        <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
-                                        <div class="good-name">
-                                            <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                                            <div class="good_item_info">
-                                                <div class="good_info fl">
-                                                    Unit: {$vo.unit}<br>
-                                                    Origin: {$vo.origin}<br>
-                                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                                    <if condition="$vo['price1'] gt 1"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
-                                                </div>
-                                                <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
+            <div id="promotion">
+                <div class="bd">
+                    <ul class="picList">
+                        <volist name="promotion" id="vo">
+                            <li class="goods goods_li_{$i%4}" id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                                <div style="width: 294px;margin: 0 auto;" class="fl">
+                                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                                    <div class="good-name">
+                                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                                        <div class="good_item_info">
+                                            <div class="good_info fl">
+                                                Unit: {$vo.unit}<br>
+                                                Origin: {$vo.origin}<br>
+                                                <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
+                                                <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                             </div>
+                                            <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
                                         </div>
                                     </div>
-                                </li>
-                             </volist>
-                        </ul>
-                    </div>
-                    <div class="hd-solid hd container">
-                        <ul>
-                            <?php
-                            for($i=1;$i<=$count/4;$i++){
-                        ?>
-                            <li>$i</li>
-                            <?php
-                    }
-                    ?>
-                        </ul>
-                    </div>
+                                </div>
+                            </li>
+                         </volist>
+                    </ul>
+                </div>
+                <div class="hd-solid hd container">
+                    <ul></ul>
                 </div>
             </div>
-            </div>
+        </div>
         <!-- NEW ARRIVAL-->
         <div class="container"  style="margin-top: -14px">
             <div class="index-title">
-                <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">NEW ARRIVAL <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+                <hr size="1" class="left-line" width="200" color="#000000;"/><div class="index-title-name">NEW ARRIVAL <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="200"/>
             </div>
             <ul class=" good-contents">
                 <volist name="newArrival" id="vo">
                     <if condition="$i elt 8">
-                        <li class="goods"   id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                            <div style="width: 262px;margin: 0 auto;" class="fl">
+                        <li class="goods "   id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                            <div style="width: 294px;margin: 0 auto;" class="fl">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                                 <div class="good-name">
                                     <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
@@ -97,7 +96,7 @@
                                         <div class="good_info fl">
                                             Unit: {$vo.unit}<br>
                                             Origin: {$vo.origin}<br>
-                                            <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                            <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                         </div>
                                         <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
                                     </div>
@@ -112,14 +111,14 @@
         <!-- RECOMMEND-->
         <div class="container"  style="margin-top: -14px">
             <div class="index-title">
-                <hr size="1" class="left-line" width="150" color="#000000;"/><div class="index-title-name">RECOMMEND <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="150"/>
+                <hr size="1" class="left-line" width="200" color="#000000;"/><div class="index-title-name">RECOMMEND <div class="more">More >> </div></div><hr size="1" class="right-line" color="#000000" width="200"/>
             </div>
             <ul class=" good-contents">
                 <volist name="recommend" id="vo">
                     <if condition="$i elt 8">
                         <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                             data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                            <div style="width: 262px;margin: 0 auto;" class="fl">
+                            <div style="width: 294px;margin: 0 auto;" class="fl">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                                 <div class="good-name">
                                     <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
@@ -127,7 +126,7 @@
                                         <div class="good_info fl">
                                             Unit: {$vo.unit}<br>
                                             Origin: {$vo.origin}<br>
-                                            <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                            <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                             <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                         </div>
                                         <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
@@ -141,14 +140,56 @@
             <div class="clr"></div>
         </div>
     </div>
-    <include file="Index:footer" />
+    <!--图片上传-->
 
+    <button onclick="uploadImage();">up</button>
+    <div class=" center" id="upload_pic" style="display: none">
+        <div id="clipArea" style="height: 280px;"><img src="" id="view" alt=""></div>
+        <br/>
+        <input type="file" id="file" class="common_btn"/>
+        <br><button id="clipBtn" type="button" class="common_btn" style="margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;">保存</button>
+    </div>
+
+
+    <include file="Index:footer" />
     <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
 
+
+    <script type="text/javascript" src="__PUBLIC__/js/iscroll-zoom.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/hammer.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/lrz.all.bundle.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.photoClip.js"></script>
+
 <script>
+    function uploadImage(){
+        var clipArea = new bjj.PhotoClip("#clipArea", {
+            size: [200,200],
+            outputSize: [400,400],
+            file: "#file",
+            view: "#view",
+            ok: "#clipBtn",
+            loadStart: function() {
+                console.log("照片读取中");
+            },
+            loadComplete: function() {
+                console.log("照片读取完成");
+            },
+            clipFinish: function(dataURL) {
+                $.post('/common/images/createimg',{'stream':dataURL},function(data){
+                    $('#face').attr('src','/upload'+data.data);
+                    $('#face').attr('face','/upload'+data.data);
+                    closeMask();
+                },'json')
+            }
+        });
+        getMask().maskShow({"tit": "图片","width":380, "cont": "#upload_pic"});
+    }
+
     $(function(){
         $('#cat_menu_list').addClass('index_cate');
-        $("#autoPage").slide({ titCell:".hd ul", mainCell:".bd ul",effect:"left",vis:4,scroll:4,autoPlay:true,autoPage:true});//PROMOTION轮播
+        $('#cat_menu_list').removeClass('product_menu');
+        $("#banner").slide({ titCell:".hdc ul", mainCell:"#banner .bdc ul",effect:"leftLoop",vis:1,scroll:1,autoPlay:true,autoPage:true});//banner轮播
+        $("#promotion").slide({ titCell:"#promotion .hd ul", mainCell:"#promotion .bd ul",effect:"leftLoop",vis:4,scroll:4,autoPlay:true,autoPage:true});//PROMOTION轮播
         $(' .goods ').mouseover(function(){
             $(this).find(' .good_shop_cart').css({'background': 'url("./Public/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
         })
@@ -163,6 +204,7 @@
             $(this).removeClass('good-hover')
             $(this).find(' .good_shop_cart').css({'background': 'none'})
         })
+
     })
 </script>
 </body>

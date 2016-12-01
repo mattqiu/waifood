@@ -1,31 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$good.title}{:lbl('subtitleshop')}</title>
-<meta name="keywords" content="{$keywords}" />
-<meta name="description" content="{$description}" />
-<include file="Index:header" />
-<!--<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />-->
-<!--<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />-->
-<!--<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />-->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$good.title}{:lbl('subtitleshop')}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <include file="Index:header" />
+    <!--<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />-->
+    <!--<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />-->
+    <!--<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />-->
 
-<script language="javascript">
-//$(function(){
-//	$(".btnDeduct").on("click",function() {
-//		var minbuy = parseInt($("#buyAmount").attr("min"));
-//		var num = parseInt($("#buyAmount").val());
-//		if(minbuy!=0){
-//			if(num<minbuy){
-//				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');
-//				$("#buyAmount").val(minbuy);
-//				return false;
-//			}
-//		};
-//		return false;
-// 	});
-//});
-</script>
+    <script language="javascript">
+        //$(function(){
+        //	$(".btnDeduct").on("click",function() {
+        //		var minbuy = parseInt($("#buyAmount").attr("min"));
+        //		var num = parseInt($("#buyAmount").val());
+        //		if(minbuy!=0){
+        //			if(num<minbuy){
+        //				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');
+        //				$("#buyAmount").val(minbuy);
+        //				return false;
+        //			}
+        //		};
+        //		return false;
+        // 	});
+        //});
+    </script>
 </head>
 
 <body>
@@ -33,84 +33,104 @@
 <include file="Index:nav2" />
 <div class="container">
     <div class="path">{:get_product_location($good['pid'])} </div>
-        <div class="good-info-head"   id="js_goods_{$good['id']}" data-id="{$good['id']}" data-price="{$good['price']}" data-stock="{$good['stock']}" data-indexpic="{$good.indexpic}" data-name="{$good['title']}">
-            <div class="good-ih-img">
-                <div class="imglist fl">
-                    <volist name="gallery" id="vo">
-                        <if condition="$i elt 5">
-                            <div class="img-list" onclick="selectShowImg(this)">
-                                <img src="{$vo}" width="54" height="54"  alt="" />
-                            </div>
-                        </if>
-                    </volist>
-                </div>
-                <div class="img-show fl">
-                    <if condition="$gallery && $gallery[0]">
-                        <img src="{$gallery[0]}" width="440" height="440" id="img_show_box"/>
-                    <else/>
-                        <img src="{$good['indexpic']}" width="440" height="440" id="img_show_box"/>
+    <div class="good-info-head"   id="js_goods_{$good['id']}" data-id="{$good['id']}" data-price="{$good['price']}" data-stock="{$good['stock']}" data-indexpic="{$good.indexpic}" data-name="{$good['title']}">
+        <div class="good-ih-img">
+            <div class="imglist fl">
+                <volist name="gallery" id="vo">
+                    <if condition="$i elt 5">
+                        <div class="img-list" onclick="selectShowImg(this)">
+                            <img src="{$vo}" width="54" height="54"  alt="" />
+                        </div>
                     </if>
-                </div>
+                </volist>
             </div>
-            <div class="good-ih-info">
-                <div class="good-title">{$good.title}</div>
-                <div class="good-info">
-                    Unit: {$good.unit}<br/>
-                    Preservation: {$good.storage}<br/>
-                    Origin: {$good.origin}<br/>
-                    <if condition="$db['brand']">
-                        Brand:{$good.brand}<br />
+            <div class="img-show fl">
+                <if condition="$gallery && $gallery[0]">
+                    <img src="{$gallery[0]}" width="440" height="440" id="img_show_box"/>
+                    <else/>
+                    <img src="{$good['indexpic']}" width="440" height="440" id="img_show_box"/>
+                </if>
+            </div>
+        </div>
+        <div class="good-ih-info">
+            <div class="good-title">{$good.title}</div>
+            <div class="good-info">
+                Unit: {$good.unit}<br/>
+                Preservation: {$good.storage}<br/>
+                Origin: {$good.origin}<br/>
+                <if condition="$db['brand']">
+                    Brand:{$good.brand}<br />
+                </if>
+                <p class="price">
+                    <span class="good-price">&yen;&nbsp;{$good.price} </span>
+                    <if condition="$good['price1'] gt 0">
+                        <span class="marketprice">&yen;{$good.price1}</span>
                     </if>
-                    <p class="price">
-                        <span class="good-price">&yen;{$good.price} </span>
-                        <if condition="$good['price1'] gt 0">
-                            <span class="marketprice">&yen;{$good.price1}</span>
-                        </if>
-                    </p>
-                    <div class="quantity">
-                        Quantity: <span class="good-num-prep" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
-                        <input type="text" id="js_good_num_{$good.id}" class="tc good_num" value="1"/>
-                        <span class="good-num-add"  onclick="setGoodNum('{$good.id}','add');">+</span>
-                    </div>
-                    <div >
-                        <button class="buynow cart_btn">Buy now</button>
-                        <button class="addtocart cart_btn" onclick="addgood('{$good.id}',event,'view')">Add to cart</button>
-                    </div>
+                </p>
+                <div class="quantity">
+                    Quantity: <span class="good-num-prep" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
+                    <input type="text" id="js_good_num_{$good.id}" class="tc good_num" value="1"/>
+                    <span class="good-num-add"  onclick="setGoodNum('{$good.id}','add');">+</span>
+                </div>
+                <div>
+                    <button class="buynow cart_btn"  onclick="buynow('{$good.id}');">Buy now</button>
+                    <button class="addtocart cart_btn" style="margin-left: 35px;" onclick="addgood('{$good.id}',event,'view')" >Add to cart</button>
                 </div>
             </div>
         </div>
-        <if condition="$good['content']">
-            <div class="good_desc">
-                <div class="good_desc_title">Description</div>
-                <div class="cpcontent" style="padding:10px 0px;">
-                    {$good.content}
-                </div>
+    </div>
+    <if condition="$good['content']">
+        <div class="good_desc">
+            <div class="good_desc_title">Description</div>
+            <div class="cpcontent bg_white" style="padding:10px 0 10px 10px;">
+                {$good.content}
             </div>
-        </if>
-        <div class="good_desc_title good_desc"> You might like</div>
-        <ul class=" good-contents  mightlike">
-            <volist name=":get_product_lists($good['pid'],4,2)" id="vo">
-                <li class="goods">
-                    <div style="width: 262px;margin: 0 auto;" class="fl">
-                        <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
-                        <div class="good-name">
-                            <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                            <div class="good_item_info">
-                                <div class="good_info fl">
-                                    Unit: {$vo.unit}<br>
-                                    Origin: {$vo.origin}<br>
-                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                    <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
-                                </div>
-                                <div class="good_shop_cart fr"></div>
+        </div>
+    </if>
+    <div class="good_desc_title good_desc"> You might like</div>
+    <ul class=" good-contents  mightlike"><br/>
+        <volist name=":get_product_lists($good['pid'],4,2)" id="vo">
+            <li class="goods">
+                <div style="width: 262px;margin: 0 auto;" class="fl">
+                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                    <div class="good-name">
+                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                        <div class="good_item_info">
+                            <div class="good_info fl">
+                                Unit: {$vo.unit}<br>
+                                Origin: {$vo.origin}<br>
+                                <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                             </div>
+                            <div class="good_shop_cart fr"></div>
                         </div>
                     </div>
-                </li>
-            </volist>
-        </ul>
+                </div>
+            </li>
+        </volist> <volist name=":get_product_lists($good['pid'],4,2)" id="vo">
+            <li class="goods">
+                <div style="width: 294px;margin: 0 auto;" class="fl">
+                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                    <div class="good-name">
+                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                        <div class="good_item_info">
+                            <div class="good_info fl">
+                                Unit: {$vo.unit}<br>
+                                Origin: {$vo.origin}<br>
+                                <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
+                                <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                            </div>
+                            <div class="good_shop_cart fr"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </volist>
 
-<div class="clr"></div>
+        <div class="clr"></div>
+    </ul>
+
+    <div class="clr"></div>
 </div>
 
 <include file="Index:footer" />

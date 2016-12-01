@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}</title>
+<include file="Index:header" />
+</head>
+<body data-address_id="{$address.id}">
+<div class="lean_overlay" data-show="1"></div>
+    <div id="address-box" class="leanModal addressModal" >
+        <input type="hidden" value="{$address.id}" name="id"/>
+        <div class="form-section consingee">
+            <label class="input-label" for="username">Consingee</label>
+            <input class="input-text J_addressInput " type="text" id="username" name="username" value="{$address.username}" placeholder="Consingee">
+        </div>
+
+        <div class="form-section">
+            <label class="input-label" for="Phone">Phone</label>
+            <input class="input-text J_addressInput" type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
+        </div>
+
+        <div class="form-section">
+            <label class="input-label" for="telephone_con">Alternative phone</label>
+            <input class="input-text J_addressInput" type="text" id="telephone_con" name="telephone2" value="{$address.telephone2}" placeholder="alternative phone">
+        </div>
+
+        <div class="form-section select_box">
+            <div class="fl sex_sel form-itme">
+                <label class="input-label" for="sex">Gender</label>
+                <select name="sex" id="sex">
+                    <option value="1" <if condition="$address['sex'] eq 1">selected</if>>Male</option>
+                    <option value="0"  <if condition="$address['sex'] eq 0">selected</if>>Female</option>
+                </select>
+            </div>
+
+            <div class="fr city form-itme">
+                <label class="input-label" for="city">City</label>
+                <select name="cityname" id="city">
+                    <option value="chengdu"  <if condition="$address['cityname'] eq 'chengdu'">selected</if>>Chengdu</option>
+                    <option value="chongqing" <if condition="$address['cityname'] eq 'chongqing'">selected</if>>Chongqing</option>
+                    <option value="xi'an"  <if condition="$address['cityname'] eq 'xi\'an'">selected</if>>Xi'an</option>
+                    <option value="kunming" <if condition="$address['cityname'] eq 'kunming'">selected</if>>Kunming</option>
+                    <option value="other"  <if condition="!in_array($address['cityname'],array('chengdu','chongqing','xi\'an','kunming'))">selected</if>>Other</option>
+                </select>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div class="form-section">
+            <label class="input-label" for="Address">Address</label>
+            <input class="input-text J_addressInput" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
+        </div>
+
+        <div class="form-section select_box isaddress">
+            <div class="fl sex_sel form-itme">
+                <label class="input-label" for="isdefault">Set as default address</label>
+                <select name="isdefault" id="isdefault">
+                    <option value="1"  <if condition="$address['isdefault'] eq 1 || empty($address)">selected</if>>Yes</option>
+                    <option value="0" <if condition="$address['isdefault'] eq 0">selected</if>>No</option>
+                </select>
+            </div>
+
+            <div class="fr  city form-itme">
+                <label class="input-label" for="Language">Language</label>
+                <select name="language" id="Language">
+                    <option value="3"  <if condition="$address['language'] eq 3">selected</if>>English</option>
+                    <option value="1" <if condition="$address['language'] eq 1">selected</if>>中文</option>
+                </select>
+            </div>
+        </div>
+        <div class="clr"></div>
+        <div class="form-confirm clearfix">
+            <button class="submit" onclick="modifyShoppingAddr();">Submit</button>
+            <button class="back" onclick=" closePanl()">Back</button>
+        </div>
+    </div>
+    <script>
+        function closePanl(){
+            $("body",parent.document).find('.lean_overlay').hide();
+            $("body",parent.document).find('#addressModal').hide();
+        }
+
+        $(function(){
+            $('#address-box .form-section ').each(function(){
+                if( $(this).find('.J_addressInput').val()){
+                    $(this).find('.input-label').css('top','-10px');
+                }
+            })
+
+            $('#address-box .form-section .J_addressInput').focus(function(){
+                if(!$(this).val()){
+                    $(this).siblings('label').animate({top:'-10px'});
+                }
+                $(this).parent().css('border-color','#2eb661');
+                $(this).siblings('label').css('color','#2eb661');
+            })
+            $('#address-box .form-section .J_addressInput').blur(function(){
+                if(!$(this).val()) {
+                    $(this).siblings('label').animate({top: '15px'});
+                }
+                $(this).parent().css('border-color','#E0E0E0');
+                $(this).siblings('label').css('color','#999999');
+            })
+        })
+
+        function modifyShoppingAddr(){
+            var id = $('#address-box input[name=id]').val(),
+                    username = $('#address-box input[name=username]').val(),
+                    telephone = $('#address-box input[name=phone]').val(),
+                    telephone2 = $('#address-box input[name=telephone2]').val(),
+                    sex = $('#address-box select[name=sex]').val(),
+                    cityname = $('#address-box select[name=cityname]').val(),
+                    address = $('#address-box input[name=address]').val(),
+                    isdefault = $('#address-box select[name=isdefault]').val(),
+                    language = $('#address-box select[name=language]').val();
+            if(!username){
+                subBlock = false;//解除阻塞
+                clearpopj("Please enter the username", "error",true);
+                return false;
+            }
+            if(!telephone){
+                subBlock = false;//解除阻塞
+                clearpopj("Please enter the telephone", "error",true);
+                return false;
+            }
+            if(!address){
+                subBlock = false;//解除阻塞
+                clearpopj("Please enter the address", "error",true);
+                return false;
+            }
+            subBlock = true;
+            $.post('/member/modifyShoppingAddr.html',{id:id,username:username,telephone:telephone,telephone2:telephone2,sex:sex,cityname:cityname,address:address,isdefault:isdefault,language:language},function(data){
+                subBlock = false;//解除阻塞
+                if(data.code == 200){
+                    clearpopj(data.message, "success",true);
+                    setTimeout(function(){ window.parent.location.reload();},1500);
+                }else{
+                    clearpopj(data.message, "error",true);
+                }
+
+            })
+        }
+
+    </script>
+</body>
+</html>

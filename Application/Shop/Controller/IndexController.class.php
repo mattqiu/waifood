@@ -2,7 +2,10 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller;
 
+use Common\Model\AddressModel;
 use Common\Model\ContentModel;
+use Common\Model\DateModel;
+use Common\Model\UserModel;
 
 class IndexController extends BaseController
 {
@@ -30,6 +33,36 @@ class IndexController extends BaseController
         $this->display();
     }
 
+    public function cashier(){
+        $user = UserModel::getUser();
+        if(empty($user)){
+            //没登录的先登录
+            session('backurl','/index/cashier.html');
+            $this->redirect('/login/index');
+        }
+        if($dateData = DateModel::getFutureDay(27)){
+            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
+            $this->assign ( 'dateData',$dateData);
+        }
+
+        $times = str2arr(lbl('delivertime'),"\r\n");//配送时段
+        $address =AddressModel:: getUserAddress($user['id']);
+        $this->assign ( 'title', 'Cashier' );
+        $this->assign ( 'times', $times );
+        $this->assign ( 'address', $address );
+        $this->display();
+    }
+
+    /**
+     * 咨询中心
+     */
+    function consult (){
+        $contentid = I('id');
+        if(regex($contentid,'number')){
+
+        }
+        $this->display();
+    }
 
     /**
      * 群发推荐朋友

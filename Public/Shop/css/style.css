@@ -54,9 +54,9 @@ fieldset,img { border: none;}
 
 .search{ height:26px; margin:6px 0 0 0px; float:left; display:inline; background:#FFF;}
 .search input{ width:230px; height:26px; float:left; border:none; line-height:26px; font-family:Arial; padding:0 5px; background:#FFF;}
-.search button{ width:26px; height:26px; float:left; border:none; background:#FFF url(../images/sou.png) no-repeat center;}
+.search button{ width:26px; height:26px; float:left; border:none; background:#FFF }
 .username{ float:right; padding:0px 10px; height:38px; line-height:38px; font-size:14px; font-weight:bold;  color:#FFF;  overflow:hidden;}
-.shopping{ width:160px; height:38px; float:right; background:#799e0f url(../images/arr2.gif) no-repeat 145px center; position:relative; z-index:9;}
+.shopping{ width:160px; height:38px; float:right; background:#799e0f; position:relative; z-index:9;}
 .gwcname{ font-size:12px; color:#FFF; display:inline-block; line-height:38px; background:url(../images/gwc.png) no-repeat 10px center; padding-left:40px; }
 .shuliang{ width:18px; height: 18px; background:url(../images/numbg.png) no-repeat left top; padding:0 0 3px 2px; font-family:Arial; text-align:center; line-height:18px; color:#FFF; display:inline-block; position:absolute; left:24px; top:-2px;}
 .shop{ width:420px; background:#FFF; border:1px solid #DDD; border-top:none; position:absolute; right:0; top:38px; display:none;}

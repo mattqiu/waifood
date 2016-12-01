@@ -736,14 +736,8 @@ function checkregform() {
             $("#username").focus();
         });
         return false
-    }
-    ;
-    /*if($(v).val().length<6){
-     jAlert("Sorry, the username must be at least 6.",SYSTITLE,function(){
-     $(v).focus();
-     });
-     return false
-     };*/
+    };
+
     if (!$("#userpwd").val()) {
         jAlert("Sorry, please enter your password!", SYSTITLE, function () {
             $("#userpwd").focus();

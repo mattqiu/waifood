@@ -100,29 +100,29 @@
                 <li>
                     <p class="foot-list-p">GETTING STARTED</p>
                     <volist name=":get_lists(11,5,2)" id="vo">
-                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="{:U('Content/view','id='.$vo['id'])}" </if>>{$vo.title}</a></p>
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
                     </volist>
                 </li>
                 <li>
                     <p class="foot-list-p">DELIVERY SERVICE</p>
                     <volist name=":get_lists(12,5,2)" id="vo">
-                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="{:U('Content/view','id='.$vo['id'])}" </if>>{$vo.title}</a></p>
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
                     </volist>
                 </li>
                 <li>
                     <p class="foot-list-p">PAYMENT</p>
                     <volist name=":get_lists(13,5,2)" id="vo">
-                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="{:U('Content/view','id='.$vo['id'])}" </if>>{$vo.title}</a></p>
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
                     </volist>
                 </li>
                 <li>
                     <p class="foot-list-p">AFTER-SALE SERVICE</p>
                     <volist name=":get_lists(14,5,2)" id="vo">
-                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="{:U('Content/view','id='.$vo['id'])}" </if>>{$vo.title}</a></p>
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
                     </volist>
                 </li>
                 <li class="chat-us">
-                    <img src="__PUBLIC__/img/qr.jpg" width="106" alt=""/>
+                    <img src="__PUBLIC__/images/qr.jpg" width="106" alt=""/>
                    <div style="font-size: 24px;font-weight: bold"> 400-836-8081</div>
                    <div style="font-size: 16px;"> service@waifood.com</div>
                 </li>
@@ -149,21 +149,6 @@
             $(this).children('.fitem_after').animate({ top: moveHeight + 'px' }, moveTime);
         });
 
-
-        $('.city li').click(function () {
-            $('.city li').removeClass('hover');
-            $(this).addClass('hover');
-        })
-
-        $('.default li').click(function () {
-            $('.default li').removeClass('hover');
-            $(this).addClass('hover');
-        })
-
-        $('.language li').click(function () {
-            $('.language li').removeClass('hover');
-            $(this).addClass('hover');
-        })
         if(document.getElementById("telephone")){
             document.getElementById("telephone").onkeyup =function() {
                 this.value =this.value.replace(/\s/g,'').replace(/(\d{4})(?=\d)/g,"$1-");

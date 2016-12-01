@@ -37,14 +37,15 @@
                 </volist>
             </div>
         </div>
+        <div class="clr"></div>
       </div>
 </div>
 <div class="container">
     <form class="px_tit" method="get" action="/Product/lists.html">
         <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
         <input type="hidden" value="" id="peixu"/>
-        <label class="px fl "  for="Defautt">
-            <input type="submit"  id="Defautt" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" value="Defautt"/>
+        <label class="px fl "  for="Default" style="padding-left: 3px;">
+            <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" value="Default"/>
         </label>
 
         <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
@@ -77,7 +78,7 @@
         <volist name="list" id="vo">
             <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                 data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                <div style="width: 262px;margin: 0 auto;" class="fl">
+                <div style="width: 294px;margin: 0 auto;" class="fl">
                     <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                     <div class="good-name">
                         <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
@@ -86,8 +87,8 @@
                                 Unit: {$vo.unit}<br>
                                 Origin: {$vo.origin}<br>
                                 <div class="prict_info">
-                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                    <if condition="$vo['price1']"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                    <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
+                                    <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                 </div>
                                 <div class="quantity hide">
                                      <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span> <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" value="1"/><span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>

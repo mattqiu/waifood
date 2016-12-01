@@ -1,0 +1,21 @@
+<ul class="member-lfet bg_white">
+    <li><a href="/member/index.html" id="l_index">Overview</a></li>
+    <li><a href="/member/address.html#address" id="l_address">My address</a></li>
+    <li><a href="/member/order.html#order" id="l_order">My order</a></li>
+    <li><a href="/member/pwd.html#pwd" id="l_pwd">Change password</a></li>
+</ul>
+
+<script>
+     $(function(){
+         var hash = window.location.hash;
+         if(hash =='#address'){
+             $('#l_address').css('color','#2eb661');
+         }else if(hash =='#order'){
+             $('#l_order').css('color','#2eb661');
+         }else if(hash =='#pwd'){
+             $('#l_pwd').css('color','#2eb661');
+         }else{
+             $('#l_index').css('color','#2eb661');
+         }
+     });
+ </script>

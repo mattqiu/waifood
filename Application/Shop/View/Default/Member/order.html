@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
+</head>
+
+<body style="background: #f8f8f8">
+<include file="Index:bar" />
+<include file="Index:nav2" />
+<div class="container">
+    <div class="path"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
+        </div>
+        <div class="right fr order-list">
+            <div class="order_list">My order</div>
+            <div class="ostatus">
+                <a href="/member/order.html?status=ongoing#order" class="selected">On going({$ongoing|default=0})</a> |
+                <a href="/member/order.html?status=all#order">All({$all|default=0})</a>
+            </div>
+            <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+                <tr class="thead">
+                    <th width="165">Order no</th>
+                    <th width="125">Order place time</th>
+                    <th width="125">Delivery time</th>
+                    <th width="120">Total amount</th>
+                    <th width="100">Payment method</th>
+                    <th width="125">Order status</th>
+                    <th width="90">Action</th>
+                </tr>
+                <if condition="empty($list)">
+                    <tr>
+                        <td colspan="7">not found.</td>
+                    </tr>
+                    <else/>
+                    <volist name="list" id="vo">
+                        <tr align="center" class="order_row">
+                            <td>{$vo.orderno}</td>
+                            <td>{$vo.addtime}</td>
+                            <td align="left">{$vo.delivertime}</td>
+                            <td><span class="order_price">&yen;{:to_price($vo['amount'])}</span> </td>
+                            <td>
+                                <if condition="$vo['paymethod'] eq 4">
+                                    Cash on delivery
+                                    <elseif condition="$vo['paymethod'] eq 2"/>
+                                    Paypal
+                                </if>
+                            </td>
+                            <td><span class="order_status">{:get_status($vo['status'])}</span></td>
+                            <td>
+                                <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
+                                <if condition="$vo['status'] lt 3">
+                                    <br/>
+                                    <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}')" class="order_btn cancel">Cancel</a>
+                                </if>
+                            </td>
+                        </tr>
+                    </volist>
+                </if>
+            </table>
+            <div class="pagelist">{$page}</div>
+            <div style="height: 60px;"></div>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+</body>
+</html>

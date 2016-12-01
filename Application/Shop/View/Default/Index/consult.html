@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
+</head>
+
+<body style="background: #f8f8f8">
+<include file="Index:bar" />
+<include file="Index:nav2" />
+<div class="container">
+    <div class="content">
+        <div class="left leftmenu fl">
+                <div class="nyltit fr tc">Information Centre</div>
+                <ul class="hymenu fr">
+                    <volist name="channel" id="vo">
+                        <li>
+                            <a href="{:U('Content/lists?id='.$vo['id'])}"  <if condition="$vo['id'] eq $pid">class="selected"</if>>
+                            {$vo.name}
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+                <div class="clr"></div>
+       <!--     <script>
+                $(function(){
+                    var hash = window.location.hash;
+                    if(hash =='#address'){
+                        $('#l_address').addClass('selected');
+                    }else if(hash =='#order'){
+                        $('#l_order').addClass('selected');
+                    }else if(hash =='#pwd'){
+                        $('#l_pwd').addClass('selected');
+                    }else{
+                        $('#l_index').addClass('selected');
+                    }
+                });
+            </script>-->
+
+        </div>
+        <div class="right fr new">
+            <eq name="cateinfo.viewtype" value="1">
+                <div class="newtitle">{$content.title}</div>
+                <div class="newcontent"> {$content.content} </div>
+                <else/>
+                <div class="news_title">{$content.title}</div>
+                <div class="news_date">Date：{$content.addtime}</div>
+                <div class="newcontent"> {$content.content} </div>
+                <div class="newcontent"> <span class="span5">Next: {$next}</span> <br />
+                <span class="span5">Prev: {$prev}</span> </div>
+            </eq>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+<div class="lean_overlay hide" data-show="1"></div>
+<div class="leanModal addressModal hide" id="userModal">
+    <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src="/member/info.html"></iframe>
+</div>
+<script>
+    function showUserInfo(){
+        $('.lean_overlay').show();
+        $('#userModal').show();
+    }
+</script>
+</body>
+</html>

@@ -1,8 +1,8 @@
-var uploadCallBackUrl = "http://"+window.location.host+"/"; //图片上传回调地址
+var url = "http://"+window.location.host+"/"; //图片上传回调地址
 function upload(){};
 upload.prototype.uploadPic= function(scope,uploadPhp){
-    uploadPhp = 'http://www.lingdianit.com/uploadForKindeditor.php';
-    var uploadJson = uploadPhp+"?scope="+scope+"&from=3cfoodcn&callback="+uploadCallBackUrl+"Public/redirect.html";    
+    uploadPhp = url+'/uploadForKindeditor.php';
+    var uploadJson = uploadPhp+"?scope="+scope+"&callback="+url+"Public/redirect.html";
     var editor = KindEditor.editor({
         uploadJson : uploadJson
     });
@@ -22,7 +22,7 @@ upload.prototype.uploadPic= function(scope,uploadPhp){
 
 upload.prototype.createContent = function(contentId, scope){
     uploadPhp = 'http://www.lingdianit.com/uploadForKindeditor.php';
-    var uploadJson = uploadPhp+"?scope="+scope+"&from=3cfoodcn&callback="+uploadCallBackUrl+"Public/redirect.html";
+    var uploadJson = uploadPhp+"?scope="+scope+"&from=3cfoodcn&callback="+url+"Public/redirect.html";
     var options ={
         filterMode:false,
         showRemote : false,

@@ -1,14 +1,15 @@
-
-<div class="logoAngsearch container">
-    <div class="logo fl"><a href="/"><img src="__PUBLIC__/img/logo.jpg" width="210" height="74" style="margin-top: 30px;" alt=""/></a></div>
-    <div class="search fl">
-     <form action="{:U('Search/index')}" method="get" >
-        <input type="text" name="keyword"  id="keyword" placeholder="keywords..."  value="{$_REQUEST['keyword']}"/>
-        <button type="submit" value="" ></button>
-        </form>
-    </div>
-    <div class="qrcode">
-        <img src="__PUBLIC__/img/qr.jpg" alt="" width="106" />
+<div class="top_logo">
+    <div class="logoAngsearch container">
+        <div class="logo fl"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210" height="74" style="margin-top: 30px;" alt=""/></a></div>
+        <div class="search fl">
+         <form action="{:U('Search/index')}" method="get" >
+            <input type="text" name="keyword"  id="keyword" placeholder="keywords..."  <if condition="$_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
+            <button type="submit" value="" ></button>
+            </form>
+        </div>
+        <div class="qrcode">
+            <img src="__PUBLIC__/images/qr.jpg" alt="" width="106" />
+        </div>
     </div>
 </div>
 <div class="clr"></div>
@@ -47,11 +48,12 @@
         })
         $('.allcate').mouseleave(function(){
             $('#cat_menu_list').slideUp();
-            $('.product_menu li').removeClass('cate_select');
+            $('.cat_menu_list li').removeClass('cate_select');
         })
     }else{
         $('.allcate').html('All Categories');
     }
+
     $('.shopping').click(function(){
         $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/cart_hover.png');
         $(this).addClass('ongoodcart');

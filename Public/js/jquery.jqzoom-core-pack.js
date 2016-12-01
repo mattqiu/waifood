@@ -20,6 +20,14 @@
  */
 (function ($) {
     //GLOBAL VARIABLES
+    $.browser={};
+    (function(){
+        $.browser.msie=false;
+        $.browser.version=0;
+        if(navigator.userAgent.match(/MSIE ([0-9]+)./)){
+            $.browser.msie=true;$.browser.version=RegExp.$1;
+        }
+    })();
     var isIE6 = ($.browser.msie && $.browser.version < 7);
     var body = $(document.body);
     var window = $(window);
@@ -657,7 +665,6 @@
                 lens.setdimensions();
             };
             this.node.onerror = function () {
-                alert('Problems while loading the big image.');
                 throw 'Problems while loading the big image.';
             };
             this.node.onload = function () {

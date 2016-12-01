@@ -2,86 +2,58 @@
     <div class="container">
         <div class="links">
             <a href="/">Home</a>
-            |<a href="{:U('Form/view','id=1')}">Wish list</a>
+            |<a href="Form/view.html?id=1">Wish list</a>
             |<a href="/?l=en">English</a>
         </div>
         <div class="server-text">
-            <div class="fl logon_reg">
-                <if condition="(get_userid() neq 0)" >
-                    <a href="javascript:void(0);"  onclick="$.logout()" class="fc_red">Log out</a>
-                <else/>
-                    <a href="{:U('Login/index')}" class="black">Login</a> | <a href="{:U('Login/register')}">Register</a>
-                </if> &nbsp;
-            </div>
-            <div class="fr myaccount" id="myaccount" data-userid="{$user.id}" data-user="22">
+
+            <if condition="!$user['id']">
+                <div class="fl logon_reg">
+                    <a href="/Login/index.html" class="black">Login</a> | <a href="/Login/register.html">Register</a>
+                </div>
+            </if> &nbsp;
+
+
+           <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22" <if condition="$user['id']">data-user-id="{$user.id}" style="background: #FFFFFF"</if>>
+            <a href="/member/index.html">
                 <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" class="main" alt=""/></div>
-                <div class="fl">&nbsp;My account&nbsp;</div>
-                <div class="fl">&nbsp;<img class="label" src="__PUBLIC__/Shop/images/dowm_my_account.png" alt=""/></div>
-            </div>
-            <div class="myaccount_box">
-                <ul>
-                    <li>My order</li>
-                    <li>My address</li>
-                    <li>Change password</li>
-                    <li onclick="logout()">Log out</li>
-                </ul>
+                <div class="fl tc" style="width: 84px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
+                <div class="fl">&nbsp;<img class="label" src="__PUBLIC__/Shop/images/dowm_my_account.png" style="position: absolute;right: 10px;top: 18px;;" alt=""/></div>
+            </a>
+                <if condition="$user['id']">
+                    <div class="myaccount_box">
+                        <ul>
+                            <li>My order</li>
+                            <li>My address</li>
+                            <li>Change password</li>
+                            <li onclick="window.location.href='/login/logout.html'">Log out</li>
+                        </ul>
+                    </div>
+                </if>
             </div>
         </div>
     </div>
 </div>
 <script>
-        $(document).ready(function(){
-            var theSpan = $('#myaccount');
-            var theMenu = $(".myaccount_box");
-            var tarHeight = theMenu.height();
-            theMenu.css({height:0,opacity:0});
-            var t1;
-            function expand() {
-                $('.myaccount_box').stop().show().animate({height:tarHeight,opacity:1},250)
-                clearTimeout(t1);
-                theMenu.stop().show().animate({height:tarHeight,opacity:1},250);
-            }
-
-            function collapse() {
-                $('#myaccount').css({'color':'#666666','background':'#E0E0E0'});
-                $('#myaccount .main').attr('src','/Public/Shop/images/myaccount.png');
-                $('#myaccount .label').attr('src','/Public/Shop/images/dowm_my_account.png');
-                clearTimeout(t1);
-                t1 = setTimeout(function(){
-                    theMenu.find('li').removeClass("onselect");
-                    theMenu.stop().animate({height:0,opacity:0},250,function(){
-                        $('#myaccount_box').css({display:"none"});
-                    });
-                }, 250);
-            }
-            $('.myaccount_box li').mouseover(function(){
-                $('.myaccount_box li').removeClass('onselect');
-                $(this).addClass('onselect');
-            })
-            theSpan.hover(expand, collapse);
-            theMenu.hover(expand, collapse);
-        });
-
-       $('#myaccount').mouseover(function(){
-           $('.myaccount_box li').removeClass('onselect');
+   $('#myaccount').mouseover(function(){
+       if( $('.myaccount_box').css('display') =='none'){
+            $('.myaccount_box').slideDown();
             $('#myaccount').css({'color':'#2eb661','background':'#FFFFFF'});
+            $('#myaccount a').css({'color':'#2eb661'});
             $('#myaccount .main').attr('src','/Public/Shop/images/myaccount_hover.png');
             $('#myaccount .label').attr('src','/Public/Shop/images/down_hover_myaccount.png');
-
-        });
-        $('.myaccount').mouseleave(function(){
-
+       }
+    });
+   $('#myaccount').mouseleave(function(){
+        if($(this).data('user-id')){
+            $('#myaccount').css({'color':'#666666','background':'#ffffff'});
+        }else{
             $('#myaccount').css({'color':'#666666','background':'#E0E0E0'});
-            $('#myaccount .main').attr('src','/Public/Shop/images/myaccount.png');
-            $('#myaccount .label').attr('src','/Public/Shop/images/dowm_my_account.png');
-
-            $('.myaccount_box').hide();
-        })
-        $('.myaccount_box').mouseover(function(){
-            $('#myaccount').css({'background':'#FFFFFF'});
-            $('.myaccount_box').show();
-        })
-
-
+        }
+       $('#myaccount a').css({'color':'#666666'});
+        $('#myaccount .main').attr('src','/Public/Shop/images/myaccount.png');
+        $('#myaccount .label').attr('src','/Public/Shop/images/dowm_my_account.png');
+        $('.myaccount_box').slideUp();
+    })
 
 </script>

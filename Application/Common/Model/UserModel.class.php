@@ -10,6 +10,14 @@ class UserModel extends Model
 
 	const NORMAL_USERS = 1;//正常使用的账号
 
+    public static function setUser($user){
+        session('user',$user);
+    }
+
+    public static function getUser(){
+        return session('user');
+    }
+
 
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();
@@ -158,9 +166,6 @@ class UserModel extends Model
             $where ['userpwd'] =md5($userpwd);
             $user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {
-//                if(!$user ['id']){
-//                    $data ['id'] = $user['no_id'];
-//                }
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
                 $data ['logtimes'] = $user ['logtimes'] + 1;
@@ -172,6 +177,9 @@ class UserModel extends Model
                 if(!is_numeric($rate)){
                     $rate=1;
                 }
+                $user ['userrate'] = $rate;
+                self::setUser($user); //设置user缓存
+                //确定后删除下面
                 session ( 'userrate', $rate );
                 session ( 'userid', $user ['id'] );
                 session ( 'username', $user ['username'] );

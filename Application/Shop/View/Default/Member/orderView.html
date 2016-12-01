@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
+</head>
+
+<body style="background: #f8f8f8">
+<include file="Index:bar" />
+<include file="Index:nav2" />
+<div class="container">
+    <div class="path"><a href="/">Home</a> &gt; <a href="/member/index.html#order">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
+        </div>
+        <div class="right fr orderview">
+            <div class="orderinfo">
+                <div class="order_head">Order No.：{$order.orderno}
+                    <div class="fr">{:get_status($order['status'])} </div>
+                </div>
+                <div class="order_receiving">
+                    <div class="order_item_title">Receiving information</div>
+                    <div class="order_address">
+                        Name：{$order.username}<br />
+                        Mobile：{$order.telephone} <br />
+                        Address：{$order.address}
+                    </div>
+                </div>
+                <div class="order_item">
+                    <div class="order_item_title">Payment and Delivery date</div>
+                    <div class="order_address">
+                        Payment： <if condition="$vo['paymethod'] eq 4"> Cash on delivery <elseif condition="$vo['paymethod'] eq 2"/> Paypal</if><br />
+                        Delivery date：{$order.delivertime}
+                    </div>
+                </div>
+                <div class="order_item">
+                    <div class="order_item_title">Invoice</div>
+                    <div class="order_address">
+                        <eq name="db.inovice" value="1"> Yes <else/> No </eq>
+                    </div>
+                </div>
+                <if condition="$order['info']">
+                    <div class="order_item">
+                        <div class="order_item_title">Remarks</div>
+                        <div class="order_address">
+                            {$order.info}
+                        </div>
+                    </div>
+                </if>
+                <div class=" plist">
+                    <div class="order_item_title ">Product list</div>
+                    <div class="order_address">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="order_view_table">
+                            <tr class="thead">
+                                <th width="60">ID</th>
+                                <th width="460">Product name</th>
+                                <th width="100">Price</th>
+                                <th width="100">Quantity</th>
+                                <th width="100">Amount</th>
+                            </tr>
+                            <php>$money = 0;</php>
+                            <volist name="list" id="vo">
+                                <php> $money += ($vo['price']*$vo['num']); </php>
+                                <tr align="center" class="order_row viem_row">
+                                    <td>{$vo.productid}</td>
+                                    <td align="left">
+                                        <a href="{:U('Product/view','id='.$vo['productid'])}" target="_blank">
+                                            <img src="{$vo.indexpic}" alt="{$vo.productname}" width="60" height="60" />
+                                            <span class="good_name">{$vo.productname}</span>
+                                        </a>
+                                    </td>
+                                    <td>&yen;{$vo['price']}</td>
+                                    <td>{$vo.num|float_fee}</td>
+                                    <td><span class="price">&yen;{$vo['price']*$vo['num']}</span></td>
+                                </tr>
+                            </volist>
+                                <tr class="tfoot order_row viem_row">
+                                    <td colspan="2" align="left">&nbsp;</td>
+                                    <td colspan="4" align="right" class="tinfo">
+                                        Amount:&yen;{$money}<br/>
+                                        Delivery Fee： &yen;{$order.shipfee}<br />
+                                        Total Amount：<span class="price">&yen;{$order.amount}</span>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
+                    <div class=" submitOrder_b order_view">
+                        <button onclick="window.location.href='/member/order.html#order'" class="submitOrder back_btn">Back to my order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clr"></div>
+    </div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

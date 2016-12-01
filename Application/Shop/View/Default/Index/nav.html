@@ -1,22 +1,19 @@
-<div class="container">
-  <div class="top">
-    <div class="logo"><a href="/"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" style="margin-top: 10px;" alt=""/></a></div>
-	<div class="search">
-     <form action="{:U('Search/index')}" method="get" >
-	    <input type="text" name="keyword" id="keyword" placeholder="keywords..." 
-        <notempty name="keyword">value="{$keyword}"</notempty> 
-        />
-      <button type="submit"   value="" ></button>
-	    </form> 
-	</div>
-	<div class="txt">
-		{:lbl('adtop')}
-	</div>
-    
-  </div> 
-  <div class="clr"></div>
+<div class="" style="width: 100%;background: #FFFFFF;">
+   <div class="top container">
+        <div class="logo"><a href="/"><img src="__PUBLIC__/Shop/images/logo.jpg" width="210" style="margin-top: 10px;" alt=""/></a></div>
+        <div class="search">
+         <form action="{:U('Search/index')}" method="get" >
+            <input type="text" name="keyword" id="keyword" placeholder="keywords..."
+            <notempty name="keyword">value="{$keyword}"</notempty>
+            />
+          <button type="submit"   value="" ></button>
+            </form>
+        </div>
+        <div class="txt">
+            {:lbl('adtop')}
+        </div>
+    </div>
 </div>
-
 <div class="container"> 
   <div class="nav">
   <div class="nav_center"> 

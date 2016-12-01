@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$title}{:lbl('subtitleshop')}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <include file="Index:header" />
+</head>
+<body>
+<div class="nav_login">
+    <div class="container">
+        <div class="logo"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210"  alt=""/></a></div>
+    </div>
+</div>
+<div class="lgbox">
+    <div class="container">
+        <div class="login-box account_login " style="float: right;overflow: hidden;zoom: 1;">
+            <div class="login_select qr "><span class="signin">Sign in</span><img class="fr" src="__PUBLIC__/Shop/images/q-sign-in.png" alt=""/></div>
+            <form onsubmit="return false" id="frm_login" class="login_from">
+               <input type="text"  name="username" placeholder="Account"  class="input_text" />
+                <br/>
+               <input type="password"  name="password" placeholder="Password" class="input_text" />
+                <div class="captcha" style="margin-top: 15px;">
+                    <div class="captcha_title" style="height: 42px;line-height: 42px;color: #cccccc">Captcha <input type="text" style="height: 40px;" name="verify"/></div>
+                    <div class="captcha_img" style="width: 136px;height: 42px;"> <img style="cursor:pointer; cursor: hand; width:136px; height:42px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
+                </div>
+                <input type="submit"  class="lgbtn"  value="Login Now" onclick="login();" />
+                <div class="lg_foot">
+                    <a href="/login/findpwd.html" class="fl">Forget your password?</a>
+                    <a href="/login/register.html"  class="fr">Register</a>
+                </div>
+            </form>
+        </div>
+        <div class="login-box qr_login hide" style="float: right;overflow: hidden;zoom: 1;">
+            <div class="login_select qr ">
+                <span class="signin">Wechat Scan QR to sign in </span>
+                <img class="fr" src="__PUBLIC__/Shop/images/pc-to-login.png" alt=""/>
+            </div>
+            <div>
+                <div class="wechat_qr fl"><label id="login_container"></label></div>
+                <div class="tit_img fr"><img src="__PUBLIC__/Shop/images/tit_login.png" alt=""/></div>
+            </div>
+            <div class="clr"></div>
+            <div class="lg_foot">
+                <a href="/login/findpwd.html" class="fl">Forget your password?</a>
+                <a href="/login/register.html"  class="fr">Register</a>
+            </div>
+         </div>
+    </div>
+</div>
+<div class="container">
+    <div class="foot-no">{:lbl('copyright')}</div>
+</div>
+<script type="text/javascript">
+    !function(a,b){function d(a){var e,c=b.createElement("iframe"),d="https://open.weixin.qq.com/connect/qrconnect?appid="+a.appid+"&scope="+a.scope+"&redirect_uri="+a.redirect_uri+"&state="+a.state+"&login_type=jssdk";d+=a.style?"&style="+a.style:"",d+=a.href?"&href="+a.href:"",c.src=d,c.frameBorder="0",c.allowTransparency="true",c.scrolling="no",c.width="300px",c.height="400px",e=b.getElementById(a.id),e.innerHTML="",e.appendChild(c)}a.WxLogin=d}(window,document);
+</script>
+<script>
+    $(function(){
+        $('.account_login .login_select').click(function(){
+            $('.account_login').hide();
+            $('.qr_login').show();
+        })
+        $('.qr_login .login_select').click(function(){
+            $('.qr_login').hide();
+            $('.account_login').show();
+        })
+ /*       var rand = parseInt(Math.random()*100000) + 1;
+            var obj = new WxLogin({
+                id:"login_container",
+                appid: "{$appid}",
+                scope: "snsapi_login",
+                redirect_uri: 'http%3A%2F%2Fwww.waifood.com%2Flogin%2Fweixin_callback%3Frand%3D'+rand,
+                state: rand
+            });*/
+    })
+
+    function login(){
+        var username = $('#frm_login input[name=username]').val(),
+                password = $('#frm_login input[name=password]').val(),
+                verify = $('#frm_login input[name=verify]').val();
+        if(!username){
+            $('#frm_login input[name=username]').focus();
+            clearpopj("Please enter the account", "error",true);
+            return false;
+        }
+        if(!password){
+            $('#frm_login input[name=password]').focus();
+            clearpopj("Please enter the password", "error",true);
+            return false;
+        }
+        if(!verify){
+            $('#frm_login input[name=verify]').focus();
+            clearpopj("Please enter the captcha", "error",true);
+            return false;
+        }
+        $.post('/login/login.html',{username:username, password:password,verify:verify},function(data){
+            if(data.code==200){
+                clearpopj(data.message, "success",true,data.data);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
+</body>
+</html>

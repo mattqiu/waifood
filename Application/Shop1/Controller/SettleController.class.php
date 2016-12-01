@@ -81,6 +81,8 @@ class SettleController extends BaseController {
             $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
             $this->assign ( 'dateData',$dateData);
         }
+
+
         $this->assign ( 'mycoupon', $mycoupon );
 		$this->assign ( 'maxuse', $maxuse );
 		$this->assign ( 'usecoupon', to_price($usecoupon) );

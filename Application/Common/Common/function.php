@@ -1677,7 +1677,7 @@ function replaceTel($tel){
     if(strpos($tel,'-')>0){
         return str_replace("-", "",$tel);
     }
-    return $tel;
+    return trim($tel);
 }
 
 /**配送费

@@ -13,14 +13,7 @@ class BaseController extends Controller
         if (C('config.WEB_SITE_TEMPLATE')) {
             C('DEFAULT_THEME', C('config.WEB_SITE_TEMPLATE'));
         }
-        // $this->checkOpenid();
         $this->setFatherId();
-    }
-
-    public function checkOpenid()
-    {
-        $openid = I('openid');
-        UserModel::loginWechat($openid);
     }
 
     /**

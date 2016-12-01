@@ -4,6 +4,7 @@ use Think\Model;
 
 class OrderModel extends Model{
     const WECAHT = 1;//微信订单
+    const NORMAL = 0;//电脑订单
     const PAYPAL = 2;//Paypal支付
 
     const PAID = 1;//已支付
@@ -59,6 +60,7 @@ class OrderModel extends Model{
             apiReturn(CodeModel::ERROR,'Sorry, Order content cannot be empty!');
         }
        // self::catStock('20161110121951');return;
+
         if(!is_date(substr($data['delivertime'],0,10))){
             apiReturn('Sorry, please select the delivery date.');
         }
@@ -76,11 +78,14 @@ class OrderModel extends Model{
         }else{
             apiReturn('Sorry, address error.');
         }
-
-        if(is_wechat()){
-            $data ['orderfrom'] = self::WECAHT;//微信订单
+        if(isMobile()){
+            if(FROM_WEIXIN){
+                $data ['orderfrom'] = self::WECAHT;//微信订单
+            }else{
+                $data ['orderfrom'] =  getMobile();//获取手机
+            }
         }else{
-            $data ['orderfrom'] =  getMobile();//获取手机
+            $data ['orderfrom'] = self::NORMAL;
         }
         $rate=lbl('rate');
         if(is_decimal($rate)){

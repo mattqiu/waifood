@@ -5,174 +5,49 @@
 <title>{$title}{:lbl('subtitleshop')}</title>
 <include file="Index:header" />
 </head>
-<script>  .label_on_z1 { background:red; }
-.label_on_z2 { background:green; }
-.label_on_z3 { background:orange; }
-.label_onmouseover { background:#ccc; }
-form#faq label{display:block;line-height:25px; width:200px;}
-form#faq label input{float:right;}
-    $("form#faq input").each(function(){ //1. 用each遍列所有的input
-        $(this).mouseover(function(){$(this).parent().toggleClass('label_onmouseover')})//鼠标移上去灰色背景
-        $(this).mouseout(function(){$(this).parent().removeClass('label_onmouseover')})//鼠标移出去掉灰色背景
-        $(this).click(function(){       //2. 判断给每个input事件click绑定方法
-            if( $(this).is(':checked')){
-                $(this).parent().toggleClass('label_on_'+this.id);
-            }else{
-                $(this).parent().removeClass('label_on_'+this.id);
-                //用了toggleClass样式，没选中要同时删除
-            }
-
-        });
-</script>
-<body>
+<body pagename="cart">
 <include file="Index:bar"/>
 <include file="Index:nav2"/>
 <div class="container cart">
     <div class="title-img"></div>
-    <div class="empty_cart_box tc hide">
+    <div class="empty_cart_box tc hide" id="empty_cart_box">
         Your shopping cart is empty!<br/>
         <a href="/" class="continueshopping">Continue shopping >></a>
     </div>
     <table width="1000px" class="mytable " id="good_cart" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
-        <tr>
-       <th width="60"><label for="checkbox" class="label_check"><input type="checkbox" id="checkbox" class="checkbox "/> All</label> </th>
-       <th width="60">ID</th>
-       <th width="405">Product Name</th>
-       <th width="150">Unit Price</th>
-       <th width="100">Quantity</th>
-       <th width="140">Subtotal</th>
-       <th width="85">Action</th>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td align="center"><input type="checkbox" class="checkbox"/> </td>
-            <td align="center"> 33</td>
-            <td align="center"><a href="{:U('Product/view?id='.$vo['id'])}">
-                <img alt="{$vo.name}" src="{$vo.indexpic}" width="60" height="60"  /><span class="goodtitle">ddddddddddddddddddddd</span></a>
-            </td>
-            <td align="center"><span class="jiage">&yen;33.00</span></td>
-            <td align="center">
-                <div class="quantity">
-                    <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span>
-                    <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" style="width: 32px;height: 23px;" value="1"/>
-                    <span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
-                </div>
-            </td>
-            <td align="center">&yen;33</td>
-            <td align="center"><a href="javascript:void(0);"  class="delete"  onclick="delCart('{$vo.id}')">delete</a></td>
-        </tr>
-        <tr>
-            <td colspan="5"> </td>
-            <td colspan="2" align="left" class="money_info">
-                Amount: <span class="">&yen;3333</span> <br>
-                Delivery Fee: <span class="">&yen;2</span> <br />
-            </td>
-        </tr>
     </table>
     <div class="cart_foot_info">
-        <div class="fl goshopping" ><a href="/" >Continue shopping</a></div>
+        <div class="fl goshopping" ><a href="/" >&lt;&lt;Continue shopping</a></div>
         <div class="fr cart_total_info">
-            <div>Quantity: <span>2</span></div>
-            <div>Total Amount: <span>&yen;11</span></div>
-            <div class="checkout">Priceed to <br/> checkout</div>
+            <div>Quantity: <span id="quantity">0</span></div>
+            <div style=" line-height: 65px;">Total Amount: <span id="totalAmount">&yen;0</span></div>
+            <div class="checkout" onclick="gocashier();">Priceed to <br/> checkout</div>
         </div>
     </div>
 </div>
 
 <include file="Index:footer" />
 <script>
-    var mytableheight = $('.mytable').height()
-            ,$html='';
+    var mytableheight = $('.mytable').height() ;
     var scroll =$(window).scrollTop();
     if(mytableheight>580 || scroll>0){
-        $('.cart_foot_info').css({'position':'fixed', 'bottom': '0','z-index':'999'});
+        //$('.cart_foot_info').css({'position':'fixed', 'bottom': '0','z-index':'999'});
     }
-    $(function(){
-        good_cart
-    })
+
+    $('#good_cart input[type=checkbox]').click(function(){
+        alert(1)
+        var flag = 1;
+        $('#good_cart input[type=checkbox]').each(function(){
+            if(!$(this).is(':checked')){
+                flag = 2;
+                $('#checkboxFiveInput').attr('checked',false);
+            }
+        })
+        if(flag==1){
+            $('#checkboxFiveInput').attr('checked',true);
+        }
+    });
+
 </script>
 </body>
 </html>

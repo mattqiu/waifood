@@ -1,377 +1,197 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{$title}{:lbl('subtitleshop')}</title>
-    <include file="Index:header"/>
-    <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
-    <script language="javascript">
-        <?php
-          $strdates = lbl('disabled_dates');
-        if ($strdates) {
-            $strdates = str_replace("\r\n", ",", $strdates);
-            $strdates = str_replace("，", ",", $strdates);
-            $arr = arr2clr(str2arr($strdates));
-            if ($arr) {
-                $strdates = json_encode($arr);
-            } else {
-                $strdates = '""';
-            }
-        }
-        ?>
-
-    </script>
+    <include file="Index:header" />
 </head>
-
-<body data-beyond="{$beyond}" >
+<body pagename="cashier" data-address_id="{$address.id}">
 <include file="Index:bar"/>
-<include file="Index:nav"/>
-<div class="container">
-<div class="box980">
-<div class="gmlc">
-    <form action="{:U('Order/submitOrder')}" method="post" name="form1" id="form1">
-        <input type="hidden" name="shop_id" id="shop_id" value="1"/>
-        <input type="hidden" name="UseAddressID" id="UseAddressID" value=""/>
-        <input type="hidden" name="cityname" id="cityname" value=""/>
+<include file="Index:nav2"/>
+<div class="container cart">
+    <div class="title-img title-img2"></div>
+    <input type="hidden" name="UseAddressID" id="shop_id" value="1"/>
+    <input type="hidden" name="UseAddressID" id="UseAddressID" value=""/>
+    <input type="hidden" name="cityname" id="cityname" value=""/>
+    <!--Receiving information-->
+    <div class="content">
+        <div class="receiving item_panl">
+            <div class="item_title ">Receiving information </div>
+            <div class='delivery_address'>
+                <volist name="address" id="vo">
+                    <div class="addrs <if condition='$vo.isdefault eq 1'>selected_addr</if>">
+                        <div class="fl addr-sel"><input type="radio" name="address"  data-cityname="{$vo.cityname}"  value="{$vo.id}" <if condition="$vo['isdefault'] eq 1">checked<elseif condition="$i eq 1"/></if>/></div>
+                        <div class="fr addr">
+                            {$vo.username}&nbsp;({$vo.telephone})&nbsp;{$vo.address}&nbsp;{$vo.cityname}
+                            <if condition="$vo['isdefault'] eq 1">
+                                <span class="default_tic">default address</span>
+                            </if>
+                            <a class="fr" onclick="showModifyAddres('{$vo.id}')">modify</a>
+                        </div>
+                        <div class="clr"></div>
+                    </div>
+                </volist>
+                <div class="clr"></div>
+                <button class="add_newaddr_btn" onclick="showModifyAddres();">+New Address</button>
 
-        <div class="gmjd02"></div>
-        <eq name="cartnum" value="0">
-            <div class="nocp"></div>
-            <else/>
-            <h2>Receiving information </h2>
-                <div class="txt02" id="addr_list">
-                    <volist name="address" id="vo">
-                        <label class="addr_list">
-                            <input type="radio"  name="consingee"  data-cityname="{$vo.cityname}" <if condition="$vo['isdefault'] eq 1"> checked <elseif condition="$i eq 1"/>checked</if> value="{$vo.id}"/>
-                            {$vo.username}-{$vo.telephone}- {$vo.address} -{$vo.cityname}
-                            <a href="/member/info1.html?goto=cashier&addressid={$vo.id}" >Modify</a>
-                        </label>
-                        <br/>
-                    </volist>
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!--Product list-->
+        <div class="product_list item_panl">
+            <div class="item_title ">Product list</div>
+            <table width="1000px" class="mytable cashier_mytable" id="cashier_table" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+            </table>
+        </div>
+        <!--Payment-->
+        <div class=" item_panl">
+            <div class="item_title ">Payment</div>
+            <div class="paylist">
+                <label for="paymethod4">
+                    <input type="radio" name="paymethod" id="paymethod4" value="4" checked>
+                    Cash on delivery
+                </label> <br/>
+                <label for="paymethod1">
+                    <input name="paymethod" type="radio" id="paymethod1" value="2">
+                    Online payment
+                </label>
+            </div>
+        </div>
+
+        <!--Invoice required-->
+        <div class="invoice item_panl">
+            <div class="item_title ">Invoice required</div>
+            <div class="invoice_item">
+                <input name="invoice" type="radio" id="invoice1" value="1">
+                <label for="invoice1">yes</label>
+                <input type="radio" name="invoice" id="invoice2" value="0" checked>
+                <label for="invoice2">no</label>
+          <!--      <div class="invoice_info "> ----------发票信息
+                    <span class="fc_red">*</span>
+                    <select name="invoice_tic" id="">
+                        <option value="1">Individual</option>
+                        <option value="1">Enterprise</option>
+                    </select>
+                    <input type="text" name="invoice_head"/>
+                    <input type="button" onclick="" value="Save"/>
+                </div>-->
+            </div>
+        </div>
+
+        <!--Delivery date-->
+        <div class=" item_panl">
+            <div class="item_title ">Delivery date</div>
+            <div class="delivery-time-content">
+                <div class="arrow-l arrow fl prev"></div>
+                <div class="scroll-item" id="autoPage">
+                        <div class="delivery_time">
+                            <ul class="">
+                                <?php
+                               $count =  $count = ceil( count($dateData)/7);
+                               for($k=0;$k<$count;$k++){
+                                ?>
+                                <li class="time1">
+                                    <dl class="scroll-item-top clearfix">
+                                        <dt class="date-time">
+                                        </dt>
+                                        <volist name="dateData" id="vo" >
+                                            <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
+
+                                                <dd data-isholiday="{$vo.isholiday}" <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>{$vo.week} <br />{$vo.date}</dd>
+                                            </if>
+                                        </volist>
+                                    </dl>
+
+                                    <volist name="times" id="vo" key="j">
+                                        <dl class="scroll-item-content tab-{$j} clearfix">
+                                            <dt class="time">{$vo}</dt>
+                                            <volist name="dateData" id="de" key="y">
+                                                <if condition="$y gt ($k)*7 and $y elt ($k+1)*7">
+                                                    <dd  data-date="{$de.time}" data-time="{$vo}" value="{$de.time} {$vo}" <if condition="$de['isholiday'] eq 1"> class='isholiday_c'<else/>class="js_time"</if>>
+                                                    </dd>
+                                                </if>
+                                            </volist>
+                                        </dl>
+                                    </volist>
+                                </li>
+                                <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
                 </div>
-            <label class="addr_list">
-                <a href="/Member/addAddress.html?goto=cashier" style="padding-left: 30px;">New Address</a>
-            </label>
-            <h2>
 
-                Product list
-            </h2>
-            <div class="spqd">
-                <eq name="isShop" value="true">
-                    <?php
-            $subtotal=0;
-            ?>
-                    <eq name="isService" value="true">
-                        <div class="shoptitle">Product list</div>
-                    </eq>
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <thead>
-                        <tr>
-                            <td align="left">ID</td>
-                            <td align="left">Product name</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                            <td>Amount</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <volist name="cart.cart_items" id="vo">
-                            <?php
-               if(strpos($vo['sortpath'],',2,')){
-                $sub=(float)get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'];
-                $subtotal+=$sub;
-                ?>
-                            <tr>
-                                <td align="left">{$vo.id}</td>
-                                <td align="left"><a href="{:U('Product/view?id='.$vo['id'])}"><img alt="{$vo.name}"
-                                                                                                   src="{$vo.indexpic}"
-                                                                                                   width="60"
-                                                                                                   height="60"/>{$vo.name}</a>
-                                </td>
-                                <td><span class="jiage">&yen;{$sub}</span></td>
-                                <td>{$vo.num}</td>
-                                <td>{:to_price($sub)}</td>
-                            </tr>
-                            <?php
-                  }
-                ?>
-                        </volist>
-                        </tbody>
-                        <eq name="isService" value="true">
-                            <tfoot>
-                            <tr>
-                                <td colspan="2" align="left">&nbsp;</td>
-                                <td colspan="4" align="right"> Sub Total：<span class="jiage02">&yen;<font id="">{:to_price($subtotal)}</font></span>
-                                </td>
-                            </tr>
-                            </tfoot>
-                        </eq>
-                    </table>
-                </eq>
-                <eq name="isService" value="true">
-                    <?php
-            $subtotal=0;
-            ?>
-                    <eq name="isShop" value="true">
-                        <div class="shoptitle">Laundry service list</div>
-                    </eq>
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <thead>
-                        <tr>
-                            <td align="left">ID</td>
-                            <td align="left">Product name</td>
-                            <td>Price</td>
-                            <td>Quantity</td>
-                            <td>Amount</td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <volist name="cart.cart_items" id="vo">
-                            <?php
-               if(strpos($vo['sortpath'],',3,')){
-                $sub=(float)get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'];
-                $subtotal+=$sub;
-                ?>
-                            <tr>
-                                <td align="left">{$vo.id}</td>
-                                <td align="left"><a href="{:U('Service/view?id='.$vo['id'])}"><img alt="{$vo.name}"
-                                                                                                   src="{$vo.indexpic}"
-                                                                                                   width="60"
-                                                                                                   height="60"/>{$vo.name}</a>
-                                </td>
-                                <td><span class="jiage">&yen;{$sub}</span></td>
-                                <td>{$vo.num}</td>
-                                <td>{:to_price($sub)}</td>
-                            </tr>
-                            <?php
-                  }
-                ?>
-                        </volist>
-                        </tbody>
-                        <eq name="isShop" value="true">
-
-                            <tfoot>
-                            <tr>
-                                <td colspan="2" align="left">&nbsp;</td>
-                                <td colspan="4" align="right"> Sub Total：<span class="jiage02">&yen;<font id="">{:to_price($subtotal)}</font></span>
-                                </td>
-                            </tr>
-                            </tfoot>
-                    </table>
-                </eq>
-        </eq>
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tfoot>
-            <!--<tr>
-              <td colspan="5" align="right"><p style="line-height:20px;">
-                  <gt name="maxuse" value="0"> Use coupon:
-                    <input type="text" class="input03" value="{$usecoupon}" id="usecoupon" name="usecoupon" maxlength="10" style="width:50px;" onchange="location='{:U('Settle/cashier')}?usecoupon='+$(this).val()" />
-                    <else/>
-                    Use coupon:
-                    <input type="text" class="input03" value="{$usecoupon}" id="usecoupon" name="usecoupon" style="width:50px;"  disabled="disabled"/>
-                  </gt>
-                  <br />
-                  You have <span class="fc_red">&yen;{$mycoupon}</span> coupons in total and maximum <span class="fc_red">&yen;{$maxuse}</span> applicable for this order.<br />
-                      Three ways to get coupon: 1) each your order, 2) recommend friends, 3) friends consume; more rules please <a href="{:U('Content/view','id=2321')}" target="_blank">click here</a>.</p></td>
-                </tr>-->
-            <tr align="right">
-                <td colspan="5">Amount：&yen;{$cart.cart_amount}<br/>
-                    Delivery Fee： &yen;{$cart.cart_shipfee}<br/>
-                    <notempty name="usecoupon"><span style="display:none">Coupon： - &yen;{$usecoupon}<br/></span>
-                        Total Amount：<span class="jiage02">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee']-$usecoupon)}</span>
-                        <else/>
-                        Total Amount：<span
-                                class="jiage02">&yen;{:to_price($cart['cart_amount']+$cart['cart_shipfee'])}</span>
-                    </notempty>
-                </td>
-            </tr>
-            </tfoot>
-        </table>
-</div>
-<h2>Payment</h2>
-
-<div class="txt02">
-    <input name="paymethod" type="radio" id="paymethod1" value="1">
-    <label for="paymethod1">Online payment</label>
-    <input type="radio" name="paymethod" id="paymethod4" value="4" checked>
-    <label for="paymethod4">Cash on delivery</label>
-</div>
-<h2>Invoice required</h2>
-
-<div class="txt02">
-    <input name="invoice" type="radio" id="invoice1" value="1">
-    <label for="invoice1">yes</label>
-    <input type="radio" name="invoice" id="invoice2" value="0" checked>
-    <label for="invoice2">no</label>
-</div>
-<h2>Delivery date</h2>
-<div class="txt02">
-    <?php
-          $deliverinfo=nl2br(lbl('deliverinfo'));
-          ?>
-    <notempty name="deliverinfo">
-           <span class="" style="color:#f00;">
-          {$deliverinfo}
-          </span>
-    </notempty>
-    <br/>
-    <br/>
-    <volist name="dateData" id="vo">
-            <div data-date_num="{$i}" class="js_date_obj  <if condition='$vo.isholiday eq 1'>isholiday<else/>date_btn </if>" data-date="{$vo.time}" title="{$vo.time}">
-                <if condition="$i eq 1">
-                    Today
-                    <elseif condition='$i eq 2'/>
-                    Tomorrow
-                    <else/>
-                    {$vo.date}
-                </if>
+                <div class="arrow-r arrow fl next" ></div>
             </div>
-    </volist>
-    <!--<input  type="text" class=" date_btn " value="Other" id="getOtherDate" />-->
-    <div class=" date_btn"  id="getOtherDate">
-       Other
-    </div>
-    <input  type="hidden" name="delivertime[]" class="date_val"  id="delivertime" />
-    <div style="clear: both"></div>
-    <br/>
-    <div>
-        <?php
-	            $times = str2arr(lbl('delivertime'),"\r\n");//配送时段
-	            foreach($times as $k=>$v){
-        ?>
-            <div class="time_list js_time_obj " data-date="{$v}" ><br/>
-               {$v}
-            </div>
-        <?php
-	            }
-            ?>
+        </div>
+        <!--Order Remarks-->
+        <div class=" item_panl">
+            <div class="item_title ">Order remarks</div>
+            <textarea type="text" id="info" name="info" value="" placeholder="the order remarks" class="input03" style="width:800px; height:100px;margin-left: 30px; border-color:#E0E0E0; resize: none;color: #212121; margin-top: 20px; font-family: 'arial', 'Helvetica';padding-left: 10px;"></textarea>
+        </div>
+
+        <div class=" submitOrder_b">
+            <button onclick="submitOrder();" class="submitOrder">Submit order</button>
+        </div>
     </div>
 </div>
 
-<h2>Order remarks</h2>
-<div class="txt02">
-    <textarea type="text" id="info" name="info" value="" placeholder="the order remarks" size="80" class="input03"
-              style="width:500px; height:80px;"></textarea>
-</div>
-<div class="tjdd"><a href="javascript:void(0);" onclick="$.SubmitOrder()" id="submitOrder" class="jixu">Submit order</a>
-</div>
-</eq>
-</form>
-</div>
-</div>
 <div class="clr"></div>
+<include file="Index:footer" />
+<script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+<div class="lean_overlay hide" data-show="1"></div>
+<div class="leanModal addressModal hide" id="addressModal">
+    <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src=""></iframe>
 </div>
-<include file="Index:footer"/>
 
 <script>
-    $(function(){
-        //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
-        var date = $(".date_btn").eq(0).data('date');
-        $('#delivertime').val(date);
-        $(".date_btn").eq(0).addClass('click');
-        checkTime(date);
-        //选择时间
-        $(".js_date_obj").click(function(){
-            $('.js_time_obj').removeClass('click');
-            $('.js_time_obj').find('input').remove();
-            if($(this).hasClass('isholiday')){
-                $('.js_delivertime').parent().addClass('old_time');
-            }else{
-                checkTime($(this).data('date'));
-                $('#delivertime').val($(this).data('date'));
-                $('.js_date_obj').removeClass('click');
-                $(this).addClass('click');
-            }
-        })
-        //选择其他时间
-        $('#getOtherDate').calendar({
-            format: 'yyyy-MM-dd',
-            minDate: '%y-%M-%d',
-            disWeek: "{:lbl('disabled_week')}",
-            btnBar: false,
-            disDate: {$strdates},
-            onSetDate:function(){
-                var date = this.year+'-'+this.month+'-'+this.day;
-                $('#getOtherDate').text(this.day+','+getDateFormat(this.month));
-                $('#getOtherDate').addClass('click');
-                $('#delivertime').val(date);
-                $('.js_date_obj').removeClass('click');
-                checkTime(date);
-            }
-        });
-
-        $('.js_time_obj').click(function () {
-            if($(this).hasClass('click')){
-                $(this).removeClass('click');
-                $(this).find('input').remove();
-            }else{
-                if($(this).hasClass('time_list')){
-                    $(this).addClass('click');
-                    var arr=$(this).data('date');
-                    var html ='<input type="hidden" value="'+arr+'" name="delivertime[]" id="delivertime_'+arr+'"/>';
-                    $(this).addClass('click');
-                    $(this).append(html);
-                }
-            }
-        })
-        $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
-        $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-        $('#addr_list label').click(function(){
-            $('#UseAddressID').val($('#addr_list input[type=radio]:checked').val());
-            $('#cityname').val($('#addr_list input[type=radio]:checked').data('cityname'));
-        })
+    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"leftLoop",vis:1,scroll:1});//PROMOTION轮播
+    $('.delivery_address .addrs input').click(function(){
+        $('.delivery_address .addrs ').removeClass('selected_addr');
+        $(this).parent().parent().addClass('selected_addr');
+    })
+    $('#UseAddressID').val($('.delivery_address input[type=radio]:checked').val());
+    $('#cityname').val($('.delivery_address input[type=radio]:checked').data('cityname'));
+    $('.delivery_address label').click(function(){
+        $('#UseAddressID').val($('.delivery_address input[type=radio]:checked').val());
+        $('#cityname').val($('.delivery_address input[type=radio]:checked').data('cityname'));
+    })
+    //添加修改地址弹出框
+    function showModifyAddres(id){
+       var url = '/member/modifyAddress.html';
+        if(id){
+            url +='?id='+id;
+        }
+        $('#addressModal iframe').attr('src',url);
+        $('.lean_overlay').show();
+        $('#addressModal').show();
+    }
+    //关闭添加修改地址弹出框
+    $('.lean_overlay').click(function(){
+        $(this).hide();
+        $('#addressModal').hide();
     })
 
-    //根据时间选择时间段
-    function checkTime($now){
-        var myDate = new Date(),
-            date =  getDate(),
-            beyond = parseInt($('body').data('beyond'));
-        if($now ==date){ //今天
-
-            $(".js_time_obj").each(function () {
-                var arr=$(this).data('date').split('-'),
-                        arr1= arr[0].split(':'),
-                        hours= parseInt(myDate.getHours()),
-                        min= parseInt(myDate.getMinutes());
-
-                //以下午16点为分割线, 16点以前,当前时间加30,反之减300
-                if(15>hours && 15>arr1[0]){ //15点以前,
-                    //当前时间所在的时间段开始30分钟内可以选择 (例:当前时间:14:30;可选14:00-16:00)
-                    if((hours>arr1[0]) || (hours == parseInt(arr1[0]) && min > beyond)){
-                        $(this).addClass('old_time');
-                        $(this).removeClass('time_list');
-                        $(this).removeClass('click');
-                    }
-                }else{
-                    //比当前时间所在的时间段提前开始30分钟以上可以选择 (例:当前时间:15:31;不能选16:00-18:00)
-                    if((hours>=arr1[0]) || ((arr1[0]-1) == hours &&  min > beyond )){
-                        $(this).addClass('old_time');
-                        $(this).removeClass('time_list');
-                        $(this).removeClass('click');
-                    }
-                }
-            })
-            if(!$('.js_time_obj').hasClass('time_list')){ //今天没有可选时段了
-                $(".js_date_obj ").eq(0).removeClass('click');
-                $(".js_date_obj ").eq(0).addClass('isholiday');
-                $(".js_date_obj ").eq(0).removeClass('date_btn');
-                $(".date_btn").eq(0).addClass('click');
-
-                var date = $(".date_btn").eq(0).data('date');
-                $('#delivertime').val(date);
-                $(".date_btn").eq(0).addClass('click');
-                checkTime(date);
-                //  $(".date_btn").eq(0).click();
-
+    window.deliverydate = new Object();
+    var data ='',time ='';
+    $('.scroll-item-content .js_time').click(function(){
+        if($(this).hasClass('selected_time')){
+            $(this).removeClass('selected_time');
+            deliverydate[$(this).data('date')].shift($(this).data('time'));
+            if(deliverydate[$(this).data('date')].length<1){
+                deliverydate.shift($(this).data('date'));
             }
         }else{
-            $('.js_time_obj').removeClass('old_time');
-            $('.js_time_obj').removeClass('click');
-            $('.js_time_obj').addClass('time_list');
+            if(!deliverydate[$(this).data('date')]){
+                deliverydate[$(this).data('date')] = new Array()
+            }
+            deliverydate[$(this).data('date')].push($(this).data('time'))
+            $(this).addClass('selected_time');
         }
-    }
+    })
+
 </script>
 </body>
 </html>

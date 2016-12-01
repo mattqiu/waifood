@@ -1,144 +1,144 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}{:lbl('subtitleshop')}</title>
-<meta name="keywords" content="{$keywords}" />
-<meta name="description" content="{$description}" />
-<include file="Index:header" />
-<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />
-<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />
-<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />
-<script language="javascript">
-$(function(){
-	$(".btnDeduct").on("click",function() {
-		var minbuy = parseInt($("#buyAmount").attr("min")); 
-		var num = parseInt($("#buyAmount").val()); 
-		if(minbuy!=0){
-			if(num<minbuy){
-				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');	
-				$("#buyAmount").val(minbuy);
-				return false;
-			}
-		};
-		return false;
- 	});
-});
-</script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}{:lbl('subtitleshop')}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <include file="Index:header" />
+    <js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />
+    <js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />
+    <css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />
+    <script language="javascript">
+        $(function(){
+            $(".btnDeduct").on("click",function() {
+                var minbuy = parseInt($("#buyAmount").attr("min"));
+                var num = parseInt($("#buyAmount").val());
+                if(minbuy!=0){
+                    if(num<minbuy){
+                        jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');
+                        $("#buyAmount").val(minbuy);
+                        return false;
+                    }
+                };
+                return false;
+            });
+        });
+    </script>
 </head>
 
 <body>
 <include file="Index:bar" /> <include file="Index:nav2" />
 <div class="container">
-<div class="content">
-  <div class="lbox">
-      
-    <include file="Index:nav2sub" />
-      <div class="clear"></div>
-      <div class="ladbox">
-      {:lbl('adleft')}
-      </div>
-    </div>
-    
-  <div class="rbox">
-    <div class="path">{:get_product_location($db['pid'])} </div>
-   
-          <div class="cpshow">
-     <neq name="gallery|count" value="0">
-            <div class="bigcp">
-                <volist name="gallery" id="vo"><eq name="key" value="0"><a href="{$vo}" class="jqzoom" rel="gal1" title="{$db.title}"> <img src="{$vo}" width="360" height="360"  alt="" /></a></eq></volist>
+    <div class="content">
+        <div class="lbox">
+
+            <include file="Index:nav2sub" />
+            <div class="clear"></div>
+            <div class="ladbox">
+                {:lbl('adleft')}
+            </div>
+        </div>
+
+        <div class="rbox">
+            <div class="path">{:get_product_location($db['pid'])} </div>
+
+            <div class="cpshow">
+                <neq name="gallery|count" value="0">
+                    <div class="bigcp">
+                        <volist name="gallery" id="vo"><eq name="key" value="0"><a href="{$vo}" class="jqzoom" rel="gal1" title="{$db.title}"> <img src="{$vo}" width="360" height="360"  alt="" /></a></eq></volist>
+                    </div>
+                    <div class="smallcp"> <a href="javascript:void(null)" class="pro-prev" id="mycarousel-prev"></a>
+                        <div  class="mycarousel-box">
+                            <ul  id="mycarousel">
+                                <volist name="gallery" id="vo">
+                                    <li><a href="javascript:void(0);" <eq name="key" value="0">class="zoomThumbActive"</eq> rel="{ gallery: 'gal1',largeimage:'{$vo}',smallimage:'{$vo}' }" title=""><img src="{$vo|get_thumb=80,80}" width="60" height="60"  alt="" /></a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                        <a href="javascript:void(null)" class="pro-next" id="mycarousel-next"></a> </div>
+                    <else/>
+                    <div class="bigcp"   ><img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" width="360" height="360"  alt="{$db.title}"  />
+                    </div>
+                </neq>
+            </div>
+            <div class="cpcs">
+                <h2>{$db.title}</h2>
+                <p class="cs"><strong>Unit:</strong> {$db.unit}<br>
+                    <strong>Preservation:</strong> {$db.storage}<br>
+                    <strong>Origin:</strong> {$db.origin}<br>
+                    <notempty name="db.brand">
+                        <strong>Brand:</strong>
+                        {$db.brand}<br />
+                    </notempty>
+                    <span class="jiage02">&yen;{$db.price}</span>
+                    <gt name="db.price1" value="0">
+                        <span class="marketprice">&yen;{$db.price1}</span>
+                    </gt>
+                    <notempty name="db.notice">
+                        <br /><strong>Notice:</strong>
+                        {$db.notice}
+                    </notempty>
+                </p>
+
+                <p><strong>Quantity:</strong>&nbsp;<a href="javascript:void(null)" class="jian btnDeduct"></a>
+                    <gt name="db.minbuy" value="0">
+                        <input type="text"  class="num cartnum" id="buyAmount" name="buyAmount" value="{$db.minbuy}" min="{$db.minbuy}" max="999" data-stock="{$db.stock}">
+                        <else/>
+                        <input type="text" class="num cartnum" id="buyAmount" min="1" max="999" value="1"  data-stock="{$db.stock}">
+                    </gt>
+                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
+                <p>
+                    <input type="image" name="imageField" id="imageField" src="__PUBLIC__/Shop/images/addbtn02.jpg" onclick="$.addCart('{$db.id}',$('#buyAmount').val())" />
+                </p>
+            </div>
+            <div class="clear"></div>
+            <notempty name="db.content">
+                <div class="tjcp">
+                    <h2>Description</h2>
                 </div>
-            <div class="smallcp"> <a href="javascript:void(null)" class="pro-prev" id="mycarousel-prev"></a>
-              <div  class="mycarousel-box">
-              <ul  id="mycarousel">
-                <volist name="gallery" id="vo">
-                  <li><a href="javascript:void(0);" <eq name="key" value="0">class="zoomThumbActive"</eq> rel="{ gallery: 'gal1',largeimage:'{$vo}',smallimage:'{$vo}' }" title=""><img src="{$vo|get_thumb=80,80}" width="60" height="60"  alt="" /></a></li>  
-                </volist>
-              </ul>
-              </div>
-              <a href="javascript:void(null)" class="pro-next" id="mycarousel-next"></a> </div>
-          <else/>
-           <div class="bigcp"   ><img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" width="360" height="360"  alt="{$db.title}"  />
+                <div class="cpcontent" style="padding:10px 0px;">
+                    {$db.content}
+                </div>
+            </notempty>
+            <div class="tjcp">
+                <h2>You might like</h2>
+            </div>
+            <div class="cptxt">
+                <ul>
+                    <volist name=":get_product_lists($db['pid'],4,2)" id="vo">
+                        <empty name="vo.linkurl">
+                            <li><a href="{:U('Product/view','id='.$vo['id'])}" target="_blank"><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
+                                <h2>{$vo.title}</h2>
+                            </a>
+                                <p>Unit: {$vo.unit}<br>
+                                    Origin: {$vo.origin}<br>
+                                    <span class="jiage02">&yen;{$vo.price}</span></p>
+                                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
+                                    <input type="text" value="1" class="num" />
+                                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
+                            </li>
+                            <else/>
+                            <li><a href="{$vo.linkurl}" target="_blank"><img src="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
+                                <h2>{$vo.title}</h2>
+                            </a>
+                                <p>Unit: {$vo.unit}<br>
+                                    Origin: {$vo.origin}<br>
+                                    <span class="jiage02">&yen;{$vo.price}</span></p>
+                                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
+                                    <input type="text" value="1" class="num" />
+                                    <a href="javascript:void(null)" class="jia btnPlus"></a></p>
+                            </li>
+                        </empty>
+                    </volist>
+                </ul>
+            </div>
+        </div>
     </div>
-        </neq>
-          </div>
-    <div class="cpcs">
-      <h2>{$db.title}</h2>
-      <p class="cs"><strong>Unit:</strong> {$db.unit}<br>
-        <strong>Preservation:</strong> {$db.storage}<br>
-        <strong>Origin:</strong> {$db.origin}<br>
-        <notempty name="db.brand">
-        <strong>Brand:</strong>
-        {$db.brand}<br />
-        </notempty>
-        <span class="jiage02">&yen;{$db.price}</span>
-        <gt name="db.price1" value="0">
-        <span class="marketprice">&yen;{$db.price1}</span>
-        </gt>
-        <notempty name="db.notice">
-        <br /><strong>Notice:</strong>
-        {$db.notice}
-        </notempty>
-        </p>
-       
-      <p><strong>Quantity:</strong>&nbsp;<a href="javascript:void(null)" class="jian btnDeduct"></a>
-      <gt name="db.minbuy" value="0">
-        <input type="text"  class="num cartnum" id="buyAmount" name="buyAmount" value="{$db.minbuy}" min="{$db.minbuy}" max="999" data-stock="{$db.stock}">
-      <else/>
-        <input type="text" class="num cartnum" id="buyAmount" min="1" max="999" value="1"  data-stock="{$db.stock}">
-        </gt>
-        <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-      <p>
-        <input type="image" name="imageField" id="imageField" src="__PUBLIC__/Shop/images/addbtn02.jpg" onclick="$.addCart('{$db.id}',$('#buyAmount').val())" />
-      </p>
-    </div>
-    <div class="clear"></div>
-    <notempty name="db.content">
-    <div class="tjcp">
-      <h2>Description</h2>
-    </div>
-    <div class="cpcontent" style="padding:10px 0px;">
-    	{$db.content}
-    </div>
-    </notempty>
-    <div class="tjcp">
-      <h2>You might like</h2>
-    </div>
-    <div class="cptxt">
-      <ul>
-      <volist name=":get_product_lists($db['pid'],4,2)" id="vo">
-            <empty name="vo.linkurl">
-              <li><a href="{:U('Product/view','id='.$vo['id'])}" target="_blank"><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
-                <h2>{$vo.title}</h2>
-                </a>
-                <p>Unit: {$vo.unit}<br> 
-                  Origin: {$vo.origin}<br>
-                  <span class="jiage02">&yen;{$vo.price}</span></p>
-                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                  <input type="text" value="1" class="num" />
-                  <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-              </li>
-              <else/>
-              <li><a href="{$vo.linkurl}" target="_blank"><img src="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
-                <h2>{$vo.title}</h2>
-                </a>
-                <p>Unit: {$vo.unit}<br> 
-                  Origin: {$vo.origin}<br>
-                  <span class="jiage02">&yen;{$vo.price}</span></p>
-                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                  <input type="text" value="1" class="num" />
-                  <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-              </li>
-            </empty>
-          </volist>
-      </ul>
-    </div>
-  </div>
+
+    <div class="clr"></div>
 </div>
 
-<div class="clr"></div>
-</div>
-
-<include file="Index:footer" />  
+<include file="Index:footer" />
 </body>
 </html>

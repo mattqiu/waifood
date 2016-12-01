@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>user info</title>
+    <include file="Index:header" />
+</head>
+<body data-userid="" _id="{$user.id}">
+<div class="lean_overlay" data-show="1"></div>
+<div id="info-box" class="leanModal addressModal" >
+    <input type="hidden" value="{$user.id}" name="id"/>
+    <div class="form-section consingee">
+        <label class="input-label" for="username">User name</label>
+        <input class="input-text J_addressInput " type="text" id="username" name="username" value="{$user.username}" placeholder="Consingee">
+    </div>
+
+    <div class="form-section">
+        <label class="input-label" for="Email">Email</label>
+        <input class="input-text J_addressInput" type="text" id="Email" name="email" value="{$user.email}">
+    </div>
+
+    <div class="form-section">
+        <label class="input-label" for="Phone">Phone</label>
+        <input class="input-text J_addressInput" type="text" id="Phone" name="telephone" value="{$user.telephone|default='+86'}">
+    </div>
+    <div class="form-section select_box">
+        <div class="fl sex_sel form-itme">
+            <label class="input-label" for="sex">Gender</label>
+            <select name="sex" id="sex">
+                <option value="1" <if condition="$user['sex'] eq 1">selected</if>>Male</option>
+                <option value="0"  <if condition="$user['sex'] eq 0">selected</if>>Female</option>
+            </select>
+        </div>
+
+        <div class="fr city form-itme">
+            <label class="input-label" for="city">City</label>
+            <select name="cityname" id="city">
+                <option value="chengdu"  <if condition="$user['cityname'] eq 'chengdu'">selected</if>>Chengdu</option>
+                <option value="chongqing" <if condition="$user['cityname'] eq 'chongqing'">selected</if>>Chongqing</option>
+                <option value="xi'an"  <if condition="$user['cityname'] eq 'xi\'an'">selected</if>>Xi'an</option>
+                <option value="kunming" <if condition="$user['cityname'] eq 'kunming'">selected</if>>Kunming</option>
+                <option value="other"  <if condition="!in_array($user['cityname'],array('chengdu','chongqing','xi\'an','kunming'))">selected</if>>Other</option>
+            </select>
+        </div>
+    </div>
+    <div class="clr"></div>
+    <div class="form-section">
+        <label class="input-label" for="Address">Address</label>
+        <input class="input-text J_addressInput" type="text" id="Address" name="address" value="{$user.address}" placeholder="address">
+    </div>
+    <div class="form-section register">
+        Registration:{$user.addtime}
+    </div>
+    <div class="clr"></div>
+    <div class="form-confirm clearfix">
+        <button class="submit" onclick="modifyUserInfo();">Submit</button>
+        <button class="back" onclick="closePanl()">Back</button>
+    </div>
+</div>
+<script>
+    function closePanl(){
+        $("body",parent.document).find('.lean_overlay').hide();
+        $("body",parent.document).find('#userModal').hide();
+    }
+
+    $(function(){
+        $('#info-box .form-section ').each(function(){
+            if( $(this).find('.J_addressInput').val()){
+                $(this).find('.input-label').css('top','-10px');
+            }
+        })
+        $('#info-box .form-section .J_addressInput').focus(function(){
+            if(!$(this).val()){
+                $(this).siblings('label').animate({top:'-10px'});
+            }
+            $(this).parent().css('border-color','#2eb661');
+            $(this).siblings('label').css('color','#2eb661');
+        })
+        $('#info-box .form-section .J_addressInput').blur(function(){
+            if(!$(this).val()) {
+                $(this).siblings('label').animate({top: '15px'});
+            }
+            $(this).parent().css('border-color','#E0E0E0');
+            $(this).siblings('label').css('color','#424242');
+        })
+    })
+
+    window.subBlock=false;
+    function modifyUserInfo(){
+        if(subBlock == true){
+            return false;
+        }
+        var username = $('#info-box input[name=username]').val(),
+            email = $('#info-box input[name=email]').val(),
+            telephone = $('#info-box input[name=telephone]').val(),
+            sex = $('#info-box select[name=sex]').val(),
+            cityname = $('#info-box select[name=cityname]').val(),
+            address = $('#info-box input[name=address]').val();
+        if(!username){
+            subBlock = false;//解除阻塞
+            clearpopj("Please enter the username", "error",true);
+            return false;
+        }
+        if(!email){
+            subBlock = false;//解除阻塞
+            clearpopj("Please enter the email", "error",true);
+            return false;
+        }
+        if(!telephone){
+            subBlock = false;//解除阻塞
+            clearpopj("Please enter the telephone", "error",true);
+            return false;
+        }
+        subBlock = true;
+        $.post('/member/modifyUserInfo.html',{username:username,email:email,telephone:telephone,sex:sex,cityname:cityname,address:address},function(data){
+            subBlock = false;//解除阻塞
+            if(data.code == 200){
+                clearpopj(data.message, "success",true);
+                setTimeout(function(){ window.parent.location.reload();},2500);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

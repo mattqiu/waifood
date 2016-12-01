@@ -20,11 +20,11 @@
         return this.each(function() {
             var opts = $.extend({},$.fn.slide.deflunt,options);
             var index=opts.defaultIndex;
-            var prevBtn = $(opts.prevCell, $(this));
-            var nextBtn = $(opts.nextCell, $(this));
-            var navObj = $(opts.titCell, $(this));//导航子元素结合
+            var prevBtn = $(opts.prevCell);
+            var nextBtn = $(opts.nextCell);
+            var navObj = $(opts.titCell);//导航子元素结合
             var navObjSize = navObj.size();
-            var conBox = $(opts.mainCell , $(this));//内容元素父层对象
+            var conBox = $(opts.mainCell);//内容元素父层对象
             var conBoxSize=conBox.children().size();
             var slideH=0;
             var slideW=0;

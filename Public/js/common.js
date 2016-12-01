@@ -104,14 +104,13 @@ function getDateFormat($month){
 //加载图
 function loading(){
     //var $html = '<div class="bkpanl"></div><div class="loadingbox"><img src="/Public/Home/images/loading.gif" alt="" width="80%"/><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="margin-top: 10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
     $('body').append($html);
 }
 //关闭加载
 function closeLoad(){
     $('.bkpanl').hide();
     $('.loadingbox').hide();
-
 }
 
 //自动消失的弹出提示框
@@ -126,6 +125,22 @@ function clearpop(txt,time){
     setTimeout(function(){$("#clearpop").hide();},time);
 }
 
+//自动消失的弹出提示框
+function clearpopj(txt,status,hide,url,time){
+    swal("", txt, status);
+    if(hide){
+        if(!time){
+            time = 1500;
+        }
+        setTimeout(function(){
+            $('.sa-button-container .confirm').click();
+            if(url){
+                window.location.href=url;
+            }
+        },time);
+
+    }
+}
 
 /*弹出框使用方法:
  *getMask().maskShow({"speed":100,"filter":0.5,"jump_speed":0.7,"jump_num":0,"width":400,"tit":"弹出框标题","cont":"#cont"});
