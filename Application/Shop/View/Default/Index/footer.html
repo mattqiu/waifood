@@ -129,14 +129,46 @@
             </ul>
         </div>
         <div class="clr"></div>
+    </div>
+        <div class="partnerShip">
+            <div class="container">
+                <span class="foot-list-p">PARTNER SHIP:</span>
+                <ul style="margin-left: 150px;margin-top: -10px;" id="partner">
+                    <li style="height: 140px;width: 140px;border: 2px solid #e0e0e0;border-radius: 140px;overflow: hidden" >
+                        <a href="">
+                            <img src="__PUBLIC__/images/mmexport1480580358096.jpg" class="plogo" width="120" style="position: relative;left: 7px;;top: 38px;"  id="dd" alt=""/>
+                            <img src="__PUBLIC__/images/mmexport1480580367011.jpg" class="pqr" width="97" style="position: relative;left: 20px;;top: 89px;" id="qr" alt=""/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="clr"></div>
+    <div class="container">
         <div class="foot-no">{:lbl('copyright')}</div>
+        <div class="clr"></div>
     </div>
 </div>
 <script>
     $(function () {
+
         var moveHeight = 258,
                 moveTime = 200,
                 curMove = null;
+        $('#partner li').hover(function (e){
+            var curLi = $(this);
+            curMove = setTimeout(function (){
+                curLi.find('.plogo').animate({ top: '-53px' }, moveTime);
+                curLi.find('.pqr').animate({ top: '-33px' }, moveTime);
+            }, 200);
+        },function(e){
+            clearTimeout(curMove);
+            $(this).find('.plogo').animate({ top: '40px' }, moveTime);
+            $(this).find('.pqr').animate({ top: '90px' }, moveTime);
+
+        });
+
+
         $('.caselist li').hover(function (e){
             var curLi = $(this);
             curMove = setTimeout(function (){
@@ -148,6 +180,7 @@
             $(this).children('.fitem_bofore').animate({ top: '60px' }, moveTime);
             $(this).children('.fitem_after').animate({ top: moveHeight + 'px' }, moveTime);
         });
+
 
         if(document.getElementById("telephone")){
             document.getElementById("telephone").onkeyup =function() {

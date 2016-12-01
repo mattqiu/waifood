@@ -170,7 +170,7 @@ fieldset,img { border: none;}
 .prict_info{padding: 6px 0}
 /****************************foot***************************************/
 
-.footer{width: 100%;height: 675px;background: #FFFFFF;margin-top: 40px;}
+.footer{width: 100%;/*height: 675px;*/background: #FFFFFF;margin-top: 40px;}
 .caselist li {width:245px; height:266px;   float:left;position:relative; overflow:hidden;}
 .fitem_bofore {width:245px; height:266px;  position:absolute; left:0px; top:60px;text-align: center;padding-bottom: 50px;}
 .fitem_after {  padding:10px; width:245px; height:340px;position:absolute;  left:0px; top:268px; z-index:2;}
@@ -178,14 +178,16 @@ fieldset,img { border: none;}
 .fitem-content{width:245px;margin: 0 auto; color: #757575;line-height: 24px;}
 .fitem-titel{color: #2eb661;font-size: 18px;position: relative; top: -20px;left: 10px;}
 .fitem_name{color: #666666;font-size: 16px;line-height: 50px;}
+.partnerShip{height: 160px;background: #f8f8f8;margin-top: 20px;}
+.partnerShip span{position: relative;top: 68px;}
+.partnerShip ul li{background: #FFffff}
 .foot-list{margin-top: 98px; }
 .foot-list-p{font-size: 16px;color: #424242}
 .foot-list li{float: left;width: 245px;}
 .foot-list li p a{font-size: 14px; color: #757575}
 .foot-list li p a:hover{font-size: 14px; color: #2eb661}
 .foot-list li.chat-us{text-align: center;font-width: bold;color: #2eb661}
-.foot-no{margin-top: 90px;font-size: 16px;color: #b0b0b0;text-align: center;}
-
+.foot-no{margin-top: 50px;font-size: 16px;color: #b0b0b0;text-align: center;padding-bottom: 50px;}
 /*************************************************list********************************************************************/
 .cat_list_sx{background: #FFFFFF}
 .path{ line-height:40px; }
