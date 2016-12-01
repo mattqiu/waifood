@@ -66,7 +66,7 @@ table{ border-collapse:collapse; }
     </div>
 </div>
     <?php
-        $count = ceil(count($list)/25);
+        $count = ceil(count($list)/24);
         for($i=0;$i<$count;$i++){
     ?>
     <div id='js_content_{$i}'  style="<if condition='$i gt 0'> height: 1123px; padding-top: 30px;</if>width: 850px;;margin: 0 auto;">
@@ -80,7 +80,7 @@ table{ border-collapse:collapse; }
             <td width="60">Total</td>
         </tr>
         <volist name="list" id="vo" key="o">
-            <if condition="$o egt ($i)*25 and $o lt ($i+1)*25">
+            <if condition="$o gt ($i)*24 and $o elt ($i+1)*24">
             <tr align="center">
               <td>{$o}</td>
               <td align="left">{$vo.productname}</td>
@@ -113,7 +113,7 @@ table{ border-collapse:collapse; }
     <div class="fl" style="width: 80px;"><img src="__PUBLIC__/Shop/images/qr.jpg" width="80" alt=""/></div>
     <div class="fl"  <if condition="$count gt 1">style="width: 350px;"<else/>style="width: 600px;"</if>><br/>
         <div style="font-weight: bold">Gathering the best</div>
-        service@waifood.com
+        www@waifood.com
     </div>
 
     <if condition="$count gt 1">
