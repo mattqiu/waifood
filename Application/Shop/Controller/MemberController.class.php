@@ -114,7 +114,7 @@ class MemberController extends AuthController {
         $status = I('status');
         if($status == 'all'){
             $count = $all;
-            $where['_string'] = '`status` < '.OrderModel::COMPLETED;
+            $where['_string'] = '`status` <= '.OrderModel::COMPLETED;
         }else{
             $count = $ongoing;
             $where['_string'] = '`status` < '.OrderModel::COMPLETED;

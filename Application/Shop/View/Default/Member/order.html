@@ -18,8 +18,8 @@
         <div class="right fr order-list">
             <div class="order_list">My order</div>
             <div class="ostatus">
-                <a href="/member/order.html?status=ongoing#order" class="selected">On going({$ongoing|default=0})</a> |
-                <a href="/member/order.html?status=all#order">All({$all|default=0})</a>
+                <a href="/member/order.html?status=ongoing#order" <if condition="$_REQUEST['status'] neq 'all'"> class="selected"</if>>On going(<span class="js_onging_order_num">{$ongoing|default=0}</span>)</a> |
+                <a href="/member/order.html?status=all#order" <if condition="$_REQUEST['status'] eq 'all'"> class="selected"</if>>All(<span class="js_all_order_num">{$all|default=0}</span>)</a>
             </div>
             <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
                 <tr class="thead">
@@ -37,7 +37,7 @@
                     </tr>
                     <else/>
                     <volist name="list" id="vo">
-                        <tr align="center" class="order_row">
+                        <tr align="center" class="order_row" id="order_row_{$vo['id']}">
                             <td>{$vo.orderno}</td>
                             <td>{$vo.addtime}</td>
                             <td align="left">{$vo.delivertime}</td>
@@ -54,7 +54,7 @@
                                 <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
                                 <if condition="$vo['status'] lt 3">
                                     <br/>
-                                    <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}')" class="order_btn cancel">Cancel</a>
+                                    <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}','{$vo[\'orderno\']}')" class="order_btn cancel">Cancel</a>
                                 </if>
                             </td>
                         </tr>
@@ -68,5 +68,28 @@
 </div>
 <div class="clr"></div>
 <include file="Index:footer" />
+<script>
+function cancelOrder(id,orderno) {
+    swal({
+        title: '',
+        text: 'Are you sure you want to cancel the order?',
+        type: 'warning',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes"
+    }, function() {
+        $.post('/order/cancelOrder.html',{orderno:orderno},function(data){
+            if(data.code == 200){
+                $('.js_onging_order_num').html(parseInt($('.js_onging_order_num').html())-1);
+                $('.js_all_order_num').html(parseInt($('.js_all_order_num').html())-1);
+                $('#order_row_'+id).remove();
+                clearpopj(data.message, "success",true);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    });
+};
+</script>
 </body>
 </html>

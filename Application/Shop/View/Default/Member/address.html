@@ -29,7 +29,7 @@
                     <tr> <td colspan="7">not found.</td></tr>
                     <else/>
                     <volist name="list" id="vo">
-                        <tr align="center" class="addr_row order_row">
+                        <tr align="center" class="addr_row order_row" id="addr_row_{$vo['id']}">
                             <td>{$vo.username}</td>
                             <td>{$vo.telephone}</td>
                             <td><if condition="$vo.sex eq 1">Male <else/>Female</if></td>
@@ -37,7 +37,7 @@
                             <td>
                                 <a href="javascript:void(0)" onclick="showModifyAddres('{$vo[\'id\']}');" class="order_btn view">edit</a>
                                 <div style="height: 6px;"></div>
-                                <a href="javascript:void(0)" onclick="delAddr('{$vo[\'id\']}')" class="order_btn cancel">Delelte</a>
+                                <a href="javascript:void(0)" onclick="delAddr('{$vo[\'id\']}')" class="order_btn cancel">Delete</a>
                             </td>
                         </tr>
                     </volist>
@@ -64,16 +64,26 @@
         }
         $('#addressModal iframe').attr('src',url);
         $('.lean_overlay').show();
-        $('#addressModal').show();
+        $('#addressModal').slideDown();
     }
     function delAddr(id){
-        $.post('/member/deleteAddress.html',{id:id},function(data){
-            if(data.code == 200){
-                clearpopj(data.message, "success",true);
-            }else{
-                clearpopj(data.message, "error",true);
-            }
-        })
+        swal({
+            title: '',
+            text: 'Are you sure you want to delete?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+        }, function() {
+            $.post('/member/deleteAddress.html',{id:id},function(data){
+                if(data.code == 200){
+                    $('#addr_row_'+id).remove();
+                    clearpopj(data.message, "success",true,'/member/address.html#address?1');
+                }else{
+                    clearpopj(data.message, "error",true);
+                }
+            })
+        });
     }
 </script>
 </body>

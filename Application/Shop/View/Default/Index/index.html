@@ -18,7 +18,9 @@
             <include file="Index:nav2sub" />
             <div class="bdc">
                 <ul>
-                    {:lbl('banner')}
+                    <volist name="banner" id="vo">
+                        <li><a href="{$vo.picurl}"><img src="__PUBLIC__/{$vo.indexpic}" alt=""/></a></li>
+                    </volist>
                 </ul>
             </div>
             <div class="hd-solid hdc container" style="position: absolute;bottom: 20px;">
@@ -151,44 +153,8 @@
     <include file="Index:footer" />
     <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
 
-   <!-- &lt;!&ndash;图片上传&ndash;&gt;
-    <button onclick="uploadImage();">up</button>
-    <div class=" center" id="upload_pic" style="display: none">
-        <div id="clipArea" style="height: 280px;"><img src="" id="view" alt=""></div>
-        <br/>
-        <input type="file" id="file" class="common_btn"/>
-        <br><button id="clipBtn" type="button" class="common_btn" style="margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;">保存</button>
-    </div>
-    <script type="text/javascript" src="__PUBLIC__/js/iscroll-zoom.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/hammer.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/lrz.all.bundle.js"></script>
-    <script type="text/javascript" src="__PUBLIC__/js/jquery.photoClip.js"></script>-->
 
 <script>
-    function uploadImage(){
-        var clipArea = new bjj.PhotoClip("#clipArea", {
-            size: [200,200],
-            outputSize: [400,400],
-            file: "#file",
-            view: "#view",
-            ok: "#clipBtn",
-            loadStart: function() {
-                console.log("照片读取中");
-            },
-            loadComplete: function() {
-                console.log("照片读取完成");
-            },
-            clipFinish: function(dataURL) {
-                $.post('/common/images/createimg',{'stream':dataURL},function(data){
-                    $('#face').attr('src','/upload'+data.data);
-                    $('#face').attr('face','/upload'+data.data);
-                    closeMask();
-                },'json')
-            }
-        });
-        getMask().maskShow({"tit": "图片","width":380, "cont": "#upload_pic"});
-    }
-
     $(function(){
         $('#cat_menu_list').addClass('index_cate');
         $('#cat_menu_list').removeClass('product_menu');

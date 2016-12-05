@@ -33,21 +33,6 @@
     if(mytableheight>580 || scroll>0){
         //$('.cart_foot_info').css({'position':'fixed', 'bottom': '0','z-index':'999'});
     }
-
-    $('#good_cart input[type=checkbox]').click(function(){
-        alert(1)
-        var flag = 1;
-        $('#good_cart input[type=checkbox]').each(function(){
-            if(!$(this).is(':checked')){
-                flag = 2;
-                $('#checkboxFiveInput').attr('checked',false);
-            }
-        })
-        if(flag==1){
-            $('#checkboxFiveInput').attr('checked',true);
-        }
-    });
-
 </script>
 </body>
 </html>

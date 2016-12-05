@@ -17,7 +17,7 @@
            <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22" <if condition="$user['id']">data-user-id="{$user.id}" style="background: #FFFFFF"</if>>
             <a href="/member/index.html">
                 <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" class="main" alt=""/></div>
-                <div class="fl tc" style="width: 84px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
+                <div class="fl tl" style="width: 90px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
                 <div class="fl">&nbsp;<img class="label" src="__PUBLIC__/Shop/images/dowm_my_account.png" style="position: absolute;right: 10px;top: 18px;;" alt=""/></div>
             </a>
                 <if condition="$user['id']">

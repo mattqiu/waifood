@@ -54,7 +54,9 @@ function addgood(id,event,page){
         clearpopj("Insufficient stock!", "error",true);
         return false;
     }
-
+    if(myfood_array[id]['amount'] >1 && page != 'view'){
+        $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
+    }
     var json = $.toJSON(myfood_array);
     $.cookie($goodKey,json,{
         "path":"/"
@@ -64,14 +66,13 @@ function addgood(id,event,page){
     if(page != 'cart'){
         fly(event, indexpic);
     }
-    if(page == 'cart' || page == 'view'){ //购物车、详情页加减商品，实时显示商品数量
+    if(page == 'cart' ){ //购物车、详情页加减商品，实时显示商品数量
         $('#js_good_num_'+id).val( myfood_array[id]['amount']);
     }
     if(page == 'cart'){
         $('.subtotal_'+id).html('&yen;'+parseInt(myfood_array[id]['amount'])* parseFloat(myfood_array[id]['price']));
     }
 }
-
 
 /**
  * 减少商品
@@ -91,16 +92,20 @@ function prepGood(id,page){
                 }
                 $('#js_good_num_'+id).val(myshop_array[id]['amount']);
             }else{ //没商品数量了
-                if(page =='cart'){
-                    $('#js_goods_'+id).remove();
-                }
-                myshop_array[id]= undefined;
+                    $('#js_goods_'+id+' .good-num-prep').css('color','#eeeeee');
+                    return false;
+                //if(page =='cart'){
+                //    $(         '#js_goods_'+id).remove();
+                //}
+                //myshop_array[id]= undefined;
             }
         }else{
-            if(page =='cart'){
-                $('#js_goods_'+id).remove();
-            }
-            myshop_array[id]= undefined;
+            $('#js_goods_'+id+' .good-num-prep').css('color','#eeeeee');
+            return false;
+            //if(page =='cart'){
+            //    $('#js_goods_'+id).remove();
+            //}
+            //myshop_array[id]= undefined;
         }
     }
     var json = $.toJSON(myshop_array);
@@ -130,6 +135,11 @@ function setGoodNum(id,type){
     }else{
         num = 1;
     }
+    if(num>1){
+        $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
+    }else{
+        $('#js_goods_'+id+' .good-num-prep').css('color','#eeeeee');
+    }
     $('#js_good_num_'+id).val(num);
 }
 
@@ -137,21 +147,33 @@ function setGoodNum(id,type){
 /**
  * 删除购物车指定商品
  */
-function delGood(id){
-    var myshop = $.cookie($goodKey);
-    var myshop_array = {};
-    if(myshop){
-        myshop_array = $.parseJSON(myshop);
-        if(myshop_array[id]){//存在
-            myshop_array[id]= undefined;
+function delGood(id,page){
+    swal({
+        title: '',
+        text: 'Are you sure you want to delete?',
+       type: 'warning',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes"
+       // confirmButtonColor: "#2eb661"
+    }, function() {
+        $('#js_goods_'+id).slideUp();
+        $('.showSweetAlert .cancel').click();
+        var myshop = $.cookie($goodKey);
+        var myshop_array = {};
+        if(myshop){
+            myshop_array = $.parseJSON(myshop);
+            if(myshop_array[id]){//存在
+                myshop_array[id]= undefined;
+            }
         }
-    }
-    var json = $.toJSON(myshop_array);
-    $.cookie($goodKey,json,{
-        "path":"/"
+        var json = $.toJSON(myshop_array);
+        $.cookie($goodKey,json,{
+            "path":"/"
+        });
+        loadGood(page);
     });
-    loadGood('cart');
-    $('#js_goods_'+id).remove();
+
 }
 
 
@@ -166,21 +188,23 @@ function loadGood(page){
                 $html+='<div class="cart_good_item" data-id="'+obj[i]['id']+'">';
                 $html+='<img src="'+obj[i]['indexpic']+'" class="cgood_img" alt=""/>';
                 $html+='<div class="cgood_info">';
-                $html+='<div class="cg_title">'+obj[i]['name']+'</div>';
+                $html+='<div class="cg_title"><a href="/product/view.html?id='+obj[i]['id']+'">'+obj[i]['name']+'</a></div>';
                 $html+='<div class="cg_info"><span class="price">&yen;'+obj[i]['price']+'</span> x'+obj[i]['amount']+'</div>';
                 $html+='</div>';
                 $html+='<div class="clr"></div>';
                 $html+='</div>';
                 amount+=parseInt(obj[i]['amount']);
                 totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                if(obj[i]['amount'] <2){
+                    $('#js_goods_'+obj[i]['id'] +' .good-num-prep').css('color','#eeeeee');
+                }
             }
             $('#CartNo').html(amount);
             $('.js_good_total_num').html(amount);
             $('.good_total').html('&yen;'+totalMoney);
             $('#cart_good_box').html($html);
             if(page == 'cart'){
-                $('#totalAmount').html('&yen;'+totalMoney );//总金额
-                $('#quantity').html(amount);
+                getGoodCartInfo();
             }
         }
 
@@ -191,19 +215,25 @@ function fly(event,indexpic){
     var position = $("#CartNo").position(),
         offset = $("#CartNo").offset(),
         flyer = $('<img width="80" class="u-flyer" src="'+indexpic+'">');
+
+    if($(window).scrollTop()>195){
+        var toppx = position.top;
+    }else {
+        var toppx = offset.top;
+    }
     flyer.fly({
         start: {
-            left:  event.clientX-50,
-            top: event.clientY-250
+            left:  event.clientX,
+            top: event.clientY
         },
         end: {
             left: offset.left,
-            top: position.top-100,
+            top: toppx,
             width: 0,
             height: 0
         },
         onEnd: function(){
-            $('.u-flyer').remove();
+            flyer.remove();
             //$('#cart_box').slideDown();
             // setTimeout(function(){$('#cart_box').slideUp()},2000 )
         }
@@ -261,22 +291,6 @@ function getCartGoodStock($objPage){
 };
 
 function buynow(id){
-    //var key = 'settlement',
-    //    settlegood ={};
-    //if (myfood_array) {
-    //    $.cookie(key, "", {"path": "/"});
-    //    $('#good_cart input[type=checkbox]').each(function(i) {
-    //        if($(this).is(':checked')){
-    //            settlegood[$(this).val()] = myfood_array[$(this).val()];
-    //        }
-    //    });
-    //}
-    //var json = $.toJSON(settlegood);
-    //$.cookie(key,json,{
-    //    "path":"/"
-    //});
-    //window.location.href='/index/cashier.html';
-
     var key = 'settlement',
         id = $('#js_goods_'+id).data("id"),
         price = $('#js_goods_'+id).data("price"),
@@ -322,18 +336,22 @@ function getCartData(){
                     $html += '</td>';
                     $html += '<td align="center">' + obj[i]['id'] + '</td>';
                     $html += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
-                    $html += '<img alt="{$vo.name}" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle">' + obj[i]['name'] + '</span></a>';
+                    $html += '<img alt="{$vo.name}" src="' + obj[i]['indexpic'] + '" width="60" height="60" style="top: 0" /><span class="goodtitle"  style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     $html += '</td>';
                     $html += '<td align="center"><span class="jiage">&yen;' + obj[i]['price'] + '</span></td>';
                     $html += '<td align="center">';
                     $html += '<div class="quantity">';
-                    $html += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
-                    $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
+                    if(obj[i]['amount']>1){
+                        $html += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                    }else{
+                        $html += '<span class="good-num-prep" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                    }
+                    $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" onblur="cartSetGoodNum('+obj[i]['id']+');" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
                     $html += '<span class="good-num-add" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
                     $html += '</div>';
                     $html += '</td>';
                     $html += '<td align="center" class="fc_green subtotal_' + obj[i]['id'] + '">&yen;' + parseFloat(obj[i]['price']) * parseFloat(obj[i]['amount']) + '</td>';
-                    $html += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ')">delete</a></td>';
+                    $html += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ',\'cart\')">delete</a></td>';
                     $html += '</tr>';
                     //下架的不计
                     totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
@@ -345,18 +363,22 @@ function getCartData(){
                     outofstock += '</td>';
                     outofstock += '<td align="center">' + obj[i]['id'] + '</td>';
                     outofstock += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
-                    outofstock += '<img alt="{$vo.name}" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle">' + obj[i]['name'] + '</span></a>';
+                    outofstock += '<img alt="{$vo.name}" style="top: 0;" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle" style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     outofstock += '</td>';
                     outofstock += '<td align="center"><span class="jiage">&yen;' + obj[i]['price'] + '</span></td>';
                     outofstock += '<td align="center">';
                     outofstock += '<div class="quantity">';
-                    outofstock += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                    if(obj[i]['amount']>1){
+                        outofstock += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                    }else{
+                        outofstock += '<span class="good-num-prep" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                    }
                     outofstock += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
                     outofstock += '<span class="good-num-add" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
                     outofstock += '</div>';
                     outofstock += '</td>';
                     outofstock += '<td align="center" class="fc_green subtotal_' + obj[i]['id'] + '">&yen;' + parseFloat(obj[i]['price']) * parseFloat(obj[i]['amount']) + '</td>';
-                    outofstock += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ')">delete</a></td>';
+                    outofstock += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ',\'cart\')">delete</a></td>';
                     outofstock += '</tr>';
                 }
             }
@@ -372,6 +394,33 @@ function getCartData(){
     $('#good_cart').addClass('hide');
     $('#empty_cart_box').removeClass('hide');
 }
+
+function cartSetGoodNum(id){
+    var number = parseInt($('#js_good_num_'+id).val()),myfood_array={};
+    if(number>0 && id >0){
+        var myfood = $.cookie($goodKey);
+        if(myfood){
+             myfood_array = $.parseJSON(myfood);
+            if(myfood_array && myfood_array[id]){
+                if(number > myfood_array[id]['stock']){ //如果输入的数字大于库存，默认库存
+                    number = parseInt(myfood_array[id]['stock']);
+                    $('#js_good_num_'+id).val(number);
+                }
+                myfood_array[id]['amount'] = number;
+                var json = $.toJSON(myfood_array);
+                $.cookie($goodKey,json,{
+                    "path":"/"
+                });
+                if(number>1){
+                    $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
+                }
+                getGoodCartInfo();
+            }
+        }
+    }
+}
+
+
 //购物车全选
 function selectAll(){
     if($('#checkboxFiveInput').is(':checked')){
@@ -386,17 +435,29 @@ function selectAll(){
     }
 }
 
-function getGoodCartInfo(){
-    var totalMoney = 0,totalNum= 0;
-    $('#good_cart input[type=checkbox]').each(function() {
-        var id =$(this).val();
-        if($(this).is(':checked')){
-            if(id>1){
-                totalMoney+=parseInt($('#js_good_num_'+id).val())*parseFloat($('#js_goods_'+id).data('price'));
-            }
-            totalNum+=parseInt($('#js_good_num_'+id).val());
+function getGoodCartInfo(page){
+    var totalMoney = 0,totalNum= 0,myfood_array={};
+    var myfood = $.cookie($goodKey);
+    if(myfood){
+        myfood_array = $.parseJSON(myfood);
+        if(myfood_array){
+            $('#good_cart input[type=checkbox]').each(function() {
+                var id =$(this).val();
+                if($(this).is(':checked')){
+                    if(id>1 && myfood_array[id]){
+                        var goodTotalMoney = parseInt(myfood_array[id]['amount']) * parseFloat(myfood_array[id]['price'])
+                        totalMoney+=goodTotalMoney;
+                        totalNum+=parseInt(myfood_array[id]['amount']);
+                        if(!page){
+                            $('#js_goods_'+id+' .subtotal_'+id).html('&yen;'+goodTotalMoney);
+                        }
+                    }
+                }
+            });
         }
-    });
+    }
+    console.log(totalMoney)
+    console.log(totalNum)
     $('#totalAmount').html('&yen;'+totalMoney);//总金额
     $('#quantity').html(totalNum);
 }

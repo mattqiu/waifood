@@ -125,6 +125,7 @@ function clearpop(txt,time){
     setTimeout(function(){$("#clearpop").hide();},time);
 }
 
+
 //自动消失的弹出提示框
 function clearpopj(txt,status,hide,url,time){
     swal("", txt, status);

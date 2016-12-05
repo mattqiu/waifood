@@ -5,9 +5,8 @@
 <title>{$title}</title>
 <include file="Index:header" />
 </head>
-<body data-address_id="{$address.id}">
-<div class="lean_overlay" data-show="1"></div>
-    <div id="address-box" class="leanModal addressModal" >
+<body data-address_id="{$address.id}" class="bg_white">
+    <div id="address-box" >
         <input type="hidden" value="{$address.id}" name="id"/>
         <div class="form-section consingee">
             <label class="input-label" for="username">Consingee</label>
@@ -76,7 +75,7 @@
     <script>
         function closePanl(){
             $("body",parent.document).find('.lean_overlay').hide();
-            $("body",parent.document).find('#addressModal').hide();
+            $("body",parent.document).find('#addressModal').slideUp();
         }
 
         $(function(){

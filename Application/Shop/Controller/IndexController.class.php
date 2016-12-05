@@ -2,6 +2,7 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller;
 
+use Admin\Model\BannerModel;
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
@@ -16,6 +17,8 @@ class IndexController extends BaseController
         $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
         $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
         $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
+        $banner = BannerModel::getBannerByType(BannerModel::PC_BANNER);// huo
+        $this->assign('banner',$banner);
         $this->assign('catShow',true);
         $this->assign('recommend',$recommend);
         $this->assign('newArrival',$newArrival);
@@ -42,8 +45,10 @@ class IndexController extends BaseController
             $this->redirect('/login/index');
         }
         if($dateData = DateModel::getFutureDay(27)){
-            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
             $this->assign ( 'dateData',$dateData);
+            $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
+            $this->assign ( 'hours', date('H'));
+            $this->assign ( 'min', date('i'));
         }
 
         $times = str2arr(lbl('delivertime'),"\r\n");//配送时段

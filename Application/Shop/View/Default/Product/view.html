@@ -68,7 +68,7 @@
                     </if>
                 </p>
                 <div class="quantity">
-                    Quantity: <span class="good-num-prep" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
+                    Quantity: <span class="good-num-prep fc_eee" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
                     <input type="text" id="js_good_num_{$good.id}" class="tc good_num" value="1"/>
                     <span class="good-num-add"  onclick="setGoodNum('{$good.id}','add');">+</span>
                 </div>
@@ -87,49 +87,33 @@
             </div>
         </div>
     </if>
-    <div class="good_desc_title good_desc"> You might like</div>
-    <ul class=" good-contents  mightlike"><br/>
-        <volist name=":get_product_lists($good['pid'],4,2)" id="vo">
-            <li class="goods">
-                <div style="width: 262px;margin: 0 auto;" class="fl">
-                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
-                    <div class="good-name">
-                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                        <div class="good_item_info">
-                            <div class="good_info fl">
-                                Unit: {$vo.unit}<br>
-                                Origin: {$vo.origin}<br>
-                                <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+    <php>$mightlike = get_product_lists($good['pid'],4,2);</php>
+    <if condition="$mightlike">
+        <div class="good_desc_title good_desc"> You might like</div>
+        <ul class=" good-contents  mightlike">
+            <volist name="mightlike" id="vo">
+                <li class="goods" <if condition="$i lt 5">style="margin-top:15px;"</if> id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                    <div style="width: 262px;margin: 0 auto;" class="fl">
+                        <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                        <div class="good-name">
+                            <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                            <div class="good_item_info">
+                                <div class="good_info fl">
+                                    Unit: {$vo.unit}<br>
+                                    Origin: {$vo.origin}<br>
+                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                    <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                </div>
+                                <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event,'view')"></div>
                             </div>
-                            <div class="good_shop_cart fr"></div>
                         </div>
                     </div>
-                </div>
-            </li>
-        </volist> <volist name=":get_product_lists($good['pid'],4,2)" id="vo">
-            <li class="goods">
-                <div style="width: 294px;margin: 0 auto;" class="fl">
-                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
-                    <div class="good-name">
-                        <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                        <div class="good_item_info">
-                            <div class="good_info fl">
-                                Unit: {$vo.unit}<br>
-                                Origin: {$vo.origin}<br>
-                                <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
-                                <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
-                            </div>
-                            <div class="good_shop_cart fr"></div>
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </volist>
-
-        <div class="clr"></div>
-    </ul>
-
+                </li>
+            </volist>
+            <div class="clr"></div>
+        </ul>
+    </if>
     <div class="clr"></div>
 </div>
 

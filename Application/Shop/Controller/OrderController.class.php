@@ -15,25 +15,19 @@ class OrderController extends AuthController
      * 
      * @param string $orderno            
      */
-    public function cancelOrder($orderno = '')
+    public function cancelOrder()
     {
+        $orderno = I('orderno');
         $where['orderno'] = $orderno;
-        $where['status'] = array(
-            'in',
-            array(
-                0,
-                1
-            )
-        ); // 状态为：提交和已确认
-                                                    // $where ['pay'] = 0;
+        $where['status'] = array( 'in', array( 0, 1)); // 状态为：提交和已确认
         $where['userid'] = get_userid();
-        $db = M('order')->where($where)->find();
-        if (! $db == false) {
+        $order = M('order')->where($where)->find();
+        if (! $order == false) {
             M('order')->where($where)->setField('status', 4);
             set_order_onoff($orderno,1);
-            $this->success('订单取消成功！');
+            apiReturn(CodeModel::CORRECT,'Order cancellation is successful!');
         } else {
-            $this->error('对不起，该订单无法取消！');
+            apiReturn(CodeModel::ERROR,'Sorry, the order cannot be cancelled!');
         }
     }
 

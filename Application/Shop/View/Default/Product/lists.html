@@ -18,9 +18,9 @@
             <div class="cat_obj_sx">
                 <div  class="cat_name fl">Brand:</div>
                 <div  class="cat_val fl">
-                    <a href="{:set_url('brand')}" <if condition="!$brand"> class="selected"</if>>All</a>
+                    <a href="{:set_url('brand')}" <if condition="!$_REQUEST['brand']"> class="selected"</if>>All</a>
                     <volist name="brandlist" id="vo">
-                        <a href="{:set_url('brand',$vo)}" <if condition="(parse_param(I('get.brand'),true) eq strtolower($vo))" >class="selected"</if> >
+                        <a href="{:set_url('brand',$vo)}"<if condition="(parse_param($_REQUEST['brand'],true) eq strtolower($vo))" >class="selected"</if> >
                         {$vo}
                         </a>
                     </volist>
@@ -30,7 +30,7 @@
             <div class="cat_obj_sx cat_dashed">
                 <div class="cat_name fl">Origin:</div>
                 <div class="cat_val fl">
-                    <a href="{:set_url('origin')}" <if condition="!$origin"> class="selected"</if>>All</a>
+                    <a href="{:set_url('origin')}" <if condition="!$_REQUEST['origin']"> class="selected"</if>>All</a>
                     <volist name="originlist" id="vo">
                         <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
                         {$vo}
@@ -42,11 +42,11 @@
         <else/>
             <div class="path"><a href="/">Home</a> &gt;
                 <if condition="$_REQUEST['group'] eq 8">
-                    <a href="/Product/lists/id/483.html">New Arrival</a>
+                    <a href="javascript:void (0);">New Arrival</a>
                     <elseif condition="$_REQUEST['group'] eq 9"/>
-                    <a href="/Product/lists/id/483.html">Promotion</a>
+                    <a href="javascript:void (0);">Promotion</a>
                     <elseif condition="$_REQUEST['group'] eq 11"/>
-                    <a href="/Product/lists/id/483.html">Recommend</a>
+                    <a href="javascript:void (0);">Recommend</a>
                 </if>
               </div>
         </if>
@@ -105,7 +105,7 @@
                                     <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                 </div>
                                 <div class="quantity hide">
-                                     <span class="good-num-prep" onclick="setGoodNum('{$vo.id}','cat');">-</span> <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" value="1"/><span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
+                                     <span class="fc_eee good-num-prep " onclick="setGoodNum('{$vo.id}','cat');">-</span> <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" value="1"/><span class="good-num-add" onclick="setGoodNum('{$vo.id}','add');">+</span>
                                 </div>
                             </div>
                             <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event,'list')"></div>

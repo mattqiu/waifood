@@ -60,6 +60,7 @@
         if($('#cart_box').css('display') =='none') {
             if($('#cart_good_box').children().length>0){
                 $('#cart_box .goodcheckout').attr('onclick',"window.location.href='/index/cart.html'");
+                $('.shopping .Shopping_text').attr('onclick',"window.location.href='/index/cart.html'");
             }
             $('.shopping_cart').attr('src', CONST_PUBLIC + '/Shop/images/cart_hover.png');
             $(this).addClass('ongoodcart');

@@ -31,10 +31,18 @@
                 <div class="order_item">
                     <div class="order_item_title">Payment and Delivery date</div>
                     <div class="order_address" style=" line-height: 25px;">
-                        Payment： <if condition="$vo['paymethod'] eq 2">Paypal<else/> Cash on delivery</if>
-                        <if condition="$vo['pay'] eq 0">
+
+                        Payment：<if condition="$order['paymethod'] eq 4">
+                            Cash on delivery
+                            <elseif condition="$order['paymethod'] eq 2"/>
+                            Paypal
+                        </if>
+
+                        <if condition="$order['pay'] eq 0">
                             <button class="addtocart cart_btn" style="margin-left: 35px;width: 80px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="paynow();" >Pay Now</button>
-                            </if>
+                        <else/>
+                            <span style="margin-left: 25px; color: #2eb661">Paid</span>
+                        </if>
                         <div style="height: 7px;"></div>
                         Delivery date：{$order.delivertime}
                     </div>
@@ -99,7 +107,7 @@
         <div class="clr"></div>
     </div>
 </div>
-<div id="paybox" style="text-align: center;line-height: 30px;" >
+<div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
     <label for="paypal" class="fl"><input type="radio" id="paypal" name="pay" checked/>&nbsp;Paypal</label><br/>
     <br/>
     <br/>

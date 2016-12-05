@@ -2,6 +2,8 @@
 
 namespace Admin\Controller;
 
+use Admin\Model\BannerModel;
+use Common\Model\CodeModel;
 use Think\Db;
 
 class SystemController extends BaseController {
@@ -623,6 +625,35 @@ class SystemController extends BaseController {
 			$this->error ( "删除失败" );
 		}
 	}
+
+    public function banner(){
+        $type = I('type')?I('type'):BannerModel::PC_BANNER;
+        $banner = BannerModel::getBannerByType($type,'all');
+        $this->assign ( "banner", $banner );
+        $this->display ();
+    }
+
+    public function modifyBanner(){
+        $id = I('post.id');
+        $data = array_filter($_POST);// 去除空值
+        if(!empty($data)){
+            if(regex($id,'number')){
+                if(BannerModel::modifyBanner($id,$data)){
+                    apiReturn(CodeModel::CORRECT,'编辑成功');
+                }else{
+                    apiReturn(CodeModel::ERROR,'编辑失败');
+                }
+            }else{
+                if(BannerModel::addBanner($data)){
+                    apiReturn(CodeModel::CORRECT,'添加成功');
+                }else{
+                    apiReturn(CodeModel::ERROR,'添加失败');
+                }
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'操作失败，请刷新重试');
+        }
+    }
 }
 
 // 数据导出模型
@@ -836,7 +867,6 @@ class Database {
 				$size 
 		);
 	}
-	
 	/**
 	 * 析构方法，用于关闭文件资源
 	 */

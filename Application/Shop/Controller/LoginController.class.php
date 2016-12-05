@@ -46,7 +46,7 @@ class LoginController extends Controller {
                 session('backurl',false);
                 apiReturn(CodeModel::CORRECT,'Login successful',$url);
             }
-            apiReturn(CodeModel::CORRECT,'Sorry,Login successful','/');
+            apiReturn(CodeModel::CORRECT,'Login successful','/');
         }else{
             apiReturn(CodeModel::ERROR,'Sorry,login failed');
         }

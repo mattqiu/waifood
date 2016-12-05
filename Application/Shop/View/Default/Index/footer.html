@@ -12,7 +12,7 @@
                         <span class="fitem-titel">GREEN</span>
                         <div class=" fitem-content">
                             The Earth, our home, the one and only in the universe, we will do all what we can do to protect the earth and the en-vironment we live in. Our pr-omise...
-                            <div class="more"> <a href="">More</a></div>
+                            <div class="more"> <a href="/content/view/id/3265.html">More</a></div>
                         </div>
                     </div>
                 </li>
@@ -31,7 +31,7 @@
                             Hopeful Heart for ill and poor
                             children from the mountainous
                             area of western China...
-                            <div class="more"> <a href="">More</a></div>
+                            <div class="more"> <a href="/content/view/id/3265.html">More</a></div>
                         </div>
                     </div>
                 </li>
@@ -50,7 +50,7 @@
                             when you want, you can get high
                             quality foods just by simply
                             clicking your mouse...
-                            <div class="more"> <a href="">More</a></div>
+                            <div class="more"> <a href="/content/view/id/3265.html">More</a></div>
                         </div>
                     </div>
                 </li>
@@ -69,7 +69,7 @@
                             home, all foods are authentic in
                             good quality, we don't serve the
                             localized western foods...
-                            <div class="more"> <a href="">More</a></div>
+                            <div class="more"> <a href="/content/view/id/3265.html">More</a></div>
                         </div>
                     </div>
                 </li>
@@ -130,20 +130,22 @@
         </div>
         <div class="clr"></div>
     </div>
-        <div class="partnerShip">
-            <div class="container">
-                <span class="foot-list-p">PARTNER SHIP:</span>
-                <ul style="margin-left: 150px;margin-top: -10px;" id="partner">
-                    <li style="height: 140px;width: 140px;border: 2px solid #e0e0e0;border-radius: 140px;overflow: hidden" >
-                        <a href="">
-                            <img src="__PUBLIC__/images/mmexport1480580358096.jpg" class="plogo" width="120" style="position: relative;left: 7px;;top: 38px;"  id="dd" alt=""/>
-                            <img src="__PUBLIC__/images/mmexport1480580367011.jpg" class="pqr" width="97" style="position: relative;left: 20px;;top: 89px;" id="qr" alt=""/>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+
+    <div class="partnerShip">
+        <div class="container">
+            <span class="foot-list-p">PARTNERSHIP</span>
+            <ul style="margin-left: 120px;margin-top: -15px; " id="partner">
+                <li style="width:120px;position: relative;">
+                    <a href="" style="width:120px;position: relative; border: 1px solid #e0e0e0;padding: 3px 8px; overflow: hidden;display:block" >
+                        <img src="__PUBLIC__/images/mmexport1480580358096.jpg" class="plogo" width="120" id="dd" alt=""/>
+                    </a>
+                    <div class="pqr_box hide" style="position: absolute;z-index: 0; width: 122px; top:-65px;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/images/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
+                </li>
+            </ul>
         </div>
-        <div class="clr"></div>
+    </div>
+    <div class="clr"></div>
+
     <div class="container">
         <div class="foot-no">{:lbl('copyright')}</div>
         <div class="clr"></div>
@@ -153,21 +155,22 @@
     $(function () {
 
         var moveHeight = 258,
-                moveTime = 200,
-                curMove = null;
+            moveTime = 200,
+            curMove = null;
         $('#partner li').hover(function (e){
+            $('#partner .pqr_box').show()
             var curLi = $(this);
             curMove = setTimeout(function (){
-                curLi.find('.plogo').animate({ top: '-53px' }, moveTime);
-                curLi.find('.pqr').animate({ top: '-33px' }, moveTime);
+                curLi.find('.pqr_box').animate({ top: '-120px' }, moveTime,function(){
+
+                });
             }, 200);
         },function(e){
             clearTimeout(curMove);
-            $(this).find('.plogo').animate({ top: '40px' }, moveTime);
-            $(this).find('.pqr').animate({ top: '90px' }, moveTime);
-
+            $(this).find('.pqr_box').animate({ top: '-65px' }, moveTime,function(){
+                $('#partner .pqr_box').hide()
+            });
         });
-
 
         $('.caselist li').hover(function (e){
             var curLi = $(this);

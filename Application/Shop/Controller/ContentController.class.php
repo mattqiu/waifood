@@ -9,12 +9,8 @@ class ContentController extends BaseController {
     	$where['sortpath']= array('like','%,1,%');
 		$where ['status'] = 1;
     	$where['id']=$id;
-		$content = M ( "content" )->where ( $where )->find (  );
+		$content = M ( "content" )->where ( $where )->find ();
 		if ($content) {
-    		$url = $content['linkurl'];
-    		if(!isN($url)){
-    			header("location:$url");
-    		}
 			$this->assign ( "content", $content );
 			// 2. 栏目信息
 			$cateinfo = M ( 'channel' )->where ( 'id=' . $content ['pid'] )->find ();
@@ -46,7 +42,6 @@ class ContentController extends BaseController {
 				$this->assign('prev','<a href="'.U('Content/view','id='.$rs['id']).'">'.$rs['title'].'</a>');
 			}else{
 				$this->assign('prev','none');
-				
 			}
 			//下一篇
 			$where = array ();
@@ -60,21 +55,17 @@ class ContentController extends BaseController {
 				$this->assign('next','<a href="'.U('Content/view','id='.$rs['id']).'">'.$rs['title'].'</a>');
 			}else{
 				$this->assign('next','none');
-				
 			}
-			
-			
 			// 赋值
 			$this->assign ( 'pid', $cateinfo ['id'] );
 			$this->assign ( 'channel', $channel );
 			$this->assign ( 'cateinfo', $cateinfo );
 			$this->assign ( 'channelname', $cateinfo ['name'] );
-			
 			$this->assign ( 'title', $content ['title'] );
 			$this->assign ( 'keywords', $content ['keywords'] );
 			$this->assign ( 'description', $content ['description'] );
 		} else {
-			$this->error ( 'Sorry,target not exists.' );
+            $this->error ('Sorry,target not exists.',$_SERVER['HTTP_REFERER'] );
 		}
 		$this->display ('Index:consult');
 	}
@@ -86,22 +77,16 @@ class ContentController extends BaseController {
 		// 输出当前Content列表
 		$where = array ();
 		if (isset ( $id )) {
-			$where ['sortpath'] = array (
-					'like',
-					'%,' . $id . ',%' 
-			);
+			$where ['sortpath'] = array ('like','%,' . $id . ',%');
 		}
-		
 		// 分页
 		$p = intval ( I ( 'p' ) );
 		$p = $p ? $p : 1;
 		$row = C ( 'VAR_PAGESIZE' );
-		
 		$rs = M ( "content" )->where ( $where )->order ( 'sort desc' )->page ( $p, $row );
 		$list = $rs->select ();
 		$this->assign ( "list", $list );
 		$count = $rs->where ( $where )->count ();
-		
 		if ($count > $row) {
 			$page = new \Think\Page ( $count, $row );
 			$page->setConfig ( 'theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%' );
@@ -109,7 +94,6 @@ class ContentController extends BaseController {
 			$page->setConfig ( 'next', 'Next' );
 			$this->assign ( 'page', $page->show () );
 		}
-		
 		if ($count == 1) {
 			$this->redirect ( 'Content/view?id=' . $list [0] ['id'] );
 			exit ();
@@ -123,15 +107,8 @@ class ContentController extends BaseController {
 			
 		$where = array ();
 		$where ['status'] = 1;
-		$where ['id'] = array (
-				'neq',
-				$id 
-		);
-		$where ['sortpath'] = array (
-				'like',
-				'%,' . $id . ',%' 
-		);
-		
+		$where ['id'] = array ('neq',$id );
+		$where ['sortpath'] = array ('like',	'%,' . $id . ',%' );
 		// 取下级栏目列表
 		$channel = M ( 'channel' )->where ( $where )->order ( 'sort asc' )->select ();
 		$this->assign ( 'fathername', $cateinfo ['name'] );

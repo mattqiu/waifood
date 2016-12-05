@@ -19,8 +19,8 @@
             <div class="item_title ">Receiving information </div>
             <div class='delivery_address'>
                 <volist name="address" id="vo">
-                    <div class="addrs <if condition='$vo.isdefault eq 1'>selected_addr</if>">
-                        <div class="fl addr-sel"><input type="radio" name="address"  data-cityname="{$vo.cityname}"  value="{$vo.id}" <if condition="$vo['isdefault'] eq 1">checked<elseif condition="$i eq 1"/></if>/></div>
+                    <div class="addrs <if condition='$vo.isdefault eq 1 || $i eq 1'>selected_addr</if>">
+                        <div class="fl addr-sel"><input type="radio" name="address"  data-cityname="{$vo.cityname}"  value="{$vo.id}" <if condition="$vo['isdefault'] eq 1">checked<elseif condition="$i eq 1"/>checked</if>/></div>
                         <div class="fr addr">
                             {$vo.username}&nbsp;({$vo.telephone})&nbsp;{$vo.address}&nbsp;{$vo.cityname}
                             <if condition="$vo['isdefault'] eq 1">
@@ -98,7 +98,6 @@
                                         </dt>
                                         <volist name="dateData" id="vo" >
                                             <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
-
                                                 <dd data-isholiday="{$vo.isholiday}" <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>{$vo.week} <br />{$vo.date}</dd>
                                             </if>
                                         </volist>
@@ -109,7 +108,32 @@
                                             <dt class="time">{$vo}</dt>
                                             <volist name="dateData" id="de" key="y">
                                                 <if condition="$y gt ($k)*7 and $y elt ($k+1)*7">
-                                                    <dd  data-date="{$de.time}" data-time="{$vo}" value="{$de.time} {$vo}" <if condition="$de['isholiday'] eq 1"> class='isholiday_c'<else/>class="js_time"</if>>
+                                                    <dd  data-date="{$de.time}" data-time="{$vo}" value="{$de.time} {$vo}"
+                                                         <if condition="$de['isholiday'] eq 1"> class='isholiday_c'
+                                                             <elseif condition="$y eq 1"/>
+                                                             <?php
+                                                           $date1 = explode('-',$vo);
+                                                           $date2 = explode(':',$date1[0]);
+                                                             if(15 > $hours && 15>$date2[0]){ //15点以前,
+                                                                         //当前时间所在的时间段开始30分钟内可以选择 (例:当前时间:14:30;可选14:00-16:00)
+                                                                         if(($hours>intval($date2[0])) || ($hours == intval($date2[0]) && $min > $beyond)){
+                                                                      ?>
+                                                                class='isholiday_c'
+                                                                    <?php
+                                                                 }else{
+                                                            ?>
+                                                                    class="js_time"
+                                                                     <?php
+                                                              }
+                                                            }else if(($hours>=intval($date2[0])) || ((intval($date2[0])-1) == $hours &&  $min > $beyond )){
+                                                                       ?> class='isholiday_c'
+                                                                    <?php
+                                                              }else{
+                                                            ?>class="js_time"
+                                                                    <?php
+                                                              }
+                                                           ?>
+                                                             <else/> class="js_time"</if> >
                                                     </dd>
                                                 </if>
                                             </volist>
@@ -147,7 +171,7 @@
 </div>
 
 <script>
-    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"leftLoop",vis:1,scroll:1});//PROMOTION轮播
+    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"leftLoop",vis:1,scroll:1});//配送时间切换
     $('.delivery_address .addrs input').click(function(){
         $('.delivery_address .addrs ').removeClass('selected_addr');
         $(this).parent().parent().addClass('selected_addr');
@@ -166,7 +190,7 @@
         }
         $('#addressModal iframe').attr('src',url);
         $('.lean_overlay').show();
-        $('#addressModal').show();
+        $('#addressModal').slideDown();
     }
     //关闭添加修改地址弹出框
     $('.lean_overlay').click(function(){
@@ -174,22 +198,31 @@
         $('#addressModal').hide();
     })
 
-    window.deliverydate = new Object();
+    window.deliverydate = new Array();
     var data ='',time ='';
+    var $day=0;
     $('.scroll-item-content .js_time').click(function(){
         if($(this).hasClass('selected_time')){
             $(this).removeClass('selected_time');
             deliverydate[$(this).data('date')].shift($(this).data('time'));
             if(deliverydate[$(this).data('date')].length<1){
                 deliverydate.shift($(this).data('date'));
+                $day--;
             }
         }else{
             if(!deliverydate[$(this).data('date')]){
+                if($day>=2){
+                    clearpopj('Can choose only two days','error',true);
+                    return false;
+                }
+                $day++;
                 deliverydate[$(this).data('date')] = new Array()
             }
             deliverydate[$(this).data('date')].push($(this).data('time'))
             $(this).addClass('selected_time');
         }
+
+        console.log($day)
     })
 
 </script>

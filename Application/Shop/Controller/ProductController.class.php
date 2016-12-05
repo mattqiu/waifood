@@ -26,6 +26,8 @@ class ProductController extends BaseController {
             $list  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
         }else{
             $id = I('id');
+            $brand = I('brand');
+            $origin = I('origin');
             $keyword=parse_param($_REQUEST['keyword'],true);
             $where = array ();
             $where ['status'] = 1;
@@ -38,6 +40,16 @@ class ProductController extends BaseController {
              //   $this->addKeyword($keyword);
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
+            }
+            //品牌
+            if(!isN($brand)){
+                $brand = parse_param($brand,true);
+                $where['brand']=$brand;
+            }
+            //品牌
+            if(!isN($origin)){
+                $origin = parse_param($origin,true);
+                $where['origin']=$origin;
             }
 
             $count = M ("content")->where($where )->count();
