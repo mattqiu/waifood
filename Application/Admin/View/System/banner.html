@@ -3,9 +3,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>参数设置</title>
-    <include file="Index:header" />
-    <!--<script src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>-->
-
+    <script>
+        var APP_PATH="__APP__";
+        var CONST_PUBLIC="__PUBLIC__";
+    </script>
+    <js href="__PUBLIC__/js/jquery.2.2.1.min.js,__PUBLIC__/js/sweetalert.min.js,__PUBLIC__/js/common.js" />
+    <css href="__PUBLIC__/Admin/images/style.css,__PUBLIC__/css/sweetalert.css,__PUBLIC__/css/common.css" />
 </head>
 <body>
     <div style="width: 100%;height: 40px;line-height: 40px; border-top: 1px solid #cccccc;border-bottom: 1px solid #cccccc " class="tc">【 banner设置 】</div>
@@ -34,7 +37,7 @@
                     <td><if condition="$vo['status'] eq 1">正常<else/>禁止</if></td>
                 <td style="text-align: center">
                         <a href="JavaScript:uploadImage('{$vo.id}');" class="underline">编辑</a>
-                        <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">删除</a>
+                        <a href="javascript:delBanner('{$vo.id}');" class="underline">删除</a>
                     </td>
                 </tr>
             </volist>
@@ -57,7 +60,7 @@
             <label for="jz"><input type="radio" name="status" value="2" class="jz" id="jz"/>禁止</label><br/>
         </div>
         <input type="file" id="file" class="common_btn"/>
-        <br><button id="clipBtn" type="button" class="common_btn" style="margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;" onclick="modifyBanner();">保存</button>
+        <br><button id="clipBtn" type="button" class="common_btn" style="margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;" >保存</button>
     </div>
 
 
@@ -75,6 +78,7 @@
             $('#upload_pic input[name=id]').val(id);
             $('#upload_pic input[name=picurl]').val($('#banner_'+id).data('picurl'));
             $('#upload_pic input[name=info]').val($('#banner_'+id).data('info'));
+
             if($('#banner_'+id).data('type') == 1){
                 $('#upload_pic #pc').attr('checked',true);
             }else{
@@ -86,6 +90,11 @@
                 $('#upload_pic .jz').attr('checked',true);
             }
         }else{
+            if(getUrlParam('type')== 1){
+                $('#upload_pic #pc').attr('checked',true);
+            }else{
+                $('#upload_pic #wx').attr('checked',true);
+            }
             $('#clipArea img').attr('src','');
             $('#upload_pic input[name=indexpic]').val('');
         }
@@ -114,6 +123,18 @@
         getMask().maskShow({"tit": "上传banner图","width":450, "cont": "#upload_pic"});
     }
 
+    function delBanner(id){
+        if(id>0){
+            $.post('/admin/system/delBanner.html',{id:id},function(data){
+                if(data.code == 200){
+                    clearpopj(data.message,'success',true,'self');
+                }else{
+                    clearpopj(data.message,'error',true);
+                }
+            })
+        }
+    }
+
    function modifyBanner(){
        var indexpic = $('#upload_pic input[name=indexpic]').val(),
            id = $('#upload_pic input[name=id]').val(),
@@ -123,14 +144,13 @@
            status = $('#upload_pic input[name=status]:checked').val();
        $.post('/admin/system/modifyBanner.html',{indexpic:indexpic,picurl:picurl,info:info,id:id,type:type,status:status},function(data){
            if(data.code == 200){
-              // closeMask();
-               clearpopj(data.message,'success',true);
+               closeMask();
+               clearpopj(data.message,'success',true,'self');
            }else{
                clearpopj(data.message,'error',true);
            }
        })
    }
-   // uploadImage()
 </script>
 </body>
 </html>

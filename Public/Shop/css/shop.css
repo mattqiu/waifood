@@ -309,7 +309,7 @@ fieldset,img { border: none;}
 .wechat_qr{margin-top: 40px;margin-left:35px; width: 167px;height: 167px;text-align: center }
 .tit_img{margin-top: 18px;margin-right: 32px;}
 /******************************reg****************************************************/
-.regbox{width: 416px;margin: 0 auto;}
+.regbox{width: 420px;margin: 0 auto;}
 .reg{padding-bottom: 50px}
 .regbox .logo{padding-top: 10px;;width: 210px;text-align: center;margin: 0 auto}
 .reg .reg-item{width: 416px;height: 50px;color: #757575;line-height: 50px;margin-top: 10px;}

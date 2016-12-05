@@ -810,13 +810,7 @@ function checkfindform() {
         });
         return false
     }
-    ;
-    /*if($(v).val().length<6){
-     jAlert("Sorry, the username must be at least 6.",SYSTITLE,function(){
-     $(v).focus();
-     });
-     return false
-     };*/
+
     v = "#email";
     if (isN(v)) {
         jAlert("Sorry, please enter your email!", SYSTITLE, function () {

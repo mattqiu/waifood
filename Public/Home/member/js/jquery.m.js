@@ -29,7 +29,7 @@ $(function() {
     $("#btnBuy").click(function() {
         var productstr = $("#allprod").val();
         if (productstr == "") {
-            jAlert("�Բ�������ѡ��Ҫ�������Ʒ��",SYSTITLE);
+            clearpopj("�Բ�������ѡ��Ҫ�������Ʒ��",SYSTITLE);
             return false
         }
         $.ajax({
@@ -73,9 +73,9 @@ $(function() {
 					url: "/Include/Ajax/?Action=CreditCart&id=" + id + "&orderno=" + color + "&num=" + num + "&" + Math.random(),
 					success: function(msg) {
 						if(msg==""){
-							jAlert("��ϲ���һ��������ύ�ɹ���",SYSTITLE);
+							clearpopj("��ϲ���һ��������ύ�ɹ���",SYSTITLE);
 						}else{
-							jAlert(msg,SYSTITLE);	
+							clearpopj(msg,SYSTITLE);
 						}
 					}
 				})
@@ -89,7 +89,7 @@ $(function() {
         $.ajax({
             url: "/m/Ajax/?Action=AddFav&id=" + id + "&" + Math.random(),
             success: function(msg) {
-                jAlert("��ϲ���Ѿ��ɹ������ղؼУ�",SYSTITLE)
+                clearpopj("��ϲ���Ѿ��ɹ������ղؼУ�",SYSTITLE)
             }
         })
     };
@@ -108,7 +108,7 @@ $(function() {
         var color = $.trim($("#Color").val()) + "," + $.trim($("#Base").val());
         var n1 = 0;
         if (num == 0) {
-            jAlert("�Բ��������빺��������",SYSTITLE);
+            clearpopj("�Բ��������빺��������",SYSTITLE);
             $("#buycount").focus();
             return false
         };
@@ -116,7 +116,7 @@ $(function() {
             num = 1
         };
         if (parseInt(num) > parseInt(num1)) {
-            jAlert("�Բ��𣬸���Ʒֻʣ" + num1 + "����",SYSTITLE);
+            clearpopj("�Բ��𣬸���Ʒֻʣ" + num1 + "����",SYSTITLE);
             return false
         }
         color = escape(color);
@@ -136,7 +136,7 @@ $(function() {
         var color = $.trim($("#Color").val()) + "," + $.trim($("#Base").val());
         var n1 = 0;
         if (num == 0) {
-            jAlert("�Բ��������빺��������",SYSTITLE);
+            clearpopj("�Բ��������빺��������",SYSTITLE);
             $("#buycount").focus();
             return false
         };
@@ -144,7 +144,7 @@ $(function() {
             num = 1
         };
         if (parseInt(num) > parseInt(num1)) {
-            jAlert("�Բ��𣬸���Ʒֻʣ" + num1 + "����",SYSTITLE);
+            clearpopj("�Բ��𣬸���Ʒֻʣ" + num1 + "����",SYSTITLE);
             return false
         }
         color = escape(color);

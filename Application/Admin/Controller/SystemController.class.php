@@ -637,13 +637,13 @@ class SystemController extends BaseController {
         $id = I('post.id');
         $data = array_filter($_POST);// 去除空值
         if(!empty($data)){
-            if(regex($id,'number')){
+            if(regex($id,'number') ){
                 if(BannerModel::modifyBanner($id,$data)){
                     apiReturn(CodeModel::CORRECT,'编辑成功');
                 }else{
                     apiReturn(CodeModel::ERROR,'编辑失败');
                 }
-            }else{
+            }elseif($data['indexpic']){
                 if(BannerModel::addBanner($data)){
                     apiReturn(CodeModel::CORRECT,'添加成功');
                 }else{
@@ -653,6 +653,16 @@ class SystemController extends BaseController {
         }else{
             apiReturn(CodeModel::ERROR,'操作失败，请刷新重试');
         }
+    }
+
+    public function delBanner(){
+        $id = I('post.id');
+        if(regex($id,'number')){
+            if(BannerModel::delBanner($id)){
+                apiReturn(CodeModel::CORRECT,'删除成功');
+            }
+        }
+        apiReturn(CodeModel::CORRECT,'删除失败');
     }
 }
 

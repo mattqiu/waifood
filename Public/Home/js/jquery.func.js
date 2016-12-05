@@ -13,9 +13,9 @@ $(function(){
             success: function(msg) {
                 var o = eval(msg);
                 if (o.status == "1") {
-                	jAlert('恭喜，签到成功，积分已到账！');
-                } else {
-                    jAlert("对不起，您今天已经签过到了！");
+                    clearpopj('恭喜，签到成功，积分已到账！','success',true);
+                }else{
+                    clearpopj("对不起，您今天已经签过到了！",'error',true);
                 }
             }
         }) 
@@ -39,9 +39,9 @@ $(function(){
             success: function(msg) {
                 var o = eval(msg);
                 if (o.status == "1") {
-                	jAlert('恭喜，积分兑换商品申请成功，我们会尽快处理您的兑换请求！');
-                } else {
-                    jAlert("对不起，积分兑换申请失败！<br /><br />原因："+o.info);
+                    clearpopj('恭喜，积分兑换商品申请成功，我们会尽快处理您的兑换请求！','success',true);
+                }else{
+                    clearpopj("对不起，积分兑换申请失败！<br /><br />原因："+o.info,'error',true);
                 }
             }
         }) 
@@ -67,7 +67,7 @@ $(function(){
                 if (o.status == "1") {
                   location=casher;	//去订单页面
                 } else {
-                    jAlert("对不起，加入购物车失败！")
+                    clearpopj("对不起，加入购物车失败",'error',true);
                 }
             }
         }) 
@@ -91,7 +91,7 @@ $(function(){
                     //jAlert("恭喜，该商品已经成功加入购物车！");
               //      $.getCartNo()
                 } else {
-                    jAlert("对不起，加入购物车失败！")
+                    clearpopj("对不起，加入购物车失败",'error',true);
                 }
             }
         })
@@ -119,7 +119,7 @@ $(function(){
                		jTip(title);
                     $.getCartNo()
                 } else {
-                    jAlert(o.info)
+                    clearpopj(o.info,'error',true);
                 }
             }
         })
@@ -141,9 +141,9 @@ $(function(){
 						location.reload();
                     } else {
 						if(o.info!=0){
-							jAlert(o.info,SYSTITLE,function(){location.reload();});
+                            clearpopj(o.info,'success',true,'self');
 						}else{
-                 		   jAlert(o.info,SYSTITLE,function(){location.reload();});
+                            clearpopj(o.info,'error',true,'self');
 						}
                     }
                 }
@@ -163,7 +163,7 @@ $(function(){
                         location.reload();
 						//$.getCartNo();
                     } else {
-							jAlert("Sorry, remove failed!")
+                        clearpopj("Sorry, remove failed!",'error',true,'self');
                     }
                 }
             })
@@ -185,7 +185,7 @@ $(function(){
 							location.reload();
 						   // jAlert("恭喜，已清空购物车！")
 						} else {
-							jAlert("Sorry, empty failed!")
+                            clearpopj("Sorry, remove failed!",'error',true,'self');
 						}
 					}
 				})
@@ -200,7 +200,7 @@ $(function(){
         $.ajax({
             "url": url,
             success: function(msg) {
-                jAlert(msg)
+                clearpopj(msg,'error',true);
             }
         })
     };
@@ -268,10 +268,10 @@ $(function(){
             success: function(msg) {
                 var o = eval(msg);
                 if (o.status == "1") {
-                   var title="恭喜，已成功加入收藏夹！"; 
-               		jBox(title); 
+                   var title="恭喜，已成功加入收藏夹！";
+                    clearpopj(title,'success',true);
                 } else {
-                    jAlert("对不起，加入收藏夹失败！")
+                    clearpopj("对不起，加入收藏夹失败！",'error',true);
                 }
             }
         })
@@ -287,12 +287,12 @@ $(function(){
         pm = $('input:radio[name="paymethod"]:checked').val();
         pm = (pm==0 ? 0: 1); 
         if (OrderInfo == "" || OrderInfo == "0") {
-            jAlert("Sorry, please fill in the receipt!",SYSTITLE);
+            clearpopj("Sorry, please fill in the receipt!",'error',true);
             return false
         };
 		var  deliverydate = $("#delivertime").val();
 		if(deliverydate==''){
-				jAlert("Sorry, please select the delivery date!",SYSTITLE);
+            clearpopj("Sorry, please select the delivery date!",'error',true);
             return false
 		}
 		
@@ -323,7 +323,7 @@ $(function(){
 							if (o.status == "1") {
 								location.reload();
 							} else {
-								alert(o.info);
+                                clearpopj(o.info,'error',true);
 							}
 						}
 					})
@@ -349,7 +349,7 @@ $(function(){
 							if (o.status == "1") {
 								location.reload();
 							} else {
-								alert(o.info);
+                                clearpopj(o.info,'error',true);
 							}
 						}
 					})
@@ -480,7 +480,7 @@ $(function(){
 	
     $.addComment = function(id, PID, title, orderno) {; 
 		if($.trim(title)==""){
-			jAlert("Sorry, comment cannot be empty.",SYSTITLE)
+            clearpopj("Sorry, comment cannot be empty.",'error',true);
 			return false;
 		};
         var title1 = "Are you sure you want to post the comment?";
@@ -491,10 +491,10 @@ $(function(){
 				 $.ajax({
 					"url": url,
 					"success": function(o) {
-						if (o.status == "1") { 
-							jAlert("Succeed.",SYSTITLE,function(){location.reload();})
+						if (o.status == "1") {
+                            clearpopj("Succeed",'success',true,'self');
 						} else {
-							jAlert("Failed.",SYSTITLE)
+                            clearpopj("Failed.",'error',true);
 						}
 					}
 				})
@@ -541,8 +541,8 @@ $(function(){
 		
 		if(v>stock){
 			$(this).val(stock);
-			jAlert("Insufficient stock!",SYSTITLE);
-			return false;	
+            clearpopj("Insufficient stock!",'error',true);
+			return false;
 		}
     });
 	

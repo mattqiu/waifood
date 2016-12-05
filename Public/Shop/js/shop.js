@@ -318,7 +318,7 @@ function buynow(id){
 
 
 function getCartData(){
-    var myfood = $.cookie($goodKey), totalMoney = 0, totalNum= 0, outofstock='',
+    var myfood = $.cookie($goodKey), totalMoney = 0, totalNum= 0, outofstock='',idnum=1,
         $html = '<tr> <th width="60"> <div class="checkboxFive" onclick="selectAll();"><label for="checkboxFiveInput" style="width: 60px;left: 0;top: -6px;line-height: 17px;;"><input type="checkbox" value="1" id="checkboxFiveInput" checked name="" /><span class="fl cbox"></span> All </label> </div> </th><th width="60">No</th><th width="405">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th><th width="85">Action</th></tr>';
     if (myfood) {
         var obj = $.parseJSON(myfood);
@@ -334,7 +334,7 @@ function getCartData(){
                     $html += '</label>';
                     $html += '</div>';
                     $html += '</td>';
-                    $html += '<td align="center">' + obj[i]['id'] + '</td>';
+                    $html += '<td align="center">' + idnum+ '</td>';
                     $html += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                     $html += '<img alt="{$vo.name}" src="' + obj[i]['indexpic'] + '" width="60" height="60" style="top: 0" /><span class="goodtitle"  style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     $html += '</td>';
@@ -361,7 +361,7 @@ function getCartData(){
                     outofstock += '<td align="left"  id="good-li-' + obj[i]['id'] + '">';
                     outofstock += '<div style="line-height: 20px;color: red;text-align: center;">out of stock</div>';
                     outofstock += '</td>';
-                    outofstock += '<td align="center">' + obj[i]['id'] + '</td>';
+                    outofstock += '<td align="center">' + idnum + '</td>';
                     outofstock += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                     outofstock += '<img alt="{$vo.name}" style="top: 0;" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle" style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     outofstock += '</td>';
@@ -381,6 +381,7 @@ function getCartData(){
                     outofstock += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ',\'cart\')">delete</a></td>';
                     outofstock += '</tr>';
                 }
+                idnum++
             }
             var tablecontent =$html+outofstock;
             $('#good_cart').html(tablecontent);
@@ -500,7 +501,7 @@ function isNullObj(obj){
     return true;
 }
 function getSettleGood(){
-    var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,
+    var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,idnum= 1,
         $html = '<tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';
     if (myfood) {
         var obj = $.parseJSON(myfood);
@@ -508,7 +509,7 @@ function getSettleGood(){
             for (var i in obj) {
                 if(obj[i]['status'] ==1) {
                     $html+='<tr >';
-                    $html+='<td align="center">' + obj[i]['id'] + '</td>';
+                    $html+='<td align="center">' +idnum+ '</td>';
                     $html+='<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                     $html+='<img src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle">' + obj[i]['name'] + '</span></a>';
                     $html+='</td>';
@@ -518,6 +519,7 @@ function getSettleGood(){
                     $html+='</tr>';
                     totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
                     totalNum +=  obj[i]['amount'];
+                    idnum++;
                 }
             }
         }

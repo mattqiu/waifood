@@ -373,9 +373,9 @@
             if (confirm("您确定要完成该事项")) {
                 $.post('__URL__/finishMemo', {'m_id': mid}, function (data) {
                     if(data.info){
-                        jAlert(data.info)
+                        clearpopj(data.info,'success',true);
                     }else{
-                        jAlert(data.message)
+                        clearpopj(data.info,'error',true);
                     }
                     if(data.code==200){
                         window.location.reload();

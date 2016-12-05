@@ -5,7 +5,7 @@ namespace Home\Controller;
 use Common\Model\ContentModel;
 
 class IndexController extends BaseController {
-	public function index() { 
+	public function index() {
 	    $where=array();
 		$where['status']=1;
 		$where['pid']=2; 

@@ -526,4 +526,14 @@ function getDay($datetime){
     }
 }
 
+/**删除文件
+ * @param $file
+ * @return bool
+ */
+function delfile($file){
+    if(file_exists($file)){
+        return unlink ($file);
+    }
+    return false;
+}
 ?>

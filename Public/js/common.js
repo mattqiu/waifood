@@ -136,7 +136,11 @@ function clearpopj(txt,status,hide,url,time){
         setTimeout(function(){
             $('.sa-button-container .confirm').click();
             if(url){
-                window.location.href=url;
+                if(url=='self'){
+                    window.location.reload();
+                }else{
+                    window.location.href=url;
+                }
             }
         },time);
 

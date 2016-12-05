@@ -50,12 +50,39 @@ class BannerModel extends Model {
      * @return bool
      */
     public static function modifyBanner($id,$data){
-        if(regex($id,'number') && !empty($data)){
-            $con['id'] = $id;
-            return D('banner')->where($con)->save($data);
+        if(regex($id,'number')){
+            if($banner = D('banner')->find($id)){
+                $con['id'] = $banner['id'];
+                if(D('banner')->where($con)->save($data)){
+                    //原有的图片与修改提交的不一致时，删除原来的
+                    if($banner['indexpic'] != $data['indexpic']){
+                        delfile('./Public/'.$banner['indexpic']);
+                    }
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
     }
 
+    public static function delBanner($id){
+        if(regex($id,'number')){
+            if($banner = D('banner')->find($id)){
+                $con['id'] = $banner['id'];
+                if(D('banner')->where($con)->delete()){
+                    delfile('./Public/'.$banner['indexpic']); //删除文件
+                }
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 }

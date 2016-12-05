@@ -38,7 +38,7 @@ $(function() {
         pm = $('input:radio[name="paymethod"]:checked').val();
         pm = (pm==0 ? 0: 1);
         if (OrderInfo == "" || OrderInfo == "0") {
-            jAlert("�Բ���������д�ջ���ַ��",SYSTITLE);
+            clearpopj("�Բ���������д�ջ���ַ��",'error',true);
             return false
         };
 		$.ajax({
@@ -101,9 +101,9 @@ $(function() {
                 url: "/m/Ajax/?Action=AddComment&id=" + id + "&PID=" + PID + "&ConstTbl=" + escape(title) + "&orderno=" + orderno + "&" + Math.random(),
                 success: function(msg) {
                     if (msg == "1") {
-                        jAlert("��ϲ�����۷���ɹ���",SYSTITLE)
+                        clearpopj("��ϲ�����۷���ɹ���",'success',true);
                     } else {
-                        jAlert("�Բ�������ʧ�ܣ�",SYSTITLE)
+                        clearpopj("�Բ�������ʧ�ܣ�",'error',true);
                     }
                 }
             })
@@ -120,10 +120,9 @@ $(function() {
                 success: function(msg) {
                     var msgarr = msg.split("|");
                     if (msgarr[0] == "1") {
-                        jAlert(msgarr[1],SYSTITLE);
-                        location = "/m/M_UOrder.asp"
+                        clearpopj(msgarr[1],'success',true,"/m/M_UOrder.asp");
                     } else {
-                        jAlert(msgarr[1],SYSTITLE)
+                        clearpopj(msgarr[1],'error',true);
                     }
                 }
             })
@@ -159,7 +158,7 @@ $(function() {
                         if (msgarr[0] == "1") {
                             location.reload()
                         } else {
-                            jAlert(msgarr[1],SYSTITLE)
+                            clearpopj(msgarr[1],'error',true);
                         }
                     }
                 })

@@ -29,7 +29,7 @@ function isNumber (x) {
  */
 function modelBox(){
     if(!$('body').find('.lean_overlay').data('show')){
-        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;" class="hide leanModal" ><img src="/Public/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
         $html += '<div id="attention" style="display:none ;width: 95%;top: 46px; margin: 0 auto; padding: 2px;" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
         $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
         $('body').append($html);
@@ -103,14 +103,14 @@ function gopay(obj){
     $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
         if(data.code ==200){
             if($paymethod ==2){ //Paypal支付
-                clearpopj('Modify payment success',"/m_pay?orderno="+orderno)
+                clearpopj(data.message,'success',true,"/m_pay?orderno="+orderno);
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();
-                clearpopj('Modify payment success')
+                clearpopj('Modify payment success','success',true);
             }
         }else{
-            clearpopj('Modify payment failure')
+            clearpopj('Modify payment failure','error',true);
         }
     })
 }
@@ -173,7 +173,7 @@ function addgood(id,event){
         stock = $('#js_goods_'+id).data("stock");
 
         if(stock<1){ //没有库存
-            jAlert("Insufficient stock!",SYSTITLE);
+            clearpopj("Insufficient stock!",'error',true);
             return false;
         }
         var myfood_array = {};
@@ -191,7 +191,7 @@ function addgood(id,event){
             myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
         }
         if( myfood_array[id]['amount'] > stock){ //库存不足
-            jAlert("Insufficient stock!",SYSTITLE);
+            clearpopj("Insufficient stock!",'error',true);
             return false;
         }
         $('#CartNo').css('display','block');
@@ -433,13 +433,13 @@ function goCashier(){
     if(obj){
         for(var i in obj){
             if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){
-                jAlert('Goods:'+obj[i]['name']+' Insufficient stock!',SYSTITLE);
+                clearpopj('Goods:'+obj[i]['name']+' Insufficient stock!','error',true);
                 return false;
             }
         }
         window.location.href = '/m_cashier.html?gocashier=gocashier';
     }else{
-        jAlert("Order content cannot be empty!",SYSTITLE);
+        clearpopj("Order content cannot be empty!",'error',true);
         return false;
     }
 }
@@ -457,13 +457,13 @@ function submitOrder(){
     var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
     var myfood_array = $.parseJSON(myfood);
     if(!myfood_array){
-        jAlert("Order content cannot be empty!",SYSTITLE);
+        clearpopj("Order content cannot be empty!",'error',true);
         subBlock = false;//解除阻塞
         return false;
     }
     for(var i in myfood_array){
         if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
-            jAlert('Goods:'+myfood_array[i]['name']+' Insufficient stock!',SYSTITLE);
+            clearpopj('Goods:'+myfood_array[i]['name']+' Insufficient stock!','error',true);
             subBlock = false;//解除阻塞
             return false;
         }
@@ -472,7 +472,7 @@ function submitOrder(){
         }
     }
     if (!$("#UseAddressID").val()) {
-        jAlert("I'm sorry, please select a shipping address!",SYSTITLE);
+        clearpopj("Sorry, please select a shipping address!",'error',true);
         subBlock = false;//解除阻塞
         return false
     };
@@ -497,10 +497,10 @@ function submitOrder(){
         if(data.code == 200){
             if(data.data){
                 clearCart(); //清空购物车
-                clearpopj(data.message,data.data,SYSTITLE)
+                clearpopj(data.message,'success',true);
             }
         }else{
-            clearpopj(data.message,'',SYSTITLE)
+            clearpopj(data.message,'error',true)
             return false;
         }
     })
