@@ -9,10 +9,14 @@ class ImagesController extends Controller{
         $path = C('UPLOAD_PATH');
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $stream, $result)) {
             $type = $result[2];
-
             $savePath =  'upload/'.date('Y-m-d').'/';
-            if(!is_dir($path.$savePath)){
-                mkdir($path.$savePath, 0777, true);
+            $mdpath =$path.$savePath;
+            if(!is_dir($mdpath)){
+                GLog('1111111111111',$mdpath);
+               $rs = mkdir($mdpath, 0777);
+                GLog('22222222','mkdir status'.$rs);
+            }else{
+                GLog('33333333','mkdir '.$mdpath);
             }
             $filename =$savePath.substr(md5($stream), 8, 16) . ".{$type}";
             if (file_put_contents($path.$filename,base64_decode(substr(strstr($stream,','),1)))) {
