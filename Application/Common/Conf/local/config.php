@@ -16,5 +16,6 @@ return array(
 
     'WECHAT_APPID' => 'wx50d2c7139fe6cd3e',
     'WECHAT_APPSECRET' => 'a7cd48cf28e8c4adb043c0e3a9ffb7a4',
+    'UPLOAD_PATH'=>'D:/WAMP/waifood/Public/',//图片上传位置
 );
 ?>

@@ -6,7 +6,7 @@ use Think\Controller;
 class ImagesController extends Controller{
     public function createimg(){
         $stream = I('post.stream');
-        $path = APP_PATH.'../Public/';
+        $path = C('UPLOAD_PATH');
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $stream, $result)) {
             $type = $result[2];
 

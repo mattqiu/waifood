@@ -12,5 +12,6 @@ return array(
     'DOMAIN' => 'http://test.waifood.com/',
     'WECHAT_APPID' => 'wxe149a1e8bab9e7d5',
     'WECHAT_APPSECRET' => 'dfa9287890302f987f7f0ca6ab8b92a5',
+    'UPLOAD_PATH'=>'/home/www/waifood/Public/',//图片上传位置
 );
 ?>
