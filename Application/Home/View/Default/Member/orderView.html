@@ -70,7 +70,7 @@
             <volist name="list" id="vo">
                 <php>
                     $quantity += $vo['num'];
-                    $money += $vo['price'];
+                    $money += $vo['price']*$vo['num'];
                 </php>
                 <div class="good-li">
                     <div class="ov-good-img fl"><img src="{$vo.indexpic}" alt="{$vo.productname}"/></div>

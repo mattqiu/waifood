@@ -295,12 +295,21 @@ class OrderModel extends Model{
     public static function checkOrder($data){
         $amount = 0;
         foreach ( $data as $key => $val) {
-            $product=M('content')->find($val['id']);
-            if($product['stock']<$val['num']){
-                apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
-                break;
+            if($val['id']){
+                $product=M('content')->find($val['id']);
+                if($product['status'] == ContentModel::NORMAL){ //只获取上架的商品
+                    if($product['stock']<$val['num']){
+                        apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
+                        break;
+                    }
+                    $amount+= floatval($product['price'] * $val['num']);
+                }else{ //商品下架了
+
+                    apiReturn(CodeModel::ERROR,$product['id'].'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
+                    break;
+                }
             }
-            $amount+= floatval($product['price'] * $val['num']);
+
         }
         return $amount;
     }
@@ -320,6 +329,12 @@ class OrderModel extends Model{
                 $data[$key]['id'] = $ids[0];
                 $data[$key]['num'] = $ids[1];
                 $data[$key]['price'] = $ids[2];
+                if(!isset($data['amountnum'])){
+                    $data['amountnum'] = intval($ids[1]);
+                }
+                if(!isset($data['totalmoney'])){
+                    $data['totalmoney'] = floatval($ids[1] * $ids[2]);
+                }
                 $data['amountnum'] += intval($ids[1]);
                 $data['totalmoney'] += floatval($ids[1] * $ids[2]);
             }
