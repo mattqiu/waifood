@@ -17,7 +17,7 @@
     <div class="container">
         <ul class="navigation">
             <li class="allcate selected" onclick="window.location.href='/'">All Categories
-                <include file="Index:nav2sub" />
+               <include file="Index:nav2sub" />
             </li>
         </ul>
         <div class="shopping">
@@ -41,7 +41,7 @@
 </div>
 <script>
     var pathinfo =(window.location.pathname).toLowerCase();
-    if( pathinfo.length > 4){
+    if( pathinfo.length > 4 &&  pathinfo !='/shop' && pathinfo !='/shop/'){
         $('#cat_menu_list').removeClass('index_cate');
         $('.allcate').mouseover(function(){
             if($('#cat_menu_list').css('display') =='none') {
@@ -53,6 +53,7 @@
             $('.cat_menu_list li').removeClass('cate_select');
         })
     }else{
+        $('#cat_menu_list').removeClass('product_menu');
         $('.allcate').html('All Categories');
     }
 

@@ -214,12 +214,12 @@ function loadGood(page){
 function fly(event,indexpic){
     var position = $("#CartNo").position(),
         offset = $("#CartNo").offset(),
-        flyer = $('<img width="80" class="u-flyer" src="'+indexpic+'">');
-
-    if($(window).scrollTop()>195){
+        flyer = $('<img width="80" class="u-flyer" src="'+indexpic+'">'),
+        scrollTop = $(window).scrollTop();
+    if(scrollTop>195){
         var toppx = position.top;
     }else {
-        var toppx = offset.top;
+        var toppx = offset.top - scrollTop;
     }
     flyer.fly({
         start: {
