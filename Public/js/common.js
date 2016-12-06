@@ -355,5 +355,12 @@ Mask.prototype = {
             _box.clearQueue();
             return false;
         });
+        _closeBox.hover(function(){
+            $(this).find('img').attr({'src':'/Public/images/close_hover.png','width':'20'});
+        },function(){
+            $(this).find('img').attr('src','/Public/images/close.png');
+        })
     }
+
+
 }

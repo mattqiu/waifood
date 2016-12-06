@@ -68,9 +68,9 @@
                     </if>
                 </p>
                 <div class="quantity">
-                    Quantity: <span class="good-num-prep fc_eee" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
+                    Quantity: <span class="good-num-prep fc_eee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
                     <input type="text" id="js_good_num_{$good.id}" class="tc good_num" value="1"/>
-                    <span class="good-num-add"  onclick="setGoodNum('{$good.id}','add');">+</span>
+                    <span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="setGoodNum('{$good.id}','add');">+</span>
                 </div>
                 <div>
                     <button class="buynow cart_btn"  onclick="buynow('{$good.id}');">Buy now</button>

@@ -12,11 +12,7 @@ class ImagesController extends Controller{
             $savePath =  'upload/'.date('Y-m-d').'/';
             $mdpath =$path.$savePath;
             if(!is_dir($mdpath)){
-                GLog('1111111111111',$mdpath);
-               $rs = mkdir($mdpath, 0777);
-                GLog('22222222','mkdir status'.$rs);
-            }else{
-                GLog('33333333','mkdir '.$mdpath);
+                mkdir($mdpath, 0777);
             }
             $filename =$savePath.substr(md5($stream), 8, 16) . ".{$type}";
             if (file_put_contents($path.$filename,base64_decode(substr(strstr($stream,','),1)))) {
