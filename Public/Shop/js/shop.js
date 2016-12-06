@@ -342,12 +342,12 @@ function getCartData(){
                     $html += '<td align="center">';
                     $html += '<div class="quantity">';
                     if(obj[i]['amount']>1){
-                        $html += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        $html += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }else{
-                        $html += '<span class="good-num-prep" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        $html += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }
                     $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" onblur="cartSetGoodNum('+obj[i]['id']+');" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
-                    $html += '<span class="good-num-add" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
+                    $html += '<span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
                     $html += '</div>';
                     $html += '</td>';
                     $html += '<td align="center" class="fc_green subtotal_' + obj[i]['id'] + '">&yen;' + parseFloat(obj[i]['price']) * parseFloat(obj[i]['amount']) + '</td>';
@@ -369,12 +369,12 @@ function getCartData(){
                     outofstock += '<td align="center">';
                     outofstock += '<div class="quantity">';
                     if(obj[i]['amount']>1){
-                        outofstock += '<span class="good-num-prep" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        outofstock += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }else{
-                        outofstock += '<span class="good-num-prep" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        outofstock += '<span class="good-num-prep" style="color:#eeeeee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }
                     outofstock += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
-                    outofstock += '<span class="good-num-add" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
+                    outofstock += '<span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
                     outofstock += '</div>';
                     outofstock += '</td>';
                     outofstock += '<td align="center" class="fc_green subtotal_' + obj[i]['id'] + '">&yen;' + parseFloat(obj[i]['price']) * parseFloat(obj[i]['amount']) + '</td>';
