@@ -41,14 +41,14 @@ class LoginController extends Controller {
         if(!$username || !$password){
             apiReturn(CodeModel::ERROR,'Sorry,password cannot be empty');
         }
-        if(UserModel::login($username,$password)){
+        if(true===$msg = UserModel::login($username,$password)){
             if($url = session('backurl')){
                 session('backurl',false);
                 apiReturn(CodeModel::CORRECT,'Login successful',$url);
             }
             apiReturn(CodeModel::CORRECT,'Login successful','/');
         }else{
-            apiReturn(CodeModel::ERROR,'Sorry,login failed');
+            apiReturn(CodeModel::ERROR,$msg);
         }
     }
 
@@ -115,7 +115,7 @@ class LoginController extends Controller {
             $subject='[waifood]register successfully';
             sendEmail($data['email'],$subject);
             //注册完后自动登录
-            if(UserModel::login($username, $userpwd)){//注册后自动登录
+            if(true===UserModel::login($username, $userpwd)){//注册后自动登录
                 apiReturn(CodeModel::CORRECT,'register successfully','/member/index');
             }else{
                 apiReturn(CodeModel::CORRECT,'register successfully','/login/index?returnurl=/member/index');

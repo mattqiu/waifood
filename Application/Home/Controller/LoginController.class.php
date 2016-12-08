@@ -92,7 +92,7 @@ class LoginController extends Controller
                 $subject='[waifood]register successfully';
                 sendEmail($data['email'],$subject);
                 //注册完后自动登录
-                if(UserModel::login($username, $userpwd)){//注册后自动登录
+                if(true===UserModel::login($username, $userpwd)){//注册后自动登录
                     apiReturn(CodeModel::CORRECT,'Registered successfully','/member/index');
                 }else{
                     apiReturn(CodeModel::CORRECT,'Registered successfully','/login/index');
@@ -170,7 +170,7 @@ class LoginController extends Controller
         // 登录
         $username = I('username');
         $userpwd = I('userpwd');
-        if (UserModel::login($username, $userpwd)) {
+        if (true===UserModel::login($username, $userpwd)) {
             cookie($key,0);//成功登陆清除登陆失败记录次数
             if( session('gocashier')){
                 session('gocashier','');

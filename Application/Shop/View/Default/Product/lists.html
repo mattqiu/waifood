@@ -60,6 +60,7 @@
         <div class="path clr">{:get_product_location($_REQUEST['id'])} </div>
     </if>
     <form class="px_tit" method="get" action="/Product/lists.html">
+        <input type="hidden" value="{$_REQUEST['group']}" name="group"/>
         <input type="hidden" value="{$_REQUEST['keyword']}" name="keyword"/>
         <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
         <input type="hidden" value="" id="peixu"/>

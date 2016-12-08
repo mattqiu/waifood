@@ -154,8 +154,24 @@
     </div>
 
 </div>
+<div class="back_top" onclick="$('html,body').animate({scrollTop: 0}, 600);"></div>
 <script>
     $(function () {
+        var wwidth = ($(window).width()-1226)/2
+        if(wwidth>50){
+            $('.back_top').css('right',wwidth-50+'px');
+        }else{
+            $('.back_top').css('right',wwidth+'px');
+        }
+        $(document).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            if(scrollTop>117){
+                $('.back_top').show();
+            }else {
+                $('.back_top').hide();
+            }
+        });
+
 
         var moveHeight = 258,
             moveTime = 200,

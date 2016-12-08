@@ -187,10 +187,10 @@ class UserModel extends Model
                 session ( 'wechatid', $user ['wechatid'] );
                 return true;
             }else {
-                return false;
+                return 'Sorry,password is wrong';
             }
         } else {
-            return false;
+            return 'Sorry,password cannot be empty';
         }
     }
 
