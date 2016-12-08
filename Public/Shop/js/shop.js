@@ -553,7 +553,7 @@ function submitOrder(){
     }
     var myfood =  $.cookie("settlement"),delivery_fee =parseFloat($('#cashier_table').data('delivery_fee')),order='';
     if(!myfood){
-        clearpopj("Sorry, Shopping cart no goods", "error",true);
+        clearpopj("Sorry, your cart is empty", "error",true);
         subBlock = false;
         return false;
     }
