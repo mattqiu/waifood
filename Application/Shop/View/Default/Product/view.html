@@ -22,7 +22,7 @@
                     </if>
                 </volist>
             </div>
-            <div class="img-show fl">
+            <div class="img-show fr">
                 <if condition="$gallery && $gallery[0]">
                     <img src="{$gallery[0]}" width="440" height="440" id="img_show_box"/>
                     <else/>
@@ -107,7 +107,7 @@
 <include file="Index:footer" />
 <script>
     function selectShowImg(obj){
-        $('.imglist .img-list').css('border','none');
+        $('.imglist .img-list').css('border','1px solid #f0f0f0');
         $(obj).css('border','3px solid #cccccc');
         var img = $(obj).find('img').attr('src');
         $('#img_show_box').attr('src',img);

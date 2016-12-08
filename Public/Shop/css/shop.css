@@ -85,7 +85,7 @@ fieldset,img { border: none;}
 /*.navigation .selected{height: 40px;line-height: 40px; border-bottom: 4px solid #555555;color: #000000 }*/
 
 .product_menu{position: absolute;z-index: 99999;text-align: left;font-weight: 100; top: 44px;width: 208px;background:#FFFFFF;border: 1px solid #BBBBBB}
-.product_menu li{height:33.1px; line-height: 33.1px;  z-index:1000; position:relative; }
+.product_menu li{height:33px; line-height: 33px;  z-index:1000; position:relative; }
 .product_menu li a{color: #424242;font-size: 16px;padding-left: 15px; position:relative; z-index:999;}
 .product_menu li i{ padding: 6px 5px;margin-top: 12px; float: right;margin-right: 10px; background: url("../images/left_ico.png") no-repeat center}
 
@@ -164,6 +164,7 @@ fieldset,img { border: none;}
 
 .hd-solid ul{ overflow:hidden; width: 1226px; height:30px; margin:0 auto; }
 .hd-solid ul li{ position:relative;left: 595px;top: 20px;margin-left: 10px;  _display:inline; float:left;  width:10px; height:10px; overflow:hidden; background:#E0E0E0; text-indent:-999px; cursor:pointer;  -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;}
+.hdc ul li{left: 572px;}
 ul li.on{ background:#616161;  }
 #promotion .bd{width: 1226px; margin: 0 auto}
 /****************************foot***************************************/
@@ -210,13 +211,13 @@ ul li.on{ background:#616161;  }
 .px_tit .px:last-child{border-right: none; }
 .list_good{line-height:25px; }
 .list_good .quantity{margin-top: 10px;}
-.pagelist{ margin-top:30px; padding:20px 0;  text-align:center;}
+.pagelist{ margin-top:30px; height: 40px;  text-align:center;}
 .pagelist a,.pagelist span{ width:18px; height:18px; margin:0 3px; display:inline-block; font-size: 16px;color: #757575}
 .pagelist .current{ background:#000000; color:#FFFFFF;font-size: 16px; text-decoration:none;}
 .pagelist a:hover{color: #000000    ;border-bottom: 1px solid #000000}
 /*******************************************view***********************************************************************/
 .good-info-head{width: 1226px;height: 500px; background: #FFFFFF }
-.good-ih-img{width: 526px; height: 440px; margin-top: 30px; margin-left: 60px;float: left;}
+.good-ih-img{width: 588px; height: 440px; margin-top: 30px; margin-left: 60px;float: left;}
 .imglist{width: 80px; height: 440px;}
 .good-ih-img .img-list{width: 78px; height: 78px;border: 1px solid #f0f0f0;text-align: center;margin-bottom: 10px;}
 .img-list img,.img-list_show img{margin-top: 12px;}

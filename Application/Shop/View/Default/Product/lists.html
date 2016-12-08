@@ -64,7 +64,7 @@
             <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="fc_red"</if> onclick="$('#peixu').val('');" value="Default"/>
         </label>
 
-        <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
+        <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','price');" >
             <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="fc_red"</if>/>
             <if condition="$_REQUEST['price'] eq 'asc'">
@@ -94,7 +94,7 @@
         <volist name="list" id="vo">
             <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                 data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                <div style="width: 294px;margin: 0 auto;" class="fl">
+                <div class="fl goods">
                     <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  /></div> </a>
                     <div class="good-name">
                         <a href="/product/view.html?id={$vo.id}">

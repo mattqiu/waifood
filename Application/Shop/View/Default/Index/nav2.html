@@ -67,7 +67,9 @@
         if($('#searchform input[name=keyword]').css('left').substring(0,3)>400){
             animateShow($('#searchform input[name=keyword]'),0);
         }else{
-            $('#searchform').submit();
+            if($('#searchform input[name=keyword]').val()){
+                $('#searchform').submit();
+            }
         }
         return false
     }
