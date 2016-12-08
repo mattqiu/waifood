@@ -1,28 +1,51 @@
 <div class="top_logo">
     <div class="logoAngsearch container">
-        <div class="logo fl"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210" height="74" style="margin-top: 30px;" alt=""/></a></div>
+        <div class="logo fl"><a href="/"><img src="__PUBLIC__/images/logo.png" width="190" style="margin-top: 22px;" alt=""/></a></div>
         <div class="search fl">
-         <form action="/product/lists.html" method="get" >
-            <input type="text" name="keyword"  id="keyword" placeholder="keywords..."  <if condition="$_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
-            <button type="submit" value="" ></button>
+            <form  action="/product/lists.html" id="searchform" method="get" onsubmit="return search();">
+                <input type="text" name="keyword" id="keyword" placeholder="keywords..."  <if condition="$_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
+                <button type="submit" value="" class="fr"></button>
             </form>
         </div>
-        <div class="qrcode">
-            <img src="__PUBLIC__/images/qr.jpg" alt="" width="106" />
+        <div class="server-text fr">
+                <div class="fl logon_reg">
+                    <a href="/index/wishlist.html">Wish list</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;
+                    <if condition="$user['id'] gt 0"><a href="/login/logout.html" class="black">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a></if><span class="slash"></span>&nbsp;
+                   &nbsp;&nbsp;<a href="/Login/register.html">Sign up</a>
+                </div>
+            <span class="slash"></span>&nbsp;
+            <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22">
+                <a href="/member/index.html">
+                    <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" width="13" class="main" alt=""/></div>
+                    <div class="fl tl" style="width: 90px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
+                </a>
+                <!--<if condition="$user['id']">-->
+                    <!--<div class="myaccount_box">-->
+                        <!--<ul>-->
+                            <!--<li onclick="window.location.href='/member/order.html#order'">My order</li>-->
+                            <!--<li onclick="window.location.href='/member/address.html#address'">My address</li>-->
+                            <!--<li onclick="window.location.href='/member/pwd.html#pwd'">Change password</li>-->
+                            <!--<li onclick="window.location.href='/login/logout.html'">Log out</li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</if>-->
+            </div>
         </div>
     </div>
 </div>
 <div class="clr"></div>
-<div class="nav_center">
+<div class="nav_center bg_white">
     <div class="container">
-        <ul class="navigation">
-            <li class="allcate selected" onclick="window.location.href='/'">All Categories
-               <include file="Index:nav2sub" />
+        <ul class="navigation ">
+            <li class="allcate selected " onclick="window.location.href='/'" >CATEGORIES
+                <hr width="129" class="nav_border" size="5" color="#555555" style="position: relative;top: -13px;left: -42px;display: none" />
+                <include file="Index:nav2sub" />
             </li>
         </ul>
         <div class="shopping">
-            <div class="fl"><img src="__PUBLIC__/Shop/images/shopping_cart.png"  width="38" class="shopping_cart" alt=""/></div>
-            <div class="fl Shopping_text ">Shopping Cart (<span id="CartNo">0</span>)
+            <div class="Shopping_text ">
+                <img src="__PUBLIC__/Shop/images/shopping_cart_black.png"  width="35" class="shopping_cart" alt=""/>
+                <span id="CartNo">0</span>
                 <div class="cart_box hide"  id="cart_box" >
                     <div class="cart_good_box "  id="cart_good_box" >
                     </div>
@@ -40,37 +63,46 @@
     </div>
 </div>
 <script>
-    var pathinfo =(window.location.pathname).toLowerCase();
-    if( pathinfo.length > 4 &&  pathinfo !='/shop' && pathinfo !='/shop/'){
-        $('#cat_menu_list').removeClass('index_cate');
-        $('.allcate').mouseover(function(){
-            if($('#cat_menu_list').css('display') =='none') {
-                $('#cat_menu_list').slideDown();
-            }
-        })
-        $('.allcate').mouseleave(function(){
-            $('#cat_menu_list').slideUp();
-            $('.cat_menu_list li').removeClass('cate_select');
-        })
-    }else{
-        $('#cat_menu_list').removeClass('product_menu');
-        $('.allcate').html('All Categories');
+    function search(){
+        if($('#searchform input[name=keyword]').css('left').substring(0,3)>400){
+            animateShow($('#searchform input[name=keyword]'),0);
+        }else{
+            $('#searchform').submit();
+        }
+        return false
     }
+    $('.allcate').mouseover(function(){
+        if($('#cat_menu_list').css('display') =='none') {
+            $(this).find('.nav_border').show();
+            $('#cat_menu_list').slideDown(300);
+        }
+    })
+    $('.allcate').mouseleave(function(){
+        $(this).find('.nav_border').hide();
+        $('#cat_menu_list').slideUp(300);
+    })
 
     $('.shopping').mouseover(function(){
         if($('#cart_box').css('display') =='none') {
-            if($('#cart_good_box').children().length>0){
+           // if($('#cart_good_box').children().length>0){
                 $('#cart_box .goodcheckout').attr('onclick',"window.location.href='/index/cart.html'");
                 $('.shopping .Shopping_text').attr('onclick',"window.location.href='/index/cart.html'");
-            }
-            $('.shopping_cart').attr('src', CONST_PUBLIC + '/Shop/images/cart_hover.png');
+           // }
             $(this).addClass('ongoodcart');
             $('#cart_box').slideDown();
         }
     })
     $('.shopping').mouseleave(function(){
-        $('.shopping_cart').attr('src',CONST_PUBLIC+'/Shop/images/shopping_cart.png');
         $(this).removeClass('ongoodcart');
         $('#cart_box').slideUp();
     })
+    $(document).scroll(function() {
+        var scrollTop = $(window).scrollTop();
+        if(scrollTop>117){
+            $('.nav_center').css({'border-top':'none','border-bottom':'1px solid #bebec2'})
+        }else {
+            $('.nav_center').css({'border-top':'1px solid #bebec2','border-bottom':'none'})
+        }
+    });
+
 </script>

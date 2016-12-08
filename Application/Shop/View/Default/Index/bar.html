@@ -1,60 +1,37 @@
 <div class="topbar">
     <div class="container">
-        <div class="links">
-            <a href="/">Home</a>
-            |<a href="/index/wishlist.html">Wish list</a>
-            |<a href="/?l=en">English</a>
-        </div>
-        <div class="server-text">
 
-            <if condition="!$user['id']">
-                <div class="fl logon_reg">
-                    <a href="/Login/index.html" class="black">Login</a> | <a href="/Login/register.html">Register</a>
-                </div>
-            </if> &nbsp;
-
-
-           <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22" <if condition="$user['id']">data-user-id="{$user.id}" style="background: #FFFFFF"</if>>
-            <a href="/member/index.html">
-                <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" class="main" alt=""/></div>
-                <div class="fl tl" style="width: 90px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
-                <div class="fl">&nbsp;<img class="label" src="__PUBLIC__/Shop/images/dowm_my_account.png" style="position: absolute;right: 10px;top: 18px;;" alt=""/></div>
-            </a>
-                <if condition="$user['id']">
-                    <div class="myaccount_box">
-                        <ul>
-                            <li onclick="window.location.href='/member/order.html#order'">My order</li>
-                            <li onclick="window.location.href='/member/address.html#address'">My address</li>
-                            <li onclick="window.location.href='/member/pwd.html#pwd'">Change password</li>
-                            <li onclick="window.location.href='/login/logout.html'">Log out</li>
-
-                        </ul>
-                    </div>
-                </if>
-            </div>
-        </div>
-    </div>
+</div>
 </div>
 <script>
-   $('#myaccount').mouseover(function(){
-       if( $('.myaccount_box').css('display') =='none'){
+    $('#myaccount').mouseover(function(){
+        if( $('.myaccount_box').css('display') =='none'){
             $('.myaccount_box').slideDown();
-            $('#myaccount').css({'color':'#2eb661','background':'#FFFFFF'});
+            $('#myaccount').css({'color':'#2eb661'});
             $('#myaccount a').css({'color':'#2eb661'});
             $('#myaccount .main').attr('src','/Public/Shop/images/myaccount_hover.png');
             $('#myaccount .label').attr('src','/Public/Shop/images/down_hover_myaccount.png');
-       }
-    });
-   $('#myaccount').mouseleave(function(){
-        if($(this).data('user-id')){
-            $('#myaccount').css({'color':'#666666','background':'#ffffff'});
-        }else{
-            $('#myaccount').css({'color':'#666666','background':'#E0E0E0'});
         }
-       $('#myaccount a').css({'color':'#666666'});
+    });
+    $('#myaccount').mouseleave(function(){
+        if($(this).data('user-id')){
+            $('#myaccount').css({'color':'#666666'});
+        }else{
+            $('#myaccount').css({'color':'#666666'});
+        }
+        $('#myaccount a').css({'color':'#666666'});
         $('#myaccount .main').attr('src','/Public/Shop/images/myaccount.png');
         $('#myaccount .label').attr('src','/Public/Shop/images/dowm_my_account.png');
         $('.myaccount_box').slideUp();
+    })
+
+    $('.topbar .weixinqr').hover(function(){
+        $(this).css('cursor', 'pointer');
+        if($('.topbar .qrcode').css('display') == 'none'){
+            $('.topbar .qrcode').slideDown();
+        }
+    },function(){
+        $('.topbar .qrcode').slideUp();
     })
 
 </script>

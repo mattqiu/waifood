@@ -7,10 +7,9 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
-    <div class="path"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
     <div class="content">
         <div class="left fl">
             <include file="left" />
@@ -59,7 +58,7 @@
                                             <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
                                             <if condition="$vo['status'] lt 3">
                                                 <br/>
-                                                <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}')" class="order_btn cancel">Cancel</a>
+                                                <a href="javascript:void(0)"  onclick="cancelOrder('{$vo[\'id\']}','{$vo[\'orderno\']}')" class="order_btn cancel">Cancel</a>
                                             </if>
                                         </td>
                                     </tr>

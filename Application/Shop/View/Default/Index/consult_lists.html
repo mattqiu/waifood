@@ -7,13 +7,12 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
-<div class="container">
+<div class="container clr">
     <div class="content">
         <div class="left leftmenu fl">
             <div class="nyltit fr tc">Information Centre</div>
-            <ul class="hymenu fr">
+            <ul class="hymenu clr">
                 <volist name="channel" id="vo">
                     <li>
                         <a href="{:U('Content/lists?id='.$vo['id'])}"  <if condition="$vo['id'] eq $pid">class="selected"</if>>

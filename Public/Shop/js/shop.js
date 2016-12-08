@@ -216,7 +216,7 @@ function fly(event,indexpic){
         offset = $("#CartNo").offset(),
         flyer = $('<img width="80" class="u-flyer" src="'+indexpic+'">'),
         scrollTop = $(window).scrollTop();
-    if(scrollTop>195){
+    if(scrollTop>117){
         var toppx = position.top;
     }else {
         var toppx = offset.top - scrollTop;
@@ -287,6 +287,7 @@ function getCartGoodStock($objPage){
         }
     }
     $('#good_cart').addClass('hide');
+    $('.cart_foot_info').addClass('hide');
     $('#empty_cart_box').removeClass('hide');
 };
 
@@ -385,6 +386,7 @@ function getCartData(){
             }
             var tablecontent =$html+outofstock;
             $('#good_cart').html(tablecontent);
+            $('.cart_foot_info').removeClass('hide');
             $('#good_cart').removeClass('hide');
             $('#empty_cart_box').addClass('hide');
             $('#totalAmount').html('&yen;'+totalMoney);//总金额
@@ -393,6 +395,7 @@ function getCartData(){
         }
     }
     $('#good_cart').addClass('hide');
+    $('.cart_foot_info').addClass('hide');
     $('#empty_cart_box').removeClass('hide');
 }
 
@@ -457,8 +460,6 @@ function getGoodCartInfo(page){
             });
         }
     }
-    console.log(totalMoney)
-    console.log(totalNum)
     $('#totalAmount').html('&yen;'+totalMoney);//总金额
     $('#quantity').html(totalNum);
 }
@@ -502,7 +503,7 @@ function isNullObj(obj){
 }
 function getSettleGood(){
     var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,idnum= 1,
-        $html = '<tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';
+        $html = '<tbody class="hide"><tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';
     if (myfood) {
         var obj = $.parseJSON(myfood);
         if (obj) {
@@ -523,7 +524,7 @@ function getSettleGood(){
                 }
             }
         }
-        $html+='<tr class="tfood_info"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee <span class="delivery_fee"></span></div> <div>Total Amount:<span class="totalSubMoney"></span></div></td></tr>';
+        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee <span class="delivery_fee"></span></div> <div>Total Amount:<span class="totalSubMoney"></span></div></td></tr><tfoot>';
 
         $.post('/home/shop/getdeliveryFee.html',{money:totalMoney},function(data){
             if(data.code == 200){
@@ -583,8 +584,8 @@ function submitOrder(){
         shop_id : $("#shop_id").val(),
         UseAddressID : $("#UseAddressID").val(),
         cityname : $("#cityname").val(),
-        paymethod :$('.paylist input[name=paymethod]:checked').val(),
-        invoice :$('.invoice_item input[name=invoice]:checked').val(),
+        paymethod :$('#paymethod').val(),
+        invoice :$('#invoice').val(),
         info : $.trim($("#info").val()),
         delivertime : deliverydatetimes,
         order : order
@@ -623,6 +624,32 @@ function clearCart(){
 
 };
 
+/**
+ * 取消订单
+ * @param id
+ * @param orderno
+ */
+function cancelOrder(id,orderno) {
+    swal({
+        title: '',
+        text: 'Are you sure you want to cancel the order?',
+        type: 'warning',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes"
+    }, function() {
+        $.post('/order/cancelOrder.html',{orderno:orderno},function(data){
+            if(data.code == 200){
+                $('.js_onging_order_num').html(parseInt($('.js_onging_order_num').html())-1);
+                $('.js_all_order_num').html(parseInt($('.js_all_order_num').html())-1);
+                $('#order_row_'+id).remove();
+                clearpopj(data.message, "success",true);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    });
+};
 
 
 

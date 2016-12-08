@@ -16,7 +16,7 @@
 <div class="lgbox">
     <div class="container">
         <div class="login-box account_login " style="float: right;overflow: hidden;zoom: 1;">
-            <div class="login_select qr "><span class="signin">Sign in</span><img class="fr" src="__PUBLIC__/Shop/images/q-sign-in.png" alt=""/></div>
+            <div class="login_select qr "><span class="signin">Sign in</span><!--<img class="fr" src="__PUBLIC__/Shop/images/q-sign-in.png" alt=""/>--></div>
             <form onsubmit="return false" id="frm_login" class="login_from">
                <input type="text"  name="username" placeholder="Account"  class="input_text" />
                 <br/>
@@ -25,28 +25,28 @@
                     <div class="captcha_title" style="height: 42px;line-height: 42px;color: #cccccc">Captcha <input type="text" style="height: 40px;" name="verify"/></div>
                     <div class="captcha_img" style="width: 136px;height: 42px;"> <img style="cursor:pointer; cursor: hand; width:136px; height:42px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
                 </div>
-                <input type="submit"  class="lgbtn"  value="Login Now" onclick="login();" />
+                <input type="submit"  class="lgbtn"  value="Sign in" onclick="login();" />
                 <div class="lg_foot">
                     <a href="/login/findpwd.html" class="fl">Forget your password?</a>
-                    <a href="/login/register.html"  class="fr">Register</a>
+                    <a href="/login/register.html"  class="fr">Sign up</a>
                 </div>
             </form>
         </div>
-        <div class="login-box qr_login hide" style="float: right;overflow: hidden;zoom: 1;">
-            <div class="login_select qr ">
-                <span class="signin">Wechat Scan QR to sign in </span>
-                <img class="fr" src="__PUBLIC__/Shop/images/pc-to-login.png" alt=""/>
-            </div>
-            <div>
-                <div class="wechat_qr fl"><label id="login_container"></label></div>
-                <div class="tit_img fr"><img src="__PUBLIC__/Shop/images/tit_login.png" alt=""/></div>
-            </div>
-            <div class="clr"></div>
-            <div class="lg_foot">
-                <a href="/login/findpwd.html" class="fl">Forget your password?</a>
-                <a href="/login/register.html"  class="fr">Register</a>
-            </div>
-         </div>
+        <!--<div class="login-box qr_login hide" style="float: right;overflow: hidden;zoom: 1;">-->
+            <!--<div class="login_select qr ">-->
+                <!--<span class="signin">Wechat Scan QR to sign in </span>-->
+                <!--<img class="fr" src="__PUBLIC__/Shop/images/pc-to-login.png" alt=""/>-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<div class="wechat_qr fl"><label id="login_container"></label></div>-->
+                <!--<div class="tit_img fr"><img src="__PUBLIC__/Shop/images/tit_login.png" alt=""/></div>-->
+            <!--</div>-->
+            <!--<div class="clr"></div>-->
+            <!--<div class="lg_foot">-->
+                <!--<a href="/login/findpwd.html" class="fl">Forget your password?</a>-->
+                <!--<a href="/login/register.html"  class="fr">Register</a>-->
+            <!--</div>-->
+         <!--</div>-->
     </div>
 </div>
 <div class="container">

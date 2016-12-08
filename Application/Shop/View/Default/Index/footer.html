@@ -1,6 +1,6 @@
 <div class="footer">
-    <div class="container">
-        <div class="fhead fuwu">
+    <div class="great-box">
+        <div class="fhead fuwu container">
             <ul class="caselist">
                 <li>
                     <a href="#"class="fitem_bofore" >
@@ -10,8 +10,12 @@
                     <div class="fitem_after">
                         <img src="__PUBLIC__/Shop/images/G_G.png" width="60" alt=""/>
                         <span class="fitem-titel">GREEN</span>
-                        <div class=" fitem-content">
-                            The Earth, our home, the one and only in the universe, we will do all what we can do to protect the earth and the en-vironment we live in. Our pr-omise...
+                        <div class=" fitem-content" style="word-break: break-all">
+                            The Earth, our home, the one
+                            and only in the universe, we
+                            will do all what we can do to
+                            protect the earth and the en-vironment
+                            we live in. Our pr-omise...
                             <div class="more"> <a href="/content/view/id/3265.html">More</a></div>
                         </div>
                     </div>
@@ -95,7 +99,9 @@
             </ul>
         </div>
         <div class="clr"></div>
-        <div class="foot-list">
+    </div>
+    <div class="content_box">
+        <div class="foot-list container" style=" padding-top: 15px;">
             <ul class="">
                 <li>
                     <p class="foot-list-p">GETTING STARTED</p>
@@ -129,27 +135,24 @@
             </ul>
         </div>
         <div class="clr"></div>
-    </div>
-
-    <div class="partnerShip">
         <div class="container">
             <span class="foot-list-p">PARTNERSHIP</span>
-            <ul style="margin-left: 120px;margin-top: -15px; " id="partner">
+            <ul style="margin-left: 120px;margin-top: -39px; " id="partner">
                 <li style="width:120px;position: relative;">
-                    <a href="" style="width:120px;position: relative; border: 1px solid #e0e0e0;padding: 3px 8px; overflow: hidden;display:block" >
+                    <a href="" style="width:120px;position: relative; padding: 3px 8px; overflow: hidden;display:block" >
                         <img src="__PUBLIC__/images/mmexport1480580358096.jpg" class="plogo" width="120" id="dd" alt=""/>
                     </a>
                     <div class="pqr_box hide" style="position: absolute;z-index: 0; width: 122px; top:-65px;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/images/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="clr"></div>
-
-    <div class="container">
-        <div class="foot-no">{:lbl('copyright')}</div>
         <div class="clr"></div>
+        <div class="container">
+            <div class="foot-no">{:lbl('copyright')}</div>
+            <div class="clr"></div>
+        </div>
     </div>
+
 </div>
 <script>
     $(function () {
@@ -167,7 +170,7 @@
             }, 200);
         },function(e){
             clearTimeout(curMove);
-            $(this).find('.pqr_box').animate({ top: '-65px' }, moveTime,function(){
+            $(this).find('.pqr_box').animate({ top: '-50px' }, moveTime,function(){
                 $('#partner .pqr_box').hide()
             });
         });
@@ -180,7 +183,7 @@
             }, 200);
         },function(e){
             clearTimeout(curMove);
-            $(this).children('.fitem_bofore').animate({ top: '60px' }, moveTime);
+            $(this).children('.fitem_bofore').animate({ top: '45px' }, moveTime);
             $(this).children('.fitem_after').animate({ top: moveHeight + 'px' }, moveTime);
         });
 

@@ -6,39 +6,17 @@
     <meta name="keywords" content="{$keywords}" />
     <meta name="description" content="{$description}" />
     <include file="Index:header" />
-    <!--<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />-->
-    <!--<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />-->
-    <!--<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />-->
-
-    <script language="javascript">
-        //$(function(){
-        //	$(".btnDeduct").on("click",function() {
-        //		var minbuy = parseInt($("#buyAmount").attr("min"));
-        //		var num = parseInt($("#buyAmount").val());
-        //		if(minbuy!=0){
-        //			if(num<minbuy){
-        //				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');
-        //				$("#buyAmount").val(minbuy);
-        //				return false;
-        //			}
-        //		};
-        //		return false;
-        // 	});
-        //});
-    </script>
 </head>
-
 <body>
-<include file="Index:bar" />
 <include file="Index:nav2" />
-<div class="container">
-    <div class="path">{:get_product_location($good['pid'])} </div>
-    <div class="good-info-head"   id="js_goods_{$good['id']}" data-id="{$good['id']}" data-price="{$good['price']}" data-stock="{$good['stock']}" data-indexpic="{$good.indexpic}" data-name="{$good['title']}">
+<div class="path clr"><div class="container">{:get_product_location($good['pid'])} </div></div>
+<div class="bg_white">
+    <div class="good-info-head container"   id="js_goods_{$good['id']}" data-id="{$good['id']}" data-price="{$good['price']}" data-stock="{$good['stock']}" data-indexpic="{$good.indexpic}" data-name="{$good['title']}">
         <div class="good-ih-img">
             <div class="imglist fl">
                 <volist name="gallery" id="vo">
                     <if condition="$i elt 5">
-                        <div class="img-list" onclick="selectShowImg(this)">
+                        <div class="img-list"<if condition="$i eq 1">  style="border: 3px solid #cccccc  " </if> onclick="selectShowImg(this)">
                             <img src="{$vo}" width="54" height="54"  alt="" />
                         </div>
                     </if>
@@ -79,53 +57,64 @@
             </div>
         </div>
     </div>
-    <if condition="$good['content']">
-        <div class="good_desc">
-            <div class="good_desc_title">Description</div>
-            <div class="cpcontent bg_white" style="padding:10px 0 10px 10px;">
+</div>
+<if condition="$good['content']">
+    <div class="bg_white" style="border-top: 1px solid #dcdcdc">
+        <div class="good_desc_title container"><img src="__PUBLIC__/Shop/images/snajiao.png" alt="" style="position: relative;top: -3px;"/>&nbsp;&nbsp;Description</div>
+    </div>
+    <div class="bg_white">
+        <div class="good_desc container">
+            <div class="cpcontent " style="padding:10px 0 10px 10px;">
                 {$good.content}
             </div>
         </div>
-    </if>
+    </div>
+    </div>
+</if>
     <php>$mightlike = get_product_lists($good['pid'],4,2);</php>
     <if condition="$mightlike">
-        <div class="good_desc_title good_desc"> You might like</div>
-        <ul class=" good-contents  mightlike">
-            <volist name="mightlike" id="vo">
-                <li class="goods" <if condition="$i lt 5">style="margin-top:15px;"</if> id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
-                data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                    <div style="width: 262px;margin: 0 auto;" class="fl">
-                        <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
-                        <div class="good-name">
-                            <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
-                            <div class="good_item_info">
-                                <div class="good_info fl">
-                                    Unit: {$vo.unit}<br>
-                                    Origin: {$vo.origin}<br>
-                                    <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
-                                    <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+        <div class="bg_white" style="border-top: 1px solid #dcdcdc">
+            <div class="good_desc_title good_desc container"> <img src="__PUBLIC__/Shop/images/snajiao.png"  style="position: relative;top: -3px;" alt=""/>&nbsp;&nbsp;You might like</div>
+        </div>
+        <div class="bg_white">
+            <ul class=" good-contents  mightlike container ">
+                <volist name="mightlike" id="vo">
+                    <li class="goods" <if condition="$i lt 5">style="margin-top:15px;"</if> id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                    data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                        <div style="width: 294px;margin: 0 auto;" class="fl">
+                            <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                            <div class="good-name">
+                                <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                                <div class="good_item_info">
+                                    <div class="good_info fl">
+                                        Unit: {$vo.unit} Origin: {$vo.origin}eeee<br>
+                                        <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                        <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                    </div>
+                                    <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event,'view')"></div>
                                 </div>
-                                <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event,'view')"></div>
                             </div>
                         </div>
-                    </div>
-                </li>
-            </volist>
-            <div class="clr"></div>
-        </ul>
+                    </li>
+                </volist>
+                <div class="clr"></div>
+            </ul>
+        </div>
     </if>
     <div class="clr"></div>
 </div>
-
+<div class="bg_white" style="height: 40px;;"></div>
 <include file="Index:footer" />
 <script>
     function selectShowImg(obj){
+        $('.imglist .img-list').css('border','none');
+        $(obj).css('border','3px solid #cccccc');
         var img = $(obj).find('img').attr('src');
         $('#img_show_box').attr('src',img);
     }
 
     $('.good-contents .goods ').mouseover(function(){
-        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
+        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/shopping_cart_black.png") no-repeat center','background-size': 'auto 35px','top':'-77px','right': '14px'})
         $(this).addClass('good-hover');
     })
 

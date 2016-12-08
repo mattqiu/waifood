@@ -10,7 +10,7 @@
 <include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
-    <div class="path"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
     <div class="content">
         <div class="left fl">
             <include file="left" />
@@ -69,27 +69,6 @@
 <div class="clr"></div>
 <include file="Index:footer" />
 <script>
-function cancelOrder(id,orderno) {
-    swal({
-        title: '',
-        text: 'Are you sure you want to cancel the order?',
-        type: 'warning',
-        showCancelButton: true,
-        closeOnConfirm: false,
-        confirmButtonText: "Yes"
-    }, function() {
-        $.post('/order/cancelOrder.html',{orderno:orderno},function(data){
-            if(data.code == 200){
-                $('.js_onging_order_num').html(parseInt($('.js_onging_order_num').html())-1);
-                $('.js_all_order_num').html(parseInt($('.js_all_order_num').html())-1);
-                $('#order_row_'+id).remove();
-                clearpopj(data.message, "success",true);
-            }else{
-                clearpopj(data.message, "error",true);
-            }
-        })
-    });
-};
 </script>
 </body>
 </html>

@@ -14,8 +14,7 @@
 <div class="cat_list_sx">
     <div class="container">
         <if condition="!isset($_REQUEST['group']) || !$_REQUEST['group']">
-            <div class="path">{:get_product_location($_REQUEST['id'])} </div>
-            <div class="cat_obj_sx">
+         <!--   <div class="cat_obj_sx">
                 <div  class="cat_name fl">Brand:</div>
                 <div  class="cat_val fl">
                     <a href="{:set_url('brand')}" <if condition="!$_REQUEST['brand']"> class="selected"</if>>All</a>
@@ -25,9 +24,9 @@
                         </a>
                     </volist>
                 </div>
-            </div>
+            </div>-->
             <div class="clr"></div>
-            <div class="cat_obj_sx cat_dashed">
+            <!--<div class="cat_obj_sx cat_dashed">
                 <div class="cat_name fl">Origin:</div>
                 <div class="cat_val fl">
                     <a href="{:set_url('origin')}" <if condition="!$_REQUEST['origin']"> class="selected"</if>>All</a>
@@ -37,32 +36,37 @@
                         </a>
                     </volist>
                 </div>
-            </div>
+            </div>-->
             <div class="clr"></div>
         <else/>
-            <div class="path"><a href="/">Home</a> &gt;
-                <if condition="$_REQUEST['group'] eq 8">
-                    <a href="javascript:void (0);">New Arrival</a>
-                    <elseif condition="$_REQUEST['group'] eq 9"/>
-                    <a href="javascript:void (0);">Promotion</a>
-                    <elseif condition="$_REQUEST['group'] eq 11"/>
-                    <a href="javascript:void (0);">Recommend</a>
-                </if>
-              </div>
+
         </if>
       </div>
 </div>
 <div class="container">
+    <if condition="isset($_REQUEST['group']) || $_REQUEST['group']">
+        <div class="path "><a href="/">Home</a> &gt;
+            <if condition="$_REQUEST['group'] eq 8">
+                <a href="javascript:void (0);">New Arrival</a>
+                <elseif condition="$_REQUEST['group'] eq 9"/>
+                <a href="javascript:void (0);">Promotion</a>
+                <elseif condition="$_REQUEST['group'] eq 11"/>
+                <a href="javascript:void (0);">Recommend</a>
+            </if>
+        </div>
+        <else/>
+        <div class="path clr">{:get_product_location($_REQUEST['id'])} </div>
+    </if>
     <form class="px_tit" method="get" action="/Product/lists.html">
         <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
         <input type="hidden" value="" id="peixu"/>
         <label class="px fl "  for="Default" style="padding-left: 3px;">
-            <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="selected"</if> onclick="$('#peixu').val('');" value="Default"/>
+            <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="fc_red"</if> onclick="$('#peixu').val('');" value="Default"/>
         </label>
 
         <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','price');" >
-            <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="selected"</if>/>
+            <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="fc_red"</if>/>
             <if condition="$_REQUEST['price'] eq 'asc'">
                 <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
                 <elseif condition="$_REQUEST['price'] eq 'desc'"/>
@@ -74,7 +78,7 @@
 
         <label  class="px fl" for="sales"  <if condition="$_REQUEST['sales'] eq 'asc'">data-val="desc"<else/>data-val="asc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','sales');" >
-            <input type="submit" id="sales"value="Sales"  <if condition="$_REQUEST['sales']">class="selected"</if>/>
+            <input type="submit" id="sales"value="Sales"  <if condition="$_REQUEST['sales']">class="fc_red"</if>/>
             <if condition="$_REQUEST['sales'] eq 'asc'">
                 <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
             <elseif condition="$_REQUEST['sales'] eq 'desc'"/>
@@ -91,16 +95,15 @@
             <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                 data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                 <div style="width: 294px;margin: 0 auto;" class="fl">
-                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                    <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  /></div> </a>
                     <div class="good-name">
                         <a href="/product/view.html?id={$vo.id}">
                             <div class="good_title">{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</div>
                         </a>
                         <div class="good_item_info ">
                             <div class="good_info list_good fl">
-                                Unit: {$vo.unit}<br>
-                                Origin: {$vo.origin}<br>
-                                <div class="prict_info">
+                                <div class="prict_info">                                Unit: {$vo.unit}&nbsp;&nbsp;Origin: {$vo.origin}<br>
+
                                     <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                     <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                 </div>
@@ -123,7 +126,7 @@
 <include file="Index:footer" />
 <script>
     $('.good-contents .goods ').mouseover(function(){
-        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/good_shopping_cart_hover.png") no-repeat center','background-size': 'auto 50px'})
+        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/shopping_cart_black.png") no-repeat center','background-size': 'auto 35px'})
         $(this).addClass('good-hover');
         $(this).find('.prict_info').addClass('hide');
         $(this).find('.quantity').removeClass('hide');

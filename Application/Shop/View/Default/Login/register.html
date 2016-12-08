@@ -9,9 +9,9 @@
 </head>
 <body style="background: #FFFFFF;">
 <div class="container regbox">
-    <div class="logo"><img src="__PUBLIC__/images/logo.png" alt=""/></div>
+    <div class="logo"><img src="__PUBLIC__/images/logo.png" width="210" alt=""/></div>
     <form class="reg " id="myform" onsubmit="return false">
-        <div class="signin reg-item">Register</div>
+        <div class="signin reg-item">Sign up</div>
         <div class="reg-item">
             <div class="input_text">User Name
                 <input type="text" class="reginput"  name="username" id="username"  placeholder="3-50 characters" />
@@ -46,13 +46,14 @@
         </div>
         <div class="clr"></div>
         <div class="reg-item" style="border:none;margin-left: 0">
-            <div class="input_text"  style="border:none;margin-left: -10px; margin-top: -25px;">Gender
-                <label><input name="sex" type="radio" id="sex1" value="1" />
-                    Male</label>&nbsp;&nbsp;&nbsp;&nbsp;
-                <label><input type="radio" name="sex" id="sex2" value="0" checked/>
-                    Female</label>
-            </div>
+           <div class="fl" style="line-height: 30px;">Gender&nbsp;&nbsp;&nbsp;</div>
+            <ul id="sex" class="reg_sex fl">
+                <li class="hover"  data-sex="1">Male</li>
+                <li data-sex="0">Female</li>
+            </ul>
         </div>
+        <div class="clr"></div>
+
         <div class="reg-item" style="margin-top: -10px;">Living city in China
             <ul id="levecity" class="city">
                 <li class="hover"  data-city="chengdu">Chengdu</li>
@@ -181,7 +182,7 @@
         </div>
         <div class="reg-item">
             <button onclick="reg()" style="width: 414px" class="lgbtn" >Register now</button>
-          <div class="reg-item">Already have an account?<a href="/login/index.html" style="color: #2eb661"> Sign in</a></div>
+          <div class="reg-item">Already have an account?<a href="/login/index.html" style="color: #fc2c3d"> Sign in</a></div>
         </div>
     </form>
 </div>
@@ -191,6 +192,10 @@
 <script>
     $('.city li').click(function () {
         $('.city li').removeClass('hover');
+        $(this).addClass('hover');
+    })
+    $('#sex li').click(function () {
+        $('#sex li').removeClass('hover');
         $(this).addClass('hover');
     })
 
@@ -259,6 +264,8 @@
         subBlock = true;//阻塞
         var $data = $("#myform").serialize();
         $data += '&cityname=' + $('#levecity .hover').data('city');
+        $data += '&sex=' + $('#sex .hover').data('sex');
+        console.log($data);return false;
         $.post('/Login/reg.html', $data, function (data) {
             subBlock = false;//解除阻塞
             if (data.code == 200) {

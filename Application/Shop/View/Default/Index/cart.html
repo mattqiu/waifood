@@ -6,26 +6,26 @@
 <include file="Index:header" />
 </head>
 <body pagename="cart">
-<include file="Index:bar"/>
 <include file="Index:nav2"/>
-<div class="container cart">
-    <div class="title-img"></div>
-    <div class="empty_cart_box tc hide" id="empty_cart_box">
-        Your shopping cart is empty!<br/>
-        <a href="/" class="continueshopping">Continue shopping >></a>
-    </div>
-    <table width="1000px" class="mytable " id="good_cart" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
-    </table>
-    <div class="cart_foot_info">
-        <div class="fl goshopping" ><a href="/" >&lt;&lt;Continue shopping</a></div>
-        <div class="fr cart_total_info">
-            <div>Quantity: <span id="quantity">0</span></div>
-            <div style=" line-height: 65px;">Total Amount: <span id="totalAmount">&yen;0</span></div>
-            <div class="checkout" onclick="gocashier();">Priceed to <br/> checkout</div>
+<div class="title-img" style="margin-bottom: 0"></div>
+<div class="bg_white">
+    <div class="container cart">
+        <div class="empty_cart_box tc hide" id="empty_cart_box">
+            Your shopping cart is empty!<br/>
+            <a href="/" class="continueshopping">Continue shopping >></a>
+        </div>
+        <table width="1000px" class="mytable cart_table " id="good_cart" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+        </table>
+        <div class="cart_foot_info">
+            <div class="fl goshopping" ><a href="/" >&lt;&lt;Continue shopping</a></div>
+            <div class="fr cart_total_info">
+                <div>Quantity: <span id="quantity">0</span></div>
+                <div style=" line-height: 65px;">Total Amount: <span id="totalAmount">&yen;0</span></div>
+                <div class="checkout" onclick="gocashier();">Proceed to <br/> checkout</div>
+            </div>
         </div>
     </div>
 </div>
-
 <include file="Index:footer" />
 <script>
     var mytableheight = $('.mytable').height() ;

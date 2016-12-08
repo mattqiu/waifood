@@ -62,7 +62,7 @@ class OrderModel extends Model{
        // self::catStock('20161110121951');return;
 
         if(!is_date(substr($data['delivertime'],0,10))){
-            apiReturn('Sorry, please select the delivery date.');
+            apiReturn(CodeModel::ERROR,'Sorry, please select the delivery date.');
         }
         $order = self::seperateOrder($data['order']);//获取商品
         $amount = self::checkOrder($order);//检查库存

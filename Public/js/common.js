@@ -361,6 +361,25 @@ Mask.prototype = {
             $(this).find('img').attr('src','/Public/images/close.png');
         })
     }
+}
 
-
+function animateShow($obj,$px,fx,time){
+    if(!time){
+        time =30;
+    }
+    setTimeout(function (){
+        if(fx =='t'){
+            $obj.animate({ top: $px+'px' }, time,function(){
+            });
+        }else if(fx=='r'){
+            $obj.animate({ right: $px+'px' }, time,function(){
+            });
+        }else if(fx=='b'){
+            $obj.animate({bottom: $px+'px' }, time,function(){
+            });
+        }else {
+            $obj.animate({ left: $px+'px' }, time,function(){
+            });
+        }
+    }, 200);
 }
