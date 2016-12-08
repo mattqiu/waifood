@@ -44,14 +44,16 @@
       </div>
 </div>
 <div class="container">
-    <if condition="isset($_REQUEST['group']) || $_REQUEST['group']">
-        <div class="path "><a href="/">Home</a> &gt;
+    <if condition="isset($_REQUEST['group']) || $_REQUEST['group'] || $_REQUEST['keyword']">
+        <div class="path clr"><a href="/">Home</a> &gt;
             <if condition="$_REQUEST['group'] eq 8">
                 <a href="javascript:void (0);">New Arrival</a>
                 <elseif condition="$_REQUEST['group'] eq 9"/>
                 <a href="javascript:void (0);">Promotion</a>
                 <elseif condition="$_REQUEST['group'] eq 11"/>
                 <a href="javascript:void (0);">Recommend</a>
+                <elseif condition="$_REQUEST['keyword']"/>
+                <a href="javascript:void (0);">{$_REQUEST['keyword']}</a>
             </if>
         </div>
         <else/>

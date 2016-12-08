@@ -62,7 +62,7 @@
         $.post('/index/subWishList.html',{ext1:username,ext2:phone,ext3:email,ext5:subject,ext6:remarks},function(data){
             subBlock = false;//解除阻塞
             if(data.code == 200){
-                clearpopj(data.message, "success",true);
+                clearpopj(data.message, "success",true,'self');
             }else{
                 clearpopj(data.message, "error",true);
             }

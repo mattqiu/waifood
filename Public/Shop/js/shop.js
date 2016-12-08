@@ -55,7 +55,7 @@ function addgood(id,event,page){
         return false;
     }
     if(myfood_array[id]['amount'] >1 && page != 'view'){
-        $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
+        $('#js_goods_'+id+' .good-num-prep').removeClass('fc_eee');
     }
     var json = $.toJSON(myfood_array);
     $.cookie($goodKey,json,{
@@ -136,9 +136,11 @@ function setGoodNum(id,type){
         num = 1;
     }
     if(num>1){
-        $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
+        $('#js_goods_'+id+' .good-num-prep').removeClass('fc_eee');
+        //$('#js_goods_'+id+' .good-num-prep').css('color','#757575');
     }else{
-        $('#js_goods_'+id+' .good-num-prep').css('color','#eeeeee');
+        $('#js_goods_'+id+' .good-num-prep').addClass('fc_eee');
+        //$('#js_goods_'+id+' .good-num-prep').css('color','#eeeeee');
     }
     $('#js_good_num_'+id).val(num);
 }
@@ -196,7 +198,8 @@ function loadGood(page){
                 amount+=parseInt(obj[i]['amount']);
                 totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
                 if(obj[i]['amount'] <2){
-                    $('#js_goods_'+obj[i]['id'] +' .good-num-prep').css('color','#eeeeee');
+                    $('#js_goods_'+obj[i]['id']+' .good-num-prep').addClass('fc_eee');
+                    ///$('#js_goods_'+obj[i]['id'] +' .good-num-prep').css('color','#eeeeee');
                 }
             }
             $('#CartNo').html(amount);
@@ -345,7 +348,7 @@ function getCartData(){
                     if(obj[i]['amount']>1){
                         $html += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }else{
-                        $html += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" style="color:#eeeeee" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        $html += '<span class="good-num-prep fc_eee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }
                     $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" onblur="cartSetGoodNum('+obj[i]['id']+');" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
                     $html += '<span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
@@ -372,7 +375,7 @@ function getCartData(){
                     if(obj[i]['amount']>1){
                         outofstock += '<span class="good-num-prep" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }else{
-                        outofstock += '<span class="good-num-prep" style="color:#eeeeee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
+                        outofstock += '<span class="good-num-prep fc_eee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }
                     outofstock += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
                     outofstock += '<span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
