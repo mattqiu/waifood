@@ -81,7 +81,7 @@
                 <volist name="mightlike" id="vo">
                     <li class="goods" <if condition="$i lt 5">style="margin-top:15px;"</if> id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                     data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                        <div style="width: 294px;margin: 0 auto;" class="fl">
+                        <div class="fl goods_c">
                             <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
                             <div class="good-name">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>

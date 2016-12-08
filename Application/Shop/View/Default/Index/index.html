@@ -53,13 +53,13 @@
                 <ul class="picList">
                     <volist name="promotion" id="vo">
                         <li class="goods goods_li_{$i%4}" id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                            <div class="fl goods">
+                            <div class="fl goods_c">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="100%"/></div> </a>
                                 <div class="good-name">
                                     <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
                                     <div class="good_item_info">
                                         <div class="good_info fl">
-                                            Unit: {$vo.unit} Origin: {$vo.origin}eeee<br>
+                                            Unit: {$vo.unit} Origin: {$vo.origin}<br>
                                             <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                             <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                         </div>
@@ -89,7 +89,7 @@
             <volist name="newArrival" id="vo">
                 <if condition="$i elt 8">
                     <li class="goods "   id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                        <div class="fl goods">
+                        <div class="fl goods_c">
                             <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="100%"/></div> </a>
                             <div class="good-name">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
@@ -122,7 +122,7 @@
                 <if condition="$i elt 8">
                     <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
                         data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
-                        <div class="fl goods">
+                        <div class="fl goods_c">
                             <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="100%"/></div> </a>
                             <div class="good-name">
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>

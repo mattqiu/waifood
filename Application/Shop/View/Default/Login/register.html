@@ -265,7 +265,6 @@
         var $data = $("#myform").serialize();
         $data += '&cityname=' + $('#levecity .hover').data('city');
         $data += '&sex=' + $('#sex .hover').data('sex');
-        console.log($data);return false;
         $.post('/Login/reg.html', $data, function (data) {
             subBlock = false;//解除阻塞
             if (data.code == 200) {
