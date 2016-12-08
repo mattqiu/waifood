@@ -17,22 +17,22 @@
         </div>
         <div class="right fr orderview">
             <div class="orderinfo">
-                <div class="order_head">Order No.：{$order.orderno}
+                <div class="order_head">Order No.&nbsp;:&nbsp;{$order.orderno}
                     <span class="selected" style="margin-left: 50px;">{:get_status($order['status'])} </span>
                 </div>
                 <div class="order_receiving">
                     <div class="order_item_title">Receiving information</div>
                     <div class="order_address">
-                        Name：{$order.username}<br />
-                        Mobile：{$order.telephone} <br />
-                        Address：{$order.address}
+                        Name&nbsp;:&nbsp;{$order.username}<br />
+                        Mobile&nbsp;:&nbsp;{$order.telephone} <br />
+                        Address&nbsp;:&nbsp;{$order.address}
                     </div>
                 </div>
                 <div class="order_item">
                     <div class="order_item_title">Payment and Delivery date</div>
                     <div class="order_address" style=" line-height: 25px;">
 
-                        Payment：<if condition="$order['paymethod'] eq 4">
+                        Payment&nbsp;:&nbsp;<if condition="$order['paymethod'] eq 4">
                             Cash on delivery
                             <elseif condition="$order['paymethod'] eq 2"/>
                             Paypal
@@ -44,7 +44,7 @@
                             <span style="margin-left: 25px; color: #2eb661">Paid</span>
                         </if>
                         <div style="height: 7px;"></div>
-                        Delivery date：{$order.delivertime}
+                        Delivery date&nbsp;:&nbsp;{$order.delivertime}
                     </div>
                 </div>
                 <div class="order_item">
@@ -92,8 +92,8 @@
                                     <td colspan="2" align="left">&nbsp;</td>
                                     <td colspan="4" align="right" class="tinfo">
                                         Amount:&yen;{$money}<br/>
-                                        Delivery Fee： &yen;{$order.shipfee}<br />
-                                        Total Amount：<span class="price">&yen;{$order.amount}</span>
+                                        Delivery Fee&nbsp;:&nbsp; &yen;{$order.shipfee}<br />
+                                        Total Amount&nbsp;:&nbsp;<span class="price">&yen;{$order.amount}</span>
                                     </td>
                                 </tr>
                         </table>
