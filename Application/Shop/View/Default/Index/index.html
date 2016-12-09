@@ -12,21 +12,32 @@
 </head>
 <body id="top">
 <include file="Index:nav2" />
-<div class="banner-box">
-    <div class="tc banner-img" id="banner">
-        <div class="bdc">
-            <ul>
-                {:lbl('banner')}
-   <!--             <volist name="banner" id="vo">
-                    &lt;!&ndash;<li style="background: url('./Public/{$vo.indexpic}')  50% 0 repeat-x" onclick="window.location.href='{$vo.picurl}'"></li>&ndash;&gt;
-                </volist>-->
-            </ul>
-        </div>
-        <div class="hd-solid hdc container" style="position: relative;bottom: 48px;">
-            <ul></ul>
-        </div>
-    </div>
+<div class="flexslider">
+    <ul class="slides">
+        <li><a target="_blank" style="background: url(./Public/Shop/images/test/1556.jpg) 50% 0 repeat-x;"></a></li>
+        <li><a target="_blank" style="background: url(./Public/Shop/images/test/1550.jpg) 50% 0 repeat-x;"></a></li>
+        <li><a target="_blank" style="background: url(./Public/Shop/images/test/1540.jpg) 50% 0 repeat-x;"></a></li>
+        <li><a target="_blank" style="background: url(./Public/Shop/images/test/1543.jpg) 50% 0 repeat-x;"></a></li>
+        <!--<volist name="banner" id="vo">-->
+            <!--<li><a target="_blank" href="{$vo.picurl}" style="background: url(./Public/{$vo.indexpic}) 50% 0 repeat-x;"></a></li>-->
+        <!--</volist>-->
+    </ul>
 </div>
+
+<!--<div class="banner-box">-->
+    <!--<div class="tc banner-img" id="banner">-->
+        <!--<div class="bdc">-->
+            <!--<ul>-->
+                <!--{:lbl('banner')}-->
+
+            <!--</ul>-->
+        <!--</div>-->
+        <!--<div class="hd-solid hdc container" style="position: relative;bottom: 48px;">-->
+            <!--<ul></ul>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
 <div class="bg_white" style="border-bottom: 1px solid #E0E0E0 ">
         <div class="index-item container clr">
             <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/nocard.png" alt=""/></div><div class="fl i-name" style="color: #40c8d6">No China's debit card required</div></div>
@@ -144,14 +155,28 @@
 </div>
 <include file="Index:footer" />
 <script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript"  src="__PUBLIC__/js/jquery-scrolltofixed-min.js"></script>
+<script type="text/javascript"  src="__PUBLIC__/js/jquery.flexslider-min.js"></script>
 <script>
     $(function(){
-        var $width = $(window).width();
-        $('.banner-box .banner-img .bdc li').css({'width':$width+'px','height':'430px;'});
-        $('.banner-box .bdc li img').attr('width',$width+'px');
-
-        $("#banner").slide({ titCell:".hdc ul", mainCell:"#banner .bdc ul",effect:"leftLoop",vis:1,scroll:1,autoPlay:true,autoPage:true,timeout:4000});//banner轮播
+        //banner 轮播
+         $(".flexslider").flexslider({
+                    animation: "slide",  //有"fade"：淡入淡出，"slide"：滑动
+                    slideshow: true, //Boolean: Animate slider automatically 载入页面时，是否自动播放
+                    animationLoop:true, //是否循环滚动
+                    slideshowSpeed:3500,//内容展示时间(ms)
+                    animationSpeed: 500, //内容切换时间(ms)
+                    directionNav:true, //是否显示左右箭头按钮
+                    pauseOnHover:true,
+                    pauseOnAction: false
+                });
+        $('.flexslider').hover(function(){
+            $('.flexslider .flex-direction-nav').show();
+        },function(){
+            $('.flexslider .flex-direction-nav').hide();
+        })
         $("#promotion").slide({ titCell:"#promotion .hd ul", mainCell:"#promotion .bd ul",effect:"leftLoop",vis:4,scroll:4,autoPlay:true,autoPage:true});//PROMOTION轮播
+
         $(' .goods ').mouseover(function(){
             $(this).find(' .good_shop_cart').css({'background': 'url("./Public/Shop/images/shopping_cart_black.png") no-repeat center','background-size': 'auto 30px'})
         })

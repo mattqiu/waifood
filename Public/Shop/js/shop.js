@@ -577,11 +577,13 @@ function submitOrder(){
         subBlock = false;//解除阻塞
         return false
     };
-    //配送时间
+
     var deliverydatetimes = '';
     for(var i in deliverydate){
-        deliverydatetimes +=i;
-        deliverydatetimes +=' '+deliverydate[i]+' ';
+        if(deliverydate[i].indexOf(':')>0 ||deliverydate[i].indexOf('-')>0 ){
+            deliverydatetimes +=i;
+            deliverydatetimes +=' '+deliverydate[i]+' ';
+        }
     }
     var data = {
         shop_id : $("#shop_id").val(),

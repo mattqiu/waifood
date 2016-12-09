@@ -113,7 +113,16 @@
                                             </dt>
                                             <volist name="dateData" id="vo" >
                                                 <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
-                                                    <dd data-isholiday="{$vo.isholiday}" <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>{$vo.week} <br />{$vo.date}</dd>
+                                                    <dd data-isholiday="{$vo.isholiday}"  <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>
+                                                    <if condition="$i eq 1">
+                                                        Today
+                                                        <elseif condition="$i eq 2"/>
+                                                        Tomorrow
+                                                        <else/>
+                                                        {$vo.week}
+                                                    </if>
+                                                     <br />{$vo.date}
+                                                    </dd>
                                                 </if>
                                             </volist>
                                         </dl>
@@ -247,8 +256,6 @@
             deliverydate[$(this).data('date')].push($(this).data('time'))
             $(this).addClass('selected_time');
         }
-
-        console.log($day)
     })
 
 </script>

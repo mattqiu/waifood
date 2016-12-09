@@ -1,24 +1,13 @@
 <?php
-var_dump(123123);exit;
-header('content-type:application:jsonp;charset=utf8');
-$origin = isset($_SERVER['HTTP_ORIGIN'])? $_SERVER['HTTP_ORIGIN'] : '';
-$allow_origin = array(
-    'http://www.3cfood.cc',
-    'http://www.3cfood.com',
-);
-if(in_array($origin, $allow_origin)){
-    header('Access-Control-Allow-Origin:'.$origin);
-    header('Access-Control-Allow-Methods:POST');
-    header('Access-Control-Allow-Headers:x-requested-with,content-type');
-}
 
-require '../../../ThinkPHP/Extend/Vendor/Lxlib/loader.php';
-require '../../../ThinkPHP/Extend/Vendor/Lxlib/upload/src/LxUpload.class.php';
-$originalConf = require '../lingdianit/Conf/uploadconfig.php';
+//require '../../../ThinkPHP/Extend/Vendor/Lxlib/loader.php';
+//require '../../../ThinkPHP/Extend/Vendor/Lxlib/upload/src/LxUpload.class.php';
+$originalConf = require  '../Application/Common/Conf/uploadconfig.php';
+
 $scope = isset($_GET['scope']) ? $_GET['scope'] : '';
 $callback = isset($_GET['back']) ? $_GET['back']:(isset($_GET['callback']) ? $_GET['callback'] : '');
-$from = isset($_GET['from']) ? $_GET['from'] : '';
-$stream = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : '';
+
+//$stream = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : '';
 if (!preg_match("/^http:\/\/[A-Za-z0-9]+\.[A-Za-z0-9]+[\/=\?%\-&_~`@[\]\’:+!]*([^<>\”])*$/", $callback)) {
     $data = array('error' => 1, 'message' => "invalid callback");
     response($data);
@@ -27,79 +16,61 @@ if (!preg_match("/\w+/", $scope)) {
     $data = array('error' => 1, 'message' => "invalid scope");
     response($data);
 }
-if (!array_key_exists($from, $originalConf)) {
-    $data = array('error' => 1, 'message' => "invalid from");
-    response($data);
-}
 
-$config = $originalConf[$from][$scope];
-if ($config) {
-    $bucket = "image-share";
-    $config['0xiao_savepath'] = $config['0xiao_savepath'] . "image";    //追加动态目录,为了符合 kindeditor的定义，这里建立个 父母了 image
-} else {
+$config = $originalConf[$scope];
+if (!$config) {
     $data = array('error' => 1, 'message' => "没有在配置文件中找到对应的scope");
     response($data);
 }
 
+$savePath =$config['savepath']?$config['savepath']:'/upload/other/';
+
 $hostname = php_uname('n');
-$ossConfig  = array();
-if(stripos($hostname,"pro") !== false) {
-    $ossConfig = array(
-       "access_id"=>"OwT8CGyYXww6flXT",
-       "access_key"=>"m6e07lbffFfiATeiYxoALCzonFtrAT",
-       "host"=>"oss-cn-hangzhou-internal.aliyuncs.com",  //内网上传
-       "bucket"=>$bucket,
-    );
+if (strtolower($hostname) == 'pc-20160819tbmr') { // 本地模式
+    $absSavePath = 'D:/WAMP/waifood/Public/upload/'.$savePath;
 } else {
-     $ossConfig = array(
-       "access_id"=>"OwT8CGyYXww6flXT",
-       "access_key"=>"m6e07lbffFfiATeiYxoALCzonFtrAT",
-       "host"=>"oss-cn-hangzhou.aliyuncs.com",
-       "bucket"=>$bucket,
-    );
+    $absSavePath = '/home/www/waifood/Public/'.$savePath;
 }
-
-//$stream
-$upload = new LxUpload($ossConfig);
-$res = $upload->upload($config['save_project'], $config['0xiao_savepath'], array(
-    'fixedWidth' => $config['0xiao_fixed_width'], // 固定宽度限制
-    'fixedHeight' => $config['0xiao_fixed_height'], // 固定高度限制
-    'maxSize' => $config['maxSize'],  //文件大小限制,字节数 5M = 5*1024*1024 5kb = 5*1024
-    'allowExts' => $config['allowExts'] // 允许的文件后缀
-),$stream);
-
-if (!$res) {
-    $data = array('error' => 1, 'message' => LxUpload::errorInfo());
-    response($data);
-} else {
-    if($stream){
-            ajaxSuccess($res);
-    }else{
-        if(count($res)==1){
-            $data = array('error' => 0, 'url'=>$res[0]['filepath']);
-        }else{
-            $arr=array();
-            foreach($res as $k=>$file){
-                array_push($arr,$file['filepath']);
-            }
-            $data = array('error' => 0,'url'=> $arr);
-        }
+if (!is_dir($absSavePath)) {
+    if (!mkdir($absSavePath, 0777, true)) {
+        \Think\Log::record('upload', '上传目录' . $absSavePath . '无法创建');
+        $this->error = '上传目录' . $absSavePath . '无法创建';
+        return false;
     }
-    response($data);
 }
-
-function ajaxSuccess($data){
-    $result['code'] = 100;
-    $result['message'] = 'success';
-    $result['data'] = $data;
-    header('Content-Type:application/json; charset=utf-8');
-    if(preg_match('/^jQuery/',$_GET['callback'])){
-        exit($_GET['callback'].'('.json_encode($result).')');
-    }else {
-        exit(json_encode($result));
+$fileInfo ='';
+$files = dealFiles($_FILES);
+foreach ($files as $key => $file) {
+    if (empty($file['name'])) {
+        continue;
     }
+    //登记上传文件的扩展信息
+    $file['key'] = $key;
 
+    $pathinfo = pathinfo($file['name']);//取得上传文件的后缀
+    $file['extension'] =$pathinfo['extension'] ;
+    $file['savepath'] = $savePath;
+    $file['abssavepath'] = $absSavePath;
+     // 使用子目录保存文件
+    $file['savename'] = date('Ymd', time()) . '/'.  md5($file['name']) . "." . $file['extension'];
+    $file['filepath'] = '/'.$savePath . $file['savename'];
+
+    if (!check($file,$config)) {
+        return false;
+    }
+    //保存上传文件
+    if (!save($file)) {
+        return false;
+    }
+    $fileInfo = $file['filepath'];
 }
+
+if($fileInfo){
+    $data = array('code' => 200, 'url'=>$fileInfo);
+}else{
+    $data = array('code' => 400);
+}
+response($data);
 
 function response($data) {
     $callback = isset($_GET['back']) ? $_GET['back']:(isset($_GET['callback']) ? $_GET['callback'] : '');
@@ -107,6 +78,110 @@ function response($data) {
     header("Location: " . $url);
 }
 
+/**
+ * 转换上传文件数组变量为正确的方式
+ * @access private
+ * @param array $files 上传的文件变量
+ * @return array
+ */
+ function dealFiles($files) {
+    $fileArray = array();
+    $n = 0;
+    foreach ($files as $file) {
+        if (is_array($file['name'])) {
+            $keys = array_keys($file);
+            $count = count($file['name']);
+            for ($i = 0; $i < $count; $i++) {
+                foreach ($keys as $key)
+                    $fileArray[$n][$key] = $file[$key][$i];
+                $n++;
+            }
+        } else {
+            $fileArray[$n] = $file;
+            $n++;
+        }
+    }
+    return $fileArray;
+}
 
+/**
+ * 检查上传的文件
+ * @access private
+ * @param array $file 文件信息
+ * @return boolean
+ */
+function check($file,$config) {
+    // 如果是图像文件 检测文件格式
+    if (in_array(strtolower($file['extension']), array('gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'))) {
+        $imgInfo = getimagesize($file['tmp_name']);
+        if (false === $imgInfo) {
+            return '非法图像文件';
+        }
+        if(isset($config['maxWidth']) || isset($config['maxHeight'])){
+            if (($config['maxWidth'] > 0 && $imgInfo[0] > $config['maxWidth']) ||
+                ($config['maxHeight'] > 0 && $imgInfo[1] > $config['maxHeight'])) {
+                return "图片长宽不能超过{$config['maxWidth']}*{$config['maxHeight']}";
+            }
+        }
+        if(isset($config['fixedWidth']) || isset($config['fixedHeight'])) {
+            if (($config['fixedWidth'] > 0 && $imgInfo[0] != $config['fixedWidth']) ||
+                ($config['fixedHeight'] > 0 && $imgInfo[1] != $config['fixedHeight'])
+            ) {
+                return "图片长宽需为 {$config['fixedWidth']}*{$config['fixedHeight']}";
+            }
+        }
+    }
+    if ($file['error'] !== 0) {
+        //文件上传失败
+        //捕获错误代码
+        return ($file['error']);
+    }
+    //文件上传成功，进行自定义规则检查
+    //检查文件大小
+    if(isset($config['maxSize'])){
+        if ($config['maxSize'] > 0 && $file['size'] > $config['maxSize']) {
+            return  '上传文件最大为'.$config['maxSize'].'B！';
+        }
+    }
+
+    //检查文件Mime类型
+    if (!empty($config['allowTypes']) && !in_array(strtolower($file['type']), $config['allowTypes'])) {
+        return '上传文件MIME类型不允许！';
+    }
+
+    //检查文件类型
+    if (!empty($config['allowExts']) && !in_array(strtolower($file['extension']), $config['allowExts'], true)) {
+        return '上传文件类型不允许';
+    }
+
+    //检查是否合法上传
+    if (!is_uploaded_file($file['tmp_name'])) {
+        return '非法上传文件！';
+    }
+    return true;
+}
+
+/**
+ * 上传一个文件
+ * @access public
+ * @param mixed $name 数据
+ * @param string $value 数据表名
+ * @return string
+ */
+function save($file) {
+    $filename = $file['abssavepath'] . $file['savename'];
+    if (is_file($filename)) {
+        // 不覆盖同名文件
+        return  '文件已经存在！' . $filename;
+    }
+
+    if (!is_dir(dirname($filename))) {
+        mkdir(dirname($filename), 0755, true);
+    }
+    if (!move_uploaded_file($file['tmp_name'], $filename)) {
+        return '文件上传保存错误！';
+    }
+    return true;
+}
 
 ?>
