@@ -44,7 +44,7 @@
       </div>
 </div>
 <div class="container">
-    <if condition="isset($_REQUEST['group']) || $_REQUEST['group'] || $_REQUEST['keyword']">
+    <if condition="(isset($_REQUEST['group']) && $_REQUEST['group']) || (isset($_REQUEST['keyword']) && $_REQUEST['keyword'])">
         <div class="path clr"><a href="/">Home</a> &gt;
             <if condition="$_REQUEST['group'] eq 8">
                 <a href="javascript:void (0);">New Arrival</a>
@@ -52,7 +52,7 @@
                 <a href="javascript:void (0);">Promotion</a>
                 <elseif condition="$_REQUEST['group'] eq 11"/>
                 <a href="javascript:void (0);">Recommend</a>
-                <elseif condition="$_REQUEST['keyword']"/>
+                <elseif condition="!empty($_REQUEST['keyword'])"/>
                 <a href="javascript:void (0);">{$_REQUEST['keyword']}</a>
             </if>
         </div>

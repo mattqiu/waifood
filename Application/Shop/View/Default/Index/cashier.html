@@ -23,7 +23,7 @@
                         <div class="addrs <if condition='$vo.isdefault eq 1 || $i eq 1'>selected_addr</if>"  data-cityname="{$vo.cityname}"  data-id="{$vo.id}" >
                             <div class="fl addr-sel"></div>
                             <div class="fr addr">
-                                {$vo.username}&nbsp;({$vo.telephone})&nbsp;{$vo.address}&nbsp;{$vo.cityname}
+                                {$vo.username}&nbsp;({$vo.telephone})&nbsp;{$vo.address}&nbsp;({$vo.cityname})
                                 <if condition="$vo['isdefault'] eq 1">
                                     <span class="default_tic"><i>default address</i></span>
                                 </if>

@@ -16,9 +16,10 @@
     <div class="tc banner-img" id="banner">
         <div class="bdc">
             <ul>
-                <volist name="banner" id="vo">
-                    <li><a href="{$vo.picurl}"><img src="__PUBLIC__/{$vo.indexpic}" height="430" alt=""/></a></li>
-                </volist>
+                {:lbl('banner')}
+   <!--             <volist name="banner" id="vo">
+                    &lt;!&ndash;<li style="background: url('./Public/{$vo.indexpic}')  50% 0 repeat-x" onclick="window.location.href='{$vo.picurl}'"></li>&ndash;&gt;
+                </volist>-->
             </ul>
         </div>
         <div class="hd-solid hdc container" style="position: relative;bottom: 48px;">
@@ -34,9 +35,7 @@
             <div class="fl i_item"><div class="fl i-img"><img src="__PUBLIC__/Shop/images/englishservice.png" style="    margin-left: 5px;" alt=""/></div><div class="fl i-name" style="left: 20px;;color: #e85464">English service</div></div>
         </div>
 </div>
-
 <div class="clr"></div>
-
 <div class="good-content" style="margin-top: -14px">
     <div class="container">
         <div class="index-title">
@@ -95,7 +94,7 @@
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
                                 <div class="good_item_info">
                                     <div class="good_info fl">
-                                        Unit: {$vo.unit} Origin: {$vo.origin}eeee<br>
+                                        Unit: {$vo.unit} Origin: {$vo.origin}<br>
                                         <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                     </div>
                                     <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event)"></div>
@@ -128,7 +127,7 @@
                                 <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
                                 <div class="good_item_info">
                                     <div class="good_info fl">
-                                        Unit: {$vo.unit} Origin: {$vo.origin}eeee<br>
+                                        Unit: {$vo.unit} Origin: {$vo.origin}<br>
                                         <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
                                         <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                     </div>
@@ -148,7 +147,9 @@
 <script>
     $(function(){
         var $width = $(window).width();
+        $('.banner-box .banner-img .bdc li').css({'width':$width+'px','height':'430px;'});
         $('.banner-box .bdc li img').attr('width',$width+'px');
+
         $("#banner").slide({ titCell:".hdc ul", mainCell:"#banner .bdc ul",effect:"leftLoop",vis:1,scroll:1,autoPlay:true,autoPage:true,timeout:4000});//banner轮播
         $("#promotion").slide({ titCell:"#promotion .hd ul", mainCell:"#promotion .bd ul",effect:"leftLoop",vis:4,scroll:4,autoPlay:true,autoPage:true});//PROMOTION轮播
         $(' .goods ').mouseover(function(){

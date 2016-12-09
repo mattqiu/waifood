@@ -2,7 +2,7 @@
   <ul>
     <volist name=":get_product_channel(2,20)" id="vo" key="i">
       <li data-i="{$i}">
-          <a  class="parent_cat" <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="/product/lists.html?id={$vo['id']}"</if>>{$vo.name} <i></i>
+          <a class="parent_cat" <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="/product/lists.html?id={$vo['id']}"</if>>{$vo.name} <i></i>
           </a>
           <div class="submenu">
               <ul>
