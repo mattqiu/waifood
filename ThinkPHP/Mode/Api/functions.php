@@ -627,7 +627,8 @@ function redirect($url, $time=0, $msg='') {
     if (!headers_sent()) {
         // redirect
         if (0 === $time) {
-            header('Location: ' . $url);
+            echo "<script type='text/javascript'>window.location='$url';</script>";
+            //header('Location: ' . $url);
         } else {
             header("refresh:{$time};url={$url}");
             echo($msg);

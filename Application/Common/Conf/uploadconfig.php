@@ -8,8 +8,7 @@ return array(
         'uploadReplace'     =>  true,     // 存在同名是否覆盖
         'saveRule'          =>  'uniqid', // 上传文件命名规则
     ),
-    "master_case"=>array(
-        'save_project'      => '3cfood',
+/*    "master_case"=>array(
         '0xiao_fixed_width' =>260,
         '0xiao_fixed_height'=>180,
         '0xiao_savepath'    =>"food/sharePic/",         //因需要对路径进行预处理，所有无需写UploadFile 类本身的save_path,程序会根据该字段自动生成
@@ -23,13 +22,13 @@ return array(
         'uploadReplace'     =>  true,     // 存在同名是否覆盖
         'saveRule'          =>  'uniqid', // 上传文件命名规则
         'hashType'          =>  '',       // 上传文件Hash规则函数名,不使用
-    ),
+    ),*/
     // 附件上传
-    "file" => array(
+/*    "file" => array(
         'save_project' => "crm",
         '0xiao_savepath' => "file/", //因需要对路径进行预处理，所有无需写UploadFile 类本身的save_path,程序会根据该字段自动生成
         'maxSize' => 10485760, // 上传文件的最大值  10MB
         'allowExts' => array("zip", "txt", "doc" ,"docx", "xls" ,'ppt' ,'pdf','rar',"jpg", "gif", "png", "jpeg"), // 允许上传的文件后缀 留空不作后缀检查
-    ),
+    ),*/
 
 );
