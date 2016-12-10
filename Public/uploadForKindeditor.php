@@ -66,9 +66,11 @@ foreach ($files as $key => $file) {
 }
 
 if($fileInfo){
-    $data = array('code' => 200, 'url'=>$fileInfo);
+    $data = array('error' => 0,'url'=> $fileInfo);
+   // $data = array('code' => 200, 'url'=>$fileInfo);
 }else{
-    $data = array('code' => 400);
+    $data = array('error' => 1,'url'=> '');
+  //  $data = array('code' => 400);
 }
 response($data);
 

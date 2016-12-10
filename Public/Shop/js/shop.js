@@ -37,7 +37,7 @@ function addgood(id,event,page){
             }
         }
     }
-    var myfood_array  = $.parseJSON(myfood);
+      var myfood_array  = $.parseJSON(myfood);
     // 看该产品是否存在
     if(myfood_array){
         if(myfood_array[id]){
@@ -195,8 +195,10 @@ function loadGood(page){
                 $html+='</div>';
                 $html+='<div class="clr"></div>';
                 $html+='</div>';
-                amount+=parseInt(obj[i]['amount']);
-                totalMoney +=  (obj[i]['amount'] *obj[i]['price']);
+                if(obj[i]['amount']) {
+                    amount += parseInt(obj[i]['amount']);
+                    totalMoney += (obj[i]['amount'] * obj[i]['price']);
+                }
                 if(obj[i]['amount'] <2){
                     $('#js_goods_'+obj[i]['id']+' .good-num-prep').addClass('fc_eee');
                     ///$('#js_goods_'+obj[i]['id'] +' .good-num-prep').css('color','#eeeeee');
@@ -358,8 +360,10 @@ function getCartData(){
                     $html += '<td align="center"><a href="javascript:void(0);" class="delete"  onclick="delGood(' + obj[i]['id'] + ',\'cart\')">delete</a></td>';
                     $html += '</tr>';
                     //下架的不计
-                    totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
-                    totalNum +=  obj[i]['amount'];
+                    if(obj[i]['amount']>0){
+                        totalMoney +=  parseFloat(obj[i]['amount'] *obj[i]['price']);
+                        totalNum += parseInt(obj[i]['amount']);
+                    }
                 }else if(obj[i]['id']){ //下架商品
                     outofstock += '<tr class="js_goods_' + obj[i]['id'] + '"   id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '" data-stock="' + obj[i]['stock'] + '" data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['title'] + '">';
                     outofstock += '<td align="left"  id="good-li-' + obj[i]['id'] + '">';
@@ -387,9 +391,12 @@ function getCartData(){
                 }
                 idnum++
             }
+
+            //<div style="line-height: 2px; color: #999999"><img src="__PUBLIC__/Shop/images/waste.png" width="25" alt=""/>empty cart</div>
             var tablecontent =$html+outofstock;
             $('#good_cart').html(tablecontent);
             $('.cart_foot_info').removeClass('hide');
+            $('.clear_cart').removeClass('hide');
             $('#good_cart').removeClass('hide');
             $('#empty_cart_box').addClass('hide');
             $('#totalAmount').html('&yen;'+totalMoney);//总金额
@@ -397,6 +404,7 @@ function getCartData(){
             return true;
         }
     }
+    $('.clear_cart').addClass('hide');
     $('#good_cart').addClass('hide');
     $('.cart_foot_info').addClass('hide');
     $('#empty_cart_box').removeClass('hide');
@@ -489,21 +497,14 @@ function gocashier(){
         "path":"/"
     });
 
-    if(!isNullObj($.parseJSON($.cookie('settlement')))){
+    if($.cookie('settlement') && $.parseJSON($.cookie('settlement'))){
         window.location.href='/index/cashier.html';
     }else{
         clearpopj("Please select a goods!", "error",true);
         return false;
     }
 }
-function isNullObj(obj){
-    for(var i in obj){
-        if(obj.hasOwnProperty(i)){
-            return false;
-        }
-    }
-    return true;
-}
+
 function getSettleGood(){
     var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,idnum= 1,
         $html = '<tbody class="hide"><tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';
@@ -580,7 +581,7 @@ function submitOrder(){
 
     var deliverydatetimes = '';
     for(var i in deliverydate){
-        if(deliverydate[i].indexOf(':')>0 ||deliverydate[i].indexOf('-')>0 ){
+        if(deliverydate[i].length>0){
             deliverydatetimes +=i;
             deliverydatetimes +=' '+deliverydate[i]+' ';
         }
@@ -625,7 +626,7 @@ function clearCart(){
             }
         }
     }
-    $.cookie("settlement", "", {"path": "/"});
+    $.cookie("settlement", null, {"path": "/"});
 
 };
 
@@ -637,11 +638,11 @@ function clearCart(){
 function cancelOrder(id,orderno) {
     swal({
         title: '',
-        text: 'Are you sure you want to cancel the order?',
+        text: ' Are you sure to cancel the order?',
         type: 'warning',
         showCancelButton: true,
         closeOnConfirm: false,
-        confirmButtonText: "Yes"
+        confirmButtonText: "Ok"
     }, function() {
         $.post('/order/cancelOrder.html',{orderno:orderno},function(data){
             if(data.code == 200){
@@ -657,12 +658,22 @@ function cancelOrder(id,orderno) {
 };
 
 
+/**
+ * 清空购物车
+ */
+function clearCartAll(){
+    $('#good_cart').remove();
+    $('#cart_good_box').html('');
+    $('.cart_foot_info').addClass('hide');
+    $('.clear_cart').addClass('hide');
+    $('.empty_cart_box').removeClass('hide');
+    $('#CartNo').html('0');
+    $('#cart_box .js_good_total_num').html('0');
+    $('#cart_box .good_total').html('&yen;0');
+    $.cookie($goodKey, null, {"path": "/"});
+    $.cookie("settlement", null, {"path": "/"});
 
-
-
-
-
-
+}
 
 
 

@@ -10,7 +10,8 @@ upload.prototype.uploadPic= function(scope,uploadPhp){
         editor.plugin.imageDialog({
             showRemote:false,
             clickFn : function(url,title){
-                var path = url.replace(/http:\/\/u2\.0xiao\.cn/, "");
+
+                var path = url.replace(/\/Public/, "");
                 upload.prototype.callback(url, path);
                 setTimeout(function() {
                     editor.hideDialog().focus();

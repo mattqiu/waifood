@@ -8,7 +8,7 @@ class ProductController extends BaseController {
      * 产品列表
      */
     public function lists() {
-        $orderstr = 'sort desc';
+        $orderstr = 'price desc,sold desc';
         if( I('price')){
             $orderstr = 'price '.I('price');
         }

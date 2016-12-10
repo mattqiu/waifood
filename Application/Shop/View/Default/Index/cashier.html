@@ -177,7 +177,7 @@
             <!--Order Remarks-->
             <div class=" item_panl">
                 <div class="item_title ">Order remarks</div>
-                <textarea type="text" id="info" name="info" value="" placeholder="the order remarks" class="input03" style="width:800px; height:100px;border-color:#E0E0E0; resize: none;color: #212121; margin-top: 20px; font-family: 'arial', 'Helvetica';padding-left: 10px;"></textarea>
+                <textarea type="text" id="info" name="info" value="" placeholder="remark here" class="input03" style="width:800px; height:100px;border-color:#E0E0E0; resize: none;color: #212121; margin-top: 20px; font-family: 'arial', 'Helvetica';padding-left: 10px;"></textarea>
             </div>
 
             <div class=" submitOrder_b">
@@ -241,11 +241,16 @@
             $(this).removeClass('selected_time');
             deliverydate[$(this).data('date')].shift($(this).data('time'));
             if(deliverydate[$(this).data('date')].length<1){
+                var n = deliverydate.indexOf($(this).data('date'));
+                if(n!=-1){
+                    console.log(n+'///')
+                    deliverydate.remove($(this).data('date'));
+                }
                 deliverydate.shift($(this).data('date'));
                 $day--;
             }
         }else{
-            if(!deliverydate[$(this).data('date')]){
+            if(!deliverydate[$(this).data('date')] || deliverydate[$(this).data('date')].length===0){
                 if($day>=2){
                     clearpopj('Choose only two days','error',true);
                     return false;

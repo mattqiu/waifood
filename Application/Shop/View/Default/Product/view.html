@@ -108,7 +108,7 @@
 <script>
     function selectShowImg(obj){
         $('.imglist .img-list').css('border','1px solid #f0f0f0');
-        $(obj).css('border','3px solid #cccccc');
+        $(obj).css({'border':'3px solid #cccccc','margin-bottom':"10px",'width':'76px','height':'78px'});
         var img = $(obj).find('img').attr('src');
         $('#img_show_box').attr('src',img);
     }

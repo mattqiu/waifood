@@ -374,7 +374,7 @@ function getWeek($time)
             $week = 'Wed';
             break;
         case 4 :
-            $week = 'Thurs';
+            $week = 'Thur';
             break;
         case 5 :
             $week = 'Fri';

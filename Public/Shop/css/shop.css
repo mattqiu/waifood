@@ -73,7 +73,7 @@ fieldset,img { border: none;}
 .logoAngsearch{height: 70px;position: relative}
 .logo{width: 210px;}
 
-.search {width: 490px; /*border:1px solid #2eb661;*/ margin-left: 200px;  height:55px; position: relative;overflow: hidden;top: 15px;}
+.search {width: 490px; /*border:1px solid #2eb661;*/ margin-left: 95px;  height:55px; position: relative;overflow: hidden;top: 15px;}
 .search input { width:418px; height:38px; color: #999999;border: none; border-bottom:1px solid #000000;padding-left: 6px;font-size: 14px;position: absolute;left: 490px;}
 .search button { width:62px; height:40px; border:none;background: url("../images/searching.png") no-repeat center;background-size: auto 28px; position: relative}
 
@@ -115,6 +115,7 @@ fieldset,img { border: none;}
 .goodcheckout{width: 150px; height: 40px;font-size: 24px;line-height: 40px; background: #fc2c3d;color: #FFFFFF;cursor: pointer}
 .goodcheckout:hover{background:#FA6874;}
 .checkout{cursor: pointer}
+.clear_cart{color: #999999;cursor: pointer;border-top: 1px solid #E0E0E0;text-align: right;padding-top: 20px;}
 /*content*/
 .index-item{width: 1226px; height:100px;}
 .index-item .i_item{width: 231px;height: 62px; border-left: 1px solid #E0E0E0}
@@ -155,7 +156,7 @@ fieldset,img { border: none;}
 .flexslider .flex-nav-prev{left: 0;top:-240px;}
 .flexslider .flex-nav-next{right:0;top:-240px;}
 /* 通用图片列表_普通式 */
-.picList .goods,.good-contents .goods,.goods_c{width: 292px; height: 343px;background: #FFFFFF; margin:0 7px; text-align:center; float:left; _display:inline; }
+.picList .goods,.good-contents .goods,.goods_c{width: 286px; height: 343px;background: #FFFFFF; margin:0 7px; text-align:center; float:left; _display:inline; }
 .goods_li_1{border-top: 1px solid #40c8d6}
 .goods_li_2{border-top: 1px solid #f0ac3f}
 .goods_li_3{border-top: 1px solid #87d543}
@@ -322,18 +323,19 @@ ul li.on{ background:#616161;  }
 .wechat_qr{margin-top: 40px;margin-left:35px; width: 167px;height: 167px;text-align: center }
 .tit_img{margin-top: 18px;margin-right: 32px;}
 /******************************reg****************************************************/
-.regbox{width: 420px;margin: 0 auto;}
+.reg_log{border-bottom: 1px solid #E0E0E0}
+.reg_right_box{margin-top:84px;margin-right: 60px;}
+.reg_left_box{margin-left: 60px;}
 .reg{padding-bottom: 50px}
-.regbox .logo{padding-top: 10px;;width: 210px;text-align: center;margin: 0 auto}
-.reg .reg-item{width: 416px;height: 50px;color: #757575;line-height: 50px;margin-top: 10px;}
-.reg .reg-item:hover{border-color: #c4c4c4;color: #757575}
+.reg .reg-item{width: 500px;height: 50px;color: #757575;line-height: 50px;margin-top: 10px;}
+/*.reg .reg-item:hover{border-color: #c4c4c4;color: #757575}*/
 .reg .signin{text-align: center;color: #424242; font-size: 30px;margin-top: 20px;border: none}
 .reg .signin:hover{border: none}
-.reg .input_text{margin: 0;width: 406px;height: 50px;line-height: 50px;color: #999999}
+.reg .input_text{margin: 0;width: 488px;height: 50px;line-height: 50px;color: #999999}
 .reg select {border: none;color: #757575;}
 
-.reginput{width: 320px;height: 48px; border: none ;float: right;color: #212121}
-.familynum{width: 220px;}
+.reginput{width: 395px;height: 48px; border: none ;float: right;color: #212121;padding-left: 5px;}
+.familynum{width: 280px;}
 .reg-item  .captcha_title{width: 220px;}
 .captcha{margin-top: 0}
 .city li,.reg_sex li{color: #757575; background:#fff;text-align:center;font-size:12px;width :75px; height:37px;line-height: 37px;border:solid 1px #E0E0E0;cursor:pointer;float: left;margin-right: 7.76px;}
@@ -341,7 +343,19 @@ ul li.on{ background:#616161;  }
 .reg_sex li{height: 30px;line-height: 30px}
 .city .hover,.city li:hover,.reg_sex li:hover,.reg_sex .hover{color: #fc2c3d  ;background:url("../images/selected-icon.png") no-repeat 100% 25px ; border: 1px solid #fc2c3d}
 .reg_sex li:hover,.reg_sex .hover{background:url("../images/selected-icon.png") no-repeat 100% 18px;}
+.reg_left_box .reg-item{margin-top: 19.4px;}
+.reg_left_box .reg-item,.reg_left_box .input_text,.reg_left_box .reginput{height: 55px;line-height: 55px;}
+.reg-btn{padding-top:30px}
 
+.reg_right_box .city li,.reg_right_box .reg_sex li{width: 96px;margin-right: 0; height: 40px;line-height: 40px;}
+.reg_right_box .city li:hover,.reg_right_box .reg_sex li:hover{border: 1px solid #c4c4c4;background: none;color: #212121; height: 40px;line-height: 40px;}
+.reg_right_box .city li.hover:hover,.reg_right_box .city li.hover,.reg_right_box .reg_sex li.hover:hover,.reg_right_box .reg_sex li.hover{background: none;border: 3px solid #cccccc; height: 36px;line-height: 36px;font-weight: bold;color: #000000}
+.reg_right_box .captcha_title{width: 290px;}
+.reg_right_box .captcha_title .captcha{width: 223px;}
+
+/*.city li:last-child{margin-right: 0}*/
+/*.reg_sex li{height: 30px;line-height: 30px}*/
+/*.city .hover,.city li:hover,.reg_sex li:hover,.reg_sex .hover{color: #fc2c3d  ;background:url("../images/selected-icon.png") no-repeat 100% 25px ; border: 1px solid #fc2c3d}*/
 /****************************************结算***********************************************************/
 .item_panl{width: 1170px; margin: 0 auto; margin-top: 40px;}
 .item_title{border-bottom: 1px solid #E0E0E0;color: #212121;font-size: 18px;padding-bottom: 8px;}
@@ -443,6 +457,8 @@ ul li.on{ background:#616161;  }
 .order_row .cancel:hover{color: #fe3f3f}
 .order_index_table{margin-bottom: 60px;}
 .register,.register:hover{border: none;margin-top: 0;color: #757575}
+.order_pay{font-size: 14px; color: #fc2c3d;cursor: pointer; text-decoration:underline;}
+.order_pay:hover{ color: #FF848E;}
 /************************order view************************/
 .orderview{width: 976px;padding:0 20px; background: #FFffff}
 /*.orderinfo{width: 820px; margin: 0 auto;}*/
@@ -497,9 +513,6 @@ ul li.on{ background:#616161;  }
 .wishlist{color: #212121;height: 50px;line-height: 50px;padding-left: 30px;}
 #wishlist span.fc_red{position: relative;top: 4px;left: -4px;}
 #wishlist span.remarks{position: relative;top: -90px;}
-#wishlist textarea#remarks{resize: none;width: 418px;height: 100px;border: 1px solid #E0E0E0}
+#wishlist textarea#remarks{resize: none;width: 411px;height: 100px;border: 1px solid #E0E0E0}
 #wishlist textarea#remarks:hover{border: 1px solid #c4c4c4}
-#wishlist input,#wishlist textarea{padding-left: 5px;}
-
-
-
+#wishlist input,#wishlist textarea{padding-left: 5px;font-family: "arial", "宋体", "Helvetica";}

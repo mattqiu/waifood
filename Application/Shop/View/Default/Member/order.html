@@ -18,16 +18,16 @@
         <div class="right fr order-list">
             <div class="order_list">My order</div>
             <div class="ostatus">
-                <a href="/member/order.html?status=ongoing#order" <if condition="$_REQUEST['status'] neq 'all'"> class="selected"</if>>On going(<span class="js_onging_order_num">{$ongoing|default=0}</span>)</a> |
+                <a href="/member/order.html?status=ongoing#order" <if condition="$_REQUEST['status'] neq 'all'"> class="selected"</if>>Ongoing(<span class="js_onging_order_num">{$ongoing|default=0}</span>)</a> |
                 <a href="/member/order.html?status=all#order" <if condition="$_REQUEST['status'] eq 'all'"> class="selected"</if>>All(<span class="js_all_order_num">{$all|default=0}</span>)</a>
             </div>
             <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
                 <tr class="thead">
-                    <th width="165">Order no.</th>
-                    <th width="125">Order place time</th>
-                    <th width="125">Delivery time</th>
+                    <th width="145">Order no.</th>
+                    <th width="85">Order place time</th>
+                    <th width="125" >Delivery time</th>
                     <th width="120">Total amount</th>
-                    <th width="100">Payment method</th>
+                    <th width="100">Payment</th>
                     <th width="125">Order status</th>
                     <th width="90">Action</th>
                 </tr>
@@ -48,8 +48,16 @@
                                     <elseif condition="$vo['paymethod'] eq 2"/>
                                     Paypal
                                 </if>
+                                <div>
+                                <if condition="$order['pay'] eq 0">
+                                    <span class="order_pay" onclick="showPaynowBox('{$vo.orderno}');" >Pay</span>
+                                </if>
+                                </div>
                             </td>
-                            <td><span class="order_status">{:get_status($vo['status'])}</span></td>
+                            <td >
+                                <div>{:get_status($vo['status'])}</div>
+                                <div><if condition="$order['pay'] eq 0">Unpaid<else/>Paid</if></div>
+                            </td>
                             <td>
                                 <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
                                 <if condition="$vo['status'] lt 3">
@@ -67,8 +75,26 @@
     </div>
 </div>
 <div class="clr"></div>
+<div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
+    <input type="hidden" name="id"/>
+    <div class="radio-box">
+        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#pay')"><i></i>Paypal</label>
+        <input type="hidden" name="invoice" id="pay" value="0" />
+    </div>
+    <br/>
+    <br/>
+    <button class="pay_btn" onclick="paynow();" >Pay </button>
+</div>
 <include file="Index:footer" />
 <script>
+    function showPaynowBox(id){
+       $('#paybox input[name=id]').val(id);
+        getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
+    }
+
+    function paynow(){
+        window.location.href='/home/shop/pay.html?orderno='+ $('#paybox input[name=id]').val();
+    }
 </script>
 </body>
 </html>

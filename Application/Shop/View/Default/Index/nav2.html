@@ -10,8 +10,14 @@
         <div class="server-text fr">
                 <div class="fl logon_reg">
                     <a href="/index/wishlist.html">Wish list</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;
-                    <if condition="$user['id'] gt 0"><a href="/login/logout.html" class="black">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a></if><span class="slash"></span>&nbsp;
-                   &nbsp;&nbsp;<a href="/Login/register.html">Sign up</a>
+                    Join us on: <span style="position: relative;">
+                                    <img src="__PUBLIC__/images/weixin.jpg" width="18" class="weixinqr" style="position: relative;top: 2px;" alt=""/>
+                                    <div class="qrcode hide">
+                                        <img src="__PUBLIC__/images/pc_top_qr.png" alt="" />
+                                    </div>
+                                </span>
+                    <span class="slash"></span>&nbsp;&nbsp;&nbsp;
+                    <if condition="$user['id'] gt 0"><a href="/login/logout.html" style="color: #fc2c3d">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;<a href="/Login/register.html">Sign up</a></if>
                 </div>
             <span class="slash"></span>&nbsp;
             <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22">
@@ -106,5 +112,15 @@
             $('.nav_center').css({'border-top':'1px solid #bebec2','border-bottom':'none'})
         }
     });
+
+
+    $('.logoAngsearch .weixinqr').hover(function(){
+        $(this).css('cursor', 'pointer');
+        if($('.logoAngsearch .qrcode').css('display') == 'none'){
+            $('.logoAngsearch .qrcode').slideDown();
+        }
+    },function(){
+        $('.logoAngsearch .qrcode').slideUp();
+    })
 
 </script>

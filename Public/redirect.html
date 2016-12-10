@@ -10,17 +10,7 @@
             return ((uri.match(re)) ? (uri.match(re)[0].substr(val.length + 1)) : null);
         }
         var upload_callback = function(){
-              var imgurl=getParameter("url");
-            decodeURIComponent(imgurl);
-            console.log(imgurl);
-            console.log(decodeURIComponent(imgurl));
-            return
-            if(getParameter("code") == 200 && imgurl.length>15){
-
-            }
-
-            var data=getParameter("code");
-
+            var data=getParameter("s");
             var location_hash=location.hash;
             if(location_hash!=null && location_hash!="" && location_hash){
                 var data = location.hash ? location.hash.substring(1) : '';
@@ -36,7 +26,9 @@
         
         function setUrl(data){
         	var obj = eval('(' + data + ')');
-        	obj.url = "http://u2.0xiao.cn" + obj.url;
+            obj.url = "http://www.waifood.com/Public/upload/" + obj.url;
+            console.log(obj)
+            console.log(JSON.stringify(obj))
         	return JSON.stringify(obj);
         }
     </script>

@@ -37,13 +37,18 @@
                             <elseif condition="$order['paymethod'] eq 2"/>
                             Paypal
                         </if>
-
                         <if condition="$order['pay'] eq 0">
                             <button class="addtocart cart_btn" style="margin-left: 35px;width: 80px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="paynow();" >Pay Now</button>
-                        <else/>
-                            <span style="margin-left: 25px; color: #2eb661">Paid</span>
+
                         </if>
-                        <div style="height: 7px;"></div>
+                        <br/>
+                        Status:
+                        <if condition="$order['pay'] eq 0">
+                            Unpaid
+                            <else/>
+                            Paid
+                        </if>                        <br/>
+
                         Delivery date&nbsp;:&nbsp;{$order.delivertime}
                     </div>
                 </div>
@@ -108,7 +113,10 @@
     </div>
 </div>
 <div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
-    <label for="paypal" class="fl"><input type="radio" id="paypal" name="pay" checked/>&nbsp;Paypal</label><br/>
+    <div class="radio-box">
+        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#pay')"><i></i>Paypal</label>
+        <input type="hidden" name="invoice" id="pay" value="0" />
+    </div>
     <br/>
     <br/>
     <button class="pay_btn" onclick="window.location.href='/home/shop/pay.html?orderno={$order[\'orderno\']}'" >Pay </button>

@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>{$title}{:lbl('subtitleshop')}</title>
@@ -8,181 +8,188 @@
     <include file="Index:header" />
 </head>
 <body style="background: #FFFFFF;">
-<div class="container regbox">
-    <div class="logo"><img src="__PUBLIC__/images/logo.png" width="210" alt=""/></div>
+<div class="nav_login reg_log">
+    <div class="container">
+        <div class="logo"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210"  alt=""/></a></div>
+    </div>
+</div>
+<div class="container reg_new_box">
     <form class="reg " id="myform" onsubmit="return false">
-        <div class="signin reg-item">Sign up</div>
-        <div class="reg-item">
-            <div class="input_text">User Name
-                <input type="text" class="reginput"  name="username" id="username"  placeholder="3-50 characters" />
+        <div class="fl reg_left_box">
+            <div class="signin reg-item">Sign up</div>
+            <div class="reg-item">
+                <div class="input_text">User Name
+                    <input type="text" class="reginput"  name="username" id="username"  placeholder="3-50 characters" />
+                </div>
             </div>
-        </div>
-        <div class="reg-item">
-            <div class="input_text">Email
-                <input  id="email" name="email" type="text" maxlength="50"  value="" placeholder="Email for login or receive key information" class="reginput" >
+            <div class="reg-item">
+                <div class="input_text">Email
+                    <input  id="email" name="email" type="text" maxlength="50"  value="" placeholder="Email for login or receive key information" class="reginput" >
+                </div>
             </div>
-        </div>
 
-        <div class="reg-item">
-            <div class="input_text">Phone
-                <input type="text" class="reginput" maxlength="20" name="telephone"
-                       id="telephone"  placeholder="Phone to contact you" value="+86" />
+            <div class="reg-item">
+                <div class="input_text">Phone
+                    <input type="text" class="reginput" maxlength="20" name="telephone"
+                           id="telephone"  placeholder="Phone to contact you" value="+86" />
+                </div>
+            </div>
+            <div class="reg-item">
+                <div class="input_text">Password
+                    <input  class="reginput" maxlength="32" type="password" name="password"  placeholder="4-20 characters" />
+                </div>
+            </div>
+            <div class="reg-item">
+                <div class="input_text">Confirm
+                    <input  class="reginput" maxlength="32" type="password" name="password1" placeholder="repeat your password" />
+                </div>
             </div>
         </div>
-        <div class="reg-item">
-            <div class="input_text">Password
-                <input  class="reginput" maxlength="32" type="password" name="password"  placeholder="4-20 characters" />
-            </div>
-        </div>
-        <div class="reg-item">
-            <div class="input_text">Confirm
-                <input  class="reginput" maxlength="32" type="password" name="password1" placeholder="repeat your password" />
-            </div>
-        </div>
-        <div style="height: 50px; line-height: 50px;">
+    <!--    <div style="height: 50px; line-height: 50px;">
             <hr width="115px" color="#cccccc" size="1" class="fl" style="position: relative;top: 18px;"/>
              <div class="fl" style="padding: 0 36px;color: #cccccc"> Other Information</div>
             <hr width="115px;" color="#cccccc" size="1" class="fl" style="position: relative;top: 18px;"/>
-        </div>
-        <div class="clr"></div>
-        <div class="reg-item" style="border:none;margin-left: 0">
-           <div class="fl" style="line-height: 30px;">Gender&nbsp;&nbsp;&nbsp;</div>
-            <ul id="sex" class="reg_sex fl">
-                <li class="hover"  data-sex="1">Male</li>
-                <li data-sex="0">Female</li>
-            </ul>
-        </div>
-        <div class="clr"></div>
+        </div>-->
+        <div class="fr reg_right_box">
+            <div class="reg-item" style="border:none;margin-left: 0">
+               <div class="fl" style="line-height: 30px;">Gender&nbsp;&nbsp;&nbsp;</div>
+                <ul id="sex" class="reg_sex fl">
+                    <li class="hover"  data-sex="1">Male</li>
+                    <li data-sex="0" style="margin-left: 8px;">Female</li>
+                </ul>
+            </div>
+            <div class="clr"></div>
 
-        <div class="reg-item" style="margin-top: -10px;">Living city in China
-            <ul id="levecity" class="city">
-                <li class="hover"  data-city="chengdu">Chengdu</li>
-                <li data-city="chongqing">Chongqing</li>
-                <li data-city="xi'an">Xi'an</li>
-                <li data-city="kunming">Kunming</li>
-                <li data-city="other">Other</li>
-            </ul>
-        </div>
-        <div class="clr"></div>
-        <div class="reg-item">
-            <div class="input_text">Your Nationality:
-                <select name="nationality" style="height: 35px;padding: 0 45px;" >
-                    <option value="" > Please select your nationality</option>
-                    <option value="Andorra">Andorra</option>
-                    <option value="Argentina">Argentina</option>
-                    <option value="Australia">Australia</option>
-                    <option value="Austria">Austria</option>
-                    <option value="Belarus">Belarus</option>
-                    <option value="Belgium">Belgium</option>
-                    <option value="Bolivia">Bolivia</option>
-                    <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                    <option value="Brazil">Brazil</option>
-                    <option value="Brunei">Brunei</option>
-                    <option value="Bulgaria">Bulgaria</option>
-                    <option value="Burma">Burma</option>
-                    <option value="Canada">Canada</option>
-                    <option value="Chile">Chile</option>
-                    <option value="China">China</option>
-                    <option value="China Taiwan">China Taiwan</option>
-                    <option value="Colombia">Colombia</option>
-                    <option value="Crotia">Crotia</option>
-                    <option value="Cuba">Cuba</option>
-                    <option value="Cyprus ">Cyprus </option>
-                    <option value="Czech Republic">Czech Republic</option>
-                    <option value="Denmark">Denmark</option>
-                    <option value="Ecuador">Ecuador</option>
-                    <option value="Egypt">Egypt</option>
-                    <option value="Fiji Islands">Fiji Islands</option>
-                    <option value="Finland">Finland</option>
-                    <option value="France">France</option>
-                    <option value="Germany">Germany</option>
-                    <option value="Greece">Greece</option>
-                    <option value="HK">HK</option>
-                    <option value="Hungary">Hungary</option>
-                    <option value="Iceland">Iceland</option>
-                    <option value="Iceland">Iceland</option>
-                    <option value="India">India</option>
-                    <option value="Indonesia">Indonesia</option>
-                    <option value="Indonesia">Indonesia</option>
-                    <option value="Iran">Iran</option>
-                    <option value="Ireland">Ireland</option>
-                    <option value="Israel">Israel</option>
-                    <option value="Italy">Italy</option>
-                    <option value="Jamaica">Jamaica</option>
-                    <option value="Japan">Japan</option>
-                    <option value="Jordan">Jordan</option>
-                    <option value="Kazakhstan">Kazakhstan</option>
-                    <option value="Korea">Korea</option>
-                    <option value="Kyrgyzstan">Kyrgyzstan</option>
-                    <option value="Liechtenstein ">Liechtenstein </option>
-                    <option value="Luxembourg">Luxembourg</option>
-                    <option value="Madagascar">Madagascar</option>
-                    <option value="Malaysia">Malaysia</option>
-                    <option value="Maldives">Maldives</option>
-                    <option value="Mexico">Mexico</option>
-                    <option value="Monaco">Monaco</option>
-                    <option value="Mongolia">Mongolia</option>
-                    <option value="Morocco">Morocco</option>
-                    <option value="Netherlands">Netherlands</option>
-                    <option value="New Zealand">New Zealand</option>
-                    <option value="North Korea">North Korea</option>
-                    <option value="Norway">Norway</option>
-                    <option value="Pacific Ocean">Pacific Ocean</option>
-                    <option value="Pakistan">Pakistan</option>
-                    <option value="Peru">Peru</option>
-                    <option value="Philippines">Philippines</option>
-                    <option value="Poland">Poland</option>
-                    <option value="PORTUGAL">PORTUGAL</option>
-                    <option value="Puerto Rico">Puerto Rico</option>
-                    <option value="Qatar">Qatar</option>
-                    <option value="Romania">Romania</option>
-                    <option value="Russia">Russia</option>
-                    <option value="Saudi Arab">Saudi Arab</option>
-                    <option value="Scotland">Scotland</option>
-                    <option value="Singapore">Singapore</option>
-                    <option value="Slovakia">Slovakia</option>
-                    <option value="Slovenia">Slovenia</option>
-                    <option value="South Africa">South Africa</option>
-                    <option value="Spain">Spain</option>
-                    <option value="Sri Lanka">Sri Lanka</option>
-                    <option value="Sweden">Sweden</option>
-                    <option value="Switzerland">Switzerland</option>
-                    <option value="Syria">Syria</option>
-                    <option value="Thailand">Thailand</option>
-                    <option value="The Republic of Mauritius">The Republic of Mauritius</option>
-                    <option value="The State of Israel">The State of Israel</option>
-                    <option value="Tunisia">Tunisia</option>
-                    <option value="Turkey">Turkey</option>
-                    <option value="Turkmenistan">Turkmenistan</option>
-                    <option value="UAE">UAE</option>
-                    <option value="Ukraine">Ukraine</option>
-                    <option value="United Kingdom">United Kingdom</option>
-                    <option value="United States">United States</option>
-                    <option value="Uruguay">Uruguay</option>
-                    <option value="Uzbekistan">Uzbekistan</option>
-                    <option value="Vatican">Vatican</option>
-                    <option value="Vietnam">Vietnam</option>
-                    <option value="Yemen">Yemen</option>
-                </select>
+            <div class="reg-item" style="margin-top: -10px;">Living city in China
+                <ul id="levecity" class="city">
+                    <li class="hover"  data-city="chengdu">Chengdu</li>
+                    <li data-city="chongqing" >Chongqing</li>
+                    <li data-city="xi'an">Xi'an</li>
+                    <li data-city="kunming">Kunming</li>
+                    <li data-city="other">Other</li>
+                </ul>
+            </div>
+            <div class="clr"></div>
+            <div class="reg-item">
+                <div class="input_text">Your Nationality:
+                    <select name="nationality" style="height: 35px; padding: 0 140px 0 45px;position: relative;top: -2px;" >
+                        <option value="" > Please select your nationality</option>
+                        <option value="Andorra">Andorra</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Australia">Australia</option>
+                        <option value="Austria">Austria</option>
+                        <option value="Belarus">Belarus</option>
+                        <option value="Belgium">Belgium</option>
+                        <option value="Bolivia">Bolivia</option>
+                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Brunei">Brunei</option>
+                        <option value="Bulgaria">Bulgaria</option>
+                        <option value="Burma">Burma</option>
+                        <option value="Canada">Canada</option>
+                        <option value="Chile">Chile</option>
+                        <option value="China">China</option>
+                        <option value="China Taiwan">China Taiwan</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Crotia">Crotia</option>
+                        <option value="Cuba">Cuba</option>
+                        <option value="Cyprus ">Cyprus </option>
+                        <option value="Czech Republic">Czech Republic</option>
+                        <option value="Denmark">Denmark</option>
+                        <option value="Ecuador">Ecuador</option>
+                        <option value="Egypt">Egypt</option>
+                        <option value="Fiji Islands">Fiji Islands</option>
+                        <option value="Finland">Finland</option>
+                        <option value="France">France</option>
+                        <option value="Germany">Germany</option>
+                        <option value="Greece">Greece</option>
+                        <option value="HK">HK</option>
+                        <option value="Hungary">Hungary</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="Iceland">Iceland</option>
+                        <option value="India">India</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Iran">Iran</option>
+                        <option value="Ireland">Ireland</option>
+                        <option value="Israel">Israel</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Jamaica">Jamaica</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Jordan">Jordan</option>
+                        <option value="Kazakhstan">Kazakhstan</option>
+                        <option value="Korea">Korea</option>
+                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                        <option value="Liechtenstein ">Liechtenstein </option>
+                        <option value="Luxembourg">Luxembourg</option>
+                        <option value="Madagascar">Madagascar</option>
+                        <option value="Malaysia">Malaysia</option>
+                        <option value="Maldives">Maldives</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Monaco">Monaco</option>
+                        <option value="Mongolia">Mongolia</option>
+                        <option value="Morocco">Morocco</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="New Zealand">New Zealand</option>
+                        <option value="North Korea">North Korea</option>
+                        <option value="Norway">Norway</option>
+                        <option value="Pacific Ocean">Pacific Ocean</option>
+                        <option value="Pakistan">Pakistan</option>
+                        <option value="Peru">Peru</option>
+                        <option value="Philippines">Philippines</option>
+                        <option value="Poland">Poland</option>
+                        <option value="PORTUGAL">PORTUGAL</option>
+                        <option value="Puerto Rico">Puerto Rico</option>
+                        <option value="Qatar">Qatar</option>
+                        <option value="Romania">Romania</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Saudi Arab">Saudi Arab</option>
+                        <option value="Scotland">Scotland</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Slovakia">Slovakia</option>
+                        <option value="Slovenia">Slovenia</option>
+                        <option value="South Africa">South Africa</option>
+                        <option value="Spain">Spain</option>
+                        <option value="Sri Lanka">Sri Lanka</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Syria">Syria</option>
+                        <option value="Thailand">Thailand</option>
+                        <option value="The Republic of Mauritius">The Republic of Mauritius</option>
+                        <option value="The State of Israel">The State of Israel</option>
+                        <option value="Tunisia">Tunisia</option>
+                        <option value="Turkey">Turkey</option>
+                        <option value="Turkmenistan">Turkmenistan</option>
+                        <option value="UAE">UAE</option>
+                        <option value="Ukraine">Ukraine</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="United States">United States</option>
+                        <option value="Uruguay">Uruguay</option>
+                        <option value="Uzbekistan">Uzbekistan</option>
+                        <option value="Vatican">Vatican</option>
+                        <option value="Vietnam">Vietnam</option>
+                        <option value="Yemen">Yemen</option>
+                    </select>
+                </div>
+            </div>
+            <div class="reg-item">
+                <div class="input_text">Number Of Family Members
+                    <input type="text" class="reginput familynum" name="familynum" id="familymun"  placeholder="" />
+                </div>
+            </div>
+            <div class="reg-item">
+                <div class="input_text">Occupation
+                    <input type="text" class="reginput"  name="occupation"  placeholder="enter your occupation" />
+                </div>
+            </div>
+            <div class="captcha reg-item">
+                <div class="captcha_title">Captcha <input type="text" class="captcha" style="width: 149px;" maxlength="6" name="verify"/></div>
+                <div class="captcha_img"> <img style="cursor:pointer; cursor: hand; width:165px; height:50px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
             </div>
         </div>
-        <div class="reg-item">
-            <div class="input_text">Number Of Family Members
-                <input type="text" class="reginput familynum" name="familynum" id="familymun"  placeholder="" />
-            </div>
-        </div>
-        <div class="reg-item">
-            <div class="input_text">Occupation
-                <input type="text" class="reginput"  name="occupation"  placeholder="enter your occupation" />
-            </div>
-        </div>
-        <div class="captcha reg-item">
-            <div class="captcha_title">Captcha <input type="text" class="captcha" style="width: 149px;" maxlength="6" name="verify"/></div>
-            <div class="captcha_img"> <img style="cursor:pointer; cursor: hand; width:165px; height:50px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
-        </div>
-        <div class="reg-item">
-            <button onclick="reg()" style="width: 414px" class="lgbtn" >Register now</button>
-          <div class="reg-item" style="line-height: 30px;">Already have an account?<a href="/login/index.html" style="color: #fc2c3d"> Sign in</a></div>
+        <div class="clr reg-btn tc">
+            <button onclick="reg()" style="width: 414px" class="lgbtn" >Sign up</button>
+          <div class="reg-item tc" style="line-height: 30px;margin: 0 auto;">Already have an account?<a href="/login/index.html" style="color: #fc2c3d"> Sign in</a></div>
         </div>
     </form>
 </div>
@@ -194,10 +201,12 @@
         $('.city li').removeClass('hover');
         $(this).addClass('hover');
     })
+
     $('#sex li').click(function () {
         $('#sex li').removeClass('hover');
         $(this).addClass('hover');
     })
+
 
     //电话号码格式化
     if(document.getElementById("telephone")){

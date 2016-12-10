@@ -47,7 +47,7 @@
     </div>
 
     <div class=" center" id="upload_pic" style="display: none">
-        <div id="clipArea" style="height: 130px;"><img src="" id="view" alt=""></div>
+        <div id="clipArea" ><img src="" height="120" id="view" alt=""></div>
         <div class="upbanner">
             <span style="font-size: 12px;color: #cccccc;">图片尺寸:1226*600</span><br/>
             <input type="hidden" name="id"/>
@@ -61,8 +61,7 @@
         </div>
         <input type="button" style="padding:5px 15px" value="上传" onClick="selectPic();"/>
         <!--<input type="file" id="file" class="common_btn"/>-->
-        <br><button id="modifyBanner" type="button" class="common_btn" onclick="modifyBanner();" style="display: none; margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;" >保存</button>
-        <br><button id="clipBtn" type="button" class="common_btn" style="margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;" >保存</button>
+        <br><button id="modifyBanner" type="button" class="common_btn" onclick="modifyBanner();" style=" margin:10px 0 0%;;padding:6px 50px;position: relative;left: 50%;margin-left: -65px;" >保存</button>
     </div>
 
 
@@ -75,7 +74,6 @@
     function uploadImage(id){
         if(id){
             $('#modifyBanner').show();
-            $('#clipBtn').hide();
             $('#clipArea img').attr('src',CONST_PUBLIC+'/'+$('#banner_'+id).data('indexpic'));
             $('#clipArea img').css({'width':'205px','position': 'relative','top': '15px','left': '107px'});
             $('#upload_pic input[name=indexpic]').val($('#banner_'+id).data('indexpic'));
@@ -94,7 +92,7 @@
                 $('#upload_pic .jz').attr('checked',true);
             }
         }else{
-            if(getUrlParam('type')== 1){
+            if(getUrlParam('type')== 1 || !getUrlParam('type') ){
                 $('#upload_pic #pc').attr('checked',true);
             }else{
                 $('#upload_pic #wx').attr('checked',true);
@@ -102,18 +100,18 @@
             $('#clipArea img').attr('src','');
             $('#upload_pic input[name=indexpic]').val('');
         }
-        getMask().maskShow({"tit": "上传banner图","width":450, "cont": "#upload_pic"});
+        getMask().maskShow({"tit": "上传banner图","width":480, "cont": "#upload_pic"});
     }
-
+    /**
+     * 选择图片
+     */
     function selectPic(){
         upload.prototype.callback = function(url, path){
-            console.log(url);
-            console.log(path);
-            $("#food_pad_pic").attr("src",UPLOAD+path);
+            $('#upload_pic input[name=picurl]').val(path);
+            $("#clipArea img").attr("src",CONST_PUBLIC+path);
         }
         upload.prototype.uploadPic("banner");
     }
-
 
     function delBanner(id){
         if(id>0){

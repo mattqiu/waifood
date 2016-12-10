@@ -31,7 +31,7 @@
                     <volist name="list" id="vo">
                         <tr align="center" class="addr_row order_row" id="addr_row_{$vo['id']}">
                             <td>{$vo.username}</td>
-                            <td>{$vo.telephone}</td>
+                            <td>{$vo.telephone}<br/>{$vo.telephone2}</td>
                             <td><if condition="$vo.sex eq 1">Male <else/>Female</if></td>
                             <td style="padding-left: 30px;"  align="left">{$vo.address}</td>
                             <td>

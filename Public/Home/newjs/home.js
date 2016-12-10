@@ -271,7 +271,7 @@ function clearCart(){
     $('#emptycart').removeClass('hide');
     $('#CartNo').css('display','none');
     $('#cart_foot .totalMoney').html('&yen;0');
-    $.cookie("myfood", "", {"path": "/"});
+    $.cookie("myfood", null, {"path": "/"});
 }
 
 function fly(event){

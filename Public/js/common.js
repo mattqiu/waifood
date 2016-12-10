@@ -131,7 +131,7 @@ function clearpopj(txt,status,hide,url,time){
     swal("", txt, status);
     if(hide){
         if(!time){
-            time = 1500;
+            time = 2000;
         }
         setTimeout(function(){
             $('.sa-button-container .confirm').click();
