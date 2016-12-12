@@ -5,7 +5,7 @@ if (strtolower($hostname) == 'pc-20160819tbmr') {
     define('HIDDEN_ENV_FLAG', true); // 环境标示显示
     define ('APP_DEBUG', true);
 }elseif(strtolower($hostname) == 'izuf62o440hd7lymnaldnwz'){
-    define ('APP_DEBUG', false);
+    define ('APP_DEBUG', true);
     define('DEPLOY_ENV', 'test'); // 测试环境
     define('HIDDEN_ENV_FLAG', true); // 环境标示显示
 } else {
