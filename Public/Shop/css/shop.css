@@ -66,7 +66,7 @@ fieldset,img { border: none;}
 .myaccount_box ul li{height: 35px; line-height: 35px;text-align: center;}
 .myaccount_box ul li:hover{color: #fc2c3d   ;background: #f5f5f5}
 .logoAngsearch  a:hover ,.server-text  a:hover {color: #000000;}
-.logoAngsearch .qrcode{    position: absolute; z-index: 5; top: 20px; left: -126px; }
+.logoAngsearch .qrcode{    position: absolute; z-index: 5; top: 20px; left: -80px; }
 
 /*nav2*/
 .top_logo{width: 100%;background: #FFFFFF;}
