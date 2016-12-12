@@ -306,7 +306,7 @@ class UserModel extends Model
             $pwd = $ctrl->randString(6,1);
             $body=lbl('tpl_findpwd');
             if(isN($body)){
-                apiReturn(CodeModel::ERROR,'sorry,email sent failed');
+                apiReturn(CodeModel::ERROR,'Failed to send Email, please confirm your Email address or network');
             }
             $preg="/{(.*)}/iU";
             $n=preg_match_all($preg,$body,$rs);
@@ -342,7 +342,7 @@ class UserModel extends Model
                 apiReturn(CodeModel::ERROR,'sorry,email sent failed');
             }
         }else{
-            apiReturn(CodeModel::ERROR,'sorry,Could not find the user information');
+            apiReturn(CodeModel::ERROR,'Could not find your information');
         }
     }
 
@@ -358,7 +358,7 @@ class UserModel extends Model
             //能被openid找到的非微信用户（即：已绑定的不能再绑定）
             if($wechatuser['usertype'] != self::WECHAT_USER){
                 GLog('bindMember','该微信号已经绑定网络账号');
-                apiReturn(CodeModel::ERROR,'You have been bound  PC account');
+                apiReturn(CodeModel::ERROR,'Your account was already bound');
                 return false;
             }
 
@@ -368,7 +368,7 @@ class UserModel extends Model
             $pcuser = M('member')->where($where)->find();
             if(!$pcuser){
                 GLog('bindMember','账号密码错误');
-                apiReturn(CodeModel::ERROR,'Account or password error');
+                apiReturn(CodeModel::ERROR,'Wrong account or password.');
                 return false;
             }
             $savedata = array();

@@ -47,13 +47,13 @@ class MemberController extends AuthController {
         $address = I('post.address');
         $tel = $data['telephone'] = replaceTel($data['telephone']);
         if(isN($consingee)){
-            apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
+            apiReturn(CodeModel::ERROR,'Please input name');
         }
         if(!regex($tel,'mob')){
-            apiReturn(CodeModel::ERROR,'Sorry, the phone number format is wrong!');
+            apiReturn(CodeModel::ERROR,'Wrong phone number format.');
         }
         if(isN($address)){
-            apiReturn(CodeModel::ERROR,'Sorry,  address can not be empty!');
+            apiReturn(CodeModel::ERROR,'Please input address.');
         }
         $userid = $this->userId;
         if(true === AddressModel::modifyShoppingAddress($data,$userid)){
@@ -62,10 +62,10 @@ class MemberController extends AuthController {
                 session('gocashier',null);
                 apiReturn(CodeModel::CORRECT,'','/settle/cashier');
             }else{
-                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/address');
+                apiReturn(CodeModel::CORRECT,'Successful.','/member/address');
             }
         }else {
-            apiReturn(CodeModel::ERROR,'Personal information modified failed!');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
@@ -81,9 +81,9 @@ class MemberController extends AuthController {
 		$where ['userid'] = $this->userId;
 		$db = M ( 'address' )->where ( $where )->delete ();
 		if ($db) {
-            apiReturn(CodeModel::CORRECT,'Address deleted!');
+            apiReturn(CodeModel::CORRECT,'Successful.');
 		} else {
-            apiReturn(CodeModel::ERROR,'Sorry, address delete failed!' );
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
 		}
 	}
 
@@ -174,19 +174,19 @@ class MemberController extends AuthController {
             apiReturn(CodeModel::ERROR,"wrong password");
         }
         if(!$pwd || strlen($pwd)>20 ||strlen($pwd)<4){
-            apiReturn(CodeModel::ERROR,"The new password should be 4 to 20 characters");
+            $this->error('Password should be at least 4 characters.');
         }
         if($pwd !==$pwd1){
-            apiReturn(CodeModel::ERROR,"Two input is inconsistent");
+            apiReturn(CodeModel::ERROR,'The two passwords are not same.');
         }
         $data['userpwd'] = md5($pwd);
         if(UserModel::modifyMember($this->userId,$data)){
             session_unset ();
             session_destroy ();
             session('[destroy]');//修改成功后，重新登录
-            apiReturn(CodeModel::CORRECT,"Change the password successfully");
+            apiReturn(CodeModel::CORRECT,"Successful.");
         }else{
-            apiReturn(CodeModel::ERROR,"Change the password failure");
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
@@ -202,20 +202,20 @@ class MemberController extends AuthController {
         $email = I('post.email');
         $tel = I('post.telephone');
         if(!$username){
-            apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
+            apiReturn(CodeModel::ERROR,'Please input name');
         }
         if(!regex($email,'email')){
-            apiReturn(CodeModel::ERROR,'Sorry, the email format is wrong!');
+            apiReturn(CodeModel::ERROR,'Wrong Email format.');
         }
         if(!regex($tel,'mob')){
-            apiReturn(CodeModel::ERROR,'Sorry, the phone number format is wrong!');
+            apiReturn(CodeModel::ERROR,'Wrong phone number format.');
         }
         if(UserModel::modifyMember($this->userId,$data)){
             $user = UserModel::getUserById($this->userId);
             UserModel::setUser($user);
-            apiReturn(CodeModel::CORRECT,'Modify the information successfully');
+            apiReturn(CodeModel::CORRECT,'Successful.');
         }else {
-            apiReturn(CodeModel::ERROR,'Modify the information failed!');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 

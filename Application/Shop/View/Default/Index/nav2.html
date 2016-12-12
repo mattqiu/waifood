@@ -10,12 +10,12 @@
         <div class="server-text fr">
                 <div class="fl logon_reg">
                     <a href="/index/wishlist.html">Wish list</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;
-                    Join us on: <span style="position: relative;">
-                                    <img src="__PUBLIC__/images/weixin.jpg" width="18" class="weixinqr" style="position: relative;top: 2px;" alt=""/>
-                                    <div class="qrcode hide">
-                                        <img src="__PUBLIC__/images/pc_top_qr.png" alt="" />
-                                    </div>
-                                </span>
+                   <span style="position: relative;" class="wechatmall"> Wechat mall&nbsp;
+                       <img src="__PUBLIC__/images/weixin.jpg" width="18" class="weixinqr" style="position: relative;top: 2px;" alt=""/>
+                        <div class="qrcode hide">
+                            <img src="__PUBLIC__/images/pc_top_qr.png" alt="" />
+                        </div>
+                    </span>
                     <span class="slash"></span>&nbsp;&nbsp;&nbsp;
                     <if condition="$user['id'] gt 0"><a href="/login/logout.html" style="color: #fc2c3d">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;<a href="/Login/register.html">Sign up</a></if>
                 </div>
@@ -23,7 +23,7 @@
             <div class="fr myaccount" id="myaccount"  data-userid="{$user.id}" data-user="22">
                 <a href="/member/index.html">
                     <div class="fl">&nbsp;<img src="__PUBLIC__/Shop/images/myaccount.png" width="13" class="main" alt=""/></div>
-                    <div class="fl tl" style="width: 90px;">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,7}<else/>My account</if>&nbsp;</div>
+                    <div class="fl tr" title="{$user.username}">&nbsp; <if condition="$user['id']">{$user.username|msubstr=0,9,'UTF-8',true}<else/>My account</if>&nbsp;</div>
                 </a>
                 <!--<if condition="$user['id']">-->
                     <!--<div class="myaccount_box">-->
@@ -43,7 +43,7 @@
 <div class="nav_center bg_white">
     <div class="container">
         <ul class="navigation ">
-            <li class="allcate black " onclick="window.location.href='/'" >CATEGORIES
+            <li class="allcate black" onclick="window.location.href='/'" >CATEGORIES
                 <hr width="129" class="nav_border" size="5" color="#555555" style="position: relative;top: -13px;left: -42px;display: none" />
                 <include file="Index:nav2sub" />
             </li>
@@ -113,8 +113,7 @@
         }
     });
 
-
-    $('.logoAngsearch .weixinqr').hover(function(){
+    $('.logoAngsearch .wechatmall').hover(function(){
         $(this).css('cursor', 'pointer');
         if($('.logoAngsearch .qrcode').css('display') == 'none'){
             $('.logoAngsearch .qrcode').slideDown();

@@ -7,7 +7,6 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
     <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html#order">My Account</a> </div>
@@ -38,8 +37,7 @@
                             Paypal
                         </if>
                         <if condition="$order['pay'] eq 0">
-                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 80px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="paynow();" >Pay Now</button>
-
+                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 100px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="showPaynowBox('{$order[\'orderno\']}');" >Pay / Change</button>
                         </if>
                         <br/>
                         Status:
@@ -114,17 +112,45 @@
 </div>
 <div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
     <div class="radio-box">
-        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#pay')"><i></i>Paypal</label>
-        <input type="hidden" name="invoice" id="pay" value="0" />
+        <label class="radio radiofl on paymethod" data-val="4"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Choose');"><i></i>Cash on delivery</label><br/>
+        <label class="radio radiofl  paymethod" data-val="2"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Go to pay');"><i></i>Paypal(USD)</label>
+        <input type="hidden" name="pay" id="pay" value="4" />
+        <input type="hidden" name="orderno" />
     </div>
     <br/>
     <br/>
-    <button class="pay_btn" onclick="window.location.href='/home/shop/pay.html?orderno={$order[\'orderno\']}'" >Pay </button>
+    <button class="choose_btn pay_btn " onclick="paynow();" >Choose </button>
 </div>
 <include file="Index:footer" />
 <script>
-    function paynow(){
+    $(function(){
+        if($('#paybox input[name=pay]').val()==4){
+            $('.pay_btn').html('Choose');
+        }else{
+            $('.pay_btn').html('Go to pay');
+        }
+    })
+
+    function showPaynowBox(orderno){
+        $('#paybox input[name=orderno]').val(orderno);
         getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
+    }
+
+    function paynow(){
+        var $paymethod = $('#paybox input[name=pay]').val();
+        var orderno = $('#paybox input[name=orderno]').val();
+        $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
+            if(data.code ==200){
+                if($paymethod ==2){ //Paypal支付
+                    clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
+                }else{
+                    closeMask();
+                    clearpopj('Successful.','success',true);
+                }
+            }else{
+                clearpopj('Modify payment failed','error',true);
+            }
+        })
     }
 </script>
 </body>

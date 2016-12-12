@@ -45,12 +45,12 @@
         var keywrod = $('#findpwd input[name=keywrod]').val();
         var verify = $('#verify').val();
         if (!keywrod) {
-            clearpopj("Sorry,please enter your username or Email.", "error",true);
+            clearpopj("Please input your username or Email.", "error",true);
             subBlock = false;//解除阻塞
             return false
         } ;
         if (!verify) {
-            clearpopj("Sorry,please enter your username or Email.", "error",true);
+            clearpopj("Please input captcha", "error",true);
             subBlock = false;//解除阻塞
             return false
         };
@@ -58,7 +58,7 @@
         $.post('/login/findpwdAction',{keywrod:keywrod,verify:verify},function(data){
             subBlock = false;//解除阻塞
             if(data.code ==200){
-                clearpopj(data.message, "success",true,'/login/index.html');
+                clearpopj(data.message, "success",false,'/login/index.html');
             }else{
                 clearpopj(data.message, "error",true);
             }

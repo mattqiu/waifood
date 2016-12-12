@@ -107,10 +107,10 @@ function gopay(obj){
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();
-                clearpopj('Modify payment success','success',true);
+                clearpopj('Successful.','success',true);
             }
         }else{
-            clearpopj('Modify payment failure','error',true);
+            clearpopj('Modify payment failed','error',true);
         }
     })
 }
@@ -368,7 +368,7 @@ function getCartData(){
                 $html += '<div class="fl icon_trash _trash " onClick="delGood(' + obj[i]['id'] + ');"></div>';
                 if(obj[i]['status'] ==1){
                     $html += '<div class=" fr item-foot-r">';
-                    $html += '<div class="fl g_btn cartbtn">';
+                    $html += '<div class="fl g_btn cartbtn" style="margin-top: 6px;">';
                     $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
                     var goodsnum = 0;
                     if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
@@ -376,7 +376,7 @@ function getCartData(){
                     }else{
                         goodsnum = parseInt(obj[i]['amount']);
                     }
-                    $html += '<input type="text" class="num cartgoodnum fl tc"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
+                    $html += '<input type="text" class="num cartgoodnum fl tc" onkeyup="setGoodNum(' + obj[i]['id'] + ',$(this).val());"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
                     $html += '<div class="add_cart_num  fl" data-id="' + obj[i]['id'] + '" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
                     $html += '</div>';
                     $html += '<div class="fr ptotal cartptotal fc_orange" style="margin-top: 10px;font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (goodsnum *obj[i]['price'])+ '</span></div>';
@@ -433,13 +433,13 @@ function goCashier(){
     if(obj){
         for(var i in obj){
             if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){
-                clearpopj('Goods:'+obj[i]['name']+' Insufficient stock!','error',true);
+                clearpopj('Insufficient stock for '+obj[i]['name'],'error',true);
                 return false;
             }
         }
         window.location.href = '/m_cashier.html?gocashier=gocashier';
     }else{
-        clearpopj("Order content cannot be empty!",'error',true);
+        clearpopj("No products to check out!", "error",true);
         return false;
     }
 }
@@ -457,13 +457,13 @@ function submitOrder(){
     var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
     var myfood_array = $.parseJSON(myfood);
     if(!myfood_array){
-        clearpopj("Order content cannot be empty!",'error',true);
+        clearpopj("No products to check out!", "error",true);
         subBlock = false;//解除阻塞
         return false;
     }
     for(var i in myfood_array){
         if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
-            clearpopj('Goods:'+myfood_array[i]['name']+' Insufficient stock!','error',true);
+            clearpopj(' Insufficient stock for'+myfood_array[i]['name'],'error',true);
             subBlock = false;//解除阻塞
             return false;
         }
@@ -472,7 +472,7 @@ function submitOrder(){
         }
     }
     if (!$("#UseAddressID").val()) {
-        clearpopj("Sorry, please select a shipping address!",'error',true);
+        clearpopj('Please select a shipping address!', "error",true);
         subBlock = false;//解除阻塞
         return false
     };
@@ -497,7 +497,7 @@ function submitOrder(){
         if(data.code == 200){
             if(data.data){
                 clearCart(); //清空购物车
-                clearpopj(data.message,'success',true);
+                clearpopj(data.message,'success',true,data.data);
             }
         }else{
             clearpopj(data.message,'error',true)

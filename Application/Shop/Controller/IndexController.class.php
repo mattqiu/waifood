@@ -97,26 +97,35 @@ class IndexController extends BaseController
     }
 
     public function wishlist(){
+        $user = UserModel::getUser();
+        if(empty($user) || !regex($user['id'],'number')){
+            session('backurl','/index/wishlist.html');
+            $this->redirect('/login/index');
+        }
         $this->display();
     }
 
 
     public function subWishList(){
         $data = empty ( $data ) ? $_POST : $data;
-        if(isN($data['ext1'])){
-            apiReturn(CodeModel::ERROR,'Sorry, your name cannot be empty!');
-        }
-        if(isN($data['ext2'])){
-            apiReturn(CodeModel::ERROR,'Sorry, phone number cannot be empty!');
-        }
-        if(!is_email($data['ext3'])){
-            apiReturn(CodeModel::ERROR,'Sorry, email is illegal!');
-        }
+        $user = UserModel::getUser();
+        $data['ext1'] = $user['username'];
+        $data['ext2'] = $user['telephone'];
+        $data['ext3'] = $user['email'];
+//        if(isN($data['ext1'])){
+//            apiReturn(CodeModel::ERROR,'Sorry, your name cannot be empty!');
+//        }
+//        if(isN($data['ext2'])){
+//            apiReturn(CodeModel::ERROR,'Sorry, phone number cannot be empty!');
+//        }
+//        if(!is_email($data['ext3'])){
+//            apiReturn(CodeModel::ERROR,'Sorry, email is illegal!');
+//        }
         if(isN($data['ext5'])){
-            apiReturn(CodeModel::ERROR,'Sorry, subject cannot be empty!');
+            apiReturn(CodeModel::ERROR,'Please input the subject.');
         }
         if(isN($data['ext6'])){
-            apiReturn(CodeModel::ERROR,'Sorry, wish list can not be empty!');
+            apiReturn(CodeModel::ERROR,'Please input some words.');
         }
         $data ['addip'] = get_client_ip ();
         if (false !== D ( "form" )->add ( $data )) {
@@ -158,9 +167,9 @@ class IndexController extends BaseController
             $body=$html;
             if(send_mail($to,$subject,$body)){
             }
-            apiReturn(CodeModel::CORRECT,'Congratulations, submitted successfully!');
+            apiReturn(CodeModel::CORRECT,'Thanks, we will feedback to your ASAP');
         } else {
-            apiReturn(CodeModel::ERROR,'Sorry, submission failed!');
+            apiReturn(CodeModel::ERROR,'Failed to submit.');
         }
     }
 

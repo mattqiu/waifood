@@ -64,8 +64,8 @@ class ContentController extends BaseController {
 			$this->assign ( 'title', $content ['title'] );
 			$this->assign ( 'keywords', $content ['keywords'] );
 			$this->assign ( 'description', $content ['description'] );
-		} else {
-            $this->error ('Sorry,target not exists.',$_SERVER['HTTP_REFERER'] );
+		}else {
+            $this->redirect ( '/Public/404');
 		}
 		$this->display ('Index:consult');
 	}

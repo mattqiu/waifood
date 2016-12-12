@@ -7,7 +7,6 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
     <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
@@ -35,7 +34,7 @@
                             <td><if condition="$vo.sex eq 1">Male <else/>Female</if></td>
                             <td style="padding-left: 30px;"  align="left">{$vo.address}</td>
                             <td>
-                                <a href="javascript:void(0)" onclick="showModifyAddres('{$vo[\'id\']}');" class="order_btn view">edit</a>
+                                <a href="javascript:void(0)" onclick="showModifyAddres('{$vo[\'id\']}');" class="order_btn view">Edit</a>
                                 <div style="height: 6px;"></div>
                                 <a href="javascript:void(0)" onclick="delAddr('{$vo[\'id\']}')" class="order_btn cancel">Delete</a>
                             </td>

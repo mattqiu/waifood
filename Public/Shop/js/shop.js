@@ -156,8 +156,8 @@ function delGood(id,page){
        type: 'warning',
         showCancelButton: true,
         closeOnConfirm: false,
-        confirmButtonText: "Yes"
-       // confirmButtonColor: "#2eb661"
+        confirmButtonText: "Yes",
+        //confirmButtonColor: "#35D374"
     }, function() {
         $('#js_goods_'+id).slideUp();
         $('.showSweetAlert .cancel').click();
@@ -175,7 +175,6 @@ function delGood(id,page){
         });
         loadGood(page);
     });
-
 }
 
 
@@ -500,7 +499,7 @@ function gocashier(){
     if($.cookie('settlement') && $.parseJSON($.cookie('settlement'))){
         window.location.href='/index/cashier.html';
     }else{
-        clearpopj("Please select a goods!", "error",true);
+        clearpopj("No products to check out!", "error",true);
         return false;
     }
 }
@@ -554,19 +553,19 @@ function submitOrder(){
     }
     var myfood =  $.cookie("settlement"),delivery_fee =parseFloat($('#cashier_table').data('delivery_fee')),order='';
     if(!myfood){
-        clearpopj("Sorry, your cart is empty", "error",true);
+        clearpopj("No products to check out.", "error",true);
         subBlock = false;
         return false;
     }
     var myfood_array = $.parseJSON(myfood);
     if(!myfood_array){
-        clearpopj("Order content cannot be empty!", "error",true);
+        clearpopj("No products to check out.", "error",true);
         subBlock = false;//解除阻塞
         return false;
     }
     for(var i in myfood_array){
         if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
-            clearpopj('Goods:'+myfood_array[i]['name']+' Insufficient stock!', "error",true);
+            clearpopj('Insufficient stock for '+myfood_array[i]['name'], "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
@@ -574,7 +573,7 @@ function submitOrder(){
     }
 
     if (!$("#UseAddressID").val()) {
-        clearpopj('Sorry, please select a shipping address!', "error",true);
+        clearpopj('Please select a shipping address!', "error",true);
         subBlock = false;//解除阻塞
         return false
     };
@@ -605,6 +604,7 @@ function submitOrder(){
             if(data.data){
                 clearCart(); //清空购物车
                 clearpopj(data.message, "success",true,data.data);
+
             }
         }else{
             clearpopj(data.message, "error",true);
@@ -642,7 +642,8 @@ function cancelOrder(id,orderno) {
         type: 'warning',
         showCancelButton: true,
         closeOnConfirm: false,
-        confirmButtonText: "Ok"
+        confirmButtonText: "Ok",
+        //confirmButtonColor: "#35D374"
     }, function() {
         $.post('/order/cancelOrder.html',{orderno:orderno},function(data){
             if(data.code == 200){

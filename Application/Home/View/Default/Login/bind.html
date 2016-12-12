@@ -19,11 +19,18 @@ $(function(){
 	$("#confirmWeixin").click(function(){
 		var url=$(this).attr("href"); 
 		var html='<div class="weixin"><div class="wx_user"><img src="{$user.headimgurl|default='/Public/Home/images/wx_default.png'}" width="100" height="100" />{$user.nickname|default='weixin'}</div></div>';
-		jConfirm(html+'Are you sure you want to login by WeChat account?',SYSTITLE,function(ret){
-			if (ret){
-				location=url;	
-			};
-		});
+        swal({
+            title: '',
+            text: html+'Are you sure you want to login by WeChat account?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+            // confirmButtonColor: "#2eb661"
+        }, function() {
+            location=url;
+        });
+
 		return false;	
 	});	
 });
@@ -45,7 +52,7 @@ $(function(){
 <body>
 <include file="Index:bar" />
 <div class="container">
-    <div class="bind-head-img tc"><img src="__PUBLIC__/images/logo.jpg" alt=""/></div>
+    <div class="bind-head-img tc"><img src="__PUBLIC__/images/logo.png" alt=""/></div>
     <!--网站用户并且有openid-->
     <if condition="!empty($user)">
         <br/>
@@ -78,7 +85,6 @@ $(function(){
 <if condition="DEPLOY_ENV == 'local' || DEPLOY_ENV == 'test'">
     <a href="javascript:void(0);" onclick="$.logout()" class="louuotbtn">Log out</a>
 </if>
-<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <include file="Index:footer"/>
 <script>
     window.subBlock=false;
@@ -94,12 +100,11 @@ $(function(){
         $.post('/login/bind',d,function(data){
             subBlock = false;
             if(data.code==200){
-                clearpopj(data.message,data.data);
-            }else{
-                clearpopj(data.message);
+                clearpopj(data.message,'success',true,data.data);
+            } else {
+                clearpopj(data.message,'error',true)
             }
         })
-
     }
 </script>
 </body>

@@ -7,7 +7,6 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
     <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
@@ -49,14 +48,14 @@
                                     Paypal
                                 </if>
                                 <div>
-                                <if condition="$order['pay'] eq 0">
-                                    <span class="order_pay" onclick="showPaynowBox('{$vo.orderno}');" >Pay</span>
+                                <if condition="$vo['pay'] eq 0">
+                                    <span class="order_pay" onclick="showPaynowBox('{$vo.orderno}');" >Pay/Change</span>
                                 </if>
                                 </div>
                             </td>
                             <td >
                                 <div>{:get_status($vo['status'])}</div>
-                                <div><if condition="$order['pay'] eq 0">Unpaid<else/>Paid</if></div>
+                                <div><if condition="$vo['pay'] eq 0">Unpaid<else/>Paid</if></div>
                             </td>
                             <td>
                                 <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
@@ -76,24 +75,46 @@
 </div>
 <div class="clr"></div>
 <div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
-    <input type="hidden" name="id"/>
     <div class="radio-box">
-        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#pay')"><i></i>Paypal</label>
-        <input type="hidden" name="invoice" id="pay" value="0" />
+        <label class="radio radiofl on paymethod" data-val="4"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Choose');"><i></i>Cash on delivery</label><br/>
+        <label class="radio radiofl  paymethod" data-val="2"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Go to pay');"><i></i>Paypal(USD)</label>
+        <input type="hidden" name="pay" id="pay" value="4" />
+        <input type="hidden" name="orderno" />
     </div>
     <br/>
     <br/>
-    <button class="pay_btn" onclick="paynow();" >Pay </button>
+    <button class="choose_btn pay_btn " onclick="paynow();" >Choose </button>
 </div>
 <include file="Index:footer" />
 <script>
-    function showPaynowBox(id){
-       $('#paybox input[name=id]').val(id);
+    $(function(){
+        if($('#paybox input[name=pay]').val()==4){
+            $('.pay_btn').html('Choose');
+        }else{
+            $('.pay_btn').html('Go to pay');
+        }
+    })
+
+    function showPaynowBox(orderno){
+       $('#paybox input[name=orderno]').val(orderno);
         getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
     }
 
     function paynow(){
-        window.location.href='/home/shop/pay.html?orderno='+ $('#paybox input[name=id]').val();
+        var $paymethod = $('#paybox input[name=pay]').val();
+        var orderno = $('#paybox input[name=orderno]').val();
+        $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
+            if(data.code ==200){
+                if($paymethod ==2){ //Paypal支付
+                    clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
+                }else{
+                    closeMask();
+                    clearpopj('Successful.','success',true);
+                }
+            }else{
+                clearpopj('Modify payment failed','error',true);
+            }
+        })
     }
 </script>
 </body>

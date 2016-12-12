@@ -64,17 +64,22 @@
 $(function(){ 
 
 	$("#btnAddPoint").click(function(){
-		
 		var title = "您确定要申请兑换积分吗？此积分不退！";
-       jConfirm(title,SYSTITLE,function(msg){ 
-		   if(msg){
-				var id="{:I('id')}"; 
-				var num = $("#buycount").val(); 
-				var ext=$("#ext").val();
-				$.addPoint(id,num,ext);
-			   
-		   }
-	   });
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+            // confirmButtonColor: "#2eb661"
+        }, function() {
+            var id="{:I('id')}";
+            var num = $("#buycount").val();
+            var ext=$("#ext").val();
+            $.addPoint(id,num,ext);
+        });
+
 	});
  
 })

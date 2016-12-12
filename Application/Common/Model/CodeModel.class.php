@@ -11,7 +11,7 @@ class CodeModel extends Model
 
     public static function getMessage($code){
         switch($code){
-            case self::CORRECT:  return "success";
+            case self::CORRECT:  return "Successful";
             case self::ERROR:  return "error";
             default: return "An unknown error";
         }

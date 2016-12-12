@@ -20,11 +20,13 @@
             <div class="reg-item">
                 <div class="input_text">User Name
                     <input type="text" class="reginput"  name="username" id="username"  placeholder="3-50 characters" />
+                    <span class="fc_red">*</span>
                 </div>
             </div>
             <div class="reg-item">
                 <div class="input_text">Email
                     <input  id="email" name="email" type="text" maxlength="50"  value="" placeholder="Email for login or receive key information" class="reginput" >
+                    <span class="fc_red">*</span>
                 </div>
             </div>
 
@@ -32,16 +34,19 @@
                 <div class="input_text">Phone
                     <input type="text" class="reginput" maxlength="20" name="telephone"
                            id="telephone"  placeholder="Phone to contact you" value="+86" />
+                    <span class="fc_red">*</span>
                 </div>
             </div>
             <div class="reg-item">
                 <div class="input_text">Password
                     <input  class="reginput" maxlength="32" type="password" name="password"  placeholder="4-20 characters" />
+                    <span class="fc_red">*</span>
                 </div>
             </div>
             <div class="reg-item">
                 <div class="input_text">Confirm
                     <input  class="reginput" maxlength="32" type="password" name="password1" placeholder="repeat your password" />
+                    <span class=" fc_red">*</span>
                 </div>
             </div>
         </div>
@@ -228,6 +233,7 @@
                 verify = $('#myform input[name=verify]').val();
         if(!username){
             $('#myform input[name=username]').focus();
+            clearpopj("The two passwords are not same.", "error",true);
             clearpopj("Please enter the account", "error",true);
             subBlock = false;//解除阻塞
             return false;
@@ -258,7 +264,7 @@
             subBlock = false;//解除阻塞
             return false
         }
-        if (password !=password) {
+        if (password !=password1) {
             $('#myform input[name=password1]').focus();
             clearpopj("Two input password is not consistent", "error",true);
             subBlock = false;//解除阻塞

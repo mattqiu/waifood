@@ -34,19 +34,19 @@ class LoginController extends Controller {
     public function login() {
         //验证码
         if( !isVerifyCorrect()){
-            apiReturn(CodeModel::ERROR,'Sorry,verifycation code is illegal.');
+            apiReturn(CodeModel::ERROR,'Wrong captcha code.');
         }
         $username = I('post.username');
         $password = I('post.password');
         if(!$username || !$password){
-            apiReturn(CodeModel::ERROR,'Sorry,password cannot be empty');
+            apiReturn(CodeModel::ERROR,'Wrong user name or password.');
         }
         if(true===$msg = UserModel::login($username,$password)){
             if($url = session('backurl')){
                 session('backurl',false);
-                apiReturn(CodeModel::CORRECT,'Login successful',$url);
+                apiReturn(CodeModel::CORRECT,'Successful',$url);
             }
-            apiReturn(CodeModel::CORRECT,'Login successful','/');
+            apiReturn(CodeModel::CORRECT,'Successful','/');
         }else{
             apiReturn(CodeModel::ERROR,$msg);
         }
@@ -80,26 +80,26 @@ class LoginController extends Controller {
         $data = I('post.');
         $data['telephone'] = replaceTel($data['telephone']);
         if( !isVerifyCorrect()){
-            apiReturn(CodeModel::ERROR,'sorry,verifycation code is illegal.');
+            apiReturn(CodeModel::ERROR,'Wrong captcha code.');
         }
         if (!regex($data['username'],'username') ) {
-            apiReturn(CodeModel::ERROR,'sorry,the user name format is not correct');
+            apiReturn(CodeModel::ERROR,'Wrong user name format.');
         }
         if (!regex($data['email'],'email')) {
-            apiReturn(CodeModel::ERROR,'sorry,email is illegal.');
+            apiReturn(CodeModel::ERROR,'Wrong Email format.');
         }
         if(UserModel::checkEmail($data['email'])){
-            apiReturn(CodeModel::ERROR,'sorry,the email already exists');
+            apiReturn(CodeModel::ERROR,'Sorry, this email already exists.');
         }
         if(UserModel::checkUsername($data['username'])){
-            apiReturn(CodeModel::ERROR,'sorry,the username already exists');
+            apiReturn(CodeModel::ERROR,'Sorry, this user name already exists.');
         }
 
         if (strlen($data['password'])>20 || strlen($data['password'])<4) {
-            $this->error('Sorry,the password should be 4 to 20 characters!');
+            $this->error('Password should be at least 4 characters.');
         }
         if ($data['password'] !== $data['password1']) {
-            apiReturn(CodeModel::ERROR,'enter the password twice inconsistent.');
+            apiReturn(CodeModel::ERROR,'The two passwords are not same.');
         }
         $username=$data['username'];
         $userpwd=$data['password'];
@@ -116,12 +116,12 @@ class LoginController extends Controller {
             sendEmail($data['email'],$subject);
             //注册完后自动登录
             if(true===UserModel::login($username, $userpwd)){//注册后自动登录
-                apiReturn(CodeModel::CORRECT,'register successfully','/member/index');
+                apiReturn(CodeModel::CORRECT,'Successful','/member/index');
             }else{
-                apiReturn(CodeModel::CORRECT,'register successfully','/login/index?returnurl=/member/index');
+                apiReturn(CodeModel::CORRECT,'Successful','/login/index?returnurl=/member/index');
             }
         }else{
-            apiReturn(CodeModel::ERROR,'Registration failed');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
@@ -147,7 +147,7 @@ class LoginController extends Controller {
      */
     public function findpwdAction(){
         if( !isVerifyCorrect()){
-            apiReturn(CodeModel::ERROR, 'sorry,verifycation code is illegal.');
+            apiReturn(CodeModel::ERROR,'Wrong captcha code.');
         }
         $keywrod = I('post.keywrod');
         UserModel::reSetPwd($keywrod);

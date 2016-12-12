@@ -6,7 +6,6 @@
     <include file="Index:header" />
 </head>
 <body pagename="cashier"  data-address_id="{$address.id}">
-<include file="Index:bar"/>
 <include file="Index:nav2"/>
 <div class="title-img title-img2"></div>
 <div class="bg_white">
@@ -71,11 +70,11 @@
 
             <!--Invoice required-->
             <div class="invoice item_panl">
-                <div class="item_title ">Invoice required</div>
+                <div class="item_title ">Invoice required(Fa Piao)</div>
                 <div class="invoice_item">
                     <div class="radio-box">
-                        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#invoice')"><i></i>no</label>
-                        <label class="radio radiofl paymethod" data-val="1" style="margin-left: 15px;"  onclick="setRadioVal(this,'#invoice')"><i></i>yes</label>
+                        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#invoice')"><i></i>No</label>
+                        <label class="radio radiofl paymethod" data-val="1" style="margin-left: 15px;"  onclick="setRadioVal(this,'#invoice')"><i></i>Yes</label>
                         <input type="hidden" name="invoice" id="invoice" value="0" />
                     </div>
 
@@ -232,7 +231,7 @@
     }
 
     //配送时间
-    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"leftLoop",vis:1,scroll:1});//配送时间切换
+    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
     window.deliverydate = new Array();
     var data ='',time ='';
     var $day=0;
@@ -252,7 +251,7 @@
         }else{
             if(!deliverydate[$(this).data('date')] || deliverydate[$(this).data('date')].length===0){
                 if($day>=2){
-                    clearpopj('Choose only two days','error',true);
+                    clearpopj('You can select maximum two dates','error',true);
                     return false;
                 }
                 $day++;
@@ -261,6 +260,8 @@
             deliverydate[$(this).data('date')].push($(this).data('time'))
             $(this).addClass('selected_time');
         }
+        console.log(1)
+        console.log(deliverydate)
     })
 
 </script>

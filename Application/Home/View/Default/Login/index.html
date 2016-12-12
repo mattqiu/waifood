@@ -48,7 +48,6 @@
 </div>
 
 <include file="Index:footer" />
-<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <script>
     $(function(){
         showVeritf();
@@ -71,10 +70,10 @@
         }
         $.post('/login/loginAtion',d,function(data){
             if(data.code==200){
-                clearpopj(data.message,data.data);
-            }else{
+                clearpopj(data.message,'success',true,data.data);
+            } else {
                 showVeritf();
-                clearpopj(data.message);
+                clearpopj(data.message,'error',true)
             }
         })
 

@@ -215,7 +215,7 @@ class OrderController extends BaseController {
     public function submitOrder(){
         $userid = get_userid();
         if(!regex($userid,'number')){
-            apiReturn(CodeModel::ERROR,'Sorry, please login first!');
+            apiReturn(CodeModel::ERROR,'Please sign in.');
         }
         $data = I('post.');
         $orderno = OrderModel::createOrder($data,$userid);
@@ -225,9 +225,9 @@ class OrderController extends BaseController {
             $order=M('order')->where($where)->find();
             if($order['paymethod'] == OrderModel::PAYPAL){
                 $url = "/m_pay?orderno={$order['orderno']}";
-                apiReturn(CodeModel::CORRECT,'Place an order successfully',$url);
+                apiReturn(CodeModel::CORRECT,'Successful.',$url);
             }else{
-                apiReturn(CodeModel::CORRECT,'Place an order successfully','/member/order.html');
+                apiReturn(CodeModel::CORRECT,'Successful.','/member/order.html');
             }
         }else{
             $this->assign('title','Failed.');
@@ -606,46 +606,7 @@ class OrderController extends BaseController {
         }
 	}
 	
-	/**
-	 * 生成充值订单
-	 *
-	 * @param number $shop_id        	
-	 * @return string boolean
-	 */
-	public function createChargeOrder($userid = 0, $amount = 0) {
-		if (IS_POST) {
-			// TODO:需要验证是否登录
-			$orderno = get_order_no ();
-			if ($userid == 0) {
-				$userid = get_userid ();
-			}
-			if ($userid != 0) {
-				$data = empty ( $data ) ? $_POST : $data;
-				if (($amount == 0)) {
-					$this->error ( '充值金额不能为0！' );
-				}
-				
-				$data ['orderno'] = $orderno;
-				$data ['amount'] = $amount;
-				$data ['userid'] = $userid;
-				$data ['username'] = get_username ( $userid );
-				$data ['status'] = 1;
-				$data ['addip'] = get_client_ip ();
-				$db = M ( 'order_charge' )->add ( $data );
-				if ($db != false) {
-					return $orderno;
-				} else {
-					return false;
-				}
-			} else {
-				// 用户需登录
-				return false;
-			}
-		} else {
-			// 非法提交
-			return false;
-		}
-	}
+
 	
 	/**
 	 * 普通订单（订餐）：支付成功
@@ -700,144 +661,7 @@ class OrderController extends BaseController {
 			}
 			
 		}
-		
 	}
-	
-	/**
-	 * 修改充值订单，充值成功
-	 * @param string $orderno
-	 * @param string $trade_no
-	 * @return boolean
-	 */
-	protected function payChargeOrder($orderno = null, $trade_no = null) {
-		if (isN ( $orderno )) {
-			$this->error ( '充值订单号不能为空' );
-		} else {
-			$where ['orderno'] = $orderno;
-			$where ['status'] = 1;
-			$where ['pay'] = 0;
-			$db = M ( 'order_charge' )->where ( $where )->find ();
-			if (! $db == false) {
-				$userid=$db['userid'];
-				$amount=$db['amount'];
-			
-				$where = null;
-				$where ['orderno'] = $orderno;
-				
-				$data ['pay'] = 1;
-				$data ['paytime'] = time_format ();
-				$data ['trade_no'] = $trade_no;
-				$data ['remark'] = $orderno;
-				$db = M ( 'order_charge' )->where ( $where )->save ( $data );
-				if ($db) {
-					//增加余额
-					if($this->charge($userid,$amount,$orderno)){
-						return true;
-					}else{
-						return false;
-					}
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-		}
-	}
-	
-	/**
-	 * 账户充值
-	 * @param number $uid
-	 * @param number $amount
-	 * @param string $orderno
-	 * @return boolean
-	 */
-	protected function charge($uid=0,$amount=0,$orderno=null){
-		//3.在线充值
-		
-		if(is_numeric($uid)&&$uid!=0){
-			$db = $this->insertBalance ( $uid, 3, $amount, $orderno );
-			if ($db) { 
-				return true;
-			} else {
-				return false;
-			}
-		}
-		else {
-				return false;
-		}
-	}
-	
-	
-
-	// 余额收支操作
-	protected function insertBalance($uid, $balancetypeid, $amount, $remark) {
-		$type = M ( 'balancetype' )->getFieldByid ( $balancetypeid, 'type' ); // 之前余额
-		$prebalance = M ( 'member' )->getFieldByid ( $uid, 'balance' ); // 之前余额
-		if (isN ( $prebalance )) {
-			$prebalance = 0;
-		}
-	
-		$data ['userid'] = $uid;
-		$data ['username'] = get_username ( $uid );
-		$data ['amount'] = $amount;
-		$data ['prebalance'] = $prebalance;
-		$data ['balancetypeid'] = $balancetypeid;
-		if ($type == 1) {
-			$data ['balance'] = $prebalance + $amount;
-			$data ['balancetype'] = '1';
-		} else {
-			$data ['balance'] = $prebalance - $amount;
-			$data ['balancetype'] = '0';
-		}
-		$data ['addip'] = get_client_ip ();
-		$data ['remark'] = $remark;
-	
-		$db = M ( "balance" );
-		if ($db->add ( $data )) {
-				
-			// 2. 更新当前余额
-			M ( 'member' )->where ( 'id=' . $uid )->setField ( 'balance', $data ['balance'] );
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-
-	// 积分收支操作
-	public function insertCredit($uid, $balancetypeid, $amount, $remark) {
-		$type = M ( 'credittype' )->getFieldByid ( $balancetypeid, 'type' ); // 收支类型
-		$precredit = M ( 'member' )->getFieldByid ( $uid, 'credit' ); // 之前余额
-		if (isN ( $precredit )) {
-			$precredit = 0;
-		}
-		$data ['userid'] = $uid;
-		$data ['username'] = get_username ( $uid );
-		$data ['precredit'] = $precredit;
-		$data ['amount'] = $amount;
-		$data ['credittypeid'] = $balancetypeid;
-		if ($type == 1) {
-			$data ['credit'] = $precredit + $amount;
-			$data ['credittype'] = '1';
-		} else {
-			$data ['credit'] = $precredit - $amount;
-			$data ['credittype'] = '0';
-		}
-		$data ['addip'] = get_client_ip (); 
-		$data ['remark'] = $remark;
-	
-		$db = M ( "credit" );
-		if ($db->add ( $data )) {
-				
-			// 2. 更新当前积分
-			M ( 'member' )->where ( 'id=' . $uid )->setField ( 'credit', $data ['credit'] );
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
 	
 }
 ?>

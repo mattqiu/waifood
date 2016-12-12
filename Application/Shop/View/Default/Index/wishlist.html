@@ -31,17 +31,18 @@
         if(subBlock){
             return false;
         }
-        var username = $('#wishlist input[name=username]').val(),
+        /* username = $('#wishlist input[name=username]').val(),
             phone = $('#wishlist input[name=telephone]').val(),
-            email = $('#wishlist input[name=email]').val(),
-            subject = $('#wishlist input[name=subject]').val(),
+            email = $('#wishlist input[name=email]').val(),*/
+        var subject = $('#wishlist input[name=subject]').val(),
             remarks = $('#wishlist textarea[name=remarks]').val();
-        if(!username){
+        /*
+          if(!username){
             clearpopj("Sorry,please enter your name,", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
-        if(!phone){
+       if(!phone){
             clearpopj("Sorry,please enter your phone,", "error",true);
             subBlock = false;//解除阻塞
             return false;
@@ -50,14 +51,15 @@
             clearpopj("Sorry,please enter your email,", "error",true);
             subBlock = false;//解除阻塞
             return false;
-        }
+        }*/
         if(!remarks){
-            clearpopj("Sorry,please enter your wish list,", "error",true);
+            clearpopj("Please input some words.", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
         subBlock = true;
-        $.post('/index/subWishList.html',{ext1:username,ext2:phone,ext3:email,ext5:subject,ext6:remarks},function(data){
+//        $.post('/index/subWishList.html',{ext1:username,ext2:phone,ext3:email,ext5:subject,ext6:remarks},function(data){
+        $.post('/index/subWishList.html',{ext5:subject,ext6:remarks},function(data){
             subBlock = false;//解除阻塞
             if(data.code == 200){
                 clearpopj(data.message, "success",true,'self');

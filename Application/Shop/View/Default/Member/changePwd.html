@@ -7,7 +7,6 @@
 </head>
 
 <body style="background: #f8f8f8">
-<include file="Index:bar" />
 <include file="Index:nav2" />
 <div class="container">
     <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
@@ -39,19 +38,19 @@
         if(!old_pwd){
             $('.pwd_box input[name=old_pwd]').val('');
             $('.pwd_box input[name=old_pwd]').focus();
-            clearpopj("Please enter the old password", "error",true);
+            clearpopj("Please input old password", "error",true);
             return false;
         }
         if(!pwd){
             $('.pwd_box input[name=pwd]').val('');
             $('.pwd_box input[name=pwd]').focus();
-            clearpopj("Please enter the new password", "error",true);
+            clearpopj("Please input new password", "error",true);
             return false;
         }
         if(pwd != pwd1){
             $('.pwd_box input[name=pwd1]').val('');
             $('.pwd_box input[name=pwd1]').focus();
-            clearpopj("Two input is inconsistent", "error",true);
+            clearpopj("The two passwords are not same.", "error",true);
             return false;
         }
         $.post('/member/changeUserPwd.html',{old_pwd:old_pwd,pwd:pwd,pwd1:pwd1},function(data){

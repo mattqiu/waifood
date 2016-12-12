@@ -32,12 +32,24 @@
         <a style="padding:10px 50px; color: #3c454a ; width: 160px;text-decoration:none;border: 1px solid #e54161; border-radius: 4px;" href="http://www.waifood.com">Back</a>
     </div>-->
 </div>
+<p style="color: #FFffff;"><i id="time">5</i>&nbsp;秒后<a id="toindex" href="/">跳回首页>></a></p>
 <script>
     if (navigator.userAgent.match(/mobile/i)) {
         var obj = document.getElementById('text-msg');
         obj.style='line-height: 40px;        font-size: 24px;        color: #FFffff;        margin-top: -90px;';
         obj.innerHTML="Oops! somthing bad happend.    <br/> The page you're visiting <br/> can not be found!";
         document.getElementById('text-img').style='margin-top:10%';
+    }
+    window.onload =function(){
+        var time=document.getElementById("time").innerHTML;
+        var over=window.setInterval(function(){
+            time--;
+            document.getElementById("time").innerHTML=time;
+            if(time<=0){
+                over=window.clearInterval(over);
+                document.getElementById("toindex").click();
+            }
+        },1000);
     }
 
 </script>

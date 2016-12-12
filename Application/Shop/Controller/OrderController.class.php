@@ -25,9 +25,9 @@ class OrderController extends AuthController
         if (! $order == false) {
             M('order')->where($where)->setField('status', 4);
             set_order_onoff($orderno,1);
-            apiReturn(CodeModel::CORRECT,'Order cancellation is successful!');
+            apiReturn(CodeModel::CORRECT,'Successful.');
         } else {
-            apiReturn(CodeModel::ERROR,'Sorry, the order cannot be cancelled!');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
@@ -38,7 +38,7 @@ class OrderController extends AuthController
     public function submitOrder(){
         $userid = get_userid();
         if(!regex($userid,'number')){
-            apiReturn(CodeModel::ERROR,'Sorry, please login first!');
+            apiReturn(CodeModel::ERROR,'Please sign in.');
         }
         $data = I('post.');
         $orderno = OrderModel::createOrder($data,$userid);
@@ -48,9 +48,9 @@ class OrderController extends AuthController
             $order=M('order')->where($where)->find();
             if($order['paymethod'] == OrderModel::PAYPAL){
                 $url = "/home/shop/pay.html?orderno={$order['orderno']}";
-                apiReturn(CodeModel::CORRECT,'Place an order successfully',$url);
+                apiReturn(CodeModel::CORRECT,'Successful.',$url);
             }else{
-                apiReturn(CodeModel::CORRECT,'Place an order successfully','/member/order.html');
+                apiReturn(CodeModel::CORRECT,'Successful.','/member/order.html');
             }
         }else{
             $this->assign('title','Failed.');

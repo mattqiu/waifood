@@ -171,28 +171,30 @@ $(function(){
     };
     $.clearCart = function(shop_id) {
 		if(shop_id==undefined){shop_id=0};
-		
-		var title = "Are you sure you want to empty the shopping cart?";
-       jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				var url = CONST_CART.replace('URL', 'ept');
-				url += "?shop_id="+shop_id+"&" + Math.random();
-				$.ajax({
-					"url": url,
-					success: function(msg) {
-						var o = eval(msg);
-						if (o.status == "1") {
-							location.reload();
-						   // jAlert("恭喜，已清空购物车！")
-						} else {
-                            clearpopj("Sorry, remove failed!",'error',true,'self');
-						}
-					}
-				})
-				
-			}
-	   });
-	    
+        swal({
+            title: '',
+            text: 'Are you sure you want to empty the shopping cart?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+            //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('URL', 'ept');
+            url += "?shop_id="+shop_id+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    if (o.status == "1") {
+                        location.reload();
+                        // jAlert("恭喜，已清空购物车！")
+                    } else {
+                        clearpopj("Sorry, remove failed!",'error',true,'self');
+                    }
+                }
+            })
+        });
     };
     $.loadCart = function() {
         var url = CONST_CART.replace('URL', 'load');
@@ -295,16 +297,19 @@ $(function(){
             clearpopj("Sorry, please select the delivery date!",'error',true);
             return false
 		}
-		
-        var title = "Are you sure you want to submit the order?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				$("#form1").submit();
-			}else{
-				return false;	
-			};	
-		});
-		
+
+        swal({
+            title: '',
+            text: 'Are you sure you want to submit the order?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            $("#form1").submit();
+        });
+
 		return false;
     };
 	
@@ -312,86 +317,93 @@ $(function(){
 	//**供会员中心使用
 	$.confirmOrder =  function(orderno) { 
         var title = "Are you sure you want to confirm the completion of the order?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Order/confirmOrder');
-					url += "?orderno="+orderno+"&" + Math.random();
-					$.ajax({
-						"url": url,
-						success: function(msg) {
-							var o = eval(msg);
-							if (o.status == "1") {
-								location.reload();
-							} else {
-                                clearpopj(o.info,'error',true);
-							}
-						}
-					})
-					
-			}else{
-				return false;	
-			};	
-		});
-		
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Order/confirmOrder');
+            url += "?orderno="+orderno+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    if (o.status == "1") {
+                        location.reload();
+                    } else {
+                        clearpopj(o.info,'error',true);
+                    }
+                }
+            })
+        });
 		return false;
     };
 		
 	$.cancelOrder =  function(orderno) { 
         var title = "Are you sure you want to cancel the order?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Order/cancelOrder');
-					url += "?orderno="+orderno+"&" + Math.random();
-					$.ajax({
-						"url": url,
-						success: function(msg) {
-							var o = eval(msg);
-							if (o.status == "1") {
-								location.reload();
-							} else {
-                                clearpopj(o.info,'error',true);
-							}
-						}
-					})
-					
-			}else{
-				return false;	
-			};	
-		});
-		
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Order/cancelOrder');
+            url += "?orderno="+orderno+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    if (o.status == "1") {
+                        location.reload();
+                    } else {
+                        clearpopj(o.info,'error',true);
+                    }
+                }
+            })
+        });
+
 		return false;
     };
 	
 	$.delAddress =  function(id,jurl) {
         var title = "Are you sure you want to delete this address?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Member/deleteAddress');
-					url += "?id="+id+"&" + Math.random();
-					$.ajax({
-						"url": url,
-						success: function(msg) {
-							var o = eval(msg);
-                            console.log(msg)
-                            console.log(o)
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Member/deleteAddress');
+            url += "?id="+id+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    console.log(msg)
+                    console.log(o)
 
-							if (o.status == "1") {
-                                if(jurl){
-                                    window.location.href = jurl;
-                                }else{
-                                    window.location.href = '/member/address.html';
-                                }
-							} else {
-								alert(o.info);
-							}
-						}
-					})
-					
-			}else{
-				return false;	
-			};	
-		});
-		
+                    if (o.status == "1") {
+                        if(jurl){
+                            window.location.href = jurl;
+                        }else{
+                            window.location.href = '/member/address.html';
+                        }
+                    } else {
+                        alert(o.info);
+                    }
+                }
+            })
+        });
 		return false;
     };
 	
@@ -414,67 +426,75 @@ $(function(){
 	
 	$.delFav =  function(id) { 
         var title = "Are you sure you want to delete this collection?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Member/deleteFav');
-					url += "?id="+id+"&" + Math.random();
-					$.ajax({
-						"url": url,
-						success: function(msg) {
-							var o = eval(msg);
-							if (o.status == "1") {
-								location.reload();
-							} else {
-								alert(o.info);
-							}
-						}
-					})
-					
-			}else{
-				return false;	
-			};	
-		});
-		
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Member/deleteFav');
+            url += "?id="+id+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    if (o.status == "1") {
+                        location.reload();
+                    } else {
+                        alert(o.info);
+                    }
+                }
+            })
+        });
 		return false;
     };
 	
 	$.clrHistory =  function(id) { 
         var title = "Are you sure you want to empty the browsing history?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Member/clearHistory');
-					url += "?id="+id+"&" + Math.random();
-					$.ajax({
-						"url": url,
-						success: function(msg) {
-							var o = eval(msg);
-							if (o.status == "1") {
-								location.reload();
-							} else {
-								alert(o.info);
-							}
-						}
-					})
-					
-			}else{
-				return false;	
-			};	
-		});
-		
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Member/clearHistory');
+            url += "?id="+id+"&" + Math.random();
+            $.ajax({
+                "url": url,
+                success: function(msg) {
+                    var o = eval(msg);
+                    if (o.status == "1") {
+                        location.reload();
+                    } else {
+                        alert(o.info);
+                    }
+                }
+            })
+        });
+
 		return false;
     };
 	
 	$.logout =  function(id) { 
         var title = "Are you sure you want to quit?";
-		jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Login/logout');
-				location = url;
-			}else{
-				return false;	
-			};	
-		});
-		
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Login/logout');
+            location = url;
+        });
 		return false;
     };
 	
@@ -484,22 +504,29 @@ $(function(){
 			return false;
 		};
         var title1 = "Are you sure you want to post the comment?";
-		jConfirm(title1,SYSTITLE,function(msg){
-			if(msg){
-				 var url = CONST_CART.replace('Cart/URL', 'Member/addComment');
-					url += "?id=" + id + "&pid=" + PID + "&comment=" + title + "&orderno=" + orderno + "&" + Math.random()
-				 $.ajax({
-					"url": url,
-					"success": function(o) {
-						if (o.status == "1") {
-                            clearpopj("Succeed",'success',true,'self');
-						} else {
-                            clearpopj("Failed.",'error',true);
-						}
-					}
-				})
-			};	
-		});
+        swal({
+            title: '',
+            text: title1,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            var url = CONST_CART.replace('Cart/URL', 'Member/addComment');
+            url += "?id=" + id + "&pid=" + PID + "&comment=" + title + "&orderno=" + orderno + "&" + Math.random()
+            $.ajax({
+                "url": url,
+                "success": function(o) {
+                    if (o.status == "1") {
+                        clearpopj("Succeed",'success',true,'self');
+                    } else {
+                        clearpopj("Failed.",'error',true);
+                    }
+                }
+            })
+        });
+
     };
 	
 	$.payOrder =  function(orderno,price) { 
@@ -580,15 +607,17 @@ $(function(){
 			//隐藏该条目
 		var obj=$(this);
 		var title = "Are you sure to delete this product?";
-       jConfirm(title,SYSTITLE,function(msg){
-			if(msg){
-				obj.next("input").val(v).change();
-			}else{
-				return false;
-			}
-	   });
-	   
-	    
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes",
+             //confirmButtonColor: "#35D374"
+        }, function() {
+            obj.next("input").val(v).change();
+        });
 		}else{
 			$(this).next("input").val(v).change();	
 			var num=parseFloat($(this).next("input").val());	
@@ -623,7 +652,7 @@ $(function(){
 		href = href.replace('.html',EXTRA_PARAM+".html");
 		$(this).attr("href",href);
 	});
-	
+
 	$("#sou").click(function(){
 		$("#searchform").toggle();
 		return false;

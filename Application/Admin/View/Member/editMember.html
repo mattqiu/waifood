@@ -9,7 +9,6 @@
             src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
     <script type="text/javascript"
             src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
-    <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
     <style>
         table{ margin-top: 10px; border: 1px solid #bebbdb}
     </style>
@@ -220,7 +219,7 @@
             if(data.code==200 ){
                 window.open(data.data)
             }else{
-                clearpopj(data.message);
+                clearpopj(data.message,'error',true)
             }
         })
     }
