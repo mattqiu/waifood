@@ -16,7 +16,7 @@ function isVerifyCorrect()
 }
 
 function version(){
-    return 'v-1.1.9';
+    return 'v-1.1.0';
 }
 
 /**
