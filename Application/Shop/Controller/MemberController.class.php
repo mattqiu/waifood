@@ -56,7 +56,7 @@ class MemberController extends AuthController {
             apiReturn(CodeModel::ERROR,'Please input address.');
         }
         $userid = $this->userId;
-        if(true === AddressModel::modifyShoppingAddress($data,$userid)){
+        if($re = AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
             if($cashier){
                 session('gocashier',null);
