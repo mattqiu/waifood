@@ -209,6 +209,7 @@ class UserModel extends Model
                 if(!is_numeric($rate)){
                     $rate=1;
                 }
+                self::setUser($user); //设置user缓存
                 session ( 'userrate', $rate );
                 session ( 'userid', $user ['id'] );
                 session ( 'username', $user ['username'] );
