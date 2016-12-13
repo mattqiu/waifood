@@ -28,7 +28,7 @@
                 <input type="submit"  class="lgbtn"  value="Sign in" onclick="login();" />
                 <div class="lg_foot">
                     <a href="/login/findpwd.html" class="fl">Forget your password?</a>
-                    <a href="/login/register.html"  class="fr">Sign up</a>
+                    <a href="/login/register.html" style="color: #fc2c3d" class="fr ">Sign up</a>
                 </div>
             </form>
         </div>
@@ -97,7 +97,8 @@
         }
         $.post('/login/login.html',{username:username, password:password,verify:verify},function(data){
             if(data.code==200){
-                clearpopj(data.message, "success",true,data.data);
+                window.location.href=data.data;
+                //clearpopj(data.message, "success",true,data.data);
             }else{
                 clearpopj(data.message, "error",true);
             }

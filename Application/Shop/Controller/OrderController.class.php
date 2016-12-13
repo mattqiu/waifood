@@ -26,7 +26,7 @@ class OrderController extends AuthController
             M('order')->where($where)->setField('status', 4);
             set_order_onoff($orderno,1);
             apiReturn(CodeModel::CORRECT,'Successful.');
-        } else {
+        }else {
             apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }

@@ -18,9 +18,9 @@
             <div class="order_item_title ">Change password</div>
             <hr width="965px" size="1" color="#e0e0e0" style="margin: 0 auto"/>
             <div class="pwd_box">
-                <div class="pwd_ionput">Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" class="text_input" name="old_pwd"/></div>
-                <div class="pwd_ionput">New Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" class="text_input" name="pwd"/></div>
-                <div class="pwd_ionput">Confirm password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" class="text_input"  name="pwd1"/></div>
+                <div class="pwd_ionput">Old Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input" name="old_pwd"/></div>
+                <div class="pwd_ionput">New Password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input" name="pwd"/></div>
+                <div class="pwd_ionput">Confirm password&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" placeholder="4-20 characters" class="text_input"  name="pwd1"/></div>
             </div>
             <div class=" submitOrder_b changpwd">
                 <button onclick="changePwd();" class="submitOrder ">Submit</button>
@@ -55,7 +55,7 @@
         }
         $.post('/member/changeUserPwd.html',{old_pwd:old_pwd,pwd:pwd,pwd1:pwd1},function(data){
             if(data.code == 200){
-                clearpopj(data.message, "success",true,'/');
+                clearpopj(data.message, "success",true,'/login/index.html');
             }else{
                 clearpopj(data.message, "error",true);
             }

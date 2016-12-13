@@ -115,7 +115,7 @@ fieldset,img { border: none;}
 .goodcheckout{width: 150px; height: 40px;font-size: 24px;line-height: 40px; background: #fc2c3d;color: #FFFFFF;cursor: pointer}
 .goodcheckout:hover{background:#FA6874;}
 .checkout{cursor: pointer}
-.clear_cart{color: #999999;cursor: pointer;border-top: 1px solid #E0E0E0;text-align: right;padding-top: 20px;}
+.clear_cart{color: #999999;cursor: pointer;padding-top: 12px; padding-right: 45px; width: 100px;}
 /*content*/
 .index-item{width: 1226px; height:100px;}
 .index-item .i_item{width: 231px;height: 62px; border-left: 1px solid #E0E0E0}
@@ -465,7 +465,7 @@ ul li.on{ background:#616161;  }
 /*.orderinfo{width: 820px; margin: 0 auto;}*/
 .order_head{height: 56px; line-height: 56px;font-size: 20px; color: #212121;border-bottom: 1px solid #E0E0E0}
 .order_item_title{font-size:18px;height: 25px;line-height: 25px;color: #424242;margin-bottom: 7px;margin-top: 15px;}
-.order_receiving{height: 120px;line-height: 25px;border-bottom: 1px solid #E0E0E0;}
+.order_receiving{line-height: 25px;border-bottom: 1px solid #E0E0E0;}
 .order_item{border-bottom: 1px solid #E0E0E0;padding-bottom: 20px;}
 .order_item .order_item{line-height: 30px;}
 .order_view_table .thead{height:50px;line-height: 50px;background: #f8f8f8 }
@@ -476,6 +476,7 @@ ul li.on{ background:#616161;  }
 .tfoot .tinfo{padding-right: 40px;line-height: 30px;padding-top: 10px;}
 .tfoot .tinfo .price{font-size: 20px; color: #fc2c3d    }
 .order_view .back_btn{ width: 216px;height: 55px;line-height: 55px;font-size: 24px;}
+.order_address{word-break: break-all}
 /******************************************order********************************************/
 .order-list{background: #FFffff}
 .order_list{font-size: 24px;height: 65px; line-height: 65px;color: #424242;padding-left: 30px;}

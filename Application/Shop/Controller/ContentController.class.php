@@ -76,6 +76,7 @@ class ContentController extends BaseController {
 	public function lists($id = null) {
 		// 输出当前Content列表
 		$where = array ();
+        $where ['status'] = 1;
 		if (isset ( $id )) {
 			$where ['sortpath'] = array ('like','%,' . $id . ',%');
 		}
@@ -125,7 +126,6 @@ class ContentController extends BaseController {
 				$this->assign ( 'fathername', get_cate ( $cateinfo ['pid'], 'channel' ) );
 			}
 		}
-
 		// 赋值
 		$this->assign ( 'channel', $channel );
 		$this->assign ( 'pid', $id );

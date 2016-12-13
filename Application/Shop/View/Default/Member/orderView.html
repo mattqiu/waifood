@@ -37,7 +37,7 @@
                             Paypal
                         </if>
                         <if condition="$order['pay'] eq 0">
-                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 100px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="showPaynowBox('{$order[\'orderno\']}');" >Pay / Change</button>
+                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 110px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="showPaynowBox('{$order[\'orderno\']}');" >Pay / Change</button>
                         </if>
                         <br/>
                         Status:
@@ -53,7 +53,11 @@
                 <div class="order_item">
                     <div class="order_item_title">Invoice</div>
                     <div class="order_address">
-                        <eq name="db.inovice" value="1"> Yes <else/> No </eq>
+                        <if condition="$order['invoice'] eq 1">
+                            Yes
+                            <else/>
+                            No
+                        </if>
                     </div>
                 </div>
                 <if condition="$order['info']">
@@ -131,27 +135,6 @@
         }
     })
 
-    function showPaynowBox(orderno){
-        $('#paybox input[name=orderno]').val(orderno);
-        getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
-    }
-
-    function paynow(){
-        var $paymethod = $('#paybox input[name=pay]').val();
-        var orderno = $('#paybox input[name=orderno]').val();
-        $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
-            if(data.code ==200){
-                if($paymethod ==2){ //Paypal支付
-                    clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
-                }else{
-                    closeMask();
-                    clearpopj('Successful.','success',true);
-                }
-            }else{
-                clearpopj('Modify payment failed','error',true);
-            }
-        })
-    }
 </script>
 </body>
 </html>

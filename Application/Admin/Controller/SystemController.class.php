@@ -635,13 +635,13 @@ class SystemController extends BaseController {
 
     public function modifyBanner(){
         $id = I('post.id');
-        $data = array_filter($_POST);// 去除空值
+        $data =$_POST;// 去除空值
         if(!empty($data)){
             if(regex($id,'number') ){
                 if(BannerModel::modifyBanner($id,$data)){
                     apiReturn(CodeModel::CORRECT,'编辑成功');
                 }else{
-                    apiReturn(CodeModel::ERROR,'编辑失败');
+                    apiReturn(CodeModel::ERROR,'编辑失败'.M()->_sql());
                 }
             }elseif($data['indexpic']){
                 if(BannerModel::addBanner($data)){

@@ -20,6 +20,7 @@
         .text-img{margin-top: 2%}
         .text-img img{max-width: 530px;max-height: 548px;}
         .text-msg{line-height: 65px;font-size: 36px;color: #FFffff; margin-top: -110px}
+        .back,.back a{color: #FFffff;font-size: 16px;font-family: "arial"}
     </style>
 </head>
 <body style="" onclick="window.location.href='http://www.waifood.com'">
@@ -32,7 +33,7 @@
         <a style="padding:10px 50px; color: #3c454a ; width: 160px;text-decoration:none;border: 1px solid #e54161; border-radius: 4px;" href="http://www.waifood.com">Back</a>
     </div>-->
 </div>
-<p style="color: #FFffff;"><i id="time">5</i>&nbsp;秒后<a id="toindex" href="/">跳回首页>></a></p>
+<p class="back" style="color: #FFffff; "><a id="toindex" href="/">&lt;&lt;Back to home&nbsp;</a><i id="time" style="display: none">5</i></p>
 <script>
     if (navigator.userAgent.match(/mobile/i)) {
         var obj = document.getElementById('text-msg');

@@ -49,6 +49,7 @@
 @-moz-keyframes wind {
     100% { -moz-transform:scale(2); border-width: 0; }
 }
+
 /*******************checkbox 重**************************/
 input[type=checkbox] {
     visibility: hidden;

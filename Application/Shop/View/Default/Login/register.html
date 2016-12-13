@@ -63,9 +63,7 @@
                     <li data-sex="0" style="margin-left: 8px;">Female</li>
                 </ul>
             </div>
-            <div class="clr"></div>
-
-            <div class="reg-item" style="margin-top: -10px;">Living city in China
+            <div class="reg-item" style="margin-top: -10px; clear: both">Living city in China
                 <ul id="levecity" class="city">
                     <li class="hover"  data-city="chengdu">Chengdu</li>
                     <li data-city="chongqing" >Chongqing</li>
@@ -193,7 +191,7 @@
             </div>
         </div>
         <div class="clr reg-btn tc">
-            <button onclick="reg()" style="width: 414px" class="lgbtn" >Sign up</button>
+            <button onclick="reg()" style="width: 414px" class="lgbtn " >Sign up</button>
           <div class="reg-item tc" style="line-height: 30px;margin: 0 auto;">Already have an account?<a href="/login/index.html" style="color: #fc2c3d"> Sign in</a></div>
         </div>
     </form>
@@ -233,46 +231,45 @@
                 verify = $('#myform input[name=verify]').val();
         if(!username){
             $('#myform input[name=username]').focus();
-            clearpopj("The two passwords are not same.", "error",true);
-            clearpopj("Please enter the account", "error",true);
+            clearpopj("Please input user name", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
         if(!email){
             $('#myform input[name=username]').focus();
-            clearpopj("Please enter the email", "error",true);
+            clearpopj("Please input email", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
         if(!telephone){
             $('#myform input[name=password]').focus();
-            clearpopj("Please enter the telephone", "error",true);
+            clearpopj("Please input telephone", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
 
         if(!password){
             $('#myform input[name=password]').focus();
-            clearpopj("Please enter the password", "error",true);
+            clearpopj("Please input password", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }
 
         if (password.length < 4 ||password.length > 20) {
             $('#myform input[name=password]').focus();
-            clearpopj("The password for 4 to 20 characters", "error",true);
+            clearpopj('Password should be at least 4 characters.', "error",true);
             subBlock = false;//解除阻塞
             return false
         }
         if (password !=password1) {
             $('#myform input[name=password1]').focus();
-            clearpopj("Two input password is not consistent", "error",true);
+            clearpopj("The two password are not same.", "error",true);
             subBlock = false;//解除阻塞
             return false
         }
         if(!verify){
             $('#myform input[name=verify]').focus();
-            clearpopj("Please enter the captcha", "error",true);
+            clearpopj("Please input captcha", "error",true);
             subBlock = false;//解除阻塞
             return false;
         }

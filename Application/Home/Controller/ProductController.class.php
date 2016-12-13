@@ -38,10 +38,15 @@ class ProductController extends BaseController {
             $this->assign ( 'title', 'Promotion');
             $list  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
         }else{
+            $keyword=parse_param($_REQUEST['keyword'],true);
             $where = array ();
             $where ['status'] = 1;
-            if(isset($id)){
+            if($id > 0){
                 $where['sortpath'][]= array('like','%,'.$id.',%');
+            }elseif($keyword){
+                $this->assign ( 'title', $keyword );
+                $where['_string'] = ' (title like "%'.$keyword.'%")  OR ( keywords like "%'.$keyword.'") ';
+                //   $this->addKeyword($keyword);
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
             }

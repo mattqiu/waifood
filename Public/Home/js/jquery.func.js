@@ -343,35 +343,7 @@ $(function(){
 		return false;
     };
 		
-	$.cancelOrder =  function(orderno) { 
-        var title = "Are you sure you want to cancel the order?";
-        swal({
-            title: '',
-            text: title,
-            type: 'warning',
-            showCancelButton: true,
-            closeOnConfirm: false,
-            confirmButtonText: "Yes",
-             //confirmButtonColor: "#35D374"
-        }, function() {
-            var url = CONST_CART.replace('Cart/URL', 'Order/cancelOrder');
-            url += "?orderno="+orderno+"&" + Math.random();
-            $.ajax({
-                "url": url,
-                success: function(msg) {
-                    var o = eval(msg);
-                    if (o.status == "1") {
-                        location.reload();
-                    } else {
-                        clearpopj(o.info,'error',true);
-                    }
-                }
-            })
-        });
 
-		return false;
-    };
-	
 	$.delAddress =  function(id,jurl) {
         var title = "Are you sure you want to delete this address?";
         swal({
@@ -389,17 +361,14 @@ $(function(){
                 "url": url,
                 success: function(msg) {
                     var o = eval(msg);
-                    console.log(msg)
-                    console.log(o)
-
-                    if (o.status == "1") {
+                    if (o.code ==200) {
                         if(jurl){
                             window.location.href = jurl;
                         }else{
-                            window.location.href = '/member/address.html';
+                            clearpopj(o.message,'success',true,'self');
                         }
                     } else {
-                        alert(o.info);
+                        clearpopj(o.message,'error',true);
                     }
                 }
             })

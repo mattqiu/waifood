@@ -124,25 +124,6 @@ class OrderController extends BaseController {
 	}
 
 	/**
-	 * 取消订单
-	 * @param string $orderno
-	 */
-	public function cancelOrder($orderno=''){
-
-		$where ['orderno'] = $orderno;
-		$where ['status'] = 0;
-		$where ['pay'] = 0;
-		$where['userid']=get_userid();
-		$db = M ( 'order' )->where ( $where )->find ();
-		if (! $db == false) {
-			M ( 'order' )->where ( $where )->setField('status',4);
-            set_order_onoff($orderno,1);
-			$this->success('订单取消成功！');
-		}else{
-			$this->error('对不起，该订单无法取消！');
-		}
-	}
-	/**
 	 * 确认订单
 	 * @param string $orderno
 	 */

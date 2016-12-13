@@ -19,7 +19,7 @@
         <li><a target="_blank" style="background: url(./Public/Shop/images/test/1540.jpg) 50% 0 repeat-x;"></a></li>
         <li><a target="_blank" style="background: url(./Public/Shop/images/test/1543.jpg) 50% 0 repeat-x;"></a></li>-->
         <volist name="banner" id="vo">
-            <li><a target="_blank" href="{$vo.picurl}" style="background: url(./Public/{$vo.indexpic}) 50% 0 repeat-x;"></a></li>
+            <li><a target="_blank" <if condition="$vo['picurl']"> href="{$vo.picurl}" </if> style="background: url(./Public/{$vo.indexpic}) 50% 0 repeat-x;"></a></li>
         </volist>
     </ul>
 </div>

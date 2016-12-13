@@ -13,7 +13,7 @@
                    <span style="position: relative;" class="wechatmall"> Wechat mall&nbsp;
                        <img src="__PUBLIC__/images/weixin.jpg" width="18" class="weixinqr" style="position: relative;top: 2px;" alt=""/>
                         <div class="qrcode hide">
-                            <img src="__PUBLIC__/images/pc_top_qr.png" width="180" alt="" />
+                            <img src="__PUBLIC__/images/qr.jpg" width="180" alt="" />
                         </div>
                     </span>
                     <span class="slash"></span>&nbsp;&nbsp;&nbsp;
@@ -69,6 +69,10 @@
     </div>
 </div>
 <script>
+    var keyword = "{$_REQUEST['keyword']}";
+    if(keyword){
+        animateShow($('#searchform input[name=keyword]'),0);
+    }
     function search(){
         if($('#searchform input[name=keyword]').css('left').substring(0,3)>400){
             animateShow($('#searchform input[name=keyword]'),0);

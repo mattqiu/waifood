@@ -94,28 +94,6 @@
             $('.pay_btn').html('Go to pay');
         }
     })
-
-    function showPaynowBox(orderno){
-       $('#paybox input[name=orderno]').val(orderno);
-        getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
-    }
-
-    function paynow(){
-        var $paymethod = $('#paybox input[name=pay]').val();
-        var orderno = $('#paybox input[name=orderno]').val();
-        $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
-            if(data.code ==200){
-                if($paymethod ==2){ //Paypal支付
-                    clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
-                }else{
-                    closeMask();
-                    clearpopj('Successful.','success',true);
-                }
-            }else{
-                clearpopj('Modify payment failed','error',true);
-            }
-        })
-    }
 </script>
 </body>
 </html>

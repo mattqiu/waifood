@@ -187,7 +187,7 @@ class UserModel extends Model
                 session ( 'wechatid', $user ['wechatid'] );
                 return true;
             }else {
-                return 'Sorry,password is wrong';
+                return 'Wrong password';
             }
         } else {
             return 'Sorry,password cannot be empty';
@@ -336,7 +336,7 @@ class UserModel extends Model
                     }else{
                         $email =  substr($name,0,1).'***@'.$end;
                     }
-                    apiReturn(CodeModel::CORRECT,"An Email with your new password was \r\n just sent to your Email: $email,",'/login/index');
+                    apiReturn(CodeModel::CORRECT,"An Email with your new password was \r\n just sent to: $email,",'/login/index');
                 }
             }else{
                 apiReturn(CodeModel::ERROR,'sorry,email sent failed');

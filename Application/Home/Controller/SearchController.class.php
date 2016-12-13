@@ -59,7 +59,6 @@ class SearchController extends BaseController {
 		
 		$keywords = $keyword . ',' . $title;
 		$description = $keyword . ',' . $title;
-		
 		$this->assign ( 'title', $title );
 		$this->assign ( 'keywords', $keywords );
 		$this->assign ( 'description', $description );

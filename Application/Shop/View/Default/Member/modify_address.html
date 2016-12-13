@@ -9,11 +9,13 @@
     <div id="address-box" >
         <input type="hidden" value="{$address.id}" name="id"/>
         <div class="form-section consingee">
+            <span class="fc_red" style="position: relative; left: -12px;">*</span>
             <label class="input-label" for="username">Full name</label>
             <input class="input-text J_addressInput " type="text" id="username" name="username" value="{$address.username}" placeholder="Full name">
         </div>
 
         <div class="form-section">
+            <span class="fc_red" style="position: relative; left: -12px;">*</span>
             <label class="input-label" for="Phone">Phone</label>
             <input class="input-text J_addressInput" type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
         </div>
@@ -45,6 +47,7 @@
         </div>
         <div class="clr"></div>
         <div class="form-section">
+            <span class="fc_red" style="position: relative; left: -12px;">*</span>
             <label class="input-label" for="Address">Address</label>
             <input class="input-text J_addressInput" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
         </div>

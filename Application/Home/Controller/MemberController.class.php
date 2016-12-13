@@ -249,9 +249,27 @@ class MemberController extends AuthController
         M('address')->where('userid=' . get_userid())->setField('isdefault', 0);
         $db = M('address')->where($where)->setField('isdefault', 1);
         if ($db) {
-            $this->success('默认地址设置成功！');
+            apiReturn(CodeModel::CORRECT);
         } else {
-            $this->error('默认地址设置失败！');
+            apiReturn(CodeModel::ERROR);
+        }
+    }
+
+    /**
+     * 删除收货地址
+     *
+     * @param string $id
+     */
+    public function deleteAddress($id = null)
+    {
+        $where = array();
+        $where['id'] = $id;
+        $where['userid'] = get_userid();
+        $db = M('address')->where($where)->delete();
+        if ($db) {
+            apiReturn(CodeModel::CORRECT);
+        } else {
+            apiReturn(CodeModel::ERROR);
         }
     }
 

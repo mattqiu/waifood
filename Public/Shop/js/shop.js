@@ -351,7 +351,7 @@ function getCartData(){
                     }else{
                         $html += '<span class="good-num-prep fc_eee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="prepGood(' + obj[i]['id'] + ',\'cart\');">-</span>';
                     }
-                    $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" onblur="cartSetGoodNum('+obj[i]['id']+');" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
+                    $html += '<input type="text" id="js_good_num_' + obj[i]['id'] + '" onkeyup="cartSetGoodNum('+obj[i]['id']+');" class="tc good_num" style="width: 32px;height: 23px;" value="' + obj[i]['amount'] + '"/>';
                     $html += '<span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="addgood(' + obj[i]['id'] + ',event,\'cart\');">+</span>';
                     $html += '</div>';
                     $html += '</td>';
@@ -411,6 +411,9 @@ function getCartData(){
 
 function cartSetGoodNum(id){
     var number = parseInt($('#js_good_num_'+id).val()),myfood_array={};
+    if(number){
+        number =1;
+    }
     if(number>0 && id >0){
         var myfood = $.cookie($goodKey);
         if(myfood){
@@ -479,29 +482,33 @@ function getGoodCartInfo(page){
 function gocashier(){
     var key = 'settlement',
         settlegood ={},
+        flag = false,
     myfood = $.cookie($goodKey);
     if (myfood) {
         var myfood_array = $.parseJSON(myfood);
     }
+    $.cookie(key, null, {"path": "/"});
     if (myfood_array) {
-        $.cookie(key, "", {"path": "/"});
         $('#good_cart input[type=checkbox]').each(function(i) {
             if($(this).is(':checked')){
-                settlegood[$(this).val()] = myfood_array[$(this).val()];
+                if($(this).val() > 1){
+                    flag = true;
+                    settlegood[$(this).val()] = myfood_array[$(this).val()];
+                }
             }
         });
     }
-    var json = $.toJSON(settlegood);
-    $.cookie(key,json,{
-        "path":"/"
-    });
-
-    if($.cookie('settlement') && $.parseJSON($.cookie('settlement'))){
+    if(flag){
+        var json = $.toJSON(settlegood);
+        $.cookie(key,json,{
+            "path":"/"
+        });
         window.location.href='/index/cashier.html';
     }else{
         clearpopj("No products to check out!", "error",true);
         return false;
     }
+
 }
 
 function getSettleGood(){
@@ -527,7 +534,7 @@ function getSettleGood(){
                 }
             }
         }
-        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee <span class="delivery_fee"></span></div> <div>Total Amount:<span class="totalSubMoney"></span></div></td></tr><tfoot>';
+        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee <span class="delivery_fee">0</span></div> <div>Total Amount:<span class="totalSubMoney">0</span></div></td></tr><tfoot>';
 
         $.post('/home/shop/getdeliveryFee.html',{money:totalMoney},function(data){
             if(data.code == 200){
@@ -676,8 +683,28 @@ function clearCartAll(){
 
 }
 
-
-
+//弹出支付选择框
+function showPaynowBox(orderno){
+    $('#paybox input[name=orderno]').val(orderno);
+    getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
+}
+//修改支付方式/跳转支付
+function paynow(){
+    var $paymethod = $('#paybox input[name=pay]').val();
+    var orderno = $('#paybox input[name=orderno]').val();
+    $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
+        if(data.code ==200){
+            if($paymethod ==2){ //Paypal支付
+                clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
+            }else{
+                closeMask();
+                clearpopj('Successful.','success',true,'self');
+            }
+        }else{
+            clearpopj('Modify payment failed','error',true);
+        }
+    })
+}
 
 
 

@@ -107,7 +107,7 @@ function gopay(obj){
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();
-                clearpopj('Successful.','success',true);
+                clearpopj('Successful.','success',true,'self');
             }
         }else{
             clearpopj('Modify payment failed','error',true);
@@ -339,6 +339,8 @@ function loadGood(){
                 $('#CartNo').css('display','none');
                 $('#cart_foot').css('display','none');
                 $('#submit-button').css('display','none');
+                $('#itemg-title').addClass('hide');
+                $('#emptycart').removeClass('hide');
             }
             $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
         }
@@ -353,7 +355,7 @@ function getCartData(){
         var obj = $.parseJSON(myfood);
         if (obj) {
             for (var i in obj) {
-                $html += '<div class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
+                $html += '<div style="margin:5px auto" class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
                 $html += '<a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                 $html += '<div class="itemg-img fl tc">';
                 $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="100"/>';
@@ -399,7 +401,6 @@ function getCartData(){
 
             }
         }
-
         $('#itemg-title').removeClass('hide');
         $('#emptycart').addClass('hide');
         $('#cart_foot').show();
@@ -575,4 +576,34 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
 
          }
      }
+     $('#itemg-title').addClass('hide');
 };
+
+function cancelOrder(orderno){
+    var title = "Are you sure you want to cancel the order?";
+    swal({
+        title: '',
+        text: title,
+        type: 'warning',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes",
+        //confirmButtonColor: "#35D374"
+    }, function() {
+        var url = '/Shop/order/cancelOrder';
+        url += "?orderno="+orderno+"&" + Math.random();
+        $.ajax({
+            "url": url,
+            success: function(msg) {
+                var o = eval(msg);
+                if (o.code == 200) {
+                    location.reload();
+                } else {
+                    clearpopj(o.message,'error',true);
+                }
+            }
+        })
+    });
+
+    return false;
+}
