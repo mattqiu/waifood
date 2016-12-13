@@ -29,7 +29,7 @@ $hostname = php_uname('n');
 if (strtolower($hostname) == 'pc-20160819tbmr') { // 本地模式
     $absSavePath = 'D:/WAMP/waifood/Public/upload/'.$savePath;
 } else {
-    $absSavePath = '/home/www/waifood/Public/'.$savePath;
+    $absSavePath = '/home/www/waifood/Public/upload/'.$savePath;
 }
 if (!is_dir($absSavePath)) {
     if (!mkdir($absSavePath, 0777, true)) {
