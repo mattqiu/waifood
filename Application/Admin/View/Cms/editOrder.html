@@ -370,7 +370,7 @@
             if (confirm("您确定要完成该事项")) {
                 $.post('__URL__/finishMemo', {'m_id': mid}, function (data) {
                     if(data.info){
-                        clearpopj(data.info,'success',true);
+                        clearpop(data.info);
                     }else{
                         clearpopj(data.info,'error',true);
                     }
