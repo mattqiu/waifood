@@ -41,7 +41,7 @@
                                 </tr>
                                 <else/>
                                 <volist name="list" id="vo">
-                                    <tr align="center" class="order_row">
+                                    <tr align="center" id="order_row_{$vo.id}" class="order_row">
                                         <td>{$vo.orderno}</td>
                                         <td>{$vo.addtime}</td>
                                         <td align="left">{$vo.delivertime}</td>

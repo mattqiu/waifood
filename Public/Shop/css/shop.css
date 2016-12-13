@@ -1,6 +1,7 @@
 @charset "utf-8";
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,th,td {margin:0;padding:0; font-size: 100%;font-weight: normal; list-style: none; }
 body { font-size: 14px;color: #666;margin:0px; background:#F8F8F8;font-family: "arial", "宋体", "Helvetica";}
+hr {*margin: 0;border: 0; height: 1px}
 /*body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}*/
 a{ text-decoration:none;color: #424242}
 a:hover{ color: #000000 ; text-decoration: none; }
@@ -25,6 +26,16 @@ fieldset,img { border: none;}
 .bg_white{background: #FFffff}
 .slash:before, .slash:after{content: ''; position: absolute;top: 35px; width: 17px;height: 1px; background: #cccccc;-webkit-transform: rotate(-75deg);transform: rotate(-75deg);-webkit-transition: all 0.3s ease-in-out;transition: all 0.3s ease-in-out;}
 
+/*******************checkbox 重**************************/
+input[type=checkbox] {visibility: hidden;}
+.checkboxFive { width: 16px; position: relative;cursor: pointer}
+.checkboxFive  .cbox {  cursor: pointer; position: absolute;  width: 16px; height: 16px; top: 0;left: 0; background: #E0E0E0;}
+.checkboxFive  label { position: absolute;  top: 0; left: 20px; ;cursor: pointer }
+.checkboxFive .cbox:after { content: ''; position: absolute; width: 9px; height: 5px;  background: transparent;top: 3px;  left:3px; border: 2px solid #E0E0E0; border-top: none; border-right: none;-webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -o-transform: rotate(-45deg); -ms-transform: rotate(-45deg);transform: rotate(-45deg);   }
+.checkboxFive .cbox:hover:after {  border-color:#6f6f6f; }
+.checkboxFive label:hover:after { border-color:#6f6f6f; }
+input[type=checkbox]:checked +  .cbox {  cursor: pointer;  position: absolute; width: 16px; height: 16px; top: 0;left: 0; background:#fc2c3d; border-color:#FFFFFF;  }
+input[type=checkbox]:checked +  .cbox:after { border-color:#FFFFFF; }
 /*单选框*/
 .radio-box .radiofl{ float:left; margin-right:10px;  }
 .radio-box {padding: 5px 0;}

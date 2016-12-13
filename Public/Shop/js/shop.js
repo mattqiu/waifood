@@ -390,7 +390,6 @@ function getCartData(){
                 }
                 idnum++
             }
-
             //<div style="line-height: 2px; color: #999999"><img src="__PUBLIC__/Shop/images/waste.png" width="25" alt=""/>empty cart</div>
             var tablecontent =$html+outofstock;
             $('#good_cart').html(tablecontent);
@@ -400,6 +399,12 @@ function getCartData(){
             $('#empty_cart_box').addClass('hide');
             $('#totalAmount').html('&yen;'+totalMoney);//总金额
             $('#quantity').html(totalNum);
+            $('.goodtitle').each(function(){
+                if($(this).height()>30){
+                    $(this).css('top', '5px');
+                }
+            })
+
             return true;
         }
     }
@@ -421,7 +426,6 @@ function cartSetGoodNum(id){
             if(myfood_array && myfood_array[id]){
                 if(number > myfood_array[id]['stock']){ //如果输入的数字大于库存，默认库存
                     number = parseInt(myfood_array[id]['stock']);
-                    $('#js_good_num_'+id).val(number);
                 }
                 myfood_array[id]['amount'] = number;
                 var json = $.toJSON(myfood_array);
@@ -431,6 +435,7 @@ function cartSetGoodNum(id){
                 if(number>1){
                     $('#js_goods_'+id+' .good-num-prep').css('color','#757575');
                 }
+                $('#js_good_num_'+id).val(number);
                 getGoodCartInfo();
             }
         }

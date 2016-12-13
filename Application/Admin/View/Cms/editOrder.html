@@ -320,8 +320,7 @@
 </tr>
 <tr class="footer">
     <td colspan="4" class="tc">
-
-        <if condition="($db.status eq 3) ">
+        <if condition="($db.status gt 2) ">
             <input type="button" disabled="disabled" class="btn2"
                    value="禁止修改"/>
             <input type="button" class="btn1" value="返回"
