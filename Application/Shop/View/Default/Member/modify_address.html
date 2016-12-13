@@ -139,8 +139,6 @@
                 clearpopj("Please input address", "error",true);
                 return false;
             }
-            alert(222)
-            return
             subBlock = true;
             $.post('/member/modifyShoppingAddr.html',{id:id,username:username,telephone:telephone,telephone2:telephone2,sex:sex,cityname:cityname,address:address,isdefault:isdefault,language:language},function(data){
                 subBlock = false;//解除阻塞
