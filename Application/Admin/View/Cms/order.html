@@ -14,12 +14,12 @@
             <td>关 键 词：
                 <input type="text" class="inputText1" id="keyword" name="keyword" value="{$keyword}"/>
                 <select id="searchtype" name="searchtype">
-                    <option value="1" <if condition="$_REQUEST['searchtype'] eq 1"> selected</if>>订单长号</option>
-                    <option value="2" <if condition="$_REQUEST['searchtype'] eq 2"> selected</if>>订单短号</option>
-                    <option value="3" <if condition="$_REQUEST['searchtype'] eq 3"> selected</if>>收件人姓名</option>
-                    <option value="4" <if condition="$_REQUEST['searchtype'] eq 4"> selected</if>>收件人电话</option>
-                    <option value="5" <if condition="$_REQUEST['searchtype'] eq 5"> selected</if>>收件地址</option>
-                    <option value="6" <if condition="$_REQUEST['searchtype'] eq 6"> selected</if>>留言</option>
+                    <option value="1" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 1"> selected</if>>订单长号</option>
+                    <option value="2" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 2"> selected</if>>订单短号</option>
+                    <option value="3" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 3"> selected</if>>收件人姓名</option>
+                    <option value="4" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 4"> selected</if>>收件人电话</option>
+                    <option value="5" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 5"> selected</if>>收件地址</option>
+                    <option value="6" <if condition="isset($_REQUEST['searchtype']) && $_REQUEST['searchtype'] eq 6"> selected</if>>留言</option>
                 </select>
                 <input type="submit" class="btn1" value="查询"/></td>
         </tr>
@@ -94,7 +94,7 @@
         <th width="60">操作</th>
     </tr>
     <volist id="vo" name="list">
-            <if condition="$vo['memo']">
+            <if condition="isset($vo['memo']) && $vo['memo']">
                 <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" >
             <else/>
                 <tr class="row{$i % 2+1}" >
