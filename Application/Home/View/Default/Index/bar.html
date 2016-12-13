@@ -7,7 +7,7 @@
                 <if condition="$title">
                     <span style="line-height: 45px;color: #333333;font-size: 21px;text-indent: 0">{$title}</span>
                     <else/>
-                    <form  id="formSearch" style="position: relative;" name="formSearch" method="get" action="/Home/Search/index.html" >
+                    <form  id="formSearch" onsubmit="return checkKeyword();" style="position: relative;" name="formSearch" method="get" action="/Home/Search/index.html" >
                         <input type="text" results="s" class="input_keywrod fl" name="keyword" placeholder="Keywords"/>
                         <input type="submit" value=" "  class="searching"/>
                     </form>
@@ -18,3 +18,11 @@
             </li>
         </ul>
 </header>
+<script>
+    function checkKeyword(){
+        var keyword = $('#formSearch input[name=keyword]').val();
+        if(!keyword){
+            return false;
+        }
+    }
+</script>
