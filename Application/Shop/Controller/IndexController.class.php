@@ -5,6 +5,7 @@ namespace Shop\Controller;
 use Admin\Model\BannerModel;
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
+use Common\Model\ConfigModel;
 use Common\Model\ContentModel;
 use Common\Model\DateModel;
 use Common\Model\UserModel;

@@ -22,8 +22,6 @@ class OrderController extends BaseController {
 		$status = I ( 'status' );
 		$pay = I ( 'pay' );
 		$orderfrom = I ( 'orderfrom' );
-
-
         $searchtype = I ( 'searchtype' );
         $keyword = I ( 'keyword' );
         if($searchtype && $keyword){

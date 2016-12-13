@@ -608,10 +608,8 @@ class SystemController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
-			
 			$db = M ( "config" )->find ( $id );
 			$this->assign ( "db", $db );
-			
 			$this->display ('editConfig');
 		}
 	}
