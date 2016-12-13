@@ -411,7 +411,7 @@ function getCartData(){
 
 function cartSetGoodNum(id){
     var number = parseInt($('#js_good_num_'+id).val()),myfood_array={};
-    if(number){
+    if(!number){
         number =1;
     }
     if(number>0 && id >0){
