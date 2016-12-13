@@ -653,6 +653,24 @@ class SystemController extends BaseController {
         }
     }
 
+    public function setBanner(){
+        $field = I('post.field');
+        if(!empty($field)){
+            $id = I('post.id');
+            if(regex($id,'number') ){
+                $data = array();
+                $data[$field] = I('post.val');
+                if(BannerModel::modifyBanner($id,$data)){
+                    apiReturn(CodeModel::CORRECT,'操作成功');
+                }else{
+                    apiReturn(CodeModel::ERROR,'操作失败');
+                }
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'操作失败，请刷新重试');
+        }
+    }
+
     public function delBanner(){
         $id = I('post.id');
         if(regex($id,'number')){

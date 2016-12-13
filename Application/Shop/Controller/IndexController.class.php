@@ -15,9 +15,10 @@ class IndexController extends BaseController
 
     public function index()
     {
-        $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
-        $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
-        $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
+        $orderstr = 'sort1 desc';
+        $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
+        $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL,$orderstr);
+        $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND,$orderstr);
         $banner = BannerModel::getBannerByType(BannerModel::PC_BANNER);// huo
         $this->assign('banner',$banner);
         $this->assign('catShow',true);

@@ -25,6 +25,7 @@
                 <th width="10%">图片</th>
                 <th width="25%">连接</th>
                 <th>标题/介绍</th>
+                <th width="50">排序</th>
                 <th width="5%">状态</th>
                 <th width="10%">操作</th>
             </tr>
@@ -34,7 +35,8 @@
                     <td><img src="__PUBLIC__/{$vo.indexpic}" width="120" alt=""/></td>
                     <td>{$vo.picurl}</td>
                     <td>{$vo.info}</td>
-                    <td><if condition="$vo['status'] eq 1">正常<else/>禁止</if></td>
+                    <td><input type="text" size="5" value="{$vo.rank}" onchange="setBanner('rank','{$vo.id}',$(this).val())" /></td>
+                    <td align="center"><if condition="$vo['status'] eq 1"><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',2)">启用</span><else/><span style="cursor: pointer" onclick="setBanner('status','{$vo.id}',1)">禁止</span></if></td>
                 <td style="text-align: center">
                         <a href="JavaScript:uploadImage('{$vo.id}');" class="underline">编辑</a>
                         <a href="javascript:delBanner('{$vo.id}');" class="underline">删除</a>
@@ -75,12 +77,10 @@
         if(id){
             $('#modifyBanner').show();
             $('#clipArea img').attr('src',CONST_PUBLIC+'/'+$('#banner_'+id).data('indexpic'));
-            $('#clipArea img').css({'width':'205px','position': 'relative','top': '15px','left': '107px'});
             $('#upload_pic input[name=indexpic]').val($('#banner_'+id).data('indexpic'));
             $('#upload_pic input[name=id]').val(id);
             $('#upload_pic input[name=picurl]').val($('#banner_'+id).data('picurl'));
             $('#upload_pic input[name=info]').val($('#banner_'+id).data('info'));
-
             if($('#banner_'+id).data('type') == 1){
                 $('#upload_pic #pc').attr('checked',true);
             }else{
@@ -124,6 +124,16 @@
             })
         }
     }
+
+   function setBanner(field,id,val){
+       $.post('/admin/system/setBanner.html',{field:field,val:val,id:id},function(data){
+           if(data.code == 200){
+               clearpopj(data.message,'success',true,'self');
+           }else{
+               clearpopj(data.message,'error',true);
+           }
+       })
+   }
 
    function modifyBanner(){
        var indexpic = $('#upload_pic input[name=indexpic]').val(),

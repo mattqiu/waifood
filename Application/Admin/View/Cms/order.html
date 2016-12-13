@@ -154,9 +154,8 @@
 
             </td>
             <td style="text-align: center">
-                <if condition="($vo['status'] eq 3)">
+                <if condition="($vo['status'] gt 2)">
                     <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">查看</a>
-
                     <else/>
                     <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">编辑</a>
                 </if>

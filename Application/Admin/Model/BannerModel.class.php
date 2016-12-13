@@ -26,7 +26,7 @@ class BannerModel extends Model {
             if($state == self::NORMAL){
                 $con['status'] = $state;
             }
-            return D('banner')->where($con)->order('id desc')->select();
+            return D('banner')->where($con)->order('rank desc')->select();
         }else{
             return false;
         }
@@ -51,17 +51,16 @@ class BannerModel extends Model {
      */
     public static function modifyBanner($id,$data){
         if(regex($id,'number')){
-            if($banner = D('banner')->find($id)){
-                $con['id'] = $banner['id'];
-                if(D('banner')->where($con)->save($data)){
-                    //原有的图片与修改提交的不一致时，删除原来的
+            $con['id'] = $id;
+            if(D('banner')->where($con)->save($data)){
+                //原有的图片与修改提交的不一致时，删除原来的
+                if(isset($data['indexpic']) && $data['indexpic']){
+                    $banner = D('banner')->find($id);
                     if($banner['indexpic'] != $data['indexpic']){
                         delfile('./Public/'.$banner['indexpic']);
                     }
-                    return true;
-                }else{
-                    return false;
                 }
+                return true;
             }else{
                 return false;
             }
