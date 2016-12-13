@@ -50,15 +50,3 @@
     100% { -moz-transform:scale(2); border-width: 0; }
 }
 
-/*******************checkbox 重**************************/
-input[type=checkbox] {
-    visibility: hidden;
-}
-.checkboxFive { width: 16px; position: relative;cursor: pointer}
-.checkboxFive  .cbox {  cursor: pointer; position: absolute;  width: 16px; height: 16px; top: 0;left: 0; background: #E0E0E0;}
-.checkboxFive  label { position: absolute;  top: 0; left: 20px; ;cursor: pointer }
-.checkboxFive .cbox:after { content: ''; position: absolute; width: 9px; height: 5px;  background: transparent;top: 3px;  left:3px; border: 2px solid #E0E0E0; border-top: none; border-right: none;-webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -o-transform: rotate(-45deg); -ms-transform: rotate(-45deg);transform: rotate(-45deg);   }
-.checkboxFive .cbox:hover:after {  border-color:#6f6f6f; }
-.checkboxFive label:hover:after { border-color:#6f6f6f; }
- input[type=checkbox]:checked +  .cbox {  cursor: pointer;  position: absolute; width: 16px; height: 16px; top: 0;left: 0; background:#fc2c3d; border-color:#FFFFFF;  }
-input[type=checkbox]:checked +  .cbox:after { border-color:#FFFFFF; }

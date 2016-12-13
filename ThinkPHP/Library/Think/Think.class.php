@@ -284,7 +284,8 @@ class Think {
     static public function halt($error) {
 
         $e = array();
-        if (APP_DEBUG || IS_CLI) {
+//        if (APP_DEBUG || IS_CLI) {
+        if ( IS_CLI) {
             //调试模式下输出错误信息
             if (!is_array($error)) {
                 $trace          = debug_backtrace();
