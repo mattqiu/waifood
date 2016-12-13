@@ -117,7 +117,7 @@
         if(id>0){
             $.post('/admin/system/delBanner.html',{id:id},function(data){
                 if(data.code == 200){
-                    clearpopj(data.message,'success',true,'self');
+                    clearpop(data.message,'','self');
                 }else{
                     clearpopj(data.message,'error',true);
                 }
@@ -128,7 +128,7 @@
    function setBanner(field,id,val){
        $.post('/admin/system/setBanner.html',{field:field,val:val,id:id},function(data){
            if(data.code == 200){
-               clearpopj(data.message,'success',true,'self');
+               clearpop(data.message,'','self');
            }else{
                clearpopj(data.message,'error',true);
            }
@@ -145,7 +145,7 @@
        $.post('/admin/system/modifyBanner.html',{indexpic:indexpic,picurl:picurl,info:info,id:id,type:type,status:status},function(data){
            if(data.code == 200){
                closeMask();
-               clearpopj(data.message,'success',true,'self');
+               clearpop(data.message,'','self');
            }else{
                clearpopj(data.message,'error',true);
            }

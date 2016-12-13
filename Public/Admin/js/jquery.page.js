@@ -194,7 +194,7 @@ function setVal(tbl,col,id,val,showmsg){
 
 			}else{
                if(showmsg == true){
-                   clearpopj('操作成功!');
+                   clearpop('操作成功!');
                    return ;
                }else{
                    location.reload();

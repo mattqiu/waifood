@@ -114,7 +114,7 @@ function closeLoad(){
 }
 
 //自动消失的弹出提示框
-function clearpop(txt,time){
+function clearpop(txt,time,url){
     if(!time){time=1500;}
     if($("#clearpop").length>0){
         $("#clearpop").html("<p>"+txt+"</p>").show();
@@ -122,7 +122,17 @@ function clearpop(txt,time){
         var str='<div id="clearpop"><p>'+txt+'</p></div>';
         $("body").append(str);
     }
-    setTimeout(function(){$("#clearpop").hide();},time);
+    setTimeout(
+        function(){
+            $("#clearpop").hide();
+            if(url){
+                if(url=='self'){
+                    window.location.reload();
+                }else{
+                    window.location.href=url;
+                }
+            }
+    },time);
 }
 
 

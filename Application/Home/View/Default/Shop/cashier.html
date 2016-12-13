@@ -284,6 +284,7 @@ function checkTime($now){
                 }
             })
             if (!$('.js_time_obj').hasClass('time_list')) { //今天没有可选时段了
+                $('#delivertimeselect option').eq(0).remove();
                 $("select[name=delivertime]").find('option').eq(0).remove();
                 $(".js_date_obj ").eq(0).removeClass('click');
                 $(".js_date_obj ").eq(0).addClass('isholiday');
@@ -291,7 +292,7 @@ function checkTime($now){
                 var date = $("select[name=delivertime]").val(date);
                 checkTime(date);
             }
-        } else {
+    } else {
             $('.js_time_obj').removeClass('old_time');
             $('.js_time_obj').removeClass('click');
             $('.js_time_obj').addClass('time_list');

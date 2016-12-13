@@ -21,8 +21,8 @@
 .haulingBtn{}/*拖拽触发对象*/
 
 /*自动消失的提示框*/
-#clearpop{position:fixed;left:10%;right:10%;bottom:100px;z-index:999;text-align:center}
-#clearpop p{display:inline-block;min-width:100px;max-width:90%;padding: 10px 20px;font-size:16px;font-weight:bold;line-height:22px;border-radius:6px;background:#333;color:#fff;opacity:0.9}
+#clearpop{position:fixed;left:10%;right:10%;bottom:65%;z-index:999;text-align:center}
+#clearpop p{display:inline-block;min-width:100px;max-width:90%;padding: 10px 20px;font-size:16px;font-weight:bold;line-height:22px;border-radius:4px;background:#333;color:#fff;opacity:0.7}
 @media screen and (max-height:685px){
     #clearpop p{padding:5px 10px;font-size:14px;line-height:18px;opacity:0.7}
 }
