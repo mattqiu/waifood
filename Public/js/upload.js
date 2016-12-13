@@ -1,7 +1,7 @@
 var url = "http://"+window.location.host+"/"; //图片上传回调地址
 function upload(){};
 upload.prototype.uploadPic= function(scope,uploadPhp){
-    uploadPhp = url+'/public/uploadForKindeditor.php';
+    uploadPhp = url+'/Public/uploadForKindeditor.php';
     var uploadJson = uploadPhp+"?scope="+scope+"&callback="+url+"Public/redirect.html";
     var editor = KindEditor.editor({
         uploadJson : uploadJson
