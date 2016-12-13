@@ -26,7 +26,7 @@
         
         function setUrl(data){
         	var obj = eval('(' + data + ')');
-            obj.url = "{:C('DOMAIN')}Public/upload/" + obj.url;
+            obj.url = "http://"+window.location.host+"Public/upload/" + obj.url;
             console.log(obj)
             console.log(JSON.stringify(obj))
         	return JSON.stringify(obj);
