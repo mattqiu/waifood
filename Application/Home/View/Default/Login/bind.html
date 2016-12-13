@@ -11,7 +11,7 @@
         var CONST_CART="{:U('Cart/URL')}";
         var EXTRA_PARAM="{:get_fid()}";
     </script>
-    <js href="__PUBLIC__/Home/member/js/jquery-2.0.3.min.js,__PUBLIC__/Shop/js/jquery-1.8.0.min.js,__PUBLIC__/Home/newjs/jquery.cookies.2.2.0.js,__PUBLIC__/Home/newjs/jquery.fly.min.js,__PUBLIC__/Home/newjs/json.js,__PUBLIC__/Shop/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Home/js/jquery.func.js,__PUBLIC__/Home/newjs/home.js" />
+    <js href="__PUBLIC__/js/jquery.2.2.1.min.js,__PUBLIC__/js/jquery.cookies.2.2.0.js,__PUBLIC__/js/jquery.fly.min.js,__PUBLIC__/js/json.js,__PUBLIC__/js/jquery.lazyload.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/js/common.js,__PUBLIC__/Home/js/jquery.func.js,__PUBLIC__/Home/newjs/home.js" />
 
     <css href="__PUBLIC__/Home/member/css/pure-style.css,__PUBLIC__/Home/css/main.css,__PUBLIC__/Home/css/main.css" />
 <script>
@@ -19,11 +19,18 @@ $(function(){
 	$("#confirmWeixin").click(function(){
 		var url=$(this).attr("href"); 
 		var html='<div class="weixin"><div class="wx_user"><img src="{$user.headimgurl|default='/Public/Home/images/wx_default.png'}" width="100" height="100" />{$user.nickname|default='weixin'}</div></div>';
-		jConfirm(html+'Are you sure you want to login by WeChat account?',SYSTITLE,function(ret){
-			if (ret){
-				location=url;	
-			};
-		});
+        swal({
+            title: '',
+            text: html+'Are you sure you want to login by WeChat account?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+            // confirmButtonColor: "#2eb661"
+        }, function() {
+            location=url;
+        });
+
 		return false;	
 	});	
 });
@@ -45,7 +52,7 @@ $(function(){
 <body>
 <include file="Index:bar" />
 <div class="container">
-    <div class="bind-head-img tc"><img src="__PUBLIC__/Shop/images/logo.jpg" alt=""/></div>
+    <div class="bind-head-img tc"><img src="__PUBLIC__/images/logo.png" alt=""/></div>
     <!--网站用户并且有openid-->
     <if condition="!empty($user)">
         <br/>
@@ -78,7 +85,6 @@ $(function(){
 <if condition="DEPLOY_ENV == 'local' || DEPLOY_ENV == 'test'">
     <a href="javascript:void(0);" onclick="$.logout()" class="louuotbtn">Log out</a>
 </if>
-<js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
 <include file="Index:footer"/>
 <script>
     window.subBlock=false;
@@ -94,12 +100,11 @@ $(function(){
         $.post('/login/bind',d,function(data){
             subBlock = false;
             if(data.code==200){
-                clearpopj(data.message,data.data);
-            }else{
-                clearpopj(data.message);
+                clearpopj(data.message,'success',true,data.data);
+            } else {
+                clearpopj(data.message,'error',true)
             }
         })
-
     }
 </script>
 </body>

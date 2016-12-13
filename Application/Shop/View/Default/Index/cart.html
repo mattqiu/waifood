@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<title>{$title}{:lbl('subtitleshop')}</title>
+<include file="Index:header" />
+</head>
+<body pagename="cart">
+<include file="Index:nav2"/>
+<div class="title-img" style="margin-bottom: 0"></div>
+<div class="bg_white">
+    <div class="container cart">
+        <div class="empty_cart_box tc hide" id="empty_cart_box">
+            Your shopping cart is empty!<br/>
+            <a href="/" class="continueshopping">Continue shopping >></a>
+        </div>
+        <table width="1000px" class="mytable cart_table " id="good_cart" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+        </table>
+        <hr size="1" color="#e0e0e0" style="width: 1170px;margin: 0 auto"/>
+        <div class="clear_cart fr hide" onclick="clearCartAll();"><img src="__PUBLIC__/Shop/images/waste.png" width="15" style="position: relative;top: 5px;" alt=""/>&nbsp;&nbsp;empty cart</div>
+        <div class="clr cart_foot_info">
+            <div class="fl goshopping" ><a href="/" >&lt;&lt;Continue shopping</a></div>
+            <div class="fr cart_total_info">
+                <div>Quantity: <span id="quantity">0</span></div>
+                <div style=" line-height: 65px;">Total Amount: <span id="totalAmount">&yen;0</span></div>
+                <div class="checkout" onclick="gocashier();">Proceed to <br/> checkout</div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="Index:footer" />
+<script>
+    var mytableheight = $('.mytable').height() ;
+    var scroll =$(window).scrollTop();
+    if(mytableheight>580 || scroll>0){
+        //$('.cart_foot_info').css({'position':'fixed', 'bottom': '0','z-index':'999'});
+    }
+    $('#cart_box .goodcheckout').html('View Cart');
+    $('.clear_cart').hover(function(){
+        $(this).find('img').attr({'src':CONST_PUBLIC+'/Shop/images/waste_hover.png'});
+        $(this).css({'color':'#fc2c3d'});
+    },function(){
+        $(this).css({'color':'#999999'})
+        $(this).find('img').attr({'src':CONST_PUBLIC+'/Shop/images/waste.png'});
+    })
+</script>
+</body>
+</html>

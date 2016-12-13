@@ -1,76 +1,89 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{$title}</title>
-    <include file="Index:header"/>
+    <include file="Index:header" />
 </head>
 
-<body>
-<include file="Index:bar"/>
-<include file="Index:nav"/>
+<body style="background: #f8f8f8">
+<include file="Index:nav2" />
 <div class="container">
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
     <div class="content">
-        <div class="box980">
-            <div class="left">
-                <include file="left"/>
+        <div class="left fl">
+            <include file="left" />
+        </div>
+        <div class="right fr order-list">
+            <div class="order_list myaddress">My address</div>
+            <table width="965px" style="margin: 0 auto;word-break: break-all" border="0" cellspacing="0" cellpadding="0">
+                <tr class="thead">
+                    <th width="80">Name</th>
+                    <th width="150">Phone</th>
+                    <th width="50">Gender</th>
+                    <th width="">Address</th>
+                    <th width="80">Acction</th>
+                </tr>
+                <if condition="empty($list)">
+                    <tr> <td colspan="7">not found.</td></tr>
+                    <else/>
+                    <volist name="list" id="vo">
+                        <tr align="center" class="addr_row order_row" id="addr_row_{$vo['id']}">
+                            <td>{$vo.username}</td>
+                            <td>{$vo.telephone}<br/>{$vo.telephone2}</td>
+                            <td><if condition="$vo.sex eq 1">Male <else/>Female</if></td>
+                            <td style="padding-left: 30px;"  align="left">{$vo.address}</td>
+                            <td>
+                                <a href="javascript:void(0)" onclick="showModifyAddres('{$vo[\'id\']}');" class="order_btn view">Edit</a>
+                                <div style="height: 6px;"></div>
+                                <a href="javascript:void(0)" onclick="delAddr('{$vo[\'id\']}')" class="order_btn cancel">Delete</a>
+                            </td>
+                        </tr>
+                    </volist>
+                </if>
+            </table>
+            <div class=" submitOrder_b changpwd">
+                <button onclick="showModifyAddres();" class="submitOrder ">Add address</button>
             </div>
-            <div class="right">
-                <div class="hybox">
-                    <div class="hytit"><strong>Receiving information</strong></div>
-                    <div class="grzl adrgl">
-
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <thead>
-                            <tr>
-                                <td>Name</td>
-                                <td>Phone</td>
-                                <td>Gender</td>
-                                <td>Address</td>
-                                <td>Operating</td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <eq name="listcount" value="0">
-                                <tr>
-                                    <td colspan="5">Not found.</td>
-                                </tr>
-                            </eq>
-
-                            <volist name="list" id="vo">
-                                <tr>
-                                    <td> {$vo.username}</td>
-                                    <td> {$vo.telephone}</td>
-                                    <td>
-                                        <if condition="$db['sex'] eq 1">Male
-                                            <else/>
-                                            Female
-                                        </if>
-                                    </td>
-                                    <!--<td>{$vo.proname}{$vo.cityname}{$vo.disname} {$vo.address}</td>-->
-                                    <td> {$vo.address}</td>
-                                    <td><a href="/member/info1.html?addressid={$vo.id}">Modification</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a
-                                            href="javascript:void(0);" onclick="$.delAddress({$vo.id});">Delete</a></td>
-                                </tr>
-                            </volist>
-                            </tbody>
-                        </table>
-
-                        <div class="paging">
-                            {$page}
-                        </div>
-                    </div>
-                    <div class="add_adress"><a href="{:U('Member/addAddress?url=uc&')}" class="jixu">Add Address</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clear"></div>
+            <div style="height: 60px;"></div>
         </div>
     </div>
     <div class="clr"></div>
 </div>
-<include file="Index:footer"/>
+<include file="Index:footer" />
+<div class="lean_overlay hide" data-show="1"></div>
+<div class="leanModal addressModal hide" id="addressModal">
+    <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src=""></iframe>
+</div>
+<script>
+    function showModifyAddres(id){
+        var url = '/member/modifyAddress.html';
+        if(id){
+            url +='?id='+id;
+        }
+        $('#addressModal iframe').attr('src',url);
+        $('.lean_overlay').show();
+        $('#addressModal').slideDown();
+    }
+    function delAddr(id){
+        swal({
+            title: '',
+            text: 'Are you sure you want to delete?',
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+        }, function() {
+            $.post('/member/deleteAddress.html',{id:id},function(data){
+                if(data.code == 200){
+                    $('#addr_row_'+id).remove();
+                    clearpopj(data.message, "success",true,'/member/address.html#address?1');
+                }else{
+                    clearpopj(data.message, "error",true);
+                }
+            })
+        });
+    }
+</script>
 </body>
 </html>

@@ -1,103 +1,180 @@
-
-<div class="container">
-    <div class="fuwu">
-        <ul class="fuwu_ul fuwu">
-            <li>
-                <a href="/content/view/id/1560.html">
-                    <img src="__PUBLIC__/Shop/images/footer/A.jpg" width="40" style="padding-left: 15px;" alt=""/>
-                    <h3>Authentic</h3>
-                </a>
-            </li>
-            <li class="left14">
-                <a href="/content/view/id/1560.html">
-                    <img src="__PUBLIC__/Shop/images/footer/C.jpg" width="40" class="p20" alt=""/>
-                    <h3>Convenient</h3>
-                </a>
-            </li>
-            <li class="left14">
-                <a href="/content/view/id/1560.html">
-                    <img src="__PUBLIC__/Shop/images/footer/R.jpg" width="40" class="p20" alt=""/>
-                    <h3>Responsible</h3>
-                </a>
-            </li>
-
-            <li class="left14">
-                <a href="/content/view/id/1560.html">
-                    <img src="__PUBLIC__/Shop/images/footer/A.jpg" width="40" style="padding-left: 20px;" alt=""/>
-                    <h3>Affordable</h3>
-                </a>
-            </li>
-        </ul>
-        <br/>
-        <br/>
-        <div style="clear: both"></div>
-        <ul>
-            <li>
-                <h2>Getting Started</h2>
-                <volist name=":get_lists(11,5,2)" id="vo">
-                    <empty name="vo.linkurl">
-                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
-                        <else/>
-                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
-                    </empty>
-                </volist>
-            </li>
-            <li>
-                <h2>Delivery Service</h2>
-                <volist name=":get_lists(12,5,2)" id="vo">
-                    <empty name="vo.linkurl">
-                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
-                        <else/>
-
-                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
-                    </empty>
-                </volist>
-            </li>
-            <li>
-                <h2>Payment</h2>
-                <volist name=":get_lists(13,5,2)" id="vo">
-                    <empty name="vo.linkurl">
-                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
-                        <else/>
-
-                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
-                    </empty>
-                </volist>
-            </li>
-            <li>
-                <h2>After-Sale Service</h2>
-                <volist name=":get_lists(14,5,2)" id="vo">
-                    <empty name="vo.linkurl">
-                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
-                        <else/>
-
-                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
-                    </empty>
-                </volist>
-            </li>
-        </ul>
-    </div>
-    <div class="partnerShip">
-        <div class="container">
-            <span class="foot-list-p">Partnership</span>
-            <ul style="margin-left: 120px;margin-top: -15px; " id="partner">
-                <li style="width:120px;position: relative;">
-                    <a href="" style="width:120px;position: relative; border: 1px solid #e0e0e0;padding: 3px 8px; overflow: hidden;display:block" >
-                        <img src="__PUBLIC__/img/mmexport1480580358096.jpg" class="plogo" width="120" id="dd" alt=""/>
+<div class="footer">
+    <div class="great-box">
+        <div class="fhead fuwu container">
+            <ul class="caselist">
+                <li>
+                    <a href="#"class="fitem_bofore" >
+                        <img src="__PUBLIC__/Shop/images/G.png" width="112" alt=""/>
+                        <div class="fitem_name">GREEN</div>
                     </a>
-                    <div class="pqr_box hide" style="position: absolute;z-index: 0; width: 122px; top:-65px;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/img/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
+                    <div class="fitem_after">
+                        <img src="__PUBLIC__/Shop/images/G_G.png" width="60" alt=""/>
+                        <span class="fitem-titel">GREEN</span>
+                        <div class=" fitem-content" style="word-break: break-all">
+                            The Earth, our home, the one
+                            and only in the universe, we
+                            will do all what we can do to
+                            protect the earth and the en-vironment
+                            we live in. Our pr-omise...
+                            <div class="more"> <a href="/content/view/id/1560.html#g">More</a></div>
+                        </div>
+                    </div>
                 </li>
-
+                <li>
+                    <a href="#"class="fitem_bofore" >
+                        <img src="__PUBLIC__/Shop/images/R.png" width="112" alt=""/>
+                        <div class="fitem_name"> RESPONSIBLE</div>
+                    </a>
+                    <div class="fitem_after">
+                        <img src="__PUBLIC__/Shop/images/R_G.png" width="60" alt=""/>
+                        <span class="fitem-titel">RESPONSIBLE</span>
+                        <div class=" fitem-content">
+                            As a company, we actively take
+                            part in social affairs, we had
+                            donated for some charities, like
+                            Hopeful Heart for ill and poor
+                            children from the mountainous
+                            area of western China...
+                            <div class="more"> <a href="/content/view/id/1560.html#r">More</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#"class="fitem_bofore" >
+                        <img src="__PUBLIC__/Shop/images/E.png" width="112" alt=""/>
+                        <div class="fitem_name"> EASY</div>
+                    </a>
+                    <div class="fitem_after">
+                        <img src="__PUBLIC__/Shop/images/E_G.png" width="60" alt=""/>
+                        <span class="fitem-titel">EASY</span>
+                        <div class=" fitem-content">
+                            We never stop improving the
+                            convenience for our customers.
+                            No matter where you are and
+                            when you want, you can get high
+                            quality foods just by simply
+                            clicking your mouse...
+                            <div class="more"> <a href="/content/view/id/1560.html#e">More</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#"class="fitem_bofore" >
+                        <img src="__PUBLIC__/Shop/images/A.png" width="112" alt=""/>
+                        <div class="fitem_name"> AUTHENTIC</div>
+                    </a>
+                    <div class="fitem_after">
+                        <img src="__PUBLIC__/Shop/images/A_G.png" width="60" alt=""/>
+                        <span class="fitem-titel">AUTHENTIC</span>
+                        <div class=" fitem-content">
+                            Our customers are from every-
+                            where in the world. In order to
+                            make them having the taste of
+                            home, all foods are authentic in
+                            good quality, we don't serve the
+                            localized western foods...
+                            <div class="more"> <a href="/content/view/id/1560.html#a">More</a></div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <a href="#"class="fitem_bofore" >
+                        <img src="__PUBLIC__/Shop/images/T.png" width="112" alt=""/>
+                        <div class="fitem_name">TRUST</div>
+                    </a>
+                    <div class="fitem_after">
+                        <img src="__PUBLIC__/Shop/images/T_G.png" width="60" alt=""/>
+                        <span class="fitem-titel">TRUST</span>
+                        <div class=" fitem-content">
+                            The relationship we had built
+                            with our customers till today is
+                            a friend-friend relationship rather
+                            than a supplier-customer
+                            relationship, there wasn't any
+                            trust problems...
+                            <div class="more"> <a href="/content/view/id/1560.html#t">More</a></div>
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
+        <div class="clr"></div>
     </div>
-    <div class="foot">{:lbl('copyright')}</div>
+    <div class="content_box">
+        <div class="foot-list container" style=" padding-top: 15px;">
+            <ul class="">
+                <li>
+                    <p class="foot-list-p">GETTING STARTED</p>
+                    <volist name=":get_lists(11,5,2)" id="vo">
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
+                    </volist>
+                </li>
+                <li>
+                    <p class="foot-list-p">DELIVERY SERVICE</p>
+                    <volist name=":get_lists(12,5,2)" id="vo">
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
+                    </volist>
+                </li>
+                <li>
+                    <p class="foot-list-p">PAYMENT</p>
+                    <volist name=":get_lists(13,5,2)" id="vo">
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
+                    </volist>
+                </li>
+                <li>
+                    <p class="foot-list-p">AFTER-SALE SERVICE</p>
+                    <volist name=":get_lists(14,5,2)" id="vo">
+                        <p><a <if condition="$vo['linkurl']"> href="{$vo['linkurl']}"<else/> href="/content/view.html?id={$vo.id}" </if>>{$vo.title}</a></p>
+                    </volist>
+                </li>
+                <li class="chat-us">
+                    <img src="__PUBLIC__/images/qr.jpg" width="106" alt=""/>
+                   <div style="font-size: 24px;font-weight: bold"> 400-836-8081</div>
+                   <div style="font-size: 16px;"> service@waifood.com</div>
+                </li>
+            </ul>
+        </div>
+        <div class="clr"></div>
+        <div class="container">
+            <span class="foot-list-p">PARTNERSHIP</span>
+            <ul style="margin-left: 120px;margin-top: -39px; " id="partner">
+                <li style="width:120px;position: relative;">
+                    <a href="" style="width:120px;position: relative; padding: 3px 8px; overflow: hidden;display:block" >
+                        <img src="__PUBLIC__/images/mmexport1480580358096.jpg" class="plogo" width="120" id="dd" alt=""/>
+                    </a>
+                    <div class="pqr_box hide" style="position: absolute;z-index: 0; width: 122px; top:-65px;left: 15px;; border: 1px solid #E0E0E0"><img src="__PUBLIC__/images/mmexport1480580367011.jpg" class="pqr" width="120" id="qr" alt=""/> </div>
+                </li>
+            </ul>
+        </div>
+        <div class="clr"></div>
+        <div class="container">
+            <div class="foot-no">{:lbl('copyright')}</div>
+            <div class="clr"></div>
+        </div>
+    </div>
 
-    <div class="clr"></div>
 </div>
+<!--<div class="back_top hide" onclick="$('html,body').animate({scrollTop: 0}, 600);"></div>-->
 <script>
     $(function () {
-        var  moveTime = 200,
+        var wwidth = ($(window).width()-1226)/2
+        if(wwidth>50){
+            $('.back_top').css('right',wwidth-50+'px');
+        }else{
+            $('.back_top').css('right',wwidth+'px');
+        }
+        $(document).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            if(scrollTop>117){
+                $('.back_top').show();
+            }else {
+                $('.back_top').hide();
+            }
+        });
+
+
+        var moveHeight = 258,
+            moveTime = 200,
             curMove = null;
         $('#partner li').hover(function (e){
             $('#partner .pqr_box').show()
@@ -109,28 +186,24 @@
             }, 200);
         },function(e){
             clearTimeout(curMove);
-            $(this).find('.pqr_box').animate({ top: '-65px' }, moveTime,function(){
+            $(this).find('.pqr_box').animate({ top: '-50px' }, moveTime,function(){
                 $('#partner .pqr_box').hide()
             });
+        });
 
-
+        $('.caselist li').hover(function (e){
+            var curLi = $(this);
+            curMove = setTimeout(function (){
+                curLi.children('.fitem_bofore').animate({ top: '-' + moveHeight + 'px' }, moveTime);
+                curLi.children('.fitem_after').animate({ top: '0px' }, moveTime);
+            }, 200);
+        },function(e){
+            clearTimeout(curMove);
+            $(this).children('.fitem_bofore').animate({ top: '45px' }, moveTime);
+            $(this).children('.fitem_after').animate({ top: moveHeight + 'px' }, moveTime);
         });
 
 
-        $('.city li').click(function () {
-            $('.city li').removeClass('hover');
-            $(this).addClass('hover');
-        })
-
-        $('.default li').click(function () {
-            $('.default li').removeClass('hover');
-            $(this).addClass('hover');
-        })
-
-        $('.language li').click(function () {
-            $('.language li').removeClass('hover');
-            $(this).addClass('hover');
-        })
         if(document.getElementById("telephone")){
             document.getElementById("telephone").onkeyup =function() {
                 this.value =this.value.replace(/\s/g,'').replace(/(\d{4})(?=\d)/g,"$1-");

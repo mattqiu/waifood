@@ -62,7 +62,7 @@
                             <if condition="$addr['cityname'] eq 'kunming'">selected</if>
                             value="kunming">Kunming</option>
                             <option
-                            <if condition="$addr['cityname'] eq 'other'">selected</if>
+                            <if condition="!in_array($addr['cityname'],array('chengdu','chongqing','xi\'an','kunming'))">selected</if>
                             value="other">Other</option>
                         </select>
                         <hr size="1" width="100%" color="#cccccc"/>
@@ -106,9 +106,9 @@
         $.post('/home/member/modifyShoppingAddr', $("#form1").serialize(), function (data) {
             subBlock = false;
             if (data.code == 200) {
-                clearpopj(data.message,data.data);
+                clearpopj(data.message,'success',true,data.data);
             } else {
-                clearpopj(data.message);
+                clearpopj(data.message,'error',true)
             }
         });
     }

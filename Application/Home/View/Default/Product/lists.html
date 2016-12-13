@@ -14,12 +14,13 @@ $so=($sort=='desc'?'asc':'desc');
 <div class="container pdt5">
     <div class="saixuan">
         <ul>
-            <li><a href="{:Uu('Product/lists','id='.$id.'&order=1')}"
+            <li>
+                <a href="{:Uu('Product/lists','id='.$id.'&order=1&group='.$_REQUEST['group'].'&keyword='.$_REQUEST['keyword'])}"
                 <eq name="order" value="1"> class="selected"</eq>
                 >Default</a></li>
             <li>
                 <eq name="order" value="2">
-                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so.'&group='.$_REQUEST['group'].'&keyword='.$_REQUEST['keyword'])}"
                     <eq name="order" value="2"> class="selected"</eq>
                     >
                     <eq name="sort" value="desc">
@@ -29,12 +30,12 @@ $so=($sort=='desc'?'asc':'desc');
                     </eq>
                     </a>
                     <else/>
-                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so)}"><span class="">Price</span></a>
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=2&sort='.$so.'&group='.$_REQUEST['group'].'&keyword='.$_REQUEST['keyword'])}"><span class="">Price</span></a>
                 </eq>
             </li>
             <li>
                 <eq name="order" value="3">
-                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so.'&group='.$_REQUEST['group'].'&keyword='.$_REQUEST['keyword'])}"
                     <eq name="order" value="3"> class="selected"</eq>
                     >
                     <eq name="sort" value="desc">
@@ -44,7 +45,7 @@ $so=($sort=='desc'?'asc':'desc');
                     </eq>
                     </a>
                     <else/>
-                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so)}"><span class="">Sold</span></a>
+                    <a href="{:Uu('Product/lists','id='.$id.'&order=3&sort='.$so.'&group='.$_REQUEST['group'].'&keyword='.$_REQUEST['keyword'])}"><span class="">Sold</span></a>
                 </eq>
 
             </li>
@@ -65,14 +66,14 @@ $so=($sort=='desc'?'asc':'desc');
 
                             <div class="list-good-img fl">
                                 <a href="{:Uu('Product/view','id='.$vo['id'])}">
-                                    <img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"
+                                    <img src="__PUBLIC__/images/grey.gif" class="lazy"
                                          data-original="{$vo.indexpic}" alt="{$vo.title}" width="100%"/>
                                 </a>
                             </div>
                             <div class="list-good-title fr">
                                 <div class="good-k">
                                     <a href="{:Uu('Product/view','id='.$vo['id'])}">
-                                        <span class="g_title" >{$vo.title}</span><br/>
+                                        <span class="g_title" style="word-wrap:break-word " >{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</span><br/>
                                         <span class="clo9">Unit:{$vo.unit}</span><br/>
                                         <span class="clo9">Preservation:{$vo.storage}</span><br/>
                                         <span class="clo9">Origin:{$vo.origin}</span>
@@ -83,7 +84,7 @@ $so=($sort=='desc'?'asc':'desc');
                                 </div>
                                 <div class="spjg">
                                     <div class="fl">
-                                        <i class="price num-item">&yen;{$vo.price}</i>
+                                        <i class="price num-item" style="padding-right: 8px;">&yen;{$vo.price}</i>
                                         <if condition="$vo['price1'] gt 0">
                                             <s class="num-item" style="color: #999999;font-size: 13px;">&yen;{$vo.price1}</s>
                                             <else/>

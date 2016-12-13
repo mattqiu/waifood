@@ -4,8 +4,7 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <title>{$shoptitle}</title>
     <include file="Index:header"/>
-    <js href="__PUBLIC__/Shop/js/jquery.lhgcalendar.min.js"/>
-    <js href="__PUBLIC__/Admin/js/alerts/jquery.alerts.js" />
+    <!--<js href="__PUBLIC__/css/lhgcalendar.css"/>-->
 </head>
 <body data-beyond="{$beyond}">
 <include file="Index:bar"/>
@@ -25,7 +24,7 @@
                                     <div class="fl" style="width: 10%;"><img src="__PUBLIC__/Home/images/ov_address.png" style="margin-top: 45px" width="15" alt=""/></div>
                                     <div class="addr_list fl" style="width: 85%;text-indent: 0">
                                         <div class="addr-user"><span class="fl">{$address.username}</span><span class="fr tc">{$address.telephone}</span></div>
-                                        <div class="clr">{$address.address}-{$address.cityname}</div>
+                                        <div class="clr" style="padding-top: 10px;">{$address.address}-{$address.cityname}</div>
                                     </div>
                                     <div class="fl" style="width: 3%;">
                                        <img src="__PUBLIC__/Home/images/tapnext.png" style="margin-top: 45px" alt="" width="10"/>
@@ -60,9 +59,9 @@
                                         <input name="paymethod" type="radio" id="paymethod2" value="2" data-shipfee="{$cart.cart_shipfee}"> Paypal
                                     </label>
                                     &nbsp;
-                                    &lt;!&ndash; <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
+                                    <!-- <input name="paymethod" type="radio" id="paymethod3" value="3" data-shipfee="{$cart.cart_shipfee}" >
                                      <label for="paymethod3" style="display:inline;">微支付</label>
-                                     &nbsp;&ndash;&gt;
+                                     &nbsp;
                                     <label for="paymethod4" style="display:inline;">
                                         <input type="radio" name="paymethod" id="paymethod4" value="4" data-shipfee="{$cart.cart_shipfee}" checked> Cash on delivery
                                     </label>

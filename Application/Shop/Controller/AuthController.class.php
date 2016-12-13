@@ -1,23 +1,26 @@
 <?php
 namespace Shop\Controller;
 
+use Common\Model\UserModel;
+
 class AuthController extends BaseController
 {
+    protected $userId = null;
 
     public function _initialize()
     {
-        // 加入权限判断
-        // session('userid',1);
-        $this->checkLogin();
+
+        $user = UserModel::getUser();
+        if(!empty($user)){
+            $this->userId = $user['id'];
+            $user = UserModel::getUser();
+            $this->assign('user',$user);
+        }else{
+            $this->redirect('/login/index');
+        }
         parent::_initialize();
     }
 
-    private function checkLogin()
-    {
-        // 用户权限检查
-        if (get_userid() == 0) {
-            $this->redirect('Login/index');
-        }
-    }
+
 }
 ?>

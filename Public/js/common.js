@@ -104,14 +104,13 @@ function getDateFormat($month){
 //加载图
 function loading(){
     //var $html = '<div class="bkpanl"></div><div class="loadingbox"><img src="/Public/Home/images/loading.gif" alt="" width="80%"/><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="margin-top: 10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
     $('body').append($html);
 }
 //关闭加载
 function closeLoad(){
     $('.bkpanl').hide();
     $('.loadingbox').hide();
-
 }
 
 //自动消失的弹出提示框
@@ -126,6 +125,27 @@ function clearpop(txt,time){
     setTimeout(function(){$("#clearpop").hide();},time);
 }
 
+
+//自动消失的弹出提示框
+function clearpopj(txt,status,hide,url,time){
+    swal("", txt, status);
+    if(hide){
+        if(!time){
+            time = 2000;
+        }
+        setTimeout(function(){
+            $('.sa-button-container .confirm').click();
+            if(url){
+                if(url=='self'){
+                    window.location.reload();
+                }else{
+                    window.location.href=url;
+                }
+            }
+        },time);
+
+    }
+}
 
 /*弹出框使用方法:
  *getMask().maskShow({"speed":100,"filter":0.5,"jump_speed":0.7,"jump_num":0,"width":400,"tit":"弹出框标题","cont":"#cont"});
@@ -152,12 +172,12 @@ function Mask(){
     this.closeBox = ".clo";//关闭
     this.inside = ".inside";//负责存放内容
     this.pm = 5;//拖动层由于父层 padding 、margin 、 position引起的间差,目前设置为手动调节
-    this.t = 100;//移动速度
+    this.t = 150;//移动速度
     this.o = 0.5;//遮罩透明度
     this.k = 0.7;//回弹速度
     this.n = 1;//回弹次数
     this.width = 400;//弹出框宽度
-    this.tit = "弹出框标题";//标题
+    this.tit = "title";//标题
     this.cont="#cont";//弹出框div的id/class
     this.closeCallBack=function(){};//回调函数
 }
@@ -199,7 +219,7 @@ Mask.prototype = {
             var str = '<div class="maskWrap"></div>';
             str+='<div class="homepop">';
             str+='<div class="move">';
-            str+='  <a class="clo">关闭</a>';
+            str+='  <a class="clo"><img src="/Public/images/close.png" style="position: relative; top: 4px;" width="15"></a>';
             str+='  <span>'+this.tit+'</span>';
             str+='</div>';
             str+='<div class="inside"></div>';
@@ -335,145 +355,31 @@ Mask.prototype = {
             _box.clearQueue();
             return false;
         });
-    }
-}
-/*table拖拽效果排序:
- *getHauling().haulingShow({"callBack":函数名,"box":".drag_module_box"});//参数选填
- * css部分
- *.drag_module_box {  position:relative;display:block;width:100%;height: auto;text-align:center;}包含框
- *.drag_module_main {  cursor:pointer;}//普通一共元素
- *.drag_module_maindash { position:absolute;display:table;width:100%;border:1px dotted black;z-index:22;background:#666;opacity: 0.5}//被拖拽对象
- *.drag_module_maindash td{border-bottom:1px dotted #000000;border-right:1px dotted #ccc;position:relative}
- *.drag_module_dash {line-height:28px;position:static; border:1px solid green;}//临时填充对象
- * .haulingBtn{}//拖拽触发对象
- */
-var myHauling;
-// 获取拖拽元素
-function getHauling(){
-    if(myHauling==null){myHauling = new  Hauling();}
-    return myHauling;
-}
-function Hauling(){
-    this.box = ".drag_module_box";//包含框
-    this.list = "drag_module_main";//包含框
-    this.currentObj = null;//拖拽对象
-    this.tempObj = null;//临时对象
-    this.currentId = 0;////被拖拽元素在列表中的id
-    this.tarObj=null;//目标元素
-    this.currentObjHeight = 0;//元素高度
-    this.moveStatus = false;//拖拽状态
-    this.mousePos = { x: 0, y: 0 };//鼠标元素偏移量
-    this.currentPos ={ x: 0, y: 0, x1: 0, y1: 0 };//拖拽对象的当前坐标
-    this.tarPos = { x: 0, y: 0, x1: 0, y1: 0 };//目标对象的坐标
-    this.callBack=function(){};//回调函数
-    this.dragModuleDashStr="";
-}
-Hauling.prototype = {
-    constructor : Hauling,
-    closeShow:function(){
-        if (arguments.length > 0) {
-            var arr = arguments[0];
-            if (arr.box !== undefined) {
-                this.box = arr.box;
-            }
-        }
-        $( this.box ).undelegate();
-    },
-    haulingShow : function() {
-//        参数：
-        if (arguments.length > 0) {
-            var arr = arguments[0];
-            if (arr.box !== undefined) {
-                this.box = arr.box;
-            }
-            if (arr.listClassStr !== undefined) {
-//                console.log('arr.box:'+arr.box);
-                this.list = arr.listClassStr;
-            }
-            if(arr.callBack!==undefined){
-                this.callBack= arr.callBack;
-            }
-            if(arr.dragModuleDashStr!==undefined){
-                this.dragModuleDashStr=arr.dragModuleDashStr;
-            }
-        }
-        var  _box  = this.box,
-            _currentObj = this.currentObj,
-            _currentId = this.currentId ,
-            _currentObjHeight=this.currentObjHeight ,
-            _list=this.list,
-            _tempObj =this.tempObj,
-            _moveStatus =this.moveStatus,
-            _mousePos = this.mousePos,
-            _currentPos = this.currentPos,
-            _tarPos =  this.tarPos,
-            _tarObj= this.tarObj,
-            _callBack= this.callBack,
-            _dragModuleDashStr= this.dragModuleDashStr,
-            _initLeft= 0,
-            _initTop= 0,
-            _currentBox=null;
-        $(_box).delegate(".haulingBtn","mousedown",function(e){
-            var thisObj=$(this);
-            _currentObj = thisObj.closest("."+_list);
-            _currentBox = thisObj.closest(_box);
-            _initLeft=_currentBox.offset().left;
-            _initTop=_currentBox.offset().top;
-            _currentId = _currentObj.index();
-            _currentObjHeight = _currentObj.height();// 当前项高度
-            _moveStatus = true;
-            _mousePos.x = e.pageX - _currentObj.offset().left;//鼠标元素相对偏移量
-            _mousePos.y = e.pageY - _currentObj.offset().top;
-            var tempLeft=_currentObj.offset().left - _initLeft;
-            var tempTop= _currentObj.offset().top - _initTop ;
-            _currentObj.attr("class","drag_module_maindash").css({left:tempLeft+'px',top: tempTop +"px"});
-            $(_dragModuleDashStr).insertBefore(_currentObj);
-        });
-        //鼠标移动
-        $(this.box).mousemove(function(e){
-            if (!_moveStatus) return false;
-            _currentPos.x = e.pageX - _mousePos.x  - _initLeft ;
-            _currentPos.y = e.pageY - _mousePos.y - _initTop ;
-            _currentPos.y1 = _currentPos.y + _currentObjHeight; // 拖拽元素随鼠标移动
-            _currentObj.css({left: _currentPos.x + 'px',top: _currentPos.y + 'px'});// 拖拽元素随鼠标移动 查找插入目标元素
-            var  $main = _currentBox.find("."+_list); // 局部变量：按照重新排列过的顺序  再次获取 各个元素的坐标，
-            _tempObj = $(".drag_module_dash"); //获得临时 虚线框的对象
-            $main.each(function () {
-                _tarObj = $(this);
-                _tarPos.x = _tarObj.offset().left;
-                _tarPos.y = _tarObj.offset().top - _initTop ;
-                _tarPos.y1 = _tarPos.y + _tarObj.height()/2;
-                tarFirst = $main.eq(0); // 获得第一个元素
-                tarLast=$main.last();
-                tarFirstY = tarFirst.offset().top  - _initTop  + _currentObjHeight/2 ; // 第一个元素对象的中心纵坐标
-                tarLastY = tarLast.offset().top   - _initTop  + _currentObjHeight/2 ; // 第一个元素对象的中心纵坐标
-                if (_currentPos.y <= tarFirstY) {//拖拽对象 移动到第一个位置
-                    _tempObj.insertBefore(tarFirst);
-                }
-                if (tarLastY<= _currentPos.y ) {//拖拽对象 移动到第最后位置
-                    _tempObj.insertBefore(tarLast);
-                }
-                if (_currentPos.y >= _tarPos.y - _currentObjHeight/2 && _currentPos.y1 >= _tarPos.y1 ) { //判断要插入目标元素的 坐标后， 直接插入
-                    _tempObj.insertAfter(_tarObj);
-                }
-            });
-        });
-        $(document).mouseup(function(){
-            if (!_moveStatus) {
-                return false;
-            }else{
-                if(_currentObj==null) return false;
-                _currentObj.insertBefore(_tempObj);  // 拖拽元素插入到 虚线div的位置上
-                _currentObj.attr("class",_list ); //恢复对象的初始样式
-                $('.drag_module_dash').remove(); // 删除新建的虚线div
-                var num = _currentObj.index();
-                _moveStatus=false;
-                if(num != _currentId){//不是回到初始位置
-                    _callBack(_currentObj,$("."+_list));//参数当前拖拽对象|被拖拽对象作用群
-                }
-            }
-            $(this.box).stop();
-        });
+        _closeBox.hover(function(){
+            $(this).find('img').attr({'src':'/Public/images/close_hover.png','width':'20'});
+        },function(){
+            $(this).find('img').attr('src','/Public/images/close.png');
+        })
     }
 }
 
+function animateShow($obj,$px,fx,time){
+    if(!time){
+        time =30;
+    }
+    setTimeout(function (){
+        if(fx =='t'){
+            $obj.animate({ top: $px+'px' }, time,function(){
+            });
+        }else if(fx=='r'){
+            $obj.animate({ right: $px+'px' }, time,function(){
+            });
+        }else if(fx=='b'){
+            $obj.animate({bottom: $px+'px' }, time,function(){
+            });
+        }else {
+            $obj.animate({ left: $px+'px' }, time,function(){
+            });
+        }
+    }, 200);
+}

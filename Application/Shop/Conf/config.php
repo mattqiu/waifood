@@ -2,8 +2,9 @@
 
 defined('THINK_PATH') or exit();
 return array( 
-'BIND_MODULE' =>'Shop',		'TMPL_ACTION_ERROR'     =>  'Other:dispatch_jump', // 默认错误跳转对应的模板文件
-		'TMPL_ACTION_SUCCESS'   =>   'Other:dispatch_jump', 
+'BIND_MODULE' =>'Shop',
+    'TMPL_ACTION_ERROR'     =>  'Other:dispatch_jump', // 默认错误跳转对应的模板文件
+    'TMPL_ACTION_SUCCESS'   =>   'Other:dispatch_jump',
 		
     /* 支付设置 */
     'payment' => array(

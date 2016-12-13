@@ -6,7 +6,7 @@
 <meta name="keywords" content="{$keywords}" />
 <meta name="description" content="{$description}" />
 <include file="Index:header" />  
-<js href="__PUBLIC__/Shop/member/js/jquery.swipe.js" />
+<js href="__PUBLIC__/Home/member/js/jquery.swipe.js" />
 </head>
 
 <body>
@@ -64,17 +64,22 @@
 $(function(){ 
 
 	$("#btnAddPoint").click(function(){
-		
 		var title = "您确定要申请兑换积分吗？此积分不退！";
-       jConfirm(title,SYSTITLE,function(msg){ 
-		   if(msg){
-				var id="{:I('id')}"; 
-				var num = $("#buycount").val(); 
-				var ext=$("#ext").val();
-				$.addPoint(id,num,ext);
-			   
-		   }
-	   });
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+            // confirmButtonColor: "#2eb661"
+        }, function() {
+            var id="{:I('id')}";
+            var num = $("#buycount").val();
+            var ext=$("#ext").val();
+            $.addPoint(id,num,ext);
+        });
+
 	});
  
 })

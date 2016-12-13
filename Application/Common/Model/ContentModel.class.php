@@ -22,8 +22,8 @@ class ContentModel extends Model {
         $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock';
         $list=M('content')->where($where)->field($field)->order($order)->select();
         return $list;
-
     }
+
 
 }
 

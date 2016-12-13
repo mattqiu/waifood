@@ -8,64 +8,102 @@
     <include file="Index:header" />
 </head>
 <body>
-<include file="Index:nav_login" />
-<div class="container">
-    <div class="content">
-        <div class="box980">
-            <div class="lgbox">
-                <div class="login" style="float: right;overflow: hidden;zoom: 1;">
-                    <div><strong>Member login</strong></div>
-                    <form  action="{:U('Login/index')}"  method="post" id="frm_login" onsubmit="return checklogform()">
-                        <if condition="$_REQUEST['returnurl']">
-                            <input type="hidden" name="returnurl" value="{$_REQUEST['returnurl']}"/>
-                            <else/>
-                            <input type="hidden" name="returnurl" value="{$Think.SERVER.HTTP_REFERER}"/>
-                        </if>
-                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td width="270">Account<br />  <input type="text"    name="username" id="username"  placeholder="Email or username or phone" required="required" class="user" /></td>
-                            </tr>
-                            <tr>
-                                <td>Password<br /> <input type="password" maxlength="32"  name="userpwd" id="userpwd"  placeholder="enter your password" required="required" class="mima" /></td>
-                            </tr>
-                            <tr class="" id="verify" >
-                                <td>Captcha<br />
-                                    <input type="text" class="reginput fl" name="verify" size="18" maxlength="5" placeholder="enter captcha" />
-                                    <img style="cursor:pointer; cursor: hand; width:80px; height:36px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="{:U('Login/findpwd')}" style="color:#0e87d8">Forget your password?</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="{:U('Login/register')}" style="color:#0e87d8">Register</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><input type="submit" name="imageField" id="imageField" class="lgbtn"  value="Login Now" /></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
-
-
-                <div class="lgimg"></div>
-            </div>
-        </div>
+<div class="nav_login">
+    <div class="container">
+        <div class="logo"><a href="/"><img src="__PUBLIC__/images/logo.png" width="210"  alt=""/></a></div>
     </div>
-    <div class="clr"></div>
 </div>
-<include file="Index:footer_login" />
-<script src="__PUBLIC__/js/common.js"></script>
+<div class="lgbox">
+    <div class="container">
+        <div class="login-box account_login " style="float: right;overflow: hidden;zoom: 1;">
+            <div class="login_select qr "><span class="signin">Sign in</span><!--<img class="fr" src="__PUBLIC__/Shop/images/q-sign-in.png" alt=""/>--></div>
+            <form onsubmit="return false" id="frm_login" class="login_from">
+               <input type="text"  name="username" placeholder="Account"  class="input_text" />
+                <br/>
+               <input type="password"  name="password" placeholder="Password" class="input_text" />
+                <div class="captcha" style="margin-top: 15px;">
+                    <div class="captcha_title" style="height: 42px;line-height: 42px;color: #cccccc">Captcha <input type="text" style="height: 40px;" name="verify"/></div>
+                    <div class="captcha_img" style="width: 136px;height: 42px;"> <img style="cursor:pointer; cursor: hand; width:136px; height:42px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
+                </div>
+                <input type="submit"  class="lgbtn"  value="Sign in" onclick="login();" />
+                <div class="lg_foot">
+                    <a href="/login/findpwd.html" class="fl">Forget your password?</a>
+                    <a href="/login/register.html" style="color: #fc2c3d" class="fr ">Sign up</a>
+                </div>
+            </form>
+        </div>
+        <!--<div class="login-box qr_login hide" style="float: right;overflow: hidden;zoom: 1;">-->
+            <!--<div class="login_select qr ">-->
+                <!--<span class="signin">Wechat Scan QR to sign in </span>-->
+                <!--<img class="fr" src="__PUBLIC__/Shop/images/pc-to-login.png" alt=""/>-->
+            <!--</div>-->
+            <!--<div>-->
+                <!--<div class="wechat_qr fl"><label id="login_container"></label></div>-->
+                <!--<div class="tit_img fr"><img src="__PUBLIC__/Shop/images/tit_login.png" alt=""/></div>-->
+            <!--</div>-->
+            <!--<div class="clr"></div>-->
+            <!--<div class="lg_foot">-->
+                <!--<a href="/login/findpwd.html" class="fl">Forget your password?</a>-->
+                <!--<a href="/login/register.html"  class="fr">Register</a>-->
+            <!--</div>-->
+         <!--</div>-->
+    </div>
+</div>
+<div class="container">
+    <div class="foot-no">{:lbl('copyright')}</div>
+</div>
+<script type="text/javascript">
+    !function(a,b){function d(a){var e,c=b.createElement("iframe"),d="https://open.weixin.qq.com/connect/qrconnect?appid="+a.appid+"&scope="+a.scope+"&redirect_uri="+a.redirect_uri+"&state="+a.state+"&login_type=jssdk";d+=a.style?"&style="+a.style:"",d+=a.href?"&href="+a.href:"",c.src=d,c.frameBorder="0",c.allowTransparency="true",c.scrolling="no",c.width="300px",c.height="400px",e=b.getElementById(a.id),e.innerHTML="",e.appendChild(c)}a.WxLogin=d}(window,document);
+</script>
 <script>
-//    $(function(){
-//        if($('#verify').hasClass('hide')){
-//            var $num = getCookie('verify_err_num');
-//            if($num>=3){
-//                $('#verify').removeClass('hide');
-//                $('#verify input').attr('name','verify');
-//            }
-//        }
-//    })
+    $(function(){
+        $('.account_login .login_select').click(function(){
+            $('.account_login').hide();
+            $('.qr_login').show();
+        })
+        $('.qr_login .login_select').click(function(){
+            $('.qr_login').hide();
+            $('.account_login').show();
+        })
+ /*       var rand = parseInt(Math.random()*100000) + 1;
+            var obj = new WxLogin({
+                id:"login_container",
+                appid: "{$appid}",
+                scope: "snsapi_login",
+                redirect_uri: 'http%3A%2F%2Fwww.waifood.com%2Flogin%2Fweixin_callback%3Frand%3D'+rand,
+                state: rand
+            });*/
+    })
+
+    function login(){
+        var username = $('#frm_login input[name=username]').val(),
+                password = $('#frm_login input[name=password]').val(),
+                verify = $('#frm_login input[name=verify]').val();
+        if(!username){
+            $('#frm_login input[name=username]').focus();
+            clearpopj("Please enter the account", "error",true);
+            return false;
+        }
+        if(!password){
+            $('#frm_login input[name=password]').focus();
+            clearpopj("Please enter the password", "error",true);
+            return false;
+        }
+        if(!verify){
+            $('#frm_login input[name=verify]').focus();
+            clearpopj("Please enter the captcha", "error");
+          //  clearpopj("Please enter the captcha", "error",true);
+            return false;
+        }
+        $.post('/login/login.html',{username:username, password:password,verify:verify},function(data){
+            if(data.code==200){
+                window.location.href=data.data;
+                //clearpopj(data.message, "success",true,data.data);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
 </script>
 </body>
 </html>

@@ -72,10 +72,9 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
             <span id="headaddr">Chengdu </span>&nbsp;<img src="__PUBLIC__/Home/images/chengdu.png" style=" position: relative; top: 3px;" height="15"alt=""/>
         </li>
         <li class="fl keywrod">
-            <form  id="formSearch" style="position: relative;" name="formSearch" method="get" action="/Home/Search/index.html" >
+            <form  id="formSearch" onsubmit="return checkKeyword();" style="position: relative;" name="formSearch" method="get" action="/Home/Search/index.html" >
                 <input type="text" results="s" class="input_keywrod fl" name="keyword" placeholder="Keywords"/>
-               <input type="submit" value=" "  class="searching"/>
-               <input type="reset" value=" "  class="searching_clr"/>
+                <input type="submit" value=" "  class="searching"/>
             </form>
         </li>
         <li class="fr" id="showQr" >
@@ -223,11 +222,16 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
 <hr class="spliter" />
 <div class="footindex">{:C("config.WEB_SITE_ICP")}</div>
 <include file="Index:footer" />
-
 <script>
    var addr = getCookie('headaddr');
    if(addr){
        $('#headaddr').html(addr);
+   }
+   function checkKeyword(){
+       var keyword = $('#formSearch input[name=keyword]').val();
+       if(!keyword){
+           return false;
+       }
    }
 </script>
 

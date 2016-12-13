@@ -1,90 +1,143 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <title>{$title}</title>
-    <include file="Index:header"/>
-    <script>
-        var CONST_UPLOAD = "{:U('Admin/File/upload')}";
-    </script>
-    <js href="__PUBLIC__/Admin/js/uploadify/jquery.uploadify.min.js"/>
+    <title>user info</title>
+    <include file="Index:header" />
 </head>
+<body data-userid="" _id="{$user.id}">
+<div class="lean_overlay" data-show="1"></div>
+<div id="info-box" class="leanModal addressModal" >
+    <input type="hidden" value="{$user.id}" name="id"/>
+    <div class="form-section consingee">
+        <label class="input-label" for="username">User name</label>
+        <input class="input-text J_addressInput " type="text" id="username" name="username" value="{$user.username}" placeholder="Full name">
+    </div>
 
-<body>
-<include file="Index:bar"/>
-<include file="Index:nav"/>
-<div class="container">
-    <div class="content">
-        <div class="box980">
-            <div class="left">
-                <include file="left"/>
-            </div>
-            <div class="right">
-                <div class="hybox">
-                    <div class="hytit"><strong>Personal information</strong></div>
-                    <div class="grzl">
+    <div class="form-section">
+        <label class="input-label" for="Email">Email</label>
+        <input class="input-text J_addressInput" type="text" id="Email" name="email" value="{$user.email}">
+    </div>
 
-                        <table border="0" cellspacing="0" cellpadding="0">
-                            <tr>
-                                <td align="right">User Name：</td>
-                                <td>{:get_username(get_userid())}</td>
-                            </tr>
-                            <tr>
-                                <td align="right">Consignee：</td>
-                                <td>{$db.userreal}</td>
-                            </tr>
-                            <tr>
-                                <td align="right">Gender：</td>
-                                <td>
-                                    <eq name="db.sex" value="1">male
-                                        <else/>
-                                        female
-                                    </eq>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td align="right">Mobile：</td>
-                                <td>{$db.telephone}</td>
-                            </tr>
-                            <tr>
-                                <td align="right">Email：</td>
-                                <td>{$db.email}</td>
-                            </tr>
+    <div class="form-section">
+        <label class="input-label" for="Phone">Phone</label>
+        <input class="input-text J_addressInput" type="text" id="Phone" name="telephone" value="{$user.telephone|default='+86'}">
+    </div>
+    <div class="form-section select_box">
+        <div class="fl sex_sel form-itme">
+            <label class="input-label" for="sex">Gender</label>
+            <select name="sex" id="sex">
+                <option value="1" <if condition="$user['sex'] eq 1">selected</if>>Male</option>
+                <option value="0"  <if condition="$user['sex'] eq 0">selected</if>>Female</option>
+            </select>
+        </div>
 
-                            <tr>
-                                <td align="right">Address：</td>
-                                <td>{$db.address}</td>
-                            </tr>
-                            <tr>
-                                <td align="right">Registration：</td>
-                                <td>{$db.addtime}</td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td><a href="{:U('Member/info1')}" class="jixu">Edit</a></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="clear"></div>
+        <div class="fr city form-itme">
+            <label class="input-label" for="city">City</label>
+            <select name="cityname" id="city">
+                <option value="chengdu"  <if condition="$user['cityname'] eq 'chengdu'">selected</if>>Chengdu</option>
+                <option value="chongqing" <if condition="$user['cityname'] eq 'chongqing'">selected</if>>Chongqing</option>
+                <option value="xi'an"  <if condition="$user['cityname'] eq 'xi\'an'">selected</if>>Xi'an</option>
+                <option value="kunming" <if condition="$user['cityname'] eq 'kunming'">selected</if>>Kunming</option>
+                <option value="other"  <if condition="!in_array($user['cityname'],array('chengdu','chongqing','xi\'an','kunming'))">selected</if>>Other</option>
+            </select>
         </div>
     </div>
     <div class="clr"></div>
+    <div class="form-section">
+        <label class="input-label" for="Address">Address</label>
+        <input class="input-text J_addressInput" type="text" id="Address" name="address" value="{$user.address}" placeholder="address">
+    </div>
+    <div class="form-section register">
+        Registration:{$user.addtime}
+    </div>
+    <div class="clr"></div>
+    <div class="form-confirm clearfix">
+        <button class="submit" onclick="modifyUserInfo();">Submit</button>
+        <button class="back" onclick="closePanl()">Back</button>
+    </div>
 </div>
-<include file="Index:footer"/>
-<script language="javascript">
-    $(function () {
-        $("body").mousemove(function () {
-            var v = $("#indeximg").attr("src");
-            var v1 = $("#indexpic").val();
-            if (v != v1) {
-                $("#indeximg").attr("src", $("#indexpic").val());
+<script>
+    function closePanl(){
+        $("body",parent.document).find('.lean_overlay').hide();
+        $("body",parent.document).find('#userModal').slideUp();
+    }
+
+    $(function(){
+        $('#info-box .form-section ').each(function(){
+            if( $(this).find('.J_addressInput').val()){
+                $(this).find('.input-label').css('top','-10px');
             }
-        });
-    });
+        })
+        $('#info-box .form-section .J_addressInput').focus(function(){
+            if(!$(this).val()){
+                $(this).siblings('label').animate({top:'-10px'});
+            }
+            $(this).parent().css('border-color','#fc2c3d');
+            $(this).siblings('label').css('color','#fc2c3d');
+        })
+        $('#info-box .form-section .J_addressInput').blur(function(){
+            if(!$(this).val()) {
+                $(this).siblings('label').animate({top: '15px'});
+            }
+            $(this).parent().css('border-color','#E0E0E0');
+            $(this).siblings('label').css('color','#424242');
+        })
+    })
+
+    window.subBlock=false;
+    function modifyUserInfo(){
+        if(subBlock == true){
+            return false;
+        }
+        var username = $('#info-box input[name=username]').val(),
+            email = $('#info-box input[name=email]').val(),
+            telephone = $('#info-box input[name=telephone]').val(),
+            sex = $('#info-box select[name=sex]').val(),
+            cityname = $('#info-box select[name=cityname]').val(),
+            address = $('#info-box input[name=address]').val();
+        if(!username){
+            subBlock = false;//解除阻塞
+            clearpopj("Please input user name", "error",true);
+            return false;
+        }
+        if(telephone.username<3){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong user name format.", "error",true);
+            return false;
+        }
+        if(!email){
+            subBlock = false;//解除阻塞
+            clearpopj("Please input email", "error",true);
+            return false;
+        }
+        if(!regex(email,'email')){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong Email format.", "error",true);
+            return false;
+        }
+        if(!telephone){
+            subBlock = false;//解除阻塞
+            clearpopj("Please input phone number", "error",true);
+            return false;
+        }
+        if(telephone.length<6){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong phone number format.", "error",true);
+            return false;
+        }
+        subBlock = true;
+        $.post('/member/modifyUserInfo.html',{username:username,email:email,telephone:telephone,sex:sex,cityname:cityname,address:address},function(data){
+            subBlock = false;//解除阻塞
+            if(data.code == 200){
+                clearpopj(data.message, "success",true);
+                setTimeout(function(){ window.parent.location.reload();},2500);
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

@@ -16,7 +16,7 @@ function isVerifyCorrect()
 }
 
 function version(){
-    return 'v-1.1.0';
+    return 'v.2.1.3';
 }
 
 /**
@@ -374,7 +374,7 @@ function getWeek($time)
             $week = 'Wed';
             break;
         case 4 :
-            $week = 'Thurs';
+            $week = 'Thur';
             break;
         case 5 :
             $week = 'Fri';
@@ -526,4 +526,14 @@ function getDay($datetime){
     }
 }
 
+/**删除文件
+ * @param $file
+ * @return bool
+ */
+function delfile($file){
+    if(file_exists($file)){
+        return unlink ($file);
+    }
+    return false;
+}
 ?>

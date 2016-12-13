@@ -158,3 +158,8 @@ ul.ztree {margin-top: 10px;border: 1px solid #ccc;background:#fff;width: 220px;h
 .addtyle{text-decoration:underline;cursor: pointer; color: #0000ff;float: right;padding-right: 120px;}
 .mlr5{margin:0 5px}
 
+/*banner*/
+.upbanner{line-height: 30px;}
+.upbanner input[type=text]{width: 200px;}
+.onselected{background: url("bgbtn.jpg")}
+.onselected{background: url("bgbtn.jpg")}

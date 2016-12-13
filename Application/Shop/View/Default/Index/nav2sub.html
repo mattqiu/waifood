@@ -1,19 +1,33 @@
-<div class="product_menu">
+<div class="product_menu cat_menu_list hide" id="cat_menu_list">
   <ul>
-    <volist name=":get_product_channel(2,20)" id="vo">
-      <li><span>
-        <empty name="vo.linkurl"> <a href="{:U('Product/lists','id='.$vo['id'])}" >{$vo.name}</a>
-          <else/>
-          <a href="{$vo.linkurl}" >{$vo.name}</a> </empty>
-        </span>
-        <div class="submenu">
-          <volist name=":get_product_channel($vo['id'],20)" id="vo1">
-            <empty name="vo1.linkurl"> <a href="{:U('Product/lists','id='.$vo1['id'])}" >{$vo1.name}</a>
-              <else/>
-              <a href="{$vo1.linkurl}" > {$vo1.name}</a> </empty>
-          </volist>
-        </div>
+    <volist name=":get_product_channel(2,20)" id="vo" key="i">
+      <li data-i="{$i}">
+          <a class="parent_cat" <if condition="$vo['linkurl']"> href="{$vo.linkurl}" <else/>href="/product/lists.html?id={$vo['id']}"</if>>{$vo.name} <i></i>
+          </a>
+          <div class="submenu">
+              <ul>
+                  <volist name=":get_product_channel($vo['id'],20)" id="vo1" key="j">
+                      <li> <a style="width: 330px;display: block" <if condition="$vo1['linkurl']"> href="{$vo1.linkurl}" <else/>href="/product/lists.html?id={$vo1['id']}"</if>>{$vo1.name}</a></li>
+                  </volist>
+              </ul>
+          </div>
       </li>
     </volist>
   </ul>
 </div>
+<script>
+    $('.cat_menu_list li').mouseover(function(){
+        var obj = $(this).find(".submenu"),toph = (parseInt($(this).data('i'))-1) * parseInt($(this).height());
+        if ($.trim(obj.text()) != "") {
+            obj.css({'height':$('.product_menu').height()+'px','top':-(toph+1)+'px'});
+            obj.show();
+            ///animateShow(obj,0);
+            if ($(this).children(".submenu").length > 0) {
+                $(this).addClass("current");
+            }
+        }
+    })
+    $('.cat_menu_list li').mouseleave(function(){
+        $(this).find(".submenu").hide();
+    })
+</script>

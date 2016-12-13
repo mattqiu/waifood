@@ -10,7 +10,8 @@ $config = array(
         'Wap',
     ),
     'DEFAULT_MODULE' => 'Shop', // 默认模块
-
+    'ERROR_PAGE'=>'/Public/404.html', // 错误定向页面
+    'URL_404_REDIRECT'=>'/Public/404.html',
     //session设置
     //'SESSION_TYPE'          => 'Db',
     'SESSION_EXPIRE'        =>30*60,//60秒
@@ -18,7 +19,7 @@ $config = array(
 
     // 分页设置
     'VAR_PAGESIZE' => 32,
-    'DEFAULT_AVATAR' => '/Public/Shop/images/txzw.jpg',
+    'DEFAULT_AVATAR' => '/Public/images/txzw.jpg',
     
     // 路由设置
     'URL_CASE_INSENSITIVE' => true,

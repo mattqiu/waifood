@@ -6,13 +6,13 @@
 <meta name="keywords" content="{$keywords}" />
 <meta name="description" content="{$description}" />
 <include file="Index:header" />
-<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />
-<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />
-<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />
+<js href="__PUBLIC__/js/jquery.idTabs.min.js" />
+<js href="__PUBLIC__/js/jquery.jcarousel.pack.js,__PUBLIC__/js/jquery.jqzoom-core-pack.js,__PUBLIC__/js/jquery.jproducts.js" />
+<css href="__PUBLIC__/js/jquery.jcarousel.css,__PUBLIC__/js/jquery.jqzoom.css" />
 </head>
 
 <body>
-<include file="Index:bar" /> <include file="Index:nav2" />
+ <include file="Index:nav2" />
 <div class="container">
   <div class="content">
     <div class="box980">
@@ -94,15 +94,20 @@ $(function(){
 	$("#btnAddPoint").click(function(){
 		
 		var title = "您确定要申请兑换积分吗？此积分不退！";
-       jConfirm(title,SYSTITLE,function(msg){ 
-		   if(msg){
-				var id="{:I('id')}"; 
-				var num = $("#buycount").val(); 
-				var ext=$("#ext").val();
-				$.addPoint(id,num,ext);
-			   
-		   }
-	   });
+        swal({
+            title: '',
+            text: title,
+            type: 'warning',
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "Yes"
+            // confirmButtonColor: "#2eb661"
+        }, function() {
+            var id="{:I('id')}";
+            var num = $("#buycount").val();
+            var ext=$("#ext").val();
+            $.addPoint(id,num,ext);
+        });
 	});
  
 })

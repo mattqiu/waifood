@@ -1,0 +1,107 @@
+
+<div class="container">
+    <div class="fuwu">
+        <ul class="fuwu_ul fuwu">
+            <li>
+                <a href="/content/view/id/1560.html">
+                    <img src="__PUBLIC__/Shop/images/footer/A.jpg" width="40" style="padding-left: 15px;" alt=""/>
+                    <h3>Authentic</h3>
+                </a>
+            </li>
+            <li class="left14">
+                <a href="/content/view/id/1560.html">
+                    <img src="__PUBLIC__/Shop/images/footer/C.jpg" width="40" class="p20" alt=""/>
+                    <h3>Convenient</h3>
+                </a>
+            </li>
+            <li class="left14">
+                <a href="/content/view/id/1560.html">
+                    <img src="__PUBLIC__/Shop/images/footer/R.jpg" width="40" class="p20" alt=""/>
+                    <h3>Responsible</h3>
+                </a>
+            </li>
+
+            <li class="left14">
+                <a href="/content/view/id/1560.html">
+                    <img src="__PUBLIC__/Shop/images/footer/A.jpg" width="40" style="padding-left: 20px;" alt=""/>
+                    <h3>Affordable</h3>
+                </a>
+            </li>
+        </ul>
+        <br/>
+        <br/>
+        <div style="clear: both"></div>
+        <ul>
+            <li>
+                <h2>Getting Started</h2>
+                <volist name=":get_lists(11,5,2)" id="vo">
+                    <empty name="vo.linkurl">
+                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
+                        <else/>
+                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
+                    </empty>
+                </volist>
+            </li>
+            <li>
+                <h2>Delivery Service</h2>
+                <volist name=":get_lists(12,5,2)" id="vo">
+                    <empty name="vo.linkurl">
+                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
+                        <else/>
+
+                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
+                    </empty>
+                </volist>
+            </li>
+            <li>
+                <h2>Payment</h2>
+                <volist name=":get_lists(13,5,2)" id="vo">
+                    <empty name="vo.linkurl">
+                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
+                        <else/>
+
+                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
+                    </empty>
+                </volist>
+            </li>
+            <li>
+                <h2>After-Sale Service</h2>
+                <volist name=":get_lists(14,5,2)" id="vo">
+                    <empty name="vo.linkurl">
+                        <p><a href="{:U('Content/view','id='.$vo['id'])}">{$vo.title}</a></p>
+                        <else/>
+
+                        <p><a href="{$vo.linkurl}">{$vo.title}</a></p>
+                    </empty>
+                </volist>
+            </li>
+        </ul>
+    </div>
+    <div class="foot">{:lbl('copyright')}</div>
+
+    <div class="clr"></div>
+</div>
+<script>
+    $(function () {
+        $('.city li').click(function () {
+            $('.city li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+
+        $('.default li').click(function () {
+            $('.default li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+
+        $('.language li').click(function () {
+            $('.language li').removeClass('hover');
+            $(this).addClass('hover');
+        })
+        if(document.getElementById("telephone")){
+            document.getElementById("telephone").onkeyup =function() {
+                this.value =this.value.replace(/\s/g,'').replace(/(\d{4})(?=\d)/g,"$1-");
+            };
+        }
+
+    })
+</script>

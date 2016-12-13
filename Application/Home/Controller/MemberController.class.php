@@ -166,7 +166,7 @@ class MemberController extends AuthController
                 $cart = session('cart_name');
                 $num = $cart['cart_num'];
                 if ($num) {
-                    $this->success('Address successfully added!', U('m_cashier'));
+                    $this->success('Address successfully added!','/m_cashier.html?addr_id='.$db);
                 } else {
                     $this->success('Address successfully added!', U('Member/address'));
                 }
@@ -249,9 +249,27 @@ class MemberController extends AuthController
         M('address')->where('userid=' . get_userid())->setField('isdefault', 0);
         $db = M('address')->where($where)->setField('isdefault', 1);
         if ($db) {
-            $this->success('默认地址设置成功！');
+            apiReturn(CodeModel::CORRECT);
         } else {
-            $this->error('默认地址设置失败！');
+            apiReturn(CodeModel::ERROR);
+        }
+    }
+
+    /**
+     * 删除收货地址
+     *
+     * @param string $id
+     */
+    public function deleteAddress($id = null)
+    {
+        $where = array();
+        $where['id'] = $id;
+        $where['userid'] = get_userid();
+        $db = M('address')->where($where)->delete();
+        if ($db) {
+            apiReturn(CodeModel::CORRECT);
+        } else {
+            apiReturn(CodeModel::ERROR);
         }
     }
 
@@ -264,25 +282,29 @@ class MemberController extends AuthController
         $address = I('post.address');
         $tel = $data['telephone'] =replaceTel(I('post.telephone'));
         if(isN($username)){
-            apiReturn(CodeModel::ERROR,'Sorry, name can not be empty!');
+            apiReturn(CodeModel::ERROR,'Please input name');
         }
         if(!regex($tel,'mob')){
-            apiReturn(CodeModel::ERROR,'Sorry, the phone number format is wrong!');
+            apiReturn(CodeModel::ERROR,'Wrong phone number format.');
         }
         if(isN($address)){
-            apiReturn(CodeModel::ERROR,'Sorry,  address can not be empty!');
+            apiReturn(CodeModel::ERROR,'Sorry, address can not be empty!');
         }
         $userid = get_userid();
-        if(true === AddressModel::modifyShoppingAddress($data,$userid)){
+        if($re = AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
             if($cashier){
                 session('gocashier',null);
-                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/m_cashier');
+                if(regex($re,'number')){
+                    apiReturn(CodeModel::CORRECT,'Successful.','/m_cashier.html?addr_id='.$re);
+                }else{
+                    apiReturn(CodeModel::CORRECT,'Successful.','/m_cashier.html');
+                }
             }else{
-                apiReturn(CodeModel::CORRECT,'Personal information modified successfully!','/member/address');
+                apiReturn(CodeModel::CORRECT,'Successful.','/member/address');
             }
         }else {
-            apiReturn(CodeModel::ERROR,'Personal information modified failed!');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
@@ -349,24 +371,6 @@ class MemberController extends AuthController
     }
 
     /**
-     * 删除收货地址
-     *
-     * @param string $id            
-     */
-    public function deleteAddress($id = null)
-    {
-        $where = array();
-        $where['id'] = $id;
-        $where['userid'] = get_userid();
-        $db = M('address')->where($where)->delete();
-        if ($db) {
-            $this->success('地址已删除！');
-        } else {
-            $this->error('对不起，地址删除失败！');
-        }
-    }
-
-    /**
      * 地址列表
      *
      * @param number $status            
@@ -401,86 +405,6 @@ class MemberController extends AuthController
         $this->assign('title', 'Address');
         $this->assign('listcount', count($list));
         $this->display();
-    }
-
-    /**
-     * 收藏列表
-     *
-     * @param number $status            
-     */
-    public function fav()
-    {
-        // TODO:加分页
-        $where = array();
-        $where['userid'] = get_userid();
-        
-        // 分页
-        $p = intval(I('p'));
-        $p = $p ? $p : 1;
-        $row = C('VAR_PAGESIZE');
-        
-        $rs = M("fav")->where($where)
-            ->order('id desc')
-            ->page($p, $row);
-        $list = $rs->select();
-        $this->assign("list", $list);
-        $count = $rs->where($where)->count();
-        
-        if ($count > $row) {
-            $page = new \Think\Page($count, $row);
-            $page->setConfig('theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%');
-            $page->setConfig('prev', '上一页');
-            $page->setConfig('next', '下一页');
-            $this->assign('page', $page->showm());
-        }
-        
-        $this->assign('title', '收藏列表');
-        $this->assign('listcount', count($list));
-        $this->display();
-    }
-
-    /**
-     * 浏览记录
-     */
-    public function history()
-    {
-        $where = array();
-        $arr = str2arr(cookie('view_history'));
-        $arr = arr2clr($arr);
-        $where['id'] = array(
-            'in',
-            $arr
-        );
-        $list = M('content')->where($where)->select();
-        $this->assign('listcount', ($list ? $list : 0));
-        $this->assign('title', '浏览记录');
-        $this->assign('list', $list);
-        $this->display();
-    }
-
-    public function clearHistory()
-    {
-        cookie('view_history', null);
-        $this->success('浏览记录已清空！');
-    }
-
-    /**
-     * 删除收藏
-     *
-     * @param string $id            
-     */
-    public function deleteFav($id = null)
-    {
-        $where = array();
-        $where['id'] = $id;
-        $where['userid'] = get_userid();
-        $db = M('fav')->where($where)->delete();
-        if ($db) {
-            
-            $this->success('收藏已删除！');
-        } else {
-            $this->error('对不起，收藏删除失败！');
-        }
     }
 
     /**
@@ -593,219 +517,6 @@ class MemberController extends AuthController
             $this->success('Order ' . $orderno . ' has been deleted.');
         } else {
             $this->error('Order ' . $orderno . ' delete failed.');
-        }
-    }
-
-    /**
-     * 账户 收支明细
-     *
-     * @param number $status            
-     */
-    public function balance($balancetype = null)
-    {
-        // TODO:加分页
-        $where = array();
-        $where['userid'] = get_userid();
-        if ($balancetype != null) {
-            $where['balancetype'] = $balancetype;
-        }
-        $list = M('balance')->where($where)
-            ->order('id desc')
-            ->select();
-        $this->assign('title', '账户明细');
-        $this->assign('listcount', count($list));
-        $this->assign('list', $list);
-        $this->display();
-    }
-
-    /**
-     * 积分收支明细
-     *
-     * @param number $status            
-     */
-    public function credit($credittype = null)
-    {
-        // TODO:加分页
-        $where = array();
-        $where['userid'] = get_userid();
-        if ($credittype != null) {
-            $where['credittype'] = $credittype;
-        }
-        $list = M('credit')->where($where)
-            ->order('id desc')
-            ->select();
-        $this->assign('title', '积分明细');
-        $this->assign('listcount', count($list));
-        $this->assign('list', $list);
-        $this->display();
-    }
-
-    /**
-     * 账户优惠券明细
-     *
-     * @param number $status            
-     */
-    public function coupon($status = 0)
-    {
-        $where = array();
-        if ($status == 0) {
-            $where['timefrom'] = array(
-                'elt',
-                time_format()
-            );
-            $where['timeto'] = array(
-                'egt',
-                time_format()
-            );
-            // $where ['coupontype'] = 1;
-        }
-        // $where ['coupontype'] = $status;
-        $where['userid'] = get_userid();
-        // 分页
-        $p = intval(I('p'));
-        $p = $p ? $p : 1;
-        $row = C('VAR_PAGESIZE');
-        
-        $rs = M("coupon")->where($where)
-            ->order('id desc')
-            ->page($p, $row);
-        $list = $rs->select();
-        $this->assign("list", $list);
-        $count = $rs->where($where)->count();
-        
-        if ($count > $row) {
-            $page = new \Think\Page($count, $row);
-            $page->setConfig('theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%');
-            $page->setConfig('prev', 'Prev');
-            $page->setConfig('next', 'Next');
-            $this->assign('page', $page->showm());
-        }
-        
-        $this->assign('orderstat', $this->couponStat(get_userid()));
-        $this->assign('title', 'My coupon');
-        $this->assign('status', $status);
-        $this->assign('listcount', count($list));
-        $this->display();
-    }
-
-    public function couponStat($userid)
-    {
-        $where = array();
-        $where['timefrom'] = array(
-            'elt',
-            time_format()
-        );
-        $where['timeto'] = array(
-            'egt',
-            time_format()
-        );
-        $where['userid'] = $userid;
-        $count[] = M('coupon')->where($where)->count();
-        
-        $where = array();
-        $where['userid'] = $userid;
-        $count[] = M('coupon')->where($where)->count();
-        return $count;
-    }
-
-    /**
-     * 兑现列表
-     *
-     * @param number $status            
-     */
-    public function cash($status = 0)
-    {
-        $where = array();
-        $where['status'] = $status;
-        $where['userid'] = get_userid();
-        $where['type'] = 2;
-        
-        // 分页
-        $p = intval(I('p'));
-        $p = $p ? $p : 1;
-        $row = C('VAR_PAGESIZE');
-        
-        $rs = M("form")->where($where)
-            ->order('id desc')
-            ->page($p, $row);
-        $list = $rs->select();
-        $this->assign("list", $list);
-        $count = $rs->where($where)->count();
-        
-        if ($count > $row) {
-            $page = new \Think\Page($count, $row);
-            $page->setConfig('theme', '%UP_PAGE% %LINK_PAGE% %DOWN_PAGE%');
-            $page->setConfig('prev', '上一页');
-            $page->setConfig('next', '下一页');
-            $this->assign('page', $page->showm());
-        }
-        
-        $this->assign('title', '兑现列表');
-        $this->assign('listcount', count($list));
-        $this->assign('status', $status);
-        $this->display();
-    }
-
-    /**
-     * 订单评论
-     *
-     * @param string $orderno            
-     */
-    public function orderComment($orderno = null)
-    {
-        $where = array();
-        $where['orderno'] = $orderno;
-        $where['userid'] = get_userid();
-        $db = M('order')->where($where)->find();
-        $this->assign('db', $db);
-        
-        $where = array();
-        $where['orderno'] = $orderno;
-        $list = M('order_detail')->where($where)
-            ->order('id asc')
-            ->select();
-        $this->assign('list', $list);
-        
-        $this->assign('title', '订单评价');
-        $this->display('orderComment');
-    }
-
-    /**
-     * 查看订单详情
-     *
-     * @param string $orderno            
-     */
-    public function addComment($id = 0, $pid = 0, $comment = null, $orderno = null)
-    {
-        $where = array();
-        $where['orderno'] = $orderno;
-        $where['userid'] = get_userid();
-        $db = M('order')->where($where)->find();
-        if ($db) {
-            $db = M('comment')->find($id);
-            if ($db) {
-                $this->error('对不起，该商品已评价！');
-            } else {
-                $data = array();
-                $data['title'] = '好评';
-                $data['info'] = $comment;
-                $data['addip'] = get_client_ip();
-                $data['status'] = 0;
-                $data['userid'] = get_userid();
-                $data['username'] = get_username(get_userid());
-                $data['orderno'] = $orderno;
-                $data['productid'] = $pid;
-                $data['productname'] = get_data($pid, 'content', 'title');
-                $data['orderdetailid'] = $id;
-                $db = M('comment')->data($data)->add();
-                if ($db) {
-                    $this->success('恭喜，商品评价成功！');
-                } else {
-                    $this->error('对不起，商品评价失败！');
-                }
-            }
-        } else {
-            $this->error('对不起，订单' . $orderno . '不存在');
         }
     }
 }

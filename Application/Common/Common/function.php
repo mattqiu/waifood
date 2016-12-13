@@ -1677,7 +1677,7 @@ function replaceTel($tel){
     if(strpos($tel,'-')>0){
         return str_replace("-", "",$tel);
     }
-    return $tel;
+    return trim($tel);
 }
 
 /**配送费
@@ -1705,4 +1705,16 @@ function getShipfee($n = 0) {
     }
 }
 
+
+function parse_param($str = '', $de = false)
+{
+    if ($de) {
+        $str = str_replace('_', ' ', $str);
+        $str = str_replace('@', "'", $str);
+    } else {
+        $str = str_replace(' ', '_', $str);
+        $str = str_replace("'", '@', $str);
+    }
+    return $str;
+}
 ?>

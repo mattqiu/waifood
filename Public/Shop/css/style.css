@@ -2,7 +2,7 @@
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,th,td {margin:0;padding:0;}
 body { font-size: 12px; color: #666;margin:0px; background:#FFF;}
 body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}
-a{ color:#333; text-decoration:none;}
+a{ text-decoration:none;}
 a:hover{ color: #799e0f; text-decoration: underline; }
 :focus{outline:0}
 table {border-collapse:collapse;border-spacing:0;}
@@ -37,7 +37,7 @@ fieldset,img { border: none;}
 .language li:hover{width: 115px; }
 
 .top{width: 1090px; height: 100px; margin:0 auto; overflow:hidden;}
-.logo{ float:left;}
+.logo{width: 210px; float:left;}
 .kouhao{float: left; padding-left:10px; overflow:hidden;}
 .top_r{float: right; font-size:14px; text-align:right; width:440px; overflow:hidden;}
 .top_r p{ margin:20px 0 0;}
@@ -51,16 +51,18 @@ fieldset,img { border: none;}
 .navigation li{ float:left; line-height:38px;}
 .navigation li a{ display:block; color:#FFF; font-size:14px; font-weight:bold; padding:0 10px;}
 .navigation li a:hover,.navigation li .selected{ color:#FFF; text-decoration:none; background:#799e0f;}
+
 .search{ height:26px; margin:6px 0 0 0px; float:left; display:inline; background:#FFF;}
 .search input{ width:230px; height:26px; float:left; border:none; line-height:26px; font-family:Arial; padding:0 5px; background:#FFF;}
-.search button{ width:26px; height:26px; float:left; border:none; background:#FFF url(../images/sou.png) no-repeat center;}
+.search button{ width:26px; height:26px; float:left; border:none; background:#FFF }
 .username{ float:right; padding:0px 10px; height:38px; line-height:38px; font-size:14px; font-weight:bold;  color:#FFF;  overflow:hidden;}
-.shopping{ width:160px; height:38px; float:right; background:#799e0f url(../images/arr2.gif) no-repeat 145px center; position:relative; z-index:9;}
+.shopping{ width:160px; height:38px; float:right; background:#799e0f; position:relative; z-index:9;}
 .gwcname{ font-size:12px; color:#FFF; display:inline-block; line-height:38px; background:url(../images/gwc.png) no-repeat 10px center; padding-left:40px; }
 .shuliang{ width:18px; height: 18px; background:url(../images/numbg.png) no-repeat left top; padding:0 0 3px 2px; font-family:Arial; text-align:center; line-height:18px; color:#FFF; display:inline-block; position:absolute; left:24px; top:-2px;}
 .shop{ width:420px; background:#FFF; border:1px solid #DDD; border-top:none; position:absolute; right:0; top:38px; display:none;}
 .shop tr{ border-bottom:1px solid #EEE;}
 .shop td{ padding:10px 5px;}
+
 .gwimg{width: 40px;height: 40px; border:1px solid #DDD; padding:2px; display:inline-block;}
 .jiage{ color:#F00;}
 .jian{ width: 17px;height: 17px; display:inline-block; background:url(../images/jian.jpg) no-repeat center; cursor:pointer;vertical-align:middle;}
@@ -72,7 +74,7 @@ fieldset,img { border: none;}
 
 .content{ width:1090px; margin:0 auto; overflow:hidden; zoom:1;}
 #allSub,.lbox{ width:200px; float:left;}
- 
+
 .product_menu li{ width:100%;  float:left; height:40px; position:relative; margin:0; z-index:1000;}
 .product_menu li span a{ height:39px; line-height:39px; display:block; background:#FFF;  border:1px solid #DDD; border-top:none; padding:0 15px;  position:relative; z-index:99;}
 .submenu a:hover,.product_menu li span a:hover{ background:#f6f8f0}
@@ -313,17 +315,17 @@ a.qrsh{ width:62px; height:24px; display:inline-block; margin-top:3px; backgroun
 .fc_white { color: #fff; }
 #tip,.fc_red { color: #f00; }
 .fc_blue { color: #00f; }
-.fc_green { color: green; } 
-.tip{color:#666; } 
+.fc_green { color: green; }
+.tip{color:#666; }
 .tl { text-align: left; }
 .tc { text-align: center; }
-.tr { text-align: right;} 
+.tr { text-align: right;}
 
 .fl{float:left;}
 .fr{float:right;}
 
-.container{width:1090px; height:auto; margin:0px auto; padding:0px; } 
-.container1{width:100%; height:auto; margin:0px auto; padding:0px;  } 
+.container{width:1090px; height:auto; margin:0px auto; padding:0px; }
+.container1{width:100%; height:auto; margin:0px auto; padding:0px;  }
 
 .hauto{height:auto;}
 .wauto{width:auto;}
@@ -331,7 +333,7 @@ a.qrsh{ width:62px; height:24px; display:inline-block; margin-top:3px; backgroun
 .hide{display:none;}
 .show{display:block;}
 
-/*遮罩层*/ 
+/*遮罩层*/
 #popup_container {font-family: Arial, sans-serif;font-size: 12px;min-width: 300px; /* Dialog will be no smaller than this */max-width: 600px; /* Dialog will wrap after this width */background: #FFF;color: #000; box-shadow:0px 0px 5px #000; border:1px #ccc solid;}
 
 #popup_title {font-size: 14px;text-align: center;line-height: 1.75em;color: #333;background: #CCC url(../images/alert/title.gif) top repeat-x;border: solid 1px #FFF;border-bottom: solid 1px #999;cursor: default;padding: 0em;margin: 0em;}
@@ -425,12 +427,12 @@ a#ljzf{ width:104px; height:32px; background:url(../images/ljzf.gif) no-repeat c
 .gg_txt ul .qr_recommend a{ color:#799E0F; line-height:20px;}
 
 
-/*洗衣*/ 
+/*洗衣*/
  .nav_top{height:40px; line-height:40px; border:1px #799E0F solid; width:1088px; margin-bottom:10px;}
  .nav_top a{ float:left;  width:33.33%; text-align:center; font-size:18px; color:#799E0F;  }
  .nav_top a:hover,.nav_top .selected{   text-decoration:none; color:#fff; background:url(../images/bgTab.jpg) repeat-x #799E0F; }
- 
- 
+
+
 /*.service li{padding:0px; width:203px; height:306px; margin:0px 20px 15px 0px;}
 .service li img{ margin-left:8px;}
 .service li h2{ height:30px; line-height:30px; width:100%; border-top:1px #ccc solid; border-bottom:1px #ccc solid; background:#F2F1F1; color:#759A2E; text-align:center;}*/
@@ -452,6 +454,7 @@ a#ljzf{ width:104px; height:32px; background:url(../images/ljzf.gif) no-repeat c
 .topbar .links a { margin:0 3px;}
 .topbar .server-text { float:right; color:#799E0F;}
 .top .logo { }
+
 .top .search { float:right; border:2px solid #ddd; margin-top:35px; height:36px; }
 .top .search:hover { border-color:#90b830;}
 .top .search input { width:320px; height:20px; padding: 8px 15px;}

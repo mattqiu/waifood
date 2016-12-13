@@ -1,6 +1,7 @@
 #ignore these files
 Runtime
 Temp/*.php
+upload/
 .buildpath
 .project
 .settings/

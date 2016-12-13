@@ -10,6 +10,14 @@ class UserModel extends Model
 
 	const NORMAL_USERS = 1;//正常使用的账号
 
+    public static function setUser($user){
+        session('user',$user);
+    }
+
+    public static function getUser(){
+        return session('user');
+    }
+
 
     public static function getUserById($userId){
         return M('member')->where('id='.$userId)->find();
@@ -158,9 +166,6 @@ class UserModel extends Model
             $where ['userpwd'] =md5($userpwd);
             $user = M ( 'member' )->where ( $where )->find ();
             if (!empty($user)) {
-//                if(!$user ['id']){
-//                    $data ['id'] = $user['no_id'];
-//                }
                 $data ['lastlogtime'] = time_format ();
                 $data ['lastlogip'] = get_client_ip ();
                 $data ['logtimes'] = $user ['logtimes'] + 1;
@@ -172,6 +177,9 @@ class UserModel extends Model
                 if(!is_numeric($rate)){
                     $rate=1;
                 }
+                $user ['userrate'] = $rate;
+                self::setUser($user); //设置user缓存
+                //确定后删除下面
                 session ( 'userrate', $rate );
                 session ( 'userid', $user ['id'] );
                 session ( 'username', $user ['username'] );
@@ -179,10 +187,10 @@ class UserModel extends Model
                 session ( 'wechatid', $user ['wechatid'] );
                 return true;
             }else {
-                return false;
+                return 'Wrong password';
             }
         } else {
-            return false;
+            return 'Sorry,password cannot be empty';
         }
     }
 
@@ -298,7 +306,7 @@ class UserModel extends Model
             $pwd = $ctrl->randString(6,1);
             $body=lbl('tpl_findpwd');
             if(isN($body)){
-                apiReturn(CodeModel::ERROR,'sorry,email sent failed');
+                apiReturn(CodeModel::ERROR,'Failed to send Email, please confirm your Email address or network');
             }
             $preg="/{(.*)}/iU";
             $n=preg_match_all($preg,$body,$rs);
@@ -328,13 +336,13 @@ class UserModel extends Model
                     }else{
                         $email =  substr($name,0,1).'***@'.$end;
                     }
-                    apiReturn(CodeModel::CORRECT,"An Email with your new password was \r\n just sent to your Email: $email,",'/login/index');
+                    apiReturn(CodeModel::CORRECT,"An Email with your new password was \r\n just sent to: $email,",'/login/index');
                 }
             }else{
                 apiReturn(CodeModel::ERROR,'sorry,email sent failed');
             }
         }else{
-            apiReturn(CodeModel::ERROR,'sorry,Could not find the user information');
+            apiReturn(CodeModel::ERROR,'Could not find your information');
         }
     }
 
@@ -350,7 +358,7 @@ class UserModel extends Model
             //能被openid找到的非微信用户（即：已绑定的不能再绑定）
             if($wechatuser['usertype'] != self::WECHAT_USER){
                 GLog('bindMember','该微信号已经绑定网络账号');
-                apiReturn(CodeModel::ERROR,'You have been bound  PC account');
+                apiReturn(CodeModel::ERROR,'Your account was already bound');
                 return false;
             }
 
@@ -360,7 +368,7 @@ class UserModel extends Model
             $pcuser = M('member')->where($where)->find();
             if(!$pcuser){
                 GLog('bindMember','账号密码错误');
-                apiReturn(CodeModel::ERROR,'Account or password error');
+                apiReturn(CodeModel::ERROR,'Wrong account or password.');
                 return false;
             }
             $savedata = array();

@@ -29,16 +29,15 @@ function isNumber (x) {
  */
 function modelBox(){
     if(!$('body').find('.lean_overlay').data('show')){
-        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;" class="hide leanModal" ><img src="/Public/Shop/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
-
-        $html += '<div id="attention" style="display:none ;width: 95%;top: 46px; margin: 0 auto; padding: 2px;" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
-
-        $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;margin-left:-77px;margin-top: -81px;" class="hide leanModal" ><img src="/Public/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        $html += '<div id="attention" style="width: 95%" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
+        $html += '<div id="showAddr"  style="width: 200px;margin-left: -100px;margin-top: -115px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
         $('body').append($html);
     }
 
     if(getUrlParam('to') == 'share'){
-        $('.leanModal').css({'background':'none','right':'2%'});
+        console.log($('#attention').opposite)
+        $('#attention').css({'background':'none','margin-left':-(parseInt($('#attention').width())/2)+'px','margin-top':-(parseInt($('#attention').width())/2+30)+'px'})
         $('.lean_overlay').show();
         $('#attention').show();
     }
@@ -53,7 +52,7 @@ function modelBox(){
         //}
     })
     $('#showQr').click(function(){
-        $('.leanModal').css({'background':'#FFFFFF','right':'25%'});
+        $('.leanModal').css({'background':'#FFFFFF'});
         $('.lean_overlay').show();
         $('#showQr-box').show();
         $('#showAddr').hide();
@@ -105,14 +104,14 @@ function gopay(obj){
     $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
         if(data.code ==200){
             if($paymethod ==2){ //Paypal支付
-                clearpopj('Modify payment success',"/m_pay?orderno="+orderno)
+                clearpopj(data.message,'success',true,"/m_pay?orderno="+orderno);
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();
-                clearpopj('Modify payment success')
+                clearpopj('Successful.','success',true,'self');
             }
         }else{
-            clearpopj('Modify payment failure')
+            clearpopj('Modify payment failed','error',true);
         }
     })
 }
@@ -175,7 +174,7 @@ function addgood(id,event){
         stock = $('#js_goods_'+id).data("stock");
 
         if(stock<1){ //没有库存
-            jAlert("Insufficient stock!",SYSTITLE);
+            clearpopj("Insufficient stock!",'error',true);
             return false;
         }
         var myfood_array = {};
@@ -193,7 +192,7 @@ function addgood(id,event){
             myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
         }
         if( myfood_array[id]['amount'] > stock){ //库存不足
-            jAlert("Insufficient stock!",SYSTITLE);
+            clearpopj("Insufficient stock!",'error',true);
             return false;
         }
         $('#CartNo').css('display','block');
@@ -273,7 +272,7 @@ function clearCart(){
     $('#emptycart').removeClass('hide');
     $('#CartNo').css('display','none');
     $('#cart_foot .totalMoney').html('&yen;0');
-    $.cookie("myfood", "", {"path": "/"});
+    $.cookie("myfood", null, {"path": "/"});
 }
 
 function fly(event){
@@ -291,7 +290,7 @@ function fly(event){
         },
         end: {
             left: offset.left+3,
-            top: offset.top+3,
+            top: $(window).height()+5,//offset.top+3,
             width: 0,
             height: 0
         },
@@ -341,6 +340,8 @@ function loadGood(){
                 $('#CartNo').css('display','none');
                 $('#cart_foot').css('display','none');
                 $('#submit-button').css('display','none');
+                $('#itemg-title').addClass('hide');
+                $('#emptycart').removeClass('hide');
             }
             $('#cart_foot .totalMoney').html('&yen;'+totalMoney);
         }
@@ -355,7 +356,7 @@ function getCartData(){
         var obj = $.parseJSON(myfood);
         if (obj) {
             for (var i in obj) {
-                $html += '<div class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
+                $html += '<div style="margin:5px auto" class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
                 $html += '<a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                 $html += '<div class="itemg-img fl tc">';
                 $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="100"/>';
@@ -370,7 +371,7 @@ function getCartData(){
                 $html += '<div class="fl icon_trash _trash " onClick="delGood(' + obj[i]['id'] + ');"></div>';
                 if(obj[i]['status'] ==1){
                     $html += '<div class=" fr item-foot-r">';
-                    $html += '<div class="fl g_btn cartbtn">';
+                    $html += '<div class="fl g_btn cartbtn" style="margin-top: 6px;">';
                     $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
                     var goodsnum = 0;
                     if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
@@ -378,7 +379,7 @@ function getCartData(){
                     }else{
                         goodsnum = parseInt(obj[i]['amount']);
                     }
-                    $html += '<input type="text" class="num cartgoodnum fl tc"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
+                    $html += '<input type="text" class="num cartgoodnum fl tc" onkeyup="setGoodNum(' + obj[i]['id'] + ',$(this).val());"  data-id="' + obj[i]['id'] + '" id="js_goods_num_' + obj[i]['id'] + '" value="' + goodsnum + '"/>';
                     $html += '<div class="add_cart_num  fl" data-id="' + obj[i]['id'] + '" onClick="addgood(' + obj[i]['id'] + ',event);"></div>';
                     $html += '</div>';
                     $html += '<div class="fr ptotal cartptotal fc_orange" style="margin-top: 10px;font-size: 16px;">Total: <span class="num-item js_total">&yen;' + (goodsnum *obj[i]['price'])+ '</span></div>';
@@ -401,7 +402,6 @@ function getCartData(){
 
             }
         }
-
         $('#itemg-title').removeClass('hide');
         $('#emptycart').addClass('hide');
         $('#cart_foot').show();
@@ -435,13 +435,13 @@ function goCashier(){
     if(obj){
         for(var i in obj){
             if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){
-                jAlert('Goods:'+obj[i]['name']+' Insufficient stock!',SYSTITLE);
+                clearpopj('Insufficient stock for '+obj[i]['name'],'error',true);
                 return false;
             }
         }
         window.location.href = '/m_cashier.html?gocashier=gocashier';
     }else{
-        jAlert("Order content cannot be empty!",SYSTITLE);
+        clearpopj("No products to check out!", "error",true);
         return false;
     }
 }
@@ -459,13 +459,13 @@ function submitOrder(){
     var myfood =  $.cookie("myfood"),totalMoney= 0,delivery_fee =parseFloat($('#delivery_fee').html()),deliverydate= $('#delivertimeselect').val()+' ',order='';
     var myfood_array = $.parseJSON(myfood);
     if(!myfood_array){
-        jAlert("Order content cannot be empty!",SYSTITLE);
+        clearpopj("No products to check out!", "error",true);
         subBlock = false;//解除阻塞
         return false;
     }
     for(var i in myfood_array){
         if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
-            jAlert('Goods:'+myfood_array[i]['name']+' Insufficient stock!',SYSTITLE);
+            clearpopj(' Insufficient stock for'+myfood_array[i]['name'],'error',true);
             subBlock = false;//解除阻塞
             return false;
         }
@@ -474,7 +474,7 @@ function submitOrder(){
         }
     }
     if (!$("#UseAddressID").val()) {
-        jAlert("I'm sorry, please select a shipping address!",SYSTITLE);
+        clearpopj('Please select a shipping address!', "error",true);
         subBlock = false;//解除阻塞
         return false
     };
@@ -499,10 +499,10 @@ function submitOrder(){
         if(data.code == 200){
             if(data.data){
                 clearCart(); //清空购物车
-                clearpopj(data.message,data.data,SYSTITLE)
+                clearpopj(data.message,'success',true,data.data);
             }
         }else{
-            clearpopj(data.message,'',SYSTITLE)
+            clearpopj(data.message,'error',true)
             return false;
         }
     })
@@ -521,6 +521,7 @@ function getdeliveryFee(money,obj){
         }
     })
 }
+
 /**
  * 获取订单总金额
  * @param totalMoney
@@ -537,6 +538,7 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
         }
     })
 }
+
  function getCartGoodStock($obj){
      var myfood = $.cookie("myfood"), $goodIds='', key = "myfood";
      if (myfood) {
@@ -575,4 +577,28 @@ function getAmountMoney(totalMoney,obj,deliveryFee){
 
          }
      }
+     $('#itemg-title').addClass('hide');
 };
+
+function cancelOrder(orderno){
+    var title = "Are you sure you want to cancel the order?";
+    swal({
+        title: '',
+        text: title,
+        type: 'warning',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        confirmButtonText: "Yes",
+        //confirmButtonColor: "#35D374"
+    }, function() {
+        $.post('/Home/Order/cancelOrder.html',{orderno:orderno},function(data){
+            if(data.code==200){
+                clearpopj(data.message,'success',true,'self');
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    });
+
+    return false;
+}

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
+</head>
+
+<body style="background: #f8f8f8">
+<include file="Index:nav2" />
+<div class="container clr">
+    <div class="left leftmenu fl">
+        <div class="nyltit fr tc">Information Center</div>
+        <ul class="clr hymenu ">
+            <volist name="channel" id="vo">
+                <li>
+                    <a href="{:U('Content/lists?id='.$vo['id'])}"  <if condition="$vo['id'] eq $pid">class="selected"</if>>
+                    {$vo.name}
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+    <div class="right fr new">
+        <div class="newtitle">{$content.title}</div>
+        <div class="newcontent"> {$content.content} </div>
+    </div>
+<div class="clr"></div>
+</div>
+<include file="Index:footer" />
+</body>
+</html>

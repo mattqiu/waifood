@@ -1,166 +1,140 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
 </head>
 
-<body>
-<include file="Index:bar" /> <include file="Index:nav" />
+<body style="background: #f8f8f8">
+<include file="Index:nav2" />
 <div class="container">
-  <div class="content">
-    <div class="box980">
-      <div class="gmlc regbox">
-        <div class="ddtit"><span style="float:right"><a href="{:U('Member/order')}" style="color:#1376bb">Back to my order</a></span><strong>Order No.：{$db.orderno}    Status：<span style="color:#FF6600;">{:get_status($db['status'])} </span></strong></div>
-        <h2>Receiving information</h2>
-        <div class="txt02">Name：{$db.username}<br />
-          Mobile：{$db.telephone} <br />
-          <!--Email：{$db.email}<br />-->
-          Address：{$db.proname}{$db.cityname}{$db.disname} {$db.address}</div>
-        <h2>Payment</h2>
-        <div class="txt02">
-          <eq name="db.paymethod" value="4"> Cash on delivery
-            <else/>
-            Online payment </eq>
-          <eq name="db.pay" value="1"> <span class="fc_red">( Paid )</span> </eq>
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html#order">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
         </div>
-        <h2>Invoice</h2>
-        <div class="txt02">
-          <eq name="db.inovice" value="1"> Yes
-            <else/>
-            No </eq>
+        <div class="right fr orderview">
+            <div class="orderinfo">
+                <div class="order_head">Order No.&nbsp;:&nbsp;{$order.orderno}
+                    <span class="selected" style="margin-left: 50px;">{:get_status($order['status'])} </span>
+                </div>
+                <div class="order_receiving">
+                    <div class="order_item_title">Receiving information</div>
+                    <div class="order_address">
+                        Name&nbsp;:&nbsp;{$order.username}<br />
+                        Mobile&nbsp;:&nbsp;{$order.telephone} <br />
+                        Address&nbsp;:&nbsp;{$order.address}
+                    </div>
+                </div>
+                <div class="order_item">
+                    <div class="order_item_title">Payment and Delivery date</div>
+                    <div class="order_address" style=" line-height: 25px;">
+
+                        Payment&nbsp;:&nbsp;<if condition="$order['paymethod'] eq 4">
+                            Cash on delivery
+                            <elseif condition="$order['paymethod'] eq 2"/>
+                            Paypal
+                        </if>
+                        <if condition="$order['pay'] eq 0">
+                            <button class="addtocart cart_btn" style="margin-left: 35px;width: 110px;font-size: 14px;height: 30px;margin-top: -4px;"onclick="showPaynowBox('{$order[\'orderno\']}');" >Pay / Change</button>
+                        </if>
+                        <br/>
+                        Status:
+                        <if condition="$order['pay'] eq 0">
+                            Unpaid
+                            <else/>
+                            Paid
+                        </if>                        <br/>
+
+                        Delivery date&nbsp;:&nbsp;{$order.delivertime}
+                    </div>
+                </div>
+                <div class="order_item">
+                    <div class="order_item_title">Invoice</div>
+                    <div class="order_address">
+                        <if condition="$order['invoice'] eq 1">
+                            Yes
+                            <else/>
+                            No
+                        </if>
+                    </div>
+                </div>
+                <if condition="$order['info']">
+                    <div class="order_item">
+                        <div class="order_item_title">Remarks</div>
+                        <div class="order_address" >
+                            {$order.info}
+                        </div>
+                    </div>
+                </if>
+                <div class=" plist">
+                    <div class="order_item_title ">Product list</div>
+                    <div class="order_address">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="order_view_table">
+                            <tr class="thead">
+                                <th width="60">ID</th>
+                                <th width="460">Product name</th>
+                                <th width="100">Price</th>
+                                <th width="100">Quantity</th>
+                                <th width="100">Amount</th>
+                            </tr>
+                            <php>$money = 0;</php>
+                            <volist name="list" id="vo">
+                                <php> $money += ($vo['price']*$vo['num']); </php>
+                                <tr align="center" class="order_row viem_row">
+                                    <td>{$vo.productid}</td>
+                                    <td align="left">
+                                        <a href="{:U('Product/view','id='.$vo['productid'])}" target="_blank">
+                                            <img src="{$vo.indexpic}" alt="{$vo.productname}" width="60" height="60" />
+                                            <span class="good_name">{$vo.productname}</span>
+                                        </a>
+                                    </td>
+                                    <td>&yen;{$vo['price']}</td>
+                                    <td>{$vo.num|float_fee}</td>
+                                    <td><span class="price">&yen;{$vo['price']*$vo['num']}</span></td>
+                                </tr>
+                            </volist>
+                                <tr class="tfoot order_row viem_row">
+                                    <td colspan="2" align="left">&nbsp;</td>
+                                    <td colspan="4" align="right" class="tinfo">
+                                        Amount:&yen;{$money}<br/>
+                                        Delivery Fee&nbsp;:&nbsp; &yen;{$order.shipfee}<br />
+                                        Total Amount&nbsp;:&nbsp;<span class="price">&yen;{$order.amount}</span>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
+                    <div class=" submitOrder_b order_view">
+                        <button onclick="window.location.href='/member/order.html#order'" class="submitOrder back_btn">Back to my order</button>
+                    </div>
+                </div>
+            </div>
         </div>
-        <h2>Delivery date</h2>
-        <div class="txt02">{$db.delivertime}</div>
-        <h2>Remarks</h2>
-        <div class="txt02">{$db.info}</div>
-        <h2>Product list</h2>
-        <div class="spqd">
-          <eq name="isShop" value="true">
-            <?php
-            $subtotal=0;
-            ?>
-            <eq name="isService" value="true">
-              <div class="shoptitle">Product list</div>
-            </eq>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <thead>
-                <tr>
-                  <td align="left">ID</td>
-                  <td align="left">Product name</td>
-                  <td>Price</td>
-                  <td>Quantity</td>
-                  <td>Amount</td>
-                </tr>
-              </thead>
-              <tbody>
-                <volist name="list" id="vo">
-                  <?php
-               if(strpos($vo['sortpath'],',2,')){ 
-                $sub=(float)get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'];
-                $subtotal+=$sub;
-                ?>
-                  <tr>
-                    <td align="left">{$vo.productid}</td>
-                    <td align="left"><a href="{:U('Product/view','id='.$vo['productid'])}" target="_blank"><img src="{$vo.indexpic}" alt="{$vo.productname}" width="60" height="60" />{$vo.productname}</a></td>
-                    <td><span class="jiage">&yen;{$sub}</span></td>
-                    <td>{$vo.num}</td>
-                    <td><span class="jiage">&yen;{:to_price($sub)}</span></td>
-                  </tr>
-                  <?php
-                  }
-                ?>
-                </volist>
-              </tbody>
-              <eq name="isService" value="true">
-                <tfoot>
-                  <tr>
-                    <td colspan="2" align="left">&nbsp;</td>
-                    <td colspan="4" align="right"> Sub Total：<span class="jiage02">&yen;<font id="">{:to_price($subtotal)}</font></span></td>
-                  </tr>
-                </tfoot>
-              </eq>
-            </table>
-          </eq>
-          <eq name="isService" value="true">
-            <?php
-            $subtotal=0;
-            ?>
-            <eq name="isShop" value="true">
-              <div class="shoptitle">Laundry service list</div>
-            </eq>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-              <thead>
-                <tr>
-                  <td align="left">ID</td>
-                  <td align="left">Product name</td>
-                  <td>Price</td>
-                  <td>Quantity</td>
-                  <td>Amount</td>
-                </tr>
-              </thead>
-              <tbody>
-                <volist name="list" id="vo">
-                  <?php
-               if(strpos($vo['sortpath'],',3,')){ 
-                $sub=(float)get_price($vo['id'],$vo['price'],$vo['ext'])*$vo['num'];
-                $subtotal+=$sub;
-                ?>
-                  <tr>
-                    <td align="left">{$vo.productid}</td>
-                    <td align="left"><a href="{:U('Product/view','id='.$vo['productid'])}" target="_blank"><img src="{$vo.indexpic}" alt="{$vo.productname}" width="60" height="60" />{$vo.productname}</a></td>
-                    <td><span class="jiage">&yen;{$sub}</span></td>
-                    <td>{$vo.num}</td>
-                    <td><span class="jiage">&yen;{:to_price($sub)}</span></td>
-                  </tr>
-                  <?php
-                  }
-                ?>
-                </volist>
-              </tbody>
-              <eq name="isShop" value="true">
-                <tfoot>
-                  <tr>
-                    <td colspan="2" align="left">&nbsp;</td>
-                    <td colspan="4" align="right"> Sub Total：<span class="jiage02">&yen;<font id="">{:to_price($subtotal)}</font></span></td>
-                  </tr>
-                </tfoot>
-              </eq>
-            </table>
-          </eq>
-          <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tfoot>
-              <tr align="right">
-                <td colspan="5"><!--{$db.num} product(s),--> total：&yen;{$db.amountall}<br />
-                  Delivery Fee： &yen;{$db.shipfee}<br />
-                  <gt name="db.discount" value="0"> Discount： -&yen;{$db.discount} <br />
-                  </gt>
-                  <gt name="db.couponamount" value="0"> Coupon： -&yen;{$db.couponamount} <br />
-                  </gt>
-                  
-                  <!--Deductible： -&yen;{$db.creditamount}--></td>
-              </tr>
-              <tr align="right">
-                <td colspan="5">Total Amount：<span class="jiage02">&yen;{$db.amount}</span></td>
-              </tr>
-              <eq name="db.pay" value="0">
-                <in name="db.status" value="0,1">
-                  <neq name="db.paymethod" value="4">
-                    <tr align="center">
-                      <td colspan="5"><a href="{:U('Settle/pay','orderno='.$db['orderno'])}" target="_blank" class="jixu" style="color:#fff;">Pay now</a></td>
-                    </tr>
-                  </neq>
-                </in>
-              </eq>
-            </tfoot>
-          </table>
-        </div>
-      </div>
+        <div class="clr"></div>
     </div>
-  </div>
-  <div class="clr"></div>
+</div>
+<div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
+    <div class="radio-box">
+        <label class="radio radiofl on paymethod" data-val="4"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Choose');"><i></i>Cash on delivery</label><br/>
+        <label class="radio radiofl  paymethod" data-val="2"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Go to pay');"><i></i>Paypal(USD)</label>
+        <input type="hidden" name="pay" id="pay" value="4" />
+        <input type="hidden" name="orderno" />
+    </div>
+    <br/>
+    <br/>
+    <button class="choose_btn pay_btn " onclick="paynow();" >Choose </button>
 </div>
 <include file="Index:footer" />
+<script>
+    $(function(){
+        if($('#paybox input[name=pay]').val()==4){
+            $('.pay_btn').html('Choose');
+        }else{
+            $('.pay_btn').html('Go to pay');
+        }
+    })
+
+</script>
 </body>
 </html>

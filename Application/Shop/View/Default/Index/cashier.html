@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}{:lbl('subtitleshop')}</title>
+    <include file="Index:header" />
+</head>
+<body pagename="cashier"  data-address_id="{$address.id}">
+<include file="Index:nav2"/>
+<div class="title-img title-img2"></div>
+<div class="bg_white">
+    <div class="container cart">
+        <input type="hidden" name="shop_id" id="shop_id" value="1"/>
+        <input type="hidden" name="UseAddressID" id="UseAddressID" value=""/>
+        <input type="hidden" name="cityname" id="cityname" value=""/>
+        <!--Receiving information-->
+        <div class="content">
+            <div class="receiving item_panl">
+                <div class="item_title ">Receiving information </div>
+                <div class='delivery_address'>
+                    <volist name="address" id="vo">
+                        <div class="addrs <if condition='$vo.isdefault eq 1 || $i eq 1'>selected_addr</if>"  data-cityname="{$vo.cityname}"  data-id="{$vo.id}" >
+                            <div class="fl addr-sel"></div>
+                            <div class="fr addr">
+                                {$vo.username}&nbsp;({$vo.telephone})&nbsp;{$vo.address}&nbsp;({$vo.cityname})
+                                <if condition="$vo['isdefault'] eq 1">
+                                    <span class="default_tic"><i>default address</i></span>
+                                </if>
+                                <a class="fr" onclick="showModifyAddres('{$vo.id}')">modify</a>
+                            </div>
+                            <div class="clr"></div>
+                        </div>
+                    </volist>
+                    <div class="clr"></div>
+                    <button class="add_newaddr_btn" onclick="showModifyAddres();">+New Address</button>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!--Product list-->
+            <div class="product_list item_panl">
+                <div class="item_title ">Product list
+                    <span class="fr viewAll" onclick="viewAll(this)">View All&nbsp;<img src="__PUBLIC__/Shop/images/up_view.png" alt=""/>
+                    </span>
+                </div>
+                <table width="1000px" class="mytable cashier_mytable " id="cashier_table" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+                </table>
+            </div>
+            <!--Payment-->
+            <div class=" item_panl">
+                <div class="item_title ">Payment</div>
+                <div class="paylist ">
+                    <div class="radio-box">
+                        <label class="radio on paymethod" data-val="4" onclick="setRadioVal(this,'#paymethod')"><i></i>Cash on delivery</label><br/>
+                        <label class="radio paymethod" data-val="2"  onclick="setRadioVal(this,'#paymethod')"><i></i>Paypal(USD)</label>
+                        <input type="hidden" name="paymethod" id="paymethod" value="4" />
+                    </div>
+                    <!--<label for="paymethod4">
+                        <input type="radio" name="paymethod" id="paymethod4" value="4" checked>
+                        Cash on delivery
+                    </label> <br/>
+                    <label for="paymethod1">
+                        <input name="paymethod" type="radio" id="paymethod1" value="2">
+                        Online payment
+                    </label>-->
+                </div>
+            </div>
+
+            <!--Invoice required-->
+            <div class="invoice item_panl">
+                <div class="item_title ">Invoice required(Fa Piao)</div>
+                <div class="invoice_item">
+                    <div class="radio-box">
+                        <label class="radio radiofl on paymethod" data-val="0"onclick="setRadioVal(this,'#invoice')"><i></i>No</label>
+                        <label class="radio radiofl paymethod" data-val="1" style="margin-left: 15px;"  onclick="setRadioVal(this,'#invoice')"><i></i>Yes</label>
+                        <input type="hidden" name="invoice" id="invoice" value="0" />
+                    </div>
+
+         <!--           <input name="invoice" type="radio" id="invoice1" value="1">
+                    <label for="invoice1">yes</label>
+                    <input type="radio" name="invoice" id="invoice2" value="0" checked>
+                    <label for="invoice2">no</label>-->
+              <!--      <div class="invoice_info "> ----------发票信息
+                        <span class="fc_red">*</span>
+                        <select name="invoice_tic" id="">
+                            <option value="1">Individual</option>
+                            <option value="1">Enterprise</option>
+                        </select>
+                        <input type="text" name="invoice_head"/>
+                        <input type="button" onclick="" value="Save"/>
+                    </div>-->
+                </div>
+            </div>
+
+            <!--Delivery date-->
+            <div class=" item_panl">
+                <div class="item_title ">Delivery date</div>
+                <div class="delivery-time-content">
+                    <div class="arrow-l arrow fl prev"></div>
+                    <div class="scroll-item" id="autoPage">
+                            <div class="delivery_time">
+                                <ul class="">
+                                    <?php
+                                   $count =  $count = ceil( count($dateData)/7);
+                                   for($k=0;$k<$count;$k++){
+                                    ?>
+                                    <li class="time1">
+                                        <dl class="scroll-item-top clearfix">
+                                            <dt class="date-time">
+                                            </dt>
+                                            <volist name="dateData" id="vo" >
+                                                <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
+                                                    <dd data-isholiday="{$vo.isholiday}"  <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>
+                                                    <if condition="$i eq 1">
+                                                        Today
+                                                        <elseif condition="$i eq 2"/>
+                                                        Tomorrow
+                                                        <else/>
+                                                        {$vo.week}
+                                                    </if>
+                                                     <br />{$vo.date}
+                                                    </dd>
+                                                </if>
+                                            </volist>
+                                        </dl>
+
+                                        <volist name="times" id="vo" key="j">
+                                            <dl class="scroll-item-content tab-{$j} clearfix">
+                                                <dt class="time">{$vo}</dt>
+                                                <volist name="dateData" id="de" key="y">
+                                                    <if condition="$y gt ($k)*7 and $y elt ($k+1)*7">
+                                                        <dd  data-date="{$de.time}" data-time="{$vo}" value="{$de.time} {$vo}"
+                                                             <if condition="$de['isholiday'] eq 1"> class='isholiday_c'
+                                                                 <elseif condition="$y eq 1"/>
+                                                                 <?php
+                                                               $date1 = explode('-',$vo);
+                                                               $date2 = explode(':',$date1[0]);
+                                                                 if(15 > $hours && 15>$date2[0]){ //15点以前,
+                                                                             //当前时间所在的时间段开始30分钟内可以选择 (例:当前时间:14:30;可选14:00-16:00)
+                                                                             if(($hours>intval($date2[0])) || ($hours == intval($date2[0]) && $min > $beyond)){
+                                                                          ?>
+                                                                    class=' isEa'
+                                                                        <?php
+                                                                     }else{
+                                                                ?>
+                                                                        class="js_time"
+                                                                         <?php
+                                                                  }
+                                                                }else if(($hours>=intval($date2[0])) || ((intval($date2[0])-1) == $hours &&  $min > $beyond )){
+                                                                           ?> class=' isEa'
+                                                                        <?php
+                                                                  }else{
+                                                                ?>class="js_time "
+                                                                        <?php
+                                                                  }
+                                                               ?>
+                                                                 <else/> class="js_time"</if> >
+                                                        </dd>
+                                                    </if>
+                                                </volist>
+                                            </dl>
+                                        </volist>
+                                    </li>
+                                    <?php
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
+                    </div>
+
+                    <div class="arrow-r arrow fl next" ></div>
+                </div>
+            </div>
+            <!--Order Remarks-->
+            <div class=" item_panl">
+                <div class="item_title ">Order remarks</div>
+                <textarea type="text" id="info" name="info" value="" placeholder="remark here" class="input03" style="width:800px; height:100px;border-color:#E0E0E0; resize: none;border: 1px solid #E0E0E0; color: #212121; margin-top: 20px; font-family: 'arial', 'Helvetica';padding-left: 10px;"></textarea>
+            </div>
+
+            <div class=" submitOrder_b">
+                <button onclick="submitOrder();" class="submitOrder">Submit order</button>
+                <div class="reg-item back_cart" ><a href="/index/cart.html">&lt;&lt; back to cart</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+<script src="__PUBLIC__/js/jquery.SuperSlide.js"></script>
+<div class="lean_overlay hide" data-show="1"></div>
+<div class="leanModal addressModal hide" id="addressModal">
+    <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src=""></iframe>
+</div>
+
+<script>
+    $('#cart_box .goodcheckout').html('View Cart');
+    $('#UseAddressID').val($('.delivery_address .selected_addr').data('id'));
+    $('#cityname').val($('.delivery_address .selected_addr').data('cityname'));
+    $('.delivery_address .addrs').click(function(){
+        $('.delivery_address .addrs').removeClass('selected_addr');
+        $(this).addClass('selected_addr');
+        $('#UseAddressID').val($(this).data('id'));
+        $('#cityname').val($(this).data('cityname'));
+    })
+
+    //添加修改地址弹出框
+    function showModifyAddres(id){
+       var url = '/member/modifyAddress.html';
+        if(id){
+            url +='?id='+id;
+        }
+        $('#addressModal iframe').attr('src',url);
+        $('.lean_overlay').show();
+        $('#addressModal').slideDown();
+    }
+    //关闭添加修改地址弹出框
+    $('.lean_overlay').click(function(){
+        $(this).hide();
+        $('#addressModal').hide();
+    })
+
+    function viewAll(obj){
+        if($('#cashier_table tbody').css('display') == 'none'){
+            $('#cashier_table tbody').slideDown();
+            $(obj).find('img').attr('src',CONST_PUBLIC+'/Shop/images/down_view.png');
+        }else{
+            $(obj).find('img').attr('src',CONST_PUBLIC+'/Shop/images/up_view.png');
+            $('#cashier_table tbody').hide();
+        }
+    }
+
+    //配送时间
+    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
+    window.deliverydate = new Array();
+    var data ='',time ='';
+    var $day=0;
+    $('.scroll-item-content .js_time').click(function(){
+        if($(this).hasClass('selected_time')){
+            $(this).removeClass('selected_time');
+            deliverydate[$(this).data('date')].shift($(this).data('time'));
+            if(deliverydate[$(this).data('date')].length<1){
+                var n = deliverydate.indexOf($(this).data('date'));
+                if(n!=-1){
+                    console.log(n+'///')
+                    deliverydate.remove($(this).data('date'));
+                }
+                deliverydate.shift($(this).data('date'));
+                $day--;
+            }
+        }else{
+            if(!deliverydate[$(this).data('date')] || deliverydate[$(this).data('date')].length===0){
+                if($day>=2){
+                    clearpopj('You can select maximum two dates','error',true);
+                    return false;
+                }
+                $day++;
+                deliverydate[$(this).data('date')] = new Array()
+            }
+            deliverydate[$(this).data('date')].push($(this).data('time'))
+            $(this).addClass('selected_time');
+        }
+        console.log(1)
+        console.log(deliverydate)
+    })
+
+</script>
+</body>
+</html>

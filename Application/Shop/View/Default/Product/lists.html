@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <title>{$title}{:lbl('subtitleshop')}</title>
@@ -8,83 +8,145 @@
 <include file="Index:header" />
 </head>
 
-<body>
-<include file="Index:bar" /> <include file="Index:nav2" />
-<div class="container">
-  <div class="content">
-    <div class="lbox">
-      
-    <include file="Index:nav2sub" />
-      <div class="clear"></div>
-      <div class="ladbox">
-      {:lbl('adleft')}
-      </div>
-    </div>
-    <div class="rbox"> 
-    <div class="path">{:get_product_location($id)} </div>
-      <div class="saixuan"> 
-        <div class="saixuan_txt">
-          <p><strong>Brand:</strong> <a href="{:set_url('brand')}" 
-            <eq name="brand" value="">class="selected"</eq>
-            >All</a>
-            <volist name="brandlist" id="vo"> <a href="{:set_url('brand',$vo)}" 
-              <if condition="(parse_param(I('get.brand'),true) eq strtolower($vo))" >class="selected"</if>
-              >{$vo}</a> </volist>
-          </p>
-          <p><strong>Origin:</strong> <a href="{:set_url('origin')}" 
-            <eq name="origin" value="">class="selected"</eq>
-            >All</a>
-            <volist name="originlist" id="vo"> <a href="{:set_url('origin',$vo)}" 
-              <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>
-              >{$vo}</a> </volist>
-          </p>
-         
+<body style="background:#F8F8F8 ">
+<include file="Index:nav2"/>
+<div class="cat_list_sx">
+    <div class="container">
+        <if condition="!isset($_REQUEST['group']) || !$_REQUEST['group']">
+         <!--   <div class="cat_obj_sx">
+                <div  class="cat_name fl">Brand:</div>
+                <div  class="cat_val fl">
+                    <a href="{:set_url('brand')}" <if condition="!$_REQUEST['brand']"> class="selected"</if>>All</a>
+                    <volist name="brandlist" id="vo">
+                        <a href="{:set_url('brand',$vo)}"<if condition="(parse_param($_REQUEST['brand'],true) eq strtolower($vo))" >class="selected"</if> >
+                        {$vo}
+                        </a>
+                    </volist>
+                </div>
+            </div>-->
+            <div class="clr"></div>
+            <!--<div class="cat_obj_sx cat_dashed">
+                <div class="cat_name fl">Origin:</div>
+                <div class="cat_val fl">
+                    <a href="{:set_url('origin')}" <if condition="!$_REQUEST['origin']"> class="selected"</if>>All</a>
+                    <volist name="originlist" id="vo">
+                        <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
+                        {$vo}
+                        </a>
+                    </volist>
+                </div>
+            </div>-->
+            <div class="clr"></div>
+        <else/>
 
-        </div>
+        </if>
       </div>
-      <div class="rtitle01 px_tit"> <span id="fenye">
-        <neq name="pageprev" value=""> <a href="{:set_url('p',$pageprev)}"><span class="prev">Previous</span></a>
-          <else/>
-          <a href="javascript:void(0)" class="disabled"><span class="prev">Previous</span></a> </neq>
-        <neq name="pagenext" value=""> <a href="{:set_url('p',$pagenext)}"><span class="next">Next</span></a>
-          <else/>
-          <a href="javascript:void(0)" class="disabled"><span class="next">Next</span></a> </neq>
-        </span><strong>Sort</strong><a href="{:set_url('order',1)}"  
-      
-        <eq name="order" value="1"> class="selected" </eq>
-        >Default</a><a href="{:set_url('order',2)}"  
-      
-        <eq name="order" value="2"> class="selected" </eq>
-        ><span  class="up">Price</span></a><a href="{:set_url('order',3)}"  
-      
-        <eq name="order" value="3"> class="selected" </eq>
-        ><span  class="down">Sales</span></a> </div>
-      <div class="cptxt">
-        <ul>
-          <volist name="list" id="vo">
-            
-            <li><a  href="{:U('Product/view?id='.$vo['id'])}"><div class="hotico"><eq name="vo.tag1" value="1"><span class="ico01" title="Hot"></span></eq><eq name="vo.tag2" value="1"><span class="ico02" title="Discount"></span></eq><eq name="vo.tag3" value="1"><span class="ico03"></span></eq><eq name="vo.tag4" value="1"><span class="ico04"></span></eq></div><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy" data-original="{$vo.indexpic}" alt="{$vo.title}" width="187" height="187"  alt="{$vo.title}" />
-              <h2>{$vo.title}</h2>
-              </a>
-              <p>Unit: {$vo.unit}<br>
-                Origin: {$vo.origin}<br>
-                <span class="jiage02">&yen;{$vo.price}</span>
-                <neq name="vo.price1" value="0">
-        <span class="marketprice">&yen;{$vo.price1}</span>
-        </neq>
-                </p>
-              <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                <input type="text" value="1" class="num cartnum"  data-stock="{$vo.stock}" />
-                <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-            </li>
-          </volist>
-        </ul>
-      </div>
-      <div class="pagelist">{$page}</div>
-    </div>
-  </div>
-  <div class="clr"></div>
 </div>
+<div class="container">
+    <if condition="(isset($_REQUEST['group']) && $_REQUEST['group']) || (isset($_REQUEST['keyword']) && $_REQUEST['keyword'])">
+        <div class="path clr"><a href="/">Home</a> &gt;
+            <if condition="$_REQUEST['group'] eq 8">
+                <a href="javascript:void (0);">New Arrival</a>
+                <elseif condition="$_REQUEST['group'] eq 9"/>
+                <a href="javascript:void (0);">Promotion</a>
+                <elseif condition="$_REQUEST['group'] eq 11"/>
+                <a href="javascript:void (0);">Recommend</a>
+                <elseif condition="!empty($_REQUEST['keyword'])"/>
+                <a href="javascript:void (0);">{$_REQUEST['keyword']}</a>
+            </if>
+        </div>
+        <else/>
+        <div class="path clr">{:get_product_location($_REQUEST['id'])} </div>
+    </if>
+    <form class="px_tit" method="get" action="/Product/lists.html">
+        <input type="hidden" value="{$_REQUEST['group']}" name="group"/>
+        <input type="hidden" value="{$_REQUEST['keyword']}" name="keyword"/>
+        <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
+        <input type="hidden" value="" id="peixu"/>
+        <label class="px fl "  for="Default" style="padding-left: 3px;">
+            <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="fc_red"</if> onclick="$('#peixu').val('');" value="Default"/>
+        </label>
+
+        <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
+        onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','price');" >
+            <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="fc_red"</if>/>
+            <if condition="$_REQUEST['price'] eq 'asc'">
+                <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
+                <elseif condition="$_REQUEST['price'] eq 'desc'"/>
+                <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
+                <else/>
+                <img src="__PUBLIC__/Shop/images/down_.png" alt=""/>
+            </if>
+        </label>
+
+        <label  class="px fl" for="sales"  <if condition="$_REQUEST['sales'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
+        onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','sales');" >
+            <input type="submit" id="sales"value="Sold"  <if condition="$_REQUEST['sales']">class="fc_red"</if>/>
+            <if condition="$_REQUEST['sales'] eq 'asc'">
+                <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
+            <elseif condition="$_REQUEST['sales'] eq 'desc'"/>
+                <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
+            <else/>
+                <img src="__PUBLIC__/Shop/images/down_.png" alt=""/>
+            </if>
+        </label>
+    </form>
+    <div class="clr"></div>
+    <!--商品-->
+            <ul class=" good-contents" style="margin-top: 20px;">
+            <volist name="list" id="vo">
+                <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                    data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                    <div class="fl goods_c">
+                        <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  /></div> </a>
+                        <div class="good-name">
+                            <a href="/product/view.html?id={$vo.id}">
+                                <div class="good_title">{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</div>
+                            </a>
+                            <div class="good_item_info ">
+                                <div class="good_info list_good fl">
+                                    <div class="prict_info"> <div style="width: 240px;height: 25px; overflow: hidden"> Unit: {$vo.unit}&nbsp;&nbsp;Origin: {$vo.origin}</div>
+
+                                        <span class="fc_green" style="font-size: 20px;">&yen;&nbsp;{$vo.price}</span>
+                                        <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                    </div>
+                                    <div class="quantity hide">
+                                        <span class="fc_eee good-num-prep " unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="setGoodNum('{$vo.id}','cat');">-</span>
+                                        <input type="text" id="js_good_num_{$vo.id}" class="tc good_num" value="1"/>
+                                        <span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="setGoodNum('{$vo.id}','add');">+</span>
+                                    </div>
+                                </div>
+                                <div class="good_shop_cart fr" onclick="addgood('{$vo.id}',event,'list')"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+    <div class="clr"></div>
+    <div class="pagelist" <if condition="count($list) lt 1">style="display:none" </if>>{$page}</div>
+</div>
+<if condition="count($list) lt 1 && isset($_REQUEST['keyword'])">
+    <div class="bg_white tc" style="line-height: 180px;">
+        no results found or <a href="/index/wishlist.html" class="selected">try wishlist</a> to tell us what you want
+    </div>
+</if>
+
 <include file="Index:footer" />
+<script>
+    $('.good-contents .goods ').mouseover(function(){
+        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/shopping_cart_black.png") no-repeat center','background-size': 'auto 35px'})
+        $(this).addClass('good-hover');
+        $(this).find('.prict_info').addClass('hide');
+        $(this).find('.quantity').removeClass('hide');
+    })
+
+    $(' .goods ').mouseleave(function(){
+        $(this).find('.quantity').addClass('hide');
+        $(this).find('.prict_info').removeClass('hide');
+        $(this).removeClass('good-hover')
+        $(this).find(' .good_shop_cart').css({'background': 'none'})
+    })
+</script>
 </body>
 </html>

@@ -1,104 +1,99 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}</title>
-<include file="Index:header" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$title}</title>
+    <include file="Index:header" />
 </head>
 
-<body>
-<include file="Index:bar" /> <include file="Index:nav" />
+<body style="background: #f8f8f8">
+<include file="Index:nav2" />
 <div class="container">
-  <div class="content">
-    <div class="box980">
-      <div class="left"> <include file="left" /> </div>
-      <div class="right">
-      <div class="hybox">
-        <div class="hytit"><strong>My order</strong>
-          <div class="order-status"><a href="{:U('Member/order?status=0')}" <eq name="status" value="0">class="selected"</eq> >Draft({$orderstat[0]})</a><a href="{:U('Member/order?status=1')}" <eq name="status" value="1">class="selected"</eq> >Confirmed({$orderstat[1]})</a><a href="{:U('Member/order?status=2')}" <eq name="status" value="2">class="selected"</eq> >Delivering({$orderstat[2]})</a><a href="{:U('Member/order?status=3')}" <eq name="status" value="3">class="selected"</eq> >Completed({$orderstat[3]})</a><a href="{:U('Member/order?status=4')}" <eq name="status" value="4">class="selected"</eq> >Cancelled({$orderstat[4]})</a></div>
-          </div>
-        <div class="ddlist">
-           <table width="100%" border="0" cellspacing="0" cellpadding="0">
-             <thead>
-              <tr>
-                <td>Order no</td>
-                <td width="80">Order place time</td>
-                <td width="80">Delivery time</td>
-                <td>Total amount</td>
-                <td>Payment method</td>
-                <td>Order status</td>
-                <td>Action</td>
-              </tr>
-             </thead>
-             <tbody> 
-             
-            <eq name="listcount" value="0">
-              <tr  >
-                <td colspan="7">not found.</td>
-               </tr>
-            <else/>
-            <volist name="list" id="vo"> 
-              <tr>
-                <td>
-               {$vo.orderno}
-             </td>
-                <td width="80">{$vo.addtime}</td>
-                <td width="80">{$vo.delivertime}</td>
-                <td><span class="jiage02">&yen;{:to_price($vo['amount'])}</span> </td>
-                <td><eq name="vo.paymethod" value="4">Cash on delivery<else/>Payment online (Paypal)</eq> </td>
-                <td><strong>{:getStatus($vo['status'])}</strong></td>
-                <td>
-                <eq name="vo.pay" value="1"> 
-                 	<switch name="vo.status">
-                    <case value="3">
-                        <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a><!-- | 
-                        <a href="{:U('Member/orderComment?orderno='.$vo['orderno'])}">评价</a>-->
-                        </case>
-                    <case value="2" >
-                        <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a><br><a href="javascript:void(0);" onclick="$.confirmOrder('{$vo.orderno}');" class="qrsh"></a>
-                        </case>
-                    <default/>
-                  	  <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>
-                    </switch>
-                <else/>
-                	<eq name="vo.paymethod" value="4">
-                    
-                    <else/> 
-            <in name="vo.status" value="0,1">
-                  	  <a href="{:U('Settle/pay?orderno='.$vo['orderno'])}" class="jixu" style="color:#fff;width: 80px;" target="_blank">Pay now</a><br />
-                      </in>
-                      </eq>
-                 	<switch name="vo.status">
-                    <case value="0" >
-                    <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>  <a href="javascript:void(0);" onclick="$.cancelOrder('{$vo.orderno}');">Cancel</a>
-                    </case>
-                    <case value="1" >
-                    <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>  <a href="javascript:void(0);" onclick="$.cancelOrder('{$vo.orderno}');">Cancel</a>
-                    </case>
-                    <default/>
-                  	  <a href="{:U('Member/orderView?orderno='.$vo['orderno'])}">View</a>
-                    </switch> 
-                    
-                </eq>
-                </td>
-              </tr>  
-            </volist>
-            
-            </eq>
-              </tbody>
-          </table>
-
+    <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
+    <div class="content">
+        <div class="left fl">
+            <include file="left" />
         </div>
-        <div class="pagelist ddpage">{$page}</div>
-      </div>
+        <div class="right fr order-list">
+            <div class="order_list">My order</div>
+            <div class="ostatus">
+                <a href="/member/order.html?status=ongoing#order" <if condition="$_REQUEST['status'] neq 'all'"> class="selected"</if>>Ongoing(<span class="js_onging_order_num">{$ongoing|default=0}</span>)</a> |
+                <a href="/member/order.html?status=all#order" <if condition="$_REQUEST['status'] eq 'all'"> class="selected"</if>>All(<span class="js_all_order_num">{$all|default=0}</span>)</a>
+            </div>
+            <table width="965px" style="margin: 0 auto" border="0" cellspacing="0" cellpadding="0">
+                <tr class="thead">
+                    <th width="145">Order no.</th>
+                    <th width="85">Order place time</th>
+                    <th width="125" >Delivery time</th>
+                    <th width="120">Total amount</th>
+                    <th width="100">Payment</th>
+                    <th width="125">Order status</th>
+                    <th width="90">Action</th>
+                </tr>
+                <if condition="empty($list)">
+                    <tr>
+                        <td colspan="7">not found.</td>
+                    </tr>
+                    <else/>
+                    <volist name="list" id="vo">
+                        <tr align="center" class="order_row" id="order_row_{$vo['id']}">
+                            <td>{$vo.orderno}</td>
+                            <td>{$vo.addtime}</td>
+                            <td align="left">{$vo.delivertime}</td>
+                            <td><span class="order_price">&yen;{:to_price($vo['amount'])}</span> </td>
+                            <td>
+                                <if condition="$vo['paymethod'] eq 4">
+                                    Cash on delivery
+                                    <elseif condition="$vo['paymethod'] eq 2"/>
+                                    Paypal
+                                </if>
+                                <div>
+                                <if condition="$vo['pay'] eq 0">
+                                    <span class="order_pay" onclick="showPaynowBox('{$vo.orderno}');" >Pay/Change</span>
+                                </if>
+                                </div>
+                            </td>
+                            <td >
+                                <div>{:get_status($vo['status'])}</div>
+                                <div><if condition="$vo['pay'] eq 0">Unpaid<else/>Paid</if></div>
+                            </td>
+                            <td>
+                                <a href="/member/orderView.html?orderno={$vo['orderno']}#order" class="order_btn view">View</a>
+                                <if condition="$vo['status'] lt 3">
+                                    <br/>
+                                    <a href="javascript:void(0)" onclick="cancelOrder('{$vo[\'id\']}','{$vo[\'orderno\']}')" class="order_btn cancel">Cancel</a>
+                                </if>
+                            </td>
+                        </tr>
+                    </volist>
+                </if>
+            </table>
+            <div class="pagelist">{$page}</div>
+            <div style="height: 60px;"></div>
+        </div>
     </div>
-       
-      <div class="clear"></div>
+</div>
+<div class="clr"></div>
+<div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
+    <div class="radio-box">
+        <label class="radio radiofl on paymethod" data-val="4"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Choose');"><i></i>Cash on delivery</label><br/>
+        <label class="radio radiofl  paymethod" data-val="2"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Go to pay');"><i></i>Paypal(USD)</label>
+        <input type="hidden" name="pay" id="pay" value="4" />
+        <input type="hidden" name="orderno" />
     </div>
-  </div>
-  <div class="clr"></div>
+    <br/>
+    <br/>
+    <button class="choose_btn pay_btn " onclick="paynow();" >Choose </button>
 </div>
 <include file="Index:footer" />
-
+<script>
+    $(function(){
+        if($('#paybox input[name=pay]').val()==4){
+            $('.pay_btn').html('Choose');
+        }else{
+            $('.pay_btn').html('Go to pay');
+        }
+    })
+</script>
 </body>
 </html>

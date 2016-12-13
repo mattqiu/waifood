@@ -1,22 +1,21 @@
-<div class="Ltit01"><strong>Account</strong></div>
-<div class="txt01 hymenu">
-<a href="{:U('Member/index')}">Overview</a>
-<a href="/member/address.html">My address</a>
+<ul class="member-lfet bg_white">
+    <li><a href="/member/index.html" id="l_index">Overview</a></li>
+    <li><a href="/member/address.html#address" id="l_address">My address</a></li>
+    <li><a href="/member/order.html#order" id="l_order">My order</a></li>
+    <li><a href="/member/pwd.html#pwd" id="l_pwd">Change password</a></li>
+</ul>
 
-    <!--<a href="{:U('Member/address')}">Shipping address</a>  -->
-<a href="{:U('Member/order')}">My order</a> 
-<!--<a href="{:U('Member/coupon')}">My coupon</a> -->
-<!--<a href="{:U('Member/cleaning')}">My cleaning</a> -->
-<!--<a href="{:U('Member/friends')}">My friends list</a> -->
-<a href="{:U('Member/pwd')}">Change password</a> </div>
 <script>
-$(function(){
-	var url="__SELF__";
-	$(".hymenu a").each(function(){
-		var href=$(this).attr("href");	
-		if(href==url){
-			$(this).addClass("selected");	
-		}
-	});
-});
-</script>
+     $(function(){
+         var hash = window.location.hash;
+         if(hash =='#address'){
+             $('#l_address').addClass('selected');
+         }else if(hash =='#order'){
+             $('#l_order').addClass('selected');
+         }else if(hash =='#pwd'){
+             $('#l_pwd').addClass('selected');
+         }else{
+             $('#l_index').addClass('selected');
+         }
+     });
+ </script>

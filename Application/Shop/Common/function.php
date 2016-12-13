@@ -230,16 +230,5 @@ function set_url($p = '', $v = '')
     return U(CONTROLLER_NAME . '/' . ACTION_NAME, $param);
 }
 
-function parse_param($str = '', $de = false)
-{
-    if ($de) {
-        $str = str_replace('_', ' ', $str);
-        $str = str_replace('@', "'", $str);
-    } else {
-        $str = str_replace(' ', '_', $str);
-        $str = str_replace("'", '@', $str);
-    }
-    return $str;
-}
 
 ?>

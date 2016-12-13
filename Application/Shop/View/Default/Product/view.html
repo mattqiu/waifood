@@ -1,144 +1,127 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="content-type" content="text/html; charset=utf-8">
-<title>{$title}{:lbl('subtitleshop')}</title>
-<meta name="keywords" content="{$keywords}" />
-<meta name="description" content="{$description}" />
-<include file="Index:header" />
-<js href="__PUBLIC__/Shop/js/jquery.idTabs.min.js" />
-<js href="__PUBLIC__/Shop/js/jquery.jcarousel.pack.js,__PUBLIC__/Shop/js/jquery.jqzoom-core-pack.js,__PUBLIC__/Shop/js/jquery.jproducts.js" />
-<css href="__PUBLIC__/Shop/js/jquery.jcarousel.css,__PUBLIC__/Shop/js/jquery.jqzoom.css" />
-<script language="javascript">
-$(function(){
-	$(".btnDeduct").on("click",function() {
-		var minbuy = parseInt($("#buyAmount").attr("min")); 
-		var num = parseInt($("#buyAmount").val()); 
-		if(minbuy!=0){
-			if(num<minbuy){
-				jTip('Sorry, this product requires a minimum quantity of '+minbuy+'.');	
-				$("#buyAmount").val(minbuy);
-				return false;
-			}
-		};
-		return false;
- 	});
-});
-</script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>{$good.title}{:lbl('subtitleshop')}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <include file="Index:header" />
 </head>
-
 <body>
-<include file="Index:bar" /> <include file="Index:nav2" />
-<div class="container">
-<div class="content">
-  <div class="lbox">
-      
-    <include file="Index:nav2sub" />
-      <div class="clear"></div>
-      <div class="ladbox">
-      {:lbl('adleft')}
-      </div>
-    </div>
-    
-  <div class="rbox">
-    <div class="path">{:get_product_location($db['pid'])} </div>
-   
-          <div class="cpshow">
-     <neq name="gallery|count" value="0">
-            <div class="bigcp">
-                <volist name="gallery" id="vo"><eq name="key" value="0"><a href="{$vo}" class="jqzoom" rel="gal1" title="{$db.title}"> <img src="{$vo}" width="360" height="360"  alt="" /></a></eq></volist>
-                </div>
-            <div class="smallcp"> <a href="javascript:void(null)" class="pro-prev" id="mycarousel-prev"></a>
-              <div  class="mycarousel-box">
-              <ul  id="mycarousel">
+<include file="Index:nav2" />
+<div class="path clr"><div class="container">{:get_product_location($good['pid'])} </div></div>
+<div class="bg_white">
+    <div class="good-info-head container"   id="js_goods_{$good['id']}" data-id="{$good['id']}" data-price="{$good['price']}" data-stock="{$good['stock']}" data-indexpic="{$good.indexpic}" data-name="{$good['title']}">
+        <div class="good-ih-img">
+            <div class="imglist fl">
                 <volist name="gallery" id="vo">
-                  <li><a href="javascript:void(0);" <eq name="key" value="0">class="zoomThumbActive"</eq> rel="{ gallery: 'gal1',largeimage:'{$vo}',smallimage:'{$vo}' }" title=""><img src="{$vo|get_thumb=80,80}" width="60" height="60"  alt="" /></a></li>  
+                    <if condition="$i elt 5">
+                        <div class="img-list"<if condition="$i eq 1">  style="border: 3px solid #cccccc  " </if> onclick="selectShowImg(this)">
+                            <img src="{$vo}" width="54" height="54"  alt="" />
+                        </div>
+                    </if>
                 </volist>
-              </ul>
-              </div>
-              <a href="javascript:void(null)" class="pro-next" id="mycarousel-next"></a> </div>
-          <else/>
-           <div class="bigcp"   ><img src="{$db.indexpic|default=C('DEFAULT_AVATAR')}" width="360" height="360"  alt="{$db.title}"  />
+            </div>
+            <div class="img-show fr">
+                <if condition="$gallery && $gallery[0]">
+                    <img src="{$gallery[0]}" width="440" height="440" id="img_show_box"/>
+                    <else/>
+                    <img src="{$good['indexpic']}" width="440" height="440" id="img_show_box"/>
+                </if>
+            </div>
+        </div>
+        <div class="good-ih-info">
+            <div class="good-title">{$good.title}</div>
+            <div class="good-info">
+                Unit: {$good.unit}<br/>
+                Preservation: {$good.storage}<br/>
+                Origin: {$good.origin}<br/>
+                <if condition="$db['brand']">
+                    Brand:{$good.brand}<br />
+                </if>
+                <p class="price">
+                    <span class="good-price">&yen;&nbsp;{$good.price} </span>
+                    <if condition="$good['price1'] gt 0">
+                        <span class="marketprice">&yen;{$good.price1}</span>
+                    </if>
+                </p>
+                <div class="quantity">
+                    Quantity: <span class="good-num-prep fc_eee" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" style="font-size: 25px;" onclick="setGoodNum('{$good.id}','cat');">-</span>
+                    <input type="text" id="js_good_num_{$good.id}" class="tc good_num" value="1"/>
+                    <span class="good-num-add" unselectable="on" style="-moz-user-select:none;" onselectstart="return false;" onclick="setGoodNum('{$good.id}','add');">+</span>
+                </div>
+                <div>
+                    <button class="buynow cart_btn"  onclick="buynow('{$good.id}');">Buy now</button>
+                    <button class="addtocart cart_btn" style="margin-left: 35px;" onclick="addgood('{$good.id}',event,'view')" >Add to cart</button>
+                </div>
+            </div>
+        </div>
     </div>
-        </neq>
-          </div>
-    <div class="cpcs">
-      <h2>{$db.title}</h2>
-      <p class="cs"><strong>Unit:</strong> {$db.unit}<br>
-        <strong>Preservation:</strong> {$db.storage}<br>
-        <strong>Origin:</strong> {$db.origin}<br>
-        <notempty name="db.brand">
-        <strong>Brand:</strong>
-        {$db.brand}<br />
-        </notempty>
-        <span class="jiage02">&yen;{$db.price}</span>
-        <gt name="db.price1" value="0">
-        <span class="marketprice">&yen;{$db.price1}</span>
-        </gt>
-        <notempty name="db.notice">
-        <br /><strong>Notice:</strong>
-        {$db.notice}
-        </notempty>
-        </p>
-       
-      <p><strong>Quantity:</strong>&nbsp;<a href="javascript:void(null)" class="jian btnDeduct"></a>
-      <gt name="db.minbuy" value="0">
-        <input type="text"  class="num cartnum" id="buyAmount" name="buyAmount" value="{$db.minbuy}" min="{$db.minbuy}" max="999" data-stock="{$db.stock}">
-      <else/>
-        <input type="text" class="num cartnum" id="buyAmount" min="1" max="999" value="1"  data-stock="{$db.stock}">
-        </gt>
-        <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-      <p>
-        <input type="image" name="imageField" id="imageField" src="__PUBLIC__/Shop/images/addbtn02.jpg" onclick="$.addCart('{$db.id}',$('#buyAmount').val())" />
-      </p>
-    </div>
-    <div class="clear"></div>
-    <notempty name="db.content">
-    <div class="tjcp">
-      <h2>Description</h2>
-    </div>
-    <div class="cpcontent" style="padding:10px 0px;">
-    	{$db.content}
-    </div>
-    </notempty>
-    <div class="tjcp">
-      <h2>You might like</h2>
-    </div>
-    <div class="cptxt">
-      <ul>
-      <volist name=":get_product_lists($db['pid'],4,2)" id="vo">
-            <empty name="vo.linkurl">
-              <li><a href="{:U('Product/view','id='.$vo['id'])}" target="_blank"><img src="__PUBLIC__/Shop/images/grey.gif" class="lazy"  data-original="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
-                <h2>{$vo.title}</h2>
-                </a>
-                <p>Unit: {$vo.unit}<br> 
-                  Origin: {$vo.origin}<br>
-                  <span class="jiage02">&yen;{$vo.price}</span></p>
-                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                  <input type="text" value="1" class="num" />
-                  <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-              </li>
-              <else/>
-              <li><a href="{$vo.linkurl}" target="_blank"><img src="{$vo.indexpic}"  alt="{$vo.title}"  width="187" height="187"  />
-                <h2>{$vo.title}</h2>
-                </a>
-                <p>Unit: {$vo.unit}<br> 
-                  Origin: {$vo.origin}<br>
-                  <span class="jiage02">&yen;{$vo.price}</span></p>
-                <p class="jiarugwc"><a href="javascript:void(null)" class="addgwc" onclick="$.addCart('{$vo.id}',$(this).parent().find('input').val())"></a><a href="javascript:void(null)" class="jian btnDeduct"></a>
-                  <input type="text" value="1" class="num" />
-                  <a href="javascript:void(null)" class="jia btnPlus"></a></p>
-              </li>
-            </empty>
-          </volist>
-      </ul>
-    </div>
-  </div>
 </div>
-
-<div class="clr"></div>
+<if condition="$good['content']">
+    <div class="bg_white" style="border-top: 1px solid #dcdcdc">
+        <div class="good_desc_title container"><img src="__PUBLIC__/Shop/images/snajiao.png" alt="" style="position: relative;top: -3px;"/>&nbsp;&nbsp;Description</div>
+    </div>
+    <div class="bg_white">
+        <div class="good_desc container">
+            <div class="cpcontent " style="padding:10px 0 10px 10px;">
+                {$good.content}
+            </div>
+        </div>
+    </div>
+    </div>
+</if>
+    <php>$mightlike = get_product_lists($good['pid'],4,2);</php>
+    <if condition="$mightlike">
+        <div class="bg_white" style="border-top: 1px solid #dcdcdc">
+            <div class="good_desc_title good_desc container"> <img src="__PUBLIC__/Shop/images/snajiao.png"  style="position: relative;top: -3px;" alt=""/>&nbsp;&nbsp;You might like</div>
+        </div>
+        <div class="bg_white">
+            <ul class=" good-contents  mightlike container ">
+                <volist name="mightlike" id="vo">
+                    <li class="goods" <if condition="$i lt 5">style="margin-top:15px;"</if> id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                    data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
+                        <div class="fl goods_c">
+                            <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  width="160"/></div> </a>
+                            <div class="good-name">
+                                <a href="/product/view.html?id={$vo.id}"> <div class="good_title">{$vo.title}</div></a>
+                                <div class="good_item_info">
+                                    <div class="good_info fl">
+                                        Unit: {$vo.unit} Origin: {$vo.origin}<br>
+                                        <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
+                                        <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
+                                    </div>
+                                    <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event,'view')"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </volist>
+                <div class="clr"></div>
+            </ul>
+        </div>
+    </if>
+    <div class="clr"></div>
 </div>
+<div class="bg_white" style="height: 40px;;"></div>
+<include file="Index:footer" />
+<script>
+    function selectShowImg(obj){
+        $('.imglist .img-list').css('border','1px solid #f0f0f0');
+        $(obj).css({'border':'3px solid #cccccc','margin-bottom':"10px",'width':'76px','height':'78px'});
+        var img = $(obj).find('img').attr('src');
+        $('#img_show_box').attr('src',img);
+    }
 
-<include file="Index:footer" />  
+    $('.good-contents .goods ').mouseover(function(){
+        $(this).find(' .good_shop_cart').css({'background': 'url("'+CONST_PUBLIC+'/Shop/images/shopping_cart_black.png") no-repeat center','background-size': 'auto 35px','top':'-77px','right': '14px'})
+        $(this).addClass('good-hover');
+    })
+
+    $(' .goods ').mouseleave(function(){
+        $(this).removeClass('good-hover')
+        $(this).find(' .good_shop_cart').css({'background': 'none'})
+    })
+</script>
 </body>
 </html>

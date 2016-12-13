@@ -1,14 +1,36 @@
-
 <div class="topbar">
-	<div class="wrap">
-		<div class="links">
-			 <if condition="(get_userid() neq 0)" >
-   <a href="/">Home</a>/<a href="javascript:void(0);" onclick="$.logout()" class="fc_red">Log out</a>
-  <else/>
-   <a href="/">Home</a>|<a href="{:U('Login/index')}">Login</a>/<a href="{:U('Login/register')}">Register</a>
-  </if>|<a href="{:U('Member/order')}">My Order</a>|<a href="{:U('Form/view','id=1')}">Wish list</a>|<a href="{:U('Content/lists','id=15')}">About us</a>
-		</div>
-		<div class="server-text"><a href="{:U('Member/index')}">{:get_displayname()}</a> Customer Service:{:lbl('telephone')}</div>
-	</div>
+    <div class="container">
 </div>
+</div>
+<script>
+    $('#myaccount').mouseover(function(){
+        if( $('.myaccount_box').css('display') =='none'){
+            $('.myaccount_box').slideDown();
+            $('#myaccount').css({'color':'#2eb661'});
+            $('#myaccount a').css({'color':'#2eb661'});
+            $('#myaccount .main').attr('src','/Public/Shop/images/myaccount_hover.png');
+            $('#myaccount .label').attr('src','/Public/Shop/images/down_hover_myaccount.png');
+        }
+    });
+    $('#myaccount').mouseleave(function(){
+        if($(this).data('user-id')){
+            $('#myaccount').css({'color':'#666666'});
+        }else{
+            $('#myaccount').css({'color':'#666666'});
+        }
+        $('#myaccount a').css({'color':'#666666'});
+        $('#myaccount .main').attr('src','/Public/Shop/images/myaccount.png');
+        $('#myaccount .label').attr('src','/Public/Shop/images/dowm_my_account.png');
+        $('.myaccount_box').slideUp();
+    })
 
+    $('.topbar .weixinqr').hover(function(){
+        $(this).css('cursor', 'pointer');
+        if($('.topbar .qrcode').css('display') == 'none'){
+            $('.topbar .qrcode').slideDown();
+        }
+    },function(){
+        $('.topbar .qrcode').slideUp();
+    })
+
+</script>

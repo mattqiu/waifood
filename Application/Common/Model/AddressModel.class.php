@@ -41,7 +41,7 @@ class AddressModel extends Model
             $data['userid'] = $userId;
             $rs = D ( "address" )->add($data);
             if($rs){
-                return true;
+                return $rs;
             }else{
                 return false;
             }
