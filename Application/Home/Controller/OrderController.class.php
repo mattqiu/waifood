@@ -6,8 +6,28 @@ use Common\Model\CodeModel;
 use Common\Model\OrderModel;
 
 class OrderController extends BaseController {
-	
-	//支付详细
+    /**
+     * 取消订单
+     *
+     * @param string $orderno
+     */
+    public function cancelOrder()
+    {
+        $orderno = I('orderno');
+        $where['orderno'] = $orderno;
+        $where['status'] = array( 'in', array( 0, 1)); // 状态为：提交和已确认
+        $where['userid'] = get_userid();
+        $order = M('order')->where($where)->find();
+        if (!$order == false) {
+            M('order')->where($where)->setField('status', 4);
+            set_order_onoff($orderno,1);
+            apiReturn(CodeModel::CORRECT,'Successful.');
+        }else {
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem1111111.');
+        }
+    }
+
+    //支付详细
 	public function payout($orderno='',$price=0){
 		$where = array ();
 		$where ['orderno'] = $orderno; 
@@ -249,7 +269,7 @@ class OrderController extends BaseController {
 	        $this->display('Shop/error');
 	    }
 	}
-	
+
 	/**
 	 * 根据门店id生成订单
 	 *

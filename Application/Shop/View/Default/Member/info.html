@@ -101,14 +101,29 @@
             clearpopj("Please input user name", "error",true);
             return false;
         }
+        if(telephone.username<3){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong user name format.", "error",true);
+            return false;
+        }
         if(!email){
             subBlock = false;//解除阻塞
             clearpopj("Please input email", "error",true);
             return false;
         }
+        if(!regex(email,'email')){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong Email format.", "error",true);
+            return false;
+        }
         if(!telephone){
             subBlock = false;//解除阻塞
             clearpopj("Please input phone number", "error",true);
+            return false;
+        }
+        if(telephone.length<6){
+            subBlock = false;//解除阻塞
+            clearpopj("Wrong phone number format.", "error",true);
             return false;
         }
         subBlock = true;

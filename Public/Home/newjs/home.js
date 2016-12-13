@@ -29,14 +29,15 @@ function isNumber (x) {
  */
 function modelBox(){
     if(!$('body').find('.lean_overlay').data('show')){
-        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;" class="hide leanModal" ><img src="/Public/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
-        $html += '<div id="attention" style="display:none ;width: 95%;top: 46px; margin: 0 auto; padding: 2px;" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
-        $html += '<div id="showAddr"  style="width: 200px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
+        var $html = '<div class="lean_overlay hide" data-show="1"></div><div id="showQr-box" style="display: none; padding: 2px;margin-left:-77px;margin-top: -81px;" class="hide leanModal" ><img src="/Public/images/qr.jpg" width="150" style=" margin-top: 5px;" alt=""/></div>'; //二维码
+        $html += '<div id="attention" style="width: 95%" class="hide leanModal" ><img src="/Public/Home/images/attention.png" width="100%" alt=""/></div>'; //关注
+        $html += '<div id="showAddr"  style="width: 200px;margin-left: -100px;margin-top: -115px;" class="hide leanModal"> <div class="addr" onclick="setHeadAddr(\'Chengdu\')">Chengdu</div> <div class="addr"  onclick="setHeadAddr(\'Chongqing\')">Chongqing</div><div  class="addr" onclick="setHeadAddr(\'Xian\')" >Xi\'an</div><div class="addr" onclick="setHeadAddr(\'Kunming\')">Kunming</div><div class="addr" onclick="setHeadAddr(\'Other\')">Other</div></div>';//地址
         $('body').append($html);
     }
 
     if(getUrlParam('to') == 'share'){
-        $('.leanModal').css({'background':'none','right':'2%'});
+        console.log($('#attention').opposite)
+        $('#attention').css({'background':'none','margin-left':-(parseInt($('#attention').width())/2)+'px','margin-top':-(parseInt($('#attention').width())/2+30)+'px'})
         $('.lean_overlay').show();
         $('#attention').show();
     }
@@ -51,7 +52,7 @@ function modelBox(){
         //}
     })
     $('#showQr').click(function(){
-        $('.leanModal').css({'background':'#FFFFFF','right':'25%'});
+        $('.leanModal').css({'background':'#FFFFFF'});
         $('.lean_overlay').show();
         $('#showQr-box').show();
         $('#showAddr').hide();
@@ -590,17 +591,11 @@ function cancelOrder(orderno){
         confirmButtonText: "Yes",
         //confirmButtonColor: "#35D374"
     }, function() {
-        var url = '/Shop/order/cancelOrder';
-        url += "?orderno="+orderno+"&" + Math.random();
-        $.ajax({
-            "url": url,
-            success: function(msg) {
-                var o = eval(msg);
-                if (o.code == 200) {
-                    location.reload();
-                } else {
-                    clearpopj(o.message,'error',true);
-                }
+        $.post('/Home/Order/cancelOrder.html',{orderno:orderno},function(data){
+            if(data.code==200){
+                clearpopj(data.message,'success',true,'self');
+            }else{
+                clearpopj(data.message,'error',true);
             }
         })
     });

@@ -41,10 +41,23 @@
             clearpopj("Please input old password", "error",true);
             return false;
         }
+        if(old_pwd.length<3){
+            $('.pwd_box input[name=old_pwd]').val('');
+            $('.pwd_box input[name=old_pwd]').focus();
+            clearpopj("Old password should be at least 4 characters.", "error",true);
+            return false;
+        }
+
         if(!pwd){
             $('.pwd_box input[name=pwd]').val('');
             $('.pwd_box input[name=pwd]').focus();
             clearpopj("Please input new password", "error",true);
+            return false;
+        }
+        if(pwd.length<3){
+            $('.pwd_box input[name=pwd]').val('');
+            $('.pwd_box input[name=pwd]').focus();
+            clearpopj("New password should be at least 4 characters.", "error",true);
             return false;
         }
         if(pwd != pwd1){

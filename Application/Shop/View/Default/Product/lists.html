@@ -81,7 +81,7 @@
 
         <label  class="px fl" for="sales"  <if condition="$_REQUEST['sales'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','sales');" >
-            <input type="submit" id="sales"value="Sales"  <if condition="$_REQUEST['sales']">class="fc_red"</if>/>
+            <input type="submit" id="sales"value="Sold"  <if condition="$_REQUEST['sales']">class="fc_red"</if>/>
             <if condition="$_REQUEST['sales'] eq 'asc'">
                 <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
             <elseif condition="$_REQUEST['sales'] eq 'desc'"/>

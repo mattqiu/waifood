@@ -166,7 +166,7 @@ class MemberController extends AuthController
                 $cart = session('cart_name');
                 $num = $cart['cart_num'];
                 if ($num) {
-                    $this->success('Address successfully added!', U('m_cashier'));
+                    $this->success('Address successfully added!','/m_cashier.html?addr_id='.$db);
                 } else {
                     $this->success('Address successfully added!', U('Member/address'));
                 }
@@ -291,11 +291,15 @@ class MemberController extends AuthController
             apiReturn(CodeModel::ERROR,'Sorry, address can not be empty!');
         }
         $userid = get_userid();
-        if(true === AddressModel::modifyShoppingAddress($data,$userid)){
+        if($re = AddressModel::modifyShoppingAddress($data,$userid)){
             $cashier= session('gocashier');
             if($cashier){
                 session('gocashier',null);
-                apiReturn(CodeModel::CORRECT,'Successful.','/m_cashier');
+                if(regex($re,'number')){
+                    apiReturn(CodeModel::CORRECT,'Successful.','/m_cashier.html?addr_id='.$re);
+                }else{
+                    apiReturn(CodeModel::CORRECT,'Successful.','/m_cashier.html');
+                }
             }else{
                 apiReturn(CodeModel::CORRECT,'Successful.','/member/address');
             }

@@ -383,10 +383,10 @@ $(function(){
 				"url": url,
 				success: function(msg) {
 					var o = eval(msg);
-					if (o.status == "1") {
+					if (o.code == 200) {
 						location.reload();
 					} else {
-						alert(o.info);
+                        clearpopj(o.message,'error',true);
 					}
 				}
 			})

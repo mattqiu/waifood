@@ -10,14 +10,14 @@
         <input type="hidden" value="{$address.id}" name="id"/>
         <div class="form-section consingee">
             <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="username">Full name</label>
-            <input class="input-text J_addressInput " type="text" id="username" name="username" value="{$address.username}" placeholder="Full name">
+            <label class="input-label" for="username" style="left: 9px;">Full name</label>
+            <input class="input-text J_addressInput " style="padding-left: 0;"  type="text" id="username" name="username" value="{$address.username}" placeholder="Full name">
         </div>
 
         <div class="form-section">
             <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="Phone">Phone</label>
-            <input class="input-text J_addressInput" type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
+            <label class="input-label" for="Phone" style="left: 9px;">Phone</label>
+            <input class="input-text J_addressInput" style="padding-left: 0;"  type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
         </div>
 
         <div class="form-section">
@@ -48,8 +48,8 @@
         <div class="clr"></div>
         <div class="form-section">
             <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="Address">Address</label>
-            <input class="input-text J_addressInput" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
+            <label class="input-label" for="Address" style="left: 9px;">Address</label>
+            <input class="input-text J_addressInput" style="padding-left: 0;" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
         </div>
 
         <div class="form-section select_box isaddress">
@@ -119,9 +119,19 @@
                 clearpopj("Please input name", "error",true);
                 return false;
             }
+            if(telephone.username<3){
+                subBlock = false;//解除阻塞
+                clearpopj("Wrong user name format.", "error",true);
+                return false;
+            }
             if(!telephone){
                 subBlock = false;//解除阻塞
                 clearpopj("Please input phone number", "error",true);
+                return false;
+            }
+            if(telephone.length<6){
+                subBlock = false;//解除阻塞
+                clearpopj("Wrong phone number format.", "error",true);
                 return false;
             }
             if(!address){
@@ -129,6 +139,8 @@
                 clearpopj("Please input address", "error",true);
                 return false;
             }
+            alert(222)
+            return
             subBlock = true;
             $.post('/member/modifyShoppingAddr.html',{id:id,username:username,telephone:telephone,telephone2:telephone2,sex:sex,cityname:cityname,address:address,isdefault:isdefault,language:language},function(data){
                 subBlock = false;//解除阻塞
