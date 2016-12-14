@@ -64,7 +64,7 @@ function addgood(id,event,page){
 
     loadGood(page);
     if(page != 'cart'){
-        fly(event, id);
+        fly(event, id,page);
     }
     if(page == 'cart' ){ //购物车、详情页加减商品，实时显示商品数量
         $('#js_good_num_'+id).val( myfood_array[id]['amount']);

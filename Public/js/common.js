@@ -394,10 +394,10 @@ function animateShow($obj,$px,fx,time){
     }, 200);
 }
 
-function fly(event,id){
+function fly(event,id,page){
     var offset = $("#CartNo").offset(),
         scrollTop = $(window).scrollTop();
-    if($('body').attr('pagename')=='view'){
+    if(page=='view'){
        var $obj = $('#img_show_box').clone();
         $obj.css({
             'width':'100px',
