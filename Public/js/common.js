@@ -394,7 +394,7 @@ function animateShow($obj,$px,fx,time){
     }, 200);
 }
 
-function fly(event,id,page){
+function flyCart(event,id,page){
     var offset = $("#CartNo").offset(),
         scrollTop = $(window).scrollTop();
     if(page=='view'){
