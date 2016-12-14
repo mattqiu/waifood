@@ -33,24 +33,7 @@ class BaseController extends Controller
         }
     }
     
-    /**
-     * 检测是否登录
-     */
-    private function checkLogin()
-    {
-        // 用户权限检查
-        if (get_userid() == 0) {
-            if(is_wechat()){
-                $openid = openid();
-                if (strlen($openid) == 28) {
-                    openid($openid);
-                    UserModel::loginWechat($openid);
-                }
-            }else{
-                $this->redirect ( 'Login/index' );
-            }
-        }
-    }
+
 
 }
 ?>
