@@ -497,8 +497,8 @@ function submitOrder(){
         subBlock = false;//解除阻塞
         closeLoad();
         if(data.code == 200){
+            clearCart(); //清空购物车
             if(data.data){
-                clearCart(); //清空购物车
                 clearpopj(data.message,'success',true,data.data);
             }
         }else{

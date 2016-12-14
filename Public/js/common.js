@@ -141,7 +141,7 @@ function clearpopj(txt,status,hide,url,time){
     swal("", txt, status);
     if(hide){
         if(!time){
-            time = 20222200;
+            time = 2000;
         }
         setTimeout(function(){
             $('.sa-button-container .confirm').click();
