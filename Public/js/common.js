@@ -141,7 +141,7 @@ function clearpopj(txt,status,hide,url,time){
     swal("", txt, status);
     if(hide){
         if(!time){
-            time = 2000;
+            time = 20222200;
         }
         setTimeout(function(){
             $('.sa-button-container .confirm').click();
@@ -392,4 +392,42 @@ function animateShow($obj,$px,fx,time){
             });
         }
     }, 200);
+}
+
+function fly(event,id){
+    var offset = $("#CartNo").offset(),
+        scrollTop = $(window).scrollTop();
+    if($('body').attr('pagename')=='view'){
+       var $obj = $('#img_show_box').clone();
+        $obj.css({
+            'width':'100px',
+            'height':'100px',
+            'position': 'fixed',
+            'top': parseInt(event.clientY)-200 +'px',
+            'left':  parseInt(event.clientX)-550 +'px',
+            'z-index': '5'
+        });
+    }else{
+        var  $obj = $('#js_goods_'+id).find('.good_pic img').clone();
+        $obj.css({
+            'width':'100px',
+            'position': 'fixed',
+            'top': parseInt(event.clientY)-200 +'px',
+            'left':  parseInt(event.clientX)-150 +'px',
+            'z-index': '5'
+        });
+    }
+    if(scrollTop>117){
+        var toppx =  $("#CartNo").position().top;
+    }else {
+        var toppx = offset.top - scrollTop;
+    }
+
+    $('body').append($obj);
+    $obj.animate({
+        top:toppx,
+        left:offset.left,
+        width:0,
+        height:0
+    },'slow');
 }
