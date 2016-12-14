@@ -147,7 +147,7 @@ input[type=checkbox]:checked +  .cbox:after { border-color:#FFFFFF; }
 
 /**banner**/
 
-.flexslider{ position: relative;height: 430px;overflow: hidden;width: 100%; z-index: 1; background: url(../../images/loading.gif) 50% no-repeat;}
+.flexslider{ position: relative;height: 430px;overflow: hidden;width: 100%; z-index: 1; background: url(../../images/loader_for_banner.gif) 50% no-repeat; background-size: auto 130px;}
 .flexslider ol{overflow:hidden;z-index: 3;}
 .flexslider ol li{display:inline-block;margin:2px; border-radius:50%; cursor:pointer;overflow:hidden;_display:inline;z-index: 4;margin-right: 10px;width:10px !important;height:10px !important;-moz-border-radius: 50%; -webkit-border-radius: 50%;}
 .flexslider ol li.current{z-index: 5;background-color: #fff;}

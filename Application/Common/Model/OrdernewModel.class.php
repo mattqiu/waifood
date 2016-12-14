@@ -152,7 +152,7 @@ class OrdernewModel extends Model
 		$body .= '<div>地址：'.$cleaning['address'].'</div>';
 		$body .= '<div>备注：'.$cleaning['remark'].'</div>';
 		
-		$to = C('config.WEB_SITE_COPYRIGHT');
+		$to =ConfigModel::getConfig('WEB_SITE_COPYRIGHT');//获取管理员邮箱 C('config.WEB_SITE_COPYRIGHT');
 		$subject = '清洁订单:' . get_username(get_userid());
 		send_mail($to, $subject, $body);
 	}
