@@ -19,7 +19,7 @@
                     <span class="slash"></span>&nbsp;&nbsp;&nbsp;
                     <if condition="$user['id'] gt 0"><a href="/login/logout.html" style="color: #fc2c3d">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;<a href="/Login/register.html">Sign up</a></if>
                      <span class="slash"></span>&nbsp;&nbsp;&nbsp;
-                    <a href="/member/index.html">
+                    <a href="/member/index.html" title="{$user.username}">
                         <img src="__PUBLIC__/Shop/images/myaccount.png" width="13" class="main" alt=""/>&nbsp;
                         <if condition="$user['id']">{$user.username|msubstr=0,9,'UTF-8',true}<else/>My account</if>&nbsp;
                     </a>
