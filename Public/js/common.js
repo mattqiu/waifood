@@ -104,7 +104,7 @@ function getDateFormat($month){
 //加载图
 function loading(){
     //var $html = '<div class="bkpanl"></div><div class="loadingbox"><img src="/Public/Home/images/loading.gif" alt="" width="80%"/><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="margin-top: 10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="tc" style="margin-top: -10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
     $('body').append($html);
 }
 //关闭加载
