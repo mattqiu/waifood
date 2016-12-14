@@ -22,8 +22,8 @@ upload.prototype.uploadPic= function(scope,uploadPhp){
 }
 
 upload.prototype.createContent = function(contentId, scope){
-    uploadPhp = 'http://www.lingdianit.com/uploadForKindeditor.php';
-    var uploadJson = uploadPhp+"?scope="+scope+"&from=3cfoodcn&callback="+url+"Public/redirect.html";
+    uploadPhp = url+'/Public/uploadForKindeditor.php';
+    var uploadJson = uploadPhp+"?scope="+scope+"&callback="+url+"Public/redirect.html";
     var options ={
         filterMode:false,
         showRemote : false,
