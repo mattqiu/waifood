@@ -2,6 +2,7 @@
 Runtime
 Temp/*.php
 upload/
+uploadfile/
 .buildpath
 .project
 .settings/
