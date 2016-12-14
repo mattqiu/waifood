@@ -600,14 +600,22 @@ function clearCart(){
     if(!myfood){
         return false;
     }
+    var myshop = $.cookie($goodKey);
+    var mycart_array = $.parseJSON(myshop);
     var myfood_array = $.parseJSON(myfood);
     if(myfood_array){
         for(var i in myfood_array){
             if(myfood_array[i]['id']){
-                delGood(myfood_array[i]['id']);
+                mycart_array[myfood_array[i]['id']]= undefined;
             }
         }
     }
+    var json = $.toJSON(mycart_array);
+    $.cookie($goodKey,json,{
+        "path":"/"
+    });
+    loadGood();
+
     $.cookie("settlement", null, {"path": "/"});
 
 };
