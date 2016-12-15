@@ -12,15 +12,15 @@ class AuthController extends BaseController {
 	}
 	
 	private function checkLogin() {
-		// 用户权限检查
-		if (get_userid () == 0) {
-			// 提示错误信息
+        // 用户权限检查
+        $user = UserModel::getUser();
+		if(empty($user)){
+            // 提示错误信息
 			$this->redirect ( 'Login/index' );
 		}else{
-            //没有头像或没有微信名的用户重新获取用户信息
-            $user = UserModel::getUserById(get_userid ());
-            if($user['wechatid']||empty($user)){
-                if(empty($user['indexpic']) || empty($user['weixin'])){
+            if($user['wechatid']|| empty($user)){
+                //没有微信名的用户重新获取用户信息
+                if(empty($user['weixin'])){
                     openid(false);
                     S('oldUserOpenid',$user['wechatid']);
                     $this->redirect ( 'Login/index' );

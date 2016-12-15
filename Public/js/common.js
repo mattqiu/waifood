@@ -104,7 +104,7 @@ function getDateFormat($month){
 //加载图
 function loading(){
     //var $html = '<div class="bkpanl"></div><div class="loadingbox"><img src="/Public/Home/images/loading.gif" alt="" width="80%"/><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="tc" style="margin-top: -10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div></div>';
     $('body').append($html);
 }
 //关闭加载
@@ -141,7 +141,7 @@ function clearpopj(txt,status,hide,url,time){
     swal("", txt, status);
     if(hide){
         if(!time){
-            time = 20222200;
+            time = 2000;
         }
         setTimeout(function(){
             $('.sa-button-container .confirm').click();
@@ -394,10 +394,10 @@ function animateShow($obj,$px,fx,time){
     }, 200);
 }
 
-function fly(event,id){
+function flyCart(event,id,page){
     var offset = $("#CartNo").offset(),
         scrollTop = $(window).scrollTop();
-    if($('body').attr('pagename')=='view'){
+    if(page=='view'){
        var $obj = $('#img_show_box').clone();
         $obj.css({
             'width':'100px',
