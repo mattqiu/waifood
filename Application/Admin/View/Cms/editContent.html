@@ -3,22 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>内容编辑</title>
-<script>
-    var APP_PATH="__APP__";
-    var CONST_PUBLIC="__PUBLIC__";
-    var CONST_UPLOAD="{:U('Admin/File/upload')}";
-</script>
-<js href="__PUBLIC__/Admin/js/jquery-1.4.4.min.js,__PUBLIC__/Admin/js/jquery.page.js,__PUBLIC__/Admin/js/jquery.lhgcalendar.min.js,__PUBLIC__/Admin/js/jquery.numeric.only.js,__PUBLIC__/Admin/js/uploadify/jquery.uploadify.min.js,__PUBLIC__/js/sweetalert.min.js,__PUBLIC__/js/common.js?{:version()}" />
-<css href="__PUBLIC__/Admin/images/style.css,__PUBLIC__/css/sweetalert.css,__PUBLIC__/css/common.css?{:version()}" />
+    <include file="Index:header" />
 
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
-<script language="javascript" type="text/javascript"
-	src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
-<script language="javascript" type="text/javascript"
-	src="__PUBLIC__/Admin/js/jquery.price.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script language="javascript" type="text/javascript" src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
 <script>
 $(function(){
 	$("#pid").change();	

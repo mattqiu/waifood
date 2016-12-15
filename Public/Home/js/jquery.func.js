@@ -365,7 +365,7 @@ $(function(){
                         if(jurl){
                             window.location.href = jurl;
                         }else{
-                            clearpopj(o.message,'success',true,'self');
+                            clearpopj(o.message,'success',true,'/member/address.html');
                         }
                     } else {
                         clearpopj(o.message,'error',true);

@@ -38,11 +38,10 @@ class ImagesController{
             if (!$this->save($file)) {
                 return false;
             }
-            $fileInfo[] =  $file['filepath'];
+            $fileInfo[] = $file['filepath'];
         }
         return $fileInfo;
     }
-
     /**
      * 转换上传文件数组变量为正确的方式
      * @access private

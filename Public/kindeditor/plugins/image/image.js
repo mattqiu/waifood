@@ -10,6 +10,7 @@
 KindEditor.plugin('image', function(K) {
 	var self = this, name = 'image',
 		allowImageUpload = K.undef(self.allowImageUpload, true),
+		allowImageRemote = K.undef(self.allowImageRemote, true),
 		formatUploadUrl = K.undef(self.formatUploadUrl, true),
 		allowFileManager = K.undef(self.allowFileManager, false),
 		uploadJson = K.undef(self.uploadJson, self.basePath + 'php/upload_json.php'),
@@ -77,7 +78,7 @@ KindEditor.plugin('image', function(K) {
 			//file
 			'<div class="ke-dialog-row">',
 			hiddenElements.join(''),
-			'<label style="width:60px;">' +   lang.localUrl  + '</label>',
+			'<label style="width:60px;">' + lang.localUrl + '</label>',
 			'<input type="text" name="localUrl" class="ke-input-text" tabindex="-1" style="width:200px;" readonly="true" /> &nbsp;',
 			'<input type="button" class="ke-upload-button" value="' + lang.upload + '" />',
 			'</div>',
@@ -291,7 +292,7 @@ KindEditor.plugin('image', function(K) {
 				imageHeight : img ? img.height() : '',
 				imageTitle : img ? img.attr('title') : '',
 				imageAlign : img ? img.attr('align') : '',
-				showRemote : true,
+				showRemote : allowImageRemote,
 				showLocal : allowImageUpload,
 				tabIndex: img ? 0 : imageTabIndex,
 				clickFn : function(url, title, width, height, border, align) {
@@ -309,6 +310,8 @@ KindEditor.plugin('image', function(K) {
 				target = target.parent();
 			}
 			target.remove();
+			// [IE] 删除图片后立即点击图片按钮出错
+			self.addBookmark();
 		}
 	};
 	self.clickToolbar(name, self.plugin.image.edit);
