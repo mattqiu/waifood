@@ -22,7 +22,7 @@
                 <br/>
                <input type="password"  name="password" placeholder="Password" class="input_text" />
                 <div class="captcha" style="margin-top: 15px;">
-                    <div class="captcha_title" style="height: 42px;line-height: 42px;color: #cccccc">Captcha <input type="text" style="height: 40px;" name="verify"/></div>
+                    <div class="captcha_title" style="height: 42px;line-height: 42px;color: #cccccc">Captcha <input type="text" style="height: 36px;" name="verify"/></div>
                     <div class="captcha_img" style="width: 136px;height: 42px;"> <img style="cursor:pointer; cursor: hand; width:136px; height:42px; float:left;" title="click to reload captcha" alt="" onclick="this.src='/index/verify.html?random='+Math.random()" src="/index/verify.html?v={:rand(0,999)}" /></div>
                 </div>
                 <input type="submit"  class="lgbtn"  value="Sign in" onclick="login();" />

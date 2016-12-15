@@ -3,6 +3,7 @@
 namespace Home\Controller; 
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
+use Common\Model\ConfigModel;
 use Common\Model\OrderModel;
 
 class OrderController extends BaseController {
@@ -416,7 +417,7 @@ class OrderController extends BaseController {
 
 	                //管理员邮件：
 	                //send_mail();
-	                $to=C('config.WEB_SITE_COPYRIGHT');
+	                $to=ConfigModel::getConfig('WEB_SITE_COPYRIGHT');//获取管理员邮箱C('config.WEB_SITE_COPYRIGHT');
 	                $subject='[waifood]new order from '.get_username(get_userid());
 	                $body=lbl('tpl_receiveorder');
 	                if(!isN($body)){

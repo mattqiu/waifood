@@ -7,7 +7,7 @@
     <meta name="description" content="{$description}" />
     <include file="Index:header" />
 </head>
-<body>
+<body pagename="view">
 <include file="Index:nav2" />
 <div class="path clr"><div class="container">{:get_product_location($good['pid'])} </div></div>
 <div class="bg_white">
@@ -91,7 +91,7 @@
                                         <span class="fc_green" style="font-size: 20px;">&yen;{$vo.price}</span>
                                         <if condition="$vo['price1'] gt 0"><s  style="font-size: 16px;">&yen;{$vo.price1}</s></if>
                                     </div>
-                                    <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event,'view')"></div>
+                                    <div class="good_shop_cart fr"  onclick="addgood('{$vo.id}',event)"></div>
                                 </div>
                             </div>
                         </div>

@@ -133,7 +133,7 @@ class IndexController extends BaseController
         if (false !== D ( "form" )->add ( $data )) {
             //管理员邮件：
             //send_mail();
-            $to=C('config.WEB_SITE_COPYRIGHT');
+            $to=ConfigModel::getConfig('WEB_SITE_COPYRIGHT');//获取管理员邮箱C('config.WEB_SITE_COPYRIGHT');
             $subject='[waifood]new wishlist '.get_username(get_userid());
             $html='';
             $html.= "<table border=\"1\" cellspacing=\"0\" cellpadding=\"0\" width=\"100%\"> \n";

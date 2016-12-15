@@ -1,7 +1,7 @@
 @charset "utf-8";
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,blockquote,th,td {margin:0;padding:0; font-size: 100%;font-weight: normal; list-style: none; }
-body { font-size: 14px;color: #666;margin:0px; background:#F8F8F8;font-family: "arial", "宋体", "Helvetica";}
-hr {*margin: 0;border: 0; height: 1px}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,button,select,blockquote,th,td,p {margin:0;padding:0; font-size: 100%;font-weight: normal; list-style: none; font-family: "arial", "宋体", "Helvetica";}
+body { font-size: 14px;color: #666;margin:0px; background:#F8F8F8;}
+hr {*margin: 0;border: 0; height: 1px;}
 /*body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}*/
 a{ text-decoration:none;color: #424242}
 a:hover{ color: #000000 ; text-decoration: none; }
@@ -48,7 +48,7 @@ input[type=checkbox]:checked +  .cbox:after { border-color:#FFFFFF; }
     font-family: 'pingfang';
     src: url('../fonts/neues_bauen_demo-webfont.eot');
     src: url('../fonts/neues_bauen_demo-webfont.eot?#iefix') format('embedded-opentype'),
-    url('./PingFangRegular.ttf') format('truetype'),
+    url('./MyriadPro-Regular.otf') format('truetype'),
     url('../fonts/neues_bauen_demo-webfont.svg#NeuesBauenDemo') format('svg');
     font-weight: normal;
     font-style: normal;
@@ -147,7 +147,7 @@ input[type=checkbox]:checked +  .cbox:after { border-color:#FFFFFF; }
 
 /**banner**/
 
-.flexslider{ position: relative;height: 430px;overflow: hidden;width: 100%; z-index: 1;}
+.flexslider{ position: relative;height: 430px;overflow: hidden;width: 100%; z-index: 1; background: url(../../images/loader_for_banner.gif) 50% no-repeat; background-size: auto 130px;}
 .flexslider ol{overflow:hidden;z-index: 3;}
 .flexslider ol li{display:inline-block;margin:2px; border-radius:50%; cursor:pointer;overflow:hidden;_display:inline;z-index: 4;margin-right: 10px;width:10px !important;height:10px !important;-moz-border-radius: 50%; -webkit-border-radius: 50%;}
 .flexslider ol li.current{z-index: 5;background-color: #fff;}
@@ -251,9 +251,9 @@ ul li.on{ background:#616161;  }
 .img-show{width: 440px; height: 440px; text-align: center;}
 .img-show img{width: 100%;margin-left: 6px;}
 
-.good-ih-info{width: 485px; margin-top: 55px;float: right;font-family:"pingfang"}
-.good-title{font-size: 24px; color: #000000; }
-.good-info{margin-top: 44px;color: #444444p;font-size: 18px;line-height: 35px;}
+.good-ih-info{width: 485px; margin-top: 55px;float: right;}
+.good-title{font-size: 28px; color: #000000; font-family:"pingfang" ,"arial"}
+.good-info{margin-top: 20px;color: #444444p;font-size: 18px;line-height: 35px;}
 .price{margin-top: 44px;}
 .good-price{color: #fc2c3d  ;font-size: 24px;}
 .marketprice{text-decoration:line-through; font-size:20px; color: #999999}
@@ -356,6 +356,7 @@ ul li.on{ background:#616161;  }
 .reg_sex li:hover,.reg_sex .hover{background:url("../images/selected-icon.png") no-repeat 100% 18px;}
 .reg_left_box .reg-item{margin-top: 19.4px;}
 .reg_left_box .reg-item,.reg_left_box .input_text,.reg_left_box .reginput{height: 55px;line-height: 55px;}
+.reg_left_box .reginput{line-height: normal;}
 .reg-btn{padding-top:30px}
 
 .reg_right_box .city li,.reg_right_box .reg_sex li{width: 96px;margin-right: 0; height: 40px;line-height: 40px;}
@@ -436,10 +437,10 @@ ul li.on{ background:#616161;  }
 .form-itme,.form-itme select{width: 200px;height: 48px;border: none}
 .form-itme{border: 1px solid #E0E0E0}
 .form-confirm {width: 415px;height: 40px; margin: 0 auto;}
-.form-confirm .submit,.form-confirm .back{width:140px;height: 40px;float: left; border: none ;margin:30px 30px 0 37px; color: #FFffff;font-size:16px;cursor: pointer}
+.form-confirm .submit,.form-confirm .back{width:140px;height: 40px;float: left; border: none ;margin:30px 30px 0 37px; color: #FFffff;font-size:16px;cursor: pointer;background: #cccccc}
 .form-confirm .submit{background: #000000}
 .form-confirm .submit:hover{background: #343434}
-.form-confirm .back:hover{background: #cccccc}
+.form-confirm .back:hover{background: #989898}
 /***********************************member ***********************************/
 .userinfo{width: 1014px; height: 100%;margin: 0 auto}
 .left{width: 138px; height: 255px;}

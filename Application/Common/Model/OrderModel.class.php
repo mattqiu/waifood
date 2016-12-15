@@ -149,7 +149,7 @@ class OrderModel extends Model{
             }
         }
         //管理员邮件：
-        $to=C('config.WEB_SITE_COPYRIGHT');
+        $to= ConfigModel::getConfig('WEB_SITE_COPYRIGHT');//获取管理员邮箱//C('config.WEB_SITE_COPYRIGHT');
         $subject='[waifood]new order from '.get_username(get_userid());
         $body=lbl('tpl_receiveorder');
         if(!isN($body)){

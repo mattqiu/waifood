@@ -64,7 +64,7 @@ function addgood(id,event,page){
 
     loadGood(page);
     if(page != 'cart'){
-        fly(event, indexpic);
+        flyCart(event, id,page);
     }
     if(page == 'cart' ){ //购物车、详情页加减商品，实时显示商品数量
         $('#js_good_num_'+id).val( myfood_array[id]['amount']);
@@ -213,35 +213,6 @@ function loadGood(page){
         }
 
     }
-}
-
-function fly(event,indexpic){
-    var position = $("#CartNo").position(),
-        offset = $("#CartNo").offset(),
-        flyer = $('<img width="80" class="u-flyer" src="'+indexpic+'">'),
-        scrollTop = $(window).scrollTop();
-    if(scrollTop>117){
-        var toppx = position.top;
-    }else {
-        var toppx = offset.top - scrollTop;
-    }
-    flyer.fly({
-        start: {
-            left:  event.clientX,
-            top: event.clientY
-        },
-        end: {
-            left: offset.left,
-            top: toppx,
-            width: 0,
-            height: 0
-        },
-        onEnd: function(){
-            flyer.remove();
-            //$('#cart_box').slideDown();
-            // setTimeout(function(){$('#cart_box').slideUp()},2000 )
-        }
-    });
 }
 
 /**
@@ -613,10 +584,9 @@ function submitOrder(){
         subBlock = false;//解除阻塞
         closeLoad();
         if(data.code == 200){
+            clearCart(); //清空购物车
             if(data.data){
-                clearCart(); //清空购物车
                 clearpopj(data.message, "success",true,data.data);
-
             }
         }else{
             clearpopj(data.message, "error",true);
@@ -630,14 +600,22 @@ function clearCart(){
     if(!myfood){
         return false;
     }
+    var myshop = $.cookie($goodKey);
+    var mycart_array = $.parseJSON(myshop);
     var myfood_array = $.parseJSON(myfood);
     if(myfood_array){
         for(var i in myfood_array){
             if(myfood_array[i]['id']){
-                delGood(myfood_array[i]['id']);
+                mycart_array[myfood_array[i]['id']]= undefined;
             }
         }
     }
+    var json = $.toJSON(mycart_array);
+    $.cookie($goodKey,json,{
+        "path":"/"
+    });
+    loadGood();
+
     $.cookie("settlement", null, {"path": "/"});
 
 };
@@ -654,7 +632,7 @@ function cancelOrder(id,orderno) {
         type: 'warning',
         showCancelButton: true,
         closeOnConfirm: false,
-        confirmButtonText: "Ok",
+        confirmButtonText: "OK",
         //confirmButtonColor: "#35D374"
     }, function() {
         $.post('/order/cancelOrder.html',{orderno:orderno},function(data){

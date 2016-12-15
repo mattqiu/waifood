@@ -104,7 +104,7 @@ function getDateFormat($month){
 //加载图
 function loading(){
     //var $html = '<div class="bkpanl"></div><div class="loadingbox"><img src="/Public/Home/images/loading.gif" alt="" width="80%"/><h3 class="" style="color: #FFFFFF">Waiting...</h3></div>';
-    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div><h3 class="" style="margin-top: 10px; margin-left: 9px;color: #FFFFFF">Waiting...</h3></div>';
+    var $html = '<div class="bkpanl"></div><div class="loadingbox"><div class="loading"><i></i><i></i></div></div>';
     $('body').append($html);
 }
 //关闭加载
@@ -392,4 +392,42 @@ function animateShow($obj,$px,fx,time){
             });
         }
     }, 200);
+}
+
+function flyCart(event,id,page){
+    var offset = $("#CartNo").offset(),
+        scrollTop = $(window).scrollTop();
+    if(page=='view'){
+       var $obj = $('#img_show_box').clone();
+        $obj.css({
+            'width':'100px',
+            'height':'100px',
+            'position': 'fixed',
+            'top': parseInt(event.clientY)-200 +'px',
+            'left':  parseInt(event.clientX)-550 +'px',
+            'z-index': '5'
+        });
+    }else{
+        var  $obj = $('#js_goods_'+id).find('.good_pic img').clone();
+        $obj.css({
+            'width':'100px',
+            'position': 'fixed',
+            'top': parseInt(event.clientY)-200 +'px',
+            'left':  parseInt(event.clientX)-150 +'px',
+            'z-index': '5'
+        });
+    }
+    if(scrollTop>117){
+        var toppx =  $("#CartNo").position().top;
+    }else {
+        var toppx = offset.top - scrollTop;
+    }
+
+    $('body').append($obj);
+    $obj.animate({
+        top:toppx,
+        left:offset.left,
+        width:0,
+        height:0
+    },'slow');
 }
