@@ -9,6 +9,7 @@ body{margin:0px; padding:0px; font-family:微软雅黑,Arial, Helvetica, sans-se
 select,textarea,input{font-family:微软雅黑,Arial, Helvetica, sans-serif; font-size:12px;}
 div,img,form{border:0px; margin:0px; padding:0px; }
 ul,li{margin:0; padding:0; float:left; display:inline; }
+.ke-upload-area{clear: left ;}
 li{display:inline;}
 a{text-decoration:none; color:#333;cursor: pointer}
 a:hover{ color:#39F}
@@ -19,7 +20,7 @@ a.underline:hover{ text-decoration:underline;}
 .fc_white { color: #fff; }
 #tip,.fc_red { color: #f00; }
 .fc_blue { color: #00f; }
-.fc_green { color: green; } 
+.fc_green { color: green; }
 .tip{color:#666; }
 #priceBox,#hoverimg{ display:none; position:absolute; border:1px #ccc solid; padding:2px; background:#fff}
 #hoverimg img{ max-width:200px; max-height:200px;}
@@ -27,12 +28,12 @@ a.underline:hover{ text-decoration:underline;}
 
 .tl { text-align: left; }
 .tc { text-align: center; }
-.tr { text-align: right;} 
+.tr { text-align: right;}
 
 .fl{float:left;}
 .fr{float:right;}
 
-.container{width:100%; height:auto; margin:0px auto; padding:0px; overflow:auto;} 
+.container{width:100%; height:auto; margin:0px auto; padding:0px; overflow:auto;}
 
 .hauto{height:auto;}
 .wauto{width:auto;}
@@ -66,7 +67,7 @@ a.underline:hover{ text-decoration:underline;}
 .MainTbl table tr td{border:none; background:none;}
 .MainTbl{ background:#E1E1E1; width:100%; height:auto; margin:0px auto; }
 .MainTbl .toolbar{ height:35px; background:#f1f1f1; }
-.MainTbl .toolbar td{ color:#333; font-weight:bold;  background:url(bgTitle.jpg) repeat-x bottom #fff; border:none; } 
+.MainTbl .toolbar td{ color:#333; font-weight:bold;  background:url(bgTitle.jpg) repeat-x bottom #fff; border:none; }
 .MainTbl .header{ height:26px; background-color:#f1f1f1;}
 .MainTbl .header td{ font-weight:bold; color:#666;}
 .MainTbl tr td{background-color:#F2F2F2;border-left:1px solid #FFF;border-top:1px solid #FFF;color:#333;font-size:12px; line-height:20px; padding:2px 4px;}
@@ -125,7 +126,7 @@ a.underline:hover{ text-decoration:underline;}
 
 
 
-.tab{ width:100%; float:left; overflow:hidden;  overflow:hidden;} 
+.tab{ width:100%; float:left; overflow:hidden;  overflow:hidden;}
 .tab ul {width:100%; float:left;}
 .tab ul li{ width:auto; float:left;}
 .tab ul li a{ float:left; padding:0px 10px; height:27px; line-height:27px; font-size:14px;border:1px #fff solid; }

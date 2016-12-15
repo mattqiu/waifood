@@ -5,6 +5,7 @@
     <title>内容添加</title>
     <include file="Index:header" />
     <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/plugins/code/prettify.css" />
     <script type="text/javascript"  src="__PUBLIC__/kindeditor/kindeditor-all-0xiao.js" charset="UTF-8"></script>
     <script type="text/javascript"  src="__PUBLIC__/kindeditor/lang/zh_CN.js" charset="UTF-8"></script>
     <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
@@ -181,7 +182,7 @@
 <div class="clr"></div>
 <include file="Index:footer" />
 <script>
-    upload.prototype.createContent("#description",'info');
+    upload.prototype.createContent("#content",'info');
 </script>
 </body>
 </html>

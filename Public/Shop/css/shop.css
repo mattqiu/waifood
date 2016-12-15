@@ -1,5 +1,6 @@
 @charset "utf-8";
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,button,select,blockquote,th,td,p {margin:0;padding:0; font-size: 100%;font-weight: normal; list-style: none; font-family: "arial", "宋体", "Helvetica";}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,button,select,blockquote,th,td {margin:0;padding:0; font-size: 100%;font-weight: normal; list-style: none;}
+*{ font-family: "arial", "宋体", "Helvetica";}
 body { font-size: 14px;color: #666;margin:0px; background:#F8F8F8;}
 hr {*margin: 0;border: 0; height: 1px;}
 /*body,input,textarea,button,select{ font-family:verdana,Arial,Microsoft YaHei;}*/
