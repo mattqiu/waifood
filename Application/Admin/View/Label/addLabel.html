@@ -50,17 +50,7 @@
 </form>
 <include file="Index:footer" /> 
 <script language="JavaScript" type="text/javascript" >
-$(function(){ 	
-	$("#btnEditor").toggle(function(){
-		$("#info").addClass("editor").css("width","100%"); 
-		$("#info").removeClass("editor1");
-		$("#info").xheditor(default_setting);	
-	},function(){
-		$("#info").removeClass("editor");
-		$("#info").addClass("editor1").css("width","350px");
-		$("#info").xheditor(false);	
-	});	   
-})
+    upload.prototype.createContent("#info",'info',1);
 </script>
 </body>
 </html>

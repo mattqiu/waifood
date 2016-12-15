@@ -82,6 +82,7 @@ pre { margin:0;}
 	</form>
 	<include file="Index:footer" />
 	<script>
+        upload.prototype.createContent("#content",'info');
 	require.config({ paths: { "ace" : "__PUBLIC__/Admin/js/ace" } });
 	require(["ace/ace"], function(ace) {
 		var contentEditor = ace.edit("contentEditor");

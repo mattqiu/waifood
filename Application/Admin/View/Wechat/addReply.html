@@ -37,7 +37,7 @@ $(function(){
 		html += ("    <td class='col1'>图片：</td>");
 		html += ("    <td><input type='text' class='inputText1 w350 fl' id='item{i}_2' name='items[]' ");
 		html += ("maxlength='100' value='' />");
-		html += ("      <input type='button' class='btn1 btnUpload' id='btnUpload{i}' value='上传' /> "+size+"</td>");
+		html += ("      <input type='button' class='btn1 btnUpload' onclick='selectPic(this)' id='btnUpload{i}' value='上传' /> "+size+"</td>");
 		html += ("  </tr>");
 		html += ("  <tr>");
 		html += ("    <td class='col1'>链接：</td>");
@@ -54,7 +54,8 @@ $(function(){
 		
 		html = html.replace(/{i}/g,newID)	; 
 		$("#detailBox").append(html);
-		$.rendUploader("#btnUpload"+newID);  
+		$("#detailBox").show();
+		//$.rendUploader("#btnUpload"+newID);
 	});
 });
 </script>
@@ -111,5 +112,20 @@ $(function(){
   </table>
 </form>
 <include file="Index:footer" />
+<link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+<script>
+    /**
+     * 选择图片
+     */
+    function selectPic(obj){
+        upload.prototype.callback = function(url, path){
+            $(obj).siblings('.inputText1').val(path);
+        }
+        upload.prototype.uploadPic("banner");
+    }
+</script>
 </body>
 </html>

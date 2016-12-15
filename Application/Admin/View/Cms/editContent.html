@@ -94,7 +94,7 @@ $showhide="hide";
         <td><input type="text" class="inputText1 w350" name="indexpic"
 						id="indexpic" maxlength="100" value="{$db.indexpic}" />
           <input
-						type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
+						type="button" class="btn1 btnUpload" id="btnUpload" value="上传" onclick="selectPic(this);"/></td>
       </tr>
       <tr class="row0 proext  {$showhide}">
         <td class="col1">价格：</td>
@@ -222,5 +222,18 @@ $showhide="hide";
 </form>
 <div class="clr"></div>
 <include file="Index:footer" />
+<script>
+    upload.prototype.createContent("#images",'info');
+    upload.prototype.createContent("#content",'info');
+    /**
+     * 选择图片
+     */
+    function selectPic(obj){
+        upload.prototype.callback = function(url, path){
+            $(obj).siblings('.inputText1').val(path);
+        }
+        upload.prototype.uploadPic("banner");
+    }
+</script>
 </body>
 </html>

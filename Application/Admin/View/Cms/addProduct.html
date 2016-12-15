@@ -59,7 +59,7 @@
         <td class="col1">形象图：</td>
         <td><input type="text" class="inputText1 w350" name="indexpic"
 					id="indexpic" maxlength="100" value="" /> 
-					<input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
+					<input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" onclick="selectPic(this);"/></td>
       </tr>
       <tr class="row0  {$showhide}" >
         <td class="col1">价格：</td>
@@ -166,6 +166,17 @@
 </form>
 <div class="clr"></div>
 <include file="Index:footer" />
-     
+<script>
+    /**
+     * 选择图片
+     */
+    function selectPic(obj){
+        upload.prototype.callback = function(url, path){
+            $(obj).siblings('.inputText1').val(path);
+        }
+        upload.prototype.uploadPic("banner");
+    }
+    upload.prototype.createContent("#content",'info');
+</script>
 </body>
 </html>

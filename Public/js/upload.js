@@ -21,14 +21,17 @@ upload.prototype.uploadPic= function(scope,uploadPhp){
     });
 }
 
-upload.prototype.createContent = function(contentId, scope){
+upload.prototype.createContent = function(contentId, scope,height){
+    if(!height){
+        height=350
+    }
     uploadPhp = url+'/Public/kindeditor/php/upload_json.php';
     var uploadJson = uploadPhp+"?scope="+scope;
     var options ={
         filterMode:false,
         showRemote : false,
         width:'700px',
-        height:'350px',
+        height:height+'px',
         uploadJson :uploadJson,
         allowFileManager : true, //开启多文件上传
         autoHeightMode : true,
