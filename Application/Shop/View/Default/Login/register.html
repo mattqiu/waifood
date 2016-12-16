@@ -275,6 +275,7 @@
             return false;
         }
         subBlock = true;//阻塞
+        loading();
         var $data = $("#myform").serialize();
         $data += '&cityname=' + $('#levecity .hover').data('city');
         $data += '&sex=' + $('#sex .hover').data('sex');

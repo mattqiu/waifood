@@ -52,7 +52,7 @@ class LoginController extends Controller {
         }
     }
 
-    //网页端扫码登陆微信回调界面
+   /* //网页端扫码登陆微信回调界面
     public function weixin_callback(){
         $code = I('get.code');
         if (empty($code)) {
@@ -74,7 +74,7 @@ class LoginController extends Controller {
             .$data['access_token'].'&openid=' . $data['openid'];
         $user = json_decode(HttpRequest::get($url), true);
         $this->_weiCallback($user);
-    }
+    }*/
 
     public function reg(){
         $data = I('post.');
@@ -112,8 +112,7 @@ class LoginController extends Controller {
         unset($data['password1'],$data['verify'],$data['password']);
         $id = UserModel::reg($data);
         if($id){
-            $subject='[waifood]register successfully';
-            sendEmail($data['email'],$subject);
+            UserModel::sendRegEmail($id);
             //注册完后自动登录
             if(true===UserModel::login($username, $userpwd)){//注册后自动登录
                 apiReturn(CodeModel::CORRECT,'Successful','/member/index');

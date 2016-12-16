@@ -28,6 +28,7 @@ upload.prototype.createContent = function(contentId, scope,height){
     uploadPhp = url+'/Public/kindeditor/php/upload_json.php';
     var uploadJson = uploadPhp+"?scope="+scope;
     var options ={
+        urlType: 'domain',
         filterMode:false,
         showRemote : false,
         width:'700px',

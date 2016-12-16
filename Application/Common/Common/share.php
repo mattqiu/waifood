@@ -16,7 +16,7 @@ function isVerifyCorrect()
 }
 
 function version(){
-    return 'v.3.1.5';
+    return 'v.3.1.6';
 }
 
 /**
@@ -237,29 +237,6 @@ function getGroupName()
     }
 }
 
-function sendEmail($to, $subject)
-{
-    $body = lbl('tpl_register');
-    if (!isN($body)) {
-        $preg = "/{(.*)}/iU";
-        $n = preg_match_all($preg, $body, $rs);
-        $rs = $rs[1];
-        if ($n > 0) {
-            foreach ($rs as $v) {
-                if (isset($data[$v])) {
-                    $oArr[] = '{' . $v . '}';
-                    $tArr[] = $data[$v];
-                    $body = str_replace($oArr, $tArr, $body);
-                }
-            }
-        }
-        if (send_mail($to, $subject, $body)) {
-            \Think\Log::write('send reg email success');
-        } else {
-            \Think\Log::write('send reg email error');
-        }
-    }
-}
 
 function getRealIp()
 {

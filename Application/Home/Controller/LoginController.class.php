@@ -89,8 +89,7 @@ class LoginController extends Controller
             unset($data['userpwd1'],$data['verify']);
             $id = UserModel::reg($data);
             if($id){
-                $subject='[waifood]register successfully';
-                sendEmail($data['email'],$subject);
+                UserModel::sendRegEmail($id);
                 //注册完后自动登录
                 if(true===UserModel::login($username, $userpwd)){//注册后自动登录
                     apiReturn(CodeModel::CORRECT,'Successful.','/member/index');
