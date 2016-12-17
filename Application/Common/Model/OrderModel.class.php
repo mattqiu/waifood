@@ -1,5 +1,6 @@
 <?php
 namespace Common\Model;
+use Home\Model\WeixinModel;
 use Think\Model;
 
 class OrderModel extends Model{
@@ -29,6 +30,13 @@ class OrderModel extends Model{
         return false;
     }
 
+    public static function getOrderByOrderno($orderno){
+        if($orderno){
+                $ocn['orderno'] = $orderno;
+                return M ( 'order' )->where($ocn)->find();
+        }
+        return false;
+    }
     public static function modifyOrder($orderno,$data){
         if($orderno && !empty($data)){
             $con['orderno'] = $orderno;
@@ -341,4 +349,6 @@ class OrderModel extends Model{
         }
         return $data;
     }
+
+
 }
