@@ -534,6 +534,20 @@ function delfile($file){
     if(file_exists($file)){
         return unlink ($file);
     }
+    return true;
+}
+
+/**
+ *  比较两个浮点数是否相等
+ * @param type $f1  浮点数1
+ * @param type $f2  浮点数2
+ * @param type $pre 精确后面的位数
+ */
+function floatEq($f1,$f2,$pre=2){
+    $epsilon = pow(10,-($pre+1));
+    if(abs($f1-$f2) < $epsilon){
+        return true;
+    }
     return false;
 }
 ?>

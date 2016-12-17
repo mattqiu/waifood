@@ -32,9 +32,8 @@ class IndexController extends BaseController {
 	    we('ok');
 	}
 
-    /**
-     * 微信自主支付
-     * 订单支付-会员卡支付
+    /**订单微信支付
+     * @return bool
      */
     public function payWeixin(){
         $orderId =  I('orderno');
@@ -42,17 +41,15 @@ class IndexController extends BaseController {
         if($isWeiPay){
             $user = UserModel::getUser();
             if(empty($user)){
-               GLog('jsApi pay','用户没有登录');
-              //  return false;
+                GLog('jsApi pay','用户没有登录');
+                return false;
             }
-            $userId = $user['id'];
-
             $order = OrderModel::getOrderByOrderno($orderId);
             if(empty($order)){
                 GLog('jsApi pay','订单不存在');
                 return false;
             }
-            $js = WeixinModel::getOrderSelfWxPay($order,2842);
+            $js = WeixinModel::getOrderSelfWxPay($order,$user['id']);
             if($js === true){
                 $this->assign("isPayed",true);
                 $this->display('payWeixin');

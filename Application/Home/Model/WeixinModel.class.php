@@ -43,11 +43,6 @@ class WeixinModel extends Model {
     }
 
     /**
-     *  商家自主支付-微信-订单-扫码支付
-     *  此处使用的旧接口,导致回调连接是固定的,在微信平台配置,不能随意更改
-     *  建议使用新微信接口,可动态更改
-     *  商户信息固定回调地址: http://www.3cfood.com/common/pay/weixinGetInfo
-     *  异步回调地址 : http://www.3cfood.com/common/pay/weixinCallback
      *
      * @param type $orderId
      * @return boolean|string
@@ -115,7 +110,7 @@ class WeixinModel extends Model {
         $conf['appsecret'] = C('WECHAT_APPSECRET');
         new \WxPayConf_pub($conf);
         $jsApi = new \JsApi_pub();
-        /*if(!empty($userId)){
+        if(!empty($userId)){
             $user = UserModel::getUserById($userId);
             $openId = $user['wechatid'];
             if(!empty($openId)){
@@ -126,7 +121,7 @@ class WeixinModel extends Model {
                 GLog("weixinjsPa","jsPa:".json_encode( $jsApiParameters));
                 return $jsApiParameters;
             }
-        }*/
+        }
         $code = I('code');
         if (!$code) {
             session('requesrUri', $_SERVER['REQUEST_URI']);
