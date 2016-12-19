@@ -16,6 +16,9 @@ $config = array(
     //'SESSION_TYPE'          => 'Db',
     'SESSION_EXPIRE'        =>30*60,//60秒
     'REDIS_DB'=>14,  //默认db
+    'WEICHAT_MCHID'=>'1406537802',  //受理商ID，身份标识
+    'WEICHAT_KEY'=>'Waifood2016Up123waifoocom4567895',  //商户支付密钥Key。
+
 
     // 分页设置
     'VAR_PAGESIZE' => 32,
