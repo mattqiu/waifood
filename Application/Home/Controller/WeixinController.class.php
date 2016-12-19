@@ -94,6 +94,8 @@ class WeixinController extends Controller {
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $notify->saveData($xml);
         $orderId =  $notify->data['out_trade_no'];
+        $wx_order_id=$notify->data['transaction_id'];
+        GLog("weixin","weixinCallback wx_order_id:".$wx_order_id,Log::INFO);
         GLog("weixin","weixinCallback orderid:".$orderId,Log::INFO);
         if(strpos($orderId, "_") !== false){ // 此处这样处理的原因?
             $arr = explode("_", $orderId);
