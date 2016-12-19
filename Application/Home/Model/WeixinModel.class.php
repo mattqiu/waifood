@@ -87,7 +87,7 @@ class WeixinModel extends Model {
             return true;
         }
         $paydata = array();
-        $paydata['order_id'] = $order['orderno'];
+        $paydata['orderno'] = $order['orderno'];
         $paydata['total_price'] = $order['amount'];
         $paydata['order_content'] = 'weixin zhi fu';
         $paydata['notify_url'] =WeixinModel::ORDER_WX_NOTIFY_URL;
@@ -162,8 +162,8 @@ class WeixinModel extends Model {
     private static function getWexinJsPara($paydata,$openId){
         $unifiedOrder = new \UnifiedOrder_pub();
         $unifiedOrder->setParameter('openid', $openId);
-        $orderIdNew = $paydata['order_id']."_".rand(0, 1000);
-        $unifiedOrder->setParameter('body', '订单号：    '.$paydata['order_id'].'  在线支付');//商品描述
+        $orderIdNew = $paydata['orderno']."_".rand(0, 1000);
+        $unifiedOrder->setParameter('body', '订单号：    '.$paydata['orderno'].'  在线支付');//商品描述
         $unifiedOrder->setParameter('detail', $paydata['order_content']);//商品详情
         $unifiedOrder->setParameter('out_trade_no', $orderIdNew);//商户订单号
         $unifiedOrder->setParameter("total_fee", $paydata['total_price']*100);//总金额
