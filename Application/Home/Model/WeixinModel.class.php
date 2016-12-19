@@ -71,7 +71,7 @@ class WeixinModel extends Model {
             $codeUrl = $nativeLink->getUrl();
             Vendor('phpqrcode');
             \QRcode::png($codeUrl, $path, 'M', 4, 2);
-        }dump($path);exit;
+        }
         return $path;
     }
 

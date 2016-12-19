@@ -3,7 +3,6 @@
 namespace Home\Controller;
 
 use Common\Model\OrderModel;
-use Common\Model\PayModel;
 use Common\Model\UserModel;
 use Home\Model\WeixinModel;
 use Think\Controller;
@@ -19,7 +18,6 @@ class WeixinController extends Controller {
         $this->conf['mchid'] = C('WEICHAT_MCHID');
         $this->conf['key'] = C('WEICHAT_KEY');
         $this->conf['appsecret'] = C('WECHAT_APPSECRET');
-        $this->conf=C('config');
         $this->returnUrl= C('DOMAIN')."home/";
     }
 
@@ -98,12 +96,14 @@ class WeixinController extends Controller {
         $notify->saveData($xml);
         $orderId =  $notify->data['out_trade_no'];
         GLog("weixin","weixinCallback orderid:".$orderId,Log::INFO);
-        if(strpos($orderId, "_") !== false){ //  此处这样处理的原因?
+        if(strpos($orderId, "_") !== false){ // 此处这样处理的原因?
             $arr = explode("_", $orderId);
             $orderId = $arr[0];
         }
+        GLog("weixin","weixin conf:".json_encode( $this->conf));
         GLog("weixin","orderId:".$orderId,Log::INFO);
         $orderInfo = OrderModel::getOrderByOrderno($orderId);
+
         if(empty($orderInfo)){
             GLog("weixin","cann't get order info",Log::ERR);
         }else{
