@@ -117,7 +117,7 @@ class WeixinController extends Controller {
                     GLog("weixin",'支付 result_code fail',Log::ERR);
                 }else{
                     $path = RUNTIME_PATH . '/WeiXinPay/'.$orderId.'.png';
-                    $totalPrice = round($notify->data['amount']/100,2);
+                    $totalPrice = round($notify->data['total_fee']/100,2);
                     GLog("weixin","weixinCallback notify:".json_encode($notify->data));
                     $rs = OrderModel::finishOnlineOrderPay($orderId,$totalPrice);
                     delfile($path);
