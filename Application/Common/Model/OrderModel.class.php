@@ -381,7 +381,7 @@ class OrderModel extends Model{
         //修改订单支付状态
         $data['paymethod'] =$paymethod;
         $data['pay'] = self::PAID;
-        $status = OrderModel::modifyOrderByCon($con,$con);
+        $status = OrderModel::modifyOrderByCon($con,$data);
         if(false === $status){
             GLog("orderpay","更新订单支付状态失败",Log::ERR);
             return false;

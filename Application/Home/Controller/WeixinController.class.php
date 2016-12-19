@@ -94,6 +94,8 @@ class WeixinController extends Controller {
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $notify->saveData($xml);
         $orderId =  $notify->data['out_trade_no'];
+        $wx_order_id=$notify->data['transaction_id'];
+        GLog("weixin","weixinCallback wx_order_id:".$wx_order_id,Log::INFO);
         GLog("weixin","weixinCallback orderid:".$orderId,Log::INFO);
         if(strpos($orderId, "_") !== false){ // 此处这样处理的原因?
             $arr = explode("_", $orderId);
@@ -117,7 +119,7 @@ class WeixinController extends Controller {
                     GLog("weixin",'支付 result_code fail',Log::ERR);
                 }else{
                     $path = RUNTIME_PATH . '/WeiXinPay/'.$orderId.'.png';
-                    $totalPrice = round($notify->data['amount']/100,2);
+                    $totalPrice = round($notify->data['total_fee']/100,2);
                     GLog("weixin","weixinCallback notify:".json_encode($notify->data));
                     $rs = OrderModel::finishOnlineOrderPay($orderId,$totalPrice);
                     delfile($path);

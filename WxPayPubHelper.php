@@ -333,6 +333,7 @@ class UnifiedOrder_pub extends Wxpay_client_pub {
     function getPrepayId() {
         $this->postXml();
         $this->result = $this->xmlToArray($this->response);
+        Log::record(json_encode(  $this->result) . '//////////////////////'  );
         foreach ( $this->result as $k => $v ){
             file_put_contents(LOG_PATH.'/result.txt', $k.'==>'.$v.'\r\n',FILE_APPEND);
         }
