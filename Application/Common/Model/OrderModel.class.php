@@ -362,7 +362,7 @@ class OrderModel extends Model{
      *
      */
     public static function finishOnlineOrderPay($orderno,$payPrice=false,$paymethod=self::PAY_WEICHAR){
-        $con['order_id'] = $orderno;
+        $con['orderno'] = $orderno;
         $order = OrderModel::getOrderByOrderno($orderno);
         if(empty($order)){
             GLog("orderpay","接收到支付通知,未找到对应订单信息,order_id: $orderno",Log::ERR);

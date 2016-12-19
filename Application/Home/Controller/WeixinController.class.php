@@ -91,7 +91,6 @@ class WeixinController extends Controller {
         include(APP_PATH.'../WxPay.pub.config.php');
         include(APP_PATH.'../WxPayPubHelper.php');
         $notify = new \Notify_pub();
-        GLog("weixin","weixinCallback data:".json_encode($notify),Log::INFO);
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $notify->saveData($xml);
         $orderId =  $notify->data['out_trade_no'];
@@ -103,7 +102,7 @@ class WeixinController extends Controller {
         GLog("weixin","weixin conf:".json_encode( $this->conf));
         GLog("weixin","orderId:".$orderId,Log::INFO);
         $orderInfo = OrderModel::getOrderByOrderno($orderId);
-
+        GLog("weixin","weixinCallback data:".json_encode($notify),Log::INFO);
         if(empty($orderInfo)){
             GLog("weixin","cann't get order info",Log::ERR);
         }else{
@@ -118,7 +117,8 @@ class WeixinController extends Controller {
                     GLog("weixin",'支付 result_code fail',Log::ERR);
                 }else{
                     $path = RUNTIME_PATH . '/WeiXinPay/'.$orderId.'.png';
-                    $totalPrice = round($notify->data['total_fee']/100,2);
+                    $totalPrice = round($notify->data['amount']/100,2);
+                    GLog("weixin","weixinCallback notify:".json_encode($notify->data));
                     $rs = OrderModel::finishOnlineOrderPay($orderId,$totalPrice);
                     delfile($path);
                     if($rs){
