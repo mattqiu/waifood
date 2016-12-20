@@ -6,7 +6,7 @@
     <include file="Index:header" />
 </head>
 
-<body style="background: #f8f8f8">
+<body pagename="order" style="background: #f8f8f8">
 <include file="Index:nav2" />
 <div class="container">
     <div class="path clr"><a href="/">Home</a> &gt; <a href="/member/index.html">My Account</a> </div>
@@ -46,12 +46,14 @@
                                     Cash on delivery
                                     <elseif condition="$vo['paymethod'] eq 2"/>
                                     Paypal
+                                    <elseif condition="$vo['paymethod'] eq 5"/>
+                                    WeChat
                                 </if>
-                                <div>
                                 <if condition="$vo['pay'] eq 0">
-                                    <span class="order_pay" onclick="showPaynowBox('{$vo.orderno}');" >Pay/Change</span>
+                                    <div>
+                                        <span class="order_pay" onclick="window.location.href='/index/pay.html?orderno={$vo.orderno}';" >Pay/Change</span>
+                                    </div>
                                 </if>
-                                </div>
                             </td>
                             <td >
                                 <div>{:get_status($vo['status'])}</div>
@@ -74,17 +76,6 @@
     </div>
 </div>
 <div class="clr"></div>
-<div id="paybox" style="text-align: center;line-height: 30px;" class="hide" >
-    <div class="radio-box">
-        <label class="radio radiofl on paymethod" data-val="4"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Choose');"><i></i>Cash on delivery</label><br/>
-        <label class="radio radiofl  paymethod" data-val="2"onclick="setRadioVal(this,'#pay'); $('.pay_btn').html('Go to pay');"><i></i>Paypal(USD)</label>
-        <input type="hidden" name="pay" id="pay" value="4" />
-        <input type="hidden" name="orderno" />
-    </div>
-    <br/>
-    <br/>
-    <button class="choose_btn pay_btn " onclick="paynow();" >Choose </button>
-</div>
 <include file="Index:footer" />
 <script>
     $(function(){

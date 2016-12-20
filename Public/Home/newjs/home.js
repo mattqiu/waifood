@@ -80,6 +80,8 @@ function paymethod(){
         $html += '<label class="radio on paymethod" data-val="4" onclick="gopay(this)"><i></i>Cash on delivery</label>';
         $html += ' <p></p>';
         $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
+        $html += ' <p></p>';
+        $html += '<label class="radio paymethod paypal" data-val="5"  onclick="gopay(this);"><i></i>WeChat Pay</label>';
         $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
         $html += ' </div>';
        $('body').append($html);

@@ -73,10 +73,10 @@ class WeixinController extends Controller {
      * 商户个人微信-订单-二维码支付
      */
     public function payCode(){
-            $orderno = I('orderno', 0);
-            if (!$orderno) {
-                    exit;
-                }
+        $orderno = I('orderno', 0);
+        if (!$orderno) {
+            exit;
+        }
         $path = WeixinModel::getOrderSeflWxQrcodePay($orderno);
         if ($path) {
             echo file_get_contents($path);
@@ -95,7 +95,6 @@ class WeixinController extends Controller {
         $notify->saveData($xml);
         $orderId =  $notify->data['out_trade_no'];
         $wx_order_id=$notify->data['transaction_id'];
-        GLog("weixin","weixinCallback wx_order_id:".$wx_order_id,Log::INFO);
         GLog("weixin","weixinCallback orderid:".$orderId,Log::INFO);
         if(strpos($orderId, "_") !== false){ // 此处这样处理的原因?
             $arr = explode("_", $orderId);
@@ -121,7 +120,7 @@ class WeixinController extends Controller {
                     $path = RUNTIME_PATH . '/WeiXinPay/'.$orderId.'.png';
                     $totalPrice = round($notify->data['total_fee']/100,2);
                     GLog("weixin","weixinCallback notify:".json_encode($notify->data));
-                    $rs = OrderModel::finishOnlineOrderPay($orderId,$totalPrice);
+                    $rs = OrderModel::finishOnlineOrderPay($orderId,$totalPrice,OrderModel::PAY_WEICHAR,$wx_order_id);
                     delfile($path);
                     if($rs){
                         $notify->setReturnParameter('return_code', 'SUCCESS');//设置返回码
@@ -174,7 +173,7 @@ class WeixinController extends Controller {
                     $nativeCall->setReturnParameter("return_msg","签名失败");//返回信息
                 } else {
                     $unifiedOrder = new \UnifiedOrder_pub();
-                    $unifiedOrder->setParameter('body', '订单号： '.$order['orderno'].'  在线支付');//商品描述
+                    $unifiedOrder->setParameter('body', 'orderno.： '.$order['orderno'].'  Online payment');//商品描述
                     $unifiedOrder->setParameter('detail', 'weichat pay');//商品详情
                     //$unifiedOrder->setParameter('detail', $order['order_content']);//商品详情
                     $unifiedOrder->setParameter('out_trade_no', $order['orderno']);//商户订单号

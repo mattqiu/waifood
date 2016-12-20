@@ -48,16 +48,17 @@ class WeixinModel extends Model {
      * @return boolean|string
      */
     public static function getOrderSeflWxQrcodePay($orderno){
-            $order = OrderModel::getOrderByOrderno($orderno);
-            if (empty($order)) {
-                    return false;
+        $order = OrderModel::getOrderByOrderno($orderno);
+        if (empty($order)) {
+            return false;
         }
         $path = RUNTIME_PATH . '/WeiXinPay/';
         if (!is_dir($path)) {
             mkdir($path , 0755, TRUE);
         }
         $path = $path . $orderno . '.png';
-        if (!file_exists($path)){
+        $createtime = time()-filemtime ($path);
+        if ($createtime>60 || !file_exists($path)){
             include(APP_PATH.'../WxPay.pub.config.php');
             include(APP_PATH.'../WxPayPubHelper.php');
             $conf['appid'] = C('WECHAT_APPID');
@@ -163,7 +164,7 @@ class WeixinModel extends Model {
         $unifiedOrder = new \UnifiedOrder_pub();
         $unifiedOrder->setParameter('openid', $openId);
         $orderIdNew = $paydata['orderno']."_".rand(0, 1000);
-        $unifiedOrder->setParameter('body', '订单号：    '.$paydata['orderno'].'  在线支付');//商品描述
+        $unifiedOrder->setParameter('body', 'orderno.：    '.$paydata['orderno'].'  Online payment');//商品描述
         $unifiedOrder->setParameter('detail', $paydata['order_content']);//商品详情
         $unifiedOrder->setParameter('out_trade_no', $orderIdNew);//商户订单号
         $unifiedOrder->setParameter("total_fee", $paydata['total_price']*100);//总金额
