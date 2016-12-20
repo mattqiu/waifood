@@ -75,5 +75,43 @@ class ContentModel extends Model {
         $data['under_time'] = date('Y-m-d H:i:s',time());
         M('content')->where($con)->save($data);
     }
-    
+
+    /**
+     * 删除商品时，删除对应商品的形象图和详情图
+     * @param $id
+     */
+    public static function delContent($id){
+        if(regex($id,'number')){
+            $path = substr(C('UPLOAD_PATH'),0,-8);
+            $content =  M('content')->find($id);
+            //相册
+            $img = get_imgs($content['images']) ;
+            if(!empty($img)){
+                foreach($img as $value){
+                    $file = $path.$value;
+                    if(file_exists($file)){
+                        unlink ($file);
+                    }
+                }
+            }
+            //形象图
+            if(file_exists($path.$content['indexpic'])){
+                unlink ($path.$content['indexpic']);
+            }
+            //详情图
+            preg_match_all("/\<img.*?src\=\"(.*?)\"[^>]*>/i", $content['content'], $match);
+            if(is_array($match[1])){
+                foreach($match[1] as $val){
+                    $file = $path.$val;
+                    if(file_exists($file)){
+                        unlink ($file);
+                    }
+                }
+            }
+            //删除商品
+          return  M('content')->delete($id);
+        }
+        return false;
+    }
+
 }

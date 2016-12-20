@@ -2,6 +2,7 @@
 
 namespace Admin\Controller;
 
+use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
 use Common\Model\CodeModel;
 
@@ -941,9 +942,7 @@ class CmsController extends BaseController {
 
 	// 删除内容
 	public function deleteContent($id) {
-		$sortpath='';
-		$db = M ( "content" );
-		$db=$db->delete ( $id );
+        $db= ContentModel::delContent($id);
 		if ($db !== false) {
 			$this->success ( "删除成功！" );
 		} else {
