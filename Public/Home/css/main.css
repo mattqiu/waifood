@@ -473,6 +473,7 @@ footer #CartNo{display: block; width: 20px;height: 20px;background: #f17a02; col
 .uitem:first-child img{width: 20%;left: 40%}
 .userbind img{width: 27%;left: 38%}
 .uitem .item_tic{color: #666666; font-size: 16px;margin-top: 5px}
+.userbind  .item_tic{font-size: 14px;margin-top: 8px;}
 
 .ordertap{position: fixed; background: #ffffff;}
 .ordertap,.ordertap a{height: 46px;font-size:16px;line-height: 46px; }
@@ -512,8 +513,7 @@ footer #CartNo{display: block; width: 20px;height: 20px;background: #f17a02; col
 .good-li .ov-good-img img{width: 100%;}
 .good-li .ov-good{width: 73%}
 .good-li .ov-good .fc_orange{font-size: 13px;}
-.money-info{width: 90%; color: #333333;text-align: right;margin: 0 auto}
-.money-info{height: 43px; font-size: 13px;line-height: 23px;}
+.money-info{width: 90%; color: #333333;text-align: right;margin: 0 auto; font-size: 13px;line-height: 23px;}
 .money-total{height: 49px;width: 100%;line-height: 40px;  font-size: 16px;position: fixed;bottom:50px;background: #FFFFFF;border-top:  1px solid #cccccc;text-indent: 5%}
 .ov-pay{font-size: 14px}
 .ov-payed {font-size: 14px;color: #666666}
