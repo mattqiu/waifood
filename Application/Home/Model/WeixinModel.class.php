@@ -184,7 +184,7 @@ class WeixinModel extends Model {
     private static function getWexinJsPara($paydata,$openId){
         $unifiedOrder = new \UnifiedOrder_pub();
         $unifiedOrder->setParameter('openid', $openId);
-        $orderIdNew = $paydata['orderno']."_".rand(0, 1000);
+        $orderIdNew = $paydata['orderno'];
         $unifiedOrder->setParameter('body',  'order ID： '.$paydata['orderno']);//商品描述
         $unifiedOrder->setParameter('detail', $paydata['order_content']);//商品详情
         $unifiedOrder->setParameter('out_trade_no', $orderIdNew);//商户订单号
