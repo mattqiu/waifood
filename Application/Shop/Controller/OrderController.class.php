@@ -46,12 +46,14 @@ class OrderController extends AuthController
             $where=array();
             $where['orderno']=$orderno;
             $order=M('order')->where($where)->find();
-            if($order['paymethod'] == OrderModel::PAYPAL){
-                $url = "/home/shop/pay.html?orderno={$order['orderno']}";
-                apiReturn(CodeModel::CORRECT,'Successful.',$url);
+            if($order['paymethod'] == OrderModel::PAYPAL){ //paypal 支付
+                $dat = "/home/shop/pay.html?orderno={$order['orderno']}";
+            }elseif($order['paymethod'] == OrderModel::PAY_WEICHAR){  //微信支付
+                $dat =array('url'=>"/home/weixin/payCode.html?orderno={$order['orderno']}",'orderno'=>$order['orderno']);
             }else{
-                apiReturn(CodeModel::CORRECT,'Successful.','/member/order.html');
+                $dat = '/member/order.html';
             }
+            apiReturn(CodeModel::CORRECT,'Successful.',$dat);
         }else{
             $this->assign('title','Failed.');
             $this->display('Shop/error');
@@ -87,6 +89,20 @@ class OrderController extends AuthController
             echo($html);
         } else {
             $this->error ( 'Order ' . $orderno . ' does not exist or without paying!' );
+        }
+    }
+
+    public function getOrderPayStatus(){
+        $orderno = I('post.orderno');
+        if($orderno){
+            $order = OrderModel::getOrderByOrderno($orderno);
+            if($order['pay'] == OrderModel::PAID){
+                apiReturn(CodeModel::CORRECT,'Successful.','/member/order.html');
+            }else{
+                apiReturn(CodeModel::ERROR,'Unpaid.');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 }

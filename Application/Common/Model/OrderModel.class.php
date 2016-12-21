@@ -361,7 +361,7 @@ class OrderModel extends Model{
      * @param float $payPrice  在线支付的金额 false 表示不校验
      *
      */
-    public static function finishOnlineOrderPay($orderno,$payPrice=false,$paymethod=self::PAY_WEICHAR){
+    public static function finishOnlineOrderPay($orderno,$payPrice=false,$paymethod=self::PAY_WEICHAR,$wxOrderId=null){
         $con['orderno'] = $orderno;
         $order = OrderModel::getOrderByOrderno($orderno);
         if(empty($order)){
@@ -380,7 +380,11 @@ class OrderModel extends Model{
         }
         //修改订单支付状态
         $data['paymethod'] =$paymethod;
+        $data['paytime'] = date('Y-m-d H:i:s');
         $data['pay'] = self::PAID;
+        if($wxOrderId){
+            $data['tradeno'] = $wxOrderId;
+        }
         $status = OrderModel::modifyOrderByCon($con,$data);
         if(false === $status){
             GLog("orderpay","更新订单支付状态失败",Log::ERR);

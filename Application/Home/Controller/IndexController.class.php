@@ -36,20 +36,27 @@ class IndexController extends BaseController {
      * @return bool
      */
     public function payWeixin(){
+        if(!FROM_WEIXIN){
+            $this->error('Please open it in wechat');
+            return false;
+        }
         $orderId =  I('orderno');
         $isWeiPay = WeixinModel::_weiXinVersion(5);
         if($isWeiPay){
-            $user = UserModel::getUser();
-            if(empty($user)){
-                GLog('jsApi pay','用户没有登录');
+            $userid = get_userid();;
+            if($userid<1){
+                GLog('jsApi pay','用户没有登录'.$userid);
+                $this->error('Please sign in.');
                 return false;
             }
             $order = OrderModel::getOrderByOrderno($orderId);
             if(empty($order)){
                 GLog('jsApi pay','订单不存在');
+                $this->error('Order does not exist');
                 return false;
             }
-            $js = WeixinModel::getOrderSelfWxPay($order,$user['id']);
+            $js = WeixinModel::getOrderSelfWxPay($order,$userid);
+            $this->assign("return_url","/member/order.html");
             if($js === true){
                 $this->assign("isPayed",true);
                 $this->display('payWeixin');
@@ -59,6 +66,8 @@ class IndexController extends BaseController {
             }
         }else{
             GLog("payweixin","微信版本不支持微信支付:".json_encode($_SERVER),Log::ERR);
+            $this->error('Your current wechat does not support wechat pay
+Your order has been paid successfully');
             return false;
         }
     }

@@ -10,6 +10,12 @@ function setRadioVal($obj,valObj){
     }
 }
 
+//保留2位小数，并防止浮出
+function fomatFloat(src){
+    var pos=2;
+    return Math.round(src*Math.pow(10, pos))/Math.pow(10, pos);
+}
+
 //读取cookies
 function getCookie(name)
 {

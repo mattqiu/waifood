@@ -9,6 +9,7 @@ $(function(){
     loadGood();
 })
 
+
 function closeModel(obj){
     $('.lean_overlay').hide();
     $(obj).hide();
@@ -523,9 +524,8 @@ function getSettleGood(){
     }
 }
 
-
 /*阻塞标志，防止重复下单；预设不阻塞*/
-window.subBlock=false;
+window.subBlock=false;var ot = '';
 /**
  * 提交订单
  * @returns {boolean}
@@ -586,7 +586,11 @@ function submitOrder(){
         if(data.code == 200){
             clearCart(); //清空购物车
             if(data.data){
-                clearpopj(data.message, "success",true,data.data);
+                if($('#paymethod').val() ==5){ //微信扫码支付
+                    window.location.href='/index/pay.html?orderno='+data.data.orderno;
+                }else{
+                    clearpopj(data.message, "success",true,data.data);
+                }
             }
         }else{
             clearpopj(data.message, "error",true);
@@ -594,6 +598,7 @@ function submitOrder(){
         }
     })
 }
+
 //清除购物车已购商品
 function clearCart(){
     var myfood =  $.cookie("settlement");
@@ -665,58 +670,3 @@ function clearCartAll(){
     $.cookie("settlement", null, {"path": "/"});
 
 }
-
-//弹出支付选择框
-function showPaynowBox(orderno){
-    $('#paybox input[name=orderno]').val(orderno);
-    getMask().maskShow({"tit": "pay","width":300, "cont": "#paybox"});
-}
-//修改支付方式/跳转支付
-function paynow(){
-    var $paymethod = $('#paybox input[name=pay]').val();
-    var orderno = $('#paybox input[name=orderno]').val();
-    $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
-        if(data.code ==200){
-            if($paymethod ==2){ //Paypal支付
-                clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
-            }else{
-                closeMask();
-                clearpopj('Successful.','success',true,'self');
-            }
-        }else{
-            clearpopj('Modify payment failed','error',true);
-        }
-    })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

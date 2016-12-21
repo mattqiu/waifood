@@ -48,16 +48,38 @@ class WeixinModel extends Model {
      * @return boolean|string
      */
     public static function getOrderSeflWxQrcodePay($orderno){
-            $order = OrderModel::getOrderByOrderno($orderno);
-            if (empty($order)) {
-                    return false;
+        $order = OrderModel::getOrderByOrderno($orderno);
+        if (empty($order)) {
+            return false;
         }
         $path = RUNTIME_PATH . '/WeiXinPay/';
         if (!is_dir($path)) {
             mkdir($path , 0755, TRUE);
         }
         $path = $path . $orderno . '.png';
-        if (!file_exists($path)){
+        $createtime = time()-filemtime ($path);
+        if ($createtime>60 || !file_exists($path)){
+            if(file_exists($path)){
+                delfile($path);
+            }
+/*            new \WxPayConf_pub($conf);
+            //设置静态链接
+            $nativeLink = new \NativeLink_pub();
+            //设置静态链接参数
+            $nativeLink->setParameter("product_id",$orderno);//商品id
+            //获取链接
+            $product_url = $nativeLink->getUrl();
+            //使用短链接转换接口
+            $shortUrl = new \ShortUrl_pub();
+            //设置必填参数
+            //appid已填,商户无需重复填写
+            //mch_id已填,商户无需重复填写
+            //noncestr已填,商户无需重复填写
+            //sign已填,商户无需重复填写
+            $shortUrl->setParameter("long_url",$product_url);//URL链接
+            //获取短链接
+            $codeUrl = $shortUrl->getShortUrl();*/
+
             include(APP_PATH.'../WxPay.pub.config.php');
             include(APP_PATH.'../WxPayPubHelper.php');
             $conf['appid'] = C('WECHAT_APPID');
@@ -162,8 +184,8 @@ class WeixinModel extends Model {
     private static function getWexinJsPara($paydata,$openId){
         $unifiedOrder = new \UnifiedOrder_pub();
         $unifiedOrder->setParameter('openid', $openId);
-        $orderIdNew = $paydata['orderno']."_".rand(0, 1000);
-        $unifiedOrder->setParameter('body', '订单号：    '.$paydata['orderno'].'  在线支付');//商品描述
+        $orderIdNew = $paydata['orderno'];
+        $unifiedOrder->setParameter('body',  'order ID： '.$paydata['orderno']);//商品描述
         $unifiedOrder->setParameter('detail', $paydata['order_content']);//商品详情
         $unifiedOrder->setParameter('out_trade_no', $orderIdNew);//商户订单号
         $unifiedOrder->setParameter("total_fee", $paydata['total_price']*100);//总金额
