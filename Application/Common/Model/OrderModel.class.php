@@ -89,7 +89,7 @@ class OrderModel extends Model{
             $data ['cityname']=$address['cityname'];
             $data ['email']=$address['email'];
         }else{
-            apiReturn('Sorry, address error.');
+            apiReturn(CodeModel::ERROR,'Sorry, address error.');
         }
         if(isMobile()){
             if(FROM_WEIXIN){
@@ -109,11 +109,13 @@ class OrderModel extends Model{
         }else{
             $data['status']=0;
         }
+        $discount =   ActiviModel::getActiviDiscount($amount);
         $data ['orderno'] = $orderno = get_order_no();
         $data ['num'] = $order['amountnum'];
-        $data ['amount'] =$amount+getShipfee($amount);//实际支付总金额
+        $data ['amount'] =($amount-$discount)+getShipfee($amount);//实际支付总金额=商品总价-折扣+配送费
         $data ['amountall'] =$amount+getShipfee($amount);//订单总金额
         $data ['shipfee'] = getShipfee($amount);
+        $data ['discount'] = $discount;
         $data ['userid'] = $userId;
         $data ['usertype'] = get_cate(get_userid (),'member','usertype');
         $data ['addip'] = getRealIp();

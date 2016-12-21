@@ -437,3 +437,41 @@ function flyCart(event,id,page){
         height:0
     },'slow');
 }
+
+/**
+ * 获取优惠折扣
+ * @param amount
+ * @returns {number}
+ */
+function getActiviDiscount(amount){
+    var discount = 0;
+    $.ajax({
+        type: "POST",
+        url:'/home/product/getActiviDiscount.html',
+        data: {amount:amount},
+        async: false,
+        success: function (data) {
+            discount = data.data;
+        }
+    });
+    return discount
+}
+
+/**
+ * 获取配送费
+ * @param amount
+ * @returns {number}
+ */
+function getdeliveryFee(amount){
+    var delivery_fee = 0;
+    $.ajax({
+        type: "POST",
+        url:'/home/shop/getdeliveryFee.html',
+        data: {money:amount},
+        async: false,
+        success: function (data) {
+            delivery_fee = data.data;
+        }
+    });
+    return delivery_fee
+}

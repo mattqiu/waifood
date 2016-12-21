@@ -6,6 +6,16 @@ use Common\Model\UserModel;
 
 class AuthController extends BaseController {
 	public function _initialize() {
+        //特殊节日优惠标示，结束后删除
+        if(isset( $_REQUEST['hd']) &&  $_REQUEST['hd']){
+            session('hd', $_REQUEST['hd']);
+            cookie('hd', $_REQUEST['hd']);
+        }
+//        if(UserModel::isAttention()){
+//            $this->assign('subscribe', true); //关注
+//        }else{
+//            $this->assign('subscribe', false); //未关注
+//        }
 		// 加入权限判断
 		$this->checkLogin ();
 		parent::_initialize ();
@@ -28,7 +38,7 @@ class AuthController extends BaseController {
             }
         }
 	}
-	
+
 	
 }
 ?>

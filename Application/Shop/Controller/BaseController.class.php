@@ -9,6 +9,11 @@ class BaseController extends Controller
 
     public function _initialize()
     {
+        //特殊节日优惠标示，结束后删除
+        if(isset( $_REQUEST['hd']) &&  $_REQUEST['hd']){
+            session('hd', $_REQUEST['hd']);
+            cookie('hd', $_REQUEST['hd']);
+        }
         $user = UserModel::getUser();
         if($user){
             $this->assign('user',$user);

@@ -8,7 +8,7 @@
 <js href="__PUBLIC__/Home/js/jquery.idTabs.min.js" />
 </head>
 
-<body>
+<body data-subscribe="{$subscribe}">
 <include file="Index:bar" />
 <div class="container">
   <neq name="gallery|count" value="0">
@@ -139,7 +139,7 @@ $(function(){
         wx.share={
             title:"Waifood",
             img: "{:C('DOMAIN')}"+$('#tapSlider img').eq(0).attr('src'),
-            link:window.location.href+'?to=share',
+            link:window.location.href+'?to=share&hd=specific',
             desc:"{$db.title}"
         };
         wx.wxshare();

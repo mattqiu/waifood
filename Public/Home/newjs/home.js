@@ -10,8 +10,8 @@ $(function(){
     window.weixinJs=function(){
         wx.share={
             title:"Waifood",
-            img:"http://www.waifood.com/Public/Home/images/logo_small.jpg",
-            link:"http://www.waifood.com/?to=share",
+            img:"http://www.waifood.com/Public/Home/images/logo_small.jpg?1",
+            link:"http://www.waifood.com/?to=share&hd=specific",
             desc:"Authentic Western & Imported Foods"
         };
         wx.wxshare();
@@ -535,15 +535,20 @@ function getdeliveryFee(money,obj){
  * @param obj
  * @param deliveryFee
  */
-function getAmountMoney(totalMoney,obj,deliveryFee){
-    $.post('/home/shop/getdeliveryFee.html',{money:totalMoney},function(data){
-        if(data.code == 200){
-            $(obj).html('&yen;'+data.data);
-            $(deliveryFee).html('&yen;'+data.data);
-            var $total = parseFloat(totalMoney)+parseFloat(data.data)
-            $(obj).html('&yen;'+$total);//总金额= 配送费+商品总金额
-        }
-    })
+function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
+    var discount = getActiviDiscount(totalMoney);
+    var delivery_fee = getdeliveryFee(totalMoney);
+    var allMoney = (totalMoney-parseFloat(discount))+parseFloat(delivery_fee);
+    if(discount>0){
+        var discountplan =discount;
+    }else{
+        var discountplan =40;
+    }
+    $(deliveryobj).html('&yen;'+delivery_fee);
+    $('#discountplan').html('&yen;'+discountplan);
+    $(discountobj).html('&yen;'+discount);
+    $(allMoneyobj).html('&yen;'+allMoney);//总金额= 配送费+商品总金额
+
 }
 
  function getCartGoodStock($obj){

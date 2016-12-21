@@ -1,5 +1,6 @@
 <?php
 namespace Common\Model;
+use Home\Model\WeixinModel;
 use Think\Model;
 
 class UserModel extends Model
@@ -9,6 +10,7 @@ class UserModel extends Model
 	const WECHAT_USER = 3;//微信用户
 
 	const NORMAL_USERS = 1;//正常使用的账号
+	const ATTENTION = 1;//关注
 
     public static function setUser($user){
         session('user',$user);
@@ -450,4 +452,55 @@ class UserModel extends Model
         }
     }
 
+    /**
+     * 是否关注
+     */
+    public static  function isAttention() {
+        // 用户权限检查
+        $user = self::getUser();
+        if(empty($user)){
+            return false;
+        }else{
+            //没有关注
+            if(!$isAttention = S('IS_SUBSCRIBE')){
+                if($user['subscribe'] != self::ATTENTION){
+                    $rs = self::checkUserIsAttention($user['wechatid']);
+                    if($rs){
+                        S('IS_SUBSCRIBE',1,86400*15);
+                        return true;
+                    }else{
+                        S('IS_SUBSCRIBE',0,86400*15);//半个月检测一次
+                        return false;
+                    }
+                }else{
+                    S('IS_SUBSCRIBE',1,86400*15);
+                }
+            }
+            return  $isAttention;
+        }
+    }
+
+    /**检测用户是否关注
+     * @param $openid
+     * @return bool
+     */
+    public static function checkUserIsAttention ($openid){
+        if(!$openid){
+            return false;
+        }
+        $token = WxJsSdkModel::getWxToken();
+        $subscribe_msg = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=$token&openid=$openid";
+        $data =json_decode(WeixinModel::http_get($subscribe_msg));
+        if($data){
+            $con['wechatid'] = $openid;
+            $savedata['subscribe'] = $data->subscribe;
+            self::modifyMemberByCon($con,$savedata);
+            self::setUser(self::getUserByOpenid($openid)); //修改后设置认证状态
+            if($data->subscribe === self::ATTENTION){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
 }
