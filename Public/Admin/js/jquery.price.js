@@ -51,6 +51,9 @@ function getPriceInfo()
 
 function rendPriceInfo(){
 	var $test = $("#priceinfo").val();
+    if(!$test){
+        return false;
+    }
 	var str=""
 	var arr1=$test.split("¤");
 	var arr2;

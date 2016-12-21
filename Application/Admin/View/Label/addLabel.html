@@ -4,10 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>标签添加</title>
 <include file="Index:header" />
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script language="javascript" type="text/javascript" src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
 </head>
 <body>
 <form action="__URL__/addLabel" method="post" name="form1" id="form1">
@@ -49,17 +50,7 @@
 </form>
 <include file="Index:footer" /> 
 <script language="JavaScript" type="text/javascript" >
-$(function(){ 	
-	$("#btnEditor").toggle(function(){
-		$("#info").addClass("editor").css("width","100%"); 
-		$("#info").removeClass("editor1");
-		$("#info").xheditor(default_setting);	
-	},function(){
-		$("#info").removeClass("editor");
-		$("#info").addClass("editor1").css("width","350px");
-		$("#info").xheditor(false);	
-	});	   
-})
+    upload.prototype.createContent("#info",'info',1);
 </script>
 </body>
 </html>

@@ -28,7 +28,7 @@
 			<tr class="row0">
 			  <td class="col1">形象图：</td>
 			  <td><input type="text" class="inputText1 w350" name="indexpic"
-					id="indexpic" maxlength="100" value="{$db.indexpic}" /> <input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
+					id="indexpic" maxlength="100" value="{$db.indexpic}" /> <input type="button" class="btn1 btnUpload" id="btnUpload" onclick="selectPic(this)" value="上传" /></td>
 		  </tr>　
 			<tr class="row0">
 				<td class="col1">排序：</td>
@@ -53,5 +53,20 @@
 		</table>
 	</form>
 	<include file="Index:footer" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script>
+        /**
+         * 选择图片
+         */
+        function selectPic(obj){
+            upload.prototype.callback = function(url, path){
+                $(obj).siblings('.inputText1').val(path);
+            }
+            upload.prototype.uploadPic("banner");
+        }
+    </script>
 </body>
 </html>

@@ -109,9 +109,9 @@ function gopay(obj){
     $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
         if(data.code ==200){
             if($paymethod ==2){ //Paypal支付
-                clearpopj(data.message,'success',true,"/m_pay?orderno="+orderno);
+                window.location.href="/m_pay?orderno="+orderno
             }else if($paymethod ==5){ //Paypal支付
-                clearpopj(data.message,'success',true,"/index/payWeixin.html?orderno="+orderno);
+                window.location.href="/index/payWeixin.html?orderno="+orderno
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();

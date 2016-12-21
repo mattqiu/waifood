@@ -4,10 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>订单添加</title>
 <include file="Index:header" />
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <script language="javascript" type="text/javascript" src="__PUBLIC__/Admin/js/jquery.idTabs.min.js"></script>
 </head>
 <body>
 <form action="__URL__/addOrder" method="post" name="form1"
@@ -84,5 +85,8 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
   </table>
 </form>
 <include file="Index:footer" />
+<script>
+    upload.prototype.createContent("#content",'info');
+</script>
 </body>
 </html>

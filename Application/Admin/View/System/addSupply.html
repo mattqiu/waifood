@@ -48,8 +48,11 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
 			</tr>
 			<tr class="row0">
 			  <td class="col1">形象图：</td>
-			  <td><input type="text" class="inputText1 w350" name="indexpic"
-					id="indexpic" maxlength="100" value="" /> <input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
+			  <td>
+                  <input type="text" class="inputText1 w350 fl" name="indexpic" id="indexpic" maxlength="100" value="" />
+                  <input type="button" class="btn1 btnUpload fl" onclick="selectPic();" value="上传" />
+
+              </td>
 		  </tr>
 			 
 			<tr class="row0">
@@ -72,5 +75,30 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
 		</table>
 	</form>
 	<include file="Index:footer" />
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
+    <div id="upload_pic" style="width: 300px;">
+        <img src="" width="100%" alt=""/>
+    </div>
+    <script>
+        /**
+         * 选择图片
+         */
+        function selectPic(){
+            upload.prototype.callback = function(url, path){
+//                $('#indexpic').siblings('.indexpic_img').show();
+//                $('#indexpic').siblings('.indexpic_img').find('img').attr('src',CONST_PUBLIC+path);
+                $('#indexpic').val(path);
+            }
+            upload.prototype.uploadPic("banner");
+        }
+
+//        function lookPic(){
+//            $('#upload_pic img').attr('src',CONST_PUBLIC+$('#indexpic').val());
+//            getMask().maskShow({"tit": "上传banner图","width":330, "cont": "#upload_pic"});
+//        }
+    </script>
 </body>
 </html>

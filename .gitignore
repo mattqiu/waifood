@@ -8,6 +8,5 @@ uploadfile/
 .settings/
 .idea
 dist/
-*.swp
-*.swf
+
 *.log

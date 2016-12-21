@@ -4,10 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>会员添加</title>
 <include file="Index:header" />
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
-<script type="text/javascript"
-	src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
 </head>
 <body>
 <form action="__URL__/addMember" method="post" name="form1"
@@ -67,7 +67,7 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
     <tr class="row0">
       <td class="col1">形象图：</td>
       <td colspan="3"><input type="text" class="inputText1 w350" name="indexpic" id="indexpic" maxlength="100" value="" />
-        <input type="button" class="btn1 btnUpload" id="btnUpload" value="上传" /></td>
+        <input type="button" class="btn1 btnUpload" id="btnUpload" onclick="selectPic(this);" value="上传" /></td>
     </tr>
     <tr class="row0">
       <td  colspan="4"><strong>联系信息</strong></td>
@@ -114,5 +114,17 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
   </table>
 </form>
 <include file="Index:footer" />
+<script>
+    /**
+     * 选择图片
+     */
+    function selectPic(obj){
+        upload.prototype.callback = function(url, path){
+            $(obj).siblings('.inputText1').val(path);
+        }
+        upload.prototype.uploadPic("banner");
+    }
+    upload.prototype.createContent("#content",'info');
+</script>
 </body>
 </html>

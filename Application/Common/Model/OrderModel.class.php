@@ -71,12 +71,13 @@ class OrderModel extends Model{
         if(empty($data['order'])){
             apiReturn(CodeModel::ERROR,'Sorry, Order content cannot be empty!');
         }
-       // self::catStock('20161110121951');return;
-
         if(!is_date(substr($data['delivertime'],0,10))){
             apiReturn(CodeModel::ERROR,'Sorry, please select the delivery date.');
         }
         $order = self::seperateOrder($data['order']);//获取商品
+        if(empty($order)){
+            apiReturn(CodeModel::ERROR,'Sorry, Order content cannot be empty!');
+        }
         $amount = self::checkOrder($order);//检查库存
         $addressid = $data['UseAddressID'];
         $address = AddressModel::getUserAddressById($addressid,$userId);
@@ -135,76 +136,65 @@ class OrderModel extends Model{
      * @param $userId
      */
     private static function sendEmail($orderno,$userId){
-        $mailhtml=self::mailhtml($orderno);
+        $body=self::mailhtml($orderno);
         $where['orderno']=$orderno;
         $data=M('order')->where($where)->find();
         //客户邮件：send_mail();
         $to=M('member')->where('id='.$userId)->getField('email');
         $subject='[waifood]order submit successfully';
-        $body=lbl('tpl_createorder');
+       // $body=lbl('tpl_createorder');
         if(!isN($body)){
-            $preg="/{(.*)}/iU";
-            $n=preg_match_all($preg,$body,$rs);
-            $rs=$rs[1];
-            if($n>0){
-                foreach($rs as $v){
-                    if(isset($data[$v])){
-                        $oArr[]='{'.$v.'}';
-                        $tArr[]=$data[$v];
-                        $body=str_replace($oArr,$tArr,$body);
-                    }
-                }
-            }
-            $body.=$mailhtml;
             if(!send_mail($to,$subject,$body)){
                 GLog('create order - send email to user '.$to,'发送邮件失败');
             }
         }
         //管理员邮件：
         $to= ConfigModel::getConfig('WEB_SITE_COPYRIGHT');//获取管理员邮箱//C('config.WEB_SITE_COPYRIGHT');
-        $subject='[waifood]new order from '.get_username(get_userid());
-        $body=lbl('tpl_receiveorder');
-        if(!isN($body)){
-            $preg="/{(.*)}/iU";
-            $n=preg_match_all($preg,$body,$rs);
-            $rs=$rs[1];
-            if($n>0){
-                foreach($rs as $v){
-                    if(isset($data[$v])){
-                        $oArr[]='{'.$v.'}';
-                        $tArr[]=$data[$v];
-                        $body=str_replace($oArr,$tArr,$body);
-                    }
-                }
-            }
-            $mailhtml=self::mailhtml($orderno,1);
-            $body.=$mailhtml;
-            if(!send_mail($to,$subject,$body)){
-                GLog('create order - send email to admin '.$to,'发送邮件失败');
-            }
+        if($data ['orderfrom'] == self::NORMAL){$client = 'PC';}else{$client = '微信';}
+        $subject="[新单/$client]".$data['amount'];
+        $body=self::mailhtml($orderno,1);
+        if(!send_mail($to,$subject,$body)){
+            GLog('create order - send email to admin '.$to,'发送邮件失败');
         }
     }
 
+    /**下单成功发送邮件（客户/管理员）
+     * @param $orderno
+     * @param string $admin
+     * @return string
+     */
     private static  function mailhtml($orderno,$admin='') {
+        header('Content-Type:text/html;charset=utf-8');
+        $userinfo = '';
         $html = '';
-        //$orderno = '201406031622041955';
+        $adminhtml = '';
+        $city = '其他';
+        $fapiao = 'No';
+        $productAmount = 0;
         $where = array ();
         $where ['orderno'] = $orderno;
         $data = M ( 'order' )->where ( $where )->find ();
         if ($data) {
-            $html.='<br /><br />Order details:<br />';
+            if($data['invoice']==1){$fapiao = "Yes"; }
+            if(strtolower(trim($data['cityname']))=='chengdu'){$city = "成都"; }
+            elseif(strtolower(trim($data['cityname']))=='chongqing'){$city = "重庆"; }
+            elseif(strtolower(trim($data['cityname']))=='xi\'an'){$city = "西安"; }
+            elseif(strtolower(trim($data['cityname']))=='kunming'){$city = "昆明"; }
             $detail = M ( 'order_detail' )->where ( $where )->select ();
-
-            $html.= "<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"1\" >\n";
-            $html.= "  <tr>\n";
-            $html.= "    <th width=\"10%\"> No. </th>\n";
+            $html.= "<table width='100%' style=\"padding: 0;margin: 0;border: #c0bfbf;font-size: 12px;line-height: 25px;border-collapse:collapse; font-family: 'verdana', 'Arial'\" cellpadding='0'  cellspacing='0' border='1'>\n";
+            $html.= "  <tr style='background:#f7f7f7;font-size: 14px; '>\n";
+            $html.= "    <th colspan='6' align='left' width='10%' style='padding-left: 16px'> Order details </th>\n";
+            $html.= "  </tr> \n";
+            $html.= "  <tr style='font-size: 14px; '>\n";
+            $html.= "    <th width='10%'> No. </th>\n";
             $html.= "    <th > Product Name</th>\n";
-            $html.= "    <th width=\"10%\"> Unit</th>\n";
-            $html.= "    <th width=\"10%\"> Price</th>\n";
-            $html.= "    <th width=\"10%\"> Quantity </th>\n";
-            $html.= "    <th width=\"10%\"> Subtotal</th> \n";
+            $html.= "    <th width='10%'> Unit</th>\n";
+            $html.= "    <th width='10%'> Price</th>\n";
+            $html.= "    <th width='10%'> Qty </th>\n";
+            $html.= "    <th width='10%'> Subtotal</th> \n";
             $html.= "  </tr> \n";
             foreach($detail as $k=>$v){
+                $productAmount += to_price($v['price']*$v['num']);
                 $html.= "    <tr align=\"center\">\n";
                 $html.= "      <td>".$v['productid']."</td>\n";
                 $html.= "      <td>".$v['productname']."</td>\n";
@@ -215,15 +205,43 @@ class OrderModel extends Model{
                 $html.= "    </tr> \n";
             }
             $html.= "  <tr>\n";
-            $html.= "    <td colspan=\"6\" align=\"right\"> Delivery Fee: ".($data['shipfee']==0?'FREE':$data['shipfee'])."<br />Coupon: ".($data['couponamount'])."<br />".($data['discount']==0?'':' Discount: '.$data['discount'].'<br />')."Total:".$data['amount']."</td> \n";
+            $html.= "<td colspan=\"6\" align=\"right\" style='padding-right: 50px;'>Product Amount <span style=\"font-family: '宋体'\">商品总额:</span>&yen;$productAmount <br/>
+Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['shipfee']==0?'FREE':'&yen;'.$data['shipfee'])."<br />Payable  <span style=\"font-family: '宋体'\">商品总额:</span>&yen;".$data['amount']."</td> \n";
             $html.= "  </tr> \n";
             $html.= "</table>\n";
 
-            if($admin){
-                $html.='<br />Receiving information:<br />Name：'.$data['username'].'<br />Mobile：'.$data['telephone'].'<br />Email：'.$data['email'].'<br /> Address：'.$data['proname'].''.$data['cityname'].''.$data['disname'].''.$data['address'].'';
+            if($admin){ //发送给管理员
+                $adminhtml="<div style=\"border-bottom: 1px solid #c0bfbf;line-height: 25px; font-size: 14px;word-break: break-all; font-weight: bold;font-family:Microsoft YaHei, '微软雅黑', '宋体'\">{$data['id']}号，{$city}，送货 <span style='font-weight: normal'>{$data['delivertime']}</span>，{$data['username']}，{$data['address']}</div>";
+                if($fapiao=='Yes'){$fp = "是"; }else{$fp = "否";}
+                $adminhtml.="<div style=\"line-height: 25px; font-size: 12px;word-break: break-all;font-family:Microsoft YaHei, '微软雅黑', '宋体'\">
+                            <br />发票：<span style='font-weight: bold'>{$fp}</span>&nbsp;；&nbsp;&nbsp; 客户电话：{$data['telephone']}<br />
+                             客户留言：{$data['info']}<br />
+                             订单号：{$orderno}<br />
+                             下单时间：{$data['addtime']}<br />
+                             </div><br/><br/>";
+                $html = $adminhtml.$html;
+            }else{ //发送给客户
+                $user = UserModel::getUserById($data['userid']);
+                if($user){
+                    $userinfo.= "<table width='100%' style=\"padding: 0;margin: 0;border: #c0bfbf;font-size: 12px;line-height: 25px;border-collapse:collapse;word-break: break-all; font-family: 'verdana', 'Arial'\" cellpadding='0'  cellspacing='0'  border='1'>\n";
+                    $userinfo.= "<tr style='background:#f7f7f7;font-size: 14px '>\n";
+                    $userinfo.= "<th colspan='2' align='left' width='10%' style='padding-left: 16px'> Order ID: $orderno</th>\n";
+                    $userinfo.= "</tr> \n";
+                    $userinfo.= "<tr align='left' >\n";
+                    $userinfo.= "<td style='padding-left: 5px;padding-right: 5px'>Consignee <span style=\"font-family: '宋体'\">收件人:</span>{$data['username']}(".($data['telephone']?$data['telephone']:$user['telephone']).")<br/>
+                                Delivery Time <span style=\"font-family: '宋体'\">收货时间:</span>{$data['delivertime']}<br/>
+                                Delivery Address <span style=\"font-family: '宋体'\">地址:</span>{$data['address']}
+                            </td>\n";
 
-                $html.='<hr /><br /><br />Delivery date:'.$data['delivertime'].'<br />';
-                $html.='Remarks:'.$data['info'].'<br />';
+                    $userinfo.= "<td style='padding-left: 5px;padding-right: 5px;vertical-align: initial; '>
+                                Customer <span style=\"font-family: '宋体'\">订购人:</span>{$user['username']}<br/>
+                                Fapiao <span style=\"font-family: '宋体'\">发票:</span>$fapiao<br/>
+                               Customer Message:{$data['info']}<br/>
+                        </td>\n";
+                    $userinfo.= "</tr> \n";
+                    $userinfo.= "</table><br/><br/><br/>\n";
+                    $html = $userinfo.$html;
+                }
             }
         }
         return($html);
@@ -316,12 +334,10 @@ class OrderModel extends Model{
                     }
                     $amount+= floatval($product['price'] * $val['num']);
                 }else{ //商品下架了
-
                     apiReturn(CodeModel::ERROR,$product['id'].'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
                     break;
                 }
             }
-
         }
         return $amount;
     }

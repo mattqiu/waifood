@@ -5,10 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>会员编辑</title>
     <include file="Index:header"/>
-    <script type="text/javascript"
-            src="__PUBLIC__/Admin/js/xheditor/xheditor-1.2.1.min.js"></script>
-    <script type="text/javascript"
-            src="__PUBLIC__/Admin/js/xheditor/xheditor_lang/zh-cn.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/kindeditor/themes/default/default.css" />
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
     <style>
         table{ margin-top: 10px; border: 1px solid #bebbdb}
     </style>
@@ -192,6 +192,7 @@
     </div>
 <include file="Index:footer"/>
 <script>
+    upload.prototype.createContent("#content",'info');
     var login_key =     '{$login_key}';
 //        regist_time = '{$info.addtime}',
 //        order_time = '{$order_time}';
@@ -223,6 +224,7 @@
             }
         })
     }
+
 </script>
 </body>
 </html>

@@ -234,6 +234,9 @@ function getCartGoodStock($objPage){
                         var obj = data.data;
                         for (var i in obj) {
                             if(obj[i]['id']){
+                                if(obj[i]['stock']>1 && myfood_array[obj[i]['id']]['amount']==0){
+                                    myfood_array[obj[i]['id']]['amount']=1;
+                                }
                                 if(parseInt(  myfood_array[obj[i]['id']]['amount'])>parseInt(obj[i]['stock'])) { //库存小于当前购物车商品数量
                                     myfood_array[obj[i]['id']]['amount'] = obj[i]['stock'];
                                 }

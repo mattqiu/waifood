@@ -508,7 +508,7 @@
 	border-top: 1px solid #CCCCCC;
 	font-size: 0;
 	line-height: 0;
-	height: 12px;
+	*height: 12px;
 	overflow: hidden;
 	text-align: center;
 	cursor: s-resize;
@@ -718,21 +718,21 @@
 	display: inline-block;
 	vertical-align: middle;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 }
 .ke-dialog-body img {
 	display: -moz-inline-stack;
 	display: inline-block;
 	vertical-align: middle;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 }
 .ke-dialog-body select {
 	display: -moz-inline-stack;
 	display: inline-block;
 	vertical-align: middle;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 	width: auto;
 }
 .ke-dialog-body .ke-textarea {
@@ -833,7 +833,7 @@
 	display: inline-block;
 	vertical-align: middle;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 }
 .ke-input-number {
 	width: 50px;
@@ -852,7 +852,7 @@
 	display: inline-block;
 	vertical-align: middle;
 	zoom: 1;
-	display: inline;
+	*display: inline;
 }
 .ke-upload-button {
 	position: relative;

@@ -425,4 +425,29 @@ class UserModel extends Model
         }
     }
 
+    public static function sendRegEmail($userid){
+        $body = lbl('tpl_register');
+        $user = self::getUserById($userid);
+        if (!isN($body) && !empty($user)) {
+            $subject='[waifood]register successfully';
+            $preg = "/{(.*)}/iU";
+            $n = preg_match_all($preg, $body, $rs);
+            if ($n > 0) {
+                $rs = $rs[1];
+                foreach ($rs as $v) {
+                    if (isset($user[$v])) {
+                        $oArr[] = '{' . $v . '}';
+                        $tArr[] = $user[$v];
+                        $body = str_replace($oArr, $tArr, $body);
+                    }
+                }
+            };
+            if (send_mail($user['email'], $subject, $body)) {
+                GLog('reg send email','send reg email success');
+            } else {
+                GLog('reg send email','send reg email error');
+            }
+        }
+    }
+
 }

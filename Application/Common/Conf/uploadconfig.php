@@ -8,6 +8,14 @@ return array(
         'uploadReplace'     =>  true,     // 存在同名是否覆盖
         'saveRule'          =>  'uniqid', // 上传文件命名规则
     ),
+    'info' => array(
+        'savepath'    => "info/",
+        'allowExts'         =>  array("jpg","gif","png","jpeg"),
+        'subType'           =>  'date',   // 子目录创建方式 可以使用hash date
+        'dateFormat'        =>  'Ym',
+        'uploadReplace'     =>  true,     // 存在同名是否覆盖
+        'saveRule'          =>  'uniqid', // 上传文件命名规则
+    ),
 /*    "master_case"=>array(
         '0xiao_fixed_width' =>260,
         '0xiao_fixed_height'=>180,

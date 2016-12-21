@@ -55,8 +55,7 @@ class OrderController extends AuthController
             }
             apiReturn(CodeModel::CORRECT,'Successful.',$dat);
         }else{
-            $this->assign('title','Failed.');
-            $this->display('Shop/error');
+            apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');
         }
     }
 
