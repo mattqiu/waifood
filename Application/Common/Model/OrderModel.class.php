@@ -1,11 +1,15 @@
 <?php
 namespace Common\Model;
+use Home\Model\WeixinModel;
+use Think\Log;
 use Think\Model;
 
 class OrderModel extends Model{
     const WECAHT = 1;//微信订单
     const NORMAL = 0;//电脑订单
+
     const PAYPAL = 2;//Paypal支付
+    const PAY_WEICHAR = 5;//微信支付
 
     const PAID = 1;//已支付
     const UNPAID = 0;//未支付
@@ -15,6 +19,7 @@ class OrderModel extends Model{
     const    DELIVERING  = 2;//
     const    COMPLETED = 3;//
     const    CANCELLED = 4;//
+
 
 
     /**根据订单号获取订单详情
@@ -29,6 +34,13 @@ class OrderModel extends Model{
         return false;
     }
 
+    public static function getOrderByOrderno($orderno){
+        if($orderno){
+                $ocn['orderno'] = $orderno;
+                return M ( 'order' )->where($ocn)->find();
+        }
+        return false;
+    }
     public static function modifyOrder($orderno,$data){
         if($orderno && !empty($data)){
             $con['orderno'] = $orderno;
@@ -357,4 +369,44 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
         }
         return $data;
     }
+
+    /**
+     *  完成在线订单支付后的处理
+     *
+     * @param int $orderno 订单id
+     * @param float $payPrice  在线支付的金额 false 表示不校验
+     *
+     */
+    public static function finishOnlineOrderPay($orderno,$payPrice=false,$paymethod=self::PAY_WEICHAR,$wxOrderId=null){
+        $con['orderno'] = $orderno;
+        $order = OrderModel::getOrderByOrderno($orderno);
+        if(empty($order)){
+            GLog("orderpay","接收到支付通知,未找到对应订单信息,order_id: $orderno",Log::ERR);
+            return false;
+        }
+        if(self::PAID == $order['pay']){
+            GLog("orderpay","订单已支付完成",Log::INFO);
+            return true;
+        }
+        if($payPrice){
+            if(!floateq($payPrice,$order['amount'])){
+                GLog("orderpay","第三方支付价格 与订单价格不一致 $payPrice == ".$order['amount']." rs: false",Log::ERR);
+                return false;
+            }
+        }
+        //修改订单支付状态
+        $data['paymethod'] =$paymethod;
+        $data['paytime'] = date('Y-m-d H:i:s');
+        $data['pay'] = self::PAID;
+        if($wxOrderId){
+            $data['tradeno'] = $wxOrderId;
+        }
+        $status = OrderModel::modifyOrderByCon($con,$data);
+        if(false === $status){
+            GLog("orderpay","更新订单支付状态失败",Log::ERR);
+            return false;
+        }
+        return true;
+    }
+
 }

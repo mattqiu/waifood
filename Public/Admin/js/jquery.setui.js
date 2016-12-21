@@ -83,8 +83,8 @@ $(function(){
 });
 
 (function(){
-	$.visit=function(){
-		//$.ajax({url:"/Login/test"});
+/*	$.visit=function(){
+		$.ajax({url:"/Login/test"});
 			
-	}
+	}*/
 })(jQuery);

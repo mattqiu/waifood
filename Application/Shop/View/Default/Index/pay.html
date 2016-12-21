@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$title}</title>
+    <meta name="keywords" content="{$keywords}" />
+    <meta name="description" content="{$description}" />
+    <include file="Index:header"/>
+</head>
+<body data-rate="{$order['rate']}" data-amount="{$order['amount']}" data-orderno="{$order['orderno']}">
+<include file="Index:bar" />
+<hr size="1" color="#e0e0e0" style="margin: 0;padding: 0"/>
+<div class="bg_white">
+    <div class="container tag-box">
+        <div style="height: 80px;line-height: 80px; ;font-size: 18px;"> Your order ID:{$order['orderno']} <span class="fr">  Payable <span class="fc_red orderamount">&yen;{$order['amount']}</span></span></div>
+        <div style="border: 1px solid #cccccc;height: 504px;">
+        <ul class="tag">
+            <li style="position: relative;top: 10px;" class="fl <if condition='$order.paymethod eq 4'>on</if>" data-paymethod="Cashondelivery">Cash on delivery</li>
+            <li style="position: relative;top: 10px;" class="fl <if condition='$order.paymethod eq 2'>on</if>" data-paymethod="Paypal">Paypal(USD)</li>
+            <li style="position: relative;top: 10px;"  class="fl <if condition='$order.paymethod eq 5'>on</if>" data-paymethod="WeChat">WeChat Pay</li>
+        </ul>
+        <div class="clr"></div>
+        <div id="WeChat" class="tc">
+            <br/>
+            <br/>
+            <br/>
+            <div class="fl" style="margin-left: 298px;">
+                <img src="/home/weixin/payCode.html?orderno={$order['orderno']}" width="300" alt=""/>
+                <div style=" width: 300px;height: 44px;line-height: 44px; text-align: center; background: #000000; color: #FFffff">Please scan with your wechat</div>
+            </div>
+            <div class="fl"><img src="__PUBLIC__/Shop/images/wechatqrpay.jpg" alt=""/></div>
+            <div class="clr"></div>
+        </div>
+        <div id="otherway" class="tc">
+            <div style="margin-top: 200px;" id="paymsg" ></div>
+            <button class="choose_btn pay_btn " >Go to My Paypal</button>
+        </div>
+        </div>
+    </div>
+</div>
+<div class="clr"></div>
+<include file="Index:footer" />
+<script>
+var ot='';
+$(function () {
+    $('.tag-box .tag li').click(function(){
+        $('.tag-box .tag li').removeClass('on');
+        $(this).addClass('on');
+        getPayContent();
+    })
+    getPayContent();
+})
+
+function getPayContent(){
+    var rate = $('body').data('rate'),amount=$('body').data('amount'),orderno=$('body').data('orderno');
+    var paymethod = $('.tag-box .tag li.on').data('paymethod');
+    if(paymethod =='WeChat'){
+        ot = setInterval(function(){
+            getOrderPayStatus(orderno);
+        },4000);
+        $('.orderamount').html('&yen;'+amount);
+        $('#otherway').hide();
+        $('#WeChat').show();
+    }else{
+        clearInterval(ot);
+        if(paymethod =='Paypal'){
+            $('.orderamount').html('$'+fomatFloat(parseFloat(amount)/parseFloat(rate)));
+            $('#paymsg').html('Click this button to your paypal account to finish your payment.');
+            $('#otherway .pay_btn').html('Go to My Paypal');
+            $('#otherway .pay_btn').attr('onclick','paynow(2,"'+orderno+'")');
+        }else{
+            $('.orderamount').html('&yen;'+amount);
+            $('#paymsg').html('If you want to pay by cash on delivery, please click this button.');
+            $('#otherway .pay_btn').html('Yes I want to pay by COD');
+            $('#otherway .pay_btn').attr('onclick','paynow(4,"'+orderno+'")');
+        }
+        $('#otherway').show();
+        $('#WeChat').hide();
+    }
+}
+
+//修改支付方式/跳转支付
+function paynow($paymethod,orderno){
+    $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
+        if(data.code ==200){
+            if($paymethod ==2){ //Paypal支付
+                clearpopj(data.message,'success',true,"/home/shop/pay.html?orderno="+orderno);
+            }else{
+                clearpopj('Successful.','success',true,'/member/order.html#order');
+            }
+        }else{
+            clearpopj('Modify payment failed','error',true);
+        }
+    })
+}
+
+//获取支付状态
+function getOrderPayStatus(orderno){
+    $.post('/shop/order/getOrderPayStatus',{orderno:orderno},function(data){
+        if(data.code == 200){
+            closeMask();
+            clearInterval(ot);
+            clearpopj(data.message, "success",true,data.data);
+        }
+    })
+}
+</script>
+</body>
+</html>

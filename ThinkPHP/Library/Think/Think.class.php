@@ -285,7 +285,7 @@ class Think {
 
         $e = array();
 //        if (APP_DEBUG || IS_CLI) {
-        if ( IS_CLI) {
+        if (DEPLOY_ENV == 'local'|| IS_CLI) {
             //调试模式下输出错误信息
             if (!is_array($error)) {
                 $trace          = debug_backtrace();

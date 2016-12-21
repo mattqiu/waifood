@@ -3,6 +3,10 @@
 namespace Home\Controller;
 
 use Common\Model\ContentModel;
+use Common\Model\OrderModel;
+use Common\Model\UserModel;
+use Home\Model\WeixinModel;
+use Think\Log;
 
 class IndexController extends BaseController {
 	public function index() {
@@ -27,5 +31,46 @@ class IndexController extends BaseController {
 	    $img = $ctrl->text ( '001',$font,250,'#ffffff',5)->save ( '2.jpg' );
 	    we('ok');
 	}
+
+    /**订单微信支付
+     * @return bool
+     */
+    public function payWeixin(){
+        if(!FROM_WEIXIN){
+            $this->error('Please open it in wechat');
+            return false;
+        }
+        $orderId =  I('orderno');
+        $isWeiPay = WeixinModel::_weiXinVersion(5);
+        if($isWeiPay){
+            $userid = get_userid();;
+            if($userid<1){
+                GLog('jsApi pay','用户没有登录'.$userid);
+                $this->error('Please sign in.');
+                return false;
+            }
+            $order = OrderModel::getOrderByOrderno($orderId);
+            if(empty($order)){
+                GLog('jsApi pay','订单不存在');
+                $this->error('Order does not exist');
+                return false;
+            }
+            $js = WeixinModel::getOrderSelfWxPay($order,$userid);
+            $this->assign("return_url","/member/order.html");
+            if($js === true){
+                $this->assign("isPayed",true);
+                $this->display('payWeixin');
+            }else{
+                $this->assign('jsApiParameters',$js);
+                $this->display('payWeixin');
+            }
+        }else{
+            GLog("payweixin","微信版本不支持微信支付:".json_encode($_SERVER),Log::ERR);
+            $this->error('Your current wechat does not support wechat pay
+Your order has been paid successfully');
+            return false;
+        }
+    }
+
 }
 ?>

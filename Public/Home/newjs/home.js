@@ -80,6 +80,8 @@ function paymethod(){
         $html += '<label class="radio on paymethod" data-val="4" onclick="gopay(this)"><i></i>Cash on delivery</label>';
         $html += ' <p></p>';
         $html += '<label class="radio paymethod paypal" data-val="2"  onclick="gopay(this);"><i></i>Paypal(USD)</label>';
+        $html += ' <p></p>';
+        $html += '<label class="radio paymethod wechat" data-val="5"  onclick="gopay(this);"><i></i>WeChat Pay</label>';
         $html += ' <input type="hidden" name="paymethod" id="paymethod" value="4" />';
         $html += ' </div>';
        $('body').append($html);
@@ -94,6 +96,9 @@ function showPaymethod(obj){
     if( $(obj).data('paymethod') ==2){
         $('#paymethod .paymethod').removeClass('on');
         $('#paymethod .paypal').addClass('on');
+    }else if( $(obj).data('paymethod') ==5){
+        $('#paymethod .paymethod').removeClass('on');
+        $('#paymethod .wechat').addClass('on');
     }
     $('.lean_overlay').show();
 }
@@ -104,7 +109,9 @@ function gopay(obj){
     $.post('/home/order/modifyOrderPaymethod',{orderno:orderno,paymethod:$paymethod},function(data){
         if(data.code ==200){
             if($paymethod ==2){ //Paypal支付
-                clearpopj(data.message,'success',true,"/m_pay?orderno="+orderno);
+                window.location.href="/m_pay?orderno="+orderno
+            }else if($paymethod ==5){ //Paypal支付
+                window.location.href="/index/payWeixin.html?orderno="+orderno
             }else{
                 $('.lean_overlay').hide();
                 $('.leanModal').hide();
@@ -499,7 +506,7 @@ function submitOrder(){
         if(data.code == 200){
             clearCart(); //清空购物车
             if(data.data){
-                clearpopj(data.message,'success',true,data.data);
+                clearpopj(data.message, "success",true,data.data);
             }
         }else{
             clearpopj(data.message,'error',true)

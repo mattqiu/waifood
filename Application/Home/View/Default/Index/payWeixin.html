@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <title></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="__PUBLIC__/js/jquery.2.2.1.min.js"></script>
+</head>
+<body>
+</body>
+<if condition="!empty($isPayed)">
+    <p class="center">Order has been pay a success</p>
+<else/>
+    <script type="text/javascript">
+    $(function(){
+        callpay()
+    });
+    function jsApiCall()
+    {
+        WeixinJSBridge.invoke(
+                'getBrandWCPayRequest',
+        <?php echo $jsApiParameters;?>,
+        function(res){
+            if (res.err_msg == 'get_brand_wcpay_request:ok') {
+                location.href='{$return_url}';
+                stiao("{$return_url}")
+            }
+            WeixinJSBridge.log(res.err_msg);
+        }
+    );
+    }
+    function callpay()
+    {
+        if (typeof WeixinJSBridge == "undefined"){
+            if( document.addEventListener ){
+                document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+            }else if (document.attachEvent){
+                document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+                document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+            }
+        }else{
+            jsApiCall();
+        }
+    }
+    function stiao(url){
+        var times = 1;
+        var incr = setInterval(function(){
+            times--;
+            if ( times <=0 ){
+                clearInterval(incr);
+                window.location.href=url;
+            }
+        },1000);
+    }
+
+</script>
+</if>
+</html>

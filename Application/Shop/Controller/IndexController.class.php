@@ -8,6 +8,7 @@ use Common\Model\CodeModel;
 use Common\Model\ConfigModel;
 use Common\Model\ContentModel;
 use Common\Model\DateModel;
+use Common\Model\OrderModel;
 use Common\Model\UserModel;
 
 class IndexController extends BaseController
@@ -172,6 +173,17 @@ class IndexController extends BaseController
             apiReturn(CodeModel::CORRECT,'Thanks, we will feedback to your ASAP');
         } else {
             apiReturn(CodeModel::ERROR,'Failed to submit.');
+        }
+    }
+
+    public function pay(){
+        $orderno = I('orderno');
+        if($orderno){
+            $order = OrderModel::getOrderByOrderno($orderno);
+            $this->assign ( 'order',$order);
+            $this->display();
+        }else{
+            $this->redirect('/member/order');
         }
     }
 

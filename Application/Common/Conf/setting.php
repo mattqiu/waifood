@@ -53,7 +53,8 @@ return array (
 1:支付宝
 2:Paypal
 3:财付通
-4:货到付款',
+4:货到付款
+5:微信支付',
             'CONFIG_BOOKTIME_LIST' => '',
             'CLEANING_TIMES_HOUR_PRICE' => '45',
             'CLEANING_MONTH_HOUR_PRICE' => '40',

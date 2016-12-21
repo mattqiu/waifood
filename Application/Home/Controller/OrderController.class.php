@@ -225,12 +225,14 @@ class OrderController extends BaseController {
             $where=array();
             $where['orderno']=$orderno;
             $order=M('order')->where($where)->find();
-            if($order['paymethod'] == OrderModel::PAYPAL){
+            if($order['paymethod'] == OrderModel::PAYPAL){//paypal 支付
                 $url = "/m_pay?orderno={$order['orderno']}";
-                apiReturn(CodeModel::CORRECT,'Successful.',$url);
+            }elseif($order['paymethod'] == OrderModel::PAY_WEICHAR){//微信支付
+                $url = "/index/payWeixin?orderno={$order['orderno']}";
             }else{
-                apiReturn(CodeModel::CORRECT,'Successful.','/member/order.html');
+                $url = '/member/order.html';
             }
+            apiReturn(CodeModel::CORRECT,'Successful.',$url);
         }else{
             $this->assign('title','Failed.');
             $this->display('Shop/error');
@@ -242,7 +244,7 @@ class OrderController extends BaseController {
         $paymethod = I('post.paymethod');
         if($orderno && $paymethod){
             $data['paymethod'] = $paymethod;
-            if(is_number(OrderModel::modifyOrder($orderno,$data))){
+            if(!OrderModel::modifyOrder($orderno,$data)){
                 apiReturn(CodeModel::CORRECT);
             }
         }
