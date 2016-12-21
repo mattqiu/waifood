@@ -44,8 +44,8 @@ class IndexController extends BaseController {
         $isWeiPay = WeixinModel::_weiXinVersion(5);
         if($isWeiPay){
             $userid = get_userid();;
-            if(empty($userid)){
-                GLog('jsApi pay','用户没有登录');
+            if($userid<1){
+                GLog('jsApi pay','用户没有登录'.$userid);
                 $this->error('Please sign in.');
                 return false;
             }
