@@ -43,8 +43,8 @@ class IndexController extends BaseController {
         $orderId =  I('orderno');
         $isWeiPay = WeixinModel::_weiXinVersion(5);
         if($isWeiPay){
-            $user = UserModel::getUser();
-            if(empty($user)){
+            $userid = get_userid();;
+            if(empty($userid)){
                 GLog('jsApi pay','用户没有登录');
                 $this->error('Please sign in.');
                 return false;
@@ -55,7 +55,7 @@ class IndexController extends BaseController {
                 $this->error('Order does not exist');
                 return false;
             }
-            $js = WeixinModel::getOrderSelfWxPay($order,$user['id']);
+            $js = WeixinModel::getOrderSelfWxPay($order,$userid);
             $this->assign("return_url","/member/order.html");
             if($js === true){
                 $this->assign("isPayed",true);
