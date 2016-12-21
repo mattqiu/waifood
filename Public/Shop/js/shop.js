@@ -585,12 +585,11 @@ function submitOrder(){
         closeLoad();
         if(data.code == 200){
             clearCart(); //清空购物车
-
             if(data.data){
                 if($('#paymethod').val() ==5){ //微信扫码支付
                     window.location.href='/index/pay.html?orderno='+data.data.orderno;
                 }else{
-                    //clearpopj(data.message, "success",true,data.data);
+                    clearpopj(data.message, "success",true,data.data);
                 }
             }
         }else{

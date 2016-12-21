@@ -59,6 +59,27 @@ class WeixinModel extends Model {
         $path = $path . $orderno . '.png';
         $createtime = time()-filemtime ($path);
         if ($createtime>60 || !file_exists($path)){
+            if(file_exists($path)){
+                delfile($path);
+            }
+/*            new \WxPayConf_pub($conf);
+            //设置静态链接
+            $nativeLink = new \NativeLink_pub();
+            //设置静态链接参数
+            $nativeLink->setParameter("product_id",$orderno);//商品id
+            //获取链接
+            $product_url = $nativeLink->getUrl();
+            //使用短链接转换接口
+            $shortUrl = new \ShortUrl_pub();
+            //设置必填参数
+            //appid已填,商户无需重复填写
+            //mch_id已填,商户无需重复填写
+            //noncestr已填,商户无需重复填写
+            //sign已填,商户无需重复填写
+            $shortUrl->setParameter("long_url",$product_url);//URL链接
+            //获取短链接
+            $codeUrl = $shortUrl->getShortUrl();*/
+
             include(APP_PATH.'../WxPay.pub.config.php');
             include(APP_PATH.'../WxPayPubHelper.php');
             $conf['appid'] = C('WECHAT_APPID');

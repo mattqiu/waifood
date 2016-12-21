@@ -55,6 +55,8 @@
                     $html+='<span class="info-r">';
                     if($data[i]['paymethod']==2 ){
                         $html+='Paypal';
+                    }else if($data[i]['paymethod']==5){
+                        $html+='Wechat Pay';
                     }else{
                         $html+='Cash on delivery';
                     }
@@ -77,7 +79,7 @@
                     }
                     $html+='<a  href="/Member/orderView.html?orderno='+$data[i]['orderno']+'" class="view-btn">View</a>';
                     if($data[i]['pay']!=1){
-                        $html+='<span onclick="showPaymethod(this);"  data-id="'+$data[i]['orderno']+'" data-paymethod="'+$data[i]['paymethod']+'" class="view-btn pay-btn">Pay now</span>';
+                        $html+='<span onclick="showPaymethod(this);"  data-id="'+$data[i]['orderno']+'"  data-paymethod="'+$data[i]['paymethod']+'" class="view-btn pay-btn">Pay now</span>';
                     }
                     $html+='</div>';
                     $html+='</div>';
