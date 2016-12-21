@@ -136,7 +136,7 @@
                 <eq name="vo.pay" value="0">
                     <span class="fc_blue">未支付</span>
                     <else/>
-                    <span class="fc_red">已支付</span>
+                    <span class="fc_red">已支付 <if condition="$vo['paymethod'] eq 5" ><span class="fc_red">（微）</span></if></span>
                 </eq>
             </td>
             <td>{$vo.info}</td>

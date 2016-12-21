@@ -96,7 +96,7 @@ class WeixinController extends Controller {
         $orderId =  $notify->data['out_trade_no'];
         $wx_order_id=$notify->data['transaction_id'];
         GLog("weixin","weixinCallback orderid:".$orderId,Log::INFO);
-        if(strpos($orderId, "_") !== false){ // 此处这样处理的原因?
+        if(strpos($orderId, "_") !== false){
             $arr = explode("_", $orderId);
             $orderId = $arr[0];
         }
@@ -176,7 +176,7 @@ class WeixinController extends Controller {
                     $unifiedOrder->setParameter('body', 'order ID： '.$order['orderno']);//商品描述
                     $unifiedOrder->setParameter('detail', 'weichat pay');//商品详情
                     //$unifiedOrder->setParameter('detail', $order['order_content']);//商品详情
-                    $unifiedOrder->setParameter('out_trade_no', $order['orderno']);//商户订单号
+                    $unifiedOrder->setParameter('out_trade_no', $order['orderno']."_".rand(0, 1000));//商户订单号
                     $unifiedOrder->setParameter('total_fee', $order['amount']*100);
                     $unifiedOrder->setParameter('notify_url' ,WeixinModel::ORDER_WX_NOTIFY_URL);//通知地址
                     $unifiedOrder->setParameter('trade_type', 'NATIVE');//交易类型
