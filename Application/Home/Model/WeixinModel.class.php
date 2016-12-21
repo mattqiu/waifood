@@ -185,7 +185,7 @@ class WeixinModel extends Model {
         $unifiedOrder = new \UnifiedOrder_pub();
         $unifiedOrder->setParameter('openid', $openId);
         $orderIdNew = $paydata['orderno']."_".rand(0, 1000);
-        $unifiedOrder->setParameter('body', 'orderno.：    '.$paydata['orderno'].'  Online payment');//商品描述
+        $unifiedOrder->setParameter('body',  'order ID： '.$paydata['orderno']);//商品描述
         $unifiedOrder->setParameter('detail', $paydata['order_content']);//商品详情
         $unifiedOrder->setParameter('out_trade_no', $orderIdNew);//商户订单号
         $unifiedOrder->setParameter("total_fee", $paydata['total_price']*100);//总金额

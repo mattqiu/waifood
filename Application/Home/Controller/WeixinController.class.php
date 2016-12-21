@@ -173,7 +173,7 @@ class WeixinController extends Controller {
                     $nativeCall->setReturnParameter("return_msg","签名失败");//返回信息
                 } else {
                     $unifiedOrder = new \UnifiedOrder_pub();
-                    $unifiedOrder->setParameter('body', 'orderno.： '.$order['orderno'].'  Online payment');//商品描述
+                    $unifiedOrder->setParameter('body', 'order ID： '.$order['orderno']);//商品描述
                     $unifiedOrder->setParameter('detail', 'weichat pay');//商品详情
                     //$unifiedOrder->setParameter('detail', $order['order_content']);//商品详情
                     $unifiedOrder->setParameter('out_trade_no', $order['orderno']);//商户订单号
