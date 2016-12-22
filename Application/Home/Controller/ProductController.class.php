@@ -2,6 +2,8 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Home\Controller;
 
+use Common\Model\ActiviModel;
+use Common\Model\CodeModel;
 use Common\Model\ContentModel;
 
 class ProductController extends BaseController {
@@ -136,5 +138,18 @@ class ProductController extends BaseController {
 		$this->display ();
 		
 	}
+
+    /**
+     * 获取活动折扣
+     */
+    public function getActiviDiscount(){
+        $amount = I('post.amount');
+        if($amount){
+            $discount = ActiviModel::getActiviDiscount($amount);
+            apiReturn(CodeModel::CORRECT,'',$discount);
+        }else{
+            apiReturn(CodeModel::CORRECT,'',0);
+        }
+    }
 }
 ?>

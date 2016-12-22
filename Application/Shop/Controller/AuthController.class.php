@@ -9,7 +9,11 @@ class AuthController extends BaseController
 
     public function _initialize()
     {
-
+        //特殊节日优惠标示，结束后删除
+        if(isset( $_REQUEST['hd']) &&  $_REQUEST['hd']){
+            session('hd', $_REQUEST['hd']);
+            cookie('hd', $_REQUEST['hd']);
+        }
         $user = UserModel::getUser();
         if(!empty($user)){
             $this->userId = $user['id'];

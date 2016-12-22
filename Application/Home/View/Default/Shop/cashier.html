@@ -136,9 +136,11 @@
                     </div>
                     <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                     <div class="good-count">
-                        <div class="foot-item fl">
+                        <div style="background: #f17a02;color: #FFffff;font-size: 12px;"><span id="discountplan"></span> OFF &yen;400+ SITEWIDE</div>
+                        <div class="foot-item fl" style="margin-top: 0">
                             <div class="fi-li">Quantity: <span id="quantity">0</span></div>
                             <div  class="fi-li"> Delivery Fee：<span class="" id="delivery_fee">&yen;{$cart.cart_shipfee|to_price}</span></div>
+                            <div  class="fi-li"> Discount：<span class="" id="discount">&yen;{$cart.cart_shipfee|to_price}</span></div>
                         </div>
                         <div class="foot-item fl tc" style="margin-top: 13px;">Total：<span class="fc_orange"  id="amount">&yen;0</span></div>
                         <div class="foot-item fr submit-button" onClick="submitOrder()" id="submit-button"><span class="tc">
@@ -240,7 +242,7 @@
                 }
                 $('#product_list').html($html);
                 $('#quantity').html(totalNum);
-                getAmountMoney(totalMoney,'#amount','#delivery_fee');
+                getAmountMoney(totalMoney,'#amount','#delivery_fee','#discount');
             }
             if(parseFloat(totalMoney)){
                 $('#cart_foot').removeClass('hide');

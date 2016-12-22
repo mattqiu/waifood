@@ -6,7 +6,7 @@
 <include file="Index:header" />
 </head>
 
-<body>
+<body data-subscribe="{$subscribe}">
 <include file="Index:bar" />
 <div class="container member">
     <div class="userinfo" >
@@ -20,23 +20,17 @@
     <div class="divide" style="height: 10px;"></div>
 
     <div class="useritem">
-        <div class="userAddr uitem">
-            <a href="/member/address">
-                <img src="__PUBLIC__/Home/images/address.png" alt=""  /><br/>
-                <div class="tc item_tic">My address</div>
-            </a>
+        <div class="userAddr uitem" onclick="window.location.href='/member/address.html'">
+            <img src="__PUBLIC__/Home/images/address.png" alt=""  /><br/>
+            <div class="tc item_tic">My address</div>
         </div>
-        <div class="userbind uitem">
-            <a href="/login/bind.html">
-                <img src="__PUBLIC__/Home/images/bind.png" alt="" /><br/>
-                <div class="tc item_tic">Bind My Account</div>
-            </a>
+        <div class="userbind uitem"  onclick="window.location.href='/login/bind.html'">
+            <img src="__PUBLIC__/Home/images/bind.png" alt="" /><br/>
+            <div class="tc item_tic">Bind My Account</div>
         </div>
-        <div class="userorder uitem">
-            <a href="/member/order.html">
-                <img src="__PUBLIC__/Home/images/order.png" alt="" /><br/>
-                <div class="tc item_tic">My Order</div>
-            </a>
+        <div class="userorder uitem" onclick="window.location.href='/member/order.html'">
+            <img src="__PUBLIC__/Home/images/order.png" alt="" /><br/>
+            <div class="tc item_tic">My Order</div>
         </div>
     </div>
 </div>
