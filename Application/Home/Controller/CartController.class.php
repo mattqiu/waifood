@@ -436,7 +436,7 @@ class CartController extends BaseController {
         $goodids = I('post.goodIds');
         if($goodids){
             $where['id']=array('in',$goodids);
-            $field =  'id,title,indexpic,price,stock,status';
+            $field = 'id,title,indexpic,price,stock,status';
             $list=M('content')->where($where)->field($field)->select();
             apiReturn(CodeModel::CORRECT,'',$list);
         }

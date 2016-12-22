@@ -226,6 +226,7 @@ function getCartGoodStock($objPage){
         var myfood_array = $.parseJSON(myfood);
         if (myfood_array) {
             for (var i in myfood_array) {
+                myfood_array[i]['status'] = 0; //初始所有都是下架（防止：有的商品被删除后获取不到状态）
                 $goodIds += ',' + myfood_array[i]['id'];
             }
             if($goodIds){
@@ -316,7 +317,7 @@ function getCartData(){
                     $html += '</td>';
                     $html += '<td align="center">' + idnum+ '</td>';
                     $html += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
-                    $html += '<img alt="{$vo.name}" src="' + obj[i]['indexpic'] + '" width="60" height="60" style="top: 0" /><span class="goodtitle"  style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
+                    $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="60" height="60" style="top: 0" /><span class="goodtitle"  style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     $html += '</td>';
                     $html += '<td align="center"><span class="jiage">&yen;' + obj[i]['price'] + '</span></td>';
                     $html += '<td align="center">';
@@ -345,7 +346,7 @@ function getCartData(){
                     outofstock += '</td>';
                     outofstock += '<td align="center">' + idnum + '</td>';
                     outofstock += '<td align="left"><a href="/Product/view.html?id=' + obj[i]['id'] + '">';
-                    outofstock += '<img alt="{$vo.name}" style="top: 0;" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle" style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
+                    outofstock += '<img alt="' + obj[i]['name'] + '" style="top: 0;" src="' + obj[i]['indexpic'] + '" width="60" height="60"  /><span class="goodtitle" style="position: relative;top: 20px;">' + obj[i]['name'] + '</span></a>';
                     outofstock += '</td>';
                     outofstock += '<td align="center"><span class="jiage">&yen;' + obj[i]['price'] + '</span></td>';
                     outofstock += '<td align="center">';

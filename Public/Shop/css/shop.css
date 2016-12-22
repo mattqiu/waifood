@@ -401,7 +401,7 @@ ul li.on{ background:#616161;  }
 .arrow {   float: left;   width: 32px; height: 62px;cursor: pointer;}
 .arrow-l {  margin: 69px 14px 0 0;  background: url("../images/step.png")  no-repeat center }
 .arrow-r {  margin: 69px 0 0 14px; background: url(../images/next.png) no-repeat center;  }
-.scroll-item { width: 634px;  float: left; height:207px; overflow: hidden /* position: relative; */}
+.scroll-item { float: left; height:207px; overflow: hidden /* position: relative; */}
 .scroll-item-top {height: 54px; }
 .scroll-item-top dt { float: left;  color: #212121; font-size: 14px; }
 .scroll-item-top .date-time { width: 95px;height: 54px; background: url(../images/delivery-time.png) no-repeat; }
