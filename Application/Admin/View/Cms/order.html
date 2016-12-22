@@ -138,7 +138,7 @@
                 <eq name="vo.pay" value="0">
                     <span class="fc_blue">未支付</span>
                     <else/>
-                    <span class="fc_red" style="font-size: 14px;">已支付 <if condition="!$vo['tradeno']" ><span class="fc_red" style="font-size: 8px;">自动</span></if></span>
+                    <span class="fc_red" style="font-size: 14px;">已支付 <if condition="$vo['tradeno']" ><span class="fc_red" style="font-size: 8px;">自动</span></if></span>
                 </eq>
             </td>
             <td>{$vo.info}</td>
