@@ -21,14 +21,13 @@ class PayController extends BaseController {
 				$totalfee=round($db['amount']/$rate, 2);
 				
             } 
-            
             $vo = new \Think\Pay\PayVo();
             $vo->setBody('')
                     ->setFee($totalfee) //支付金额
                     ->setOrderNo($orderno)
                     ->setTitle($subject)
-                    ->setCallback("Shop/Pay/pay")
-                    ->setUrl(U("/"))
+                    ->setCallback("Shop/Pay/notify")
+                    ->setUrl(U("/member/order"))
                     ->setParam(array('order_id' => $orderno));
             echo $pay->buildRequestForm($vo);
         } else {
