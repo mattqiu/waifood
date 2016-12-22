@@ -147,7 +147,13 @@ class UserModel extends Model
             $where = array();
             $where['status'] = 1;
             $where['wechatid'] = $openid;
-            return M('member')->where($where)->find();
+	    $user =  M('member')->where($where)->find();
+		if(!empty($user) && $user['id']>0){
+			return $user;
+		}else{
+			return false;;
+		}
+		
         }else{
             return false;
         }

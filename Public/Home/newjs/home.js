@@ -11,8 +11,8 @@ $(function(){
         wx.share={
             title:"Waifood",
             img:"http://www.waifood.com/Public/Home/images/logo_small.jpg?1",
-            link:"http://www.waifood.com/?to=share&hd=specific",
-            desc:"Authentic Western & Imported Foods"
+            link:"http://www.waifood.com/?to=share",
+            desc:"waifood share"
         };
         wx.wxshare();
     }
@@ -538,6 +538,9 @@ function getdeliveryFee(money,obj){
 function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     var discount = getActiviDiscount(totalMoney);
     var delivery_fee = getdeliveryFee(totalMoney);
+	if(!delivery_fee){
+	delivery_fee = 0;	
+}
     var allMoney = (totalMoney-parseFloat(discount))+parseFloat(delivery_fee);
     if(discount>0){
         var discountplan =discount;
