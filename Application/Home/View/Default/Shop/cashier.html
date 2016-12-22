@@ -46,11 +46,12 @@
                             <div class="good-item-title">Payment</div>
                             <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                             <div class="radio-box">
-                                <label class="radio on paymethod" data-val="4" onclick="setRadioVal(this,'#paymethod')"><i></i>Cash on delivery</label>
+                             	 <label class="radio on paymethod" data-val="5"  onclick="setRadioVal(this,'#paymethod')"><i></i>WeChat Pay</label>
+                                <p></p>
+				 <label class="radio paymethod" data-val="4" onclick="setRadioVal(this,'#paymethod')"><i></i>Cash on delivery</label>
                                 <p></p>
                                 <label class="radio paymethod" data-val="2"  onclick="setRadioVal(this,'#paymethod')"><i></i>Paypal(USD)</label>
                                 <p></p>
-                                <label class="radio paymethod" data-val="5"  onclick="setRadioVal(this,'#paymethod')"><i></i>WeChat Pay</label>
                                 <input type="hidden" name="paymethod" id="paymethod" value="4" />
                             </div>
 
@@ -76,8 +77,8 @@
                             <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
 
                             <div class="radio-box">
-                                <label class="radio radiofl paymethod" data-val="1" onclick="setRadioVal(this,'#invoice')"><i></i>yes</label>
-                                <label class="radio radiofl on paymethod" data-val="0"  onclick="setRadioVal(this,'#invoice')"><i></i>no</label>
+				<label class="radio radiofl on paymethod" data-val="0"  onclick="setRadioVal(this,'#invoice')"><i></i>No</label>
+                                <label class="radio radiofl paymethod" data-val="1" onclick="setRadioVal(this,'#invoice')"><i></i>Yes</label>
                                 <br/>
                                 <input type="hidden" name="invoice" id="invoice" value="0" />
                             </div>

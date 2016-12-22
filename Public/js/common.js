@@ -470,7 +470,9 @@ function getdeliveryFee(amount){
         data: {money:amount},
         async: false,
         success: function (data) {
+	  if(data.data>0){
             delivery_fee = data.data;
+	  }
         }
     });
     return delivery_fee
