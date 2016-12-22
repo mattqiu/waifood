@@ -186,11 +186,11 @@
      */
     function selectPic(obj){
         upload.prototype.callback = function(url, path){
-            $(obj).siblings('.inputText1').val(path);
+            $(obj).siblings('.inputText1').val('/Public'+path);
         }
-        upload.prototype.uploadPic("banner");
+        upload.prototype.uploadPic("goods");
     }
-    upload.prototype.createContent("#content",'info');
+    upload.prototype.createContent("#content",'goods');
 </script>
 </body>
 </html>

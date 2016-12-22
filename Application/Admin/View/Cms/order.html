@@ -127,16 +127,18 @@
                 </eq>
             </td>
             <td>
-                <eq name="vo.paymethod" value="4">
+                <if condition="$vo['paymethod'] eq 4">
                     货到付款
-                    <else/>
-                    在线支付
-                </eq>
+                <elseif condition="$vo['paymethod'] eq 2"/>
+                    Paypal(USD)
+                <elseif condition="$vo['paymethod'] eq 5"/>
+                    微信支付
+                </if>
                 <br/>
                 <eq name="vo.pay" value="0">
                     <span class="fc_blue">未支付</span>
                     <else/>
-                    <span class="fc_red">已支付 <if condition="$vo['paymethod'] eq 5" ><span class="fc_red">（微）</span></if></span>
+                    <span class="fc_red" style="font-size: 14px;">已支付 <if condition="!$vo['tradeno']" ><span class="fc_red" style="font-size: 8px;">自动</span></if></span>
                 </eq>
             </td>
             <td>{$vo.info}</td>
