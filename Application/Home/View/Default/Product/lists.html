@@ -73,7 +73,13 @@ $so=($sort=='desc'?'asc':'desc');
                             <div class="list-good-title fr">
                                 <div class="good-k">
                                     <a href="{:Uu('Product/view','id='.$vo['id'])}">
-                                        <span class="g_title" style="word-wrap:break-word " >{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</span><br/>
+                                        <span class="g_title" style="word-wrap:break-word " >
+                                            <if condition="isset($_REQUEST['keyword']) && $_REQUEST['keyword']">
+                                                {:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}
+                                                <else/>
+                                                {$vo['title']}
+                                            </if>
+                                        </span><br/>
                                         <span class="clo9">Unit:{$vo.unit}</span><br/>
                                         <span class="clo9">Preservation:{$vo.storage}</span><br/>
                                         <span class="clo9">Origin:{$vo.origin}</span>

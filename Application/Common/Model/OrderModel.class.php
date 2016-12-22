@@ -144,7 +144,6 @@ class OrderModel extends Model{
         //客户邮件：send_mail();
         $to=M('member')->where('id='.$userId)->getField('email');
         $subject='[waifood]order submit successfully';
-       // $body=lbl('tpl_createorder');
         if(!isN($body)){
             if(!send_mail($to,$subject,$body)){
                 GLog('create order - send email to user '.$to,'发送邮件失败');
@@ -169,7 +168,6 @@ class OrderModel extends Model{
         header('Content-Type:text/html;charset=utf-8');
         $userinfo = '';
         $html = '';
-        $adminhtml = '';
         $city = '其他';
         $fapiao = 'No';
         $productAmount = 0;
@@ -198,7 +196,11 @@ class OrderModel extends Model{
             foreach($detail as $k=>$v){
                 $productAmount += to_price($v['price']*$v['num']);
                 $html.= "    <tr align=\"center\">\n";
-                $html.= "      <td>".$v['productid']."</td>\n";
+                if($admin){
+                    $html.= "      <td>".$v['productid']."</td>\n";
+                }else{
+                    $html.= "      <td>".$k."</td>\n";
+                }
                 $html.= "      <td>".$v['productname']."</td>\n";
                 $html.= "      <td>".$v['unit']."&nbsp;</td>\n";
                 $html.= "      <td>".$v['price']."</td>\n";

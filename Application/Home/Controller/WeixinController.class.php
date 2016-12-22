@@ -55,17 +55,24 @@ class WeixinController extends Controller {
         GLog('weixin:login:user',json_encode($user));
         if(UserModel::getUserByOpenid($data['openid'])){
             if( UserModel::loginWechat($data['openid'])){
-                redirect('/');
+                if( session('gocashier')){
+                    session('gocashier','');
+                    redirect('/m_cashier');
+                }else{
+                    redirect('/');
+                }
             }
         }else{
             if( UserModel::createWechatUser($data['openid'])){
-                redirect('/');
+                if( session('gocashier')){
+                    session('gocashier','');
+                    redirect('/m_cashier');
+                }else{
+                    redirect('/');
+                }
             }
         }
-        if( session('gocashier')){
-            session('gocashier','');
-            redirect('/m_cashier');
-        }
+
     }
 
     /******************************************微信支付******************************************************************/

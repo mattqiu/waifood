@@ -10,38 +10,6 @@
 
 <body style="background:#F8F8F8 ">
 <include file="Index:nav2"/>
-<div class="cat_list_sx">
-    <div class="container">
-        <if condition="!isset($_REQUEST['group']) || !$_REQUEST['group']">
-         <!--   <div class="cat_obj_sx">
-                <div  class="cat_name fl">Brand:</div>
-                <div  class="cat_val fl">
-                    <a href="{:set_url('brand')}" <if condition="!$_REQUEST['brand']"> class="selected"</if>>All</a>
-                    <volist name="brandlist" id="vo">
-                        <a href="{:set_url('brand',$vo)}"<if condition="(parse_param($_REQUEST['brand'],true) eq strtolower($vo))" >class="selected"</if> >
-                        {$vo}
-                        </a>
-                    </volist>
-                </div>
-            </div>-->
-            <div class="clr"></div>
-            <!--<div class="cat_obj_sx cat_dashed">
-                <div class="cat_name fl">Origin:</div>
-                <div class="cat_val fl">
-                    <a href="{:set_url('origin')}" <if condition="!$_REQUEST['origin']"> class="selected"</if>>All</a>
-                    <volist name="originlist" id="vo">
-                        <a href="{:set_url('origin',$vo)}" <if condition="(parse_param(I('get.origin'),true) eq strtolower($vo))" >class="selected"</if>>
-                        {$vo}
-                        </a>
-                    </volist>
-                </div>
-            </div>-->
-            <div class="clr"></div>
-        <else/>
-
-        </if>
-      </div>
-</div>
 <div class="container">
     <if condition="(isset($_REQUEST['group']) && $_REQUEST['group']) || (isset($_REQUEST['keyword']) && $_REQUEST['keyword'])">
         <div class="path clr"><a href="/">Home</a> &gt;
@@ -59,18 +27,24 @@
         <div class="path clr">{:get_product_location($_REQUEST['id'])} </div>
     </if>
     <form class="px_tit" method="get" action="/Product/lists.html">
-        <input type="hidden" value="{$_REQUEST['group']}" name="group"/>
-        <input type="hidden" value="{$_REQUEST['keyword']}" name="keyword"/>
-        <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
+        <if condition="isset($_REQUEST['group'])">
+            <input type="hidden" value="{$_REQUEST['group']}" name="group"/>
+        </if>
+        <if condition="isset($_REQUEST['keyword'])">
+            <input type="hidden" value="{$_REQUEST['keyword']}" name="keyword"/>
+        </if>
+        <if condition="isset($_REQUEST['id'])">
+            <input type="hidden" value="{$_REQUEST['id']}" name="id"/>
+        </if>
         <input type="hidden" value="" id="peixu"/>
         <label class="px fl "  for="Default" style="padding-left: 3px;">
-            <input type="submit"  id="Default" <if condition="!$_REQUEST['price'] && !$_REQUEST['sales']">class="fc_red"</if> onclick="$('#peixu').val('');" value="Default"/>
+            <input type="submit"  id="Default" <if condition="!isset($_REQUEST['price']) && !isset($_REQUEST['sales'])">class="fc_red"</if> onclick="$('#peixu').val('');" value="Default"/>
         </label>
 
         <label class="px fl "  for="price"  <if condition="$_REQUEST['price'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','price');" >
             <input type="submit" id="price" value="Price" <if condition="$_REQUEST['price']">class="fc_red"</if>/>
-            <if condition="$_REQUEST['price'] eq 'asc'">
+            <if condition="isset($_REQUEST['price']) && $_REQUEST['price'] eq 'asc'">
                 <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
                 <elseif condition="$_REQUEST['price'] eq 'desc'"/>
                 <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
@@ -82,7 +56,7 @@
         <label  class="px fl" for="sales"  <if condition="$_REQUEST['sales'] eq 'desc'">data-val="asc"<else/>data-val="desc"</if>
         onclick="$('#peixu').val($(this).data('val'));$('#peixu').attr('name','sales');" >
             <input type="submit" id="sales"value="Sold"  <if condition="$_REQUEST['sales']">class="fc_red"</if>/>
-            <if condition="$_REQUEST['sales'] eq 'asc'">
+            <if condition="isset($_REQUEST['sales']) && $_REQUEST['sales'] eq 'asc'">
                 <img src="__PUBLIC__/Shop/images/_up_hover.png" alt=""/>
             <elseif condition="$_REQUEST['sales'] eq 'desc'"/>
                 <img src="__PUBLIC__/Shop/images/down_hover.png" alt=""/>
@@ -101,7 +75,14 @@
                         <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  /></div> </a>
                         <div class="good-name">
                             <a href="/product/view.html?id={$vo.id}">
-                                <div class="good_title">{:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}</div>
+                                <div class="good_title">
+                                    <if condition="isset($_REQUEST['keyword'])">
+                                        {:str_ireplace($_REQUEST['keyword'],'<span class="fc_red">'.$_REQUEST['keyword'].'</span>',$vo['title'])}
+                                    <else/>
+                                        {$vo['title']}
+                                    </if>
+
+                                </div>
                             </a>
                             <div class="good_item_info ">
                                 <div class="good_info list_good fl">
