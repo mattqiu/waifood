@@ -42,6 +42,7 @@ class PayController extends BaseController {
      * @param type $param
      */
     public function pay($money, $param) {
+        GLog('paypal ','.,,,,,,,,,,,,,,,,,,,,,,');
         if (session("pay_verify") == true) {
             session("pay_verify", null);
         	exit('Succeed.');
