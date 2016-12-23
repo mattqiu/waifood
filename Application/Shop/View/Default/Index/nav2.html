@@ -3,7 +3,7 @@
         <div class="logo fl"><a href="/"><img src="__PUBLIC__/images/logo.png" width="190" style="margin-top: 22px;" alt=""/></a></div>
         <div class="search fl" style="width: 470px;">
             <form  action="/product/lists.html" id="searchform" method="get" onsubmit="return search();">
-                <input type="text" name="keyword" id="keyword" placeholder="keywords..."  <if condition="$_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
+                <input type="text" name="keyword" id="keyword" placeholder="keywords..."  <if condition="isset($_REQUEST['keyword']) && $_REQUEST['keyword']"> value="{$_REQUEST['keyword']}"</if>/>
                 <button type="submit" value="" class="fr"></button>
             </form>
         </div>
@@ -17,11 +17,11 @@
                         </div>
                     </span>
                     <span class="slash"></span>&nbsp;&nbsp;&nbsp;
-                    <if condition="$user['id'] gt 0"><a href="/login/logout.html" style="color: #fc2c3d">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;<a href="/Login/register.html">Sign up</a></if>
+                    <if condition="isset($user) && $user['id'] gt 0"><a href="/login/logout.html" style="color: #fc2c3d">Sign out</a><else/><a href="/login/index.html" class="black">Sign in</a><span class="slash"></span>&nbsp;&nbsp;&nbsp;<a href="/Login/register.html">Sign up</a></if>
                      <span class="slash"></span>&nbsp;&nbsp;&nbsp;
-                    <a href="/member/index.html" title="{$user.username}">
+                    <a href="/member/index.html" <if condition="isset($user) && !empty($user)"> title="{$user.username}"</if>>
                         <img src="__PUBLIC__/Shop/images/myaccount.png" width="13" class="main" alt=""/>&nbsp;
-                        <if condition="$user['id']">{$user.username|msubstr=0,9,'UTF-8',true}<else/>My account</if>&nbsp;
+                        <if condition="isset($user) && $user['id']">{$user.username|msubstr=0,9,'UTF-8',true}<else/>My account</if>&nbsp;
                     </a>
                 </div>
         </div>
@@ -57,7 +57,7 @@
     </div>
 </div>
 <script>
-    var keyword = "{$_REQUEST['keyword']}";
+    var keyword = $('#keyword').val();
     if(keyword){
         animateShow($('#searchform input[name=keyword]'),0);
     }

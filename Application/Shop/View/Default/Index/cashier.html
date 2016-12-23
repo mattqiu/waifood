@@ -113,7 +113,7 @@
                                             </dt>
                                             <volist name="dateData" id="vo" >
                                                 <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
-                                                    <dd data-isholiday="{$vo.isholiday}"  <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if>>
+                                                    <dd data-isholiday="{$vo.isholiday}"  <if condition="isset($vo['isholiday']) && $vo['isholiday'] eq 1"> class='isholiday'</if>>
                                                     <if condition="$i eq 1">
                                                         Today
                                                         <elseif condition="$i eq 2"/>
@@ -133,7 +133,7 @@
                                                 <volist name="dateData" id="de" key="y">
                                                     <if condition="$y gt ($k)*7 and $y elt ($k+1)*7">
                                                         <dd  data-date="{$de.time}" data-time="{$vo}" value="{$de.time} {$vo}"
-                                                             <if condition="$de['isholiday'] eq 1"> class='isholiday_c'
+                                                             <if condition="isset($de['isholiday']) && $de['isholiday'] eq 1"> class='isholiday_c'
                                                                  <elseif condition="$y eq 1"/>
                                                                  <?php
                                                                $date1 = explode('-',$vo);
