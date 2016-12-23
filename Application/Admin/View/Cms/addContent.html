@@ -10,113 +10,215 @@
     <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
     <script>
         $(function() {
-            $("#fancyform").idealforms();
+            $("#infoform").idealforms();
+            $("#picform").idealforms();
+            $("#seoform").idealforms();
         });
     </script>
 </head>
 <body class="bg_white">
-<div class="container">
+<div class="container" style="overflow: hidden">
     <div class="page_title">商品添加</div>
-    <div class="tab_box">
+    <div class="tab_box" id="title_tab">
         <ul>
-            <li class="onselect">基本信息</li>
-            <li>基本信息</li>
-            <li>基本信息</li>
+            <li data-name="infoform">基本信息</li>
+            <li class="onselect" data-name="picform">图片设置</li>
+            <li data-name="seoform">SEO设置</li>
         </ul>
     </div>
-    <form onsubmit="return false" name="form1" class="contentform" id="fancyform">
-            <table border="0"style="width: 850px; margin: 0 auto;">
-                <tr>
-                    <td width="110" align="right" >所属分类：</td>
-                    <td width="300" style="overflow: hidden">
-                        <select name="pid">
-                            <option value="0">--选择类别--</option>
-                            {:R('Cms/treeselect', array($list))}
-                        </select>
-                    </td>
-                    <td width="110"  align="right">供应商：</td>
-                    <td width="300">
-                        <select name="supplyid" id="supplyid">
-                            <option value="0">--选择供应商--</option>
-                            <volist name="supplylist" id="vo">
-                                <option value="{$vo.id}">{$vo.name}</option>
-                            </volist>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="110" align="right" ><span class="fc_red">*</span> 英文名：</td>
-                    <td colspan="3"><input type="text" class="input_text1"  name="title" value="" />
-                        </td>
-                </tr>
-                <tr class="proext {$showhide}">
-                    <td width="110" align="right"  >中文名：</td>
-                    <td colspan="3"><input type="text" name="namecn" class="input_text1" value="" /> </td>
-                </tr>
-                <tr>
-                    <td width="110" align="right" >内部简称：</td>
-                    <td width="300"><input type="text" name="namecn"  class="input_text2"  value="" /></td>
-                    <td width="110"  align="right">拼音码：</td>
-                    <td width="300"><input type="text" name="namecn"  class="input_text2"  value="" /></td>
-                </tr>
-                <tr>
-                    <td colspan="4" align="left" style="padding-left: 27px;">
-                        <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="" />
-                        <span style="padding-left: 30px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="" />
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="left" style="padding-left: 41px;">
-                        <span>库存数：</span><input type="text" name="price"  class="input_text3"  value="0" />
-                        <span style="padding-left: 16px">库存单位：</span><input type="text" name="price1"  class="input_text3"  value="" />
-                    </td>
-                    <td width="110"  align="right">库存类型：</td>
-                    <td width="300">
-                        <select name="supplyid" >
-                            <option value="0">--选择类型--</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                    <td width="110"  align="right">库存关系：</td>
-                    <td width="300">
-                        <textarea name="" rows="4" class="textarea_text2"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <span style="margin-left: 40px;">保质期：</span><input type="text" name="price"  class="input_text3"  value="0" />
-                        <span style="padding-left: 30px">过期日：</span><input type="text" name="price1"  class="input_text3"  value="" />
-                    </td>
-                    <td width="110"  align="right">产地（国家）</td>
-                    <td width="300">
-                        <select name="supplyid" >
-                            <option value="0">--选择类型--</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td width="110" align="right"  >内部备注：</td>
-                    <td colspan="3"><input type="text" name="namecn" class="input_text1" value="" /> </td>
-                </tr>
-                <tr>
-                    <td width="110" colspan="4" >
-                        <div class="tab_box language_tab">
-                            <ul>
-                                <li class="onselect">中文</li>
-                                <li>英文</li>
-                            </ul>
-                        </div>
-                    </td>
-                </tr>
+    <form onsubmit="return false" name="form1" class="contentform" id="infoform">
+        <div class="goods_status_sel" style="width: 85px;position: relative;top: -55px;left: 850px;;">
+            <select name="status">
+                <option value="1">启用</option>
+                <option value="0">禁用</option>
+            </select>
+        </div>
 
+        <table border="0" style="width: 850px;">
+            <tr>
+                <td width="110" align="right" >所属分类：</td>
+                <td width="300" style="overflow: hidden">
+                    <select name="pid">
+                        <option value="0">--选择类别--</option>
+                        {:R('Cms/treeselect', array($list))}
+                    </select>
+                </td>
+                <td width="110"  align="right">供应商：</td>
+                <td width="300">
+                    <select name="supplyid" id="supplyid">
+                        <option value="0">--选择供应商--</option>
+                        <volist name="supplylist" id="vo">
+                            <option value="{$vo.id}">{$vo.name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="110" align="right" ><span class="fc_red">*</span> 英文名：</td>
+                <td colspan="3"><input type="text" class="input_text1"  name="title" value="" />
+                    </td>
+            </tr>
+            <tr class="proext {$showhide}">
+                <td width="110" align="right"  >中文名：</td>
+                <td colspan="3"><input type="text" name="namecn" class="input_text1" value="" /> </td>
+            </tr>
+            <tr>
+                <td width="110" align="right" >内部简称：</td>
+                <td width="300"><input type="text" name="namecn"  class="input_text2"  value="" /></td>
+                <td width="110"  align="right">拼音码：</td>
+                <td width="300"><input type="text" name="namecn"  class="input_text2"  value="" /></td>
+            </tr>
+            <tr>
+                <td colspan="4" align="left" style="padding-left: 27px;">
+                    <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="" />
+                    <span style="padding-left: 30px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="left" style="padding-left: 41px;">
+                    <span>库存数：</span><input type="text" name="price"  class="input_text3"  value="0" />
+                    <span style="padding-left: 16px">库存单位：</span><input type="text" name="price1"  class="input_text3"  value="" />
+                </td>
+                <td width="110"  align="right">库存类型：</td>
+                <td width="300">
+                    <select name="supplyid" >
+                        <option value="0">--选择类型--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"></td>
+                <td width="110"  align="right">库存关系：</td>
+                <td width="300">
+                    <textarea name="" rows="4" class="textarea_text2"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <span style="margin-left: 40px;">保质期：</span><input type="text" name="price"  class="input_text3"  value="0" />
+                    <span style="padding-left: 30px">过期日：</span><input type="text" name="price1"  class="input_text3"  value="" />
+                </td>
+                <td width="110"  align="right">产地（国家）</td>
+                <td width="300">
+                    <select name="supplyid" >
+                        <option value="0">--选择类型--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="110" align="right"  >内部备注：</td>
+                <td colspan="3"><input type="text" name="namecn" class="input_text1" value="" /> </td>
+            </tr>
+        </table>
+        <div class="tab_box language_tab" id="language_tab">
+            <ul>
+                <li class="onselect">中文</li>
+                <li>英文</li>
+            </ul>
+        </div>
+        <table border="0">
+            <tr>
+                <td width="100" style="min-width: 50px;" align="right" >内容：</td>
+                <td>
+                    <textarea type="text" name="content" id="content" ></textarea>
+                </td>
+            </tr>
+        </table>
+        <hr size="1" color="#e0e0e0" style="height: 0"/>
+        <div>
+            <span style="margin-left: 40px;">商品ID：</span><span style="color: #999999;">0</span>
+            <span style="margin-left: 140px;">排序号：</span><input type="text" name="price"  class="input_text3"  value="0" />
+            <span style="margin-left: 40px;">创建时间：</span><span style="color: #999999;">0</span>
+        </div>
+        <div>
+            <span style="margin-left: 55px;">销量：</span><span style="color: #999999;">0</span>
+            <span style="margin-left: 126px;">点击次数：</span><input type="text" name="price"  class="input_text3"  value="0" />
+            <span style="margin-left: 40px;">更新时间：</span><span style="color: #999999;">0</span>
+        </div>
+        <div class="tc" style="padding-bottom: 50px;">
+            <input type="submit" class="sure_btn" value="保存" />
+            <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
+        </div>
+    </form>
+    <form onsubmit="return false" id="picform" class="hide contentform">
+        <table border="0" style="width: 850px;">
+            <tr>
+                <td width="110" align="right" >列表图：</td>
+                <td width="220">
+                    <div class="indexpic" id="indexpic" style="margin-top: 12px;">
+                        <input type="hidden" name="indexpic"/>
+                        <img src="" alt=""/>
+                    </div>
+                </td>
+                <td style="vertical-align: bottom;padding-bottom: 13px;">
+                    <input type="submit" class="sure_btn" onclick="selectIndexPic();" value="上传" />
+                    <input type="button" class="cancel_btn" value="删除"/>
+                </td>
+            </tr>
+            </table>
+            <table class="mytables" width="850px;" >
+            <tr>
+                <th>图片</th>
+                <th width="156">排序</th>
+                <th width="120">编辑</th>
+            </tr>
+            <tbody id="imgboxs">
                 <tr>
-                    <td width="110" align="right" >内容：</td>
-                    <td colspan="3">
-                        <textarea type="text" name="content" id="content" ></textarea>
+                    <td><img src="" alt=""/> </td>
+                    <td><input type="text" name="price"  class="input_text2"  value="0" /></td>
+                    <td>
+                        <a href="">删除</a>
                     </td>
                 </tr>
+            </tbody>
+            <tr align="center">
+                <td colspan="3" align="right"  style="height: 68px;;">
+                    <input type="submit" class="sure_btn" value="新增" onclick="selectPic()" />
+               </td>
+            </tr>
+        </table>
+        <div style="width: 850px; ">
+            <div class="tc" style="padding: 50px 0;">
+                <input type="submit" class="sure_btn" value="保存" />
+                <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
+            </div>
+        </div>
+
+    </form>
+
+    <form onsubmit="return false" id="seoform" class="hide contentform">
+        <table border="0" >
+            <tr>
+                <td width="110" align="right">关键词：</td>
+                <td ><input type="text" class="input_text2" id="keywords"  name="keywords"  value=""  maxlength="100" />
+                    一般不超过100个字符</td>
+            </tr>
+            <tr>
+                <td width="110" align="right">描述：</td>
+                <td ><textarea class="textarea_text2" name="description" ></textarea>
+                    一般不超过200个字符</td>
+            </tr>
+<!--            <tr>
+                <td width="110" align="right">外部链接：</td>
+                <td><input type="text" class="input_text2" id="linkurl"  name="linkurl"  value=""  maxlength="100" /></td>
+            </tr>
+            <tr>
+                <td width="110" align="right">来源：</td>
+                <td ><input type="text" class="input_text2" id="source"  name="source"  value=""  maxlength="100" /></td>
+            </tr>
+            <tr>
+                <td width="110" align="right">作者：</td>
+                <td ><input type="text" class="input_text2" id="author"  name="author"  value=""  maxlength="100" /></td>
+            </tr>-->
+
+            <tr class="footer">
+                <td colspan="2" class="tc">
+                    <input type="submit" class="sure_btn" value="保存" />
+                    <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
+                </td>
+            </tr>
+        </table>
+    </form>
                <!-- <tr>
                     <td width="140" align="right" >形象图：</td>
                     <td><input type="text" class="inputText1 w350" name="indexpic"
@@ -175,49 +277,10 @@
                         <option value="0">禁用</option>
                     </select></td>
                 </tr>
-                <tr class="footer">
-                    <td colspan="2" class="tc"><input type="submit" class="btn1"
-                                                      value="保存" />
-                        <input type="button" class="btn1" value="返回"
-                               onclick="history.back();" /></td>
-                </tr>-->
-            </table>
+            -->
         <div class="clr"></div>
-        <div id="autotab_2 hide">
-            <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
-                <tr>
-                    <td class="col1" width="140">关键词：</td>
-                    <td ><input type="text" class="inputText1 w350" id="keywords"  name="keywords"  value=""  maxlength="100" />
-                        一般不超过100个字符</td>
-                </tr>
-                <tr>
-                    <td class="col1">描述：</td>
-                    <td ><textarea class="inputText1 editor1" id="description"  name="description" ></textarea>
-                        一般不超过200个字符</td>
-                </tr>
-                <tr>
-                    <td class="col1">外部链接：</td>
-                    <td ><input type="text" class="inputText1 w350" id="linkurl"  name="linkurl"  value=""  maxlength="100" /></td>
-                </tr>
-                <tr>
-                    <td class="col1">来源：</td>
-                    <td ><input type="text" class="inputText1" id="source"  name="source"  value=""  maxlength="100" /></td>
-                </tr>
-                <tr>
-                    <td class="col1">作者：</td>
-                    <td ><input type="text" class="inputText1" id="author"  name="author"  value=""  maxlength="100" /></td>
-                </tr>
-                <tr>
-                    <td class="col1">点击数：</td>
-                    <td ><input type="text" class="inputText1 numeric w50" id="hits"  name="hits"  value=""  maxlength="5" /></td>
-                </tr>
-                <tr class="footer">
-                    <td colspan="2" class="tc"><input type="submit" class="btn1"
-                                                      value="保存" />
-                        <input type="button" class="btn1" value="返回"
-                               onclick="history.back();" /></td>
-                </tr>
-            </table>
+        <div id="autotab_2 hide" style="display: none;">
+
         </div>
         <div class="clr"></div>
         <div id="autotab_3">
@@ -227,16 +290,48 @@
     </form>
 </div>
 <script>
-    /**
-     * 选择图片
-     */
-    function selectPic(obj){
+    $(function(){
+        $('.contentform').hide();
+         $('#'+$('#title_tab li.onselect').data('name')).show();
+
+        $('#title_tab li').click(function(){
+            $('#title_tab li').removeClass('onselect');
+            $(this).addClass('onselect');
+            $('.contentform').hide();
+            $('#'+$(this).data('name')).show();
+        })
+
+        $('#language_tab li').click(function(){
+            $('#language_tab li').removeClass('onselect');
+            $(this).addClass('onselect');
+        })
+    })
+
+    function selectIndexPic(){
         upload.prototype.callback = function(url, path){
-            $(obj).siblings('.inputText1').val('/Public'+path);
+            $('#indexpic input[name=indexpic]').val('/Public'+path);
+            $('#indexpic img').attr({'src':CONST_PUBLIC+path,'width':'200'});
         }
         upload.prototype.uploadPic("goods");
     }
-    upload.prototype.createContent("#content",'goods');
+
+    /**
+     * 选择图片
+     */
+    function selectPic(){
+        upload.prototype.callback = function(url, path){
+            var $html = '<tr>';
+                $html+='<td><img src="'+(CONST_PUBLIC+path)+'" alt="" widht="74" /> </td>';
+                $html+='<td><input type="text" name="price"  class="input_text2"  value="0" /></td>';
+                $html+='<td>';
+                $html+='<a href="javascript:delimgs()">删除</a>';
+                $html+='</td>';
+                $html+='</tr>';
+            $('#imgboxs').append($html);
+        }
+        upload.prototype.uploadPic("goods");
+    }
+    upload.prototype.createContent("#content",'goods',745);
 </script>
 </body>
 </html>

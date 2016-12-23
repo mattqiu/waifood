@@ -30,20 +30,20 @@
 	Mixins
 ----------------------------------------*/
 .element {
-  line-height: 1;
-  border: 0;
-  text-decoration: none;
-  font-size: 14px;
+    line-height: 1;
+    border: 0;
+    text-decoration: none;
+    font-size: 14px;
 }
 /* ---------------------------------------
 	Remove default input focus outline
 ----------------------------------------*/
 :focus {
-  outline: none;
-  outline-style: none;
+    outline: none;
+    outline-style: none;
 }
 ::-moz-focus-inner {
-  border: 0;
+    border: 0;
 }
 /* ----------------------------------------
 
@@ -55,226 +55,208 @@
 
 -----------------------------------------*/
 .idealform {
-  font-size: 14px;
+    font-size: 14px;
 }
 .idealform :focus, .idealform :active {
-  outline: 0;
+    outline: 0;
 }
 .idealform fieldset {
-  margin-bottom: 2em;
-  padding: 2em;
-  background: #fcfcfc;
-  border-radius: 4px 4px 4px 4px;
+    margin-bottom: 2em;
+    padding: 2em;
+    background: #fcfcfc;
+    border-radius: 4px 4px 4px 4px;
 }
 .idealform select, .idealform input[type="radio"], .idealform input[type="checkbox"] {
-  position: absolute;
-  left: -9999px;
+    position: absolute;
+    left: -9999px;
 }
 .idealform label,
 .idealform .idealselect,
 .idealform .idealradio,
 .idealform .idealcheck {
-  display: inline-block;
+    display: inline-block;
 }
 .idealform div {
-  margin-bottom: 1em;
+    margin-bottom: 1em;
 }
 .idealform ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 .idealform label {
-  vertical-align: top;
-  padding-right: 1em;
+    vertical-align: top;
+    padding-right: 1em;
 }
 .idealform .main-label {
-  position: relative;
+    position: relative;
 }
 .idealform .main-label span {
-  position: absolute;
-  left: -0.5em;
-  top: -0.3em;
-  font-size: 1.5em;
-  color: #d1301b;
+    position: absolute;
+    left: -0.5em;
+    top: -0.3em;
+    font-size: 1.5em;
+    color: #d1301b;
 }
 .idealform input[type="text"], .idealform input[type="password"], .idealform textarea {
-  line-height: 1;
-  border: 0;
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-block;
-  height: 31px;
-  color: #333333;
-  border: 1px solid #E0E0E0;
-  background: #fbfbfb;
-  -webkit-border-radius: 2px 2px 2px 2px;
-  -moz-border-radius: 2px 2px 2px 2px;
-  border-radius: 2px 2px 2px 2px;
-  padding-left: 5px;
+    line-height: 1;
+    border: 0;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    padding-left: 5px;
+    height: 31px;
+    color: #333333;
+    border: 1px solid #E0E0E0;
+    background: #fbfbfb;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
 }
 .idealform input[type="text"]:hover, .idealform input[type="password"]:hover, .idealform textarea:hover {
     border: 1px solid #dcefff;
     background: #f5fcff;
 }
 .idealform input[type="text"]:focus, .idealform input[type="password"]:focus, .idealform textarea:focus {
-  border: 1px solid #108ee9;
+    border: 1px solid #108ee9;
     background: #f5fcff;
 }
-.idealform input[type="submit"], .idealform input[type="reset"], .idealform button {
-  line-height: 1;
-  border: 0;
-  text-decoration: none;
-  font-size: 14px;
-  display: inline-block;
-  padding: .5em 1.5em;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7);
-  border: 1px solid #126d84;
-  font-weight: bold;
-  color: #093540;
-  text-shadow: 1px 1px rgba(255, 255, 255, 0.4);
-  -moz-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.7), 0 1px 2px rgba(0, 0, 0, 0.3);
-  -webkit-border-radius: 4px 4px 4px 4px;
-  -moz-border-radius: 4px 4px 4px 4px;
-  border-radius: 4px 4px 4px 4px;
-  background: #5fcee9;
-  background: -moz-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5fcee9), color-stop(100%, #1ba5c7));
-  background: -webkit-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
-  background: -o-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
-  background: -ms-linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
-  background: linear-gradient(top, #5fcee9 0%, #1ba5c7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5fcee9', endColorstr='#1ba5c7',GradientType=0 );
+.idealform input[type="submit"], .idealform input[type="reset"], .idealform input[type="button"], .idealform button {
+    line-height: 1;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    padding: .5em 1.5em;
+    font-weight: bold;
+    -webkit-border-radius:2px 2px 2px 2px;
+    -moz-border-radius:2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
 }
-.idealform input[type="submit"]:hover, .idealform input[type="reset"]:hover, .idealform button:hover {
-  background: #8cdcef;
-  background: -moz-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #8cdcef), color-stop(100%, #1ba5c7));
-  background: -webkit-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
-  background: -o-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
-  background: -ms-linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
-  background: linear-gradient(top, #8cdcef 0%, #1ba5c7 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8cdcef', endColorstr='#1ba5c7',GradientType=0 );
-}
-.idealform input[type="submit"]:active, .idealform input[type="reset"]:active, .idealform button:active {
-  background: #1ba5c7;
-}
-.idealform .idealselect {
-  /* Title */
+.idealform input[type="submit"], .idealform input[type="reset"], .idealform button,.idealform .sure_btn{background: #108ee9;color: #FFffff; border: none;}
 
-  /* Menu */
+.idealform input[type="submit"]:hover, .idealform input[type="reset"]:hover, .idealform button:hover ,.idealform .sure_btn:hover{
+    background: #58abe6;}
+.idealform .cancel_btn{background: #fbfbfb;color: #333333;border: 1px solid #cccccc;margin-left: 10px;}
+.idealform .cancel_btn:hover{border: 1px solid #999999}
+
+/*.idealform input[type="submit"]:active, .idealform input[type="reset"]:active, .idealform button:active {
+  background: #1ba5c7;
+}*/
+.idealform .idealselect {
+    /* Title */
+
+    /* Menu */
 
 }
 .idealform .idealselect a {
-  line-height: 1.3em;
-  border: 0;
-  text-decoration: none;
-  font-size: 14px;
-  display: block;
-  padding: .5em .8em;
-  padding-right: 3em;
+    line-height: 1.3em;
+    border: 0;
+    text-decoration: none;
+    font-size: 14px;
+    display: block;
+    padding: .5em .8em;
+    padding-right: 3em;
 }
 .idealform .idealselect .idealselect-title {
-  position: relative;
-  color: #333333;
- height: 19px;
-  border: 1px solid #E0E0E0;
-  -webkit-border-radius: 2px 2px 2px 2px;
-  -moz-border-radius: 2px 2px 2px 2px;
-  border-radius: 2px 2px 2px 2px;
-  /* Arrow */
+    position: relative;
+    color: #333333;
+    height: 19px;
+    border: 1px solid #E0E0E0;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
+    /* Arrow */
 
 }
 .idealform .idealselect .idealselect-title span {
-  position: absolute;
-  right: 0;
-  top: 0;
-  display: inline-block;
-  height: 100%;
-  width: 2em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: inline-block;
+    height: 100%;
+    width: 2em;
 }
 .idealform .idealselect .idealselect-title small {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  top: 50%;
-  left: 50%;
-  margin: -0.25em 0 0 -0.5em;
-  border-width: .5em;
-  border-style: solid;
-  border-color: #5c5c5c transparent transparent transparent;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    top: 50%;
+    left: 50%;
+    margin: -0.25em 0 0 -0.5em;
+    border-width: .5em;
+    border-style: solid;
+    border-color: #5c5c5c transparent transparent transparent;
 }
 .idealform .idealselect ul {
-  position: absolute;
-  overflow-y: scroll;
-  z-index: 999;
-  border: 1px solid #E0E0E0;
-  border-top: 0;
-  background: #ffffff;
+    position: absolute;
+    overflow-y: scroll;
+    z-index: 999;
+    border: 1px solid #E0E0E0;
+    border-top: 0;
+    background: #ffffff;
 }
 .idealform .idealselect ul li:last-child a {
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
+    -webkit-border-radius: 0 0 4px 4px;
+    -moz-border-radius: 0 0 4px 4px;
+    border-radius: 0 0 4px 4px;
 }
 .idealform .idealselect ul a {
-  color: #333333;
+    color: #333333;
 }
 .idealform .idealselect ul a:hover {
-  background: #108ee9;
-  color: #FFffff;
+    background: #108ee9;
+    color: #FFffff;
 }
 
 .idealform .idealselect.open .idealselect-title {
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
+    -webkit-border-radius: 4px 4px 0 0;
+    -moz-border-radius: 4px 4px 0 0;
+    border-radius: 4px 4px 0 0;
 }
 .idealform .idealselect.open .idealselect-title span {
-  -webkit-border-radius: 0 4px 0 0;
-  -moz-border-radius: 0 4px 0 0;
-  border-radius: 0 4px 0 0;
+    -webkit-border-radius: 0 4px 0 0;
+    -moz-border-radius: 0 4px 0 0;
+    border-radius: 0 4px 0 0;
 }
 .idealform .idealradio, .idealform .idealcheck {
-  margin-top: .3em;
-  /* Check */
-  /* Radio */
+    margin-top: .3em;
+    /* Check */
+    /* Radio */
 }
 
 .idealform .idealradio label, .idealform .idealcheck label {
-  cursor: pointer;
+    cursor: pointer;
 }
 .idealform .idealradio li, .idealform .idealcheck li {
     position: relative;
-  margin-bottom: .6em;
+    margin-bottom: .6em;
 }
 .idealform .idealradio span, .idealform .idealcheck span {
-  display: inline-block;
-  vertical-align: top;
-  width: 1em;
-  height: 1em;
-  margin-right: .5em;
-  border: 1px solid #c7c7c7;
-  background: #FFffff;
-  background: -moz-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, #EDEDED), color-stop(70%, #FFffff));
-  background: -webkit-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
-  background: -o-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
-  background: -ms-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
-  background: linear-gradient(top, #EDEDED 20%, #FFffff 70%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEDED', endColorstr='#FFffff',GradientType=0 );
+    display: inline-block;
+    vertical-align: top;
+    width: 1em;
+    height: 1em;
+    margin-right: .5em;
+    border: 1px solid #c7c7c7;
+    background: #FFffff;
+    background: -moz-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, #EDEDED), color-stop(70%, #FFffff));
+    background: -webkit-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
+    background: -o-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
+    background: -ms-linear-gradient(top, #EDEDED 20%, #FFffff 70%);
+    background: linear-gradient(top, #EDEDED 20%, #FFffff 70%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#EDEDED', endColorstr='#FFffff',GradientType=0 );
 }
 .idealform .idealradio .check, .idealform .idealcheck .check {
-  -webkit-border-radius: 2px 2px 2px 2px;
-  -moz-border-radius: 2px 2px 2px 2px;
-  border-radius: 2px 2px 2px 2px;
+    -webkit-border-radius: 2px 2px 2px 2px;
+    -moz-border-radius: 2px 2px 2px 2px;
+    border-radius: 2px 2px 2px 2px;
 }
 .idealform .idealradio .check.checked, .idealform .idealcheck .check.checked {
-  background: #FFffff;
+    background: #FFffff;
     border: 1px solid #108ee9;
-  /* Checkmark */
+    /* Checkmark */
 
 }
 .idealform .idealradio .check.checked:after, .idealform .idealcheck .check.checked:after {
@@ -282,17 +264,17 @@
 }
 
 .idealform .idealradio .radio, .idealform .idealcheck .radio {
-  -webkit-border-radius: 1em 1em 1em 1em;
-  -moz-border-radius: 1em 1em 1em 1em;
-  border-radius: 1em 1em 1em 1em;
+    -webkit-border-radius: 1em 1em 1em 1em;
+    -moz-border-radius: 1em 1em 1em 1em;
+    border-radius: 1em 1em 1em 1em;
 }
 
 .idealform .idealradio .radio.checked, .idealform .idealcheck .radio.checked {
-  -moz-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
-  -webkit-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
-  box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
-  filter: 0;
-  /* IE */
+    -moz-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+    -webkit-box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+    box-shadow: inset 0 0 0 0.3em #ffffff, transparent 0 0 0;
+    filter: 0;
+    /* IE */
     border-color: #108ee9;
-  background: #108ee9;
+    background: #108ee9;
 }

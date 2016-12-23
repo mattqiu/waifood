@@ -1,15 +1,24 @@
 @charset "utf-8";
 hr{height: 1px;width: 100%}
-.container{width:1000px; margin:0 auto;}
+.hide{display: none}
+.container{width:100%; margin:0 auto;}
 .bg_white{background: #FFffff}
 .page_title{ font-size: 18px; font-weight: bold;color: #333333;padding: 5px 0 5px 30px;}
 .tab_box{height: 40px;line-height: 40px;padding: 0 0 0 30px;border-bottom: 1px solid #EEEEEE}
-.tab_box li{margin-right: 35px;font-size: 16px;color: #333333;font-weight: bold;}
+.tab_box li{margin-right: 35px;font-size: 16px;color: #333333;font-weight: bold;cursor: pointer}
 .tab_box li.onselect{border-bottom: 3px solid #108ee9;line-height: 37px;}
+
+/****************************table*****************************/
+.mytables{ font-size:14px;color: #333333 table-layout:fixed;empty-cells:show; border-collapse: collapse;border: 1px solid #EEEEEE}
+.mytables td{ height:50px;}
+.mytables tr:hover{background:#e7f4fd }
+.mytables th {padding-left: 8px;background: #f8f8f8;background-repeat:repeat-x;height:40px; }
+.mytables td,.mytables th{border:1px solid #EEEEEE; padding:0 1em 0;}
 
 /******************************添加商品***************************/
 .contentform{margin-top: 5px;padding: 0}
 .contentform .idealselect li{width: 300px;}
+.goods_status_sel .idealselect li{width: 85px;}
 .contentform .idealselect li ul,.contentform .idealselect li ul li{float: none}
 .contentform input.input_text1{width: 740px}
 .contentform input.input_text2,.contentform textarea.textarea_text2{width: 291px}
@@ -18,3 +27,7 @@ hr{height: 1px;width: 100%}
 .contentform table tr,.contentform table tr td{padding-top: 12px;}
 .language_tab{font-size: 14px;}
 .language_tab ul li{font-size: 14px;padding: 0 15px;}
+#picform .indexpic{width: 200px; height: 200px; border:1px solid #EEEEEE }
+#picform .mytables td {height: 92px;}
+#picform .mytables td img {width: 74px; height: 74px; border: 1px solid #EEEEEE}
+#picform .mytables td a {color: #108ee9}
