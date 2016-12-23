@@ -179,7 +179,6 @@ function addgood(id,event){
         indexpic = $('#js_goods_'+id).data("indexpic"),
         name = $('#js_goods_'+id).data("name"),
         stock = $('#js_goods_'+id).data("stock");
-
         if(stock<1){ //没有库存
             clearpopj("Insufficient stock!",'error',true);
             return false;
@@ -283,27 +282,23 @@ function clearCart(){
 }
 
 function fly(event){
-    if($("#CartNo").css('display') == 'none'){
-        var offset = $("#offset").offset();
-    }else{
-        var offset = $("#CartNo").offset();
-    }
-
-    var flyer = $('<img width="30px;" class="u-flyer" src="http://www.waifood.com/Public/Home/images/flycart.png">');
-    flyer.fly({
-        start: {
-            left:  event.clientX,
-            top: event.clientY
-        },
-        end: {
-            left: offset.left+3,
-            top: $(window).height()+5,//offset.top+3,
-            width: 0,
-            height: 0
-        },
-        onEnd: function(){
-        }
+    var offset = $("#CartNo").offset();
+    var $obj = $('<img width="30px;" class="u-flyer" src="http://www.waifood.com/Public/Home/images/flycart.png">');
+    $obj.css({
+        'width':'30px',
+        'height':'30px',
+        'position': 'fixed',
+        'top': parseInt(event.clientY) +'px',
+        'left':  parseInt(event.clientX) +'px',
+        'z-index': '5'
     });
+    $('body').append($obj);
+    $obj.animate({
+        top:$(window).height(),
+        left:offset.left,
+        width:0,
+        height:0
+    },'slow');
 }
 
 /*加载缓存中的购物车数据到页面*/
