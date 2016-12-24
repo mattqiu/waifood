@@ -8,6 +8,7 @@
 // +----------------------------------------------------------------------
 
 namespace Admin\Model;
+use Common\Model\CodeModel;
 use Think\Model;
 
 /**
@@ -112,6 +113,56 @@ class ContentModel extends Model {
           return  M('content')->delete($id);
         }
         return false;
+    }
+
+    /**
+     * 编辑商品
+     * @param $id
+     * @param $data
+     * @return bool|\Model
+     */
+    public static function modifyContent($id,$data){
+        if(regex($id,'number') && !empty($data)){
+            $con['id'] = $id;
+            return M('content')->where($con)->data($data);
+        }
+        return false;
+    }
+
+    /**
+     * 添加商品
+     * @param $data
+     */
+    public static function addContent($data){
+        $data['name'] =  M ( "content" )->max ( "id" ); //---------
+
+        $table = D( "content" );
+        $data = $table->create ( $data );
+        if($data){
+            session ( 'last_pid', $data['pid'] );
+            $info = M('Channel')->getById($data['pid']);
+            $sortpath = $info ['sortpath'];
+            $data['sortpath']=$sortpath;
+            //赋默认值：关键词，描述，作者，来源
+            if(isN($data['keywords'])){
+                $data['keywords']=$data['title'];
+            }
+            if(isN($data['description'])){
+                $data['description']=$data['title'];
+            }
+            if(isN($data['source'])){
+                $data['source']=C('config.WEB_SITE_TITLE');
+            }
+            if(isN($data['author'])){
+                $data['author']='管理员';
+            }
+            $data['addip']=get_client_ip();
+            $data['supplyname']=get_cate($data['supplyid'],'supply');
+            $data['channelname']=get_cate($data['pid']);
+            return $table->add($data);
+        }else{
+            apiReturn(CodeModel::ERROR,M()->getError());
+        }
     }
 
 }

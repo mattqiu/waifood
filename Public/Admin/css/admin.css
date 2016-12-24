@@ -17,11 +17,11 @@ hr{height: 1px;width: 100%}
 
 /******************************添加商品***************************/
 .contentform{margin-top: 5px;padding: 0}
-.contentform .idealselect li{width: 300px;}
+.contentform .idealselect li{width: 313px;}
 .goods_status_sel .idealselect li{width: 85px;}
 .contentform .idealselect li ul,.contentform .idealselect li ul li{float: none}
 .contentform input.input_text1{width: 740px}
-.contentform input.input_text2,.contentform textarea.textarea_text2{width: 291px}
+.contentform input.input_text2,.contentform textarea.textarea_text2{width: 304px}
 .contentform textarea.textarea_text2{height: 70px;resize: none}
 .contentform input.input_text3{width: 100px;}
 .contentform table tr,.contentform table tr td{padding-top: 12px;}
@@ -31,3 +31,8 @@ hr{height: 1px;width: 100%}
 #picform .mytables td {height: 92px;}
 #picform .mytables td img {width: 74px; height: 74px; border: 1px solid #EEEEEE}
 #picform .mytables td a {color: #108ee9}
+
+/**************************产地**************************************/
+#origin_form  .idealselect ,#origin_form  .idealselect li{width: 100px; padding-left: 2px;}
+#origin_form label{width: 60px;}
+#origin_form input.input_text2{width: 300px}

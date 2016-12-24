@@ -5,6 +5,8 @@ namespace Admin\Controller;
 use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
 use Common\Model\CodeModel;
+use Common\Model\OrderModel;
+use Common\Model\OriginModel;
 
 class CmsController extends BaseController {
 	public function index() {
@@ -754,7 +756,33 @@ class CmsController extends BaseController {
 		$this->display ();
 		}
 	}
-	
+
+    public function subContent(){
+        $pid = I('post.pid');
+        $title = I('post.title');
+        $price = I('post.price');
+        if($pid<1){
+            apiReturn(CodeModel::ERROR,'必须选择所属分类！');
+        }
+        if(!$title){
+            apiReturn(CodeModel::ERROR,'必须填写商品名！');
+        }
+        if(!$price){
+            apiReturn(CodeModel::ERROR,'必须填写商品价格！');
+        }
+        $data = I('post.');
+        $id = I('post.id');
+        if(regex($id,'number')){ //修改商品
+            if(ContentModel::modifyContent($id,$data)){
+                apiReturn(CodeModel::CORRECT,'编辑成功！');
+            }
+        }else{//新增商品
+            if(ContentModel::addContent($data)){
+                apiReturn(CodeModel::CORRECT,'添加成功！');
+            }
+        }
+    }
+
 	// 添加内容
 	public function addContent($pid = 0,$rootid=null) {
 		if (IS_POST) {
@@ -816,10 +844,10 @@ class CmsController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
+            $origin = OriginModel::getAllOrigin();
 			$sort = M ( "content" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
 			$this->assign ( "pid", $pid );
-			
 			$where=array();
 			// 输出当前Content列表
 			if(isset($rootid)){
@@ -847,6 +875,7 @@ class CmsController extends BaseController {
 			$where['status']=1;
 			$list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 			$this->assign ( "supplylist", $list );
+			$this->assign ( "origin", $origin );
 			$this->display ('addContent');
 		}
 	}
@@ -1811,5 +1840,30 @@ class CmsController extends BaseController {
         $this->display ('shelves_management');
     }
 
+    /**
+     * 产地列表
+     */
+    public function origin(){
+        $list = OriginModel::getAllOrigin();
+        $this->assign ( "list", $list );
+        $this->display ();
+    }
+
+    /**
+     * 产地列表
+     */
+    public function modifyOrigin(){
+        $id = I('post.id');
+        if(regex($id,'number')){ //编辑
+            if(OriginModel::modifyOrigin($id,$_POST)){
+                apiReturn(CodeModel::CORRECT,'编辑成功');
+            }
+        }else{ //添加
+            if(OriginModel::addOrigin($_POST)){
+                apiReturn(CodeModel::CORRECT,'添加成功');
+            }
+        }
+        apiReturn(CodeModel::ERROR,'操作失败，请刷新重试！');
+    }
 }
 ?>

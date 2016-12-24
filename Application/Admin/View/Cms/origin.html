@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>产地列表</title>
+<include file="Index:header" />
+</head>
+<body class="bg_white">
+<div class="container">
+    <table class="mytables"style="width: 100%;margin: 0 auto; " >
+        <tr>
+            <th width="5%">ID</th>
+            <th>产地(英文)</th>
+            <th>产地(中文)</th>
+            <th width="8%">状态</th>
+            <th width="10%">编辑</th>
+        </tr>
+        <volist name="list" id="vo">
+            <tr id="list_{$vo.id}" data-origin="{$vo.origin}" data-origincn="{$vo.origincn}" data-status="{$vo.status}">
+                <td>{$vo.id}</td>
+                <td>{$vo.origin}</td>
+                <td>{$vo.origincn}</td>
+                <td align="center">
+                    <if condition="$vo['status'] eq 1">
+                        <a href="javascript:setStatus('{$vo.id}',0)">启用</a>
+                    <else/>
+                        <a href="javascript:setStatus('{$vo.id}',1)">禁用</a>
+                    </if>
+                </td>
+                <td align="center">
+                    <a href="javascript:showAddOrigin('{$vo.id}')">修改</a>
+                    <a href="javascript:setStatus('{$vo.id}',-1)">删除</a>
+                </td>
+            </tr>
+        </volist>
+        <tr>
+            <td colspan="5" align="right"  style="height: 40px;;">
+                <input type="submit" class="sure_btn" value="新增" onclick="showAddOrigin()" />
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="origin_box" class="hide">
+    <form onsubmit="return false" id="origin_form">
+        <input type="hidden" name="id"/>
+        <div>
+            <label>英文名：</label>
+            <input type="text" class="input_text2" name="origin" />
+        </div>
+        <div>
+            <label>中文名：</label>
+            <input type="text" class="input_text2" name="origincn" />
+        </div>
+        <div>
+            <label class="fl">状态：</label>
+            <select name="status">
+                <option value="1">启用</option>
+                <option value="0">禁止</option>
+            </select>
+            <div class="clr"></div>
+        </div>
+        <div class="tc">
+            <input type="submit" onclick="modifyOrigin()" class="sure_btn" value="提交" />
+        </div>
+    </form>
+</div>
+<script>
+    $("#origin_form").idealforms();
+    function showAddOrigin($id){
+        $('#origin_form input[name=id]').val($id);
+        $('#origin_form input[name=origin]').val($('#list_'+$id).data('origin'));
+        $('#origin_form input[name=origincn]').val($('#list_'+$id).data('origincn'));
+        getMask().maskShow({"tit": "添加/修改产地","width":480, "cont": "#origin_box"});
+    }
+    //提交编辑
+    function modifyOrigin(){
+        var id = $('#origin_form input[name=id]').val(),
+           origin = $('#origin_form input[name=origin]').val(),
+           origincn = $('#origin_form input[name=origincn]').val(),
+           status = $('#origin_form select[name=status]').val();
+        if(!origin){
+            clearpopj('必须填写一个产地','error',true);
+            return false;
+        }
+        $.post('/admin/cms/modifyOrigin.html',{id:id,origin:origin,origincn:origincn,status:status},function(data){
+            if(data.code == 200){
+                clearpopj(data.message,'success',true,'self');
+                clearpopj(data.message,'success',true);
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    }
+
+    function setStatus($id ,status){
+        $.post('/admin/cms/modifyOrigin.html',{id:$id,status:status},function(data){
+            clearpop(data.message,'','self');
+        })
+    }
+</script>
+</body>
+</html>
