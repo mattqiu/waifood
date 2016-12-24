@@ -25,7 +25,14 @@
 // is copyright 2008 A Beautiful Site, LLC. 
 //
 (function($) {
-	
+    $.browser={};
+    (function(){
+        $.browser.msie=false;
+        $.browser.version=0;
+        if(navigator.userAgent.match(/MSIE ([0-9]+)./)){
+            $.browser.msie=true;$.browser.version=RegExp.$1;
+        }
+    })();
 	$.alerts = {
 		
 		// These properties can be read/written by accessing $.alerts.propertyName from your scripts at any time
