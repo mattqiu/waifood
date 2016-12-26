@@ -24,6 +24,7 @@ hr{height: 1px;width: 100%}
 .contentform input.input_text2,.contentform textarea.textarea_text2{width: 304px}
 .contentform textarea.textarea_text2{height: 70px;resize: none}
 .contentform input.input_text3{width: 100px;}
+.contentform input.input_text4{width: 80px;}
 .contentform table tr,.contentform table tr td{padding-top: 12px;}
 .language_tab{font-size: 14px;}
 .language_tab ul li{font-size: 14px;padding: 0 15px;}

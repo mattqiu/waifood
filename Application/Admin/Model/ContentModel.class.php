@@ -132,6 +132,15 @@ class ContentModel extends Model {
         if(regex($id,'number') && !empty($data)){
             $con['id'] = $id;
             $data['under_time'] = date('Y-m-d H:i:s');
+            $info = M ( 'channel' )->getById ( $data ['pid'] );
+            $data['sortpath']= $info ['sortpath'];
+            $data['supplyname']=get_cate($data['supplyid'],'supply');
+            $data['channelname']=get_cate($data['pid']);
+            session('shop_id',$data['shop_id']);
+            // 更新model_id
+            $model_id=$info['model_id'];
+            $db = M ( 'content' )->where ( 'id=' . $id );
+            $db->save ( array ('model_id' =>  $model_id ) );
             return M('content')->where($con)->save($data);
         }
         return false;
