@@ -578,7 +578,8 @@ function getDay($datetime){
  * @return bool
  */
 function delfile($file){
-    if(file_exists($file)){
+    $path = substr(C('UPLOAD_PATH'),0,-8);
+    if(file_exists($path.$file)){
         return unlink ($file);
     }
     return true;

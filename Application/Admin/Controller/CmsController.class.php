@@ -728,7 +728,6 @@ class CmsController extends BaseController {
 // 		if (is_numeric ( $pid ) && $pid != 0) {
 // 			$where ['pid'] = $pid;
 // 		}
-		
 		// 分页
 		$p = intval ( I ( 'p' ) );
 		$p = $p ? $p : 1;
@@ -757,6 +756,9 @@ class CmsController extends BaseController {
 		}
 	}
 
+    /**
+     * ajax提交操作商品
+     */
     public function subContent(){
         $pid = I('post.pid');
         $title = I('post.title');
@@ -780,6 +782,37 @@ class CmsController extends BaseController {
             if(ContentModel::addContent($data)){
                 apiReturn(CodeModel::CORRECT,'添加成功！');
             }
+        }
+    }
+
+    public function delGoodImg(){
+        $id = I('post.id');
+        $field = I('post.field');
+        $img = I('post.img');
+        if(regex($id,'number') && $img && $field){
+            if($field == 'indexpic'){
+                $data['indexpic'] = '';
+            }else{
+                $good = ContentModel::getContentById($id);
+                $imgArr = array_filter(get_imgs($good['images']));
+                $newimg = '';
+                if(!empty($imgArr)){
+                    foreach($imgArr as $val){
+                        if($val != $img){
+                            $newimg.=$val.'|';
+                        }
+                    }
+                }
+                $data['images'] = $newimg;
+            }
+            delfile($img);
+            if(ContentModel::modifyContent($id,$data)){
+                apiReturn(CodeModel::CORRECT,'删除成功');
+            }else{
+                apiReturn(CodeModel::CORRECT,'删除失败');
+            }
+        }else{
+            apiReturn(CodeModel::CORRECT,'参数错误');
         }
     }
 
@@ -815,16 +848,14 @@ class CmsController extends BaseController {
 				$data['addip']=get_client_ip();
 				$data['supplyname']=get_cate($data['supplyid'],'supply');
 				$data['channelname']=get_cate($data['pid']);
-				
+
 			if ($data) {
 				$lastid=$db->add ( $data );
 				if ($lastid) {
-
 					//$this->updateChannelNum($sortpath);
-				
 					//保存扩展模型内容
-					if($model_id!=0){ 
-						
+					if($model_id!=0){
+
 						$table=('content_'.get_table_name($model_id));
 						$db=M($table)->where('id='.$lastid)->find();
 						if($db!==null){
@@ -833,9 +864,9 @@ class CmsController extends BaseController {
 							$data['id']=$lastid;
 							M($table)->add($ext);
 						}
-						
+
 					}
-					
+
 					$this->success ( "添加内容成功！" );
 				} else {
 					$this->error ( '添加内容失败' );
@@ -843,7 +874,7 @@ class CmsController extends BaseController {
 			} else {
 				$this->error ( $db->getError () );
 			}
-		} else {
+		}else {
             $origin = OriginModel::getAllOrigin();
 			$sort = M ( "content" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
@@ -857,7 +888,7 @@ class CmsController extends BaseController {
 			$list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
 			$list = list_to_tree ( $list );
 			$this->assign ( "list", $list );
-			
+
 			// 输出门店列表
 			$where=array();
 			$where['id']=get_role('shop');
@@ -869,7 +900,7 @@ class CmsController extends BaseController {
 			$modellist = M ( "model" )->where ( 'status=1' )->select ();
 			$this->assign ( "modellist", $modellist );
 			$this->assign ( "pid", session ( 'last_pid' ) );
-			
+
 			// 输出供应商列表
 			$where=array();
 			$where['status']=1;
@@ -879,7 +910,7 @@ class CmsController extends BaseController {
 			$this->display ('addContent');
 		}
 	}
-	
+
 	// 编辑内容
 	public function editContent($id = 0) {
 		if (IS_POST) {
@@ -888,13 +919,11 @@ class CmsController extends BaseController {
 			$ext =$data;
 			$refurl=($data['refurl']);
 			$data = $db->create ( $data );
-			
 			if(isN($refurl)){
 				$refurl=I('SERVER.HTTP_REFERER');
 			}
-		 
 			$this->assign('refurl',$refurl);
-			 
+
 			// depth,sortpath
 			$info = M ( 'channel' )->getById ( $data ['pid'] ); 
 			$sortpath = $info ['sortpath'];
@@ -934,11 +963,10 @@ class CmsController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
-			
+            $origin = OriginModel::getAllOrigin();
+            $this->assign ( "origin", $origin );
 			$db = M ( "content" )->find ( $id );
-			
 			$this->assign ( "db", $db );
-			
 			$where = array();
 			if(!isN($db['sortpath'])){
 				$rootid=str2arr($db['sortpath']); 
@@ -950,7 +978,7 @@ class CmsController extends BaseController {
 			$list = M ( "Shop" )->order ( 'sort asc' )->select ();
 			$this->assign ( "shoplist", $list );
 
-			
+
 			// 输出当前channel列表
 			$list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
 			$list = list_to_tree ( $list );
@@ -965,7 +993,7 @@ class CmsController extends BaseController {
 			$where['status']=1;
 			$list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 			$this->assign ( "supplylist", $list );
-			$this->display ('editContent');
+            $this->display ('addContent');
 		}
 	}
 

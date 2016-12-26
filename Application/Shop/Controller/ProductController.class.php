@@ -1,6 +1,7 @@
 <?php
 namespace Shop\Controller;
 use Common\Model\ContentModel;
+use Common\Model\OriginModel;
 
 class ProductController extends BaseController {
 	  
@@ -26,8 +27,8 @@ class ProductController extends BaseController {
             $list  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
         }else{
             $id = I('id');
-            $brand = I('brand');
-            $origin = I('origin');
+//            $brand = I('brand');
+//            $origin = I('origin');
             $keyword=parse_param($_REQUEST['keyword'],true);
             $where = array ();
             $where ['status'] = 1;
@@ -41,24 +42,31 @@ class ProductController extends BaseController {
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
             }
-            //品牌
-            if(!isN($brand)){
-                $brand = parse_param($brand,true);
-                $where['brand']=$brand;
-            }
-            //品牌
-            if(!isN($origin)){
-                $origin = parse_param($origin,true);
-                $where['origin']=$origin;
-            }
+//            //品牌
+//            if(!isN($brand)){
+//                $brand = parse_param($brand,true);
+//                $where['brand']=$brand;
+//            }
+//            //品牌
+//            if(!isN($origin)){
+//                $origin = parse_param($origin,true);
+//                $where['origin']=$origin;
+//            }
 
             $count = M ("content")->where($where )->count();
             $size = C ( 'VAR_PAGESIZE' );
             $page = new  \Think\Page($count, $size);
             $limit = "$page->firstRow, $page->listRows";
-            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock';
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,origin_id,brand,stock';
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->limit($limit)->select ();
-            $where=array();
+            foreach($list as &$val){
+                if(isset($val['origin_id']) && $val['origin_id']){
+                    $orogin = OriginModel::getOriginById($val['origin_id']);//获取产地信息
+                    $val['origin'] = $orogin['origin'];
+                }
+            }
+
+/*            $where=array();
             $where['status']=1;
             $where['sortpath']= array('like','%,'.$id.',%');
             $brandArr=M('content')->where($where)->distinct(true)->order('brand asc')->getField('brand',true);
@@ -69,7 +77,8 @@ class ProductController extends BaseController {
             $where['sortpath']= array('like','%,'.$id.',%');
             $brandArr=M('content')->where($where)->distinct(true)->order('origin asc')->getField('origin',true);
             $brandArr = arr2clr($brandArr);
-            $this->assign('originlist',$brandArr);
+            $this->assign('originlist',$brandArr);*/
+
             $this->assign("page",$page->show());
             if(!$title){
                 $title='Commodity center';
@@ -95,8 +104,12 @@ class ProductController extends BaseController {
     	$where['sortpath']= array('notlike','%,1,%');
         $good = M ( "content" )->where($where)->find ();
     	if($good){
+            if(isset($good['origin_id']) && $good['origin_id']){
+                $orogin = OriginModel::getOriginById($good['origin_id']);//获取产地信息
+                $good['origin'] = $orogin['origin'];
+            }
             $this->assign ( "good", $good );
-	    	$this->assign ( "gallery", get_imgs($good['images']) );
+	    	$this->assign ( "gallery",array_filter(get_imgs($good['images'])));
     	}else{
     		$this->error('Sorry,target not exists.');
     	}

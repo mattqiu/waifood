@@ -57,7 +57,9 @@ class BannerModel extends Model {
                 if(isset($data['indexpic']) && $data['indexpic']){
                     $banner = D('banner')->find($id);
                     if($banner['indexpic'] != $data['indexpic']){
-                        delfile('./Public/'.$banner['indexpic']);
+                        $path = substr(C('UPLOAD_PATH'),0,-8);
+
+                        delfile($path.$banner['indexpic']);
                     }
                 }
                 return true;

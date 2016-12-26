@@ -217,7 +217,7 @@
 </tr>
 <tr class="row0">
     <td colspan="4"><span class="fl"><strong>订单详情</strong> <span
-            class="">（数量：{$db.num}，总金额：{$db.amountall}）</span> </span> <span class="fr"><span id="spanAdd" class="hide">请输入产品ID： <input
+            class="">（数量：{$db.num}，总金额：<span id="goodTotalObj">0</span>）</span> </span> <span class="fr"><span id="spanAdd" class="hide">请输入产品ID： <input
             type="text" class="inputText1 numeric w50" name="AddProductID" id="AddProductID"/> </span><input
             type="button" class="btn1" value="添加"
             onclick="$.EditOrder(0,'{$db.orderno}',$('#AddProductID').val(),'1')"/></span></td>
@@ -335,9 +335,12 @@
     </td>
 </tr>
 </table>
+<input type="hidden" id="goodTotal" value="{$subtotal|default=0}"/>
 </form>
+
 <include file="Index:footer"/>
 <script language="javascript">
+    $('#goodTotalObj').html($('#goodTotal').val());
     $(function () {
         $("#status").change(function () {
             var v = $(this).find("option:selected").val();

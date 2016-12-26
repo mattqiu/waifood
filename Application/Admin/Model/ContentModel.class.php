@@ -71,6 +71,13 @@ class ContentModel extends Model {
     	}
     }
 
+    public static function getContentById($id){
+        if(regex($id,'number')){
+            return M('content')->find($id);
+        }
+        return false;
+    }
+
     public static function underCenter($id){
         $con['id'] = $id;
         $data['under_time'] = date('Y-m-d H:i:s',time());
@@ -86,7 +93,7 @@ class ContentModel extends Model {
             $path = substr(C('UPLOAD_PATH'),0,-8);
             $content =  M('content')->find($id);
             //相册
-            $img = get_imgs($content['images']) ;
+            $img = array_filter(get_imgs($content['images']));
             if(!empty($img)){
                 foreach($img as $value){
                     $file = $path.$value;
@@ -124,7 +131,8 @@ class ContentModel extends Model {
     public static function modifyContent($id,$data){
         if(regex($id,'number') && !empty($data)){
             $con['id'] = $id;
-            return M('content')->where($con)->data($data);
+            $data['under_time'] = date('Y-m-d H:i:s');
+            return M('content')->where($con)->save($data);
         }
         return false;
     }
@@ -134,15 +142,10 @@ class ContentModel extends Model {
      * @param $data
      */
     public static function addContent($data){
-        $data['name'] =  M ( "content" )->max ( "id" ); //---------
-
         $table = D( "content" );
         $data = $table->create ( $data );
         if($data){
             session ( 'last_pid', $data['pid'] );
-            $info = M('Channel')->getById($data['pid']);
-            $sortpath = $info ['sortpath'];
-            $data['sortpath']=$sortpath;
             //赋默认值：关键词，描述，作者，来源
             if(isN($data['keywords'])){
                 $data['keywords']=$data['title'];
@@ -156,9 +159,14 @@ class ContentModel extends Model {
             if(isN($data['author'])){
                 $data['author']='管理员';
             }
+            $info = M('Channel')->getById($data['pid']);
+            $sortpath = $info ['sortpath'];
+            $data['sortpath']=$sortpath;
+            $data['sort']=$data['name'];
             $data['addip']=get_client_ip();
             $data['supplyname']=get_cate($data['supplyid'],'supply');
             $data['channelname']=get_cate($data['pid']);
+            $data['shop_id']=1;//不知道什么作用？
             return $table->add($data);
         }else{
             apiReturn(CodeModel::ERROR,M()->getError());

@@ -1237,7 +1237,11 @@ function get_role($node = 'channel') {
 function get_imgs($content = '') {
 	$pattern = '/<img.*?src=\s*?"?([^"\s]+)(?!\/>)"?\s*?/is';
 	preg_match_all ( $pattern, $content, $matches );
-	return ($matches [1]);
+    if(!empty($matches[1])){
+        return ($matches [1]);
+    }else if(strpos($content,'|') >0){
+        return explode('|',$content);
+    }
 }
  
 /**

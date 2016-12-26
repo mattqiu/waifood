@@ -11,212 +11,222 @@
 </head>
 <body class="bg_white">
 <div class="container" style="overflow: hidden">
-    <input type="hidden" id="goodid" />
-    <div class="page_title">商品添加</div>
-    <div class="tab_box" id="title_tab">
+<input type="hidden" id="goodid" value="{$db.id}"/>
+<div class="page_title">商品添加</div>
+<div class="tab_box" id="title_tab">
+    <ul>
+        <li class="onselect" data-name="infoform">基本信息</li>
+        <li data-name="picform">图片设置</li>
+        <li data-name="seoform">SEO设置</li>
+    </ul>
+</div>
+<form onsubmit="return false" name="form1" style="position: relative" class="contentform" id="infoform">
+    <div class="goods_status_sel" style="width: 85px;position: absolute;top: -50px;left: 760px;">
+        <select name="status">
+            <option value="1" selected>启用</option>
+            <option value="0">禁用</option>
+        </select>
+    </div>
+    <table border="0" style="width: 850px;">
+        <tr>
+            <td width="110" align="right" >所属分类：</td>
+            <td width="300" style="overflow: hidden">
+                <select name="pid">
+                    <option value="0">--选择类别--</option>
+                    {:R('Cms/treeselect', array($list))}
+                </select>
+            </td>
+            <td width="110"  align="right">供应商：</td>
+            <td width="300">
+                <select name="supplyid" id="supplyid">
+                    <option value="0">--选择供应商--</option>
+                    <volist name="supplylist" id="vo">
+                        <option value="{$vo.id}"  <if condition="isset($db['supplyid']) && $db['supplyid'] eq $vo['id']">selected</if>>{$vo.name}</option>
+                    </volist>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td width="110" align="right" ><span class="fc_red">*</span> 英文名：</td>
+            <td colspan="3"><input type="text" class="input_text1"  name="title" value="{$db.title}" />
+            </td>
+        </tr>
+        <tr class="proext {$showhide}">
+            <td width="110" align="right"  >中文名：</td>
+            <td colspan="3"><input type="text" name="namecn" class="input_text1" value="{$db.namecn}" /> </td>
+        </tr>
+        <tr>
+            <td width="110" align="right" >内部简称：</td>
+            <td width="300"><input type="text" name="short_name"  class="input_text2"  value="{$db.short_name}" /></td>
+            <td width="110"  align="right">拼音码：</td>
+            <td width="300"><input type="text" name="pinyin"  class="input_text2"  value="{$db.pinyin}" /></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="left" style="padding-left: 27px;">
+                <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="{$db.price}" />
+                <span style="padding-left: 30px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="{$db.price1}" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" align="left" style="padding-left: 41px;">
+                <span>库存数：</span><input type="text" name="stock"  class="input_text3"  value="{$db.stock|default=0}" />
+                <span style="padding-left: 16px">库存单位：</span><input type="text" name="unit"  class="input_text3"  value="{$db.unit}" />
+            </td>
+            <td width="110"  align="right">库存类型：</td>
+            <td width="300">
+                <select name="stock_type" >
+                    <option value="0" selected>常规库存</option>
+                    <option value="1" <if condition="isset($db['stock_type']) && $db['stock_type'] eq 1">selected</if>>虚拟库存</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td width="110"  align="right">库存关系：</td>
+            <td width="300">
+                <textarea name="stock_info" rows="4" class="textarea_text2">{$db.stock_info}</textarea>
+            </td>
+        </tr>
+        <!--   <tr>
+               nt" style="width:100%;" ></textarea></td>
+           </tr> -->
+        <td colspan="2">
+            <span style="margin-left: 40px;">保质期：</span><input type="text" name="shelf_life"  class="input_text3"  value="{$db.shelf_life}" />
+            <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date"  class="input_text3"  value="{$db.expire_date}" />
+        </td>
+        <td width="110"  align="right">产地（国家）</td>
+        <td width="300">
+            <select name="origin_id" >
+                <option value="0">--选择产地--</option>
+                <volist name="origin" id="vo">
+                    <option value="{$vo.id}"  <if condition="isset($db['origin_id']) && $db['origin_id'] eq $vo['id']">selected</if>>{$vo.origincn}</option>
+                </volist>
+            </select>
+        </td>
+        </tr>
+        <tr>
+            <td width="110" align="right" >保存方法：</td>
+            <td width="300"><input type="text" name="storage"  class="input_text2"  value="{$db.storage}" /></td>
+            <td width="110"  align="right">品牌：</td>
+            <td width="300"><input type="text" name="brand"  class="input_text2"  value="{$db.brand}" /></td>
+        </tr>
+        <tr>
+            <td width="110" align="right"  >内部备注：</td>
+            <td colspan="3"><input type="text" name="notice" class="input_text1" value="{$db.notice}" /> </td>
+        </tr>
+    </table>
+    <div class="tab_box language_tab" id="language_tab">
         <ul>
-            <li class="onselect" data-name="infoform">基本信息</li>
-            <li data-name="picform">图片设置</li>
-            <li data-name="seoform">SEO设置</li>
+            <li class="onselect" data-content="en">英文</li>
+            <li data-content="cn">中文</li>
         </ul>
     </div>
-    <form onsubmit="return false" name="form1" style="position: relative" class="contentform" id="infoform">
-        <div class="goods_status_sel" style="width: 85px;position: absolute;top: -50px;left: 760px;">
-            <select name="status">
-                <option value="1" selected>启用</option>
-                <option value="0">禁用</option>
-            </select>
-        </div>
-        <table border="0" style="width: 850px;">
-            <tr>
-                <td width="110" align="right" >所属分类：</td>
-                <td width="300" style="overflow: hidden">
+    <table border="0" id="content_box">
+        <tr class="content_en">
+            <td width="100" style="min-width: 102px;" align="right" >英文内容：</td>
+            <td>
+                <textarea type="text" name="content" id="content" >{$db.content}</textarea>
+            </td>
+        </tr>
+        <tr class="hide content_cn">
+            <td width="100" style="min-width: 102px;" align="right" >中文内容：</td>
+            <td>
+                <textarea type="text" name="contentcn" id="contentcn" >{$db.contentcn}</textarea>
+            </td>
+        </tr>
+    </table>
+    <hr size="1" color="#e0e0e0" style="height: 0"/>
+    <div>
+        <span style="margin-left: 40px;">商品ID：</span><span style="color: #999999;">{$db.id|default=0}</span>
+        <span style="margin-left: 140px;">排序号：</span><input type="text" name="name" id="name" class="input_text3" <if condition="isset($db['id']) && $db['id']"> value="{$db.name}"<else/>value="{$sort|default=0}"</if>/>
+        <span style="margin-left: 40px;">创建时间：</span><span style="color: #999999;">{$db.addtime}</span>
+    </div>
+    <div>
+        <span style="margin-left: 55px;">销量：</span><span style="color: #999999;">{$db.sold|default=0}</span>
+        <span style="margin-left: 126px;">点击次数：</span><input type="text" name="hits"  class="input_text3"  value="{$db.hits|default=0}" />
+        <span style="margin-left: 40px;">更新时间：</span><span style="color: #999999;">{$db.under_time}</span>
+    </div>
 
-                    <select name="pid">
-                        <option value="0">--选择类别--</option>
-                        {:R('Cms/treeselect', array($list))}
-                    </select>
-                </td>
-                <td width="110"  align="right">供应商：</td>
-                <td width="300">
-                    <select name="supplyid" id="supplyid">
-                        <option value="0">--选择供应商--</option>
-                        <volist name="supplylist" id="vo">
-                            <option value="{$vo.id}">{$vo.name}</option>
-                        </volist>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="110" align="right" ><span class="fc_red">*</span> 英文名：</td>
-                <td colspan="3"><input type="text" class="input_text1"  name="title" value="" />
+</form>
+<form onsubmit="return false" id="picform" class="hide contentform">
+    <table border="0" style="width: 850px;">
+        <tr>
+            <td width="110" align="right" >列表图：</td>
+            <td width="220">
+                <div class="indexpic" id="indexpic" style="margin-top: 12px;">
+                    <input type="hidden" name="indexpic" value="{$db.indexpic}"/>
+                    <img src="{$db.indexpic}" width="200" alt=""/>
+                </div>
+            </td>
+            <td style="vertical-align: bottom;padding-bottom: 13px;">
+                <input type="submit" class="sure_btn" onclick="selectIndexPic();" value="上传" />
+                <input type="button" class="cancel_btn" onclick="delImg('{$db.id}','indexpic','{$db.indexpic}');"value="删除"/>
+            </td>
+        </tr>
+    </table>
+    <table class="mytables" width="850px;" >
+        <tr>
+            <th>图片</th>
+            <th width="156">排序</th>
+            <th width="120">编辑</th>
+        </tr>
+        <tbody id="imgboxs">
+        <php>$imgs = array_filter(get_imgs($db['images']));</php>
+        <if condition="!empty($imgs)">
+            <volist name="imgs" id="vo">
+                <tr>
+                    <td align="center"><img src="{$vo}" class="goods_img" data-src="{$vo}" alt="" widht="74"/> </td>
+                    <td><input type="text" name="price"  class="input_text2"  value="0" /></td>
+                    <td>
+                        <a href="javascript:void(0);" onclick="delImg('{$db.id}','images','{$vo}');">删除</a>
                     </td>
-            </tr>
-            <tr class="proext {$showhide}">
-                <td width="110" align="right"  >中文名：</td>
-                <td colspan="3"><input type="text" name="namecn" class="input_text1" value="" /> </td>
-            </tr>
-            <tr>
-                <td width="110" align="right" >内部简称：</td>
-                <td width="300"><input type="text" name="short_name"  class="input_text2"  value="" /></td>
-                <td width="110"  align="right">拼音码：</td>
-                <td width="300"><input type="text" name="pinyin"  class="input_text2"  value="" /></td>
-            </tr>
-            <tr>
-                <td colspan="4" align="left" style="padding-left: 27px;">
-                    <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="" />
-                    <span style="padding-left: 30px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="left" style="padding-left: 41px;">
-                    <span>库存数：</span><input type="text" name="stock"  class="input_text3"  value="0" />
-                    <span style="padding-left: 16px">库存单位：</span><input type="text" name="unit"  class="input_text3"  value="" />
-                </td>
-                <td width="110"  align="right">库存类型：</td>
-                <td width="300">
-                    <select name="stock_type" >
-                        <option value="0">常规库存</option>
-                        <option value="1">虚拟库存</option>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td width="110"  align="right">库存关系：</td>
-                <td width="300">
-                    <textarea name="stock_info" rows="4" class="textarea_text2"></textarea>
-                </td>
-            </tr>
-         <!--   <tr>
-                nt" style="width:100%;" ></textarea></td>
-            </tr> -->
-            <td colspan="2">
-                    <span style="margin-left: 40px;">保质期：</span><input type="text" name="shelf_life"  class="input_text3"  value="0" />
-                    <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date"  class="input_text3"  value="" />
-                </td>
-                <td width="110"  align="right">产地（国家）</td>
-                <td width="300">
-                    <select name="origin" >
-                        <option value="0">--选择类型--</option>
-                        <volist name="origin" id="vo">
-                            <option value="{$vo.id}">{$vo.origincn}</option>
-                        </volist>
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <td width="110" align="right" >保存方法：</td>
-                <td width="300"><input type="text" name="storage"  class="input_text2"  value="" /></td>
-                <td width="110"  align="right">品牌：</td>
-                <td width="300"><input type="text" name="brand"  class="input_text2"  value="" /></td>
-            </tr>
-            <tr>
-                <td width="110" align="right"  >内部备注：</td>
-                <td colspan="3"><input type="text" name="notice" class="input_text1" value="" /> </td>
-            </tr>
-        </table>
-        <div class="tab_box language_tab" id="language_tab">
-            <ul>
-                <li class="onselect" data-content="en">英文</li>
-                <li data-content="cn">中文</li>
-            </ul>7
-        </div>
-        <table border="0" id="content_box">
-            <tr class="content_en">
-                <td width="100" style="min-width: 102px;" align="right" >英文内容：</td>
-                <td>
-                    <textarea type="text" name="content" id="content" ></textarea>
-                </td>
-            </tr>
-            <tr class="hide content_cn">
-                <td width="100" style="min-width: 102px;" align="right" >中文内容：</td>
-                <td>
-                    <textarea type="text" name="contentcn" id="contentcn" ></textarea>
-                </td>
-            </tr>
-        </table>
-        <hr size="1" color="#e0e0e0" style="height: 0"/>
-        <div>
-            <span style="margin-left: 40px;">商品ID：</span><span style="color: #999999;">0</span>
-            <span style="margin-left: 140px;">排序号：</span><input type="text" name="name" id="name" class="input_text3"  value="{$sort|default=0}" />
-            <span style="margin-left: 40px;">创建时间：</span><span style="color: #999999;">0</span>
-        </div>
-        <div>
-            <span style="margin-left: 55px;">销量：</span><span style="color: #999999;">0</span>
-            <span style="margin-left: 126px;">点击次数：</span><input type="text" name="price"  class="input_text3"  value="0" />
-            <span style="margin-left: 40px;">更新时间：</span><span style="color: #999999;">0</span>
-        </div>
+                </tr>
+            </volist>
+        </if>
+        </tbody>
+        <tr align="center">
+            <td colspan="3" align="right"  style="height: 68px;;">
+                <input type="submit" class="sure_btn" value="新增" onclick="selectPic()" />
+            </td>
+        </tr>
+    </table>
 
-    </form>
-    <form onsubmit="return false" id="picform" class="hide contentform">
-        <table border="0" style="width: 850px;">
-            <tr>
-                <td width="110" align="right" >列表图：</td>
-                <td width="220">
-                    <div class="indexpic" id="indexpic" style="margin-top: 12px;">
-                        <input type="hidden" name="indexpic"/>
-                        <img src="" alt=""/>
-                    </div>
-                </td>
-                <td style="vertical-align: bottom;padding-bottom: 13px;">
-                    <input type="submit" class="sure_btn" onclick="selectIndexPic();" value="上传" />
-                    <input type="button" class="cancel_btn" value="删除"/>
-                </td>
-            </tr>
-            </table>
-            <table class="mytables" width="850px;" >
-            <tr>
-                <th>图片</th>
-                <th width="156">排序</th>
-                <th width="120">编辑</th>
-            </tr>
-            <tbody id="imgboxs">
-
-            </tbody>
-            <tr align="center">
-                <td colspan="3" align="right"  style="height: 68px;;">
-                    <input type="submit" class="sure_btn" value="新增" onclick="selectPic()" />
-               </td>
-            </tr>
-        </table>
-
-    </form>
-    <form onsubmit="return false" id="seoform" class="hide contentform">
-        <table border="0" >
-            <tr>
-                <td width="110" align="right">关键词：</td>
-                <td ><input type="text" class="input_text2" id="keywords"  name="keywords"  value=""  maxlength="100" />
-                    一般不超过100个字符</td>
-            </tr>
-            <tr>
-                <td width="110" align="right">描述：</td>
-                <td ><textarea class="textarea_text2" name="description" ></textarea>
-                    一般不超过200个字符</td>
-            </tr>
-            <!--
-            <tr>
-                <td width="110" align="right">外部链接：</td>
-                <td><input type="text" class="input_text2" id="linkurl"  name="linkurl"  value=""  maxlength="100" /></td>
-            </tr>
-            <tr>
-                <td width="110" align="right">来源：</td>
-                <td ><input type="text" class="input_text2" id="source"  name="source"  value=""  maxlength="100" /></td>
-            </tr>
-            <tr>
-                <td width="110" align="right">作者：</td>
-                <td ><input type="text" class="input_text2" id="author"  name="author"  value=""  maxlength="100" /></td>
-            </tr>-->
-        </table>
-    </form>
-    <form onsubmit="return false" id="btn_form">
-        <div style="width: 850px; ">
-            <div class="tc" style="padding: 50px 0;">
-                <input type="submit" class="sure_btn" value="保存" onclick="modifyContent();" />
-                <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
-            </div>
+</form>
+<form onsubmit="return false" id="seoform" class="hide contentform">
+    <table border="0" >
+        <tr>
+            <td width="110" align="right">关键词：</td>
+            <td ><input type="text" class="input_text2" id="keywords"  name="keywords"  value="{$db.keywords}"  maxlength="100" />
+                一般不超过100个字符</td>
+        </tr>
+        <tr>
+            <td width="110" align="right">描述：</td>
+            <td ><textarea class="textarea_text2" name="description" >{$db.description}</textarea>
+                一般不超过200个字符</td>
+        </tr>
+        <!--
+        <tr>
+            <td width="110" align="right">外部链接：</td>
+            <td><input type="text" class="input_text2" id="linkurl"  name="linkurl"  value=""  maxlength="100" /></td>
+        </tr>
+        <tr>
+            <td width="110" align="right">来源：</td>
+            <td ><input type="text" class="input_text2" id="source"  name="source"  value=""  maxlength="100" /></td>
+        </tr>
+        <tr>
+            <td width="110" align="right">作者：</td>
+            <td ><input type="text" class="input_text2" id="author"  name="author"  value=""  maxlength="100" /></td>
+        </tr>-->
+    </table>
+</form>
+<form onsubmit="return false" id="btn_form">
+    <div style="width: 850px; ">
+        <div class="tc" style="padding: 50px 0;">
+            <input type="submit" class="sure_btn" value="保存" onclick="modifyContent();" />
+            <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
         </div>
-    </form>
+    </div>
+</form>
 
 </div>
 <script>
@@ -273,12 +283,12 @@
     function selectPic(){
         upload.prototype.callback = function(url, path){
             var $html = '<tr>';
-                $html+='<td><img src="'+(CONST_PUBLIC+path)+'" class="goods_img" data-src="/Public'+path+'" alt="" widht="74" /> </td>';
-                $html+='<td><input type="text" name="price"  class="input_text2"  value="0" /></td>';
-                $html+='<td>';
-                $html+='<a href="javascript:delimgs()">删除</a>';
-                $html+='</td>';
-                $html+='</tr>';
+            $html+='<td align="center"><img src="'+(CONST_PUBLIC+path)+'" class="goods_img" data-src="/Public'+path+'" alt="" widht="74" /> </td>';
+            $html+='<td><input type="text" name="price"  class="input_text2"  value="0" /></td>';
+            $html+='<td>';
+            $html+='<a href="javascript:delimgs()">删除</a>';
+            $html+='</td>';
+            $html+='</tr>';
             $('#imgboxs').append($html);
         }
         upload.prototype.uploadPic("goods");
@@ -286,102 +296,121 @@
     upload.prototype.createContent("#content",'goods',735);
     upload.prototype.createContent("#contentcn",'goods',735);
 
+    function delImg(id,field,$img){
+        $.post('/admin/cms/delGoodImg',{id:id,field:field,img:$img},function(data){
+            if(data.code ==200){
+                if(field =='indexpic'){
+                    $('#picform input[name=indexpic]').val('');
+                    $('#indexpic img').attr('src','');
+                }else{
+                    clearpopj(data.message, "success",true,'self');
+                }
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+
+    }
+
     /*****************提交******************/
     function modifyContent(){
         var images = '';
         var status = $('#infoform select[name=status]').val(), //商品状态
-            pid = $('#infoform select[name=pid]').val(), // 分类
-            supplyid = $('#infoform select[name=supplyid]').val(), //供应商
-            title = $('#infoform input[name=title]').val(),//标题
-            namecn = $('#infoform input[name=namecn]').val(),//中文标题
-            short_name = $('#infoform input[name=short_name]').val(),//内部简称
-            pinyin = $('#infoform input[name=pinyin]').val(),//简称拼音码
-            price = $('#infoform input[name=price]').val(),//价格
-            price1 = $('#infoform input[name=price1]').val(),//市场价
-            stock = $('#infoform input[name=stock]').val(),//库存
-            unit = $('#infoform input[name=unit]').val(),//库存单位
-            stock_type = $('#infoform select[name=stock_type]').val(),//库存类型
-            stock_info = $('#infoform textarea[name=stock_info]').val(),//库存关系
-            shelf_life = $('#infoform input[name=shelf_life]').val(),//保质期
-            expire_date = $('#infoform input[name=expire_date]').val(),//过期日
-            origin = $('#infoform select[name=origin]').val(),//产地
-            storage = $('#infoform input[name=storage]').val(),//保存方法
-            brand = $('#infoform input[name=brand]').val(),//品牌
-            notice = $('#infoform input[name=notice]').val(),//内部留言
-            content = $('#infoform textarea[name=content]').val(),//英文详情
-            contentcn = $('#infoform textarea[name=contentcn]').val(),//中文详情
-            name = $('#infoform index[name="name"]').val(),//内容标示-----？
-            //图片
-            indexpic = $('#picform input[name=indexpic]').val(),//列表图
-            //SEO
-            keywords = $('#seoform input[name=keywords]').val(),// 关键字
-            description = $('#seoform input[name=description]').val();//介绍
-            //相册图
-            $('#imgboxs img.goods_img').each(function(){
-                images+=$(this).data('src')+'|';
-            })
-            if(!pid){
-                clearpopj('请选择分类', "error",true);
-                return  false;
-            }
-            if(!title){
-                clearpopj('请填写商品名', "error",true);
-                return  false;
-            }
-            if(!price){
-                clearpopj('请填写商品价格', "error",true);
-                return  false;
-            }
+                pid = $('#infoform select[name=pid]').val(), // 分类
+                supplyid = $('#infoform select[name=supplyid]').val(), //供应商
+                title = $('#infoform input[name=title]').val(),//标题
+                namecn = $('#infoform input[name=namecn]').val(),//中文标题
+                short_name = $('#infoform input[name=short_name]').val(),//内部简称
+                pinyin = $('#infoform input[name=pinyin]').val(),//简称拼音码
+                price = $('#infoform input[name=price]').val(),//价格
+                price1 = $('#infoform input[name=price1]').val(),//市场价
+                stock = $('#infoform input[name=stock]').val(),//库存
+                unit = $('#infoform input[name=unit]').val(),//库存单位
+                stock_type = $('#infoform select[name=stock_type]').val(),//库存类型
+                stock_info = $('#infoform textarea[name=stock_info]').val(),//库存关系
+                shelf_life = $('#infoform input[name=shelf_life]').val(),//保质期
+                expire_date = $('#infoform input[name=expire_date]').val(),//过期日
+                origin_id = $('#infoform select[name=origin_id]').val(),//产地
+                storage = $('#infoform input[name=storage]').val(),//保存方法
+                brand = $('#infoform input[name=brand]').val(),//品牌
+                notice = $('#infoform input[name=notice]').val(),//内部留言
 
-            if(!indexpic){ //没有上传图片
-                swal({
-                    title: '',
-                    text: '没有上传商品列表图，确认提交吗?',
-                    type: 'warning',
-                    showCancelButton: true,
-                    closeOnConfirm: false,
-                    confirmButtonText: "是的"
-                    //confirmButtonColor: "#35D374"
-                }, function() {
-                    subContent($data);
-                });
-            }
+                content = $('#infoform textarea[name=content]').val(),//英文详情
+                contentcn = $('#infoform textarea[name=contentcn]').val(),//中文详情
+                name = $('#infoform #name').val(),//内容标示-----？
+                hits = $('#infoform input[name=hits]').val(),//点击次数
+        //图片
+                indexpic = $('#picform input[name=indexpic]').val(),//列表图
+        //SEO
+                keywords = $('#seoform input[name=keywords]').val(),// 关键字
+                description = $('#seoform input[name=description]').val();//介绍
+        //相册图
+        $('#imgboxs img.goods_img').each(function(){
+            images+=$(this).data('src')+'|';
+        })
+        if(!pid){
+            clearpopj('请选择分类', "error",true);
+            return  false;
+        }
+        if(!title){
+            clearpopj('请填写商品名', "error",true);
+            return  false;
+        }
+        if(!price){
+            clearpopj('请填写商品价格', "error",true);
+            return  false;
+        }
         var $data = {
-                status :status,
-                pid :pid,
-                supplyid :supplyid,
-                title :title,
-                namecn :namecn,
-                short_name :short_name,
-                pinyin :pinyin,
-                price :price,
-                price1 :price1,
-                stock :stock,
-                unit :unit,
-                stock_type :stock_type,
-                stock_info :stock_info,
-                shelf_life :shelf_life,
-                expire_date :expire_date,
-                origin :origin,
-                storage :storage,
-                brand :brand,
-                notice :notice,
-                content :content,
-                contentcn :contentcn,
-                indexpic :indexpic,
-                keywords :keywords,
-                description :description,
-                images :images,
-                name :name
-            }
-        console.log($data)
-        subContent($data);
+            id:$('#goodid').val(),
+            status :status,
+            pid :pid,
+            supplyid :supplyid,
+            title :title,
+            namecn :namecn,
+            short_name :short_name,
+            pinyin :pinyin,
+            price :price,
+            price1 :price1,
+            stock :stock,
+            unit :unit,
+            stock_type :stock_type,
+            stock_info :stock_info,
+            shelf_life :shelf_life,
+            expire_date :expire_date,
+            origin_id :origin_id,
+            storage :storage,
+            brand :brand,
+            notice :notice,
+            content :content,
+            contentcn :contentcn,
+            indexpic :indexpic,
+            keywords :keywords,
+            description :description,
+            images :images,
+            name :name
+        }
+        //没有上传图片的提交
+        if(!indexpic){
+            swal({
+                title: '',
+                text: '没有上传商品列表图，确认提交吗?',
+                type: 'warning',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "是的"
+                //confirmButtonColor: "#35D374"
+            }, function() {
+                subContent($data);
+            });
+        }else{
+            subContent($data);
+        }
     }
-
+    //提交
     function subContent($data){
         $.post('/admin/cms/subContent.html',$data,function(data){
             if(data.code==200){
-                clearpopj(data.message, "success",true);
+                clearpopj(data.message, "success",true,'self');
             }else{
                 clearpopj(data.message, "error",true);
             }

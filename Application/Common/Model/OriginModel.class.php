@@ -12,6 +12,13 @@ class OriginModel extends Model {
         return M('origin')->where($con)->select();
     }
 
+    public static function getOriginById($id){
+        if(regex($id,'number')){
+            return M('origin')->find($id);
+        }
+        return false;
+    }
+
     /**
      * 添加产地
      * @param $data

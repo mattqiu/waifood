@@ -5,6 +5,7 @@ namespace Home\Controller;
 use Common\Model\ActiviModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
+use Common\Model\OriginModel;
 
 class ProductController extends BaseController {
 
@@ -52,8 +53,14 @@ class ProductController extends BaseController {
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
             }
-            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,brand,stock';
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,origin_id,brand,stock';
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->select ();
+        }
+        foreach($list as &$val){
+            if(isset($val['origin_id']) && $val['origin_id']){
+                $orogin = OriginModel::getOriginById($val['origin_id']);//获取产地信息
+                $val['origin'] = $orogin['origin'];
+            }
         }
         $this->assign ( "list", $list );
         $subchannel = M ( 'channel' )->field ( 'id,pid,name' )->where ( 'pid=' . $id )->select ();
@@ -87,7 +94,10 @@ class ProductController extends BaseController {
 				$arr [] = $id;
 				cookie ( 'view_history', arr2str ( $arr ) );
 			}
-
+            if(isset($db['origin_id']) && $db['origin_id']){
+                $orogin = OriginModel::getOriginById($db['origin_id']);//获取产地信息
+                $db['origin'] = $orogin['origin'];
+            }
 			if(strpos($db['images'],'.')){
 			    $gallery=get_imgs ($db ['images'] );
 			}else{
