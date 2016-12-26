@@ -517,16 +517,28 @@ function getSettleGood(){
                 }
             }
         }
+
         var discount = getActiviDiscount(totalMoney);
         if(discount>0){
             var discountplan =discount;
         }else{
             var discountplan =40;
         }
+        var today=new Date(),flag =false;
+        var d=today.getDate();//过来今天，关闭折扣
+        if(d>24){
+            flag =true;
+            discount = 0;
+        }
         var delivery_fee = getdeliveryFee(totalMoney);
         var allMoney = (totalMoney-parseFloat(discount))+parseFloat(delivery_fee);
 
-        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:&nbsp;<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee:&nbsp;<span class="delivery_fee">&yen;'+delivery_fee+'</span></div><div >Discount(&yen;<span>'+discountplan+'</span> OFF &yen;400+ SITEWIDE):&nbsp;<span class="discount fc_red">&yen;'+discount+'</span></div> <div>Total Amount:&nbsp;<span class="totalSubMoney">&yen;'+allMoney+'</span></div></td></tr><tfoot>';
+        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:&nbsp;<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee:&nbsp;<span class="delivery_fee">&yen;'+delivery_fee+'</span></div>';
+        if(!flag){
+            $html+='<div >Discount(&yen;<span>'+discountplan+'</span> OFF &yen;400+ SITEWIDE):&nbsp;<span class="discount fc_red">&yen;'+discount+'</span></div>' ;
+        }
+        $html+='<div>Total Amount:&nbsp;<span class="totalSubMoney">&yen;'+allMoney+'</span></div></td></tr><tfoot>';
+
         $('#cashier_table').attr('data-delivery_fee',delivery_fee);
         $('#cashier_table').html($html);
     }
