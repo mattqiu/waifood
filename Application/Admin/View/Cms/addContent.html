@@ -204,13 +204,13 @@
     <table border="0" >
         <tr>
             <td width="110" align="right">关键词：</td>
-            <td ><input type="text" class="input_text2" id="keywords"  name="keywords"  value="{$db.keywords}"  maxlength="100" />
-                一般不超过100个字符</td>
+            <td ><input type="text" class="input_text2" id="keywords" onkeyup="$('#kw').text($(this).val().length); " name="keywords"  value="{$db.keywords}"  maxlength="100" />
+                一般不超过100个字符 <span style="color: #999999;font-size: 12px;">(已输入<span id="kw">0</span>个字符)</span></td>
         </tr>
         <tr>
             <td width="110" align="right">描述：</td>
-            <td ><textarea class="textarea_text2" name="description" >{$db.description}</textarea>
-                一般不超过200个字符</td>
+            <td ><textarea class="textarea_text2" name="description"  onkeyup="$('#desc').text($(this).val().length); ">{$db.description}</textarea>
+                一般不超过200个字符<span style="color: #999999;font-size: 12px;">(已输入<span id="desc">0</span>个字符)</span></td>
         </tr>
         <!--
         <tr>
