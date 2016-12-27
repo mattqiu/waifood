@@ -272,6 +272,8 @@
             if(str){
                 var arrRslt = makePy(str);
                 $('#infoform input[name=pinyin]').val(arrRslt);
+            }else{
+                $('#infoform input[name=pinyin]').val('');
             }
         })
     })

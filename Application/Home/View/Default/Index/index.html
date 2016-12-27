@@ -87,7 +87,12 @@ $('input').blur(function(){ //输入框失焦后还原初始状态
 <div id="wrapper" >
   <div class="swipe">
     <ul id="slider">
-      {:lbl('wx_banner')}
+        <volist name="banner" id="vo">
+            <li>
+                <a  <if condition="$vo['picurl']"> href="{$vo.picurl}" <else/>href="javascript:void(0)"</if>><img src="__PUBLIC__{$vo['indexpic']}" alt="" /></a>
+            </li>
+
+        </volist>
     </ul>
     <div id="pagenavi"></div>
   </div>

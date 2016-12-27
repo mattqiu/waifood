@@ -2,6 +2,7 @@
 
 namespace Home\Controller;
 
+use Admin\Model\BannerModel;
 use Common\Model\ContentModel;
 use Common\Model\OrderModel;
 use Common\Model\UserModel;
@@ -17,6 +18,8 @@ class IndexController extends BaseController {
         $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION);
         $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL);
         $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND);
+        $banner = BannerModel::getBannerByType(BannerModel::WX_BANNER);// 幻灯片
+        $this->assign('banner',$banner);
 		$this->assign('recommend',$recommend);
 		$this->assign('newArrival',$newArrival);
 		$this->assign('promotion',$promotion);

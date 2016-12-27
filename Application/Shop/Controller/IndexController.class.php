@@ -20,7 +20,7 @@ class IndexController extends BaseController
         $promotion  =  ContentModel::getGroupContent(ContentModel::PROMOTION,$orderstr);
         $newArrival  =  ContentModel::getGroupContent(ContentModel::NEW_ARRIVAL,$orderstr);
         $recommend  =  ContentModel::getGroupContent(ContentModel::RECOMMEND,$orderstr);
-        $banner = BannerModel::getBannerByType(BannerModel::PC_BANNER);// huo
+        $banner = BannerModel::getBannerByType(BannerModel::PC_BANNER);// 幻灯片
         $this->assign('banner',$banner);
         $this->assign('catShow',true);
         $this->assign('recommend',$recommend);
