@@ -5,7 +5,7 @@ namespace Home\Controller;
 use Common\Model\ActiviModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
-use Common\Model\OriginModel;
+use Common\Model\GoodsAttrModel;
 
 class ProductController extends BaseController {
 
@@ -58,8 +58,8 @@ class ProductController extends BaseController {
         }
         foreach($list as &$val){
             if(isset($val['origin_id']) && $val['origin_id']){
-                $orogin = OriginModel::getOriginById($val['origin_id']);//获取产地信息
-                $val['origin'] = $orogin['origin'];
+                $orogin = GoodsAttrModel::getGoodAttrById($val['origin_id']);//获取产地信息
+                $val['origin'] = $orogin['name'];
             }
         }
         $this->assign ( "list", $list );
@@ -95,9 +95,14 @@ class ProductController extends BaseController {
 				cookie ( 'view_history', arr2str ( $arr ) );
 			}
             if(isset($db['origin_id']) && $db['origin_id']){
-                $orogin = OriginModel::getOriginById($db['origin_id']);//获取产地信息
-                $db['origin'] = $orogin['origin'];
+                $orogin = GoodsAttrModel::getGoodAttrById($db['origin_id']);//获取产地信息
+                $db['origin'] = $orogin['name'];
             }
+            if(isset($db['storage_id']) && $db['storage_id']){
+                $storage = GoodsAttrModel::getGoodAttrById($db['storage_id']);//获取保存方法信息
+                $db['storage'] = $storage['name'];
+            }
+
 			if(strpos($db['images'],'.')){
 			    $gallery=get_imgs ($db ['images'] );
 			}else{

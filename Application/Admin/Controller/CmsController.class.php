@@ -5,8 +5,8 @@ namespace Admin\Controller;
 use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
 use Common\Model\CodeModel;
+use Common\Model\GoodsAttrModel;
 use Common\Model\OrderModel;
-use Common\Model\OriginModel;
 
 class CmsController extends BaseController {
 	public function index() {
@@ -875,7 +875,8 @@ class CmsController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		}else {
-            $origin = OriginModel::getAllOrigin();
+            $origin = GoodsAttrModel::getGoodAttr(GoodsAttrModel::ORIGIN);
+            $storage = GoodsAttrModel::getGoodAttr(GoodsAttrModel::STORAGE);
 			$sort = M ( "content" )->max ( "id" );
 			$this->assign ( "sort", $sort + 1 );
 			$this->assign ( "pid", $pid );
@@ -907,6 +908,7 @@ class CmsController extends BaseController {
 			$list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
 			$this->assign ( "supplylist", $list );
 			$this->assign ( "origin", $origin );
+			$this->assign ( "storage", $storage );
 			$this->display ('addContent');
 		}
 	}
@@ -963,8 +965,10 @@ class CmsController extends BaseController {
 				$this->error ( $db->getError () );
 			}
 		} else {
-            $origin = OriginModel::getAllOrigin();
+            $origin = GoodsAttrModel::getGoodAttr(GoodsAttrModel::ORIGIN);
+            $storage = GoodsAttrModel::getGoodAttr(GoodsAttrModel::STORAGE);
             $this->assign ( "origin", $origin );
+            $this->assign ( "storage", $storage );
 			$db = M ( "content" )->find ( $id );
 			$this->assign ( "db", $db );
 			$where = array();
@@ -1872,22 +1876,23 @@ class CmsController extends BaseController {
      * 产地列表
      */
     public function origin(){
-        $list = OriginModel::getAllOrigin();
+        $type = $_REQUEST['type']?$_REQUEST['type']:GoodsAttrModel::ORIGIN;
+        $list = GoodsAttrModel::getGoodAttr($type);
         $this->assign ( "list", $list );
         $this->display ();
     }
 
     /**
-     * 产地列表
+     * 商品属性操作
      */
-    public function modifyOrigin(){
+    public function modifyGoodAttr(){
         $id = I('post.id');
         if(regex($id,'number')){ //编辑
-            if(OriginModel::modifyOrigin($id,$_POST)){
+            if(GoodsAttrModel::modifyGoodsAttr($id,$_POST)){
                 apiReturn(CodeModel::CORRECT,'编辑成功');
             }
         }else{ //添加
-            if(OriginModel::addOrigin($_POST)){
+            if(GoodsAttrModel::addGoodsAttr($_POST)){
                 apiReturn(CodeModel::CORRECT,'添加成功');
             }
         }

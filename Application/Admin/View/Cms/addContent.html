@@ -92,21 +92,29 @@
            </tr> -->
         <td colspan="2">
             <span style="margin-left: 40px;">保质期：</span><input type="text" name="shelf_life"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input_text4"  value="{$db.shelf_life}" />(天)
-            <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date"  class="input_text3"  value="{$db.expire_date}" />
+            <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date" id="expire_date" class="input_text3"  value="{$db.expire_date}" />
         </td>
         <td width="110"  align="right">产地（国家）</td>
         <td width="300">
             <select name="origin_id" >
                 <option value="0">--选择产地--</option>
                 <volist name="origin" id="vo">
-                    <option value="{$vo.id}"  <if condition="isset($db['origin_id']) && $db['origin_id'] eq $vo['id']">selected</if>>{$vo.origincn}</option>
+                    <option value="{$vo.id}"  <if condition="isset($db['origin_id']) && $db['origin_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
                 </volist>
             </select>
         </td>
         </tr>
         <tr>
             <td width="110" align="right" >保存方法：</td>
-            <td width="300"><input type="text" name="storage"  class="input_text2"  value="{$db.storage}" /></td>
+            <td width="300">
+                <select name="storage_id" >
+                    <option value="0">--选择保存方法--</option>
+                    <volist name="storage" id="vo">
+                        <option value="{$vo.id}"  <if condition="isset($db['storage_id']) && $db['storage_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
+                    </volist>
+                </select>
+
+            </td>
             <td width="110"  align="right">品牌：</td>
             <td width="300"><input type="text" name="brand"  class="input_text2"  value="{$db.brand}" /></td>
         </tr>
@@ -268,6 +276,13 @@
         })
     })
 
+    //选择过期日时间
+    $('#expire_date').calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
+
     /****************图片设置***************************/
     function selectIndexPic(){
         upload.prototype.callback = function(url, path){
@@ -331,7 +346,8 @@
                 shelf_life = $('#infoform input[name=shelf_life]').val(),//保质期
                 expire_date = $('#infoform input[name=expire_date]').val(),//过期日
                 origin_id = $('#infoform select[name=origin_id]').val(),//产地
-                storage = $('#infoform input[name=storage]').val(),//保存方法
+                storage_id = $('#infoform select[name=storage_id]').val(),//产地
+//                storage = $('#infoform input[name=storage]').val(),//保存方法
                 brand = $('#infoform input[name=brand]').val(),//品牌
                 notice = $('#infoform input[name=notice]').val(),//内部留言
 
@@ -378,7 +394,7 @@
             shelf_life :shelf_life,
             expire_date :expire_date,
             origin_id :origin_id,
-            storage :storage,
+            storage_id :storage_id,
             brand :brand,
             notice :notice,
             content :content,
@@ -410,7 +426,7 @@
     function subContent($data){
         $.post('/admin/cms/subContent.html',$data,function(data){
             if(data.code==200){
-                clearpopj(data.message, "success",true,'self');
+                clearpop(data.message, '','self');
             }else{
                 clearpopj(data.message, "error",true);
             }

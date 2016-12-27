@@ -1,7 +1,7 @@
 <?php
 namespace Shop\Controller;
 use Common\Model\ContentModel;
-use Common\Model\OriginModel;
+use Common\Model\GoodsAttrModel;
 
 class ProductController extends BaseController {
 	  
@@ -61,8 +61,8 @@ class ProductController extends BaseController {
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->limit($limit)->select ();
             foreach($list as &$val){
                 if(isset($val['origin_id']) && $val['origin_id']){
-                    $orogin = OriginModel::getOriginById($val['origin_id']);//获取产地信息
-                    $val['origin'] = $orogin['origin'];
+                    $orogin = GoodsAttrModel::getGoodAttrById($val['origin_id']);//获取产地信息
+                    $val['origin'] = $orogin['name'];
                 }
             }
 
@@ -105,8 +105,12 @@ class ProductController extends BaseController {
         $good = M ( "content" )->where($where)->find ();
     	if($good){
             if(isset($good['origin_id']) && $good['origin_id']){
-                $orogin = OriginModel::getOriginById($good['origin_id']);//获取产地信息
-                $good['origin'] = $orogin['origin'];
+                $orogin = GoodsAttrModel::getGoodAttrById($good['origin_id']);//获取产地信息
+                $good['origin'] = $orogin['name'];
+            }
+            if(isset($good['storage_id']) && $good['storage_id']){
+                $storage = GoodsAttrModel::getGoodAttrById($good['storage_id']);//获取保存方法信息
+                $good['storage'] = $storage['name'];
             }
             $this->assign ( "good", $good );
 	    	$this->assign ( "gallery",array_filter(get_imgs($good['images'])));
