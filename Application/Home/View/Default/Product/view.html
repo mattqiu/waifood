@@ -49,9 +49,9 @@
         </div>
     </div>
       <div class="goodinfo">
-         <span>Unit:</span>  <span>{$db.unit}</span><br>
-         <span>Origin: </span>   <span>{$db.origin|default='null'}</span><br>
-         <span>Preservation:</span>   <span>{$db.storage|default='null'}</span><br>
+         <span>Unit:</span>  <span>{$db.unit|default='none'}</span><br>
+         <span>Origin: </span>   <span>{$db.origin|default='none'}</span><br>
+         <span>Preservation:</span>   <span>{$db.storage|default='none'}</span><br>
          <notempty name="db.brand">
              <span>Brand:</span>   <span>{$db.brand}</span><br />
          </notempty>

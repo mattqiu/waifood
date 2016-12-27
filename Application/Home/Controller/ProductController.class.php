@@ -53,13 +53,17 @@ class ProductController extends BaseController {
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
             }
-            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,origin_id,brand,stock';
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,storage_id,origin_id,brand,stock';
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->select ();
         }
         foreach($list as &$val){
             if(isset($val['origin_id']) && $val['origin_id']){
                 $orogin = GoodsAttrModel::getGoodAttrById($val['origin_id']);//获取产地信息
                 $val['origin'] = $orogin['name'];
+            }
+            if(isset($val['storage_id']) && $val['storage_id']){
+                $storage = GoodsAttrModel::getGoodAttrById($val['storage_id']);//获取保存方法信息
+                $val['storage'] = $storage['name'];
             }
         }
         $this->assign ( "list", $list );
