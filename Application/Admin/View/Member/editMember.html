@@ -105,10 +105,18 @@
                 <span class="t_val"><input type="password" name="password" value="{$info.userpwd}"/></span>
             </td>
             <td>
+                <lable>用户折扣:</lable>
+                <select name="discount_id">
+                    <option value="">--请选择--</option>
+                    <volist name="discount" id="vo">
+                        <option value="{$vo.id}" <if condition="$info['discount_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
+                    </volist>
+                </select>
+            </td>
+            <td colspan="2">
                 <span class="title">用户喜好:</span>
                 <span class="t_val"><input type="text" name="hobby" value="{$info.hobby}"/></span>
             </td>
-            <td colspan="2">用户折扣组</td>
         </tr>
     </table>
     <br/>

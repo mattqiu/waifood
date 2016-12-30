@@ -9,41 +9,62 @@
     <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
     <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
 </head>
-<body class="bg_white">
+<body class="bg_white" data-storage_id="{$db.storage_id}" data-status="{$db.status}" data-pid="{$db.pid}" data-supplyid="{$db.supplyid}" data-stock_type="{$db.stock_type}" data-origin_id="{$db.origin_id}">
 <div class="container" style="overflow: hidden">
 <input type="hidden" id="goodid" value="{$db.id}"/>
 <div class="page_title">商品添加</div>
 <div class="tab_box" id="title_tab">
     <ul>
-        <li class="onselect" data-name="infoform">基本信息</li>
-        <li data-name="picform">图片设置</li>
+        <li data-name="infoform">基本信息</li>
+        <li class="onselect" data-name="picform">图片设置</li>
         <li data-name="seoform">SEO设置</li>
     </ul>
 </div>
 <form onsubmit="return false" name="form1" style="position: relative" class="contentform" id="infoform">
     <div class="goods_status_sel" style="width: 85px;position: absolute;top: -50px;left: 760px;">
-        <select name="status">
-            <option value="1" selected>启用</option>
-            <option value="0">禁用</option>
-        </select>
+        <div class="idealforms_select fl" style="width: 85px">
+            <div class="idealforms_select_obj" >
+                <input type="hidden" value="" name="status">
+                <input type="text" value="" readonly>
+                <span class="caret"></span>
+            </div>
+            <ul class="idealforms_select_menu">
+                <li data-value="1">启用</li>
+                <li data-value="2">禁止</li>
+            </ul>
+        </div>
     </div>
     <table border="0" style="width: 850px;">
         <tr>
             <td width="110" align="right" >所属分类：</td>
-            <td width="300" style="overflow: hidden">
-                <select name="pid">
-                    <option value="0">--选择类别--</option>
-                    {:R('Cms/treeselect', array($list))}
-                </select>
+            <td width="300">
+                <div class="idealforms_select fl" >
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="pid">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择类别--</li>
+                        {:R('Cms/treeselect', array($list,'li'))}
+                    </ul>
+                </div>
             </td>
             <td width="110"  align="right">供应商：</td>
             <td width="300">
-                <select name="supplyid" id="supplyid">
-                    <option value="0">--选择供应商--</option>
-                    <volist name="supplylist" id="vo">
-                        <option value="{$vo.id}"  <if condition="isset($db['supplyid']) && $db['supplyid'] eq $vo['id']">selected</if>>{$vo.name}</option>
-                    </volist>
-                </select>
+                <div class="idealforms_select fl">
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="supplyid">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择供应商--</li>
+                        <volist name="supplylist" id="vo">
+                            <li data-value="{$vo.id}">{$vo.name}</li>
+                        </volist>
+                    </ul>
+                </div>
             </td>
         </tr>
         <tr>
@@ -74,10 +95,17 @@
             </td>
             <td width="110"  align="right">库存类型：</td>
             <td width="300">
-                <select name="stock_type" >
-                    <option value="0" selected>常规库存</option>
-                    <option value="1" <if condition="isset($db['stock_type']) && $db['stock_type'] eq 1">selected</if>>虚拟库存</option>
-                </select>
+                <div class="idealforms_select fl" >
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="stock_type">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">常规库存</li>
+                        <li data-value="1">虚拟库存</li>
+                    </ul>
+                </div>
             </td>
         </tr>
         <tr>
@@ -96,24 +124,37 @@
         </td>
         <td width="110"  align="right">产地（国家）</td>
         <td width="300">
-            <select name="origin_id" >
-                <option value="0">--选择产地--</option>
-                <volist name="origin" id="vo">
-                    <option value="{$vo.id}"  <if condition="isset($db['origin_id']) && $db['origin_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
-                </volist>
-            </select>
+            <div class="idealforms_select fl" >
+                <div class="idealforms_select_obj" >
+                    <input type="hidden" value="" name="origin_id">
+                    <input type="text" value="" readonly>
+                    <span class="caret"></span>
+                </div>
+                <ul class="idealforms_select_menu">
+                    <li data-value="0">--选择产地--</li>
+                    <volist name="origin" id="vo">
+                        <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                    </volist>
+                </ul>
+            </div>
         </td>
         </tr>
         <tr>
             <td width="110" align="right" >保存方法：</td>
             <td width="300">
-                <select name="storage_id" >
-                    <option value="0">--选择保存方法--</option>
-                    <volist name="storage" id="vo">
-                        <option value="{$vo.id}"  <if condition="isset($db['storage_id']) && $db['storage_id'] eq $vo['id']">selected</if>>{$vo.namecn}</option>
-                    </volist>
-                </select>
-
+                <div class="idealforms_select fl" >
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="storage_id">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择保存方法--</li>
+                        <volist name="storage" id="vo">
+                            <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                        </volist>
+                    </ul>
+                </div>
             </td>
             <td width="110"  align="right">品牌：</td>
             <td width="300"><input type="text" name="brand"  class="input_text2"  value="{$db.brand}" /></td>
@@ -168,7 +209,7 @@
             </td>
             <td style="vertical-align: bottom;padding-bottom: 13px;">
                 <input type="submit" class="sure_btn" onclick="selectIndexPic();" value="上传" />
-                <input type="button" class="cancel_btn" onclick="delImg('{$db.id}','indexpic','{$db.indexpic}');"value="删除"/>
+                <input type="button" class="cancel_btn" id="delIndexpic" onclick="delImg('{$db.id}','indexpic','{$db.indexpic}');" value="删除"/>
             </td>
         </tr>
     </table>
@@ -245,6 +286,12 @@
         $("#picform").idealforms();
         $("#seoform").idealforms();
         $("#btn_form").idealforms();
+        setSelectSelected('#infoform input[name=status]',$('body').data('status'));
+        setSelectSelected('#infoform input[name=pid]',$('body').data('pid'));
+        setSelectSelected('#infoform input[name=supplyid]',$('body').data('supplyid'));
+        setSelectSelected('#infoform input[name=stock_type]',$('body').data('stock_type'));
+        setSelectSelected('#infoform input[name=origin_id]',$('body').data('origin_id'));
+        setSelectSelected('#infoform input[name=storage_id]',$('body').data('storage_id'));
 
         $('.contentform').hide();
         $('#'+$('#title_tab li.onselect').data('name')).show();
@@ -288,6 +335,7 @@
     /****************图片设置***************************/
     function selectIndexPic(){
         upload.prototype.callback = function(url, path){
+            $('#delIndexpic').attr('onclick','delImgUnUpload("/Public'+path+'",this)');
             $('#indexpic input[name=indexpic]').val('/Public'+path);
             $('#indexpic img').attr({'src':CONST_PUBLIC+path,'width':'200'});
         }
@@ -303,7 +351,7 @@
             $html+='<td align="center"><img src="'+(CONST_PUBLIC+path)+'" class="goods_img" data-src="/Public'+path+'" alt="" widht="74" /> </td>';
             $html+='<td><input type="text" name="price"  class="input_text2"  value="0" /></td>';
             $html+='<td>';
-            $html+='<a href="javascript:delimgs()">删除</a>';
+            $html+='<a href="javascript:delImgUnUpload(\"/Public'+path+'\",this,\"list\")">删除</a>';
             $html+='</td>';
             $html+='</tr>';
             $('#imgboxs').append($html);
@@ -312,6 +360,18 @@
     }
     upload.prototype.createContent("#content",'goods',735);
     upload.prototype.createContent("#contentcn",'goods',735);
+
+    //删除为保存的上传图片
+    function delImgUnUpload(file,obj,type){
+        $.post('/home/common/delFile',{file:file},function(data){
+            if(type == 'list'){
+                $(obj).parents().parents().remove();
+            }else{
+                $('#delIndexpic').parent().siblings().find('#indexpic input[name=indexpic]').val('');
+                $('#delIndexpic').parent().siblings().find('#indexpic img').attr('src','');
+            }
+        })
+    }
 
     function delImg(id,field,$img){
         $.post('/admin/cms/delGoodImg',{id:id,field:field,img:$img},function(data){
@@ -332,9 +392,9 @@
     /*****************提交******************/
     function modifyContent(){
         var images = '';
-        var status = $('#infoform select[name=status]').val(), //商品状态
-                pid = $('#infoform select[name=pid]').val(), // 分类
-                supplyid = $('#infoform select[name=supplyid]').val(), //供应商
+        var status = $('#infoform input[name=status]').val(), //商品状态
+                pid = $('#infoform input[name=pid]').val(), // 分类
+                supplyid = $('#infoform input[name=supplyid]').val(), //供应商
                 title = $('#infoform input[name=title]').val(),//标题
                 namecn = $('#infoform input[name=namecn]').val(),//中文标题
                 short_name = $('#infoform input[name=short_name]').val(),//内部简称
@@ -343,12 +403,12 @@
                 price1 = $('#infoform input[name=price1]').val(),//市场价
                 stock = $('#infoform input[name=stock]').val(),//库存
                 unit = $('#infoform input[name=unit]').val(),//库存单位
-                stock_type = $('#infoform select[name=stock_type]').val(),//库存类型
+                stock_type = $('#infoform input[name=stock_type]').val(),//库存类型
                 stock_info = $('#infoform textarea[name=stock_info]').val(),//库存关系
                 shelf_life = $('#infoform input[name=shelf_life]').val(),//保质期
                 expire_date = $('#infoform input[name=expire_date]').val(),//过期日
-                origin_id = $('#infoform select[name=origin_id]').val(),//产地
-                storage_id = $('#infoform select[name=storage_id]').val(),//产地
+                origin_id = $('#infoform input[name=origin_id]').val(),//产地
+                storage_id = $('#infoform input[name=storage_id]').val(),//产地
 //                storage = $('#infoform input[name=storage]').val(),//保存方法
                 brand = $('#infoform input[name=brand]').val(),//品牌
                 notice = $('#infoform input[name=notice]').val(),//内部留言

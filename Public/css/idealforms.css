@@ -20,6 +20,7 @@
 /* ---------------------------------------
 	Colors
 ----------------------------------------*/
+
 /* Select */
 /* Button */
 /* Radio & Check */
@@ -66,6 +67,21 @@
     background: #fcfcfc;
     border-radius: 4px 4px 4px 4px;
 }
+
+
+li{list-style-type: none;}
+
+
+
+.idealforms_select{position:relative;width: 315px;}
+.idealforms_select_obj{margin-left: 5px;}
+.idealforms_select input{padding-left: 5px;width: 98%; height: 35px;}
+.idealforms_select .caret{background:url(../images/fqqb.png) -16px -177px no-repeat;position:absolute;top:6px;right:5px;padding:10px;cursor:pointer;}
+.idealforms_select ul.idealforms_select_menu{ margin-left: 5px; width: 98%;max-height: 300px;overflow: auto ;position:absolute;background:#FFffff;border:1px solid #dbdbdb;display:none;z-index: 999;}
+.idealforms_select ul.idealforms_select_menu li{width:98%;padding-left:2%;height:30px;line-height:30px;color:#333333;cursor:pointer;text-align: left;}
+.idealforms_select ul.idealforms_select_menu li:hover{background:#108ee9;}
+
+
 .idealform select, .idealform input[type="radio"], .idealform input[type="checkbox"] {
     position: absolute;
     left: -9999px;
@@ -76,7 +92,7 @@
 .idealform .idealcheck {
     display: inline-block;
 }
-.idealform div {
+.idealform div.row_item {
     margin-bottom: 1em;
 }
 .idealform ul {

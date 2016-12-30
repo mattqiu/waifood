@@ -109,18 +109,20 @@ class OrderModel extends Model{
         }else{
             $data['status']=0;
         }
-        $discount =   ActiviModel::getActiviDiscount($amount);
+        $discount = DiscountModel::getDiscountMoney($amount,$userId);  //ActiviModel::getActiviDiscount($amount);
         $data ['orderno'] = $orderno = get_order_no();
         $data ['num'] = $order['amountnum'];
-        $data ['amount'] =($amount-$discount)+getShipfee($amount);//实际支付总金额=商品总价-折扣+配送费
+        $data ['amount'] =float_fee(($amount-$discount['money'])+getShipfee($amount));//实际支付总金额=商品总价-折扣+配送费
         $data ['amountall'] =$amount+getShipfee($amount);//订单总金额
         $data ['shipfee'] = getShipfee($amount);
-        $data ['discount'] = $discount;
+        $data ['discount'] =float_fee($discount['money']);
+        $data ['discount_info'] =$discount['namecn'];
         $data ['userid'] = $userId;
         $data ['usertype'] = get_cate(get_userid (),'member','usertype');
         $data ['addip'] = getRealIp();
         unset($data['order']);
         unset($data['UseAddressID']);
+        dump($data);exit;
         $orderid = M ( 'order' )->add ( $data );
         if ($orderid != false) {
              self::createOrderDetail($order,$orderno,$userId,$data['status']);//添加订单详情

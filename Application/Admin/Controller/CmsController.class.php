@@ -5,6 +5,7 @@ namespace Admin\Controller;
 use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
 use Common\Model\CodeModel;
+use Common\Model\DiscountModel;
 use Common\Model\GoodsAttrModel;
 use Common\Model\OrderModel;
 
@@ -805,7 +806,7 @@ class CmsController extends BaseController {
                 }
                 $data['images'] = $newimg;
             }
-            delfile($img);
+           // delfile($img);0,2,517,520,2,
             if(ContentModel::modifyContent($id,$data)){
                 apiReturn(CodeModel::CORRECT,'删除成功');
             }else{
@@ -831,7 +832,7 @@ class CmsController extends BaseController {
 			if($pid==0){
 				$this->error('必须选择所属分类！');
 			}
-				$data['sortpath']=$sortpath;
+            $data['sortpath']=$sortpath;
 			//赋默认值：关键词，描述，作者，来源
 			if(isN($data['keywords'])){
 				$data['keywords']=$data['title'];
@@ -887,9 +888,8 @@ class CmsController extends BaseController {
 			}
 			$where['id']=get_role();
 			$list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
-			$list = list_to_tree ( $list );
-			$this->assign ( "list", $list );
-
+            $list = list_to_tree ( $list );
+            $this->assign ( "list", $list );
 			// 输出门店列表
 			$where=array();
 			$where['id']=get_role('shop');
@@ -929,11 +929,11 @@ class CmsController extends BaseController {
 			// depth,sortpath
 			$info = M ( 'channel' )->getById ( $data ['pid'] ); 
 			$sortpath = $info ['sortpath'];
-				$data['sortpath']=$sortpath;
-				$data['supplyname']=get_cate($data['supplyid'],'supply');
-				$data['channelname']=get_cate($data['pid']);
-				
-			if ($data) { 
+            $data['sortpath']=$sortpath;
+
+            $data['supplyname']=get_cate($data['supplyid'],'supply');
+            $data['channelname']=get_cate($data['pid']);
+			if ($data) {
 				if ($db->save ( $data ) !== false) {
 					//$this->updateChannelNum($sortpath);
 			
@@ -1054,8 +1054,9 @@ class CmsController extends BaseController {
         $this->display('treelist');
     }
     
-	public function treeselect($tree = null){
+	public function treeselect($tree = null,$obj='option'){
         $this->assign('tree', $tree);
+        $this->assign('obj', $obj);
         $this->display('treeselect');
     }
     
@@ -1897,6 +1898,36 @@ class CmsController extends BaseController {
             }
         }
         apiReturn(CodeModel::ERROR,'操作失败，请刷新重试！');
+    }
+
+    /**
+     * 添加、编辑优惠
+     */
+    public function modifyDiscount(){
+        $id = I('post.id');
+        if(regex($id,'number')){ //编辑
+            if(DiscountModel::modifyDiscount($id,$_POST)){
+                apiReturn(CodeModel::CORRECT,'编辑成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'编辑失败');
+            }
+        }else{ //添加
+            $data = M('discount')->create($_POST);
+            if(empty($data)){
+                apiReturn(CodeModel::ERROR,M()->getDbError());
+            }
+            if(DiscountModel::addDiscount($data)){
+                apiReturn(CodeModel::CORRECT,'添加成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'添加失败');
+            }
+        }
+    }
+
+    public function discount(){
+        $list = DiscountModel::getAllDiscount();
+        $this->assign('list',$list);
+        $this->display ();
     }
 }
 ?>

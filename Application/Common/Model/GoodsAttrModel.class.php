@@ -3,7 +3,7 @@ namespace Common\Model;
 use Think\Model;
 class GoodsAttrModel extends Model {
     const NORMAL  = 1;//正常；
-    const DISABLE = 1;//禁用；
+    const DISABLE = 0;//禁用；
     const DELETE  = -1;//删除；
     const ORIGIN  = 1;//产地
     const STORAGE  = 2;//产地

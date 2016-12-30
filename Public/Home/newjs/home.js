@@ -36,7 +36,6 @@ function modelBox(){
     }
 
     if(getUrlParam('to') == 'share'){
-        console.log($('#attention').opposite)
         $('#attention').css({'background':'none','margin-left':-(parseInt($('#attention').width())/2)+'px','margin-top':-(parseInt($('#attention').width())/2+30)+'px'})
         $('.lean_overlay').show();
         $('#attention').show();
@@ -531,21 +530,21 @@ function getdeliveryFee(money,obj){
  * @param deliveryFee
  */
 function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
-    var discount = getActiviDiscount(totalMoney);
+    var discount = getDiscount(totalMoney);
     var delivery_fee = getdeliveryFee(totalMoney);
 	if(!delivery_fee){
 	delivery_fee = 0;	
-}
-    var allMoney = (totalMoney-parseFloat(discount))+parseFloat(delivery_fee);
-    if(discount>0){
-        var discountplan =discount;
-    }else{
-        var discountplan =40;
     }
-    $(deliveryobj).html('&yen;'+delivery_fee);
-    $('#discountplan').html('&yen;'+discountplan);
-    $(discountobj).html('&yen;'+discount);
-    $(allMoneyobj).html('&yen;'+allMoney);//总金额= 配送费+商品总金额
+    var allMoney = (totalMoney-parseFloat(discount['money']))+parseFloat(delivery_fee);
+    //if(discount>0){
+    //    var discountplan =discount;
+    //}else{
+    //    var discountplan =40;
+    //}
+    $(deliveryobj).html('&yen;'+fomatFloat(delivery_fee));
+    //$('#discountplan').html('&yen;'+discountplan);
+    $(discountobj).html('&yen;'+fomatFloat(discount['money']));
+    $(allMoneyobj).html('&yen;'+fomatFloat(allMoney));//总金额= 配送费+商品总金额
 
 }
 

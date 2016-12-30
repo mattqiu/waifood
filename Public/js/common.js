@@ -195,6 +195,7 @@ function Mask(){
     this.width = 400;//弹出框宽度
     this.tit = "title";//标题
     this.cont="#cont";//弹出框div的id/class
+    this.zindex=10000;//
     this.closeCallBack=function(){};//回调函数
 }
 Mask.prototype = {
@@ -320,11 +321,13 @@ Mask.prototype = {
             j = 3;
         var tt=vh / 2 - h / 2;
         _wrap.show().css("height", bH + 'px').stop(true, false).animate({
-            "opacity": o
+            "opacity": o,
+            "z-index":this.zindex
         }, t, function(){
             _box.show().css({
                 "left": W/2 - w/2 + 'px',
                 // "top": -h + 'px'
+                "z-index":parseInt(this.zindex)+1,
                 "top": -h + 'px'
             }).stop(true, false).animate({
                 //  "top": vh/2-h/2 + 'px'
@@ -376,6 +379,9 @@ Mask.prototype = {
         },function(){
             $(this).find('img').attr('src','/Public/images/close.png');
         })
+        if( this.zindex){
+
+        }
     }
 }
 
@@ -500,19 +506,35 @@ function flyCart(event,id,page){
 }
 
 /**
+ * 自定义select 设置选中
+ * @param obj
+ * @param $val
+ */
+function setSelectSelected(obj,$val){
+    $(obj).val($val);
+    $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
+        if($val == $(this).data('value')){
+            $(obj).siblings('input[type=text]').val($(this).text());
+        }
+    })
+}
+
+/**
  * 获取优惠折扣
  * @param amount
  * @returns {number}
  */
-function getActiviDiscount(amount){
+function getDiscount(amount){
     var discount = 0;
     $.ajax({
         type: "POST",
-        url:'/home/product/getActiviDiscount.html',
+        url:'/home/common/getDiscount.html',
         data: {amount:amount},
         async: false,
         success: function (data) {
-            discount = data.data;
+            if(data.code == 200){
+                discount = data.data;
+            }
         }
     });
     return discount

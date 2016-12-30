@@ -271,10 +271,11 @@ function modifyUser(userid){
         userpwd:$('#member input[name=password]').val(),
         hobby:$('#member input[name=hobby]').val(),
         usertype:$('#member select[name=usertype]').val(),
+        discount_id:$('#member select[name=discount_id]').val(),
         sex:$('#member input[name=sex]:checked').val()
     }
     $.post('/admin/member/modifyUser.html',user,function(data){
-        clearpopj(data.message);
+        clearpop(data.message);
     })
 }
 function modifyAddr($id){
@@ -294,7 +295,7 @@ function modifyAddr($id){
         address_reserve:$('.addr_tabel_'+$id+' input[name=address_reserve]').val(),
     }
     $.post('/admin/member/modifyAddr.html',addr,function(data){
-        clearpopj(data.message);
+        clearpop(data.message);
     })
 }
 

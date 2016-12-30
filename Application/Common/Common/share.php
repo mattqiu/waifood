@@ -580,7 +580,7 @@ function getDay($datetime){
 function delfile($file){
     $path = substr(C('UPLOAD_PATH'),0,-8);
     if(file_exists($path.$file)){
-        return unlink ($file);
+        return unlink ($path.$file);
     }
     return true;
 }
@@ -597,5 +597,29 @@ function floatEq($f1,$f2,$pre=2){
         return true;
     }
     return false;
+}
+
+/**
+ * 二维数组排序
+ * @param $arrays 规定输入的数组。
+ * @param $sort_key 排序字段
+ * @param int $sort_order 规定排列顺序。可能的值是 SORT_ASC 和 SORT_DESC。
+ * @param int $sort_type 规定排序类型。可能的值是SORT_REGULAR、SORT_NUMERIC和SORT_STRING。
+ * @return array|bool
+ */
+function myArraySort($arrays,$sort_key,$sort_order=SORT_ASC,$sort_type=SORT_NUMERIC ){
+    if(is_array($arrays)){
+        foreach ($arrays as $array){
+            if(is_array($array)){
+                $key_arrays[] = $array[$sort_key];
+            }else{
+                return false;
+            }
+        }
+    }else{
+        return false;
+    }
+    array_multisort($key_arrays,$sort_order,$sort_type,$arrays);
+    return $arrays;
 }
 ?>

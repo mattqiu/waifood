@@ -83,23 +83,30 @@
     <form onsubmit="return false" id="origin_form">
         <input type="hidden" name="id"/>
         <input type="hidden" name="type"/>
-        <div>
+        <div class="row_item">
             <label>英文名：</label>
             <input type="text" class="input_text2" name="nameen" />
         </div>
-        <div>
+        <div class="row_item">
             <label>中文名：</label>
             <input type="text" class="input_text2" name="namecn" />
         </div>
-        <div>
+        <div class="row_item">
             <label class="fl">状态：</label>
-            <select name="status">
-                <option value="1">启用</option>
-                <option value="0">禁止</option>
-            </select>
+            <div class="idealforms_select fl">
+                <div class="idealforms_select_obj" >
+                    <input type="hidden" value="" name="status">
+                    <input type="text" value="" readonly>
+                    <span class="caret"></span>
+                </div>
+                <ul class="idealforms_select_menu">
+                    <li data-value="1">启用</li>
+                    <li data-value="2">禁止</li>
+                </ul>
+            </div>
             <div class="clr"></div>
         </div>
-        <div class="tc">
+        <div class="tc row_item">
             <input type="submit" onclick="modifyGoodAttr()" class="sure_btn" value="提交" />
         </div>
     </form>
@@ -108,13 +115,13 @@
     $('table.mytables').hide();
     $('#'+$('#title_tab li.onselect').data('name')).show();
 
-
     $("#origin_form").idealforms();
     function showBox($id,type){
         $('#origin_form input[name=type]').val(type);
         $('#origin_form input[name=id]').val($id);
         $('#origin_form input[name=nameen]').val($('.list_'+$id).data('nameen'));
         $('#origin_form input[name=namecn]').val($('.list_'+$id).data('namecn'));
+        setSelectSelected('#origin_box input[name=status]',$('.list_'+$id).data('status'));
         getMask().maskShow({"tit": "添加/修改产地","width":480, "cont": "#origin_box"});
     }
     //提交编辑
@@ -125,15 +132,14 @@
         var id = $('#origin_form input[name=id]').val(),
             name = $('#origin_form input[name=nameen]').val(),
             namecn = $('#origin_form input[name=namecn]').val(),
-           status = $('#origin_form select[name=status]').val();
+           status = $('#origin_form input[name=status]').val();
         if(!name){
             clearpopj('必须填写英文名','error',true);
             return false;
         }
         $.post('/admin/cms/modifyGoodAttr.html',{id:id,name:name,namecn:namecn,status:status,type:type},function(data){
             if(data.code == 200){
-                clearpopj(data.message,'success',true,'self');
-                clearpopj(data.message,'success',true);
+                clearpop(data.message,'','self');
             }else{
                 clearpopj(data.message,'error',true);
             }
@@ -142,7 +148,11 @@
 
     function setStatus($id ,status){
         $.post('/admin/cms/modifyGoodAttr.html',{id:$id,status:status},function(data){
-            clearpop(data.message,'','self');
+            if(data.code == 200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpop(data.message);
+            }
         })
     }
 </script>

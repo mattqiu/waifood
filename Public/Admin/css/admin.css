@@ -7,7 +7,11 @@ hr{height: 1px;width: 100%}
 .tab_box{height: 40px;line-height: 40px;padding: 0 0 0 30px;border-bottom: 1px solid #EEEEEE}
 .tab_box li{margin-right: 35px;font-size: 16px;color: #333333;font-weight: bold;cursor: pointer}
 .tab_box li.onselect{border-bottom: 3px solid #108ee9;line-height: 37px;}
-
+input.input_text150{width: 150px;}
+input.input_text3{width: 100px;}
+input.input_text4{width: 80px;}
+input.input_text1{width: 740px}
+input.input_text2, textarea.textarea_text2{width: 304px}
 /****************************table*****************************/
 .mytables{ font-size:14px;color: #333333 table-layout:fixed;empty-cells:show; border-collapse: collapse;border: 1px solid #EEEEEE}
 .mytables td{ height:50px;}
@@ -20,11 +24,7 @@ hr{height: 1px;width: 100%}
 .contentform .idealselect li{width: 313px;}
 .goods_status_sel .idealselect li{width: 85px;}
 .contentform .idealselect li ul,.contentform .idealselect li ul li{float: none}
-.contentform input.input_text1{width: 740px}
-.contentform input.input_text2,.contentform textarea.textarea_text2{width: 304px}
 .contentform textarea.textarea_text2{height: 70px;resize: none}
-.contentform input.input_text3{width: 100px;}
-.contentform input.input_text4{width: 80px;}
 .contentform table tr,.contentform table tr td{padding-top: 12px;}
 .language_tab{font-size: 14px;}
 .language_tab ul li{font-size: 14px;padding: 0 15px;}
@@ -37,3 +37,7 @@ hr{height: 1px;width: 100%}
 #origin_form  .idealselect ,#origin_form  .idealselect li{width: 100px; padding-left: 2px;}
 #origin_form label{width: 60px;}
 #origin_form input.input_text2{width: 300px}
+/******************************折扣优惠*******************************************/
+#discount_box .idealselect {width: 305px;}
+#discount_box .idealselect li{width: 307px;}
+.discount_table th,.discount_table td{padding: 0}

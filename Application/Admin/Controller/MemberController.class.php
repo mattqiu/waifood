@@ -5,6 +5,7 @@ namespace Admin\Controller;
 use Admin\Model\OrderModel;
 use Common\Model\AddressModel;
 use Common\Model\CodeModel;
+use Common\Model\DiscountModel;
 use Common\Model\UserModel;
 
 class MemberController extends BaseController {
@@ -754,6 +755,8 @@ class MemberController extends BaseController {
 			$this->assign ( "addresslist", $addresslist );
             $user = UserModel::getUserById($id);
             $order = OrderModel::getOrderByUserId($id);
+            $discount = DiscountModel::getDiscountByType(DiscountModel::USER_GROUPS);
+            $this->assign ( "discount", $discount);
             $this->assign ( "order_time", $order['addtime'] );
             $this->assign ( "info", $user );
             $this->assign ( "login_key",  C('USER_LOGIN_KEY') );
