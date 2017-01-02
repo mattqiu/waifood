@@ -682,7 +682,7 @@ class MemberController extends BaseController {
     /**
      * 编辑用户
      */
-    public function modifyUserData(){
+    public function modifyUser(){
         $data = $_POST;
         $userpwd = $data ['userpwd'];
         if ($userpwd && strlen ( $userpwd ) != 32) {
