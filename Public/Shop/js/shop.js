@@ -518,10 +518,10 @@ function getSettleGood(){
             }
         }
 
-        var discount = getDiscount(totalMoney);
+        var discount = getDiscount(totalMoney),dischtml= '';
         for (var i in discount){
             if(regex(i,'number')){
-
+                dischtml+='<div style="font-size: 12px;line-height: 15px;;">'+discount[i]['name']+':&nbsp;<span class="discount fc_red">&yen;'+fomatFloat(discount[i]['money'])+'</span></div>' ;
             }
         }
 
@@ -536,7 +536,7 @@ function getSettleGood(){
         $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:&nbsp;<span class="amount_money">&yen;'+totalMoney+'</span></div><div >Delivery Fee:&nbsp;<span class="delivery_fee">&yen;'+delivery_fee+'</span></div>';
 
         $html+='<div >Discount:&nbsp;<span class="discount fc_red">&yen;'+fomatFloat(discount['money'])+'</span></div>' ;
-
+        $html+= dischtml;
         $html+='<div>Total Amount:&nbsp;<span class="totalSubMoney">&yen;'+fomatFloat(allMoney)+'</span></div></td></tr><tfoot>';
 
         $('#cashier_table').attr('data-delivery_fee',delivery_fee);

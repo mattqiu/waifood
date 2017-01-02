@@ -61,7 +61,7 @@ function regex(value, rule){
         case "short_tel":rule = /^(\d{3,6})$/;break;  //短号
         case "email":rule = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;break;
         case "qq":rule = /^\d{6,11}$/;break;
-        case "number":rule = /^[1-9](\d+)?$/;break;
+        case "number":rule = /^[0-9](\d+)?$/;break;
         case "time":rule = /^[0-9]{4}-[0-9]{2}-[0-9]{1,2}\s+[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}$/;break;//2012-03-13 11:09:11
         case "date" :rule = /^[0-9]{4}-[0-9]{2}-[0-9]{1,2}$/;break;
         case "integer" :rule = /^[-+]?[0-9](\d+)?$/;break; //正负数
@@ -559,4 +559,23 @@ function getdeliveryFee(amount){
         }
     });
     return delivery_fee
+}
+
+function discGD(speed){
+    if(!speed){
+        var speed = 100;        //数字越大滚得越慢
+    }
+    var tab = document.getElementById("disc-box");
+    var tab1 = document.getElementById("disc");
+    var tab2 = document.getElementById("disc2");
+    tab2.innerHTML = tab1.innerHTML;
+    tab.scrollTop = tab1.offsetHeight;
+    function Marquee(){
+        if (tab.scrollTop >= tab1.offsetHeight) {
+            tab.scrollTop-=tab2.offsetHeight;
+        }else{
+            tab.scrollTop+=1;
+        }
+    }
+    var MyMar=setInterval(Marquee,speed);
 }

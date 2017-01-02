@@ -116,13 +116,18 @@ class OrderModel extends Model{
         $data ['amountall'] =$amount+getShipfee($amount);//订单总金额
         $data ['shipfee'] = getShipfee($amount);
         $data ['discount'] =float_fee($discount['money']);
-        $data ['discount_info'] =$discount['namecn'];
+        $discount_info = '';
+        foreach($discount as $key =>$val){
+            if(isset($val['name']) && $val['name']){
+                $discount_info.= '<div>'. $val['name'].':'.$val['money'].'</div>';
+            }
+        }
+        $data ['discount_info'] = $discount_info;
         $data ['userid'] = $userId;
         $data ['usertype'] = get_cate(get_userid (),'member','usertype');
         $data ['addip'] = getRealIp();
         unset($data['order']);
         unset($data['UseAddressID']);
-        dump($data);exit;
         $orderid = M ( 'order' )->add ( $data );
         if ($orderid != false) {
              self::createOrderDetail($order,$orderno,$userId,$data['status']);//添加订单详情
