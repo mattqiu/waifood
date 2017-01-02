@@ -682,7 +682,7 @@ class MemberController extends BaseController {
     /**
      * 编辑用户
      */
-    public function modifyUser(){
+    public function modifyUserData(){
         $data = $_POST;
         $userpwd = $data ['userpwd'];
         if ($userpwd && strlen ( $userpwd ) != 32) {
@@ -698,9 +698,10 @@ class MemberController extends BaseController {
             if (UserModel::modifyMember($data['id'],$data) !== false) {
                 apiReturn(CodeModel::CORRECT, "编辑会员成功！" );
             } else {
-
-                apiReturn(CodeModel::CORRECT, "编辑会员失败！" );
+                apiReturn(CodeModel::ERROR, "编辑会员失败！" );
             }
+        }else{
+            apiReturn(CodeModel::ERROR);
         }
     }
 

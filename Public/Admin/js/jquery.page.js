@@ -274,7 +274,7 @@ function modifyUser(userid){
         discount_id:$('#member select[name=discount_id]').val(),
         sex:$('#member input[name=sex]:checked').val()
     }
-    $.post('/admin/Member/modifyUser',user,function(data){
+    $.post('/admin/member/modifyUserData',user,function(data){
         clearpop(data.message);
     })
 }
