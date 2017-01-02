@@ -11,8 +11,8 @@
     <table class="mytables discount_table" id="origin_table" style="width: 100%;margin: 0 auto; " >
         <tr class="tc">
             <th width="4%" >ID</th>
-            <th width="18%" >产地(英文)</th>
-            <th width="10%" >产地(中文)</th>
+            <th width="18%" >优惠(英文)</th>
+            <th width="10%" >优惠(中文)</th>
             <th width="7%" >折扣类别</th>
             <th width="7%" >折扣方式</th>
             <th width="7%" >数值</th>
@@ -204,7 +204,7 @@
         setSelectSelected('#discount_box input[name=method]',obj.data('method'));
         setSelectSelected('#discount_box input[name=overlay]',obj.data('overlay'));
         setSelectSelected('#discount_box input[name=status]',obj.data('status'));
-        getMask().maskShow({"tit": "添加/修改产地","width":480, "cont": "#discount_box"});
+        getMask().maskShow({"tit": "添加/修改优惠","width":480, "cont": "#discount_box"});
     }
 
     //设置状态

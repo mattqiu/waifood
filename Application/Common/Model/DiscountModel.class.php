@@ -20,10 +20,13 @@ class DiscountModel extends Model {
         array('discount', 'require', '请填写优惠值', self::MUST_VALIDATE, 'regex', self::MODEL_BOTH),
     );
 
-    public static function getDiscountByType($type){
+    public static function getDiscountByType($type,$time=false){
         if($type){
             $con['type'] = $type;
             $con['status'] = self::NORMAL;
+            if($time){
+                $con['_string'] = " star_time < now() and end_time >= now()";
+            }
             return M('discount')->where($con)->select();
         }
         return false;
@@ -38,8 +41,13 @@ class DiscountModel extends Model {
     }
 
     public static function getDiscountById($id){
+        if(!regex($id,'number')){
+            return false;
+        }
+        $con['id'] = $id;
         $con['status'] = self::NORMAL;
-        return M('discount')->where($con)->find($id);
+        $con['_string'] = " star_time < now() and end_time >= now()";
+        return M('discount')->where($con)->find();
     }
 
     /**
@@ -81,7 +89,7 @@ class DiscountModel extends Model {
     }
 
     public static function getOrderAllDiscount($money){
-        $discount = self::getDiscountByType(self::ORDER_ALL);
+        $discount = self::getDiscountByType(self::ORDER_ALL,true);
         if(!empty($discount)){
             $discArr = array();
             //获取所有优惠
@@ -124,6 +132,9 @@ class DiscountModel extends Model {
             if($orderAllDiscount = self::getOrderAllDiscount($money)){
                 $discount[] =$orderAllDiscount;
             }
+        }
+        if(!$discount){
+            return false;
         }
         $discount = myArraySort($discount,'method',SORT_ASC);//按折扣方式从折扣后满减排序
         if(empty($discount)){
