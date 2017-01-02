@@ -52,7 +52,7 @@ class DiscountModel extends Model {
         if($money>0 && $userid>0){
             $disMoney = 0;$method = 0;
             $user = UserModel::getUserById($userid);
-            if(isset($user['discount_id']) && $user['discount_id']){
+            if(isset($user['discount_id']) && $user['discount_id']>0){
                 $userdiscount = self::getDiscountById($user['discount_id']);
                 if($userdiscount['status'] != self::NORMAL){ //活动失效
                     return false;
@@ -116,17 +116,21 @@ class DiscountModel extends Model {
      */
     public static function getDiscountMoney($money,$userid = 0){
         if($userid>0){
-            $discount[0] = self::getUserGroupsDiscount($money,$userid);
+            if($userdisc = self::getUserGroupsDiscount($money,$userid)){
+                $discount[] =$userdisc;
+            }
         }
         if($money>0){
-            $discount[1] = $orderAllDiscount = self::getOrderAllDiscount($money);
+            if($orderAllDiscount = self::getOrderAllDiscount($money)){
+                $discount[] =$orderAllDiscount;
+            }
         }
         $discount = myArraySort($discount,'method',SORT_ASC);//按折扣方式从折扣后满减排序
         if(empty($discount)){
             return false;
         }elseif(count($discount) ==1){
             $disArr[0] =  $discount[0];
-//            $disArr['money'] = $discount[0]['money'];
+            $disArr['money'] = $discount[0]['money'];
 //            $disArr['name'] = $discount[0]['name'];
 //            $disArr['namecn'] = $discount[0]['namecn'];
         }else if($discount[0]['money'] > $discount[1]['money']){  //有多种优惠
@@ -145,7 +149,6 @@ class DiscountModel extends Model {
                     }
                     $disArr[0] =  $discount[0];
                     $disArr[1] =  $discountmoney;
-
                     $disArr['money'] =($discount[0]['money']+$discountmoney['money']); //总优惠=总金额-（最高优惠+（总金额-最高优惠计算出下一个优惠））
 //                    $disArr['name'] = $discount[0]['name'].'+'. $discount[0]['name'];
 //                    $disArr['namecn'] = $discount[0]['namecn'].'+'.$discount[0]['namecn'];

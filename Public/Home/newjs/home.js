@@ -530,19 +530,28 @@ function getdeliveryFee(money,obj){
  * @param deliveryFee
  */
 function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
-    var discount = getDiscount(totalMoney),dischtml= ' <div id="indisc" style="height:200%;"><div id="disc">';
+    var discount = getDiscount(totalMoney),discountmoney=0,dischtml= ' <div id="indisc" style="height:200%;"><div id="disc">';
     var delivery_fee = getdeliveryFee(totalMoney);
 	if(!delivery_fee){
 	    delivery_fee = 0;
     }
-    var allMoney = (totalMoney-parseFloat(discount['money']))+parseFloat(delivery_fee);
+    if(discount['money']){
+        discountmoney = discount['money'];
+    }
+    var allMoney = (totalMoney-parseFloat(discountmoney))+parseFloat(delivery_fee);
     for (var i in discount){
         if(regex(i,'number')){
             dischtml+=discount[i]['name']+':&nbsp;<span class="discount fc_red">&yen;'+fomatFloat(discount[i]['money'])+'</span><br/>' ;
         }
     }
     dischtml+='</div><div id="disc2"></div></div>'
-    $('#disc-box').append(dischtml);
+    if(discount){
+        $('#disc-box').append(dischtml);
+        discGD();
+    }else{
+        $('#disc-box').hide();
+    }
+
     //if(discount>0){
     //    var discountplan =discount;
     //}else{
@@ -550,9 +559,9 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     //}
     $(deliveryobj).html('&yen;'+fomatFloat(delivery_fee));
     //$('#discountplan').html('&yen;'+discountplan);
-    $(discountobj).html('&yen;'+fomatFloat(discount['money']));
+    $(discountobj).html('&yen;'+fomatFloat(discountmoney));
     $(allMoneyobj).html('&yen;'+fomatFloat(allMoney));//总金额= 配送费+商品总金额
-    discGD();
+
 }
 
  function getCartGoodStock($obj){
