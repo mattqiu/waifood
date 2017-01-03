@@ -54,7 +54,7 @@
             switch(opts.effect)
             {
                 case "top": conBox.wrap('<div class="tempWrap" style="margin: 0 auto;overflow:hidden; position:relative; height:'+opts.vis*slideH+'px"></div>').css( { "position":"relative","padding":"0","margin":"0"}).children().css( {"height":selfH} ); break;
-                case "left": conBox.wrap('<div class="tempWrap" style="margin: 0 auto;overflow:hidden; position:relative; width:'+opts.vis*slideW+'px"></div>').css( { "width":conBoxSize*slideW,"position":"relative","overflow":"hidden","padding":"0","margin":"0"}).children().css( {"float":"left","width":selfW} ); break;
+                case "left": conBox.wrap('<div class="tempWrap" style="margin: 0 auto;overflow:hidden; position:relative; width:'+opts.vis*slideW+'px"></div>').css( { "width":conBoxSize*slideW,"position":"relative","overflow":"hidden","padding":"0","margin":"0"}).children().css( {"float":"left"}); break;
                 case "leftLoop":
                 case "leftMarquee":
                     conBox.children().clone().appendTo(conBox).clone().prependTo(conBox);
