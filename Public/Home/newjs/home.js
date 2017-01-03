@@ -541,7 +541,7 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     var allMoney = (totalMoney-parseFloat(discountmoney))+parseFloat(delivery_fee);
     for (var i in discount){
         if(regex(i,'number')){
-            dischtml+=discount[i]['name']+':&nbsp;&yen;'+fomatFloat(discount[i]['money'])+'&nbsp;&nbsp;&nbsp;&nbsp;' ;
+            dischtml+=discount[i]['name']+':&nbsp;-&nbsp;&yen;'+fomatFloat(discount[i]['money'])+'&nbsp;&nbsp;&nbsp;&nbsp;' ;
     }
     }
     dischtml+='</div><div id="disc2"></div>'
