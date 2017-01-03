@@ -546,12 +546,10 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     }
     dischtml+='</div><div id="disc2"></div>'
     if(discount){
+        $('#disc-box').show();
         $('#disc-box').append(dischtml);
         discGD();
-    }else{
-        $('#disc-box').hide();
     }
-
     //if(discount>0){
     //    var discountplan =discount;
     //}else{
