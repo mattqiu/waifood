@@ -40,7 +40,7 @@ a.underline:hover{ text-decoration:underline;}
 
 .hide{display:none;}
 .show{display:block;}
-#Header{width:100%; height:95px; float:left; background:url(bg.jpg) 0px 0px repeat-x;}
+#Header{width:100%; float:left;border-bottom: 1px solid #ccc;background: #FFffff;}
 
 #Lefter{width:200px; height:auto; float:left; background:#fff; overflow:hidden; overflow-y:auto;}
 #Spliter{width:8px; float:left; border-left:1px #D6D6D6 solid; border-right:1px #f1f1f1 solid; height:auto; overflow:hidden;}
@@ -51,17 +51,19 @@ a.underline:hover{ text-decoration:underline;}
 #LeftMenu{ width:100%;}
 #LeftMenu ul, #LeftMenu ul li{ width:100%; float:left; display:inline;}
 
-#LeftMenu ul li{ width:100%; float:left; height:auto; line-height:34px; background:url(bg.jpg) 0px -101px repeat-x;}
+#LeftMenu ul li{ width:100%; float:left; height:auto; line-height:34px; /*background:url(bg.jpg) 0px -101px repeat-x;*/}
+#LeftMenu ul li :hover{background: #EDEDED;cursor: pointer}
 #LeftMenu ul li span{ width:120px;  padding:0px 30px; float:left; cursor:default; background:url(Arrow.gif) no-repeat top right;}
 #LeftMenu ul li .collapsed{ background:url(Arrow.gif) no-repeat right 0px;}
 #LeftMenu ul li .expanded{  background:url(Arrow.gif) no-repeat right -34px ;}
 
 #LeftMenu ul li ul{display:none;}
 #LeftMenu ul li ul li{ width:100%; float:left; height:auto; line-height:30px; background:#fff; }
-#LeftMenu ul li ul li .selected{ width:100%; float:left; height:auto; line-height:30px; background:url(Arrow.gif) no-repeat 22px -68px #eee; color:#c00;}
-#LeftMenu ul li ul li a{padding:0px 40px; width:120px; float:left;  background:url(Arrow.gif) no-repeat 22px -68px ;}
 
-.topBar{width:100%; height:70px; float:left; }
+#LeftMenu ul li ul li .selected{ width:100%; float:left; height:auto; line-height:30px; /*background:url(Arrow.gif) no-repeat 22px -68px #eee;*/ color:#c00;}
+#LeftMenu ul li ul li a{padding:0px 40px; width:120px; float:left; /* background:url(Arrow.gif) no-repeat 22px -68px ;*/}
+
+.topBar{width:100%; height:45px; border-bottom: 1px solid #cccccc; float:left; }
 .location{width:100%; height:26px; float:left; line-height:26px; }
 
 .MainTbl table tr td{border:none; background:none;}
