@@ -521,7 +521,7 @@ function getSettleGood(){
         var discount = getDiscount(totalMoney),dischtml= '',discountmoney = 0;
         for (var i in discount){
             if(regex(i,'number')){
-                dischtml+='<div>'+discount[i]['name']+':&nbsp;<span class="discount fc_red">&yen;-'+fomatFloat(discount[i]['money'])+'</span></div>' ;
+                dischtml+='<div>'+discount[i]['name']+':&nbsp;<span class="discount fc_red">-&yen;'+fomatFloat(discount[i]['money'])+'</span></div>' ;
             }
         }
         if(discount['money']){

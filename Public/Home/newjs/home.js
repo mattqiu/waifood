@@ -557,7 +557,7 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     //}
     $(deliveryobj).html('&yen;'+fomatFloat(delivery_fee));
     //$('#discountplan').html('&yen;'+discountplan);
-    $(discountobj).html('&yen;'+fomatFloat(discountmoney));
+    $(discountobj).html('-&yen;'+fomatFloat(discountmoney));
     $(allMoneyobj).html('&yen;'+fomatFloat(allMoney));//总金额= 配送费+商品总金额
 
 }
