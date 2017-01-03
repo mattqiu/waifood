@@ -108,8 +108,12 @@
     <div class="pagelist" <if condition="count($list) lt 1">style="display:none" </if>>{$page}</div>
 </div>
 <if condition="count($list) lt 1 && isset($_REQUEST['keyword'])">
-    <div class="bg_white tc" style="line-height: 180px;">
-        no results found or <a href="/index/wishlist.html" class="selected">try wishlist</a> to tell us what you want
+    <div class="bg_white tc" style="height: 360px;">
+       <p style="padding-top: 160px;"> no results found or <a href="/index/wishlist.html" class="selected">try wishlist</a> to tell us what you want
+        <br/>
+        <br/>
+        <a href="/index/wishlist.html" style="text-decoration:underline;">click to create a wish list</a>
+       </p>
     </div>
 </if>
 
