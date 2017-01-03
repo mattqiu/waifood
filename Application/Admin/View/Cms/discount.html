@@ -212,7 +212,11 @@
     //设置状态
     function setStatus($id ,status){
         $.post('/admin/cms/modifyDiscount.html',{id:$id,status:status},function(data){
-            clearpop(data.message,'','self');
+            if(status == -1){
+                $('#list_'+$id).remove();
+            }else{
+                clearpop(data.message,'','self');
+            }
         })
     }
 
