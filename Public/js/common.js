@@ -511,12 +511,14 @@ function flyCart(event,id,page){
  * @param $val
  */
 function setSelectSelected(obj,$val){
-    $(obj).val($val);
-    $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
-        if($val == $(this).data('value')){
-            $(obj).siblings('input[type=text]').val($(this).text());
-        }
-    })
+    if($val){
+        $(obj).val($val);
+        $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
+            if($val == $(this).data('value')){
+                $(obj).siblings('input[type=text]').val($(this).text());
+            }
+        })
+    }
 }
 
 /**
@@ -561,6 +563,7 @@ function getdeliveryFee(amount){
     return delivery_fee
 }
 
+var lefts =-1;
 function discGD(speed){
     if(!speed){
         var speed = 100;        //数字越大滚得越慢
@@ -568,14 +571,15 @@ function discGD(speed){
     var tab = document.getElementById("disc-box");
     var tab1 = document.getElementById("disc");
     var tab2 = document.getElementById("disc2");
-    tab2.innerHTML = tab1.innerHTML;
-    tab.scrollTop = tab1.offsetHeight;
-    function Marquee(){
-        if (tab.scrollTop >= tab1.offsetHeight) {
-            tab.scrollTop-=tab2.offsetHeight;
+    function MarqueeLeft(){
+        if(tab.scrollLeft ==lefts){
+            tab.scrollLeft-=tab1.offsetWidth;
         }else{
-            tab.scrollTop+=1;
+            lefts = tab.scrollLeft
+            tab.scrollLeft++
         }
     }
-    var MyMar=setInterval(Marquee,speed);
+    var MyMar=setInterval(MarqueeLeft,speed);
+    tab.onmouseover=function() {clearInterval(MyMar);}
+    tab.onmouseout=function() {MyMar=setInterval(MarqueeLeft,speed);}
 }

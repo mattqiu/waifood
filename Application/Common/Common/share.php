@@ -17,7 +17,7 @@ function isVerifyCorrect()
 
 
 function version(){
-    return 'v.0.2-2';
+    return 'v.0.2-3';
 }
 
 function triggerRequest($url, $post_data = array(), $cookie = array()){

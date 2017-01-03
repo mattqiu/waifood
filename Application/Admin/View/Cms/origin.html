@@ -117,11 +117,14 @@
 
     $("#origin_form").idealforms();
     function showBox($id,type){
+
         $('#origin_form input[name=type]').val(type);
         $('#origin_form input[name=id]').val($id);
         $('#origin_form input[name=nameen]').val($('.list_'+$id).data('nameen'));
         $('#origin_form input[name=namecn]').val($('.list_'+$id).data('namecn'));
-        setSelectSelected('#origin_box input[name=status]',$('.list_'+$id).data('status'));
+        if($id){
+            setSelectSelected('#origin_box input[name=status]',$('.list_'+$id).data('status'));
+        }
         getMask().maskShow({"tit": "添加/修改产地","width":480, "cont": "#origin_box"});
     }
     //提交编辑

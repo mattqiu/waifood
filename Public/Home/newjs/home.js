@@ -530,7 +530,7 @@ function getdeliveryFee(money,obj){
  * @param deliveryFee
  */
 function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
-    var discount = getDiscount(totalMoney),discountmoney=0,dischtml= ' <div id="indisc" style="height:200%;"><div id="disc">';
+    var discount = getDiscount(totalMoney),discountmoney=0,dischtml= ' <div id="disc">';
     var delivery_fee = getdeliveryFee(totalMoney);
 	if(!delivery_fee){
 	    delivery_fee = 0;
@@ -541,10 +541,10 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
     var allMoney = (totalMoney-parseFloat(discountmoney))+parseFloat(delivery_fee);
     for (var i in discount){
         if(regex(i,'number')){
-            dischtml+=discount[i]['name']+':&nbsp;<span class="discount fc_red">&yen;'+fomatFloat(discount[i]['money'])+'</span><br/>' ;
-        }
+            dischtml+=discount[i]['name']+':&nbsp;&yen;'+fomatFloat(discount[i]['money'])+'&nbsp;&nbsp;&nbsp;&nbsp;' ;
     }
-    dischtml+='</div><div id="disc2"></div></div>'
+    }
+    dischtml+='</div><div id="disc2"></div>'
     if(discount){
         $('#disc-box').append(dischtml);
         discGD();

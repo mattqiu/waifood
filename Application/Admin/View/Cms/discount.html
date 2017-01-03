@@ -103,7 +103,7 @@
             <label class="fl" style="width: 70px;">折扣方式：</label>
             <div class="idealforms_select fl" >
                 <div class="idealforms_select_obj" >
-                    <input type="hidden" value="" name="method">
+                    <input type="hidden" name="method">
                     <input type="text" value="" readonly>
                     <span class="caret"></span>
                 </div>
@@ -192,18 +192,20 @@
     })
 
     function showBox(id){
-        var obj = $('#list_'+id);
-        $('#discount_box input[name=id]').val(id);
-        $('#discount_box input[name=nameen]').val(obj.data('nameen'));
-        $('#discount_box input[name=namecn]').val(obj.data('namecn'));
-        $('#discount_box input[name=discount]').val(obj.data('discount'));
-        $('#discount_box input[name=star_time]').val(obj.data('star_time'));
-        $('#discount_box input[name=end_time]').val(obj.data('end_time'));
-        $('#discount_box input[name=note]').val(obj.data('note'));
-        setSelectSelected('#discount_box input[name=type]',obj.data('type'));
-        setSelectSelected('#discount_box input[name=method]',obj.data('method'));
-        setSelectSelected('#discount_box input[name=overlay]',obj.data('overlay'));
-        setSelectSelected('#discount_box input[name=status]',obj.data('status'));
+        if(id){
+            var obj = $('#list_'+id);
+            $('#discount_box input[name=id]').val(id);
+            $('#discount_box input[name=nameen]').val(obj.data('nameen'));
+            $('#discount_box input[name=namecn]').val(obj.data('namecn'));
+            $('#discount_box input[name=discount]').val(obj.data('discount'));
+            $('#discount_box input[name=star_time]').val(obj.data('star_time'));
+            $('#discount_box input[name=end_time]').val(obj.data('end_time'));
+            $('#discount_box input[name=note]').val(obj.data('note'));
+            setSelectSelected('#discount_box input[name=type]',obj.data('type'));
+            setSelectSelected('#discount_box input[name=method]',obj.data('method'));
+            setSelectSelected('#discount_box input[name=overlay]',obj.data('overlay'));
+            setSelectSelected('#discount_box input[name=status]',obj.data('status'));
+        }
         getMask().maskShow({"tit": "添加/修改优惠","width":480, "cont": "#discount_box"});
     }
 
