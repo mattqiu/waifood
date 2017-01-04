@@ -119,7 +119,7 @@ class OrderModel extends Model{
         $discount_info = '';
         foreach($discount as $key =>$val){
             if(isset($val['name']) && $val['name']){
-                $discount_info.= '<div>'. $val['name'].':&yen;'.$val['money'].'</div>';
+                $discount_info.= '<div>'. $val['name'].':- &yen;'.$val['money'].'</div>';
             }
         }
         $data ['discount_info'] = $discount_info;
