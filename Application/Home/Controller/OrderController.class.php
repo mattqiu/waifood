@@ -195,8 +195,6 @@ class OrderController extends BaseController {
 							}
 						}
 					}
-					
-					
 					if ($ret) {
 						M ( 'order_detail' )->where ( 'orderno=' . $orderno )->setField('status',3); 
 					}  

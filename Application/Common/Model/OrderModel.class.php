@@ -119,7 +119,7 @@ class OrderModel extends Model{
         $discount_info = '';
         foreach($discount as $key =>$val){
             if(isset($val['name']) && $val['name']){
-                $discount_info.= '<div>'. $val['name'].':'.$val['money'].'</div>';
+                $discount_info.= '<div>'. $val['name'].':&yen;'.$val['money'].'</div>';
             }
         }
         $data ['discount_info'] = $discount_info;
@@ -216,11 +216,10 @@ class OrderModel extends Model{
                 $html.= "    </tr> \n";
             }
             $html.= "  <tr>\n";
-            $html.= "<td colspan=\"6\" align=\"right\" style='padding-right: 50px;'>Product Amount <span style=\"font-family: '宋体'\">商品总额:</span>&yen;$productAmount <br/>
+            $html.= "<td colspan='6' align='right' style='padding-right: 50px;'>Product Amount <span style=\"font-family: '宋体'\">商品总额:</span>&yen;$productAmount <br/>{$data['discount_info']}
 Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['shipfee']==0?'FREE':'&yen;'.$data['shipfee'])."<br />Payable  <span style=\"font-family: '宋体'\">商品总额:</span>&yen;".$data['amount']."</td> \n";
             $html.= "  </tr> \n";
             $html.= "</table>\n";
-
             if($admin){ //发送给管理员
                 $adminhtml="<div style=\"border-bottom: 1px solid #c0bfbf;line-height: 25px; font-size: 14px;word-break: break-all; font-weight: bold;font-family:Microsoft YaHei, '微软雅黑', '宋体'\">{$data['id']}号，{$city}，送货 <span style='font-weight: normal'>{$data['delivertime']}</span>，{$data['username']}，{$data['address']}</div>";
                 if($fapiao=='Yes'){$fp = "是"; }else{$fp = "否";}
