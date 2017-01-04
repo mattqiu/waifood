@@ -9,10 +9,10 @@ $(function(){
     modelBox();
     window.weixinJs=function(){
         wx.share={
-            title:"Waifood",
+            title:" Waifood | Online supermarkets with authentic western foods",
             img:"http://www.waifood.com/Public/Home/images/logo_small.jpg?1",
             link:"http://www.waifood.com/?to=share",
-            desc:"waifood share"
+            desc:"Home Delivery English Service"
         };
         wx.wxshare();
     }

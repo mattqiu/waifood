@@ -137,10 +137,10 @@ function getTemp(){
 $(function(){
     window.weixinJs=function(){
         wx.share={
-            title:"Waifood",
+            title:"{$db.title}",
             img: "{:C('DOMAIN')}"+$('#tapSlider img').eq(0).attr('src'),
             link:window.location.href+'?to=share',
-            desc:"{$db.title}"
+            desc:"￥{$db.price} / {$db.unit}"
         };
         wx.wxshare();
     }
@@ -169,10 +169,10 @@ $(function(){
 		$.addCart(id,num,ext);
 	});
 
-	$('#attention').click(function(){
-		$.addFav("{$db.id}");
-	});
-	
+//	$('#attention').click(function(){
+//		$.addFav("{$db.id}");
+//	});
+//
 	
 	$('#btnMore').click(function(){
 		var obj=$(this).find("i");
