@@ -407,7 +407,7 @@ ul li.on{ background:#616161;  }
 .scroll-item-top dt { float: left;  color: #212121; font-size: 14px; }
 .scroll-item-top .date-time { width: 95px;height: 54px; background: url(../images/delivery-time.png) no-repeat; }
 .scroll-item-top dd {  float: left; width: 76px; height: 52px; line-height: 25px;  border: 1px solid #EEEEEE; position: relative;font-size: 14px; margin-left: -1px;text-align: center;}
-.scroll-item-content {height: 37px; }
+.scroll-item-content {height: 38px; }
 .scroll-item-content dt,.scroll-item-content dd { float: left; width: 76px; height: 37px; line-height: 37px; border: 1px solid #EEEEEE;margin: -1px 0 0 -1px; text-align: center;  position: relative; }
 
 .scroll-item-content dt.time {  width: 93px; margin: -1px 0 0 0; }

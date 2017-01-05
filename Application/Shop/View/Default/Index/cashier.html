@@ -94,20 +94,19 @@
                     </div>-->
                 </div>
             </div>
-
             <!--Delivery date-->
             <div class=" item_panl">
                 <div class="item_title ">Delivery date</div>
                 <div class="delivery-time-content">
-                    <div class="arrow-l arrow fl prev"></div>
-                    <div class="scroll-item" id="autoPage">
+                    <div class="arrow-l arrow fl prev hide" id="prev" ></div>
+                    <div class="scroll-item fl">
                             <div class="delivery_time">
                                 <ul class="">
                                     <?php
                                    $count =  $count = ceil( count($dateData)/7);
                                    for($k=0;$k<$count;$k++){
                                     ?>
-                                    <li class="time1">
+                                    <li class="time1 fl">
                                         <dl class="scroll-item-top clearfix">
                                             <dt class="date-time">
                                             </dt>
@@ -170,8 +169,7 @@
                                 </ul>
                             </div>
                     </div>
-
-                    <div class="arrow-r arrow fl next" ></div>
+                    <div class="arrow-r arrow fl next" id="next" ></div>
                 </div>
             </div>
             <!--Order Remarks-->
@@ -189,7 +187,7 @@
 </div>
 <div class="clr"></div>
 <include file="Index:footer" />
-<script src="__PUBLIC__/js/jquery.SuperSlide.js?1"></script>
+<script src="__PUBLIC__/js/jquery.SuperSlide.js?2"></script>
 <div class="lean_overlay hide" data-show="1"></div>
 <div class="leanModal addressModal hide" id="addressModal">
     <iframe width="500" height="532"  marginwidth="0" marginheight="0" frameborder="0" src=""></iframe>
@@ -232,7 +230,31 @@
     }
 
     //配送时间
-    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
+    //    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
+    function scrollDeliveryTime(){
+        var parentobj = $('#autoPage'),obj=parentobj.find('ul'),objli=obj.find('li'), objliw = objli.width(),oLen=objli.length, prev=$("#prev"),next=$("#next"),iNow=0;
+        parentobj.css({'width':objliw+'px','overflow':'hidden '});
+        obj.css({'position':'relative','height':objli.height()+'px','width':oLen*objliw+'px'});
+        prev.click(function(){
+            if(iNow>0){
+                iNow--;
+            }
+            ClickScroll();
+        })
+        next.click(function(){
+            if(iNow<oLen-1){
+                iNow++
+            }
+            ClickScroll();
+        })
+        function ClickScroll(){
+            iNow==0? prev.hide(): prev.show();
+            iNow==oLen-1?next.hide():next.show();
+            obj.animate({left:-iNow*objliw})
+        }
+    }
+    scrollDeliveryTime(); //加载
+
     window.deliverydate = new Array();
     var data ='',time ='';
     var $day=0;
