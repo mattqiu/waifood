@@ -13,10 +13,6 @@ class MemberController extends AuthController {
      * 会员首页
      */
     public function index() {
-        $con['id'] = 3322;
-        M('content')->where($con)->setDec('stock',-1);//减库存
-        dump(M('content')->_sql());exit;
-        ContentModel::catStockForOrder('201701101448349979');//减去库存
         $user = UserModel::getUser();
         $where ['status'] = array('in',array(0,1,2));
         $where ['userid'] = $user['id'];
