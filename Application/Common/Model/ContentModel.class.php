@@ -147,7 +147,7 @@ class ContentModel extends Model {
      * @param $soldnum
      */
     public  static function modifyGoodsStockAndSold($goodsId,$soldnum,$resold = false,$status=0){
-        if(regex($goodsId,'number') && regex($soldnum,'number')){
+        if(regex($goodsId,'number') && is_number($soldnum)){
             $con['id'] = $goodsId;
             M('content')->where($con)->setDec('stock',$soldnum);//减库存
             M('content')->where($con)->setInc('sold',$soldnum);//加销量
