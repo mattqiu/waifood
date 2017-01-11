@@ -57,7 +57,7 @@ class ProductController extends BaseController {
             $size = C ( 'VAR_PAGESIZE' );
             $page = new  \Think\Page($count, $size);
             $limit = "$page->firstRow, $page->listRows";
-            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,origin_id,brand,stock';
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,origin_id,brand,stock,negative';
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->limit($limit)->select ();
             foreach($list as &$val){
                 if(isset($val['origin_id']) && $val['origin_id']){

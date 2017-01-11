@@ -123,6 +123,7 @@ class DiscountModel extends Model {
      * @return mixed
      */
     public static function getDiscountMoney($money,$userid = 0){
+        $discount = array();
         if($userid>0){
             if($userdisc = self::getUserGroupsDiscount($money,$userid)){
                 $discount[] =$userdisc;
@@ -133,10 +134,10 @@ class DiscountModel extends Model {
                 $discount[] =$orderAllDiscount;
             }
         }
+        $discount = myArraySort($discount,'method',SORT_ASC);//按折扣方式从折扣后满减排序
         if(!$discount){
             return false;
         }
-        $discount = myArraySort($discount,'method',SORT_ASC);//按折扣方式从折扣后满减排序
         if(empty($discount)){
             return false;
         }elseif(count($discount) ==1){

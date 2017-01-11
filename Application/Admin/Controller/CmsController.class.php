@@ -775,6 +775,17 @@ class CmsController extends BaseController {
         }
         $data = I('post.');
         $id = I('post.id');
+        //组合、复合商品重新计算库存
+        if(isset($data['good_type']) && $data['good_type'] != ContentModel::GENERAL_GOODS && isset($data['group_id']) && $data['group_id']){
+            //判断是否支持可负销售
+            if($data['negative'] == ContentModel::CAN_NEGATIVE_AOLD ){ //设置可负销售
+                if(true !== $rs =  ContentModel::checkNegativeSold($data['group_id'],$data['good_type'])){
+                    apiReturn(CodeModel::ERROR,'商品ID:'.$rs.'   不支持可负销售');
+                };
+            }
+            $data['stock'] = ContentModel::getGroupStock($data['group_id'],$data['good_type']) ; //获取复合、组合商品的库存
+        }
+
         if(regex($id,'number')){ //修改商品
             if(ContentModel::modifyContent($id,$data)){
                 apiReturn(CodeModel::CORRECT,'编辑成功！');
@@ -970,6 +981,9 @@ class CmsController extends BaseController {
             $this->assign ( "origin", $origin );
             $this->assign ( "storage", $storage );
 			$db = M ( "content" )->find ( $id );
+            if($db['group_id']){
+                $db['child'] = \Common\Model\ContentModel::getGroupInfo($db['group_id']);
+            }
 			$this->assign ( "db", $db );
 			$where = array();
 			if(!isN($db['sortpath'])){

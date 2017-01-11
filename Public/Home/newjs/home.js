@@ -177,8 +177,9 @@ function addgood(id,event){
         price = $('#js_goods_'+id).data("price"),
         indexpic = $('#js_goods_'+id).data("indexpic"),
         name = $('#js_goods_'+id).data("name"),
+        negative = $('#js_goods_'+id).data("negative"),
         stock = $('#js_goods_'+id).data("stock");
-        if(stock<1){ //没有库存
+        if(stock<1 && negative!=1){ //没有库存(可负除外)
             clearpopj("Insufficient stock!",'error',true);
             return false;
         }
@@ -190,13 +191,13 @@ function addgood(id,event){
                 var single = myfood_array[id];
                 myfood_array[id]['amount'] = parseInt(single['amount']) + 1;
             }else{
-                myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
+                myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic,"negative":negative};
             }
         }else{
             myfood_array = {};
-            myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic};
+            myfood_array[id] = {"id":id,"name":name,"price":price,"amount":1,"indexpic":indexpic,"negative":negative};
         }
-        if( myfood_array[id]['amount'] > stock){ //库存不足
+        if( myfood_array[id]['amount'] > stock && negative!=1){ //库存不足
             clearpopj("Insufficient stock!",'error',true);
             return false;
         }
@@ -357,7 +358,7 @@ function getCartData(){
         var obj = $.parseJSON(myfood);
         if (obj) {
             for (var i in obj) {
-                $html += '<div style="margin:5px auto" class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '">';
+                $html += '<div style="margin:5px auto" class="itemg-li jsCart" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '"  data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['name'] + '" data-stock="' + obj[i]['stock'] + '" data-negative="' + obj[i]['negative'] + '">';
                 $html += '<a href="/Product/view.html?id=' + obj[i]['id'] + '">';
                 $html += '<div class="itemg-img fl tc">';
                 $html += '<img alt="' + obj[i]['name'] + '" src="' + obj[i]['indexpic'] + '" width="100"/>';
@@ -375,7 +376,7 @@ function getCartData(){
                     $html += '<div class="fl g_btn cartbtn" style="margin-top: 6px;">';
                     $html += '<div class="cat_cart_num fl " onclick="prepGood('+obj[i]['id']+')"></div>';
                     var goodsnum = 0;
-                    if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){ //库存小于当前购物车商品数量
+                    if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock']) && obj[i]['stock'] !=1){ //库存小于当前购物车商品数量
                         goodsnum = parseInt(obj[i]['stock']);
                     }else{
                         goodsnum = parseInt(obj[i]['amount']);
@@ -435,7 +436,7 @@ function goCashier(){
     var obj = $.parseJSON(myfood);
     if(obj){
         for(var i in obj){
-            if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock'])){
+            if(parseInt(obj[i]['amount'])>parseInt(obj[i]['stock']) && obj[i]['negative']!=1){
                 clearpopj('Insufficient stock for '+obj[i]['name'],'error',true);
                 return false;
             }
@@ -465,7 +466,7 @@ function submitOrder(){
         return false;
     }
     for(var i in myfood_array){
-        if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
+        if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock']) && myfood_array[i]['negative']!=1){
             clearpopj(' Insufficient stock for'+myfood_array[i]['name'],'error',true);
             subBlock = false;//解除阻塞
             return false;
@@ -576,7 +577,7 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
                          var obj = data.data;
                          for (var i in obj) {
                              if(obj[i]['id']){
-                                 if(parseInt(  myfood_array[obj[i]['id']]['amount'])>parseInt(obj[i]['stock'])) { //库存小于当前购物车商品数量
+                                 if( obj[i]['negative']!=1 && parseInt(myfood_array[obj[i]['id']]['amount']) > parseInt(obj[i]['stock'])) { //库存小于当前购物车商品数量
                                      myfood_array[obj[i]['id']]['amount'] = obj[i]['stock'];
                                  }
                                  myfood_array[obj[i]['id']]['id'] = obj[i]['id'];
@@ -585,6 +586,7 @@ function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
                                  myfood_array[obj[i]['id']]['indexpic'] = obj[i]['indexpic'];
                                  myfood_array[obj[i]['id']]['stock'] = obj[i]['stock'];
                                  myfood_array[obj[i]['id']]['status'] = obj[i]['status'];
+                                 myfood_array[obj[i]['id']]['negative'] = obj[i]['negative'];
                              }
                          }
                          var json = $.toJSON(myfood_array);

@@ -60,7 +60,7 @@ $so=($sort=='desc'?'asc':'desc');
             <else/>
             <ul>
                 <volist name="list" id="vo">
-                    <li id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                    <li id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}"  data-negative="{$vo.negative}"  data-stock="{$vo['stock']}"
                         data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                         <div class="good_box">
 

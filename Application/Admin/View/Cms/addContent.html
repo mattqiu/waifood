@@ -9,7 +9,7 @@
     <script charset="utf-8" src="__PUBLIC__/kindeditor/lang/zh_CN.js"></script>
     <script type="text/javascript" src="__PUBLIC__/js/upload.js?{:version()}"></script>
 </head>
-<body class="bg_white" data-storage_id="{$db.storage_id}" data-status="{$db.status}" data-pid="{$db.pid}" data-supplyid="{$db.supplyid}" data-stock_type="{$db.stock_type}" data-origin_id="{$db.origin_id}">
+<body class="bg_white" data-storage_id="{$db.storage_id}" data-status="{$db.status}" data-negative="{$db.negative}"  data-title="{$db.title}" data-id="{$db.id}" data-good_type="{$db.good_type}" data-pid="{$db.pid}" data-supplyid="{$db.supplyid}" data-stock_type="{$db.stock_type}" data-origin_id="{$db.origin_id}">
 <div class="container" style="overflow: hidden">
 <input type="hidden" id="goodid" value="{$db.id}"/>
 <div class="page_title">商品添加</div>
@@ -83,13 +83,37 @@
             <td width="300"><input type="text" name="pinyin"  class="input_text2"  value="{$db.pinyin}" /></td>
         </tr>
         <tr>
-            <td colspan="4" align="left" style="padding-left: 27px;">
+            <td colspan="2" align="left" style="padding-left: 21px;">
                 <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="{$db.price}" />
-                <span style="padding-left: 30px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="{$db.price1}" />
+                <span style="padding-left: 28px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="{$db.price1}" />
             </td>
+            <if condition="empty($db) || $db['good_type'] gt 0">
+                <td width="110"  align="right">商品类型：</td>
+                <td width="300">
+                    <div class="idealforms_select fl" style="width: 105px;">
+                        <div class="idealforms_select_obj" >
+                            <input type="hidden" value="" name="good_type">
+                            <input type="text" value="" readonly>
+                            <span class="caret"></span>
+                        </div>
+                        <ul class="idealforms_select_menu">
+                            <li data-value="0">正常商品</li>
+                            <li data-value="1">复合商品</li>
+                            <li data-value="2">组合商品</li>
+                        </ul>
+                    </div>
+                    <if condition="isset($db['good_type']) && $db['good_type'] gt 0">
+                        <button style="margin:5px 0 0 15px;overflow: hidden;" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
+                        <else/>
+                        <button style="margin:5px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
+                    </if>
+                </td>
+                <else/>
+                <td colspan="2"></td>
+            </if>
         </tr>
         <tr>
-            <td colspan="2" align="left" style="padding-left: 41px;">
+            <td colspan="2" align="left" style="padding-left: 34px;">
                 <span>库存数：</span><input type="text" name="stock"  class="input_text3"  value="{$db.stock|default=0}" />
                 <span style="padding-left: 16px">库存单位：</span><input type="text" name="unit"  class="input_text3"  value="{$db.unit}" />
             </td>
@@ -108,36 +132,78 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <!--   <tr>
             <td colspan="2"></td>
             <td width="110"  align="right">库存关系：</td>
             <td width="300">
                 <textarea name="stock_info" rows="4" class="textarea_text2">{$db.stock_info}</textarea>
             </td>
-        </tr>
-        <!--   <tr>
-               nt" style="width:100%;" ></textarea></td>
-           </tr> -->
-        <td colspan="2">
-            <span style="margin-left: 40px;">保质期：</span><input type="text" name="shelf_life"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input_text4"  value="{$db.shelf_life}" />(天)
-            <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date" id="expire_date" class="input_text3"  value="{$db.expire_date}" />
-        </td>
-        <td width="110"  align="right">产地（国家）</td>
-        <td width="300">
-            <div class="idealforms_select fl" >
-                <div class="idealforms_select_obj" >
-                    <input type="hidden" value="" name="origin_id">
-                    <input type="text" value="" readonly>
-                    <span class="caret"></span>
+        </tr>-->
+            <tr>
+                <td colspan="4" align="left" style="padding-left: 21px;">
+                    <div>
+                        <span class="fl" style="position: relative;top:7px;"> 可负销售：</span>
+                        <div class="idealforms_select fl" >
+                            <div class="idealforms_select_obj" >
+                                <input type="hidden" value="" name="negative">
+                                <input type="text" value="" readonly>
+                                <span class="caret"></span>
+                            </div>
+                            <ul class="idealforms_select_menu">
+                                <li data-value="0">否</li>
+                                <li data-value="1">是</li>
+                            </ul>
+                        </div>
+                        <div class="clr"></div>
+                        <div id="good_type_info" style="margin: 10px 0 0 13px">
+                            <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
+                                <if condition="$db['good_type'] eq 1">
+                                    <div style="margin-left: 7px;" class="js_goods_li" id="js_goods_{$db['child'][0]['id']}" >
+                                        <span>商品ID：</span><input type="text" name="groupid"  class="input_text3"  readonly value="{$db['child'][0]['id']}" />
+                                        &nbsp;&nbsp;<span>公式：</span><input type="text" name="num" class="input_text3" value="{$db['child'][0]['num']}" />
+                                        &nbsp;&nbsp;&nbsp;<span style="display: inline-block;width: 300px;height: 18px;overflow: hidden;">
+                                    商品名：<a href="/Admin/Cms/editContent/id/{$db['child'][0]['id']}.html">{$db['child'][0]['name']}</a></span>
+                                        <button class="fr" onclick="delSelGood('{$db.child.0.id}')">删除</button>
+                                    </div>
+
+                                <elseif condition="$db['good_type'] eq 2"/>
+                                <volist name="db['child']" id="vo">
+                                    <div style="margin-left: 7px;" class="js_goods_li" id="js_goods_{$vo['id']}" >
+                                        <span>商品ID：</span><input type="text" name="groupid"  class="input_text3"  readonly value="{$vo['id']}" />
+                                        &nbsp;<span>公式：</span><input type="text" name="num" class="input_text3" value="{$vo['num']}" />
+                                        &nbsp;&nbsp;&nbsp;<span style="display: inline-block;width: 300px;height: 18px;overflow: hidden;">
+                                        商品名：<a href="/Admin/Cms/editContent/id/{$vo['id']}.html">{$vo['name']}</a></span>
+                                        <button class="fr" onclick="delSelGood('{$vo.id}')">删除</button>
+                                    </div>
+                                </volist>
+                                </if>
+                            </if>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </if>
+        <tr>
+            <td colspan="2">
+                <span style="margin-left: 34px;">保质期：</span><input type="text" name="shelf_life"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input_text4"  value="{$db.shelf_life}" />(天)
+                <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date" id="expire_date" class="input_text3"  value="{$db.expire_date}" />
+            </td>
+            <td width="110"  align="right">产地（国家）</td>
+            <td width="300">
+                <div class="idealforms_select fl" >
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="origin_id">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择产地--</li>
+                        <volist name="origin" id="vo">
+                            <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                        </volist>
+                    </ul>
                 </div>
-                <ul class="idealforms_select_menu">
-                    <li data-value="0">--选择产地--</li>
-                    <volist name="origin" id="vo">
-                        <li data-value="{$vo.id}" >{$vo.namecn}</li>
-                    </volist>
-                </ul>
-            </div>
-        </td>
+            </td>
         </tr>
         <tr>
             <td width="110" align="right" >保存方法：</td>
@@ -172,13 +238,13 @@
     </div>
     <table border="0" id="content_box">
         <tr class="content_en">
-            <td width="100" style="min-width: 102px;" align="right" >英文内容：</td>
+            <td width="86" style="min-width: 86px;" align="right" >英文内容：</td>
             <td>
                 <textarea type="text" name="content" id="content" >{$db.content}</textarea>
             </td>
         </tr>
         <tr class="hide content_cn">
-            <td width="100" style="min-width: 102px;" align="right" >中文内容：</td>
+            <td width="86" style="min-width: 86px;" align="right" >中文内容：</td>
             <td>
                 <textarea type="text" name="contentcn" id="contentcn" >{$db.contentcn}</textarea>
             </td>
@@ -278,21 +344,29 @@
 </form>
 
 </div>
+<div style="display: none;" id="selectGoodBox"  class="tc">
+    <iframe  src="/Admin/Query/content.html?rootid=2" width="530" height="440" style="overflow: scroll" frameborder="0"></iframe>
+    <button onclick="selectOk()">确认</button>
+</div>
+<script src="__PUBLIC__/js/json.js"></script>
+<script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 <script>
 
     $(function(){
+        $.cookie('admingood', null, {"path": "/"});
         //初始化form
         $("#infoform").idealforms();
         $("#picform").idealforms();
         $("#seoform").idealforms();
         $("#btn_form").idealforms();
+        setSelectSelected('#infoform input[name=good_type]',$('body').data('good_type'));
+        setSelectSelected('#infoform input[name=negative]',$('body').data('negative'));
         setSelectSelected('#infoform input[name=status]',$('body').data('status'));
         setSelectSelected('#infoform input[name=pid]',$('body').data('pid'));
         setSelectSelected('#infoform input[name=supplyid]',$('body').data('supplyid'));
         setSelectSelected('#infoform input[name=stock_type]',$('body').data('stock_type'));
         setSelectSelected('#infoform input[name=origin_id]',$('body').data('origin_id'));
         setSelectSelected('#infoform input[name=storage_id]',$('body').data('storage_id'));
-
         $('.contentform').hide();
         $('#'+$('#title_tab li.onselect').data('name')).show();
         $('#title_tab li').click(function(){
@@ -301,7 +375,7 @@
             $('.contentform').hide();
             $('#'+$(this).data('name')).show();
         })
-        //中英文详情切换
+        /****************************************中英文详情切换***************************/
         $('#language_tab li').click(function(){
             $('#language_tab li').removeClass('onselect');
             $(this).addClass('onselect');
@@ -313,7 +387,7 @@
                 $('#content_box .content_en').show();
             }
         })
-        //输入中文时获取中文对应的拼音首字母
+        /****************************************输入中文时获取中文对应的拼音首字母***************************/
         $('#infoform input[name=short_name]').keyup(function(){
             var str = $(this).val().trim();
             if(str){
@@ -323,8 +397,124 @@
                 $('#infoform input[name=pinyin]').val('');
             }
         })
+        /****************************************商品类型选择***************************/
+        $('#infoform input[name=good_type]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+            $('#good_type_info').html('');
+            if($(this).data('value')==1){ //复合商
+                var id = $('body').data('id');
+                if(id){
+                    var title = $('body').data('title');
+                    var $html = '<div style="margin-left: 7px;" class="js_goods_li" id="js_goods_'+id+'" ><span>商品ID：</span><input type="text" name="groupid"  class="input_text3"  readonly value="'+id+'" />';
+                    $html +='&nbsp;&nbsp;<span>公式：</span><input type="text" name="num" class="input_text3" value="" />';
+                    $html +='&nbsp;&nbsp;&nbsp;<span style="display: inline-block;width: 300px;height: 18px;overflow: hidden;">商品名：<a href="/Admin/Cms/editContent/id/'+id+'.html">'+title+'</a></span><button class="fr" onclick="delSelGood('+id+')">删除</button></div>';
+                    $('#good_type_info').html($html);
+                }else{
+                    selectOk($(this).data('value'));
+                }
+                $('#infoform input[name=stock]').css('background','#e0e0e0')
+                $('#infoform input[name=stock]').val(0);
+                $('.selgroupgoodbtn').show();
+            }else if($(this).data('value')==2){ //组合商品
+                $('#infoform input[name=stock]').val(0);
+                $('#infoform input[name=stock]').css('background','#e0e0e0')
+                selectOk($(this).data('value'));
+                $('.selgroupgoodbtn').show();
+            }else{
+                $('.selgroupgoodbtn').hide();
+            }
+        })
+        /********************************可负销售判读*****************************************/
+        $('#infoform input[name=negative]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+            var good_type = $('#infoform input[name=good_type]').val();
+            //复合组合商品可负销售取决于子商品是否支持可负销售
+            if(good_type>0 && $(this).data('value') == 1){ //仅在选择可负销售是判断
+                var key = 'admingood',
+                    myfood = $.cookie(key);
+                if(myfood){
+                    var myfood_array = $.parseJSON(myfood);
+                    if (myfood_array) {
+                        for (var i in myfood_array) {
+                            if (myfood_array[i]) {
+                                if (good_type == 1) { //复合商品
+                                    if(!myfood_array[i]['negative']){ //子商品不支持可负销售
+                                        setSelectSelected('#infoform input[name=negative]', myfood_array[i]['negative']);
+                                        clearpopj('商品ID:'+myfood_array[i]['id']+'    不支持可负销售', "error",true);
+                                        return  false;
+                                    }
+                                }else{ //其他组合商品只要有一个都不支持可负销售都不允许可负销售
+                                    if(!myfood_array[i]['negative']){ //子商品不支持可负销售
+                                        setSelectSelected('#infoform input[name=negative]', myfood_array[i]['negative']);
+                                        clearpopj('商品ID:'+myfood_array[i]['id']+'    不支持可负销售', "error",true);
+                                        return  false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
     })
 
+    function selectGood(){
+        getMask().maskShow({"tit": "请选择产品","width":550, "cont": "#selectGoodBox"});
+    }
+
+    function selectOk(good_type){
+        if(!good_type){
+            closeMask();
+            var good_type = $('#infoform input[name=good_type]').val();
+        }
+        var key = 'admingood',
+            myfood = $.cookie(key);
+        if(!myfood){
+            return false;
+        }
+        var myfood_array = $.parseJSON(myfood);
+        if (!myfood_array) {
+            return false;
+        }
+        if(good_type == 1){
+             //复合商品
+            for (var i in myfood_array){
+                var $html = '<div style="margin-left: 7px;" class="js_goods_li" id="js_goods_'+myfood_array[i]['id']+'" ><span>商品ID：</span><input type="text" name="groupid"  class="input_text3"  readonly value="'+myfood_array[i]['id']+'" />';
+                $html +='&nbsp;&nbsp;<span>公式：</span><input type="text" name="num" class="input_text3" value="" />';
+                $html +='&nbsp;&nbsp;&nbsp;<span style="display: inline-block;width: 300px;height: 18px;overflow: hidden;">商品名：<a href="/Admin/Cms/editContent/id/'+myfood_array[i]['id']+'.html">'+myfood_array[i]['name']+'</a></span><button class="fr" onclick="delSelGood('+myfood_array[i]['id']+')">删除</button></div>';
+                $('#good_type_info').html($html);
+                return false;
+            }
+        }else if(good_type == 2){
+            //复合商品
+            var $html = '';
+            for (var i in myfood_array){
+                $html += '<div style="margin-left: 7px;" class="js_goods_li" id="js_goods_'+myfood_array[i]['id']+'"><span>商品ID：</span><input type="text" name="groupid"  class="input_text3"  readonly value="'+myfood_array[i]['id']+'" />';
+                $html +='&nbsp;&nbsp;<span>公式：</span><input type="text" name="num" class="input_text3" value="" />';
+                $html +='&nbsp;&nbsp;&nbsp;<span style="display: inline-block;width: 300px;height: 18px;overflow: hidden;">商品名：<a href="/Admin/Cms/editContent/id/'+myfood_array[i]['id']+'.html">'+myfood_array[i]['name']+'</a></span><button class="fr" onclick="delSelGood('+myfood_array[i]['id']+')">删除</button></div>';
+            }
+            if($html){
+                $('#good_type_info').append($html);
+            }else{
+                $('#good_type_info').html('');
+            }
+        }
+    }
+
+    function delSelGood(id){
+        var key = 'admingood';
+        $('#js_goods_'+id).remove();
+        var myshop = $.cookie(key);
+        var myshop_array = {};
+        if(myshop){
+            myshop_array = $.parseJSON(myshop);
+            if(myshop_array[id]){ //存在
+                myshop_array[id]= undefined;
+            }
+        }
+        var json = $.toJSON(myshop_array);
+        $.cookie(key,json,{
+            "path":"/"
+        });
+    }
     //选择过期日时间
     $('#expire_date').calendar({
         format: 'yyyy-MM-dd',
@@ -358,8 +548,8 @@
         }
         upload.prototype.uploadPic("goods");
     }
-    upload.prototype.createContent("#content",'goods',735);
-    upload.prototype.createContent("#contentcn",'goods',735);
+    upload.prototype.createContent("#content",'goods',752);
+    upload.prototype.createContent("#contentcn",'goods',752);
 
     //删除为保存的上传图片
     function delImgUnUpload(file,obj,type){
@@ -412,7 +602,8 @@
 //                storage = $('#infoform input[name=storage]').val(),//保存方法
                 brand = $('#infoform input[name=brand]').val(),//品牌
                 notice = $('#infoform input[name=notice]').val(),//内部留言
-
+                good_type = $('#infoform input[name=good_type]').val(),//商品类型
+                negative = $('#infoform input[name=negative]').val(),//可负销售
                 content = $('#infoform textarea[name=content]').val(),//英文详情
                 contentcn = $('#infoform textarea[name=contentcn]').val(),//中文详情
                 name = $('#infoform #name').val(),//内容标示-----？
@@ -422,6 +613,42 @@
         //SEO
                 keywords = $('#seoform input[name=keywords]').val(),// 关键字
                 description = $('#seoform input[name=description]').val();//介绍
+
+        var groupid = '';
+        if(good_type ==1){
+            if(!$('#good_type_info .js_goods_li').eq(0).find('input[name=num]').val()){
+                clearpopj('请填写商品对应公式', "error",true);
+                return  false;
+            }
+            groupid = $('#good_type_info .js_goods_li').eq(0).find('input[name=groupid]').val()+',';
+            groupid += $('#good_type_info .js_goods_li').eq(0).find('input[name=num]').val()+'|';
+        }else if(good_type ==2){
+            $('#good_type_info .js_goods_li').each(function(){
+                if(!$(this).find('input[name=num]').val()){
+                    clearpopj('请填写商品对应公式', "error",true);
+                    return  false;
+                }
+                 groupid += $(this).find('input[name=groupid]').val()+',';
+                 groupid += $(this).find('input[name=num]').val()+'|';
+            })
+        }else{ //正常商品
+            groupid = '';
+        }
+
+        if(good_type ==1){
+            if(!groupid){
+                clearpopj('请至少有一件商品', "error",true);
+                return  false;
+            }
+        }else if(good_type ==2){
+            if(!groupid){
+                clearpopj('请至少有一件商品组合', "error",true);
+                return  false;
+            }
+        }else{ //正常商品
+            groupid = '';
+        }
+
         //相册图
         $('#imgboxs img.goods_img').each(function(){
             images+=$(this).data('src')+'|';
@@ -459,6 +686,9 @@
             storage_id :storage_id,
             brand :brand,
             notice :notice,
+            good_type :good_type,
+            negative :negative,
+            group_id :groupid,
             content :content,
             contentcn :contentcn,
             indexpic :indexpic,
@@ -467,6 +697,7 @@
             images :images,
             name :name
         }
+
         //没有上传图片的提交
         if(!indexpic){
             swal({

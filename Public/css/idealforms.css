@@ -74,7 +74,7 @@ li{list-style-type: none;}
 
 
 .idealforms_select{position:relative;width: 315px;}
-.idealforms_select_obj{margin-left: 5px;}
+/*.idealforms_select_obj{margin-left: 5px;}*/
 .idealforms_select input{padding-left: 5px;width: 98%; height: 35px;}
 .idealforms_select .caret{background:url(../images/fqqb.png) -16px -177px no-repeat;position:absolute;top:6px;right:5px;padding:10px;cursor:pointer;}
 .idealforms_select ul.idealforms_select_menu{ margin-left: 5px; width: 98%;max-height: 300px;overflow: auto ;position:absolute;background:#FFffff;border:1px solid #dbdbdb;display:none;z-index: 999;}

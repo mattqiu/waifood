@@ -112,7 +112,7 @@
                                             </dt>
                                             <volist name="dateData" id="vo" >
                                                 <if condition="$i gt ($k)*7 and $i elt ($k+1)*7">
-                                                    <dd data-isholiday="{$vo.isholiday}"  <if condition="isset($vo['isholiday']) && $vo['isholiday'] eq 1"> class='isholiday'</if>>
+                                                    <dd <if condition="isset($vo['isholiday'])">  data-isholiday="{$vo.isholiday}" <if condition="$vo['isholiday'] eq 1"> class='isholiday'</if></if>>
                                                     <if condition="$i eq 1">
                                                         Today
                                                         <elseif condition="$i eq 2"/>
@@ -125,7 +125,6 @@
                                                 </if>
                                             </volist>
                                         </dl>
-
                                         <volist name="times" id="vo" key="j">
                                             <dl class="scroll-item-content tab-{$j} clearfix">
                                                 <dt class="time">{$vo}</dt>

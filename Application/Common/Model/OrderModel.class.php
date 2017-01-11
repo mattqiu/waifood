@@ -1,5 +1,6 @@
 <?php
 namespace Common\Model;
+use Common\Model\ContentModel;
 use Home\Model\WeixinModel;
 use Think\Log;
 use Think\Model;
@@ -110,6 +111,7 @@ class OrderModel extends Model{
             $data['status']=0;
         }
         $discount = DiscountModel::getDiscountMoney($amount,$userId);  //ActiviModel::getActiviDiscount($amount);
+
         $data ['orderno'] = $orderno = get_order_no();
         $data ['num'] = $order['amountnum'];
         $data ['amount'] =float_fee(($amount-$discount['money'])+getShipfee($amount));//实际支付总金额=商品总价-折扣+配送费
@@ -117,11 +119,14 @@ class OrderModel extends Model{
         $data ['shipfee'] = getShipfee($amount);
         $data ['discount'] =float_fee($discount['money']);
         $discount_info = '';
-        foreach($discount as $key =>$val){
-            if(isset($val['name']) && $val['name']){
-                $discount_info.= '<div>'. $val['name'].':- &yen;'.$val['money'].'</div>';
+        if(!empty($discount)){
+            foreach($discount as $key =>$val){
+                if(isset($val['name']) && $val['name']){
+                    $discount_info.= '<div>'. $val['name'].':- &yen;'.$val['money'].'</div>';
+                }
             }
         }
+
         $data ['discount_info'] = $discount_info;
         $data ['userid'] = $userId;
         $data ['usertype'] = get_cate(get_userid (),'member','usertype');
@@ -131,7 +136,7 @@ class OrderModel extends Model{
         $orderid = M ( 'order' )->add ( $data );
         if ($orderid != false) {
              self::createOrderDetail($order,$orderno,$userId,$data['status']);//添加订单详情
-             self::catStock($orderno);
+             ContentModel::catStockForOrder($orderno);//减去库存
              self::sendEmail($orderno,$userId);
             return $orderno;
         }else {
@@ -308,25 +313,6 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
         M('order')->where($where)->data($data1)->save();
     }
 
-    /**减库存，加销量
-     * @param $id
-     * @param $num
-     */
-    public static function catStock($orderno){
-       $info =  self::getOrderDetailByOrderno($orderno);
-        foreach ( $info as $key => $value ) {
-            if($value['productid'] && $value['num']){
-                $con['id'] = $value['productid'];
-                M('content')->where($con)->setDec('stock',$value['num']);
-                M('content')->where($con)->setInc('sold',$value['num']);
-                $con2['stock'] = 0;
-                $data['status'] = 0;
-                M('content')->where($con2)->save($data);
-            }
-        }
-    }
-
-
     /**
      * 检查库存，返回商品总金额
      * @param $data
@@ -338,7 +324,8 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
             if($val['id']){
                 $product=M('content')->find($val['id']);
                 if($product['status'] == ContentModel::NORMAL){ //只获取上架的商品
-                    if($product['stock']<$val['num']){
+                    //检查提交数量大于库存数的，（可负销售商品除外）
+                    if($product['stock']<$val['num'] && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
                         apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']'.$val['id']);
                         break;
                     }
@@ -419,4 +406,38 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
         return true;
     }
 
+    /**
+     * 退库存
+     * @param number $productid
+     */
+    public static function returnInventory($orderno){
+        $order =  OrderModel::getOrderDetailByOrderno($orderno);
+        if(!empty($order)){
+            foreach($order as $key=>$val){
+                if($val['productid'] && $val['num']){
+                    //复合或组合商品减库存，加销量
+                    if(false !== $groupid = ContentModel::isGroupGoods($val['productid'])){
+                        if( strpos($groupid,',')>0){
+                            $idsArr =array_filter(explode('|',$groupid));
+                            foreach($idsArr as $k=>$v){
+                                $idarr =array_filter(explode(',',$v));
+                                if(regex($idarr[0],'number')){
+                                    $number = -intval($val['num'])*intval($idarr[1]); //销售总数量=销售份数*公式
+                                    ContentModel::modifyGoodsStockAndSold($idarr[0],$number,true,1);
+                                }
+                            }
+                        }else{
+                            GLog('order cat stock','商品ID.'.$val['productid'].'进去错误判读');
+                            return false;
+                        }
+                        //复合、组合商品也是一个单独的正常商品
+                        ContentModel::modifyGoodsStockAndSold($val['productid'],-intval($val['num']),false,1);
+                    }else{
+                        //正常商品的减库存，加销量
+                        ContentModel::modifyGoodsStockAndSold($val['productid'],-intval($val['num']),false,1);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -23,8 +23,9 @@ class OrderController extends AuthController
         $where['userid'] = get_userid();
         $order = M('order')->where($where)->find();
         if (! $order == false) {
-            M('order')->where($where)->setField('status', 4);
-            set_order_onoff($orderno,1);
+            OrderModel::returnInventory($orderno);
+//            M('order')->where($where)->setField('status', 4);
+//            set_order_onoff($orderno,1);
             apiReturn(CodeModel::CORRECT,'Successful.');
         }else {
             apiReturn(CodeModel::ERROR,'Failed, unexpected problem.');

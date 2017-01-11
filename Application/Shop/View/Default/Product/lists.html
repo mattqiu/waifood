@@ -69,7 +69,7 @@
     <!--商品-->
             <ul class=" good-contents" style="margin-top: 20px;">
             <volist name="list" id="vo">
-                <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}"
+                <li class="goods"  id="js_goods_{$vo['id']}" data-id="{$vo['id']}" data-price="{$vo['price']}" data-stock="{$vo['stock']}" data-negative="{$vo['negative']}"
                     data-indexpic="{$vo.indexpic}" data-name="{$vo['title']}">
                     <div class="fl goods_c">
                         <a href="/product/view.html?id={$vo.id}"> <div class="good_pic"><img src="{$vo.indexpic}"  /></div> </a>

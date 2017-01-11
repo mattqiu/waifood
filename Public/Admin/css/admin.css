@@ -8,10 +8,10 @@ hr{height: 1px;width: 100%}
 .tab_box li{margin-right: 35px;font-size: 16px;color: #333333;font-weight: bold;cursor: pointer}
 .tab_box li.onselect{border-bottom: 3px solid #108ee9;line-height: 37px;}
 input.input_text150{width: 150px;}
-input.input_text3{width: 100px;}
+input.input_text3{width: 105px;}
 input.input_text4{width: 80px;}
-input.input_text1{width: 740px}
-input.input_text2, textarea.textarea_text2{width: 304px}
+input.input_text1{width: 747px}
+input.input_text2, textarea.textarea_text2{width: 308px}
 /****************************table*****************************/
 .mytables{ font-size:14px;color: #333333 table-layout:fixed;empty-cells:show; border-collapse: collapse;border: 1px solid #EEEEEE}
 .mytables td{ height:50px;}

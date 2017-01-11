@@ -17,6 +17,11 @@ use Think\Model;
  */
 
 class ContentModel extends Model {
+    const GENERAL_GOODS = 0;//普通商品
+    const COMPOSITE_GOODS = 1;//复合商品
+    const COMBINATION_OF_GOODS = 2;//组合商品
+    const CAN_NEGATIVE_AOLD = 1;//支持可负销售
+    const CANNOT_NEGATIVE_AOLD = 0;//不支持可负销售
 
     /* 自动验证规则 */
     protected $_validate = array(
@@ -71,12 +76,24 @@ class ContentModel extends Model {
     	}
     }
 
-    public static function getContentById($id){
+    /**
+     * 根据商品id查找商品，
+     * @param $id
+     * @param string $field  筛选字段
+     * @return bool|mixed
+     */
+    public static function getContentById($id,$field=''){
         if(regex($id,'number')){
-            return M('content')->find($id);
+            if(!empty($field)){
+                return M('content')->field($field)->find($id);
+            }else{
+                return M('content')->find($id);
+            }
+        }else{
+            return false;
         }
-        return false;
     }
+
 
     public static function underCenter($id){
         $con['id'] = $id;
@@ -148,6 +165,42 @@ class ContentModel extends Model {
     }
 
     /**
+     * 判断组合或复合商品的子商品是否支持可负销售
+     * @param $groupid
+     * @param $goodType
+     * @return int
+     */
+    public static function checkNegativeSold($groupid,$goodType){
+        if(!empty($groupid) && strpos($groupid,',')>0){
+            $idsArr =array_filter(explode('|',$groupid));
+            $data = array();
+            foreach($idsArr as $key=>$val){
+                $idarr =array_filter(explode(',',$val));
+                if(regex($idarr[0],'number')){
+                    $goods=\Admin\Model\ContentModel::getContentById($idarr[0]);
+                    $data[$key]['id']=$idarr[0];
+                    $data[$key]['negative']=$goods['negative'];
+                }
+            }
+            if($goodType == self::COMPOSITE_GOODS){
+                if($data[0]['negative'] == self::CAN_NEGATIVE_AOLD){
+                    return true;
+                }else{
+                    return $data[0]['id'];
+                }
+            }elseif($goodType == self::COMBINATION_OF_GOODS){
+                //按negative数字从小到大排序（组合商品的可负状态取决子商品是否支持）
+                $datanew = myArraySort($data,'negative',SORT_ASC);
+                if($datanew[0]['negative'] == self::CAN_NEGATIVE_AOLD){
+                    return true;
+                }else{
+                    return $datanew[0]['id'];
+                }
+            }
+        }
+    }
+
+    /**
      * 添加商品
      * @param $data
      */
@@ -172,6 +225,9 @@ class ContentModel extends Model {
             $info = M('Channel')->getById($data['pid']);
             $sortpath = $info ['sortpath'];
             $data['sortpath']=$sortpath;
+            if(isset($data['good_type']) && $data['good_type'] !=self::GENERAL_GOODS && isset($data['group_id']) && $data['group_id']){
+                $data['stock'] = self::getGroupStock($data['group_id'],$data['good_type']) ; //获取复合、组合商品的库存
+            }
             $data['sort']=$data['name'];
             $data['addip']=get_client_ip();
             $data['supplyname']=get_cate($data['supplyid'],'supply');
@@ -180,6 +236,34 @@ class ContentModel extends Model {
             return $table->add($data);
         }else{
             apiReturn(CodeModel::ERROR,M()->getError());
+        }
+    }
+
+    /**
+     * 根据组合商品的id获取组合商品的库存
+     * @param $groupid
+     * @return int
+     */
+    public static function getGroupStock($groupid,$goodType){
+        if(!empty($groupid) && strpos($groupid,',')>0){
+            $idsArr =array_filter(explode('|',$groupid));
+            $data = array();
+            foreach($idsArr as $key=>$val){
+                $idarr =array_filter(explode(',',$val));
+                if(regex($idarr[0],'number')){
+                    $goods=\Admin\Model\ContentModel::getContentById($idarr[0]);
+                    $data[$key]['stock']=intval($goods['stock']/$idarr[1]);
+                }
+            }
+            if($goodType == self::COMPOSITE_GOODS){
+                return intval($data[0]['stock']);
+            }elseif($goodType == self::COMBINATION_OF_GOODS){
+                //按照库存从小到大排序（组合商品的库存由子商品库存数最小的决定）
+                $datanew = myArraySort($data,'stock',SORT_ASC);
+                return $datanew[0]['stock'];
+            }
+        }else{
+            return 0;
         }
     }
 

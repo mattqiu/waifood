@@ -53,7 +53,7 @@ class ProductController extends BaseController {
             }else{
                 $where['sortpath'][]= array('like','%,2,%');
             }
-            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,storage_id,origin_id,brand,stock';
+            $field =  'id,title,indexpic,price,price1,description,unit,storage,origin,storage_id,origin_id,brand,stock,negative';
             $list = M ( "content" )->field ($field)->where ( $where )->order ( $orderstr )->select ();
         }
         foreach($list as &$val){

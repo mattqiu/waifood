@@ -37,89 +37,94 @@
 <div class="dot"></div>
 <table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
   <tr class="toolbar">
-    <td colspan="11" class="tc">【 管理内容 】</td>
+    <td colspan="13" class="tc">【 管理内容 】</td>
   </tr>
   <tr class="row0 hide">
-    <td colspan="11"><a href="{:U('Admin/Cms/addContent')}"
-				class="btnAdd">添加</a></td>
+    <td colspan="13">
+        <a href="{:U('Admin/Cms/addContent')}" class="btnAdd">添加</a>
+    </td>
   </tr>
   <tr class="header">
     <td width="60">ID</td>
     <td>标题</td>
     <td>分类</td>
     <td>供应商</td>
-    <td width="70">价格</td>
-    <td width="30">销量</td>
-    <td width="70">库存</td>
-    <td width="70">排序</td>
-    <td width="100">图标/推荐</td>
+    <td width="60">价格</td>
+    <td width="40">销量</td>
+    <td width="50">组合销量</td>
+    <td width="50">库存</td>
+    <td width="50">虚库存</td>
+    <td width="25">可负</td>
+    <td width="55">排序</td>
     <td width="50">状态</td>
-    <td width="80">操作</td>
+    <td width="90">操作</td>
   </tr>
   <volist id="vo" name="list">
     <tr class="row{$i % 2+1}" data="{$vo.indexpic}">
       <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline"><input type="checkbox" name="SelectIDs" value="{$vo.id}" />
         {$vo.id}</a></td>
-      <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}</a>
+      <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}<br/>{$vo.namecn}</a>
         <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
         <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq></td>
       <td><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['pid'])}">{:cutstring($vo['channelname'])}</a></td>
       <td><a href="{:U('Cms/content','searchtype=5&keyword='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a></td>
-      <td><input type="text" class="inputText1 numeric w50" value="{$vo.price}" onchange="setVal('content','price',{$vo.id},$(this).val())" /></td>
-      <td>{$vo.sold}</td>
-      <td><input type="text" class="inputText1 numeric w50" value="{$vo.stock}" onchange="setVal('content','stock',{$vo.id},$(this).val())" /></td>
-      <td><input name="Item_1" id="Item_1"
-				onchange="setVal('content','sort',{$vo.id},$(this).val())"
-				class="inputText1 numeric w50" value="{$vo.sort}" /></td>
+      <td align="center">{$vo.price}</td>
+      <td align="center">{$vo.sold}</td>
+      <td align="center">{$vo.re_sold}</td>
+      <td align="center">{$vo.stock}</td>
+      <td align="center"><if condition="$vo['good_type'] gt 0">是<else/>否</if></td>
+      <td align="center">
+        <if condition="$vo['negative'] eq 1">是<else/>否</if>
+      </td>
       <td>
+          <input name="Item_1" id="Item_1" onchange="setVal('content','sort',{$vo.id},$(this).val())" class="inputText1 numeric w50" value="{$vo.sort}" />
+      </td>
+      <td align="center">
+          <if condition="($vo.status eq 1)">
+              <a href="javascript:void(0);" onclick="setVal('content','__under__',{$vo.id},0,this,'下架')"  class="fc_red">上架</a>
+          <else />
+              <a href="javascript:void(0);" onclick="setVal('content','__under__',{$vo.id},1,this,'上架')">下架</a>
+          </if>
+      </td>
+      <td align="center">
           <if condition="$vo['tag1'] eq 1">
               <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',0)" class="fc_red"> H </a>
               <else/>
               <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',1)"> H </a>
           </if>
-            &nbsp;&nbsp;
+          &nbsp;&nbsp;
           <if condition="$vo['tag2'] eq 1">
               <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',0)" class="fc_red"> D</a>
               <else/>
               <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',1)"> D</a>
           </if>
           &nbsp;&nbsp;
-        <if condition="($vo.isresume eq 1)"> <a
-					href="javascript:void(0);"
-					onclick="setVal('content','isresume',{$vo.id},0)" class="fc_red">推荐</a>
-          <else />
-          <a href="javascript:void(0);"
-					onclick="setVal('content','isresume',{$vo.id},1)">未推荐</a> </if></td>
-      <td><if condition="($vo.status eq 1)"> <a
-					href="javascript:void(0);"
-					onclick="setVal('content','__under__',{$vo.id},0,this,'下架')"  class="fc_red">上架</a>
-          <else />
-          <a href="javascript:void(0);"
-					onclick="setVal('content','__under__',{$vo.id},1,this,'上架')">下架</a> </if>
-      </td>
-      <td><a href="{:U('Cms/editContent','id='.$vo['id'])}"
-				class="btnEdit">修改</a>&nbsp;&nbsp; <a class="btnDel" href="javascript:void(0);"
-				onclick="var url='{:U("Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
+          <if condition="($vo.isresume eq 1)">
+              <a href="javascript:void(0);" onclick="setVal('content','isresume','{$vo.id}',0)" class="fc_red">推荐</a>
+              <else />
+              <a href="javascript:void(0);" onclick="setVal('content','isresume','{$vo.id}',1)">未推荐</a>
+          </if>
+          <a href="{:U('Cms/editContent','id='.$vo['id'])}" class="btnEdit">修改</a>
+          &nbsp;&nbsp;
+          <a class="btnDel" href="javascript:void(0);" onclick="var url='{:U("Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a></td>
     </tr>
   </volist>
   <tr class="row0">
-    <td colspan="13" class="tr"><input type="button" class="btn2"
-				value="选中设置为" id="AllStatus_1" />
-      <select name="AllStatus_2"
-				id="AllStatus_2">
-        <option value="0" selected="selected">禁用</option>
-        <option value="1">启用</option>
-      </select></td>
+    <td colspan="13" class="tr">
+        <input type="button" class="btn2" value="选中设置为" id="AllStatus_1" />
+        <select name="AllStatus_2"	id="AllStatus_2">
+            <option value="0" selected="selected">禁用</option>
+            <option value="1">启用</option>
+        </select>
+    </td>
   </tr>
   <tr class="row0">
-    <td colspan="13" class="tr"><input type="hidden" value="content"
-				id="ConstTbl" name="ConstTbl" />
-      <input type="button" class="btn2"
-				value="批量删除" id="AllDel" />
-      <input type="button" class="btn1"
-				value="全选" id="AllCheck" />
-      <input type="button" class="btn1"
-				value="反选" id="ReverseCheck" /></td>
+    <td colspan="13" class="tr">
+        <input type="hidden" value="content" id="ConstTbl" name="ConstTbl" />
+        <input type="button" class="btn2" value="批量删除" id="AllDel" />
+        <input type="button" class="btn1"	value="全选" id="AllCheck" />
+        <input type="button" class="btn1"	value="反选" id="ReverseCheck" />
+    </td>
   </tr>
   <tr class="footer">
     <td colspan="13"><div class="page">{$page}</div></td>

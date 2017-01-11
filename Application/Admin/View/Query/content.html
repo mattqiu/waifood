@@ -4,6 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>内容列表</title>
 <include file="Index:header" />
+<script src="__PUBLIC__/js/json.js"></script>
+<script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 </head>
 <body style="background:#fff; padding:0px; overflow:hidden">
 	<form action="" method="get" name="form1" id="form1">
@@ -32,7 +34,6 @@
 	</form>
 	<div class="dot"></div>
 	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
-		 
 		<tr class="header">
 			<td width="60"><input type="checkbox" name="SelectAll" id="SelectAll" value="" />ID</td>
 			<td>标题</td>
@@ -42,7 +43,7 @@
 			<td>状态</td>
 		</tr>
 		<volist id="vo" name="list">
-		<tr class="row{$i % 2+1}" data="{$vo.indexpic}">
+		<tr class="row{$i % 2+1}" id="list_{$vo.id}" data="{$vo.indexpic}"  data-negative="{$vo.negative}" data-id="{$vo.id}" data-indexpic="{$vo.indexpic}" data-name="{$vo.title}" >
 			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
 				{$vo.id}</td>
 			<td>{$vo.title|cutstring} </td>
@@ -79,23 +80,89 @@ $(function(){
 	 },function(){
 		  $("#hoverimg").hide();
 	 });
-	 
-	 $("input[name='SelectIDs']").click(function(){
-		 var ck=$(this).is(":checked");
-		 var v=$(this).val();
-		changeValue(ck,v);
-	 });
 
-	 $("#SelectAll").click(function(){
-		 $(".MainTbl input:[name=SelectIDs]").each(function(){
-				$(this).attr("checked",!$(this).attr("checked"));
-				
-				 var ck=$(this).is(":checked");
-				 var v=$(this).val();
-				changeValue(ck,v);
-			});
-	 });
+    $("input[name='SelectIDs']").click(function(){
+        var ck=$(this).is(":checked");
+        var v=$(this).val();
+        if("{:I('id')}"){
+            changeValue(ck,v);
+        }else{
+            if(ck){
+                addgood(v);
+            }else{
+                delgood(v);
+            }
+        }
+    });
+
+    $("#SelectAll").click(function(){
+        $(".MainTbl input[name=SelectIDs]").each(function(){
+            $(this).click()
+            var ck=$(this).is(":checked");
+            var v=$(this).val();
+            if("{:I('id')}"){
+                changeValue(ck,v);
+            }else{
+                if(ck){
+                    addgood(v);
+                }else{
+                    delgood(v);
+                }
+            }
+        });
+    });
+
+    //设置选中
+    var key = 'admingood',
+        myfood = $.cookie(key);
+    if(myfood){
+        var myfood_array = $.parseJSON(myfood);
+        if (myfood_array) {
+            for (var i in myfood_array) {
+                if(i > 1){
+                    $('#list_'+i).find('input[name=SelectIDs]').attr('checked',true);
+                }
+            }
+        }
+    }
+
 });
+
+function addgood(id){
+    var $goodKey = 'admingood';
+    var myfood = $.cookie($goodKey),
+        indexpic = $('#list_'+id).data("indexpic"),
+        negative = $('#list_'+id).data("negative"),
+        name = $('#list_'+id).data("name");
+    var myfood_array  = $.parseJSON(myfood);
+    // 看该产品是否存在
+    if(myfood_array){
+        if(!myfood_array[id]){
+            myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative};
+        }
+    }else{
+        myfood_array = {};
+        myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative};
+    }
+    var json = $.toJSON(myfood_array);
+    $.cookie($goodKey,json,{
+        "path":"/"
+    });
+}
+
+function delgood(id){
+    var $goodKey = 'admingood';
+    var myfood = $.cookie($goodKey);
+    var myfood_array  = $.parseJSON(myfood);
+    // 看该产品是否存在
+    if(myfood_array){
+        if(myfood_array[id]){ //存在
+            myfood_array[id]= undefined;
+        }
+    }
+    var json = $.toJSON(myfood_array);
+    $.cookie($goodKey,json,{ "path":"/" });
+}
 
 function changeValue(b,v){
 	var $id=$(window.parent.document).find("#{:I('id')}");

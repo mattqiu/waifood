@@ -29,6 +29,7 @@ function addgood(id,event,page){
         indexpic = $('#js_goods_'+id).data("indexpic"),
         name = $('#js_goods_'+id).data("name"),
         stock = $('#js_goods_'+id).data("stock"),
+        negative = $('#js_goods_'+id).data("negative"),
         amount = 1;
     if(page){
         if(page =='list' || page =='view'){
@@ -45,13 +46,13 @@ function addgood(id,event,page){
             var single = myfood_array[id];
             myfood_array[id]['amount'] = parseInt(single['amount']) +amount;
         }else{
-            myfood_array[id] = {"id":id,"name":name,"price":price,"amount":amount,"indexpic":indexpic,"stock":stock};
+            myfood_array[id] = {"id":id,"name":name,"price":price,"amount":amount,"indexpic":indexpic,"stock":stock,"negative":negative};
         }
     }else{
         myfood_array = {};
-        myfood_array[id] = {"id":id,"name":name,"price":price,"amount":amount,"indexpic":indexpic,"stock":stock};
+        myfood_array[id] = {"id":id,"name":name,"price":price,"amount":amount,"indexpic":indexpic,"stock":stock,"negative":negative};
     }
-    if( myfood_array[id]['amount'] > stock){ //库存不足
+    if(negative!=1 && myfood_array[id]['amount'] > stock){ //库存不足
         clearpopj("Insufficient stock!", "error",true);
         return false;
     }
@@ -235,10 +236,12 @@ function getCartGoodStock($objPage){
                         var obj = data.data;
                         for (var i in obj) {
                             if(obj[i]['id']){
+                                //最小单位1
                                 if(obj[i]['stock']>1 && myfood_array[obj[i]['id']]['amount']==0){
                                     myfood_array[obj[i]['id']]['amount']=1;
                                 }
-                                if(parseInt(  myfood_array[obj[i]['id']]['amount'])>parseInt(obj[i]['stock'])) { //库存小于当前购物车商品数量
+                                //库存小于当前购物车商品数量（可负销售商品除外）
+                                if( obj[i]['negative']!=1 && parseInt(  myfood_array[obj[i]['id']]['amount'])>parseInt(obj[i]['stock'])) {
                                     myfood_array[obj[i]['id']]['amount'] = obj[i]['stock'];
                                 }
                                 //重新将商品信息放入本地购物车中（有可能后台更新数据）
@@ -248,6 +251,7 @@ function getCartGoodStock($objPage){
                                 myfood_array[obj[i]['id']]['indexpic'] = obj[i]['indexpic'];
                                 myfood_array[obj[i]['id']]['stock'] = obj[i]['stock'];
                                 myfood_array[obj[i]['id']]['status'] = obj[i]['status'];
+                                myfood_array[obj[i]['id']]['negative'] = obj[i]['negative'];
                                 if(obj[i]['status'] ==1){ //计算正常状态的商品总金额
                                     $totalmoney +=parseFloat(obj[i]['price'])*parseInt(myfood_array[obj[i]['id']]['amount']);
                                 }
@@ -306,7 +310,7 @@ function getCartData(){
         if (obj) {
             for (var i in obj) {
                 if(obj[i]['status'] ==1) {
-                    $html += '<tr class="js_goods_' + obj[i]['id'] + '"  id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '" data-stock="' + obj[i]['stock'] + '" data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['title'] + '">';
+                    $html += '<tr class="js_goods_' + obj[i]['id'] + '"  id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-negative="' + obj[i]['negative'] + '" data-price="' + obj[i]['price'] + '" data-stock="' + obj[i]['stock'] + '" data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['title'] + '">';
                     $html += '<td align="left"  id="good-li-' + obj[i]['id'] + '">';
                     $html += '<div class="checkboxFive" onclick="getGoodCartInfo();">';
                     $html += '<label style="width: 60px;left: 0;top: -6px;line-height: 17px;">';
@@ -340,7 +344,7 @@ function getCartData(){
                         totalNum += parseInt(obj[i]['amount']);
                     }
                 }else if(obj[i]['id']){ //下架商品
-                    outofstock += '<tr class="js_goods_' + obj[i]['id'] + '"   id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '" data-stock="' + obj[i]['stock'] + '" data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['title'] + '">';
+                    outofstock += '<tr class="js_goods_' + obj[i]['id'] + '"  data-negative="' + obj[i]['negative'] + '" id="js_goods_' + obj[i]['id'] + '" data-id="' + obj[i]['id'] + '" data-price="' + obj[i]['price'] + '" data-stock="' + obj[i]['stock'] + '" data-indexpic="' + obj[i]['indexpic'] + '" data-name="' + obj[i]['title'] + '">';
                     outofstock += '<td align="left"  id="good-li-' + obj[i]['id'] + '">';
                     outofstock += '<div style="line-height: 20px;color: red;text-align: center;">out of stock</div>';
                     outofstock += '</td>';
@@ -568,7 +572,7 @@ function submitOrder(){
         return false;
     }
     for(var i in myfood_array){
-        if(parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
+        if(myfood_array[i]['negative'] !=1 && parseInt(myfood_array[i]['amount'])>parseInt(myfood_array[i]['stock'])){
             clearpopj('Insufficient stock for '+myfood_array[i]['name'], "error",true);
             subBlock = false;//解除阻塞
             return false;
