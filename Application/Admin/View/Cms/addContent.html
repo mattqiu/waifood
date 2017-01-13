@@ -165,7 +165,7 @@
                     <if condition="isset($db['good_type']) && $db['good_type'] gt 0">
                         <button style="margin:5px 0 0 15px;overflow: hidden;" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
                     <else/>
-                        <button style="margin:5px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
+                        <button style="margin:5px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn selgroupgoodbtn2" onclick="selectGood()">添加</button>
                     </if>
                     <div class="clr"></div>
                     <table border="0" style="width: 100%;" class="mytables" id="goods_box">
@@ -347,6 +347,21 @@
             var $id = $(this).data('id');
             if($id){
                 addgood($id);
+            }
+        })
+
+        /****************************************商品类型选择***************************/
+        $('#infoform input[name=good_type]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+            if($(this).data('value')==2){ //组合商品
+                $('#infoform input[name=stock]').val(0);
+                $('#infoform input[name=stock]').css('background','#e0e0e0')
+                selectOk($(this).data('value'));
+                $('#goods_box').show();
+                $('.selgroupgoodbtn2').show();
+            }else{
+                $('#infoform input[name=stock]').css('background','#fbfbfb')
+                $('#goods_box').hide();
+                $('.selgroupgoodbtn2').hide();
             }
         })
     })

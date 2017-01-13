@@ -63,19 +63,7 @@ $('#infoform input[name=short_name]').keyup(function(){
         $('#infoform input[name=pinyin]').val('');
     }
 })
-/****************************************商品类型选择***************************/
-$('#infoform input[name=good_type]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
-    if($(this).data('value')==2){ //组合商品
-        $('#infoform input[name=stock]').val(0);
-        $('#infoform input[name=stock]').css('background','#e0e0e0')
-        selectOk($(this).data('value'));
-        $('#goods_box').show();
-        $('.selgroupgoodbtn').show();
-    }else{
-        $('#goods_box').hide();
-        $('.selgroupgoodbtn').hide();
-    }
-})
+
 
 /********************************可负销售判读*****************************************/
 $('#infoform input[name=negative]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
