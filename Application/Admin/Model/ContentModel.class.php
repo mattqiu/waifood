@@ -167,10 +167,9 @@ class ContentModel extends Model {
     /**
      * 判断组合或复合商品的子商品是否支持可负销售
      * @param $groupid
-     * @param $goodType
      * @return int
      */
-    public static function checkNegativeSold($groupid,$goodType){
+    public static function checkNegativeSold($groupid){
         if(!empty($groupid) && strpos($groupid,',')>0){
             $idsArr =array_filter(explode('|',$groupid));
             $data = array();
@@ -182,20 +181,12 @@ class ContentModel extends Model {
                     $data[$key]['negative']=$goods['negative'];
                 }
             }
-            if($goodType == self::COMPOSITE_GOODS){
-                if($data[0]['negative'] == self::CAN_NEGATIVE_AOLD){
-                    return true;
-                }else{
-                    return $data[0]['id'];
-                }
-            }elseif($goodType == self::COMBINATION_OF_GOODS){
-                //按negative数字从小到大排序（组合商品的可负状态取决子商品是否支持）
-                $datanew = myArraySort($data,'negative',SORT_ASC);
-                if($datanew[0]['negative'] == self::CAN_NEGATIVE_AOLD){
-                    return true;
-                }else{
-                    return $datanew[0]['id'];
-                }
+            //按negative数字从小到大排序（组合商品的可负状态取决子商品是否支持）
+            $datanew = myArraySort($data,'negative',SORT_ASC);
+            if($datanew[0]['negative'] == self::CAN_NEGATIVE_AOLD){
+                return true;
+            }else{
+                return $datanew[0]['id'];
             }
         }
     }
@@ -225,9 +216,6 @@ class ContentModel extends Model {
             $info = M('Channel')->getById($data['pid']);
             $sortpath = $info ['sortpath'];
             $data['sortpath']=$sortpath;
-            if(isset($data['good_type']) && $data['good_type'] !=self::GENERAL_GOODS && isset($data['group_id']) && $data['group_id']){
-                $data['stock'] = self::getGroupStock($data['group_id'],$data['good_type']) ; //获取复合、组合商品的库存
-            }
             $data['sort']=$data['name'];
             $data['addip']=get_client_ip();
             $data['supplyname']=get_cate($data['supplyid'],'supply');
@@ -239,32 +227,5 @@ class ContentModel extends Model {
         }
     }
 
-    /**
-     * 根据组合商品的id获取组合商品的库存
-     * @param $groupid
-     * @return int
-     */
-    public static function getGroupStock($groupid,$goodType){
-        if(!empty($groupid) && strpos($groupid,',')>0){
-            $idsArr =array_filter(explode('|',$groupid));
-            $data = array();
-            foreach($idsArr as $key=>$val){
-                $idarr =array_filter(explode(',',$val));
-                if(regex($idarr[0],'number')){
-                    $goods=\Admin\Model\ContentModel::getContentById($idarr[0]);
-                    $data[$key]['stock']=intval($goods['stock']/$idarr[1]);
-                }
-            }
-            if($goodType == self::COMPOSITE_GOODS){
-                return intval($data[0]['stock']);
-            }elseif($goodType == self::COMBINATION_OF_GOODS){
-                //按照库存从小到大排序（组合商品的库存由子商品库存数最小的决定）
-                $datanew = myArraySort($data,'stock',SORT_ASC);
-                return $datanew[0]['stock'];
-            }
-        }else{
-            return 0;
-        }
-    }
 
 }

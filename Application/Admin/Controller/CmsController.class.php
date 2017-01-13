@@ -6,6 +6,7 @@ use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
 use Common\Model\CodeModel;
 use Common\Model\DiscountModel;
+use Common\Model\GoodsGroupModel;
 use Common\Model\GoodsAttrModel;
 use Common\Model\OrderModel;
 
@@ -776,22 +777,34 @@ class CmsController extends BaseController {
         $data = I('post.');
         $id = I('post.id');
         //组合、复合商品重新计算库存
-        if(isset($data['good_type']) && $data['good_type'] != ContentModel::GENERAL_GOODS && isset($data['group_id']) && $data['group_id']){
+        if(isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS && isset($data['group_id']) && $data['group_id']) {
             //判断是否支持可负销售
-            if($data['negative'] == ContentModel::CAN_NEGATIVE_AOLD ){ //设置可负销售
-                if(true !== $rs =  ContentModel::checkNegativeSold($data['group_id'],$data['good_type'])){
-                    apiReturn(CodeModel::ERROR,'商品ID:'.$rs.'   不支持可负销售');
+            if ($data['negative'] == ContentModel::CAN_NEGATIVE_AOLD) { //设置可负销售
+                if (true !== $rs = ContentModel::checkNegativeSold($data['group_id'])) {
+                    apiReturn(CodeModel::ERROR, '商品ID:' . $rs . '   不支持可负销售');
                 };
             }
-            $data['stock'] = ContentModel::getGroupStock($data['group_id'],$data['good_type']) ; //获取复合、组合商品的库存
         }
 
+        $group = $data['group_id'];
+       // GoogsGroupModel::getGroupStock($group,$id);
+        unset($data['group_id']);
         if(regex($id,'number')){ //修改商品
             if(ContentModel::modifyContent($id,$data)){
+                if(!empty($group) && isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS ){
+                    $data = array();
+                    $data['stock'] =  GoodsGroupModel::getGroupStock($group,$id);
+                    ContentModel::modifyContent($id,$data);
+                }
                 apiReturn(CodeModel::CORRECT,'编辑成功！');
             }
         }else{//新增商品
-            if(ContentModel::addContent($data)){
+            if($id = ContentModel::addContent($data)){
+                if(!empty($group) && isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS ){
+                    $data = array();
+                    $data['stock'] =  GoodsGroupModel::getGroupStock($group,$id);
+                    ContentModel::modifyContent($id,$data);
+                }
                 apiReturn(CodeModel::CORRECT,'添加成功！');
             }
         }
@@ -981,8 +994,8 @@ class CmsController extends BaseController {
             $this->assign ( "origin", $origin );
             $this->assign ( "storage", $storage );
 			$db = M ( "content" )->find ( $id );
-            if($db['group_id']){
-                $db['child'] = \Common\Model\ContentModel::getGroupInfo($db['group_id']);
+            if($db['id']){
+                $db['child'] =  GoodsGroupModel::getGoodsChild($db['id']);
             }
 			$this->assign ( "db", $db );
 			$where = array();
@@ -995,7 +1008,6 @@ class CmsController extends BaseController {
 			// 输出门店列表
 			$list = M ( "Shop" )->order ( 'sort asc' )->select ();
 			$this->assign ( "shoplist", $list );
-
 
 			// 输出当前channel列表
 			$list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
@@ -1014,6 +1026,18 @@ class CmsController extends BaseController {
             $this->display ('addContent');
 		}
 	}
+
+    public function delgoodsgroup(){
+        $id = I('post.pid');
+        if(regex($id,'number')){
+            if(GoodsGroupModel::delGoodsChild($id)){
+                apiReturn(CodeModel::CORRECT);
+            }else{
+                apiReturn(CodeModel::ERROR,'删除失败');
+            }
+        }
+        apiReturn(CodeModel::ERROR,'删除失败');
+    }
 
 	// 删除内容
 	public function deleteContent($id) {

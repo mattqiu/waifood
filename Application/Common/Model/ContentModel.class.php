@@ -13,6 +13,9 @@ class ContentModel extends Model {
     const CAN_NEGATIVE_AOLD = 1;//支持可负销售
     const CANNOT_NEGATIVE_AOLD = 0;//不支持可负销售
 
+    const SHELVES = 1;//上架
+    const SOLD_OUT = 0;//下架
+
 
     /**根据分组获取商品
      * @param $group
@@ -92,12 +95,8 @@ class ContentModel extends Model {
     public static function isGroupGoods($goodId){
         if(regex($goodId,'number')){
             $goods = \Admin\Model\ContentModel::getContentById($goodId);
-            if(!empty($goods) &&  $goods['group_id'] != self::GENERAL_GOODS){
-                if(strpos($goods['group_id'],',')>0){
-                    return $goods['group_id'];
-                }else{ //是组合或复合商品，但格式不正确的
-                    return false;
-                }
+            if(!empty($goods) &&  $goods['good_type'] == self::COMBINATION_OF_GOODS){
+                return true;
             }else{
                 return false;
             }
@@ -146,29 +145,58 @@ class ContentModel extends Model {
      * @param $goodsId
      * @param $soldnum
      */
-    public  static function modifyGoodsStockAndSold($goodsId,$soldnum,$resold = false,$status=0){
+    public  static function modifyGoodsStockAndSold($goodsId,$soldnum,$resold = 0,$type=OrderModel::CAT_STOCK){
+        //退库存数量相反
+        if($type==OrderModel::RET_STOCK){
+            $soldnum = -intval($soldnum);
+            $resold = -intval($resold);
+        }
         if(regex($goodsId,'number') && is_number($soldnum)){
             $con['id'] = $goodsId;
-            M('content')->where($con)->setDec('stock',$soldnum);//减库存
-            M('content')->where($con)->setInc('sold',$soldnum);//加销量
-            if($resold == true){
-                M('content')->where($con)->setInc('re_sold',$soldnum);//加组合销量
+            M('content')->where($con)->setDec('stock',$soldnum);//库存
+            M('content')->where($con)->setInc('sold',$soldnum);//销量
+            if($resold !==0){
+                M('content')->where($con)->setInc('re_sold',$soldnum);//组合销量
             }
-            if($status===0){
-                //库存小于1的商品自动下架
+            //库存小于1的商品自动下架
+            if($type===OrderModel::CAT_STOCK){
                 $con = array();
                 $con['stock'] = array('lt',1);
-            }else{
-                //大于1的上架
+                $data['status'] = self::SOLD_OUT;
+            }else{//库存大于1的上架
                 $con['stock'] = array('gt',0);
+                $data['status'] = self::SHELVES;
             }
-            $data['status'] = $status;
             M('content')->where($con)->save($data);
         }else{
             GLog('order cat stock','商品ID.'.$goodsId.'.减库存、加销量时参数错误;num='.$soldnum);
         }
     }
 
+    /**
+     * 当有商品卖出时判断该商品是否被组合，如果被组合了，重新设置重合商品的库存
+     * @param $goodsid
+     */
+    public static function reGetGoodsStock($goodsid){
+        $sql = 'SELECT distinct parentid from my_goods_group where `productid` ='.$goodsid;
+        $parentid = M ()->execute ($sql );
+        if(!empty($parentid)){
+            $data = array();
+            //一个商品有可能被多个组合商品组合
+            foreach ( $parentid as $key => $val) {
+                $groupgoods=GoodsGroupModel::delGoodsChild($val['parentid']);
+                foreach($groupgoods as $k=>$v){
+                    $good = \Admin\Model\ContentModel::getContentById($v['productid']);
+                    $data[$key]['stock']=intval($good['stock']/$v['num']);
+                }
+                //按negative数字从小到大排序（组合商品的库存取决于子商品最小库存）
+                $datanew = myArraySort($data,'negative',SORT_ASC);
+                $savedata['stock'] =$datanew[0]['stock'];
+                \Admin\Model\ContentModel::modifyContent($val['parentid'],$savedata);
+            }
+
+        }
+    }
 }
 
 ?>

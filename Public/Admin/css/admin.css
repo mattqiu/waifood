@@ -20,6 +20,8 @@ input.input_text2, textarea.textarea_text2{width: 308px}
 .mytables td,.mytables th{border:1px solid #EEEEEE; padding:0 1em 0;}
 
 /******************************添加商品***************************/
+#goods_box{ margin:15px 0 0 0;}
+#goods_box td{ height:34px; line-height: 35px;padding: 0;margin:0}
 .contentform{margin-top: 5px;padding: 0}
 .contentform .idealselect li{width: 313px;}
 .goods_status_sel .idealselect li{width: 85px;}

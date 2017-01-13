@@ -23,8 +23,8 @@ class OrderController extends AuthController
         $where['userid'] = get_userid();
         $order = M('order')->where($where)->find();
         if (! $order == false) {
-            OrderModel::returnInventory($orderno);
-//            M('order')->where($where)->setField('status', 4);
+            OrderModel::modifyStockAndSoldForOrder($orderno,OrderModel::RET_STOCK);//退库存减销量
+            M('order')->where($where)->setField('status', 4);
 //            set_order_onoff($orderno,1);
             apiReturn(CodeModel::CORRECT,'Successful.');
         }else {
