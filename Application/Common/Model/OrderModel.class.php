@@ -138,7 +138,7 @@ class OrderModel extends Model{
         $orderid = M ( 'order' )->add ( $data );
         if ($orderid != false) {
              self::createOrderDetail($orderdata,$orderno,$userId,$data['status']);//添加订单详情
-             self::modifyStockAndSoldForOrder($orderdata);//减去库存
+             self::modifyStockAndSoldForOrder($orderno);//减去库存
              self::sendEmail($orderno,$userId);
             return $orderno;
         }else {
@@ -172,6 +172,10 @@ class OrderModel extends Model{
                     ContentModel::modifyGoodsStockAndSold($val['productid'],intval($val['num']),0,$type);
                 }else{ //正常商品的操作
                      ContentModel::modifyGoodsStockAndSold($val['productid'],intval($val['num']),0,$type);
+                }
+                //如果该商品被组合商品组合，重新计算组合商品的库存，
+                if( GoodsGroupModel::isGroupChildGoods($val['productid'])){
+                    GoodsGroupModel::resetGroupGoodsStock($val['productid']);
                 }
             }
         }

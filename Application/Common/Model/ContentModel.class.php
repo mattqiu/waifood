@@ -163,6 +163,7 @@ class ContentModel extends Model {
                 $con = array();
                 $con['stock'] = array('lt',1);
                 $data['status'] = self::SOLD_OUT;
+                $data['under_time'] = date('Y-m-d H:i:s');//下架时间
             }else{//库存大于1的上架
                 $con['stock'] = array('gt',0);
                 $data['status'] = self::SHELVES;

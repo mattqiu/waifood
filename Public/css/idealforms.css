@@ -249,6 +249,8 @@ li{list-style-type: none;}
     margin-bottom: .6em;
 }
 .idealform .idealradio span, .idealform .idealcheck span {
+    position: relative;
+    top: 3px;
     display: inline-block;
     vertical-align: top;
     width: 1em;

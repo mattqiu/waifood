@@ -52,6 +52,51 @@ class GoodsGroupModel extends Model {
     }
 
     /**
+     * 判断是否是被组合的子商品
+     * @param $productid
+     * @return bool
+     */
+    public static function isGroupChildGoods($productid){
+        if(regex($productid,'number')){
+            $con['productid'] = $productid;
+            $data =  M('goods_group')->where($con)->select();
+            if(!empty($data)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 根据商品id 获取组合商品并重新设置组合商品的库存
+     * @param $productid
+     * @return bool
+     */
+    public static function resetGroupGoodsStock($productid){
+        if(regex($productid,'number')){
+            $con['productid'] = $productid;
+            $data =  M('goods_group')->where($con)->select();
+            if(!empty($data)){
+                foreach($data as $key=>$val){
+                    if($val['parentid']){
+                       if($stock = self::getGroupStockByParentId($val['parentid'])){
+                           $savedata['stock'] = $stock;
+                           \Admin\Model\ContentModel::modifyContent($val['parentid'],$savedata); //重新设置组合商品的库存
+                       }
+                    }
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    /**
      * 根据组合商品的id获取组合商品的库存
      * @param $groupid
      * @return int

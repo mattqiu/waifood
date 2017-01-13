@@ -148,7 +148,7 @@ class ContentModel extends Model {
     public static function modifyContent($id,$data){
         if(regex($id,'number') && !empty($data)){
             $con['id'] = $id;
-            $data['under_time'] = date('Y-m-d H:i:s');
+            $data['update_time'] = date('Y-m-d H:i:s');
             if(isset($data ['pid']) && $data ['pid']){
                 $info = M ( 'channel' )->getById ( $data ['pid'] );
                 $data['sortpath']= $info ['sortpath'];

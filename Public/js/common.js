@@ -506,22 +506,6 @@ function flyCart(event,id,page){
 }
 
 /**
- * 自定义select 设置选中
- * @param obj
- * @param $val
- */
-function setSelectSelected(obj,$val){
-    if($val){
-        $(obj).val($val);
-        $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
-            if($val == $(this).data('value')){
-                $(obj).siblings('input[type=text]').val($(this).text());
-            }
-        })
-    }
-}
-
-/**
  * 获取优惠折扣
  * @param amount
  * @returns {number}

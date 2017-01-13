@@ -46,92 +46,6 @@ var setMinWidth = function (el) {
             $labels = $idealform.find('div').children('label').addClass('main-label');
             $labels.filter('.required').prepend('<span>*</span>');
             setMinWidth($labels);
-
-            /* ---------------------------------------
-             Select
-             ----------------------------------------*/
-            //var Idealselect = function (select) {
-            //
-            //    var that = this;
-            //
-            //    // Build markup
-            //    that.build = function () {
-            //        var $options,
-            //            $selected,
-            //            _options = '',
-            //            output;
-            //        $options = select.find('option');
-            //        $selected = $options.filter(':selected');
-            //        $options.each(function () {
-            //            _options += '<li><a href="#">' + $(this).text() + '</a></li>';
-            //        });
-            //        output =
-            //            '<ul class="idealselect">' +
-            //            '<li>' +
-            //            '<a href="#" class="idealselect-title">' + $selected.text() + '<span><small></small></span></a>' +
-            //            '<ul>' + _options + '</ul>' +
-            //            '</li>' +
-            //            '</ul>';
-            //        return output;
-            //    };
-            //
-            //    that.el = $(that.build()); // Wrap in jquery object
-            //    that.title = that.el.find('.idealselect-title');
-            //    that.menu = that.el.find('ul');
-            //    that.items = that.menu.find('a');
-            //
-            //    // Events
-            //    that.events = {
-            //        open : function () {
-            //            that.el.addClass('open');
-            //            that.menu.show();
-            //        },
-            //        close : function () {
-            //            that.el.removeClass('open');
-            //            that.menu.scrollTop(0);
-            //            that.menu.hide();
-            //        },
-            //        change : function () {
-            //            var idx = $(this).parent().index();
-            //            that.title.text($(this).text()).append('<span><small></small></span>');
-            //            select.find('option').eq(idx).attr('selected', 'selected');
-            //            select.trigger('change');
-            //            that.events.close();
-            //        }
-            //    };
-            //
-            //    // Initializate
-            //    that.init = function () {
-            //
-            //        // Calculate width & height and insert idealselect
-            //        var $idealselect = that.el.insertAfter(select),
-            //            $items = $idealselect.find('ul a'),
-            //            $menu = $idealselect.find('ul'),
-            //            setWidth = function () {
-            //                $menu.width($idealselect.width());
-            //                $idealselect.width($menu.outerWidth());
-            //            };
-            //        if ($items.length > 10) {
-            //            setWidth();
-            //            $menu.height($items.outerHeight() * 10);
-            //        } else {
-            //            setWidth();
-            //            $menu.css('overflow', 'hidden');
-            //        }
-            //        that.menu.hide();
-            //
-            //        // Bind events
-            //        that.el.find('a').click(function (e) {
-            //            e.preventDefault();
-            //        });
-            //        that.el.on('mouseleave', that.events.close);
-            //        that.title.on('click', that.events.open);
-            //        that.menu.on('mouseleave', that.events.close);
-            //        that.items.on('click', that.events.change);
-            //
-            //    };
-            //};
-
             // Create & Insert all idealselects
             $selects = $idealform.find('.idealforms_select_obj');
             // Create & Insert all idealselects
@@ -197,3 +111,34 @@ var setMinWidth = function (el) {
 
     };
 })(jQuery);
+
+
+/**
+ * 自定义select 设置选中
+ * @param obj
+ * @param $val
+ */
+function setSelectSelected(obj,$val){
+    if($val){
+        $(obj).val($val);
+        $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
+            if($val == $(this).data('value')){
+                $(obj).siblings('input[type=text]').val($(this).text());
+            }
+        })
+    }
+}
+
+/**
+ * 自定义select 设置选中
+ * @param obj
+ * @param $val
+ */
+function setRadioCheck(obj,$val){
+    $(obj).each(function(){
+        if($val ==$(this).val()){
+            $(this).attr('checked',true);
+            $(this).siblings('span[class=radio]').addClass('checked');
+        }
+    })
+}
