@@ -97,24 +97,10 @@
                 <span style="margin-left: 34px;">保质期：</span><input type="text" name="shelf_life"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"  class="input_text4"  value="{$db.shelf_life}" />(天)
                 <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date" id="expire_date" class="input_text3"  value="{$db.expire_date}" />
             </td>
-            <td colspan="2">
-                <span class="fl"  style="margin-left: 35px;position: relative;top:7px;"> 产地（国家）</span>
-                <div class="idealforms_select fl"  style="width: 150px;">
-                    <div class="idealforms_select_obj">
-                        <input type="hidden" value="" name="origin_id">
-                        <input type="text" value="" readonly>
-                        <span class="caret"></span>
-                    </div>
-                    <ul class="idealforms_select_menu">
-                        <li data-value="0">--选择产地--</li>
-                        <volist name="origin" id="vo">
-                            <li data-value="{$vo.id}" >{$vo.namecn}</li>
-                        </volist>
-                    </ul>
-                </div>
 
-                <span class="fl" style="position: relative;top:7px; left: 8px;"> 可负销售：</span>
-                <div class="idealforms_select fl" style="width: 90px;;">
+            <td width="110"  align="right">可负销售：</td>
+            <td width="300">
+                <div class="idealforms_select fl" >
                     <div class="idealforms_select_obj" >
                         <input type="hidden" value="" name="negative">
                         <input type="text" value="" readonly>
@@ -126,6 +112,8 @@
                     </ul>
                 </div>
             </td>
+
+
         </tr>
         <tr>
             <td width="110" align="right" >保存方法：</td>
@@ -144,8 +132,25 @@
                     </ul>
                 </div>
             </td>
-            <td width="110"  align="right">品牌：</td>
-            <td width="300"><input type="text" name="brand"  class="input_text2"  value="{$db.brand}" /></td>
+            <td colspan="2">
+                <span class="fl"  style="margin-left: 35px;position: relative;top:7px;"> 产地（国家）</span>
+                <div class="idealforms_select fl"  style="width: 120px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="origin_id">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择产地--</li>
+                        <volist name="origin" id="vo">
+                            <li data-value="{$vo.id}" >{$vo.namecn}</li>
+                        </volist>
+                    </ul>
+                </div>
+                <span class="fl"  style="margin-left: 41px;position: relative;top:7px;">品牌：</span>
+                <input type="text" name="brand"  class="input_text3"  value="{$db.brand}" />
+
+            </td>
         </tr>
         <tr>
             <if condition="empty($db) || $db['good_type'] gt 0">
@@ -364,6 +369,19 @@
                 $('.selgroupgoodbtn2').hide();
             }
         })
+
+        /****************************************输入中文时获取中文对应的拼音首字母***************************/
+        $('#infoform input[name=short_name]').keyup(function(){
+            var str = $(this).val().trim();
+            if(str){
+                var arrRslt = makePy(str);
+                $('#infoform input[name=pinyin]').val(arrRslt);
+            }else{
+                $('#infoform input[name=pinyin]').val('');
+            }
+        })
+
+
     })
 
     function selectGood(){

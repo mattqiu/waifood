@@ -53,17 +53,6 @@ $('#language_tab li').click(function(){
         $('#content_box .content_en').show();
     }
 })
-/****************************************输入中文时获取中文对应的拼音首字母***************************/
-$('#infoform input[name=short_name]').keyup(function(){
-    var str = $(this).val().trim();
-    if(str){
-        var arrRslt = makePy(str);
-        $('#infoform input[name=pinyin]').val(arrRslt);
-    }else{
-        $('#infoform input[name=pinyin]').val('');
-    }
-})
-
 
 /********************************可负销售判读*****************************************/
 $('#infoform input[name=negative]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
