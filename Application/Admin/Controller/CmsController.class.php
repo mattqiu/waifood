@@ -1982,11 +1982,17 @@ class CmsController extends BaseController {
             }
         }
     }
-
+    //折扣
     public function discount(){
         $list = DiscountModel::getAllDiscount();
         $this->assign('list',$list);
         $this->display ();
     }
+
+    //库存关系
+    public function stockInfo(){
+        $this->display ('stock_info');
+    }
+
 }
 ?>

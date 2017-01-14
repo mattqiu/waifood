@@ -230,5 +230,25 @@ function set_url($p = '', $v = '')
     return U(CONTROLLER_NAME . '/' . ACTION_NAME, $param);
 }
 
+/**
+ * 获取时间
+ * @param $range after
+ * @return bool
+ */
+function  getStimeAndETime($range,$type='before'){
+    if(regex($range,'number')){
+        if($type == 'before'){
+            $data['stime'] = date("Y-m-d",strtotime("-$range day"));
+            $data['etime'] = date('Y-m-d',strtotime("-1 day"));
+        }else{
+            $data['stime'] = date('Y-m-d');
+            $data['etime'] = date("Y-m-d",strtotime("+$range day"));
+        }
+        return $data;
+    }else{
+        return false;
+    }
+}
+
 
 ?>
