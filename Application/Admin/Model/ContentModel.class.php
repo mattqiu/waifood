@@ -165,9 +165,9 @@ class ContentModel extends Model {
                 //库存小于1的商品自动下架
                 $con = array();
                 $con['stock'] = array('lt',1);
-                $data['status'] = 0;
-                $data['under_time'] = date('Y-m-d H:i:s');//下架时间
-                M('content')->where($con)->save($data);
+                $savedata['status'] = 0;
+                $savedata['under_time'] = date('Y-m-d H:i:s');//下架时间
+                M('content')->where($con)->save($savedata);
                 return true;
             }else{
                 return false;
