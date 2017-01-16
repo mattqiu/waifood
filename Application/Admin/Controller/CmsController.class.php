@@ -708,14 +708,14 @@ class CmsController extends BaseController {
         if (is_number($_REQUEST['good_type'])) {
 			$where ['good_type'] = $_REQUEST['good_type'];
 		}
-        if (!empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==1) {
+        if ((!isset($_REQUEST['ranktype']) || empty($_REQUEST['ranktype'])) || !empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==1) {
             $order = 'update_time ';
         }elseif(!empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==2){
             $order = 'id ';
         }else{
             $order = 'sold ';
         }
-        if (!empty($_REQUEST['rank']) && $_REQUEST['rank'] =='desc') {
+        if ((!isset($_REQUEST['rank']) || empty($_REQUEST['rank'])) ||!empty($_REQUEST['rank']) && $_REQUEST['rank'] =='desc') {
             $order.='desc';
 		}else{
             $order.='asc';
