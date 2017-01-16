@@ -367,30 +367,32 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
                             if(!empty($data[$v['productid']])){ //既买了组合商品包含的子商品又单独买了该子商品
                                 $number =  ($val['num']*$v['num'])+$data[$v['productid']]['num'];//总数=组合份数*子商品组合数+单独购买数
                                 //组合的子商品库存大于总购买数，或者该商品、子商品是可负销售
-                                if($v['stock']< $number && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD && $goods['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
+                                if($v['stock']< $number && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD
+                                    && $goods['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
                                     //子商品库存不足时，重新获取组合商品库存
                                     //子商品库存不足时，重新获取组合商品库存
                                     if($savedata['stock'] =  GoodsGroupModel::getGroupStockByParentId($val['id'])){
                                         \Admin\Model\ContentModel::modifyContent($val['id'],$savedata);
                                     }
-                                    apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']'.$val['id']);
+                                    apiReturn(CodeModel::ERROR,"The stock is insufficient, we will try to have it soon.[".$product['title']."]");
                                     break;
                                 }
                             }else{//组合商品包含的子商品没有被单独购买
                                 $number = ($val['num']*$v['num']); //总数=组合份数*子商品组合数
-                                if($v['stock']< $number && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD && $goods['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
+                                if($v['stock']< $number && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD
+                                    && $goods['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
                                     //子商品库存不足时，重新获取组合商品库存
                                     if($savedata['stock'] =  GoodsGroupModel::getGroupStockByParentId($val['id'])){
                                         \Admin\Model\ContentModel::modifyContent($val['id'],$savedata);
                                     }
-                                    apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']'.$val['id']);
+                                    apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.['.$product['title'].']');
                                     break;
                                 }
                             }
                         }
                     }else{
                         if($product['stock']<$val['true_num'] && $product['negative'] != ContentModel::CAN_NEGATIVE_AOLD){
-                            apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']'.$val['id']);
+                            apiReturn(CodeModel::ERROR,'The stock is insufficient, we will try to have it soon.['.$product['title'].']');
                             break;
                         }
                     }
@@ -399,7 +401,7 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
                     //检查提交数量大于库存数的，（可负销售商品除外）
 
                 }else{ //商品下架了
-                    apiReturn(CodeModel::ERROR,$val['id'].'The stock is insufficient, we will try to have it soon.[#'.$product['title'].']');
+                    apiReturn(CodeModel::ERROR,$val['id'].'The stock is insufficient, we will try to have it soon.['.$product['title'].']');
                     break;
                 }
             }
