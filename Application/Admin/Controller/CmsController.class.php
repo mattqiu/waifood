@@ -720,7 +720,6 @@ class CmsController extends BaseController {
 		}else{
             $order.='asc';
         }
-
 		// 输出当前Content列表
 		if(isset($rootid)){
 			$where['sortpath'][]= array('like','%,'.$rootid.',%');
@@ -749,11 +748,10 @@ class CmsController extends BaseController {
 //		$this->assign ( "keyword", $keyword );
 //		$this->assign ( "status", $status );
 //		$this->assign ( "searchtype", $searchtype );
-		$this->assign ( "rootid", $rootid );
 
         $where=array();
         // 输出分类
-        if(isset($rootid)){
+        if(!empty($rootid)){
             $where['sortpath']= array('like','%,'.$rootid.',%');
         }
         $where['id']=get_role();
@@ -765,6 +763,7 @@ class CmsController extends BaseController {
         $where['status']=1;
         $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
         $this->assign ( "supplylist", $list );
+        $this->assign ( "rootid", $rootid );
 
 		if($rootid==1){
 		$this->display('content1');	
