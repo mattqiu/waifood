@@ -55,36 +55,36 @@
 
     <div class="clr" style="position: relative;top:10px;">
         <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;</span>
-        <ul>
+        <ul style="margin-left: 3px;">
             <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
             <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
             <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
         </ul>
-        <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状态:&nbsp;</span>
-        <ul>
+        <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:&nbsp;</span>
+        <ul style="margin-left: 3px;">
             <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
             <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
             <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
         </ul>
 
-        <span class="fl" style="margin-left: 179px;position: relative;top: 5px;">更新日期:</span>
+        <span class="fl" style="margin-left: 142px;position: relative;top: 5px;">更新日期:&nbsp;</span>
         <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
         <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
         <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
     </div>
     <div class="clr" style="position: relative;top: 10px;">
         <span class="fl" style="position: relative;top: 3px;">排序方式:&nbsp;</span>
-        <ul>
+        <ul style="margin-left: 3px;">
             <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
             <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
         </ul>
-        <span class="fl tr" style="margin-left: 155px;position: relative;top: 5px;">类型:&nbsp;</span>
+        <span class="fl tr" style="margin-left: 155px;position: relative;top: 5px;">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:&nbsp;</span>
         <ul>
             <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
             <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
             <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
         </ul>
-        <div class='fl' style="margin:5px 0 0 180px;">
+        <div class='fl' style="margin:5px 0 0 148px;">
             <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>
         </div>
     </div>
