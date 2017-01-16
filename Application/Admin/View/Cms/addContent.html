@@ -153,48 +153,46 @@
             </td>
         </tr>
         <tr>
-            <if condition="empty($db) || $db['good_type'] gt 0">
-                <td colspan="4">
-                    <span class="fl" style="margin-left: 20px;position: relative;top: 7px;">商品类型：</span>
-                    <div class="idealforms_select fl">
-                        <div class="idealforms_select_obj" >
-                            <input type="hidden" value="" name="good_type">
-                            <input type="text" value="" readonly>
-                            <span class="caret"></span>
-                        </div>
-                        <ul class="idealforms_select_menu">
-                            <li data-value="0">正常商品</li>
-                            <li data-value="2">组合商品</li>
-                        </ul>
+            <td colspan="4">
+                <span class="fl" style="margin-left: 20px;position: relative;top: 7px;">商品类型：</span>
+                <div class="idealforms_select fl">
+                    <div class="idealforms_select_obj" >
+                        <input type="hidden" value="" name="good_type">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
                     </div>
-                    <if condition="isset($db['good_type']) && $db['good_type'] gt 0">
-                        <button style="margin:5px 0 0 15px;overflow: hidden;" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
-                    <else/>
-                        <button style="margin:5px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn selgroupgoodbtn2" onclick="selectGood()">添加</button>
-                    </if>
-                    <div class="clr"></div>
-                    <table border="0" style="width: 100%;" class="mytables" id="goods_box">
-                        <tr >
-                            <th>商品ID</th>
-                            <th>商品名</th>
-                            <th>数量</th>
-                            <th>操作</th>
-                        </tr>
-                        <tbody id="good_type_info">
-                            <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
-                                <volist name="db['child']" id="vo">
-                                    <tr align="center" id="js_goods_{$vo['productid']}" data-id="{$vo['productid']}" data-name="{$vo['title']}" data-num="{$vo['num']}" class="js_goods_li">
-                                        <td>{$vo['productid']}</td>
-                                        <td align="left"><a href="/Admin/Cms/editContent/id/{$vo['productid']}.html">{$vo['title']}</a></td>
-                                        <td><input type="text" name="num" class="input_text3" value="{$vo['num']}" /></td>
-                                        <td><button class="fr" onclick="delSelGood('{$vo.productid}','{$vo.id}')">删除</button></td>
-                                    </tr>
-                                </volist>
-                            </if>
-                        </tbody>
-                    </table>
-                </td>
-            </if>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">正常商品</li>
+                        <li data-value="2">组合商品</li>
+                    </ul>
+                </div>
+                <if condition="isset($db['good_type']) && $db['good_type'] gt 0">
+                    <button style="margin:0px 0 0 15px;overflow: hidden;" class="fl selgroupgoodbtn" onclick="selectGood()">添加</button>
+                <else/>
+                    <button style="margin:0px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn selgroupgoodbtn2" onclick="selectGood()">添加</button>
+                </if>
+                <div class="clr"></div>
+                <table border="0" style="width: 100%;" class="mytables" id="goods_box">
+                    <tr >
+                        <th>商品ID</th>
+                        <th>商品名</th>
+                        <th>数量</th>
+                        <th>操作</th>
+                    </tr>
+                    <tbody id="good_type_info">
+                        <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
+                            <volist name="db['child']" id="vo">
+                                <tr align="center" id="js_goods_{$vo['productid']}" data-id="{$vo['productid']}" data-name="{$vo['title']}" data-num="{$vo['num']}" class="js_goods_li">
+                                    <td>{$vo['productid']}</td>
+                                    <td align="left"><a href="/Admin/Cms/editContent/id/{$vo['productid']}.html">{$vo['title']}</a></td>
+                                    <td><input type="text" name="num" class="input_text3" value="{$vo['num']}" /></td>
+                                    <td><button class="fr" onclick="delSelGood('{$vo.productid}','{$vo.id}')">删除</button></td>
+                                </tr>
+                            </volist>
+                        </if>
+                    </tbody>
+                </table>
+            </td>
         </tr>
         <tr>
             <td width="110" align="right"  >内部备注：</td>
