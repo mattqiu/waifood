@@ -11,10 +11,7 @@ class ProductSoldModel extends Model {
         $where['o.status'] = array('lt',OrderModel::CANCELLED); //获取
         $field = 'od.productid,od.addtime,SUM(od.num) as sold';
         $data = M('order_detail')->alias('od')->join("my_order as o on od.orderno = o.orderno")
-            ->where($where)->field($field)->group('od.addtime')->select();
-        dump(M()->_sql());
-        dump($data);
-exit;
+            ->where($where)->field($field)->group('od.productid')->select();
         if(!empty($data)){
             foreach($data as $val){
                 $val['sold'] = intval($val['sold']);
@@ -23,8 +20,17 @@ exit;
         }
     }
 
+    public static function getProductSalesByCon($con){
+        if(!empty($con)){
+            return M('product_sales')->where($con)->select();
+        }else{
+            return false;
+        }
+    }
+
     public static function addProductSales($data){
         if(!empty($data)){
+
             return M('product_sales')->add($data);
         }else{
             return false;
