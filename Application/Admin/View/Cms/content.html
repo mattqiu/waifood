@@ -90,8 +90,8 @@
     </div>
 </form>
 <div class="dot"></div>
-<table border="0"class="mytables">
-    <tr class="table_head">
+<table border="0"class="mytables" style="width: 100%;">
+    <tr class="table_head" style="width: 100%;">
         <th width="60">ID</th>
         <th>标题</th>
         <th>分类</th>
@@ -103,7 +103,7 @@
         <th width="35">可负</th>
         <th width="55">排序</th>
         <th width="50">状态</th>
-        <th width="90">操作</th>
+        <th width="100">操作</th>
     </tr>
     <volist id="vo" name="list">
         <tr ondblclick="window.location.href='/admin/Cms/editContent.html?id={$vo.id}'" data="{$vo.indexpic}">
@@ -161,7 +161,12 @@
                 </if>
                 <a href="{:U('Cms/editContent','id='.$vo['id'])}" class="btnEdit">修改</a>
                 &nbsp;&nbsp;
-                <a class="btnDel" href="javascript:void(0);" onclick="var url='{:U(" Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a>
+                <if condition="$vo.sale_state eq 1">
+                    <a onclick="setVal('content','sale_state',{$vo.id},-1,this,'停售')" class="fc_red">在售</a>
+                    <else/>
+                    <a onclick="setVal('content','sale_state',{$vo.id},1,this,'在售')" >停售</a>
+                </if>
+                <!--<a class="btnDel" href="javascript:void(0);" onclick="var url='{:U(" Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a>-->
             </td>
         </tr>
     </volist>
@@ -193,7 +198,7 @@
 <include file="Index:footer"/>
 <script language="javascript" type="text/javascript">
     $(function () {
-        //$(".table_head").smartFloat(0);
+        $(".table_head").smartFloat(0);
         $("#selectInfo").idealforms();
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
@@ -203,6 +208,20 @@
         setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");
         setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']|default='1'}");
         setRadioCheck('#selectInfo input[name=good_type]',"{$_REQUEST['good_type']}");
+
+        /****************************************商品类型选择***************************/
+        $('#selectInfo input[name=pid]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+            console.log($(this).data('value'))
+            if($(this).data('value')>0){
+                $('#keyword').val('');
+            }
+        })
+        $('#selectInfo input[name=supplyid]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+            if($(this).data('value')>0){
+                $('#keyword').val('');
+            }
+        })
+
 
         //选择过期日时间
         $('#stime').calendar({
