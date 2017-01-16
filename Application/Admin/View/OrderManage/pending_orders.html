@@ -31,10 +31,10 @@
         <th width="60">操作</th>
     </tr>
     <volist name="list" id="vo">
-        <if condition="$vo['memo']">
-            <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" >
+        <if condition="isset($vo['memo']) && $vo['memo']">
+            <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
                 <else/>
-            <tr class="row{$i % 2+1}" >
+            <tr class="row{$i % 2+1}"  ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
         </if>
             <td> <a href="{:U('Cms/editOrder','id='.$vo['id'])}" class="underline">{$vo.id}</a></td>
             <td><a href="{:U('Member/editMember','id='.$vo['userid'])}"  class="underline">{$vo.username}</a><br/>{$vo.telephone}</td>

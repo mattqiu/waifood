@@ -95,9 +95,9 @@
     </tr>
     <volist id="vo" name="list">
             <if condition="isset($vo['memo']) && $vo['memo']">
-                <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" >
+                <tr class="row{$i % 2+1} hasmemo" title="{$vo['memo']}" ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
             <else/>
-                <tr class="row{$i % 2+1}" >
+                <tr class="row{$i % 2+1}"  ondblclick="window.location.href='/admin/Cms/editOrder.html?id={$vo.id}'" >
             </if>
             <td>
                 <!--<input type="checkbox" name="SelectIDs" value="{$vo.id}"/>-->

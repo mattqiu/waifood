@@ -14,7 +14,7 @@ class GoodsGroupModel extends Model {
     public static function getGoodsChild($parentid){
         if(regex($parentid,'number')){
             $con['parentid'] =$parentid;
-            return M('goods_group')->alias('gg')->join('my_content as c on gg.productid=c.id')->field('gg.*,c.title,c.stock')->where($con)->select();
+            return M('goods_group')->alias('gg')->join('my_content as c on gg.productid=c.id')->field('gg.*,c.title,c.stock,c.price,c.title')->where($con)->select();
         }else{
             return false;
         }
@@ -69,6 +69,24 @@ class GoodsGroupModel extends Model {
             return false;
         }
     }
+    /**
+     * 判断是否是被组合的子商品
+     * @param $productid
+     * @return bool
+     */
+    public static function isGroupGoods($productid){
+        if(regex($productid,'number')){
+            $con['parentid'] = $productid;
+            $data =  M('goods_group')->where($con)->select();
+            if(!empty($data)){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
     /**
      * 根据商品id 获取组合商品并重新设置组合商品的库存
@@ -82,7 +100,8 @@ class GoodsGroupModel extends Model {
             if(!empty($data)){
                 foreach($data as $key=>$val){
                     if($val['parentid']){
-                       if($stock = self::getGroupStockByParentId($val['parentid'])){
+                        $stock = self::getGroupStockByParentId($val['parentid']);
+                       if(is_number($stock)){
                            $savedata['stock'] = $stock;
                            \Admin\Model\ContentModel::modifyContent($val['parentid'],$savedata); //重新设置组合商品的库存
                        }
@@ -136,7 +155,11 @@ class GoodsGroupModel extends Model {
                 foreach($data as $key=>$val){
                     if($val['productid']){
                         $goods =  \Admin\Model\ContentModel::getContentById($val['productid']);
-                        $data[$key]['stock']=intval($goods['stock']/$val['num']);
+                        if(!$goods['stock']){
+                            $data[$key]['stock'] = 0;
+                        }else{
+                            $data[$key]['stock']=intval($goods['stock']/$val['num']);
+                        }
                     }
                 }
                 //按照库存从小到大排序（组合商品的库存由子商品库存数最小的决定）
