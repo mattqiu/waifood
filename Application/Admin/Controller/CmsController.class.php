@@ -1990,6 +1990,70 @@ class CmsController extends BaseController {
 
     //库存关系
     public function stockInfo(){
+        $where = array();
+        $searchtype = I ( 'searchtype' );
+        $keyword = I ( 'keyword' );
+        if($searchtype && $keyword){
+            switch ($searchtype) {
+                case '1' : $where ['title'] = array ( 'like','%' . $keyword . '%'); break;
+                case '2' : $where['channelname'][]= array('like','%'.$keyword.'%');break;
+                case '3' : if (is_numeric ( $keyword )) { $where ['id'] = $keyword; } break;
+                case '4' :
+                    if (is_numeric ( $keyword ) && $keyword != 0) {
+                        $where['sortpath'][]= array('like','%,'.$keyword.',%');
+                    }
+                    break;
+                case '5' :
+                    if (is_numeric ( $keyword )) { $where ['supplyid'] = $keyword;}break;
+            }
+        }
+        if (!empty($_REQUEST['stime']) && empty($_REQUEST['etime'])) { //如果只有开始时间
+            $where['update_time'] = array("egt",$_REQUEST['stime']." 00:00:00");
+        }
+        if (empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])) { //如果只有结束时间
+            $where['update_time'] = array("elt",$_REQUEST['etime']." 23:59:59");
+        }
+        if(!empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])){  //如果有开始和结束时间
+            $where['update_time'] = array(array("egt",$_REQUEST['stime']." 00:00:00"),array("elt",$_REQUEST['etime']." 23:59:59"));
+        }
+        if ( is_number($_REQUEST['status'])) {
+            $where ['status'] = $_REQUEST['status'];
+        }
+        if (is_number($_REQUEST['good_type'])) {
+            $where ['good_type'] = $_REQUEST['good_type'];
+        }
+        if ((!isset($_REQUEST['ranktype']) || empty($_REQUEST['ranktype'])) || !empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==1) {
+            $order = 'update_time ';
+        }elseif(!empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==2){
+            $order = 'id ';
+        }else{
+            $order = 'sold ';
+        }
+        if ((!isset($_REQUEST['rank']) || empty($_REQUEST['rank'])) ||!empty($_REQUEST['rank']) && $_REQUEST['rank'] =='desc') {
+            $order.='desc';
+        }else{
+            $order.='asc';
+        }
+
+        if ($_REQUEST['pid']>0) {
+            $where['sortpath'][]= array('like','%,'.$_REQUEST['pid'].',%');
+        }
+        if ($_REQUEST['supplyid']>0) {
+            $where ['supplyid'] = $_REQUEST['supplyid'];
+        }
+        // 分页
+        $p = intval ( I ( 'p' ) );
+        $p = $p ? $p : 1;
+        $row = C ( 'VAR_PAGESIZE' );
+        $rs = M ( "content" )->where ( $where )->order ( $order)->page ( $p, $row );
+        $list = $rs->select ();
+        $this->assign ( "list", $list );
+        $count = $rs->where ( $where )->count ();
+        if ($count > $row) {
+            $page = new \Think\Page ( $count, $row );
+            $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
+            $this->assign ( 'page', $page->show () );
+        }
         $this->display ('stock_info');
     }
 
