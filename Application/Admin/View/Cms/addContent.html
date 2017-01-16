@@ -308,7 +308,7 @@
 <form onsubmit="return false" id="btn_form">
     <div style="width: 850px; ">
         <div class="tc" style="padding: 50px 0;">
-            <input type="submit" class="sure_btn" value="保存" onclick="modifyContent();" />
+            <input type="submit" class="sure_btn" value="保存" onclick="checkSub();" />
             <input type="button" class="cancel_btn" value="返回" onclick="history.back();" />
         </div>
     </div>
@@ -511,6 +511,27 @@
 
     }
 
+    function checkSub(){
+        if($('body').data('id')>0){
+            if($('body').data('good_type')!= $('#infoform input[name=good_type]').val()){
+                swal({
+                    title: '',
+                    text: '你确定要更改商品类型?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    confirmButtonText: "是的",
+                    //confirmButtonColor: "#35D374"
+                }, function() {
+                    modifyContent();
+                });
+            }else{
+                modifyContent();
+            }
+        }else{
+            modifyContent();
+        }
+    }
 
 </script>
 </body>
