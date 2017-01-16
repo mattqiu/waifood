@@ -4,21 +4,16 @@
  *  类描述: [定时任务类]
  */
 namespace Shop\Controller;
+use Shop\Model\ProductSoldModel;
 use Think\Controller;
 
 class CronController extends Controller
 {
 
     public function getProductSold(){
-
-        $date = getStimeAndETime(30);
-        $dataArr['week'] = 7;
-        $dataArr['month'] = 30;
-        foreach($dataArr as $key=>$val){
-            if($val){
-
-            }
-        }
+        $time = date('Y-m-d',strtotime("-11 day"))." 00:00:00";
+       ProductSoldModel::getProductDaySold($time);
+       // ProductSoldModel::getProductAVGSoldByDay(7);
     }
 
 
