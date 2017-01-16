@@ -674,6 +674,7 @@ class CmsController extends BaseController {
 	 * 内容管理
 	 */
 	public function content($rootid=null) {
+        $rootid=2;
 		$title = null;
 		$content = null;
 		$where = null;
@@ -748,7 +749,6 @@ class CmsController extends BaseController {
 //		$this->assign ( "keyword", $keyword );
 //		$this->assign ( "status", $status );
 //		$this->assign ( "searchtype", $searchtype );
-
         $where=array();
         // 输出分类
         if(!empty($rootid)){
@@ -763,7 +763,7 @@ class CmsController extends BaseController {
         $where['status']=1;
         $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
         $this->assign ( "supplylist", $list );
-        $this->assign ( "rootid", $rootid );
+      //  $this->assign ( "rootid", $rootid );
 
 		if($rootid==1){
 		$this->display('content1');	

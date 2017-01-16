@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>内容列表</title>
     <include file="Index:header"/>
+    <script src="__PUBLIC__/js/smartFloat.js"></script>
 </head>
 <body class="bg_white">
 <form action="/admin/cms/content.html" onsubmit="return selectContent();" method="get" name="form1" id="selectInfo" style="padding-left:10px;">
@@ -90,15 +91,7 @@
 </form>
 <div class="dot"></div>
 <table border="0"class="mytables">
-    <tr class="toolbar">
-        <td colspan="13" class="tc">【 管理内容 】</td>
-    </tr>
-    <tr class=" hide">
-        <td colspan="13">
-            <a href="{:U('Admin/Cms/addContent')}" class="btnAdd">添加</a>
-        </td>
-    </tr>
-    <tr >
+    <tr class="table_head">
         <th width="60">ID</th>
         <th>标题</th>
         <th>分类</th>
@@ -189,18 +182,18 @@
             <input type="button" class="btn1" value="反选" id="ReverseCheck"/>
         </td>
     </tr>
-    <tr>
+    <tr class="fuwu">
         <td colspan="13">
             <div class="page">{$page}</div>
         </td>
     </tr>
-
 </table>
 
 
 <include file="Index:footer"/>
 <script language="javascript" type="text/javascript">
     $(function () {
+        //$(".table_head").smartFloat(0);
         $("#selectInfo").idealforms();
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
