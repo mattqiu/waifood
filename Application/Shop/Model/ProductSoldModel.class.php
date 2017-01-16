@@ -30,8 +30,14 @@ class ProductSoldModel extends Model {
 
     public static function addProductSales($data){
         if(!empty($data)){
-
-            return M('product_sales')->add($data);
+            $con['productid'] = $data['productid'];
+            $con['addtime'] = $data['addtime'];
+            //同一个商品在同一时段只能添加一次
+            if(!self::getProductSalesByCon($con)){
+                return M('product_sales')->add($data);
+            }else{
+                return false;
+            }
         }else{
             return false;
         }
