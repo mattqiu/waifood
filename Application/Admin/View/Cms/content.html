@@ -10,8 +10,8 @@
 <form action="/admin/cms/content.html" onsubmit="return selectContent();" method="get" name="form1" id="selectInfo" style="padding-left:10px;">
     <input type="hidden" name="status" id="status" value="{:I('status')}"/>
     <div>
-        <span class="fl">关&nbsp;键&nbsp;词&nbsp; :&nbsp;<input type="text" class="input_text2" id="keyword" name="keyword" value="{$_REQUEST['keyword']}"/></span>
-        <div class="idealforms_select fl" style="width: 120px;margin-left: 15px;">
+        <span class="fl">关&nbsp;键&nbsp;词&nbsp; :&nbsp;<input type="text"  style="width: 150px;;" id="keyword" name="keyword" value="{$_REQUEST['keyword']}"/></span>
+        <div class="idealforms_select fl" style="width: 80px;margin-left: 10px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="searchtype">
                 <input type="text" value="" readonly>
@@ -21,51 +21,9 @@
                 <li data-value="1">商品名</li>
                 <li data-value="3">产品ID</li>
                 <li data-value="2">分类名</li>
-                <!--<li data-value="4">分类ID</li>-->
-                <!--<li data-value="5">供应商名</li>-->
             </ul>
         </div>
-        <div class="clr"></div>
-    </div>
-    <div style="margin-top: 5px;">
-        更新日期: <input type="text" class="input_text3" name="stime" id="stime" value="{$_REQUEST['stime']}"/>&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-        <input type="text" class="input_text3" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
-        <input type="button" class="cancel_btn" value="一周内" onclick="setDateTime(7);"/>
-        <input type="button" class="cancel_btn" value="一月内" onclick="setDateTime(31);"/>
-    </div>
-    <div style="margin-top: 5px;">
-        <label class="fl" style="position: relative;top: 5px;">状态:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-        <ul>
-            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
-            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
-            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
-        </ul>
-        <label class="fl tr" style="position: relative;top: 5px;">类型:</label>
-        <ul>
-            <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
-            <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
-            <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
-        </ul>
-    </div>
-    <div class="clr">
-        <div class="fl">
-            <label class="fl" style="position: relative;top: 5px;">排序根据:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <ul>
-                <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
-                <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
-                <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
-            </ul>
-            <br/>
-            <label class="fl">排序方式:&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <ul>
-                <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
-                <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
-            </ul>
-        </div>
-        <div class="fl">  <input type="submit" class="sure_btn" style="position: relative;left: 50px;;top: 20px;" value="查询"  /></div>
-    </div>
-    <div class="clr">
-        <span class="fl">商品分类:&nbsp;</span>
+        <span class="fl" style="margin-left: 10px;position: relative;top: 5px;">商品分类:&nbsp;</span>
         <div class="idealforms_select fl" style="width:290px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="pid">
@@ -78,8 +36,8 @@
             </ul>
         </div>
 
-        <span class="fl" style="margin-left: 20px;position: relative;top: 7px;">供应商:</span>
-        <div class="idealforms_select fl" style="width:150px;">
+        <span class="fl" style="margin-left: 10px;position: relative;top: 7px;">供应商:</span>
+        <div class="idealforms_select fl" style="width:120px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="supplyid">
                 <input type="text" value="" readonly>
@@ -92,6 +50,42 @@
                 </volist>
             </ul>
         </div>
+        <div class="clr"></div>
+    </div>
+
+    <div class="clr" style="position: relative;top:5px;">
+        <div class="fl">
+            <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;&nbsp;&nbsp;</span>
+            <ul>
+                <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
+                <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
+                <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
+            </ul>
+            <span class="fl" style="position: relative;top: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序方式:&nbsp;&nbsp;</span>
+            <ul>
+                <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
+                <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
+            </ul>
+        </div>
+        <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态:&nbsp;&nbsp;</span>
+        <ul>
+            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
+            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
+            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
+        </ul>
+        <div class="fl" style="margin-left: 15px;">  <input type="submit" class="sure_btn" value="查询"  /></div>
+    </div>
+    <div class="clr" style="position: relative;top: 5px;">
+        <span class="fl" style="position: relative;top: 5px;">更新日期:</span> <input type="text" style="margin-left: 10px;" class="input_text3 fl" name="stime" id="stime" value="{$_REQUEST['stime']}"/><span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-</span>
+        <input type="text" class="input_text3 fl" style="margin-left: 10px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
+        <input type="button" class="cancel_btn fl" style="margin-left: 10px;" value="一周内" onclick="setDateTime(7);"/>
+        <input type="button" class="cancel_btn fl" style="margin-left: 10px;" value="一月内" onclick="setDateTime(31);"/>
+        <span class="fl tr" style="position: relative;top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:&nbsp;&nbsp;</span>
+        <ul>
+            <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
+            <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
+            <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
+        </ul>
     </div>
 </form>
 <div class="dot"></div>
@@ -113,7 +107,6 @@
         <td width="40">销量</td>
         <td width="50">组合销量</td>
         <td width="50">库存</td>
-        <td width="50">虚库存</td>
         <td width="25">可负</td>
         <td width="55">排序</td>
         <td width="50">状态</td>
@@ -121,10 +114,11 @@
     </tr>
     <volist id="vo" name="list">
         <tr class="row{$i % 2+1}" data="{$vo.indexpic}">
-            <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline"><input type="checkbox"
-                                                                                           name="SelectIDs"
-                                                                                           value="{$vo.id}"/>
-                {$vo.id}</a></td>
+            <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">
+                <input type="checkbox" name="SelectIDs" value="{$vo.id}"/>
+                {$vo.id}
+            </a>
+            </td>
             <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}<br/>{$vo.namecn}</a>
                 <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
                 <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
@@ -137,18 +131,9 @@
             <td align="center">{$vo.price}</td>
             <td align="center">{$vo.sold}</td>
             <td align="center">{$vo.re_sold}</td>
-            <td align="center">{$vo.stock}</td>
+            <td align="center">{$vo.stock}  <if condition="$vo['good_type'] eq 2"><span class="fc_red" title="虚库存">虚</span></if></td>
             <td align="center">
-                <if condition="$vo['good_type'] eq 2">是
-                    <else/>
-                    否
-                </if>
-            </td>
-            <td align="center">
-                <if condition="$vo['negative'] eq 1">是
-                    <else/>
-                    否
-                </if>
+                <if condition="$vo['negative'] eq 1">是</if>
             </td>
             <td>
                 <input name="Item_1" id="Item_1" onchange="setVal('content','sort',{$vo.id},$(this).val())"
@@ -217,9 +202,10 @@
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
         setSelectSelected('#selectInfo input[name=searchtype]',"{$_REQUEST['searchtype']}");
+
         setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']}");
-        setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']}");
-        setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']}");
+        setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");
+        setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']|default='1'}");
         setRadioCheck('#selectInfo input[name=good_type]',"{$_REQUEST['good_type']}");
 
         //选择过期日时间
