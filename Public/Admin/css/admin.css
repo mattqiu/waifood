@@ -14,10 +14,10 @@ input.input_text1{width: 747px}
 input.input_text2, textarea.textarea_text2{width: 308px}
 /****************************table*****************************/
 .mytables{ font-size:14px;color: #333333 table-layout:fixed;empty-cells:show; border-collapse: collapse;border: 1px solid #EEEEEE}
-.mytables td{ height:50px;}
+.mytables td{ height:47px;}
 .mytables tr:hover{background:#e7f4fd }
-.mytables th {padding-left: 8px;background: #f8f8f8;background-repeat:repeat-x;height:40px; }
-.mytables td,.mytables th{border:1px solid #EEEEEE; padding:0 1em 0;}
+.mytables th {background: #f8f8f8;background-repeat:repeat-x;height:40px; }
+.mytables td,.mytables th{border:1px solid #EEEEEE; }
 
 /******************************添加商品***************************/
 #goods_box{ margin:15px 0 0 0;}

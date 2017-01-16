@@ -89,31 +89,23 @@
     </div>
 </form>
 <div class="dot"></div>
-<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
-    <tr class="toolbar">
-        <td colspan="13" class="tc">【 管理内容 】</td>
-    </tr>
-    <tr class="row0 hide">
-        <td colspan="13">
-            <a href="{:U('Admin/Cms/addContent')}" class="btnAdd">添加</a>
-        </td>
-    </tr>
-    <tr class="header">
-        <td width="60">ID</td>
-        <td>标题</td>
-        <td>分类</td>
-        <td>供应商</td>
-        <td width="60">价格</td>
-        <td width="40">销量</td>
-        <td width="50">组合销量</td>
-        <td width="50">库存</td>
-        <td width="25">可负</td>
-        <td width="55">排序</td>
-        <td width="50">状态</td>
-        <td width="90">操作</td>
+<table border="0"class="mytables">
+    <tr >
+        <th width="60">ID</th>
+        <th>标题</th>
+        <th>分类</th>
+        <th>供应商</th>
+        <th width="60">价格</th>
+        <th width="40">销量</th>
+        <th width="60">组合销量</th>
+        <th width="50">库存</th>
+        <th width="35">可负</th>
+        <th width="55">排序</th>
+        <th width="50">状态</th>
+        <th width="90">操作</th>
     </tr>
     <volist id="vo" name="list">
-        <tr class="row{$i % 2+1}" data="{$vo.indexpic}">
+        <tr ondblclick="window.location.href='/admin/Cms/editContent.html?id={$vo.id}'" data="{$vo.indexpic}">
             <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">
                 <input type="checkbox" name="SelectIDs" value="{$vo.id}"/>
                 {$vo.id}
@@ -172,7 +164,7 @@
             </td>
         </tr>
     </volist>
-    <tr class="row0">
+    <tr >
         <td colspan="13" class="tr">
             <input type="button" class="btn2" value="选中设置为" id="AllStatus_1"/>
             <select name="AllStatus_2" id="AllStatus_2">
@@ -181,7 +173,7 @@
             </select>
         </td>
     </tr>
-    <tr class="row0">
+    <tr>
         <td colspan="13" class="tr">
             <input type="hidden" value="content" id="ConstTbl" name="ConstTbl"/>
             <input type="button" class="btn2" value="批量删除" id="AllDel"/>
@@ -189,12 +181,15 @@
             <input type="button" class="btn1" value="反选" id="ReverseCheck"/>
         </td>
     </tr>
-    <tr class="footer">
+    <tr>
         <td colspan="13">
             <div class="page">{$page}</div>
         </td>
     </tr>
+
 </table>
+
+
 <include file="Index:footer"/>
 <script language="javascript" type="text/javascript">
     $(function () {
