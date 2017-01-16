@@ -8,11 +8,11 @@
     <script src="__PUBLIC__/js/smartFloat.js"></script>
 </head>
 <body class="bg_white">
-<form action="/admin/cms/content.html" onsubmit="return selectContent();" method="get" name="form1" id="selectInfo" style="padding-left:10px;">
-    <input type="hidden" name="status" id="status" value="{:I('status')}"/>
+<form action="/admin/cms/content.html" onsubmit="return selectContent();" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
+    <!--<input type="hidden" name="status" id="status" value="{:I('status')}"/>-->
     <div>
         <span class="fl">关&nbsp;键&nbsp;词&nbsp; :&nbsp;<input type="text"  style="width: 150px;;" id="keyword" name="keyword" value="{$_REQUEST['keyword']}"/></span>
-        <div class="idealforms_select fl" style="width: 80px;margin-left: 10px;">
+        <div class="idealforms_select fl" style="width: 80px;margin-left: 5px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="searchtype">
                 <input type="text" value="" readonly>
@@ -24,7 +24,7 @@
                 <li data-value="2">分类名</li>
             </ul>
         </div>
-        <span class="fl" style="margin-left: 10px;position: relative;top: 5px;">商品分类:&nbsp;</span>
+        <span class="fl" style="margin-left: 20px;position: relative;top: 5px;">商品分类&nbsp;:&nbsp;</span>
         <div class="idealforms_select fl" style="width:290px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="pid">
@@ -36,8 +36,7 @@
                 {:R('Cms/treeselect', array($catlist,'li'))}
             </ul>
         </div>
-
-        <span class="fl" style="margin-left: 10px;position: relative;top: 7px;">供应商:</span>
+        <span class="fl" style="margin-left: 20px;position: relative;top: 7px;">供&nbsp;应&nbsp;商&nbsp;:&nbsp;</span>
         <div class="idealforms_select fl" style="width:120px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="supplyid">
@@ -51,42 +50,43 @@
                 </volist>
             </ul>
         </div>
-        <div class="clr"></div>
+        <div class="fl" style="margin-left: 15px;">  <input type="submit" class="sure_btn" value="查询"  /></div>
     </div>
 
-    <div class="clr" style="position: relative;top:5px;">
-        <div class="fl">
-            <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;&nbsp;&nbsp;</span>
-            <ul>
-                <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
-                <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
-                <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
-            </ul>
-            <span class="fl" style="position: relative;top: 3px;">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;排序方式:&nbsp;&nbsp;</span>
-            <ul>
-                <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
-                <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
-            </ul>
-        </div>
-        <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;状态:&nbsp;&nbsp;</span>
+    <div class="clr" style="position: relative;top:10px;">
+        <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;</span>
+        <ul>
+            <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
+            <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
+            <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
+        </ul>
+        <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状态:&nbsp;</span>
         <ul>
             <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
             <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
             <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
         </ul>
-        <div class="fl" style="margin-left: 15px;">  <input type="submit" class="sure_btn" value="查询"  /></div>
+
+        <span class="fl" style="margin-left: 179px;position: relative;top: 5px;">更新日期:</span>
+        <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
+        <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+        <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
     </div>
-    <div class="clr" style="position: relative;top: 5px;">
-        <span class="fl" style="position: relative;top: 5px;">更新日期:</span> <input type="text" style="margin-left: 10px;" class="input_text3 fl" name="stime" id="stime" value="{$_REQUEST['stime']}"/><span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-</span>
-        <input type="text" class="input_text3 fl" style="margin-left: 10px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
-        <input type="button" class="cancel_btn fl" style="margin-left: 10px;" value="一周内" onclick="setDateTime(7);"/>
-        <input type="button" class="cancel_btn fl" style="margin-left: 10px;" value="一月内" onclick="setDateTime(31);"/>
-        <span class="fl tr" style="position: relative;top: 5px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:&nbsp;&nbsp;</span>
+    <div class="clr" style="position: relative;top: 10px;">
+        <span class="fl" style="position: relative;top: 3px;">排序方式:&nbsp;</span>
+        <ul>
+            <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
+            <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
+        </ul>
+        <span class="fl tr" style="margin-left: 155px;position: relative;top: 5px;">类型:&nbsp;</span>
         <ul>
             <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
             <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
             <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
         </ul>
+        <div class='fl' style="margin:5px 0 0 180px;">
+            <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>
+        </div>
     </div>
 </form>
 <div class="dot"></div>
@@ -198,7 +198,7 @@
 <include file="Index:footer"/>
 <script language="javascript" type="text/javascript">
     $(function () {
-        $(".table_head").smartFloat(0);
+//        $(".table_head").smartFloat(0);
         $("#selectInfo").idealforms();
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
@@ -208,20 +208,6 @@
         setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");
         setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']|default='1'}");
         setRadioCheck('#selectInfo input[name=good_type]',"{$_REQUEST['good_type']}");
-
-        /****************************************商品类型选择***************************/
-        $('#selectInfo input[name=pid]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
-            console.log($(this).data('value'))
-            if($(this).data('value')>0){
-                $('#keyword').val('');
-            }
-        })
-        $('#selectInfo input[name=supplyid]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
-            if($(this).data('value')>0){
-                $('#keyword').val('');
-            }
-        })
-
 
         //选择过期日时间
         $('#stime').calendar({
@@ -234,7 +220,7 @@
             minDate: '%y-%M-%d',
             btnBar: false
         });
-        $(".MainTbl tr").hover(function (event) {
+        $(".mytables tr").hover(function (event) {
             var o = $(this);
             var img = o.attr("data");
             if (img != "") {
@@ -265,10 +251,12 @@
         })
     }
 
-    function setDateTime(range){
+    function setDateTime(range,obj){
         var d = new Date();
         var end = parseInt(d.getTime()/1000);
         var start = end-(range-1)*24*3600;
+        $(obj).css({'color':'#108ee9'});
+        $(obj).siblings('a').css({'color':'#333333'});
         $('#stime').val( formatDate(parseInt(start) * 1000));
         $('#etime').val( formatDate(parseInt(end) * 1000));
     }
