@@ -116,10 +116,10 @@
                 <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
                 <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
             </td>
-            <td><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['pid'])}">{:cutstring($vo['channelname'])}</a>
+            <td><a href="{:U('Cms/content','searchtype=4&pid='.$vo['pid'])}">{:cutstring($vo['channelname'])}</a>
             </td>
             <td>
-                <a href="{:U('Cms/content','searchtype=5&keyword='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a>
+                <a href="{:U('Cms/content','searchtype=5&supplyid='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a>
             </td>
             <td align="center">{$vo.price}</td>
             <td align="center">{$vo.sold}</td>
