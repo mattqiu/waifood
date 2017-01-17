@@ -4,6 +4,7 @@ namespace Admin\Controller;
 use Admin\Model\MemberMemoModel;
 use Admin\Model\OrderManageModel;
 use Admin\Model\OrderModel;
+use Common\Model\GoodsGroupModel;
 
 class OrderManageController extends BaseController {
     /**
@@ -76,7 +77,7 @@ class OrderManageController extends BaseController {
         $list = OrderManageModel::getOrderForGJP($id);
         $data= array();
         $status = '';
-        foreach($list as $key=>$val){
+        foreach($list as $key=>&$val){
             if($status == OrderModel::DRAFT){
                 $status = 'draft';
             }elseif($status == OrderModel::CONFIRMED){
@@ -88,20 +89,40 @@ class OrderManageController extends BaseController {
             }else{
                 $status = 'cancelled';
             }
-            $data[$key]['no'] = $val['no'];
-            $data[$key]['productid'] = $val['productid'];
-            $data[$key]['name'] = $val['name'];
-            $data[$key]['num'] = $val['num'];
-            $data[$key]['price'] = $val['price'];
-            $data[$key]['zk'] = $val['zk'];
-            $data[$key]['note'] = $val['note'];
+            if($goods = GoodsGroupModel::isGroupGoods($val['productid'])){
+                $goods = GoodsGroupModel::getGoodsChild($val['productid']);
+                foreach($goods as $k=>$v){
+                    if(isset($data[$v['productid']])){
+                        $data[$v['productid']]['num'] += $val['num']*$v['num'];
+                    }else{
+                        $data[$v['productid']]['no'] = $val['no'];
+                        $data[$v['productid']]['productid'] = $v['productid'];
+                        $data[$v['productid']]['name'] = $val['name'];
+                        $data[$v['productid']]['num'] = $val['num']*$v['num'];
+                        $data[$v['productid']]['price'] = $v['price'];
+                        $data[$v['productid']]['zk'] = $val['zk'];
+                        $data[$v['productid']]['note'] = $val['note'];
+                    }
+                }
+            }else{
+                if(isset($data[$val['productid']])){   dump($val['num']*$v['num']);
+                    $data[$val['productid']]['num'] += $val['num'];
+                }else{
+                    $data[$val['productid']]['no'] = $val['no'];
+                    $data[$val['productid']]['productid'] = $val['productid'];
+                    $data[$val['productid']]['name'] = $val['name'];
+                    $data[$val['productid']]['num'] = $val['num'];
+                    $data[$val['productid']]['price'] = $val['price'];
+                    $data[$val['productid']]['zk'] = $val['zk'];
+                    $data[$val['productid']]['note'] = $val['note'];
+                }
+            }
         }
         $filename = $id.'-'.$status;
         $title = array('商品条码',
             '商品编号','商品名称', '数量','单价',
             '折扣(0.9为9折)','备注(不能超过200个字符)');
         downloadExcel($data,$filename,$title,25);
-
     }
 
     public function unfinishedMatters(){
