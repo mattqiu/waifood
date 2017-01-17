@@ -95,24 +95,24 @@ class OrderManageController extends BaseController {
                     if(isset($data[$v['productid']])){
                         $data[$v['productid']]['num'] += $val['num']*$v['num'];
                     }else{
-                        $data[$val['productid']]['num'] =  $val['num']*$v['num'];
-                        $data[$val['productid']]['productid'] = $v['productid'];
-                        $data[$val['productid']]['name'] = $val['name'];
-                        $data[$val['productid']]['price'] = $v['price'];
-                        $data[$val['productid']]['no'] = $val['no'];
-                        $data[$val['productid']]['zk'] = $val['zk'];
-                        $data[$val['productid']]['note'] = $val['note'];
+                        $data[$v['productid']]['no'] = $val['no'];
+                        $data[$v['productid']]['productid'] = $v['productid'];
+                        $data[$v['productid']]['name'] = $val['name'];
+                        $data[$v['productid']]['num'] = $val['num']*$v['num'];
+                        $data[$v['productid']]['price'] = $v['price'];
+                        $data[$v['productid']]['zk'] = $val['zk'];
+                        $data[$v['productid']]['note'] = $val['note'];
                     }
                 }
             }else{
                 if(isset($data[$val['productid']])){   dump($val['num']*$v['num']);
                     $data[$val['productid']]['num'] += $val['num'];
                 }else{
-                    $data[$val['productid']]['num'] = $val['num'];
+                    $data[$val['productid']]['no'] = $val['no'];
                     $data[$val['productid']]['productid'] = $val['productid'];
                     $data[$val['productid']]['name'] = $val['name'];
+                    $data[$val['productid']]['num'] = $val['num'];
                     $data[$val['productid']]['price'] = $val['price'];
-                    $data[$val['productid']]['no'] = $val['no'];
                     $data[$val['productid']]['zk'] = $val['zk'];
                     $data[$val['productid']]['note'] = $val['note'];
                 }
