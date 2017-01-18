@@ -9,6 +9,8 @@
 
 namespace Admin\Model;
 use Common\Model\CodeModel;
+use Common\Model\OrderModel;
+use Common\Model\ProductStatusLogModel;
 use Think\Model;
 
 /**
@@ -145,7 +147,7 @@ class ContentModel extends Model {
      * @param $data
      * @return bool|\Model
      */
-    public static function modifyContent($id,$data){
+    public static function modifyContent($id,$data,$autoUnder = true){
         if(regex($id,'number') && !empty($data)){
             $con['id'] = $id;
             $data['update_time'] = date('Y-m-d H:i:s');
@@ -161,13 +163,26 @@ class ContentModel extends Model {
             }
 
             if( M('content')->where($con)->save($data)){
-                $con['id'] = $id;
-                //库存小于1的商品自动下架
-                $con = array();
-                $con['stock'] = array('lt',1);
-                $savedata['status'] = 0;
-                $savedata['under_time'] = date('Y-m-d H:i:s');//下架时间
-                M('content')->where($con)->save($savedata);
+                //自动下架
+                if($autoUnder == true){
+                    $con['id'] = $id;
+                    //库存小于1的商品自动下架
+                    $con = array();
+                    $con['stock'] = array('lt',1);
+                    $savedata['status'] = 0;
+                    $savedata['under_time'] = date('Y-m-d H:i:s');//下架时间
+                    M('content')->where($con)->save($savedata);
+                    $field = 'stock';
+                    $rs = self::getContentById($id,$field);
+                    if( is_number($rs['stock']) && $rs['stock']<1){
+                        $logdata['productid'] = $id;
+                        $logdata['old_stock'] = $rs['stock'];
+                        $logdata['type'] = 0;
+                        $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
+                        $logdata['note'] = '自动下架';
+                        ProductStatusLogModel::addProductStatusLog($logdata);
+                    }
+                }
                 return true;
             }else{
                 return false;

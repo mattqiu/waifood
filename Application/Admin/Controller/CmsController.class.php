@@ -9,6 +9,7 @@ use Common\Model\DiscountModel;
 use Common\Model\GoodsGroupModel;
 use Common\Model\GoodsAttrModel;
 use Common\Model\OrderModel;
+use Common\Model\ProductStatusLogModel;
 
 class CmsController extends BaseController {
 	public function index() {
@@ -1996,25 +1997,15 @@ class CmsController extends BaseController {
         if($searchtype && $keyword){
             switch ($searchtype) {
                 case '1' : $where ['title'] = array ( 'like','%' . $keyword . '%'); break;
-                case '2' : $where['channelname'][]= array('like','%'.$keyword.'%');break;
-                case '3' : if (is_numeric ( $keyword )) { $where ['id'] = $keyword; } break;
-                case '4' :
-                    if (is_numeric ( $keyword ) && $keyword != 0) {
-                        $where['sortpath'][]= array('like','%,'.$keyword.',%');
-                    }
-                    break;
-                case '5' :
-                    if (is_numeric ( $keyword )) { $where ['supplyid'] = $keyword;}break;
+                case '2' : if (is_numeric ( $keyword )) { $where ['id'] = $keyword; } break;
+                case '3' : $where['channelname'][]= array('like','%'.$keyword.'%');break;
             }
         }
-        if (!empty($_REQUEST['stime']) && empty($_REQUEST['etime'])) { //如果只有开始时间
-            $where['update_time'] = array("egt",$_REQUEST['stime']." 00:00:00");
+        if ($_REQUEST['pid']>0) {
+            $where['sortpath'][]= array('like','%,'.$_REQUEST['pid'].',%');
         }
-        if (empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])) { //如果只有结束时间
-            $where['update_time'] = array("elt",$_REQUEST['etime']." 23:59:59");
-        }
-        if(!empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])){  //如果有开始和结束时间
-            $where['update_time'] = array(array("egt",$_REQUEST['stime']." 00:00:00"),array("elt",$_REQUEST['etime']." 23:59:59"));
+        if ($_REQUEST['supplyid']>0) {
+            $where ['supplyid'] = $_REQUEST['supplyid'];
         }
         if ( is_number($_REQUEST['status'])) {
             $where ['status'] = $_REQUEST['status'];
@@ -2022,24 +2013,33 @@ class CmsController extends BaseController {
         if (is_number($_REQUEST['good_type'])) {
             $where ['good_type'] = $_REQUEST['good_type'];
         }
-        if ((!isset($_REQUEST['ranktype']) || empty($_REQUEST['ranktype'])) || !empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==1) {
-            $order = 'update_time ';
-        }elseif(!empty($_REQUEST['ranktype']) && $_REQUEST['ranktype']==2){
-            $order = 'id ';
-        }else{
-            $order = 'sold ';
+        //是否预警
+        if(isset($_REQUEST['stock_warn']) && $_REQUEST['stock_warn'] ==1){
+            $where ['_string'] = ' stock <= stock_warn and stock_warn > 0 ';
         }
-        if ((!isset($_REQUEST['rank']) || empty($_REQUEST['rank'])) ||!empty($_REQUEST['rank']) && $_REQUEST['rank'] =='desc') {
-            $order.='desc';
-        }else{
-            $order.='asc';
+        //可售天数
+        if($_REQUEST['sold_day_type'] && $_REQUEST['sold_day_way'] &&  is_number($_REQUEST['sold_day_val'])){
+            if($_REQUEST['sold_day_type'] ==1){ //周平均可售天
+                $where ['days_by_week'] =array( $_REQUEST['sold_day_way'], $_REQUEST['sold_day_val']);
+            }else{//月平均可售天
+                $where ['days_by_month'] =array( $_REQUEST['sold_day_way'], $_REQUEST['sold_day_val']);
+            }
         }
-
-        if ($_REQUEST['pid']>0) {
-            $where['sortpath'][]= array('like','%,'.$_REQUEST['pid'].',%');
+        //已下架天数
+        if( $_REQUEST['under_way'] && is_number($_REQUEST['under_val'])){
+            $time = intval($_REQUEST['under_val']);
+            $where ['status'] = \Common\Model\ContentModel::SOLD_OUT;
+            $where ['under_time'] =array($_REQUEST['under_way'],date('Y-m-d',strtotime("-$time day")).' 00:00:00');
         }
-        if ($_REQUEST['supplyid']>0) {
-            $where ['supplyid'] = $_REQUEST['supplyid'];
+        $order = 'update_time desc';
+        if((isset($_REQUEST['ranktype']) && is_number($_REQUEST['ranktype']))&& (isset($_REQUEST['rank']) && !empty($_REQUEST['rank'])) ){
+           switch ($_REQUEST['ranktype']) {
+               case '1' : $order = 'update_time '. $_REQUEST['rank']; break;
+               case '2' : $order = 'id '. $_REQUEST['rank']; break;
+               case '3' : $order = 'days_by_week '. $_REQUEST['rank']; break;
+               case '4' : $order = 'days_by_month '. $_REQUEST['rank']; break;
+               case '5' : $order = 'sold '. $_REQUEST['rank']; break;
+           }
         }
         // 分页
         $p = intval ( I ( 'p' ) );
@@ -2054,8 +2054,120 @@ class CmsController extends BaseController {
             $page->setConfig ( 'theme', '%FIRST% %UP_PAGE% %LINK_PAGE% %DOWN_PAGE% %END% %HEADER%' );
             $this->assign ( 'page', $page->show () );
         }
+
+        $where=array();
+        // 输出分类
+        $where['sortpath']= array('like','%,2,%');
+        $where['id']=get_role();
+        $list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
+        $list = list_to_tree ( $list );
+        $this->assign ( "catlist", $list );
+        // 输出供应商列表
+        $where=array();
+        $where['status']=1;
+        $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
+        $this->assign ( "supplylist", $list );
         $this->display ('stock_info');
     }
 
+    public function goodsStatusLog(){
+        $where = array();
+        $searchtype = I ( 'searchtype' );
+        $keyword = I ( 'keyword' );
+        if($searchtype && $keyword){
+            switch ($searchtype) {
+                case '1' : $where ['c.title'] = array ( 'like','%' . $keyword . '%'); break;
+                case '2' : if (is_numeric ( $keyword )) { $where ['c.id'] = $keyword; } break;
+                case '3' : $where['c.channelname'][]= array('like','%'.$keyword.'%');break;
+            }
+        }
+        if ($_REQUEST['pid']>0) {
+            $where['c.sortpath'][]= array('like','%,'.$_REQUEST['pid'].',%');
+        }
+        if ($_REQUEST['supplyid']>0) {
+            $where ['c.supplyid'] = $_REQUEST['supplyid'];
+        }
+        if ( is_number($_REQUEST['status'])) {
+            $where ['c.status'] = $_REQUEST['status'];
+        }
+        if (is_number($_REQUEST['good_type'])) {
+            $where ['c.good_type'] = $_REQUEST['good_type'];
+        }
+
+        if (is_number($_REQUEST['uptype'])) {
+            $where ['l.uptype'] = $_REQUEST['uptype'];
+        }
+
+        //已下架天数
+        if( $_REQUEST['under_way'] && is_number($_REQUEST['under_val'])){
+            $time = intval($_REQUEST['under_val']);
+            $where ['c.status'] = \Common\Model\ContentModel::SOLD_OUT;
+            $where ['c.under_time'] =array($_REQUEST['under_way'],date('Y-m-d',strtotime("-$time day")).' 00:00:00');
+        }
+
+        $order = 'c.update_time desc';
+        if((isset($_REQUEST['ranktype']) && is_number($_REQUEST['ranktype']))&& (isset($_REQUEST['rank']) && !empty($_REQUEST['rank'])) ){
+            switch ($_REQUEST['ranktype']) {
+                case '1' : $order = 'c.update_time '. $_REQUEST['rank']; break;
+                case '2' : $order = 'c.id '. $_REQUEST['rank']; break;
+                case '3' : $order = 'c.sold '. $_REQUEST['rank']; break;
+            }
+        }
+        $field ='c.id,c.title,c.namecn,c.channelname,c.supplyname,c.stock,c.under_time,l.old_stock,l.uptype,l.type,l.operator,l.note';
+        $row = C ( 'VAR_PAGESIZE' );
+        $count = M('content')->alias('c')->join("my_product_status_log as l on c.id = l.productid")
+            ->where($where)->field($field)->count();
+        $page = new  \Think\Page ( $count, $row );
+
+        $list = M('content')->alias('c')->join("my_product_status_log as l on c.id = l.productid")
+            ->where($where)->field($field)->limit($page->firstRow.",".$page->listRows)->order($order)->select();
+        foreach($list as &$val){
+            if($val['under_time']){
+                $val['under_time']=ceil((time()- strtotime( $val['under_time'])) /86400);
+            }
+        }
+        $this->assign("list",$list);
+        $this->assign("page",$page->show());
+        $where=array();
+        // 输出分类
+        $where['sortpath']= array('like','%,2,%');
+        $where['id']=get_role();
+        $list = M ( "Channel" )->where($where)->order ( 'sort asc' )->select ();
+        $list = list_to_tree ( $list );
+        $this->assign ( "catlist", $list );
+        // 输出供应商列表
+        $where=array();
+        $where['status']=1;
+        $list = M ( "supply" )->where($where)->order ( 'sort asc' )->select ();
+        $this->assign ( "supplylist", $list );
+        $this->display ('goods_status_log');
+    }
+
+    /**
+     * 上架操作
+     */
+    public function changeContentState(){
+        $id = I('post.id');
+        $status = I('post.status');
+        if(regex($id,'number') && is_number($status)){
+            $data['under_time'] = date('Y-m-d H:i:s');
+            $data['status'] = $status;
+            if(ContentModel::modifyContent($id,$data,false)){
+                $rs =ContentModel::getContentById($id,'stock');
+                $logdata['productid'] = $id;
+                $logdata['old_stock'] = $rs['stock'];
+                $logdata['type'] = $status;
+                $logdata['uptype'] = ProductStatusLogModel::UPTYPE_ADMIN;
+                $logdata['operator'] = 'admin';
+                $logdata['note'] =  I('post.note');
+                ProductStatusLogModel::addProductStatusLog($logdata);
+                apiReturn(CodeModel::CORRECT);
+            }else{
+                apiReturn(CodeModel::ERROR,'修改状态失败');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'参数错误，请刷新重试');
+        }
+    }
 }
 ?>

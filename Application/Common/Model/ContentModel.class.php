@@ -164,9 +164,27 @@ class ContentModel extends Model {
                 $con['stock'] = array('lt',1);
                 $data['status'] = self::SOLD_OUT;
                 $data['under_time'] = date('Y-m-d H:i:s');//下架时间
+                $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
+                if(!empty($rs) && isset($rs['stock'])){
+                    $logdata['productid'] = $goodsId;
+                    $logdata['old_stock'] = $rs['stock'];
+                    $logdata['type'] = 0;
+                    $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
+                    $logdata['note'] = '自动下架';
+                    ProductStatusLogModel::addProductStatusLog($data);
+                }
             }else{//库存大于1的上架
                 $con['stock'] = array('gt',0);
                 $data['status'] = self::SHELVES;
+                $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
+                if(!empty($rs) && isset($rs['stock'])){
+                    $logdata['productid'] = $goodsId;
+                    $logdata['old_stock'] = $rs['stock'];
+                    $logdata['type'] = 1;
+                    $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
+                    $logdata['note'] = '取消订单，退回库存';
+                    ProductStatusLogModel::addProductStatusLog($logdata);
+                }
             }
             M('content')->where($con)->save($data);
         }else{

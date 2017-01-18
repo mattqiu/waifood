@@ -65,7 +65,10 @@ class ProductSoldModel extends Model {
                     $savedata['month_sale'] = $val['totalsold'];
                     $savedata['days_by_month'] = intval($val['stock']/$val['sold']) ;// 月可售（天）= 库存/月平均售
                 }
-                ContentModel::modifyContent($val['productid'],$savedata);
+
+                $con['id'] = $val['productid'];
+                $savedata['update_time'] = date('Y-m-d H:i:s');
+                 M('content')->where($con)->save($data);
             }
         }else{
             return false;

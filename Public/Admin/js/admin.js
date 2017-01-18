@@ -221,3 +221,35 @@ function subContent($data){
         }
     })
 }
+
+function setGoodsStatus($id,val){
+    var $msg ='';
+    if(val == 0 || !val){
+        $msg ='请填写下架原因！';
+    }else{
+        $msg ='请填写上架原因！';
+    }
+    swal({
+        title: "",
+        text: $msg,
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: "slide-from-top",
+        inputPlaceholder: "请填写上下架原因"
+    }, function(inputValue) {
+        if (inputValue === false)
+            return false;
+        if (inputValue === "") {
+            swal.showInputError("请输入!");
+            return false
+        }
+        $.post('/admin/cms/changeContentState',{id:$id,status:val,note:inputValue},function(data){
+            if(data.code ==200){
+                window.location.reload();
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    });
+}

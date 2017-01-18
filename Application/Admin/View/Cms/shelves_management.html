@@ -173,13 +173,7 @@ $(function(){
 	 });
 
 });
-function changeState(id,val){
-    $.post('/admin/content/changeState',{id:id,status:val},function(data){
-        if(data.code ==200){
-            window.location.reload();
-        }
-    })
-}
+
 </script>
 </body>
 </html>

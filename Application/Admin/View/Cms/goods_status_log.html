@@ -1,6 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>内容列表</title>
@@ -8,8 +7,7 @@
     <script src="__PUBLIC__/js/smartFloat.js"></script>
 </head>
 <body class="bg_white">
-<form action="/admin/cms/content.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
-    <!--<input type="hidden" name="status" id="status" value="{:I('status')}"/>-->
+<form action="/admin/cms/goodsStatusLog.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
     <div>
         <span class="fl">关&nbsp;键&nbsp;词&nbsp; :&nbsp;<input type="text"  style="width: 150px;;" id="keyword" name="keyword" value="{$_REQUEST['keyword']}"/></span>
         <div class="idealforms_select fl" style="width: 80px;margin-left: 5px;">
@@ -20,8 +18,8 @@
             </div>
             <ul class="idealforms_select_menu">
                 <li data-value="1">商品名</li>
-                <li data-value="3">产品ID</li>
-                <li data-value="2">分类名</li>
+                <li data-value="2">产品ID</li>
+                <li data-value="3">分类名</li>
             </ul>
         </div>
         <span class="fl" style="margin-left: 20px;position: relative;top: 5px;">商品分类&nbsp;:&nbsp;</span>
@@ -54,64 +52,88 @@
     </div>
 
     <div class="clr" style="position: relative;top:10px;">
+        <span class="fl" style="position: relative;top: 5px;">&nbsp;操&nbsp;作&nbsp;人&nbsp;:&nbsp;</span>
+        <div class="idealforms_select fl" style="width:100px;">
+            <div class="idealforms_select_obj">
+                <input type="hidden" value="" name="uptype">
+                <input type="text" value="" readonly>
+                <span class="caret"></span>
+            </div>
+            <ul class="idealforms_select_menu">
+                <li data-value="2">系统自动</li>
+                <li data-value="1">人工操作</li>
+            </ul>
+        </div>
+
+        <span class="fl" style="margin-left: 20px;position: relative;top: 7px;">已下架天数&nbsp;:&nbsp;</span>
+        <div class="idealforms_select fl" style="width: 50px;">
+            <div class="idealforms_select_obj">
+                <input type="hidden" value="" name="under_way">
+                <input type="text" value="" readonly>
+                <span class="caret"></span>
+            </div>
+            <ul class="idealforms_select_menu">
+                <li data-value="egt">>=</li>
+                <li data-value="elt"><=</li>
+            </ul>
+        </div>
+        <input type="text" class="fl" style="margin-left: 15px;width: 50px;" name="under_val" value="{$_REQUEST['under_val']}"/>
+
+        <span class="fl" style=" margin-left: 27px; ;position: relative;top: 5px;">更新日期:&nbsp;</span>
+        <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
+        <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+        <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
+        <div class='fl' style="margin:5px 0 0 25px;">
+            <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>
+        </div>
+    </div>
+
+    <div class="clr" style="position: relative;top:15px;">
         <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;</span>
         <ul style="margin-left: 3px;">
             <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
             <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
             <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="3"/>销量</label></li>
         </ul>
-        <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:&nbsp;</span>
-        <ul style="margin-left: 3px;">
-            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
-            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
-            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
-        </ul>
 
-        <span class="fl" style="margin-left: 142px;position: relative;top: 5px;">更新日期:&nbsp;</span>
-        <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
-        <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-        <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>
-    </div>
-    <div class="clr" style="position: relative;top: 10px;">
-        <span class="fl" style="position: relative;top: 3px;">排序方式:&nbsp;</span>
+        <span class="fl" style="margin-left: 20px;position: relative;top: 3px;">排序方式:&nbsp;</span>
         <ul style="margin-left: 3px;">
             <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
             <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
         </ul>
-        <span class="fl tr" style="margin-left: 155px;position: relative;top: 5px;">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型:&nbsp;</span>
+
+        <span class="fl tr" style="margin-left: 20px;position: relative;top: 5px;">类&nbsp;&nbsp;&nbsp;&nbsp;型:&nbsp;</span>
         <ul>
             <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
             <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
             <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
         </ul>
-        <div class='fl' style="margin:5px 0 0 148px;">
-            <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>
-        </div>
+
+        <span class="fl" style="margin-left: 25px;position: relative;top: 5px;">状&nbsp;&nbsp;&nbsp;&nbsp;态:&nbsp;</span>
+        <ul style="margin-left: 3px;">
+            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
+            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
+            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
+        </ul>
     </div>
 </form>
 <div class="dot"></div>
-<table border="0"class="mytables" style="width: 100%;">
-    <tr class="table_head" style="width: 100%;">
-        <th width="60">ID</th>
-        <th>标题</th>
+<table border="0" class="mytables" style="width: 100%;">
+    <tr>
+        <th width="60">商品ID</th>
+        <th>商品名</th>
         <th>分类</th>
-        <th width="60">供应商</th>
-        <th width="60">价格</th>
-        <th width="40">销量</th>
-        <th width="60">组合销量</th>
+        <th width="80">供应商</th>
         <th width="50">库存</th>
-        <th width="35">可负</th>
-        <th width="55">排序</th>
-        <th width="50">状态</th>
-        <th width="100">操作</th>
+        <th width="60">变点库存</th>
+        <th width="60">操作类型</th>
+        <th width="50">下架天</th>
+        <th width="50">操作人</th>
+        <th>原因</th>
     </tr>
     <volist id="vo" name="list">
         <tr ondblclick="window.location.href='/admin/Cms/editContent.html?id={$vo.id}'" data="{$vo.indexpic}">
-            <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">
-                <input type="checkbox" name="SelectIDs" value="{$vo.id}"/>
-                {$vo.id}
-            </a>
-            </td>
+            <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.id}</a> </td>
             <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}<br/>{$vo.namecn}</a>
                 <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
                 <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
@@ -121,76 +143,29 @@
             <td>
                 <a href="{:U('Cms/content','searchtype=5&supplyid='.$vo['supplyid'])}">{:cutstring($vo['supplyname'])}</a>
             </td>
-            <td align="center">{$vo.price}</td>
-            <td align="center">{$vo.sold}</td>
-            <td align="center">{$vo.re_sold}</td>
             <td align="center">{$vo.stock}  <if condition="$vo['good_type'] eq 2"><span class="fc_red" title="虚库存">虚</span></if></td>
             <td align="center">
-                <if condition="$vo['negative'] eq 1">是</if>
-            </td>
-            <td>
-                <input name="Item_1" id="Item_1" onchange="setVal('content','sort',{$vo.id},$(this).val())"
-                       class="inputText1 numeric w50" value="{$vo.sort}"/>
+                {$vo.old_stock}
             </td>
             <td align="center">
-                <if condition="$vo['status'] eq 1">
+                <if condition="$vo['type'] eq 1">
                     <a href="javascript:void(0);" onclick="setGoodsStatus('{$vo.id}',0,this);"  class="fc_red">上架</a>
                     <else/>
                     <a href="javascript:void(0);" onclick="setGoodsStatus('{$vo.id}',1,this);">下架</a>
                 </if>
             </td>
-            <td align="center">
-                <if condition="$vo['tag1'] eq 1">
-                    <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',0)" class="fc_red"> H </a>
-                    <else/>
-                    <a href="javascript:void(0);" onclick="setVal('content','tag1','{$vo.id}',1)"> H </a>
-                </if>
-                &nbsp;&nbsp;
-                <if condition="$vo['tag2'] eq 1">
-                    <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',0)" class="fc_red"> D</a>
-                    <else/>
-                    <a href="javascript:void(0);" onclick="setVal('content','tag2','{$vo.id}',1)"> D</a>
-                </if>
-                &nbsp;&nbsp;
-                <if condition="($vo.isresume eq 1)">
-                    <a href="javascript:void(0);" onclick="setVal('content','isresume','{$vo.id}',0)"
-                       class="fc_red">推荐</a>
-                    <else/>
-                    <a href="javascript:void(0);" onclick="setVal('content','isresume','{$vo.id}',1)">未推荐</a>
-                </if>
-                <a href="{:U('Cms/editContent','id='.$vo['id'])}" class="btnEdit">修改</a>
-                &nbsp;&nbsp;
-                <if condition="$vo.sale_state eq 1">
-                    <a onclick="setVal('content','sale_state',{$vo.id},-1,this,'停售')" class="fc_red">在售</a>
-                    <else/>
-                    <a onclick="setVal('content','sale_state',{$vo.id},1,this,'在售')" >停售</a>
-                </if>
-                <!--<a class="btnDel" href="javascript:void(0);" onclick="var url='{:U(" Cms/deleteContent","id=".$vo['id'])}';if(confirm('您确定删除该记录吗？')){location=url;}">删除</a>-->
-            </td>
+            <td> <if condition="$vo['type'] neq 1">{$vo.under_time}</if></td>
+            <td><if condition="$vo['uptype'] eq 1">admin<else/>自动</if></td>
+            <td>{$vo.note}</td>
         </tr>
     </volist>
-    <tr >
-        <td colspan="13" class="tr">
-            <input type="button" class="btn2" value="选中设置为" id="AllStatus_1"/>
-            <select name="AllStatus_2" id="AllStatus_2">
-                <option value="0" selected="selected">禁用</option>
-                <option value="1">启用</option>
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="13" class="tr">
-            <input type="hidden" value="content" id="ConstTbl" name="ConstTbl"/>
-            <input type="button" class="btn2" value="批量删除" id="AllDel"/>
-            <input type="button" class="btn1" value="全选" id="AllCheck"/>
-            <input type="button" class="btn1" value="反选" id="ReverseCheck"/>
-        </td>
-    </tr>
-    <tr class="fuwu">
-        <td colspan="13">
-            <div class="page">{$page}</div>
-        </td>
-    </tr>
+    <if condition="!empty($page)">
+        <tr class="footer">
+            <td colspan="17">
+                <div class="page">{$page}</div>
+            </td>
+        </tr>
+    </if>
 </table>
 
 

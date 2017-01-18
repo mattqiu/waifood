@@ -98,9 +98,11 @@
                 <span style="padding-left: 30px">过期日：</span><input type="text" name="expire_date" id="expire_date" class="input_text3"  value="{$db.expire_date}" />
             </td>
 
-            <td width="110"  align="right">可负销售：</td>
-            <td width="300">
-                <div class="idealforms_select fl" >
+            <td colspan="2">
+            <!--<td width="110"  align="right"></td>-->
+            <!--<td width="300">-->
+                <span class="fl" style="margin-left: 57px;position: relative;top: 5px;">可负销售 : </span>
+                <div class="idealforms_select fl" style="width: 112px;">
                     <div class="idealforms_select_obj" >
                         <input type="hidden" value="" name="negative">
                         <input type="text" value="" readonly>
@@ -111,6 +113,8 @@
                         <li data-value="1">是</li>
                     </ul>
                 </div>
+                <span class="fl" style="margin-left: 32px;position: relative;top: 5px;">库存预警:</span>
+                <input type="text" class="input_text3" name="stock_warn" value="{$db.stock_warn}"/>
             </td>
 
 
