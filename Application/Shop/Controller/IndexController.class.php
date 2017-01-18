@@ -14,6 +14,9 @@ use Common\Model\UserModel;
 class IndexController extends BaseController
 {
 
+    public function log(){
+        GLog('1111111111111111','定时'.date('Y-m-d H:i:s'));
+    }
     public function index()
     {
         $orderstr = 'sort1 desc';
