@@ -21,7 +21,7 @@
                 <li data-value="3">分类名</li>
             </ul>
         </div>
-        <span class="fl" style="margin-left: 20px;position: relative;top: 5px;">商品分类&nbsp;:&nbsp;</span>
+        <span class="fl" style="margin-left: 23px;position: relative;top: 5px;">商品分类&nbsp;:&nbsp;</span>
         <div class="idealforms_select fl" style="width:290px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="pid">
@@ -52,26 +52,33 @@
 
     <div class="clr" style="position: relative;top:10px;">
         <span class="fl" style="position: relative;top: 3px;">排序根据:&nbsp;</span>
-        <ul style="margin-left: 3px;">
+        <ul style="margin-left: 3px;width: 268px;">
             <li><label for="radio1"><input type="radio" id="radio1" name="ranktype" value="1"/>更新时间</label></li>
             <li><label for="radio2"><input type="radio" id="radio2" name="ranktype" value="2"/>商品ID</label></li>
             <li><label for="radio20"><input type="radio" id="radio20" name="ranktype" value="3"/>按周可售天数</label></li>
             <li><label for="radio21"><input type="radio" id="radio21" name="ranktype" value="4"/>按月可售天数</label></li>
             <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="5"/>销量</label></li>
         </ul>
-        <span class="fl" style="position: relative;top: 5px">可销售天数:</span>
-        <div class="idealforms_select fl" style="width: 80px;margin-left: 15px;">
+        <span class="fl" style="margin-left: 60px;position: relative;top: 5px;">状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:&nbsp;</span>
+        <ul style="margin-left: 3px;">
+            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
+            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
+            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
+        </ul>
+
+        <span class="fl" style="margin-left: 65px;position: relative;top: 15px">可销售天数:</span>
+        <div class="idealforms_select fl" style="width: 80px;margin-left: 4px;position: relative;top: 10px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="sold_day_type">
                 <input type="text" value="" readonly>
                 <span class="caret"></span>
             </div>
             <ul class="idealforms_select_menu">
-                <li data-value="1">周平均</li>
-                <li data-value="2">月平均</li>
+                <li data-value="1">按周速度</li>
+                <li data-value="2">按月速度</li>
             </ul>
         </div>
-        <div class="idealforms_select fl" style="width: 50px;margin-left: 15px;">
+        <div class="idealforms_select fl" style="width: 50px;margin-left: 15px;position: relative;top: 10px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="sold_day_way">
                 <input type="text" value="" readonly>
@@ -82,10 +89,31 @@
                 <li data-value="elt"><=</li>
             </ul>
         </div>
-        <input type="text" class=" fl" style="margin-left: 15px;width: 40px;" name="sold_day_val" value="{$_REQUEST['sold_day_val']}"/>
+        <input type="text" class=" fl" style="margin-left: 15px;width: 40px;position: relative;top: 10px;" name="sold_day_val" value="{$_REQUEST['sold_day_val']}"/>
 
-        <span class="fl" style="margin-left: 10px;position: relative;top: 7px;">已下架天数</span>
-        <div class="idealforms_select fl" style="width: 50px;margin-left: 15px;">
+    </div>
+    <div class="clr" style="position: relative;top: 10px;">
+        <span class="fl" style="position: relative;top: 3px;">排序方式:&nbsp;</span>
+        <ul style="margin-left: 3px;">
+            <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
+            <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
+        </ul>
+
+        <span class="fl" style="margin-left: 35px;position: relative;top: 5px;">是否预警:&nbsp;</span>
+        <ul>
+            <li><label for="radio6"><input type="radio" id="radio6" name="stock_warn" value="1"/>是</label></li>
+            <li><label for="radio7"><input type="radio" id="radio7" name="stock_warn"  value="0" />否</label></li>
+        </ul>
+
+        <span class="fl tr" style="margin-left: 40px;position: relative;top: 5px;">类&nbsp;&nbsp;&nbsp;&nbsp;型:&nbsp;</span>
+        <ul>
+            <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
+            <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
+            <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
+        </ul>
+
+        <span class="fl" style="margin-left: 45px;position: relative;top: 5px;">已下架天数</span>
+        <div class="idealforms_select fl" style="width: 50px;margin-left: 4px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="under_way">
                 <input type="text" value="" readonly>
@@ -97,31 +125,13 @@
             </ul>
         </div>
         <input type="text"  style="margin-left: 15px;width: 40px;" name="under_val" value="{$_REQUEST['under_val']}"/>
-    </div>
-    <div class="clr" style="position: relative;top: 10px;">
-        <span class="fl" style="position: relative;top: 3px;">排序方式:&nbsp;</span>
-        <ul style="margin-left: 3px;">
-            <li><label for="radio4"><input type="radio" id="radio4" value="asc" name="rank"/>升序</label></li>
-            <li><label for="radio5"><input type="radio" id="radio5" value="desc" name="rank"/>降序</label></li>
-        </ul>
-        <span class="fl tr" style="margin-left: 35px;position: relative;top: 5px;">类&nbsp;&nbsp;&nbsp;&nbsp;型:&nbsp;</span>
-        <ul>
-            <li><label for="radio14"><input type="radio" id="radio14" name="good_type" value=""/>全部</label></li>
-            <li><label for="radio15"><input type="radio" id="radio15" name="good_type" value="0"/>基本商品</label></li>
-            <li><label for="radio16"><input type="radio" id="radio16" name="good_type"  value="2" />组合商品</label></li>
-        </ul>
-        <span class="fl" style="margin-left: 35px;position: relative;top: 5px;">状&nbsp;&nbsp;&nbsp;&nbsp;态:&nbsp;</span>
-        <ul style="margin-left: 3px;">
-            <li><label for="radio11"><input type="radio" id="radio11" name="status" value=""/>全部</label></li>
-            <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>上架</label></li>
-            <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="0" />下架</label></li>
-        </ul>
 
-        <span class="fl" style="margin-left: 42px;position: relative;top: 5px;">是否预警:&nbsp;</span>
-        <ul>
-            <li><label for="radio6"><input type="radio" id="radio6" name="stock_warn" value="1"/>是</label></li>
-            <li><label for="radio7"><input type="radio" id="radio7" name="stock_warn"  value="0" />否</label></li>
-        </ul>
+
+    </div>
+    <div  class="clr" style="position: relative;top: 10px;">
+
+
+
     </div>
 </form>
 
@@ -133,7 +143,7 @@
         <th>分类</th>
         <th width="80">供应商</th>
         <th width="50">库存</th>
-        <th width="50">总销量</th>
+        <th width="50">销量</th>
         <th width="50">月销量</th>
         <th width="50">月速度(个/天)</th>
         <th width="50">按月可售天</th>
@@ -157,10 +167,10 @@
             <td align="center">{$vo.stock}<if condition="$vo['good_type'] eq 2"><span class="fc_red">虚</span></if></td>
             <td align="center">{$vo.sold}</td>
             <td align="center">{$vo.month_sale}</td>
-            <td align="center"><php>echo ceil($vo['month_sale']/$vo['days_by_month'])</php></td>
+            <td align="center">{$vo.month_avg}</td>
             <td align="center"> <if condition="!$vo['month_sale']">{$vo.stock}<else/>{$vo.days_by_month}</if> </td>
             <td align="center">{$vo.week_sale}</td>
-            <td align="center"><php>echo ceil($vo['week_sale']/$vo['days_by_week'])</php></td>
+            <td align="center">{$vo.month_avg}</td>
             <td align="center"><if condition="!$vo['week_sale']">{$vo.stock}<else/>{$vo.days_by_week}</if> </td>
             <td align="center"><if condition="$vo['stock_warn'] gt 0 && $vo['stock_warn'] egt $vo['stock']">预警</if></td>
             <td align="center">
