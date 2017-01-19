@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title>内容列表</title>
+    <title>上下架历史</title>
     <include file="Index:header"/>
     <script src="__PUBLIC__/js/smartFloat.js"></script>
 </head>
@@ -177,6 +177,8 @@
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
         setSelectSelected('#selectInfo input[name=searchtype]',"{$_REQUEST['searchtype']}");
+        setSelectSelected('#selectInfo input[name=uptype]',"{$_REQUEST['uptype']}");
+        setSelectSelected('#selectInfo input[name=under_way]',"{$_REQUEST['under_way']}");
 
         setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']}");
         setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");

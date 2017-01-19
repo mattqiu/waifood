@@ -19,11 +19,8 @@ class CronController extends Controller
             //获取前一天上商品销售量
             ProductSoldModel::getProductDaySold($time);
             GLog('定时','day'.$i);
-          //  ProductSoldModel::getProductDaySold($time);//获取前一天上商品销售量
         }
         GLog('定时','stop');
-        // ProductSoldModel::getProductAVGSoldByDay(7);
-        // $time = date('Y-m-d',strtotime("-1 day"));
     }
 
     public function getProductAVGSoldByDay(){

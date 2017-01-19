@@ -2047,6 +2047,11 @@ class CmsController extends BaseController {
         $row = C ( 'VAR_PAGESIZE' );
         $rs = M ( "content" )->where ( $where )->order ( $order)->page ( $p, $row );
         $list = $rs->select ();
+        foreach($list as &$val){
+            if($val['under_time']){
+                $val['under_time']=ceil((time()- strtotime( $val['under_time'])) /86400);
+            }
+        }
         $this->assign ( "list", $list );
         $count = $rs->where ( $where )->count ();
         if ($count > $row) {

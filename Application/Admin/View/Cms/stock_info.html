@@ -59,7 +59,7 @@
             <li><label for="radio21"><input type="radio" id="radio21" name="ranktype" value="4"/>按月可售天数</label></li>
             <li><label for="radio3"><input type="radio" id="radio3" name="ranktype" value="5"/>销量</label></li>
         </ul>
-        <span class="fl" style="position: relative;top: 7px">可销售天数:</span>
+        <span class="fl" style="position: relative;top: 5px">可销售天数:</span>
         <div class="idealforms_select fl" style="width: 80px;margin-left: 15px;">
             <div class="idealforms_select_obj">
                 <input type="hidden" value="" name="sold_day_type">
@@ -92,8 +92,8 @@
                 <span class="caret"></span>
             </div>
             <ul class="idealforms_select_menu">
-                <li data-value="egt">>=</li>
-                <li data-value="elt"><=</li>
+                <li data-value="elt">>=</li>
+                <li data-value="egt"><=</li>
             </ul>
         </div>
         <input type="text"  style="margin-left: 15px;width: 40px;" name="under_val" value="{$_REQUEST['under_val']}"/>
@@ -122,7 +122,6 @@
             <li><label for="radio6"><input type="radio" id="radio6" name="stock_warn" value="1"/>是</label></li>
             <li><label for="radio7"><input type="radio" id="radio7" name="stock_warn"  value="0" />否</label></li>
         </ul>
-
     </div>
 </form>
 
@@ -173,7 +172,7 @@
                 <br/>
                 <a href="/admin/cms/goodsStatusLog.html?keyword={$vo.id}&searchtype=2" style="text-decoration:underline;">明细</a>
             </td>
-            <td>{$vo.under_day}</td>
+            <td>{$vo.under_time}</td>
             <td>未加入</td>
         </tr>
     </volist>
@@ -192,10 +191,15 @@
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
         setSelectSelected('#selectInfo input[name=searchtype]',"{$_REQUEST['searchtype']}");
+        setSelectSelected('#selectInfo input[name=sold_day_type]',"{$_REQUEST['sold_day_type']}");
+        setSelectSelected('#selectInfo input[name=sold_day_way]',"{$_REQUEST['sold_day_way']}");
+        setSelectSelected('#selectInfo input[name=under_way]',"{$_REQUEST['under_way']}");
+
         setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']}");
         setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']}");
         setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']}");
         setRadioCheck('#selectInfo input[name=good_type]',"{$_REQUEST['good_type']}");
+        setRadioCheck('#selectInfo input[name=stock_warn]',"{$_REQUEST['stock_warn']}");
     });
 </script>
 </body>
