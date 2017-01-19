@@ -11,7 +11,7 @@ class CronController extends Controller
 {
 
     public function getProductSold(){
-        for($i=1;$i<40;$i++){
+        for($i=1;$i<360;$i++){
             $time = date('Y-m-d',strtotime("-$i day"));
             //获取前一天上商品销售量
             if(false!==ProductSoldModel::getProductDaySold($time)){

@@ -68,7 +68,7 @@ class ProductSoldModel extends Model {
 
                 $con['id'] = $val['productid'];
                 $savedata['update_time'] = date('Y-m-d H:i:s');
-                 M('content')->where($con)->save($data);
+                 M('content')->where($con)->save($savedata);
             }
         }else{
             return false;
