@@ -129,6 +129,7 @@
         <th width="60">变点库存</th>
         <th width="60">操作类型</th>
         <th width="50">下架天</th>
+        <th width="80">下架时间</th>
         <th width="50">操作人</th>
         <th>原因</th>
     </tr>
@@ -155,6 +156,7 @@
                     <a href="javascript:void(0);" onclick="setGoodsStatus('{$vo.id}',1,this);">下架</a>
                 </if>
             </td>
+            <td> <if condition="$vo['type'] neq 1">{$vo.under_day}</if></td>
             <td> <if condition="$vo['type'] neq 1">{$vo.under_time}</if></td>
             <td><if condition="$vo['uptype'] eq 1">admin<else/>自动</if></td>
             <td>{$vo.note}</td>

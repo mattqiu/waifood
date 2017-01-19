@@ -140,10 +140,10 @@
         <th width="50">销量</th>
         <th width="50">月销量</th>
         <th width="50">月速度(个/天)</th>
-        <th width="50">按月可售天</th>
+        <th width="50" style="background: #f2f2f2;">按月可售天</th>
         <th width="50">周销量</th>
         <th width="50">周速度(个/天)</th>
-        <th width="50">按周可售天</th>
+        <th width="50"  style="background: #f2f2f2;">按周可售天</th>
         <th width="50">预警</th>
         <th width="50">状态</th>
         <th width="50">下架天</th>
@@ -151,7 +151,7 @@
     </tr>
     <volist id="vo" name="list">
         <tr>
-            <td>{$vo.id}</td>
+            <td align="center">{$vo.id}</td>
             <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}<br/>{$vo.namecn}</a>
                 <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
                 <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
@@ -162,10 +162,10 @@
             <td align="center">{$vo.sold}</td>
             <td align="center">{$vo.month_sale}</td>
             <td align="center">{$vo['month_sale']/30|float_fee}</td>
-            <td align="center"><if condition="$vo['month_sale'] gt 0">{$vo.days_by_month}<else/>{$vo.stock}</if> </td>
+            <td align="center"  style="background: #f2f2f2;"><if condition="$vo['month_sale'] gt 0">{$vo.days_by_month}<else/>{$vo.stock}</if> </td>
             <td align="center">{$vo.week_sale}</td>
             <td align="center">{$vo['week_sale']/7|float_fee}</td>
-            <td align="center"><if condition="$vo['week_sale'] gt 0">{$vo.days_by_week}<else/>{$vo.stock}</if> </td>
+            <td align="center" style="background: #f2f2f2;"><if condition="$vo['week_sale'] gt 0">{$vo.days_by_week}<else/>{$vo.stock}</if> </td>
             <td align="center"><if condition="$vo['stock_warn'] gt 0 && $vo['stock_warn'] egt $vo['stock']">预警</if></td>
             <td align="center">
                 <if condition="$vo['status'] eq 1">
@@ -176,7 +176,7 @@
                 <br/>
                 <a href="/admin/cms/goodsStatusLog.html?keyword={$vo.id}&searchtype=2" style="text-decoration:underline;">明细</a>
             </td>
-            <td>{$vo.under_time}</td>
+            <td align="center">{$vo.under_time}</td>
             <td>未加入</td>
         </tr>
     </volist>

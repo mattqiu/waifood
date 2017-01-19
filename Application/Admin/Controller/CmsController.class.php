@@ -2128,7 +2128,7 @@ class CmsController extends BaseController {
             ->where($where)->field($field)->limit($page->firstRow.",".$page->listRows)->order($order)->select();
         foreach($list as &$val){
             if($val['under_time']){
-                $val['under_time']=ceil((time()- strtotime( $val['under_time'])) /86400);
+                $val['under_day']=ceil((time()- strtotime( $val['under_time'])) /86400);
             }
         }
         $this->assign("list",$list);
