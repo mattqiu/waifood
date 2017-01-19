@@ -27,6 +27,19 @@ class CronController extends Controller
         ProductSoldModel::getProductAVGSoldByDay(7);
         ProductSoldModel::getProductAVGSoldByDay(30);
     }
+
+    public function loadDaySold(){
+        $con['_string'] = 'days_by_month < 0 or days_by_week < 0';
+        $data = M('content')->where($con)->field('id,stock')->select();
+        if(!empty($data)){
+            foreach($data as $val){
+                $con['id'] = $val['id'];
+                $savedata['days_by_month'] = $val['stock'];
+                $savedata['days_by_week'] = $val['stock'];
+                M('content')->where($con)->save($savedata);
+            }
+        }
+    }
 /*
     public function getProductSold(){
         $time = date('Y-m-d',strtotime("-1 day"));
