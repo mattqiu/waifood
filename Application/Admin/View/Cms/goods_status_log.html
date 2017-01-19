@@ -141,7 +141,7 @@
     </tr>
     <volist id="vo" name="list">
         <tr ondblclick="window.location.href='/admin/Cms/editContent.html?id={$vo.id}'" data="{$vo.indexpic}">
-            <td><a href="/admin/cms/goodsStatusLog.html?keyword={$vo.id}&searchtype=2" class="underline">{$vo.id}</a> </td>
+            <td align="center">{$vo.id}<br/><a href="/admin/cms/goodsStatusLog.html?keyword={$vo.id}&searchtype=2" style="font-size: 11px;;" class="underline">只看它</a> </td>
             <td><a href="{:U('Cms/editContent','id='.$vo['id'])}" class="underline">{$vo.title}<br/>{$vo.namecn}</a>
                 <neq name="vo.indexpic" value=''><span class="fc_red">图</span></neq>
                 <neq name="vo.linkurl" value=''><span class="fc_red">外</span></neq>
