@@ -2050,8 +2050,6 @@ class CmsController extends BaseController {
         foreach($list as &$val){
             if($val['under_time']){
                 $val['under_time']=ceil((time()- strtotime( $val['under_time'])) /86400);
-                $val['month_avg']=float_fee($val['month_sale']/$val['days_by_month']);
-                $val['week_avg']=float_fee($val['week_sale']/$val['days_by_week']);
             }
         }
         $this->assign ( "list", $list );

@@ -167,11 +167,11 @@
             <td align="center">{$vo.stock}<if condition="$vo['good_type'] eq 2"><span class="fc_red">虚</span></if></td>
             <td align="center">{$vo.sold}</td>
             <td align="center">{$vo.month_sale}</td>
-            <td align="center">{$vo.month_avg}</td>
-            <td align="center"> <if condition="!$vo['month_sale']">{$vo.stock}<else/>{$vo.days_by_month}</if> </td>
+            <td align="center">{$vo['month_sale']/30|float_fee}</td>
+            <td align="center"><if condition="$vo['month_sale'] gt 0">{$vo.month_sale}<else/>{$vo.stock}</if> </td>
             <td align="center">{$vo.week_sale}</td>
-            <td align="center">{$vo.month_avg}</td>
-            <td align="center"><if condition="!$vo['week_sale']">{$vo.stock}<else/>{$vo.days_by_week}</if> </td>
+            <td align="center">{$vo['week_sale']/7|float_fee}</td>
+            <td align="center"><if condition="$vo['week_sale'] gt 0">{$vo.week_sale}<else/>{$vo.stock}</if> </td>
             <td align="center"><if condition="$vo['stock_warn'] gt 0 && $vo['stock_warn'] egt $vo['stock']">预警</if></td>
             <td align="center">
                 <if condition="$vo['status'] eq 1">
