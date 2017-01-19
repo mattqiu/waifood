@@ -2110,7 +2110,7 @@ class CmsController extends BaseController {
             $where ['c.under_time'] =array($_REQUEST['under_way'],date('Y-m-d',strtotime("-$time day")).' 00:00:00');
         }
 
-        $order = 'c.update_time desc';
+        $order = 'l.addtime desc';
         if((isset($_REQUEST['ranktype']) && is_number($_REQUEST['ranktype']))&& (isset($_REQUEST['rank']) && !empty($_REQUEST['rank'])) ){
             switch ($_REQUEST['ranktype']) {
                 case '1' : $order = 'l.addtime '. $_REQUEST['rank']; break;
