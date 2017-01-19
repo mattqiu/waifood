@@ -206,10 +206,10 @@
         setSelectSelected('#selectInfo input[name=under_way]',"{$_REQUEST['under_way']}");
 
         setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']}");
-        setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']}");
-        setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']}");
+        setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");
+        setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']|default='1'}");
         setRadioCheck('#selectInfo input[name=good_type]',"{$_REQUEST['good_type']}");
-        setRadioCheck('#selectInfo input[name=stock_warn]',"{$_REQUEST['stock_warn']}");
+        setRadioCheck('#selectInfo input[name=stock_warn]',"{$_REQUEST['stock_warn']|default='0'}");
     });
 </script>
 </body>
