@@ -2118,7 +2118,7 @@ class CmsController extends BaseController {
                 case '3' : $order = 'c.sold '. $_REQUEST['rank']; break;
             }
         }
-        $field ='c.id,c.title,c.namecn,c.channelname,c.supplyname,c.stock,c.under_time,l.old_stock,l.uptype,l.type,l.operator,l.note';
+        $field ='c.id,c.title,c.namecn,c.channelname,c.supplyname,c.stock,c.under_time,l.old_stock,l.uptype,l.type,l.operator,l.note,l.addtime';
         $row = C ( 'VAR_PAGESIZE' );
         $count = M('content')->alias('c')->join("my_product_status_log as l on c.id = l.productid")
             ->where($where)->field($field)->count();
@@ -2128,7 +2128,7 @@ class CmsController extends BaseController {
             ->where($where)->field($field)->limit($page->firstRow.",".$page->listRows)->order($order)->select();
         foreach($list as &$val){
             if($val['under_time']){
-                $val['under_day']=ceil((time()- strtotime( $val['under_time'])) /86400);
+                $val['under_time']=ceil((time()- strtotime( $val['under_time'])) /86400);
             }
         }
         $this->assign("list",$list);

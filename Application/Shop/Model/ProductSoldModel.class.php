@@ -62,15 +62,14 @@ class ProductSoldModel extends Model {
                 $dayavg = $val['totalsold']/$day; //平均每天销售
                 if($day ==7){ //周
                     $savedata['week_sale'] = $val['totalsold'];
-                    if($val['totalsold']){
+                    if($val['totalsold']>0){
                         $savedata['days_by_week'] =float_fee($val['stock']/$dayavg) ; // 周可售（天）= 库存/周（每日）平均售
                     }else{
                         $savedata['days_by_week'] =$val['stock']; // 周可售（天）= 库存
                     }
                 }else{ //月
                     $savedata['month_sale'] = $val['totalsold'];
-
-                    if($val['totalsold']){
+                    if($val['totalsold']>0){
                         $savedata['days_by_month'] = float_fee($val['stock']/$dayavg) ;// 月可售（天）= 库存/月（每日）平均售
                     }else{
                         $savedata['days_by_month'] =$val['stock']; // 周可售（天）= 库存
