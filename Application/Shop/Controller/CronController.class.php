@@ -29,7 +29,7 @@ class CronController extends Controller
     }
 
     public function loadDaySold(){
-        $con['_string'] = 'days_by_month < 0 or days_by_week < 0';
+        $con['_string'] = 'days_by_month <= 0 or days_by_week <= 0';
         $data = M('content')->where($con)->field('id,stock')->select();
         if(!empty($data)){
             foreach($data as $val){
