@@ -162,7 +162,7 @@
                     <a href="javascript:void(0);" onclick="setGoodsStatus('{$vo.id}',1,this);">下架</a>
                 </if>
             </td>
-            <td> <if condition="$vo['type'] neq 1">{$vo.under_time}</if></td>
+            <td align="center"> <if condition="$vo['type'] neq 1">{$vo.under_time}</if></td>
             <td>{$vo.addtime}</td>
             <td><if condition="$vo['uptype'] eq 1">admin<else/>自动</if></td>
             <td>{$vo.note}</td>
