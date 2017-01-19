@@ -18,6 +18,7 @@ class ProductSoldModel extends Model {
                 $val['sold'] = intval($val['sold']);
                 self::addProductSales($val);//插入销售表
             }
+            return true;
         }else{
             return false;
         }
