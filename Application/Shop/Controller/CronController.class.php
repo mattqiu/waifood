@@ -33,10 +33,10 @@ class CronController extends Controller
         $data = M('content')->where($con)->field('id,stock')->select();
         if(!empty($data)){
             foreach($data as $val){
-                $con['id'] = $val['id'];
+                $con1['id'] = $val['id'];
                 $savedata['days_by_month'] = $val['stock'];
                 $savedata['days_by_week'] = $val['stock'];
-                M('content')->where($con)->save($savedata);
+                M('content')->where($con1)->save($savedata);
             }
         }
     }
