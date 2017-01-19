@@ -2113,7 +2113,7 @@ class CmsController extends BaseController {
         $order = 'c.update_time desc';
         if((isset($_REQUEST['ranktype']) && is_number($_REQUEST['ranktype']))&& (isset($_REQUEST['rank']) && !empty($_REQUEST['rank'])) ){
             switch ($_REQUEST['ranktype']) {
-                case '1' : $order = 'c.update_time '. $_REQUEST['rank']; break;
+                case '1' : $order = 'l.addtime '. $_REQUEST['rank']; break;
                 case '2' : $order = 'c.id '. $_REQUEST['rank']; break;
                 case '3' : $order = 'c.sold '. $_REQUEST['rank']; break;
             }
