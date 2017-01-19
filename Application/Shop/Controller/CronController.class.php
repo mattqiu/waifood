@@ -11,6 +11,8 @@ class CronController extends Controller
 {
 
     public function getProductSold(){
+        ignore_user_abort(true); // 忽略客户端断开
+        set_time_limit(0);    // 设置执行不超时
         GLog('定时','star');
         for($i=1;$i<360;$i++){
             $time = date('Y-m-d',strtotime("-$i day"));
