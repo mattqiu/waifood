@@ -119,7 +119,7 @@ var setMinWidth = function (el) {
  * @param $val
  */
 function setSelectSelected(obj,$val){
-    if($val){
+    if(regex($val,'number')){
         $(obj).val($val);
         $(obj).parents().siblings('.idealforms_select_menu').find('li').each(function(){
             if($val == $(this).data('value')){

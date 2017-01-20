@@ -806,14 +806,16 @@ class CmsController extends BaseController {
         unset($data['group_id']);
         if(regex($id,'number')){ //修改商品
             if(ContentModel::modifyContent($id,$data)){
-                if(!empty($group) && isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS ){
+                if($group && isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS ){
                     $data = array();
-                    if(   $data['stock'] =  GoodsGroupModel::getGroupStock($group,$id)){
+                    $rs = GoodsGroupModel::getGroupStock($group,$id);
+                    if( is_number($rs)){
+                        $data['stock'] =$rs;
                         ContentModel::modifyContent($id,$data);
                     }
                 }else{ //修改普通商品完成后判断该商品是否被组合，（关联：重新计算被关联商品的库存）
                     if( GoodsGroupModel::isGroupChildGoods($id)){
-                      GoodsGroupModel::resetGroupGoodsStock($id);
+                        GoodsGroupModel::resetGroupGoodsStock($id);
                     }
                 }
                 apiReturn(CodeModel::CORRECT,'编辑成功！');
@@ -822,7 +824,9 @@ class CmsController extends BaseController {
             if($id = ContentModel::addContent($data)){
                 if(!empty($group) && isset($data['good_type']) && $data['good_type'] == ContentModel::COMBINATION_OF_GOODS ){
                     $data = array();
-                    if($data['stock'] =  GoodsGroupModel::getGroupStock($group,$id)){
+                    $rs = GoodsGroupModel::getGroupStock($group,$id);
+                    if( is_number($rs)){
+                        $data['stock'] =$rs;
                         ContentModel::modifyContent($id,$data);
                     }
                 }
@@ -1018,6 +1022,7 @@ class CmsController extends BaseController {
             if($db['id']){
                 $db['child'] =  GoodsGroupModel::getGoodsChild($db['id']);
             }
+			$this->assign ( "grouplist", GoodsGroupModel::getGroupGoodsByChildid($db['id']) );
 			$this->assign ( "db", $db );
 			$where = array();
 			if(!isN($db['sortpath'])){

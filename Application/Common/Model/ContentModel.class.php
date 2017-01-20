@@ -163,6 +163,7 @@ class ContentModel extends Model {
                 $con = array();
                 $con['stock'] = array('lt',1);
                 $data['status'] = self::SOLD_OUT;
+                $data['negative'] = self::CANNOT_NEGATIVE_AOLD;
                 $data['under_time'] = date('Y-m-d H:i:s');//下架时间
                 $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
                 if(!empty($rs) && isset($rs['stock'])){
@@ -198,7 +199,7 @@ class ContentModel extends Model {
      */
     public static function reGetGoodsStock($goodsid){
         $sql = 'SELECT distinct parentid from my_goods_group where `productid` ='.$goodsid;
-        $parentid = M ()->execute ($sql );
+        $parentid = M ()->query($sql );
         if(!empty($parentid)){
             $data = array();
             //一个商品有可能被多个组合商品组合

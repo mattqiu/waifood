@@ -113,7 +113,7 @@
                         <li data-value="1">是</li>
                     </ul>
                 </div>
-                <span class="fl" style="margin-left: 32px;position: relative;top: 5px;">库存预警:</span>
+                <span class="fl" style="margin-left: 30px;position: relative;top: 5px;">库存预警:</span>
                 <input type="text" class="input_text3" name="stock_warn" value="{$db.stock_warn}"/>
             </td>
 
@@ -176,15 +176,16 @@
                     <button style="margin:0px 0 0 15px;overflow: hidden;display: none" class="fl selgroupgoodbtn selgroupgoodbtn2" onclick="selectGood()">添加</button>
                 </if>
                 <div class="clr"></div>
-                <table border="0" style="width: 100%;" class="mytables" id="goods_box">
-                    <tr >
-                        <th>商品ID</th>
-                        <th>商品名</th>
-                        <th>数量</th>
-                        <th>操作</th>
-                    </tr>
-                    <tbody id="good_type_info">
-                        <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
+
+                <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
+                    <table border="0" style="width: 100%;" class="mytables" id="goods_box">
+                        <tr >
+                            <th>商品ID</th>
+                            <th>商品名</th>
+                            <th>数量</th>
+                            <th>操作</th>
+                        </tr>
+                        <tbody id="good_type_info">
                             <volist name="db['child']" id="vo">
                                 <tr align="center" id="js_goods_{$vo['productid']}" data-id="{$vo['productid']}" data-name="{$vo['title']}" data-num="{$vo['num']}" class="js_goods_li">
                                     <td>{$vo['productid']}</td>
@@ -193,9 +194,25 @@
                                     <td><button class="fr" onclick="delSelGood('{$vo.productid}','{$vo.id}')">删除</button></td>
                                 </tr>
                             </volist>
-                        </if>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                    <elseif condition="!empty($grouplist)"/>
+                    <table border="0" style="width: 100%;margin-top: 5px;" class="mytables">
+                        <tr >
+                            <th>商品ID</th>
+                            <th>商品名</th>
+                            <th>库存</th>
+                        </tr>
+                        <volist name="grouplist" id="vo">
+                            <tr align="center">
+                                <td>{$vo['id']}</td>
+                                <td align="left"><a href="/Admin/Cms/editContent/id/{$vo['productid']}.html">{$vo['title']}</a></td>
+                                <td>{$vo['stock']}</td>
+                            </tr>
+                        </volist>
+                    </table>
+                </if>
+
             </td>
         </tr>
         <tr>

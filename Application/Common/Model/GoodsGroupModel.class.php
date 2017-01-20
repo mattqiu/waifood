@@ -69,6 +69,31 @@ class GoodsGroupModel extends Model {
             return false;
         }
     }
+
+    /**
+     * 根据商品id获取组合该商品的组合商品
+     * @param $productid
+     * @return array|bool
+     */
+    public static function getGroupGoodsByChildid($productid){
+        if(regex($productid,'number')){
+            $sql = 'SELECT DISTINCT parentid from '. C ( 'DB_PREFIX' ) .'goods_group where `productid` = '.$productid;
+            $data = M ()->query($sql);
+            $list = array();
+            if(!empty($data)){
+                $field = 'id,title,stock,namecn';
+                foreach($data as $key=>$val){
+                    $list[$key] =  \Admin\Model\ContentModel::getContentById($val['parentid'],$field);
+                }
+                return $list;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
     /**
      * 判断是否是被组合的子商品
      * @param $productid
@@ -103,6 +128,11 @@ class GoodsGroupModel extends Model {
                         $stock = self::getGroupStockByParentId($val['parentid']);
                        if(is_number($stock)){
                            $savedata['stock'] = $stock;
+                           if($stock>0){
+                               $savedata['status'] = 1;
+                           }else{
+                               $savedata['status'] = 0;
+                           }
                            \Admin\Model\ContentModel::modifyContent($val['parentid'],$savedata); //重新设置组合商品的库存
                        }
                     }
