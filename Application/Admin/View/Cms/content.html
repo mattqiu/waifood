@@ -199,6 +199,7 @@
     $(function () {
 //        $(".table_head").smartFloat(0);
         $("#selectInfo").idealforms();
+        $('#keyword').focus();
         setSelectSelected('#selectInfo input[name=pid]',"{$_REQUEST['pid']}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
         setSelectSelected('#selectInfo input[name=searchtype]',"{$_REQUEST['searchtype']}");

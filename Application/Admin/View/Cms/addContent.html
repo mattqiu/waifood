@@ -85,10 +85,10 @@
         <tr>
             <td colspan="2" align="left" style="padding-left: 21px;">
                 <span>当前售价：</span><input type="text" name="price"  class="input_text3"  value="{$db.price}" />
-                <span style="padding-left: 28px">市场价：</span><input type="text" name="price1"  class="input_text3"  value="{$db.price1}" />
+                <span style="padding-left: 28px">市场价：</span><input type="text"  name="price1"  class="input_text3"  value="{$db.price1}" />
             </td>
             <td  colspan="2" align="left" >
-                <span style="padding-left: 63px">库存数：</span><input type="text" name="stock"  class="input_text3"  value="{$db.stock|default=0}" />
+                <span style="padding-left: 63px">库存数：</span><input type="text" name="stock"  class="input_text3"  <if condition="isset($db['good_type']) && $db['good_type'] eq 2">readonly style="background: #e0e0e0"</if> value="{$db.stock|default=0}" />
                 <span style="padding-left: 17px">库存单位：</span><input type="text" name="unit"  class="input_text3"  value="{$db.unit}" />
             </td>
         </tr>
