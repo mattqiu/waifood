@@ -325,7 +325,7 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
                     $data ['namecn'] = $good ['namecn'];
                     $data ['price'] = $good['price'];
                     $data ['num'] = $value['num'];
-                    $data ['status'] = $status;
+                   // $data ['status'] = $status;
                     $data ['userid'] = get_userid();
                     M ( 'order_detail' )->add ( $data );
                     if (strpos($good['sortpath'], ',2,')) {
@@ -345,6 +345,7 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
                 $ordertype = 1;
             }
         }
+
         $where['orderno'] = $orderno;
         $data1['ordertype']=$ordertype;
         M('order')->where($where)->data($data1)->save();

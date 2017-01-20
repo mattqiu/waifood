@@ -172,7 +172,7 @@ class ContentModel extends Model {
                     $logdata['type'] = 0;
                     $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
                     $logdata['note'] = '自动下架';
-                    ProductStatusLogModel::addProductStatusLog($data);
+                    ProductStatusLogModel::addProductStatusLog($logdata);
                 }
             }else{//库存大于1的上架
                 $con['stock'] = array('gt',0);
