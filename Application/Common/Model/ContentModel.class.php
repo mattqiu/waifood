@@ -162,8 +162,8 @@ class ContentModel extends Model {
             if($type===OrderModel::CAT_STOCK){
                 $con = array();
                 $con['stock'] = array('lt',1);
+                $con['negative'] = self::CANNOT_NEGATIVE_AOLD;
                 $data['status'] = self::SOLD_OUT;
-                $data['negative'] = self::CANNOT_NEGATIVE_AOLD;
                 $data['under_time'] = date('Y-m-d H:i:s');//下架时间
                 $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
                 if(!empty($rs) && isset($rs['stock'])){

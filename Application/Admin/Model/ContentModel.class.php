@@ -169,8 +169,8 @@ class ContentModel extends Model {
                     //库存小于1的商品自动下架
                     $con = array();
                     $con['stock'] = array('lt',1);
+                    $con['negative'] = self::CANNOT_NEGATIVE_AOLD; //只能下架不支持可负销售的
                     $savedata['status'] = 0;
-                    $data['negative'] = self::CANNOT_NEGATIVE_AOLD; //只能下架不支持可负销售的
                     $savedata['under_time'] = date('Y-m-d H:i:s');//下架时间
                     M('content')->where($con)->save($savedata);
                     $field = 'stock';
