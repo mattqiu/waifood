@@ -41,18 +41,7 @@ function delgood(id){
 }
 
 
-/****************************************中英文详情切换***************************/
-$('#language_tab li').click(function(){
-    $('#language_tab li').removeClass('onselect');
-    $(this).addClass('onselect');
-    if($(this).data('content') == 'cn'){
-        $('#content_box .content_en').hide();
-        $('#content_box .content_cn').show();
-    }else{
-        $('#content_box .content_cn').hide();
-        $('#content_box .content_en').show();
-    }
-})
+
 
 /********************************可负销售判读*****************************************/
 $('#infoform input[name=negative]').parents().siblings('.idealforms_select_menu').find('li').click(function(){

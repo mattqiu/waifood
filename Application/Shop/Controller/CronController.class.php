@@ -10,7 +10,7 @@ use Think\Controller;
 class CronController extends Controller
 {
 
-    public function getProductSold(){
+    public function getProductSold360(){
         ignore_user_abort(true); // 忽略客户端断开
         set_time_limit(0);    // 设置执行不超时
         GLog('定时','star');
@@ -40,7 +40,7 @@ class CronController extends Controller
             }
         }
     }
-/*
+
     public function getProductSold(){
         $time = date('Y-m-d',strtotime("-1 day"));
         //获取前一天上商品销售量
@@ -48,7 +48,7 @@ class CronController extends Controller
             ProductSoldModel::getProductAVGSoldByDay(7);
             ProductSoldModel::getProductAVGSoldByDay(30);
         }
-    }*/
+    }
 
 
 
