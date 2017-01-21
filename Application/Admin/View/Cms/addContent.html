@@ -177,9 +177,8 @@
                 </if>
                 <div class="clr"></div>
 
-                <if condition="$db['good_type'] gt 0 && !empty($db['child'])">
-                    <table border="0" style="width: 100%;" class="mytables" id="goods_box">
-                        <tr >
+                    <table border="0" style="width: 100%;"  id="goods_box" <if condition="$db['good_type'] eq 0"> class="mytables hide"<else/>class="mytables"</if> >
+                        <tr <if condition="empty($db['child'])"> class=" hide" </if> id="thead">
                             <th>商品ID</th>
                             <th>商品名</th>
                             <th>数量</th>
@@ -196,9 +195,8 @@
                             </volist>
                         </tbody>
                     </table>
-                    <elseif condition="!empty($grouplist)"/>
-                    <table border="0" style="width: 100%;margin-top: 5px;" class="mytables">
-                        <tr >
+                    <table border="0" style="width: 100%;margin-top: 5px;" class="mytables " <if condition="$db['good_type'] eq 0 && !empty($grouplist)">class="mytables hide"</if>>
+                        <tr <if condition="empty($grouplist)"> class=" hide" </if>>
                             <th>商品ID</th>
                             <th>商品名</th>
                             <th>库存</th>
@@ -211,7 +209,6 @@
                             </tr>
                         </volist>
                     </table>
-                </if>
 
             </td>
         </tr>
@@ -393,6 +390,7 @@
                 $('#infoform input[name=stock]').val(0);
                 $('#infoform input[name=stock]').css('background','#e0e0e0')
                 selectOk($(this).data('value'));
+                $('#thead').show();
                 $('#goods_box').show();
                 $('.selgroupgoodbtn2').show();
             }else{
