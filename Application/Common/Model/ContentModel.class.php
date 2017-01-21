@@ -177,6 +177,7 @@ class ContentModel extends Model {
             }else{//库存大于1的上架
                 $con['stock'] = array('gt',0);
                 $data['status'] = self::SHELVES;
+                $data['under_time'] = date('Y-m-d H:i:s');//上架时间
                 $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
                 if(!empty($rs) && isset($rs['stock'])){
                     $logdata['productid'] = $goodsId;

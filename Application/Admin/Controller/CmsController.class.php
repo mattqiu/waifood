@@ -2036,10 +2036,10 @@ class CmsController extends BaseController {
             $where ['status'] = \Common\Model\ContentModel::SOLD_OUT;
             $where ['under_time'] =array($_REQUEST['under_way'],date('Y-m-d',strtotime("-$time day")).' 00:00:00');
         }
-        $order = 'update_time desc';
+        $order = 'under_time desc';
         if((isset($_REQUEST['ranktype']) && is_number($_REQUEST['ranktype']))&& (isset($_REQUEST['rank']) && !empty($_REQUEST['rank'])) ){
            switch ($_REQUEST['ranktype']) {
-               case '1' : $order = 'update_time '. $_REQUEST['rank']; break;
+               case '1' : $order = 'under_time '. $_REQUEST['rank']; break;
                case '2' : $order = 'id '. $_REQUEST['rank']; break;
                case '3' : $order = 'days_by_week '. $_REQUEST['rank']; break;
                case '4' : $order = 'days_by_month '. $_REQUEST['rank']; break;
