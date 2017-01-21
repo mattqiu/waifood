@@ -179,7 +179,7 @@ class ContentModel extends Model {
                 $data['status'] = self::SHELVES;
                 $data['under_time'] = date('Y-m-d H:i:s');//上架时间
                 $rs = \Admin\Model\ContentModel::getContentById($goodsId,'stock');
-                if(!empty($rs) && isset($rs['stock'])){
+                if( is_number($rs['stock']) && $rs['stock']>0){
                     $logdata['productid'] = $goodsId;
                     $logdata['old_stock'] = $rs['stock'];
                     $logdata['type'] = 1;
