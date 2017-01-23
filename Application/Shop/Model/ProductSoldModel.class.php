@@ -59,7 +59,7 @@ class ProductSoldModel extends Model {
             $where['p.addtime'] = array(array("egt",$date['stime']." 00:00:00"),array("elt",$date['etime']." 23:59:59"));
             $data = M('product_sales')->alias('p')->join('my_content as c on p.productid = c.id')->where($where)->field($field)->group('p.productid')->select();
             foreach($data as $val){
-                $dayavg = $val['totalsold']/$day; //平均每天销售
+                $dayavg = float_fee($val['totalsold']/$day); //平均每天销售
                 if($day ==7){ //周
                     $savedata['week_sale'] = $val['totalsold'];
                     if($val['totalsold']>0){
