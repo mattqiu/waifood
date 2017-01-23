@@ -212,33 +212,43 @@ function subContent($data){
 }
 
 function setGoodsStatus($id,val){
-    var $msg ='';
+    var $msg ='',$html = '';
     if(val == 0 || !val){
         $msg ='请填写下架原因！';
     }else{
         $msg ='请填写上架原因！';
     }
-    swal({
-        title: "",
-        text: $msg,
-        type: "input",
-        showCancelButton: true,
-        closeOnConfirm: false,
-        animation: "slide-from-top",
-        inputPlaceholder: "请填写上下架原因"
-    }, function(inputValue) {
-        if (inputValue === false)
-            return false;
-        if (inputValue === "") {
-            swal.showInputError("请输入!");
-            return false
+
+    $html+='<form onsubmit="return false" id="goodsStatus" class="hide">';
+    $html+='<input type="text" placeholder="'+$msg+'" class="input_text2" style="height: 35px;"/>';
+    $html+='<p>';
+    $html+='<a href="javascript:$(\'#goodsStatus input[type=text]\').val(\'实际库存为0\')" style="text-decoration:underline;">实际库存为0</a>&nbsp;&nbsp;|&nbsp;&nbsp;';
+    $html+='<a href="javascript:$(\'#goodsStatus input[type=text]\').val(\'采购延迟\')" style="text-decoration:underline;">采购延迟</a>&nbsp;&nbsp;|&nbsp;&nbsp;';
+    $html+='<a href="javascript:$(\'#goodsStatus input[type=text]\').val(\'鲜货例行下架\')" style="text-decoration:underline;">鲜货例行下架</a>&nbsp;&nbsp;|&nbsp;&nbsp;<br/>';
+    $html+='<a href="javascript:$(\'#goodsStatus input[type=text]\').val(\'供应商缺货\')" style="text-decoration:underline;">供应商缺货</a>';
+    $html+='</p>';
+    $html+='<p style="text-align: center">';
+    $html+='<input type="button" class="cancel_btn" value="返回" onclick="closeMask()" />&nbsp;&nbsp;&nbsp;';
+    $html+='<input type="submit" onclick="subGoodsStatus('+$id+','+val+')" class="sure_btn" value="提交" />';
+    $html+='</p>';
+    $html+='</form>';
+    $('body').append($html);
+    $("#goodsStatus").idealforms();
+    getMask().maskShow({"tit": "上下架原因","width":350, "cont": "#goodsStatus"});
+
+}
+
+function subGoodsStatus($id,val){
+   var inputValue =  $('#goodsStatus input[type=text]').val();
+    if (!inputValue){
+        clearpopj('请输入原因', "error",true);
+        return  false;
+    }
+    $.post('/admin/cms/changeContentState',{id:$id,status:val,note:inputValue},function(data){
+        if(data.code ==200){
+            window.location.reload();
+        }else{
+            clearpopj(data.message, "error",true);
         }
-        $.post('/admin/cms/changeContentState',{id:$id,status:val,note:inputValue},function(data){
-            if(data.code ==200){
-                window.location.reload();
-            }else{
-                clearpopj(data.message, "error",true);
-            }
-        })
-    });
+    })
 }

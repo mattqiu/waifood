@@ -23,6 +23,12 @@ class CronController extends Controller
         GLog('定时','stop');
     }
 
+
+    public function getProductSold(){
+        $time = date('Y-m-d',strtotime("-1 day"));
+        ProductSoldModel::getProductDaySold($time);
+    }
+
     public function getProductAVGSoldByDay(){
         ProductSoldModel::getProductAVGSoldByDay(7);
         ProductSoldModel::getProductAVGSoldByDay(30);
@@ -40,17 +46,6 @@ class CronController extends Controller
             }
         }
     }
-
-    public function getProductSold(){
-        $time = date('Y-m-d',strtotime("-1 day"));
-        //获取前一天上商品销售量
-        if(false!==ProductSoldModel::getProductDaySold($time)){
-            ProductSoldModel::getProductAVGSoldByDay(7);
-            ProductSoldModel::getProductAVGSoldByDay(30);
-        }
-    }
-
-
 
 }
 
