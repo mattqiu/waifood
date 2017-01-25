@@ -95,6 +95,7 @@ class OrderManageController extends BaseController {
                     if(isset($data[$v['productid']])){
                         $data[$v['productid']]['num'] += $val['num']*$v['num'];
                     }else{
+
                         $data[$v['productid']]['no'] = $val['no'];
                         $data[$v['productid']]['productid'] = $v['productid'];
                         $data[$v['productid']]['name'] = $val['name'];
@@ -102,10 +103,11 @@ class OrderManageController extends BaseController {
                         $data[$v['productid']]['price'] = $v['price'];
                         $data[$v['productid']]['zk'] = $val['zk'];
                         $data[$v['productid']]['note'] = $val['note'];
+
                     }
                 }
             }else{
-                if(isset($data[$val['productid']])){   dump($val['num']*$v['num']);
+                if(isset($data[$val['productid']])){
                     $data[$val['productid']]['num'] += $val['num'];
                 }else{
                     $data[$val['productid']]['no'] = $val['no'];
