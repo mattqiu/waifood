@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>内容列表</title>
@@ -35,66 +35,46 @@
 	<div class="dot"></div>
 	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
 		<tr class="header">
-			<td width="60"><input type="checkbox" name="SelectAll" id="SelectAll" value=""/>ID</td>
+			<td width="60"><if condition="!isset($_REQUEST['sel']) || empty($_REQUEST['sel'])"> <input type="checkbox" name="SelectAll" id="SelectAll" value=""/></if>ID</td>
 			<td>标题</td>
-			<td>分类</td>
-			<td>价格</td>
-			<td>销量</td>
-			<td>状态</td>
+			<td>单位</td>
+			<td>单价</td>
+			<td>规格</td>
+			<td>备注</td>
 		</tr>
 		<volist id="vo" name="list">
-		<tr class="row{$i % 2+1}" id="js_goods_{$vo.id}" data="{$vo.indexpic}"  data-negative="{$vo.negative}" data-unit="{$vo.unit}" data-price="{$vo.price}" data-id="{$vo.id}" data-indexpic="{$vo.indexpic}" data-name="{$vo.title}" >
-			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
-				{$vo.id}</td>
-			<td>{$vo.title|cutstring} </td>
-			<td>{$vo.channelname|cutstring}</td>
-			<td>{$vo.price}</td>
-			<td>{$vo.sold}</td>
-			<td><eq name="vo.status" value="1">上架<else/>下架</eq></td>
-		  </tr>
-		</volist>  
-		<tr class="footer">
-			<td colspan="6"><div class="page">{$page}</div></td>
-		</tr>
+            <tr class="row{$i % 2+1}" id="js_goods_{$vo.id}" data-id="{$vo.id}"  data-name="{$vo.title}" data-unit="{$vo.unit}" data-price="{$vo.price}"  data-stock="{$vo.stock}" data-stock_fee="{$vo.stock_fee}"  >
+                <td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
+                    {$vo.id}</td>
+                <td>{$vo.title|cutstring} </td>
+                <td>{$vo.unit}</td>
+                <td>{$vo.price}</td>
+                <td>{$vo.spec}</td>
+                <td>{$vo.note}</td>
+              </tr>
+		</volist>
+        <if condition="!empty($page)">
+            <tr class="footer">
+                <td colspan="6"><div class="page">{$page}</div></td>
+            </tr>
+        </if>
 	</table>
 	<include file="Index:footer" />
 <script language="javascript" type="text/javascript">
-    var $key = "{$_REQUEST['goodskey']?$_REQUEST['goodskey']:'admingood'}";
-    var sel = "{$_REQUEST['sel']}";
+    var $key = "{$_REQUEST['goodskey']?$_REQUEST['goodskey']:'materialgood'}";
 $(function(){
-    $(".MainTbl tr").hover(function(event){
-	 var o=$(this);
-	 var img=o.attr("data"); 
-	 if(img!=""){
-		 var html1="";
-		 var html ="<img src=\""+img+"\" alt=\"\"/>";
-		 html1 = "<div id=\"hoverimg\" style=\"padding:10px;color:#f00\">"+html+"</div>";
-			 if($.trim(img)!=""){
-				 if($("#hoverimg").length==0){
-					 $(html1).appendTo($("body")); 
-				 } else{
-					 $("#hoverimg").html(html);
-				 };
-				 
-				$("#hoverimg").css({"left":o.position().left+60,"top":o.position().top+31}).show();	
-			 }
-		}
-	 },function(){
-		  $("#hoverimg").hide();
-	 });
-
     $("input[name='SelectIDs']").click(function(){
         $(this).attr('checked',true);
         var ck=$(this).is(":checked");
         var v=$(this).val();
-        if("{:I('id')}"){
-            changeValue(ck,v);
-        }else{
-            if(ck){
+        if(ck){
+            if($key == 'materialgood'){
                 addgood(v,$key);
             }else{
-                delgood(v,$key);
+                addMgoods(v,$key);
             }
+        }else{
+            delgood(v,$key);
         }
     });
 
@@ -103,25 +83,26 @@ $(function(){
             $(this).click()
             var ck=$(this).is(":checked");
             var v=$(this).val();
-            if("{:I('id')}"){
-                changeValue(ck,v);
-            }else{
-                if(ck){
+            if(ck){
+                if($key == 'materialgood'){
                     addgood(v,$key);
                 }else{
-                    delgood(v,$key);
+                    addMgoods(v,$key);
                 }
+            }else{
+                delgood(v,$key);
             }
         });
     });
 
     //设置选中
     var myfood = $.cookie($key);
+
     if(myfood){
         var myfood_array = $.parseJSON(myfood);
         if (myfood_array) {
             for (var i in myfood_array) {
-                if(i > 1){
+                if(i >0){
                     $('#js_goods_'+i).find('input[name=SelectIDs]').attr('checked',true);
                 }
             }
@@ -130,17 +111,29 @@ $(function(){
 
 });
 
+    /************保存选择商品*****************/
+    function addMgoods(id,$goodKey){
+        var myfood = $.cookie($goodKey),
+            name = $('#js_goods_'+id).data("name"),
+            unit = $('#js_goods_'+id).data("unit"),
+            stock = $('#js_goods_'+id).data("stock"),
+            stock_fee = $('#js_goods_'+id).data("stock_fee");
+        var myfood_array  = $.parseJSON(myfood);
+        // 看该产品是否存在
+        if(myfood_array){
+            if(!myfood_array[id]){
+                myfood_array[id] = {"id":id,"name":name,"unit":unit,"stock":stock,"stock_fee":stock_fee};
+            }
+        }else{
+            myfood_array = {};
+            myfood_array[id] = {"id":id,"name":name,"unit":unit,"stock":stock,"stock_fee":stock_fee};
+        }
+        var json = $.toJSON(myfood_array);
+        $.cookie($goodKey,json,{
+            "path":"/"
+        });
+    }
 
-function changeValue(b,v){
-	var $id=$(window.parent.document).find("#{:I('id')}");
-	var newV=$id.val();	 
-	if(b){
-		newV+=v+",";
-	}else{
-		newV = newV.replace(v+",","");
-	}
-	$id.val(newV);
-}
 </script>
 </body>
 </html>

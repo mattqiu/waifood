@@ -567,3 +567,12 @@ function discGD(speed){
     tab.onmouseover=function() {clearInterval(MyMar);}
     tab.onmouseout=function() {MyMar=setInterval(MarqueeLeft,speed);}
 }
+
+//选择时间
+function setDateTime($obj){
+    $($obj).calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false
+    });
+}

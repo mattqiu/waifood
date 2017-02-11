@@ -1,24 +1,25 @@
 /////////////////////////////////////////////////商品管理///////////////////////////////////////////////////////////////////////
 /************保存选择商品（用于）*****************/
-function addgood(id){
-    var $goodKey = 'admingood';
+function addgood(id,$goodKey){
     var myfood = $.cookie($goodKey),
         indexpic = $('#js_goods_'+id).data("indexpic"),
         negative = $('#js_goods_'+id).data("negative"),
         num = $('#js_goods_'+id).data("num"),
-        name = $('#js_goods_'+id).data("name");
+        name = $('#js_goods_'+id).data("name"),
+        price = $('#js_goods_'+id).data("price"),
+        unit = $('#js_goods_'+id).data("unit");
     if(!num){
-        num = 0;
+        num = 1;
     }
     var myfood_array  = $.parseJSON(myfood);
     // 看该产品是否存在
     if(myfood_array){
         if(!myfood_array[id]){
-            myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative,"num":num};
+            myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative,"num":num,"unit":unit,"price":price};
         }
     }else{
         myfood_array = {};
-        myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative,"num":num};
+        myfood_array[id] = {"id":id,"name":name,"indexpic":indexpic,"negative":negative,"num":num,"unit":unit,"price":price};
     }
     var json = $.toJSON(myfood_array);
     $.cookie($goodKey,json,{
@@ -26,8 +27,7 @@ function addgood(id){
     });
 }
 
-function delgood(id){
-    var $goodKey = 'admingood';
+function delgood(id,$goodKey){
     var myfood = $.cookie($goodKey);
     var myfood_array  = $.parseJSON(myfood);
     // 看该产品是否存在
@@ -252,3 +252,196 @@ function subGoodsStatus($id,val){
         }
     })
 }
+
+/*阻塞标志，防止重复下单；预设不阻塞*/
+window.subBlock=false;
+function subCGOrder(status,$goodKey,type,ordertype){
+    var myfood =  $.cookie($goodKey),order='';
+    if(!myfood){
+        clearpopj('没有填写采购商品', "error",true);
+        subBlock = false;
+        return false;
+    }
+    var myfood_array = $.parseJSON(myfood);
+    if(!myfood_array){
+        clearpopj('没有填写采购商品', "error",true);
+        subBlock = false;//解除阻塞
+        return false;
+    }
+    for(var i in myfood_array){
+        order +=  myfood_array[i]['id']+ "," +myfood_array[i]['name']+ "," +myfood_array[i]['goodtype']+ "," +myfood_array[i]['unit']+ "," +myfood_array[i]['num']+ "," +myfood_array[i]['price']+ "," +myfood_array[i]['amount'] + "," + getdefaultval(myfood_array[i]['true_num'])+ "," + getdefaultval(myfood_array[i]['true_price'])+ "," + getdefaultval(myfood_array[i]['true_amount'])+ "," + myfood_array[i]['createtime']+ "," + myfood_array[i]['leveltime']+ ","+ myfood_array[i]['dietime']+ ","+ getdefaultval(myfood_array[i]['barcode'])+"|"; //订单信息
+    }
+
+    if(!order){
+        clearpopj('没有填写采购商品', "error",true);
+        subBlock = false;//解除阻塞
+        return false;
+    }
+
+    var data = {
+        orderno:$('#selectInfo table .orderno').html(),
+        operator:$('#selectInfo table .operator').html(),
+        runtime:$('#selectInfo table input[name=runtime]').val(),
+        supplyid:$('#selectInfo table input[name=supplyid]').val(),
+        supplyid2:$('#selectInfo table input[name=supplyid2]').val(),
+        total_amount:$('#selectInfo table .total_amount').html(),
+        delivery_fee:$('#selectInfo table input[name=delivery_fee]').val(),
+        other_fee:$('#selectInfo table input[name=other_fee]').val(),
+        total_fee:$('#selectInfo table input[name=total_fee]').val(),
+        ordertype:ordertype,
+        order:order,
+        status:status,
+        type:type
+    }
+    subBlock = true;
+    $.post('/admin/StockManage/subCGOrder',data,function(data){
+        subBlock = false;//解除阻塞
+        if(data.code == 200){
+            clearpop(data.message,'','self');
+        }else{
+            clearpopj(data.message, "error",true);
+            return false;
+        }
+    })
+}
+
+/**
+ * 转换其他空值
+ * @param val
+ * @returns {*}
+ */
+function getdefaultval(val){
+    if(!val ){
+        return '';
+    }else{
+        return val;
+    }
+}
+
+function getYlInfo(){
+    var $goodKey = 'generategoodsyl';
+    var myfood =  $.cookie($goodKey),order='';
+    if(!myfood){
+        clearpopj('没有选择原料商品', "error",true);
+        return false;
+    }
+    var myfood_array = $.parseJSON(myfood);
+    if(!myfood_array){
+        clearpopj('没有选择原料商品', "error",true);
+        return false;
+    }
+    for(var i in myfood_array){
+        if(!myfood_array[i]['upnum']){
+            clearpopj('请填写原料领用数量', "error",true);
+            return false;
+        }else if(myfood_array[i]['upnum']>myfood_array[i]['stock']){
+            clearpopj('库存不足', "error",true);
+            return false;
+        }
+        if(myfood_array[i]['up_amount']>myfood_array[i]['stock_fee']){
+            clearpopj('库存金额不足', "error",true);
+            return false;
+        }
+        order +=  myfood_array[i]['id']+ "," +getdefaultval(myfood_array[i]['upnum'])+ "," + getdefaultval(myfood_array[i]['up_amount'])+"|"; //订单信息
+    }
+
+    if(!order){
+        clearpopj('没有选择原料商品', "error",true);
+        return false;
+    }
+
+    var data = {
+        order:order,
+        type:1// 1领用，2采购
+    }
+    return data;
+}
+
+function subgenerateOrder(status,type){
+    var $goodKey = 'generategoodscp';
+    var $yldata = getYlInfo();
+    if($yldata ==false){
+        subBlock = false;
+        return false;
+    }
+    var myfood =  $.cookie($goodKey),order='';
+    if(!myfood){
+        clearpopj('请选择成品', "error",true);
+        subBlock = false;
+        return false;
+    }
+    var myfood_array = $.parseJSON(myfood);
+    if(!myfood_array){
+        clearpopj('请选择成品', "error",true);
+        subBlock = false;//解除阻塞
+        return false;
+    }
+    for(var i in myfood_array){
+        order +=  myfood_array[i]['id']+ "," +myfood_array[i]['name']+ "," +myfood_array[i]['unit']+ "," +myfood_array[i]['num']+ "," +myfood_array[i]['price']+ "," +myfood_array[i]['amount'] + ","+ myfood_array[i]['note'] +"|"; //订单信息
+    }
+    if(!order){
+        clearpopj('请选择成品', "error",true);
+        subBlock = false;//解除阻塞
+        return false;
+    }
+
+    var data = {
+            orderno:$('#selectInfo table .orderno').html(),
+            operator:$('#selectInfo table .operator').html(),
+            runtime:$('#selectInfo table input[name=runtime]').val(),
+            supplyid:$('#selectInfo table input[name=supplyid]').val(),
+            supplyid2:$('#selectInfo table input[name=supplyid2]').val(),
+            total_amount:$('#selectInfo table .total_amount').html(),
+            delivery_fee:$('#selectInfo table input[name=delivery_fee]').val(),
+            other_fee:$('#selectInfo table input[name=other_fee]').val(),
+            total_fee:$('#selectInfo table input[name=total_fee]').val(),
+            ordertype:3,
+            order:order,
+            yldata:$yldata,
+            status:status,
+            type:type
+        }
+
+        subBlock = true;
+        $.post('/admin/StockManage/subGenerateOrder',data,function(data){
+            subBlock = false;//解除阻塞
+            if(data.code == 200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message, "error",true);
+                return false;
+            }
+        })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

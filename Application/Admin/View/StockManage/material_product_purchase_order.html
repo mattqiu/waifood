@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>原料采购单</title>
+    <include file="Index:header" />
+    <style>
+        .headtable{width: 1000px;}
+        .headtable td{width: 250px;}
+    </style>
+</head>
+<body class="bg_white" data-loguser="{$_SESSION['adminname']}">
+<form action="/admin/cms/goodsStatusLog.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
+    <table  border="0" class="headtable">
+        <tr>
+            <td>采购订单: <span class="orderno">{$_REQUEST['orderno']|default=''}</span></td>
+            <td>创&nbsp;建&nbsp;人: <span class="operator"><if condition="!isset($_REQUEST['orderno']) || !$_REQUEST['orderno']">{$_SESSION['adminname']}</if> </span></td>
+            <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value=""/></td>
+            <td>创建日期:<span class="addtime"></span></td>
+            <td><span class="fl" style="position: relative;top: 5px;">供应商&nbsp;:&nbsp;</span>
+                <div class="idealforms_select fl" style="width:120px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="supplyid">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择供应商--</li>
+                        <volist name="supplylist" id="vo">
+                            <li data-value="{$vo.id}">{$vo.name}</li>
+                        </volist>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td>商品金额: <span class="total_amount">0</span></td>
+            <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
+            <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
+            <td>单据金额: <input type="text" style="width: 85px;" name="total_fee"/></td>
+            <td><span class="fl" style="position: relative;top: 5px;">供应商2:</span>
+                <div class="idealforms_select fl" style="width:120px;margin-left: 1px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="supplyid2">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择供应商--</li>
+                        <volist name="supplylist" id="vo">
+                            <li data-value="{$vo.id}">{$vo.name}</li>
+                        </volist>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>状态: <span style="color: #999;" class="status">填写中</span></td>
+            <td><input type="button" class="sure_btn" onclick="subCGOrder(0,'materialgood','yl',2)" value="保存草稿"/></td>
+            <td><input type="button" class="cancel_btn" onclick="subCGOrder(3,'materialgood','yl',2)" value="作废"/></td>
+            <td><input type="button" class="sure_btn" onclick="subCGOrder(1,'materialgood','yl',2)" value="提交审核"/></td>
+            <td><input type="button" class="sure_btn" onclick="subCGOrder(2,'materialgood','yl',2)"  value="审核通过并执行入库"/></td>
+        </tr>
+    </table>
+</form>
+<div class="clr"></div>
+<form onsubmit="return false" id="tablefrom" style="margin-top: 10px;">
+    <table border="0" class="mytables" style="width: 100%;">
+        <tr>
+            <th width="50">行号</th>
+            <th width="50">原料ID</th>
+            <th>原料名</th>
+            <th width="80">类型</th>
+            <th width="60">单位</th>
+            <th width="50">数量</th>
+            <th width="70">单价</th>
+            <th width="70">金额</th>
+            <th width="60">实到数量</th>
+            <th width="60">核算单价</th>
+            <th width="70">核算金额</th>
+            <th width="75">生产日期</th>
+            <th width="50">有效期</th>
+            <th width="75">到期日期</th>
+            <th width="80">条码</th>
+            <th width="50">操作</th>
+        </tr>
+    </table>
+</form>
+
+<button  onclick="addTrForTable();">新增行</button>
+<div style="display: none;" id="selectGoodBox"  class="tc">
+    <input type="hidden" name="trrow"/>
+    <iframe  src="/Admin/StockManage/ylContent.html" width="530" height="440" style="overflow: scroll" frameborder="0"></iframe>
+    <button onclick="selectOk()">确认</button>
+</div>
+<script src="__PUBLIC__/js/json.js"></script>
+<script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
+
+</body>
+</html>
+
+<script>
+$(function(){
+    $("#selectInfo").idealforms();
+    $("#tablefrom").idealforms();
+    var orderno = "{$_REQUEST['orderno']}";
+    $('#selectInfo table input[name=delivery_fee]').keyup(function(){
+        getTotalMoney();
+    })
+    $('#selectInfo table input[name=other_fee]').keyup(function(){
+        getTotalMoney();
+    })
+
+    $('#tablefrom td.js_edittable ').click(function(){
+        $(this).attr('contenteditable','true');
+    })
+
+    $('#tablefrom td  input[name=goodtype]').parents().siblings('.idealforms_select_menu').find('li').click(function(){
+        var id = $(this).parents().parents().parents().parents().data('id');
+        var goodtype =getdefaultval($(this).data('value'));
+        if(!goodtype){
+            goodtype = 1;
+        }
+        setgoodsval(id,'goodtype',goodtype);
+    })
+
+    $('#tablefrom td  input[name=goodtype]').click(function(){
+        $(this).attr('contenteditable','true');
+    })
+
+    $('#tablefrom table tr td.js_edittable').keyup(function(){
+        var id =$(this).parent().data('id');
+        var name =$(this).attr('name');
+        var val =$(this).html();
+        if(name=='num'){
+            var price = parseFloat($(this).siblings('td[name=price]').html());
+            $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+        }
+        if( name=='price'){
+            var num = parseInt($(this).siblings('td[name=num]').html());
+            $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
+        }
+
+        setgoodsval(id,name,val);
+        getTotalMoney();
+    })
+
+    if(orderno){
+        var discount = 0;
+        $.ajax({
+            type: "POST",
+            url:'/admin/StockManage/getOrderInfo',
+            data: {orderno:orderno},
+            async: false,
+            success: function (data) {
+                if(data.code == 200){
+                    $.cookie('materialgood',null,{ "path":"/" });
+                    var obj = data.data;
+                    var myfood = $.cookie('materialgood');
+                    var myfood_array  = $.parseJSON(myfood),$status,$loguser = $('body').data('loguser');
+                    myfood_array = {};
+                    for(var i in obj){
+                        myfood_array[obj[i]['productid']] = {"id":obj[i]['productid'],"name":obj[i]['title'],"num":obj[i]['num'],"unit":obj[i]['unit'],"price":obj[i]['price'],"goodtype":obj[i]['goodtype'],"amount":obj[i]['amount'],"true_num":obj[i]['true_num'],"true_price":obj[i]['true_price'],"true_amount":obj[i]['true_amount'],"createtime":obj[i]['createtime'],"leveltime":obj[i]['leveltime'],"dietime":obj[i]['dietime'],"barcode":obj[i]['barcode']};
+                        var json = $.toJSON(myfood_array);
+                        $('#selectInfo table input[name=delivery_fee]').val(obj[i]['delivery_fee']);
+                        $('#selectInfo table input[name=other_fee]').val(obj[i]['other_fee']);
+                        $('#selectInfo table input[name=runtime]').val(obj[i]['runtime']);
+                        $('#selectInfo table .addtime').html(obj[i]['addtime']);
+                        $('#selectInfo table .operator').html(obj[i]['operator']);
+                        if(obj[i]['status'] == 1){
+                            $status = '待审核';
+                        }else if(obj[i]['status'] == 2){
+                            $status = '完成';
+                        }else if(obj[i]['status'] == 3){
+                            $status = '取消';
+                        }else{
+                            $status = '草稿';
+                        }
+                        $('#selectInfo table .status').html($status);
+                        $('#selectInfo table .operator').html(obj[i]['operator']);
+                        setSelectSelected('#selectInfo input[name=supplyid]',obj[i]['supplyid']);
+                        setSelectSelected('#selectInfo input[name=supplyid2]',obj[i]['supplyid2']);
+                    }
+
+                    $.cookie('materialgood',json,{
+                        "path":"/"
+                    });
+                }
+                selectOk();
+            }
+        });
+    }
+
+})
+
+//修改值
+function setgoodsval(id,name,val){
+    var $goodKey = 'materialgood';
+    var myfood = $.cookie($goodKey);
+    var myfood_array  = $.parseJSON(myfood);
+    // 看该产品是否存在
+    if(myfood_array){
+        //console.log(myfood_array[id])
+        if(myfood_array[id]){ //存在
+            myfood_array[id][name]= val;
+        }
+    }
+    var json = $.toJSON(myfood_array);
+    $.cookie($goodKey,json,{ "path":"/" });
+}
+
+function selectGood(){
+    getMask().maskShow({"tit": "请选择产品","width":550, "cont": "#selectGoodBox"});
+}
+
+function selectOk(){
+    var key = 'materialgood',
+            myfood = $.cookie(key);
+    if(!myfood){
+        addTrForTable(10);
+        return false;
+    }
+    var myfood_array = $.parseJSON(myfood);
+    if (!myfood_array) {
+        addTrForTable(10);
+        return false;
+    }
+    closeMask();
+    var $count = 1,$html='<tr><th width="50">行号</th><th width="50">原料ID</th><th>原料名</th><th width="80">类型</th><th width="60">单位</th><th width="50">数量</th><th width="70" class="js_need_hide">单价</th><th width="70" class="js_need_hide">金额</th><th width="40">实到数量</th><th width="40" class="js_need_hide">核算单价</th><th width="70" class="js_need_hide">核算金额</th><th width="80">生产日期</th><th width="50">有效期</th><th width="80">到期日期</th><th width="80">条码</th><th width="50">操作</th></tr>';
+    for (var i in myfood_array) {
+        if(myfood_array[i]){
+            $html+= '<tr align="center" id="js_list_'+myfood_array[i]['id']+'" class="js_list js_tr_'+$count+'" data-id="'+myfood_array[i]['id']+'" data-goodtype="'+myfood_array[i]['goodtype']+'" >' ;
+            $html+= '<td>'+$count+'</td>' ;
+            $html+= '<td align="left" ondblclick="selectGood('+$count+');" class="js_edittable goodid" name="id">'+myfood_array[i]['id']+'</td>' ;
+            $html+= '<td align="left"  name="name" ondblclick="selectGood('+$count+');"  class="js_edittable goodname">'+myfood_array[i]['name']+'</td>' ;
+            $html+= '<td class="">' ;
+            $html+= '<div class="idealforms_select fl" style="width:74px;">' ;
+            $html+= '<div class="idealforms_select_obj"> ' ;
+            $html+= '<input type="hidden" value="" name="goodtype"> ' ;
+            $html+= '<input type="text" value="" readonly>' ;
+            $html+=  ' <span class="caret"></span>' ;
+            $html+= '</div>' ;
+            $html+= '<ul class="idealforms_select_menu">' ;
+            $html+= '<li data-value="1">补货</li>' ;
+            $html+= '<li data-value="2">新品</li>' ;
+            $html+= '<li data-value="3">新包装</li>';
+            $html+= '<li data-value="4">缺货</li>' ;
+            $html+= '</ul>' ;
+            $html+= '</div>' ;
+            $html+= '</td>' ;
+            $html+= '<td class="js_edittable goodunit"  name="unit">'+myfood_array[i]['unit']+'</td>' ;
+            $html+= '<td class="js_edittable goodnum"  name="num">'+myfood_array[i]['num']+'</td>' ;
+            $html+= '<td class="js_edittable goodprice js_need_hide"  name="price">'+myfood_array[i]['price']+'</td>' ;
+            $html+= '<td class="js_edittable js_need_hide" name="amount">'+(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
+            $html+= '<td class="js_edittable"  name="true_num">'+getdefaultval(myfood_array[i]['true_num'])+'</td>' ;
+            $html+= ' <td class="js_edittable js_need_hide" name="true_price">'+getdefaultval(myfood_array[i]['true_price'])+'</td>' ;
+            $html+= '<td class="js_edittable js_need_hide" name="true_amount">'+getdefaultval(myfood_array[i]['true_amount'])+'</td>';
+            $html+= ' <td class="js_edittable" name="createtime"  onclick="setDate(this)">'+getdefaultval(myfood_array[i]['createtime'])+'</td>';
+            $html+= '<td class="js_edittable"  name="leveltime" >'+getdefaultval(myfood_array[i]['leveltime'])+'</td>';
+            $html+= '<td class="js_edittable "  name="dietime" onclick="setDate(this)">'+getdefaultval(myfood_array[i]['dietime'])+'</td>';
+            $html+= '<td class="js_edittable" name="barcode">'+getdefaultval(myfood_array[i]['barcode'])+'</td>';
+            $html+= '<td><a href="javascript:delgood('+myfood_array[i]['id']+')">删除</a></td>' ;
+            $html+= '</tr>';
+            $count++;
+        }
+    }
+    $('#tablefrom table ').html($html);
+    if($count>9){
+        addTrForTable(5);
+    }else{
+        var max =parseInt($('table tr ').length);
+        addTrForTable(10 - max+1);
+    }
+
+    if(myfood_array[i] && myfood_array[i]['goodtype']){
+        setSelectSelected('#tablefrom input[name=goodtype]',myfood_array[i]['goodtype']);
+    }
+    getTotalMoney();
+    $('#tablefrom table .js_list').each(function(){
+        var $id = $(this).data('id');
+        if($id > 0){
+            var goodtype =getdefaultval($(this).data('value'));
+            if(!goodtype){
+                goodtype = 1;
+            }
+            setgoodsval($id,'goodtype',goodtype);
+            setSelectSelected('#js_list_'+$id+' input[name=goodtype]',goodtype);
+        }
+    })
+    //除本人和管理员外其他用户需要隐藏特殊字段
+    var $loguser = $('body').data('loguser'),operator =  $('#selectInfo table .operator').html();
+    if($loguser == operator || $loguser == 'admin' || $loguser == 'administrator'){
+        $('.js_need_hide').show();
+    }else{
+        $('.js_need_hide').hide();
+    }
+}
+
+selectOk();
+function addTrForTable(row){
+    if(!row){
+        row =10;
+    }
+    var max =parseInt($('#tablefrom table tr ').length);
+    for(var i = 0;i<row;i++){
+        $('#tablefrom table tbody').append('<tr align="center" class="newrow js_tr_'+(max+i)+'" ><td>'+(max+i)+'</td><td align="left" ondblclick="selectGood('+(max+i)+');" class="js_edittable goodid"></td><td align="left"  ondblclick="selectGood('+(max+i)+');"  class="js_edittable goodname"></td><td class=""><div class="idealforms_select fl" style="width:74px;"><div class="idealforms_select_obj"> <input type="hidden" value="" name="supplyid"> <input type="text" value="" readonly> <span class="caret"></span></div><ul class="idealforms_select_menu"><li data-value="1">补货</li><li data-value="2">新品</li><li data-value="3">新包装</li><li data-value="4">缺货</li></ul></div></td><td class="js_edittable goodunit"></td><td class="js_edittable goodnum"></td><td class="js_edittable goodprice js_need_hide"></td><td class="js_edittable js_need_hide"></td><td class="js_edittable"></td> <td class="js_edittable js_need_hide"></td><td class="js_edittable js_need_hide"></td> <td class="js_edittable" onclick="setDate(this)"></td><td class="js_edittable"></td><td class="js_edittable " onclick="setDate(this)"></td><td class="js_edittable"></td><td></td></tr>');
+
+    }
+    $("#tablefrom").idealforms();
+    $('#tablefrom td.js_edittable ').bind("click",function(){
+        $(this).attr('contenteditable','true');
+    });
+
+    $('#tablefrom td  input[name=goodtype]').parents().siblings('.idealforms_select_menu').find('li').bind('click',function(){
+        var id = $(this).parents().parents().parents().parents().data('id');
+        setgoodsval(id,'goodtype',$(this).data('value'));
+    })
+
+
+    $('#tablefrom td.js_edittable ').click(function(){
+        $(this).attr('contenteditable','true');
+    })
+
+    $('#tablefrom table tr td.js_edittable').keyup(function(){
+        var id =$(this).parent().data('id');
+        var name =$(this).attr('name');
+        var val =$(this).html();
+        if(name=='num'){
+            var price = parseFloat($(this).siblings('td[name=price]').html());
+            $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+        }
+        if( name=='price'){
+            var num = parseInt($(this).siblings('td[name=num]').html());
+            $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
+        }
+        setgoodsval(id,name,val);
+        getTotalMoney();
+    })
+}
+
+function getTotalMoney(){
+    var $goodKey = 'materialgood';
+    var myfood = $.cookie($goodKey);
+    var myfood_array  = $.parseJSON(myfood);
+    var total = 0;
+    // 看该产品是否存在
+    if(myfood_array) {
+        for (var i in myfood_array) {
+            if (myfood_array[i] && myfood_array[i]['num']) {
+                var money = fomatFloat(parseInt(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
+                setgoodsval(myfood_array[i]['id'],'amount',money);
+                total += money;
+            }
+        }
+    }
+
+    $('#selectInfo table .total_amount').html(total);
+    var delivery_fee =parseFloat($('#selectInfo table input[name=delivery_fee]').val());
+    var other_fee =parseFloat($('#selectInfo table input[name=other_fee]').val());
+    if(!regex(delivery_fee,'number')){
+        delivery_fee = 0;
+    }
+    if(!regex(other_fee,'number')){
+        other_fee = 0;
+    }
+    $('#selectInfo table input[name=total_fee]').val(total+delivery_fee+other_fee);
+
+}
+
+//选择时间
+function setDate($obj){
+    $($obj).calendar({
+        format: 'yyyy-MM-dd',
+        minDate: '%y-%M-%d',
+        btnBar: false,
+        onSetDate:function(){
+            var $date = this.year+'-'+this.month+'-'+this.day;
+            var id =$($obj).parent().data('id');
+            var name =$($obj).attr('name');
+            setgoodsval(id,name,$date);
+            $($obj).html($date);
+        }
+    });
+}
+
+//删除选择商品
+function delgood(id){
+    if(!id){
+        return false;
+    }
+    var $goodKey = 'materialgood';
+    var myfood = $.cookie($goodKey);
+    var myfood_array  = $.parseJSON(myfood);
+    // 看该产品是否存在
+    if(myfood_array){
+        if(myfood_array[id]){ //存在
+            myfood_array[id]= undefined;
+        }
+    }
+    var json = $.toJSON(myfood_array);
+    $.cookie($goodKey,json,{ "path":"/" });
+    selectOk();
+}
+</script>
+
+</body>
+</html>

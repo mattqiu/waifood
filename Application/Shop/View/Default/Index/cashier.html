@@ -264,7 +264,6 @@
             if(deliverydate[$(this).data('date')].length<1){
                 var n = deliverydate.indexOf($(this).data('date'));
                 if(n!=-1){
-                    console.log(n+'///')
                     deliverydate.remove($(this).data('date'));
                 }
                 deliverydate.shift($(this).data('date'));

@@ -305,21 +305,19 @@ class RbacController extends BaseController {
 					"remark" => I ( "remark" ),
 					"sort" => I ( "sort" ),
 					"status" => I ( "status" ),
-					"roleid" => implode ( ",", I ( "roleid" ) ) 
+					//"roleid" => implode ( ",", I ( "roleid" ) )
 			);
 			$db = M ( "user" )->add ( $data );
 			
 			if ($db !== false) {
-					foreach ( I ( "roleid" ) as $v ) {
+                foreach ( I ( "roleid" ) as $v ) {
 					$arr [] = array (
 							'role_id' => $v,
 							"user_id" => $db
 					);
 				}
 				
-				M ( "role_user" )->where ( array (
-						"user_id" => $db 
-				) )->delete ();
+				M ( "role_user" )->where ( array ("user_id" => $db ) )->delete ();
 				M ( "role_user" )->addAll ( $arr );
 				$this->success ( "添加用户成功！" );
 			} else {

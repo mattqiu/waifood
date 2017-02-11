@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>采购生产列表</title>
+    <include file="Index:header" />
+</head>
+<body class="bg_white"  data-loguser="{$_SESSION['adminname']}">
+
+<form action="/admin/StockManage/stockManageOrder.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
+    <table  border="0" class="headtable">
+        <tr>
+            <td>
+                <span class="fl" style="position: relative;top: 5px;">更新日期:&nbsp;</span>
+                <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
+                <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
+                <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <span style="position:relative;top:  5px;">
+                    <a href="javascript:void(0);" onclick="setDateTime(1,this);" style="text-decoration:underline;">今天</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:void(0);" onclick="setDateTime(2,this);" style="text-decoration:underline;">昨天</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+                    <a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fl" style="position: relative;top: 3px;">单据类型:&nbsp;</span>
+                <ul style="margin-left: 3px;">
+                    <li><label for="radio1"><input type="radio" id="radio1" name="ordertype" value="1"/>成品采购</label></li>
+                    <li><label for="radio2"><input type="radio" id="radio2" name="ordertype" value="2"/>原料采购</label></li>
+                    <li><label for="radio3"><input type="radio" id="radio3" name="ordertype" value="3"/>生产管理</label></li>
+                </ul>
+                <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状&nbsp;态:&nbsp;</span>
+                <ul style="margin-left: 3px;">
+                    <li><label for="radio11"><input type="radio" id="radio11" name="status" value="0"/>草稿</label></li>
+                    <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>待审核</label></li>
+                    <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="2" />完成</label></li>
+                    <li><label for="radio14"><input type="radio" id="radio14" name="status"  value="3" />取消</label></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="fl" style="position: relative;top: 5px;">创建人:</span>
+                <div class="idealforms_select fl" style="width:120px;margin-left: 1px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="operator">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <volist name="user" id="vo">
+                            <li data-value="{$vo.username}">{$vo.username}</li>
+                        </volist>
+                    </ul>
+                </div>
+
+                <span class="fl" style="margin-left: 30px;position: relative;top: 5px;">供应商:</span>
+                <div class="idealforms_select fl" style="width:150px;margin-left: 1px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="supplyid">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">--选择供应商--</li>
+                        <volist name="supplylist" id="vo">
+                            <li data-value="{$vo.id}">{$vo.name}</li>
+                        </volist>
+                    </ul>
+                </div>
+                <input type="submit" style="margin-left: 35px;" class="sure_btn" value="查询"  />
+            </td>
+        </tr>
+    </table>
+</form>
+<div class="dot"></div>
+<table border="0"class="mytables" style="width: 100%;">
+    <tr class="table_head" style="width: 100%;">
+        <th width="60">序号</th>
+        <th width="80">业务时间</th>
+        <th width="80">单据号</th>
+        <th width="60">单据类型</th>
+        <th width="60">单据金额</th>
+        <th width="65">供应商</th>
+        <th width="65" class="js_need_hide">供应商2</th>
+        <th width="60">创建人</th>
+        <th width="45">状态</th>
+        <th width="">备注</th>
+        <th width="80">操作</th>
+    </tr>
+    <volist id="vo" name="list">
+        <if condition="$vo['ordertype'] eq 1">
+            <tr ondblclick="window.location.href='/admin/StockManage/goodsPurchaseOrder.html?orderno={$vo.orderno}'" align="center">
+        <elseif condition="$vo['ordertype'] eq 2"/>
+            <tr ondblclick="window.location.href='/admin/StockManage/materialPurchase.html?orderno={$vo.orderno}'" align="center">
+        <elseif condition="$vo['ordertype'] eq 3"/>
+            <tr ondblclick="window.location.href='/admin/StockManage/generateOrder.html?orderno={$vo.orderno}'" align="center">
+        </if>
+            <td>{$i}</td>
+            <td>{$vo.runtime}</td>
+            <td>{$vo.orderno}</td>
+            <td>
+                <if condition="$vo['ordertype'] eq 1">
+                    成品采购
+                <elseif condition="$vo['ordertype'] eq 2"/>
+                    原料采购
+                <elseif condition="$vo['ordertype'] eq 3"/>
+                    生产管理
+                </if>
+            </td>
+            <td align="center">{$vo.total_fee}</td>
+            <td align="center">{$vo.supply}</td>
+            <td align="center" class="js_need_hide">{$vo.supply2}</td>
+            <td align="center">{$vo.operator}</td>
+            <td align="center">
+                <if condition="$vo['status'] eq 3">
+                    取消
+                <elseif condition="$vo['status'] eq 1"/>
+                    待审核
+                <elseif condition="$vo['status'] eq 2"/>
+                    完成
+                <else/>
+                    草稿
+                </if>
+            </td>
+            <td align="left">{$vo.note}</td>
+            <td>
+                <a href="/admin/StockManage/downOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">导出</a>
+                <a href="/admin/StockManage/printOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">打印</a>
+            </td>
+        </tr>
+    </volist>
+    <tr class="fuwu">
+        <td colspan="13">
+            <div class="page">{$page}</div>
+        </td>
+    </tr>
+</table>
+</body>
+<script>
+    $(function() {
+        //初始化form
+        $("#selectInfo").idealforms();
+        setSelectSelected('#selectInfo input[name=operator]',"{$_REQUEST['operator']|default=1}");
+        setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
+
+        setRadioCheck('#selectInfo input[name=ordertype]',"{$_REQUEST['ordertype']|default=1}");
+        setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']|default=0}");
+        var $loguser = $('body').data('loguser');
+        //除本人和管理员外其他用户需要隐藏特殊字段
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.js_need_hide').show();
+        }else{
+            $('.js_need_hide').hide();
+        }
+    })
+
+    function sub(){
+        var $data = {
+            id: $('#infoform input[name=goodsid]').val(),
+            supplyid: $('#infoform input[name=supplyid]').val(),
+            supplyid2: $('#infoform input[name=supplyid2]').val(),
+            title: $('#infoform input[name=title]').val(),
+            price: $('#infoform input[name=price]').val(),
+            unit: $('#infoform input[name=unit]').val(),
+            spec: $('#infoform input[name=spec]').val(),
+            stock: $('#infoform input[name=stock]').val(),
+            stock_fee: $('#infoform input[name=stock_fee]').val(),
+            storage_id: $('#infoform input[name=storage_id]').val(),
+            origin_id: $('#infoform input[name=origin_id]').val(),
+            warranty: $('#infoform input[name=warranty]').val(),
+            note: $('#infoform input[name=note]').val()
+        }
+        $.post('/admin/StockManage/modifyMaterial',$data, function (data) {
+            if(data.code ==200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message, "error",true);
+            }
+        })
+    }
+</script>
+</html>
