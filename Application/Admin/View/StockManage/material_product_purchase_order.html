@@ -135,10 +135,10 @@ $(function(){
         var val =$(this).html();
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
-            $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+            $(this).siblings('td[name=amount]').html(parseFloat(val)*price);
         }
         if( name=='price'){
-            var num = parseInt($(this).siblings('td[name=num]').html());
+            var num = parseFloat($(this).siblings('td[name=num]').html());
             $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
         }
 
@@ -328,10 +328,10 @@ function addTrForTable(row){
         var val =$(this).html();
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
-            $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+            $(this).siblings('td[name=amount]').html(parseFloat(val)*price);
         }
         if( name=='price'){
-            var num = parseInt($(this).siblings('td[name=num]').html());
+            var num = parseFloat($(this).siblings('td[name=num]').html());
             $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
         }
         setgoodsval(id,name,val);
@@ -348,7 +348,7 @@ function getTotalMoney(){
     if(myfood_array) {
         for (var i in myfood_array) {
             if (myfood_array[i] && myfood_array[i]['num']) {
-                var money = fomatFloat(parseInt(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
+                var money = fomatFloat(parseFloat(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
                 setgoodsval(myfood_array[i]['id'],'amount',money);
                 total += money;
             }
