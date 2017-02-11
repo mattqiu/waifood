@@ -252,7 +252,7 @@ function selectOk(){
             $html+= '<td class="js_edittable goodunit"  name="unit">'+myfood_array[i]['unit']+'</td>' ;
             $html+= '<td class="js_edittable goodnum"  name="num">'+myfood_array[i]['num']+'</td>' ;
             $html+= '<td class="js_edittable goodprice js_need_hide"  name="price">'+myfood_array[i]['price']+'</td>' ;
-            $html+= '<td class="js_edittable js_need_hide" name="amount">'+(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
+            $html+= '<td class="js_edittable js_need_hide" name="amount">'+fomatFloat(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
             $html+= '<td class="js_edittable"  name="true_num">'+getdefaultval(myfood_array[i]['true_num'])+'</td>' ;
             $html+= ' <td class="js_edittable js_need_hide" name="true_price">'+getdefaultval(myfood_array[i]['true_price'])+'</td>' ;
             $html+= '<td class="js_edittable js_need_hide" name="true_amount">'+getdefaultval(myfood_array[i]['true_amount'])+'</td>';
