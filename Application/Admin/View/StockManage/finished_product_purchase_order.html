@@ -409,11 +409,11 @@
             btnBar: false,
             onSetDate:function(){
                 var $date = this.year+'-'+this.month+'-'+this.day;
+                $($obj).html($date);
                 var id =$($obj).parent().data('id');
                 var name =$($obj).attr('name');
                 setgoodsval(id,name,$date);
                 getTime(name);
-                $($obj).html($date);
             }
         });
     }
