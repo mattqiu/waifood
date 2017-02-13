@@ -135,9 +135,9 @@ $(function(){
     })
 
     $('#tablefrom table tr td.js_edittable').blur(function(){
-        var id =$(this).parent().data('id');
-        var name =$(this).attr('name');
-        var val =$(this).html();
+        var id =$.trim($(this).parent().data('id'));
+        var name =$.trim($(this).attr('name'));
+        var val =$.trim($(this).html());
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
             $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));
@@ -348,9 +348,9 @@ function addTrForTable(row){
     })
 
     $('#tablefrom table tr td.js_edittable').blur(function(){
-        var id =$(this).parent().data('id');
-        var name =$(this).attr('name');
-        var val =$(this).html();
+        var id =$.trim($(this).parent().data('id'));
+        var name =$.trim($(this).attr('name'));
+        var val =$.trim($(this).html());
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
             $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));

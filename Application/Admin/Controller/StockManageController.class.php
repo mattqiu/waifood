@@ -267,7 +267,7 @@ class StockManageController extends BaseController {
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
             if(!in_array($type,array(StockManageModel::CP,StockManageModel::YL))){
-                apiReturn(CodeModel::ERROR,$type.'采购商品类型不正确，请刷新重试！');
+                apiReturn(CodeModel::ERROR,'采购商品类型不正确，请刷新重试！');
             }
             if(!$data['orderno']) {
                 if (!$count = S('count')) {
@@ -350,7 +350,7 @@ class StockManageController extends BaseController {
 
                 $goods_amount = float_fee(intval($data[$ids[0]]['num']) * floatval($data[$ids[0]]['price']));//商品金额=数量*单价
                 if ($goods_amount != floatval($ids[5])) { //验证单个商品总金额
-                    apiReturn(CodeModel::ERROR, $ids[5] . '商品' . $data[$ids[0]]['title'] . '金额不正确' . $goods_amount);
+                    apiReturn(CodeModel::ERROR, '商品' . $data[$ids[0]]['title'] . '金额不正确');
                 }
                 $data[$ids[0]]['note'] = $ids[6];
                 $data[$ids[0]]['orderno'] = $dataval['orderno'];
@@ -368,7 +368,7 @@ class StockManageController extends BaseController {
             }
         }
         if($total_amount != floatval($dataval['total_amount'])){
-            apiReturn(CodeModel::ERROR,'商品总金额不正确'.$dataval['total_amount']);
+            apiReturn(CodeModel::ERROR,'商品总金额不正确');
         }
         $total_fee = floatval($total_amount +$dataval['other_fee']+$dataval['delivery_fee']);
         if($total_fee != $dataval['total_fee']){
@@ -387,7 +387,7 @@ class StockManageController extends BaseController {
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
             if(!in_array($type,array(StockManageModel::CP,StockManageModel::YL))){
-                apiReturn(CodeModel::ERROR,$type.'商品类型不正确，请刷新重试！');
+                apiReturn(CodeModel::ERROR,'商品类型不正确，请刷新重试！');
             }
             if(!$data['orderno']) {
                 if (!$count = S('count')) {

@@ -112,7 +112,7 @@ class StockManageModel extends Model{
                 if($ids[2] != self::NEW_PRODUCT){ //如果商品是新品，商品没有商品id
                     $data[$ids[0]]['productid'] = $ids[0];
                 }elseif(regex($ids[0],'number')){
-                    apiReturn(CodeModel::ERROR, $ids[6] . '商品' . $data[$ids[0]]['title'] . '不可以更改为当前类型' . $goods_amount);
+                    apiReturn(CodeModel::ERROR,  '商品' . $data[$ids[0]]['title'] . '不可以更改为当前类型');
                 }
                 $data[$ids[0]]['title'] = $ids[1];
                 $data[$ids[0]]['goodtype'] = $ids[2];
@@ -121,7 +121,7 @@ class StockManageModel extends Model{
                 $data[$ids[0]]['price'] = $ids[5];
                 $goods_amount = float_fee(intval($data[$ids[0]]['num']) * floatval($data[$ids[0]]['price']));//商品金额=数量*单价
                 if ($goods_amount != float_fee($ids[6])) { //验证单个商品总金额
-                    apiReturn(CodeModel::ERROR, $ids[6] . '商品' . $data[$ids[0]]['title'] . '金额不正确' . $goods_amount);
+                    apiReturn(CodeModel::ERROR,'商品' . $data[$ids[0]]['title'] . '金额不正确');
                 }
                 $data[$ids[0]]['amount'] = $ids[6];
                 $data[$ids[0]]['true_num'] = $ids[7];
@@ -147,7 +147,7 @@ class StockManageModel extends Model{
             }
         }
         if($total_amount != floatval($dataval['total_amount'])){
-            apiReturn(CodeModel::ERROR,'商品总金额不正确'.$dataval['total_amount']);
+            apiReturn(CodeModel::ERROR,'商品总金额不正确');
         }
         $total_fee = floatval($total_amount +$dataval['other_fee']+$dataval['delivery_fee']);
         if($total_fee != $dataval['total_fee']){
