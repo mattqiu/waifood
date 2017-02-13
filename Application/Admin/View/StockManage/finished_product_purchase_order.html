@@ -13,7 +13,7 @@
 <form action="/admin/cms/goodsStatusLog.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
     <table  border="0" class="headtable">
         <tr>
-            <td>采购订单: <span class="orderno">{$_REQUEST['orderno']|default=''}</span></td>
+            <td>单据号: <span class="orderno">{$_REQUEST['orderno']|default=''}</span></td>
             <td>创&nbsp;建&nbsp;人: <span class="operator"><if condition="!isset($_REQUEST['orderno']) || !$_REQUEST['orderno']">{$_SESSION['adminname']}</if> </span></td>
             <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value=""/></td>
             <td>创建日期:<span class="addtime"></span></td>
@@ -103,9 +103,11 @@
         var orderno = "{$_REQUEST['orderno']}";
         $('#selectInfo table input[name=delivery_fee]').keyup(function(){
             getTotalMoney();
+            selectOk();
         })
         $('#selectInfo table input[name=other_fee]').keyup(function(){
             getTotalMoney();
+            selectOk();
         })
 
         $('#tablefrom td.js_edittable ').click(function(){
@@ -121,21 +123,36 @@
             $(this).attr('contenteditable','true');
         })
 
-        $('#tablefrom table tr td.js_edittable').keyup(function(){
+        $('#tablefrom table tr td.js_edittable').blur(function(){
             var id =$(this).parent().data('id');
             var name =$(this).attr('name');
             var val =$(this).html();
             if(name=='num'){
                 var price = parseFloat($(this).siblings('td[name=price]').html());
-                $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+                $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));
+                setgoodsval(id,'amount',fomatFloat(parseFloat(val)*price));
+                setgoodsval(id,'true_num',val);
             }
             if( name=='price'){
-                var num = parseInt($(this).siblings('td[name=num]').html());
-                $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
+                var num = parseFloat($(this).siblings('td[name=num]').html());
+                $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*num));
+                setgoodsval(id,'amount',fomatFloat(parseFloat(val)*num));
             }
-
+            if( name=='amount'){
+                var num = parseFloat($(this).siblings('td[name=num]').html());
+                $(this).siblings('td[name=price]').html(fomatFloat(parseFloat(val)/num));
+                setgoodsval(id,'price',fomatFloat(parseFloat(val)/num));
+            }
+            if( name == 'name' ){
+                var id = $(this).siblings('td[name=id]').html();
+                if(!regex(id,'number')){
+                    var id = $(this).siblings('td[name=count]').html()+'r';
+                }
+                setgoodsval(id,'goodtype',2); //当输入商品名时自动选择新品
+            }
             setgoodsval(id,name,val);
             getTotalMoney();
+            selectOk();
         })
 
         if(orderno){
@@ -192,10 +209,14 @@
         var myfood_array  = $.parseJSON(myfood);
         // 看该产品是否存在
         if(myfood_array){
-            //console.log(myfood_array[id])
             if(myfood_array[id]){ //存在
                 myfood_array[id][name]= val;
+            }else {
+                myfood_array[id] = {"id":id,name:val};
             }
+        }else{
+            myfood_array = {};
+            myfood_array[id] = {"id":id,name:val};
         }
         var json = $.toJSON(myfood_array);
         $.cookie($goodKey,json,{ "path":"/" });
@@ -222,7 +243,7 @@
         for (var i in myfood_array) {
             if(myfood_array[i]){
                $html+= '<tr align="center" id="js_list_'+myfood_array[i]['id']+'" class="js_list js_tr_'+$count+'" data-id="'+myfood_array[i]['id']+'" data-goodtype="'+myfood_array[i]['goodtype']+'" >' ;
-               $html+= '<td>'+$count+'</td>' ;
+               $html+= '<td name="count">'+$count+'</td>' ;
                $html+= '<td align="left" ondblclick="selectGood('+$count+');" class="js_edittable goodid" name="id">'+myfood_array[i]['id']+'</td>' ;
                $html+= '<td align="left"  name="name" ondblclick="selectGood('+$count+');"  class="js_edittable goodname">'+myfood_array[i]['name']+'</td>' ;
                $html+= '<td class="">' ;
@@ -240,15 +261,15 @@
                 $html+= '</ul>' ;
                 $html+= '</div>' ;
                 $html+= '</td>' ;
-                $html+= '<td class="js_edittable goodunit"  name="unit">'+myfood_array[i]['unit']+'</td>' ;
-                $html+= '<td class="js_edittable goodnum"  name="num">'+myfood_array[i]['num']+'</td>' ;
-                $html+= '<td class="js_edittable goodprice js_need_hide"  name="price">'+myfood_array[i]['price']+'</td>' ;
-                $html+= '<td class="js_edittable js_need_hide" name="amount">'+(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
+                $html+= '<td class="js_edittable goodunit"  name="unit">'+getdefaultval(myfood_array[i]['unit'])+'</td>' ;
+                $html+= '<td class="js_edittable goodnum"  name="num">'+getdefaultval(myfood_array[i]['num'])+'</td>' ;
+                $html+= '<td class="js_edittable goodprice js_need_hide"  name="price">'+getdefaultval(myfood_array[i]['price'])+'</td>' ;
+                $html+= '<td class="js_edittable js_need_hide" name="amount">'+getdefaultval(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
                 $html+= '<td class="js_edittable"  name="true_num">'+getdefaultval(myfood_array[i]['true_num'])+'</td>' ;
                 $html+= ' <td class="js_edittable js_need_hide" name="true_price">'+getdefaultval(myfood_array[i]['true_price'])+'</td>' ;
                 $html+= '<td class="js_edittable js_need_hide" name="true_amount">'+getdefaultval(myfood_array[i]['true_amount'])+'</td>';
                 $html+= ' <td class="js_edittable" name="createtime"  onclick="setDate(this)">'+getdefaultval(myfood_array[i]['createtime'])+'</td>';
-                $html+= '<td class="js_edittable"  name="leveltime" >'+getdefaultval(myfood_array[i]['leveltime'])+'</td>';
+                $html+= '<td class="js_edittable"  name="leveltime" onkeyup="setgoodsval('+myfood_array[i]['id']+',\'leveltime\',$(this).html());getTime();" >'+getdefaultval(myfood_array[i]['leveltime'])+'</td>';
                 $html+= '<td class="js_edittable "  name="dietime" onclick="setDate(this)">'+getdefaultval(myfood_array[i]['dietime'])+'</td>';
                 $html+= '<td class="js_edittable" name="barcode">'+getdefaultval(myfood_array[i]['barcode'])+'</td>';
                 $html+= '<td><a href="javascript:delgood('+myfood_array[i]['id']+')">删除</a></td>' ;
@@ -291,7 +312,7 @@
         }
         var max =parseInt($('#tablefrom table tr ').length);
         for(var i = 0;i<row;i++){
-            $('#tablefrom table tbody').append('<tr align="center" class="newrow js_tr_'+(max+i)+'" ><td>'+(max+i)+'</td><td align="left" ondblclick="selectGood('+(max+i)+');" class="js_edittable goodid"></td><td align="left"  ondblclick="selectGood('+(max+i)+');"  class="js_edittable goodname"></td><td class=""><div class="idealforms_select fl" style="width:74px;"><div class="idealforms_select_obj"> <input type="hidden" value="" name="supplyid"> <input type="text" value="" readonly> <span class="caret"></span></div><ul class="idealforms_select_menu"><li data-value="1">补货</li><li data-value="2">新品</li><li data-value="3">新包装</li><li data-value="4">缺货</li></ul></div></td><td class="js_edittable goodunit"></td><td class="js_edittable goodnum"></td><td class="js_edittable goodprice js_need_hide"></td><td class="js_edittable js_need_hide"></td><td class="js_edittable"></td> <td class="js_edittable js_need_hide"></td><td class="js_edittable js_need_hide"></td> <td class="js_edittable" onclick="setDate(this)"></td><td class="js_edittable"></td><td class="js_edittable " onclick="setDate(this)"></td><td class="js_edittable"></td><td></td></tr>');
+            $('#tablefrom table tbody').append('<tr align="center" class="newrow js_tr_'+(max+i)+'" ><td name="count">'+(max+i)+'</td><td align="left" ondblclick="selectGood('+(max+i)+');" class="js_edittable goodid" name="id"></td><td align="left"  ondblclick="selectGood('+(max+i)+');"  class="js_edittable goodname" name="name"></td><td class=""><div class="idealforms_select fl" style="width:74px;"><div class="idealforms_select_obj"> <input type="hidden" value="" name="supplyid"> <input type="text" value="" readonly> <span class="caret"></span></div><ul class="idealforms_select_menu"><li data-value="1">补货</li><li data-value="2">新品</li><li data-value="3">新包装</li><li data-value="4">缺货</li></ul></div></td><td class="js_edittable goodunit"  name="unit"></td><td class="js_edittable goodnum"  name="num"></td><td class="js_edittable goodprice js_need_hide"  name="price"></td><td class="js_edittable js_need_hide" name="amount"></td><td class="js_edittable"  name="true_num"></td> <td class="js_edittable js_need_hide" name="true_price"></td><td class="js_edittable js_need_hide" name="true_amount"></td> <td class="js_edittable" onclick="setDate(this)"></td><td class="js_edittable"></td><td class="js_edittable " onclick="setDate(this)"></td><td class="js_edittable"></td><td></td></tr>');
 
         }
         $("#tablefrom").idealforms();
@@ -309,40 +330,43 @@
             $(this).attr('contenteditable','true');
         })
 
-        $('#tablefrom table tr td.js_edittable').keyup(function(){
+        $('#tablefrom table tr td.js_edittable').blur(function(){
             var id =$(this).parent().data('id');
             var name =$(this).attr('name');
             var val =$(this).html();
             if(name=='num'){
                 var price = parseFloat($(this).siblings('td[name=price]').html());
-                $(this).siblings('td[name=amount]').html(parseInt(val)*price);
+                $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));
+                setgoodsval(id,'amount',fomatFloat(parseFloat(val)*price));
+                setgoodsval(id,'true_num',val);
             }
             if( name=='price'){
-                var num = parseInt($(this).siblings('td[name=num]').html());
-                $(this).siblings('td[name=amount]').html(parseFloat(val)*num);
+                var num = parseFloat($(this).siblings('td[name=num]').html());
+                $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*num));
+                setgoodsval(id,'amount',fomatFloat(parseFloat(val)*num));
+            }
+            if( name=='amount'){
+                var num = parseFloat($(this).siblings('td[name=num]').html());
+                $(this).siblings('td[name=price]').html(fomatFloat(parseFloat(val)/num));
+                setgoodsval(id,'price',fomatFloat(parseFloat(val)/num));
+            }
+            if( name=='name' ){
+                var id = $(this).siblings('td[name=id]').html();
+                if(!id){
+                    var id = $(this).siblings('td[name=count]').html()+'r';
+                }
+                setgoodsval(id,'goodtype',2); //当输入商品名时自动选择新品
             }
             setgoodsval(id,name,val);
             getTotalMoney();
+            selectOk();
         })
     }
 
     function getTotalMoney(){
-        var $goodKey = 'storeselgoods';
+        var $goodKey = 'storeselgoods',$moneyNum = 1;
         var myfood = $.cookie($goodKey);
         var myfood_array  = $.parseJSON(myfood);
-        var total = 0;
-        // 看该产品是否存在
-        if(myfood_array) {
-            for (var i in myfood_array) {
-                if (myfood_array[i] && myfood_array[i]['num']) {
-                    var money = fomatFloat(parseInt(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
-                    setgoodsval(myfood_array[i]['id'],'amount',money);
-                    total += money;
-                }
-            }
-        }
-
-        $('#selectInfo table .total_amount').html(total);
         var delivery_fee =parseFloat($('#selectInfo table input[name=delivery_fee]').val());
         var other_fee =parseFloat($('#selectInfo table input[name=other_fee]').val());
         if(!regex(delivery_fee,'number')){
@@ -351,7 +375,28 @@
         if(!regex(other_fee,'number')){
             other_fee = 0;
         }
-        $('#selectInfo table input[name=total_fee]').val(total+delivery_fee+other_fee);
+        var total = 0;
+        // 看该产品是否存在
+        if(myfood_array) {
+            for (var i in myfood_array) {
+                if (myfood_array[i] && myfood_array[i]['num']) {
+                    var money = fomatFloat(parseFloat(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
+                    //   setgoodsval(myfood_array[i]['id'],'amount',money);
+                    total += money;
+                }
+            }
+            $('#selectInfo table .total_amount').html(total);
+            var totalfee = total+delivery_fee+other_fee;
+            $('#selectInfo table input[name=total_fee]').val(totalfee);
+            $moneyNum = fomatFloat(totalfee/total);
+            for (var i in myfood_array) {
+                if (myfood_array[i] && myfood_array[i]['num']) {
+                    var true_amount = fomatFloat(parseFloat(myfood_array[i]['price']) * $moneyNum);
+                    setgoodsval(myfood_array[i]['id'],'true_amount',true_amount);
+                    setgoodsval(myfood_array[i]['id'],'true_price',fomatFloat(true_amount/parseFloat(myfood_array[i]['true_num'])));
+                }
+            }
+        }
 
     }
 
@@ -366,9 +411,47 @@
                 var id =$($obj).parent().data('id');
                 var name =$($obj).attr('name');
                 setgoodsval(id,name,$date);
+                getTime(name);
                 $($obj).html($date);
             }
         });
+    }
+
+    function getTime($objname){
+        var $goodKey = 'storeselgoods';
+        var myfood = $.cookie($goodKey);
+        var myfood_array  = $.parseJSON(myfood);
+        if(myfood_array) {
+            for (var i in myfood_array) { //dietime
+                if (myfood_array[i]) {
+                    if($objname =='dietime'&& myfood_array[i]['createtime']){
+                        var bngDate = new Date(myfood_array[i]['createtime']);
+                        var endDate = new Date(myfood_array[i]['dietime']);
+                        var days = parseInt((endDate.getTime()-bngDate.getTime())/24/60/60/1000);
+                        myfood_array[i]['leveltime'] = days;
+                        $('#js_list_'+myfood_array[i]['id']+' td[name=leveltime]').html(days);
+                    }else if($objname =='dietime'&& myfood_array[i]['leveltime']){
+                        var $date = new Date(myfood_array[i]['dietime']);
+                        $date.setDate($date.getDate()- parseInt(myfood_array[i]['leveltime']));//获取AddDayCount天后的日期
+                        var y = $date.getYear();
+                        var m = ($date.getMonth()+1)<10?"0"+($date.getMonth()+1):($date.getMonth()+1);//获取当前月份的日期，不足10补0
+                        var d = $date.getDate()<10?"0"+$date.getDate():$date.getDate(); //获取当前几号，不足10补0
+                        myfood_array[i]['createtime'] = y+"-"+m+"-"+d;
+                        $('#js_list_'+myfood_array[i]['id']+' td[name=createtime]').html(y+"-"+m+"-"+d);
+                    }else if( myfood_array[i]['createtime'] &&  myfood_array[i]['leveltime']){
+                        var $date1 = new Date(myfood_array[i]['createtime']);
+                        $date1.setDate($date1.getDate() + parseInt(myfood_array[i]['leveltime']));//获取AddDayCount天后的日期
+                        var y = $date1.getFullYear();
+                        var m = ($date1.getMonth()+1)<10?"0"+($date1.getMonth()+1):($date1.getMonth()+1);//获取当前月份的日期，不足10补0
+                        var d = $date1.getDate()<10?"0"+$date1.getDate():$date1.getDate(); //获取当前几号，不足10补0
+                        myfood_array[i]['dietime'] = y+"-"+m+"-"+d;
+                        $('#js_list_'+myfood_array[i]['id']+' td[name=dietime]').html(y+"-"+m+"-"+d);
+                    }
+                }
+            }
+            var json = $.toJSON(myfood_array);
+            $.cookie($goodKey,json,{ "path":"/" });
+        }
     }
 
     //删除选择商品

@@ -44,9 +44,10 @@ class StockManageModel extends Model{
      * @param $orderno
      * @return bool
      */
-    public static function getStatusByOrderno($orderno){
+    public static function getStatusByOrderno($orderno,$productid){
         if(regex($orderno,'require')){
             $con['orderno'] = $orderno;
+            $con['productid'] = $productid;
             $data =M('store_manage')->where($con)->find();
             return $data['status'];
         }else{
@@ -118,7 +119,7 @@ class StockManageModel extends Model{
                 $data[$ids[0]]['num'] = $ids[4];
                 $data[$ids[0]]['price'] = $ids[5];
                 $goods_amount = float_fee(intval($data[$ids[0]]['num']) * floatval($data[$ids[0]]['price']));//商品金额=数量*单价
-                if ($goods_amount != floatval($ids[6])) { //验证单个商品总金额
+                if ($goods_amount != float_fee($ids[6])) { //验证单个商品总金额
                     apiReturn(CodeModel::ERROR, $ids[6] . '商品' . $data[$ids[0]]['title'] . '金额不正确' . $goods_amount);
                 }
                 $data[$ids[0]]['amount'] = $ids[6];

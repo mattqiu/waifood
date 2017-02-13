@@ -285,7 +285,7 @@ class StockManageController extends BaseController {
                 $dbdata = M('store_manage')->create($val);
                 if($data['orderno']){
                     $orderno = $data['orderno'];
-                    if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno)){
+                    if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno,$dbdata['productid'])){
                         apiReturn(CodeModel::ERROR,'已完成的订单不支持重新修改');
                     }
                     if(false===StockManageModel::modifyOrder($orderno,$dbdata)){
@@ -405,7 +405,7 @@ class StockManageController extends BaseController {
                 $dbdata = M('store_manage')->create($val);
                 if($data['orderno']){
                     $orderno = $data['orderno'];
-                    if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno)){
+                    if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno,$dbdata['productid'])){
                         M()->rollback();
                         apiReturn(CodeModel::ERROR,'已完成的订单不支持重新修改');
                     }

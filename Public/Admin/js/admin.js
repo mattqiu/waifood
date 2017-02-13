@@ -297,6 +297,7 @@ function subCGOrder(status,$goodKey,type,ordertype){
     $.post('/admin/StockManage/subCGOrder',data,function(data){
         subBlock = false;//解除阻塞
         if(data.code == 200){
+            $.cookie($goodKey,null,{ "path":"/" });
             clearpop(data.message,'','self');
         }else{
             clearpopj(data.message, "error",true);
@@ -406,14 +407,16 @@ function subgenerateOrder(status,type){
         $.post('/admin/StockManage/subGenerateOrder',data,function(data){
             subBlock = false;//解除阻塞
             if(data.code == 200){
+                $.cookie($goodKey,null,{ "path":"/" });
                 clearpop(data.message,'','self');
             }else{
                 clearpopj(data.message, "error",true);
                 return false;
             }
         })
-
 }
+
+
 
 
 

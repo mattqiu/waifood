@@ -43,3 +43,4 @@ input.input_text2, textarea.textarea_text2{width: 308px}
 #discount_box .idealselect {width: 305px;}
 #discount_box .idealselect li{width: 307px;}
 .discount_table th,.discount_table td{padding: 0}
+.js_edittable:focus{background: #F1F1F1;}
