@@ -14,11 +14,7 @@ class CommonController extends Controller {
             if(empty($user)){
                 apiReturn(CodeModel::ERROR);
             }
-          /*  $discount = DiscountModel::getUserGroupsDiscount($amount,$user['id']);
-            dump($discount);
-            $discount = DiscountModel::getOrderAllDiscount($amount);
-            dump($discount);*/
-             $discount = DiscountModel::getDiscountMoney($amount,$user['id']);
+            $discount = DiscountModel::getDiscountMoney($amount,$user['id']);
             if(!empty($discount)){
                 apiReturn(CodeModel::CORRECT,'',$discount);
             }else{
