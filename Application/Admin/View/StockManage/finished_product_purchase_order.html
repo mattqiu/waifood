@@ -10,12 +10,13 @@
     </style>
 </head>
 <body class="bg_white" data-loguser="{$_SESSION['adminname']}">
+<div class="page_title">成品采购单</div>
 <form action="/admin/cms/goodsStatusLog.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
     <table  border="0" class="headtable">
         <tr>
             <td>单据号: <span class="orderno">{$_REQUEST['orderno']|default=''}</span></td>
             <td>创&nbsp;建&nbsp;人: <span class="operator"><if condition="!isset($_REQUEST['orderno']) || !$_REQUEST['orderno']">{$_SESSION['adminname']}</if> </span></td>
-            <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value=""/></td>
+            <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value="{:date('Y-m-d')}"/></td>
             <td>创建日期:<span class="addtime"></span></td>
             <td><span class="fl" style="position: relative;top: 5px;">供应商&nbsp;:&nbsp;</span>
                 <div class="idealforms_select fl" style="width:120px;">
@@ -66,6 +67,8 @@
 </form>
 <div class="clr"></div>
 <form onsubmit="return false" id="tablefrom" style="margin-top: 10px;">
+    <a href="/Admin/Cms/addContent/rootid/2.html" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" target="_blank" >新增商品</a>
+    <a href="JavaScript:$.cookie('storeselgoods',null,{ 'path':'/' });window.location.reload();" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" target="_blank" >清空</a>
     <table border="0" class="mytables" style="width: 100%;">
         <tr>
             <th width="50">行号</th>
@@ -244,9 +247,10 @@
             if(myfood_array[i]){
                $html+= '<tr align="center" id="js_list_'+myfood_array[i]['id']+'" class="js_list js_tr_'+$count+'" data-id="'+myfood_array[i]['id']+'" data-goodtype="'+myfood_array[i]['goodtype']+'" >' ;
                $html+= '<td name="count">'+$count+'</td>' ;
-               $html+= '<td align="left" ondblclick="selectGood('+$count+');" class="js_edittable goodid" name="id">'+myfood_array[i]['id']+'</td>' ;
-               $html+= '<td align="left"  name="name" ondblclick="selectGood('+$count+');"  class="js_edittable goodname">'+myfood_array[i]['name']+'</td>' ;
+               $html+= '<td align="left" ondblclick="selectGood('+$count+');" class="goodid" name="id">'+myfood_array[i]['id']+'</td>' ;
+               $html+= '<td align="left"  name="name" ondblclick="selectGood('+$count+');"  class="goodname">'+myfood_array[i]['name']+'</td>' ;
                $html+= '<td class="">' ;
+
                $html+= '<div class="idealforms_select fl" style="width:74px;">' ;
                $html+= '<div class="idealforms_select_obj"> ' ;
                $html+= '<input type="hidden" value="" name="goodtype"> ' ;
@@ -264,7 +268,7 @@
                 $html+= '<td class="js_edittable goodunit"  name="unit">'+getdefaultval(myfood_array[i]['unit'])+'</td>' ;
                 $html+= '<td class="js_edittable goodnum"  name="num">'+getdefaultval(myfood_array[i]['num'])+'</td>' ;
                 $html+= '<td class="js_edittable goodprice js_need_hide"  name="price">'+getdefaultval(myfood_array[i]['price'])+'</td>' ;
-                $html+= '<td class="js_edittable js_need_hide" name="amount">'+getdefaultval(myfood_array[i]['num']*myfood_array[i]['price'])+'</td>' ;
+                $html+= '<td class="js_edittable js_need_hide" name="amount">'+fomatFloat(getdefaultval(myfood_array[i]['num']*myfood_array[i]['price']))+'</td>' ;
                 $html+= '<td class="js_edittable"  name="true_num">'+getdefaultval(myfood_array[i]['true_num'])+'</td>' ;
                 $html+= ' <td class="js_edittable js_need_hide" name="true_price">'+getdefaultval(myfood_array[i]['true_price'])+'</td>' ;
                 $html+= '<td class="js_edittable js_need_hide" name="true_amount">'+getdefaultval(myfood_array[i]['true_amount'])+'</td>';
@@ -272,10 +276,11 @@
                 $html+= '<td class="js_edittable"  name="leveltime" onkeyup="setgoodsval('+myfood_array[i]['id']+',\'leveltime\',$(this).html());getTime();" >'+getdefaultval(myfood_array[i]['leveltime'])+'</td>';
                 $html+= '<td class="js_edittable "  name="dietime" onclick="setDate(this)">'+getdefaultval(myfood_array[i]['dietime'])+'</td>';
                 $html+= '<td class="js_edittable" name="barcode">'+getdefaultval(myfood_array[i]['barcode'])+'</td>';
-                $html+= '<td><a href="javascript:delgood('+myfood_array[i]['id']+')">删除</a></td>' ;
+                $html+= '<td><a href="javascript:delgood('+myfood_array[i]['id']+',\'{$_REQUEST["orderno"]}\',true);">删除</a></td>' ;
                 $html+= '</tr>';
                 $count++;
             }
+
         }
         $('#tablefrom table ').html($html);
         if($count>9){
@@ -283,10 +288,6 @@
         }else{
             var max =parseInt($('table tr ').length);
             addTrForTable(10 - max+1);
-        }
-
-        if(myfood_array[i] && myfood_array[i]['goodtype']){
-            setSelectSelected('#tablefrom input[name=goodtype]',myfood_array[i]['goodtype']);
         }
         getTotalMoney();
         $('#tablefrom table .js_list').each(function(){
@@ -312,7 +313,7 @@
         }
         var max =parseInt($('#tablefrom table tr ').length);
         for(var i = 0;i<row;i++){
-            $('#tablefrom table tbody').append('<tr align="center" class="newrow js_tr_'+(max+i)+'" ><td name="count">'+(max+i)+'</td><td align="left" ondblclick="selectGood('+(max+i)+');" class="js_edittable goodid" name="id"></td><td align="left"  ondblclick="selectGood('+(max+i)+');"  class="js_edittable goodname" name="name"></td><td class=""><div class="idealforms_select fl" style="width:74px;"><div class="idealforms_select_obj"> <input type="hidden" value="" name="supplyid"> <input type="text" value="" readonly> <span class="caret"></span></div><ul class="idealforms_select_menu"><li data-value="1">补货</li><li data-value="2">新品</li><li data-value="3">新包装</li><li data-value="4">缺货</li></ul></div></td><td class="js_edittable goodunit"  name="unit"></td><td class="js_edittable goodnum"  name="num"></td><td class="js_edittable goodprice js_need_hide"  name="price"></td><td class="js_edittable js_need_hide" name="amount"></td><td class="js_edittable"  name="true_num"></td> <td class="js_edittable js_need_hide" name="true_price"></td><td class="js_edittable js_need_hide" name="true_amount"></td> <td class="js_edittable" onclick="setDate(this)"></td><td class="js_edittable"></td><td class="js_edittable " onclick="setDate(this)"></td><td class="js_edittable"></td><td></td></tr>');
+            $('#tablefrom table tbody').append('<tr align="center" class="newrow js_tr_'+(max+i)+'" ><td name="count">'+(max+i)+'</td><td align="left" ondblclick="selectGood('+(max+i)+');" class="goodid" name="id"></td><td align="left"  ondblclick="selectGood('+(max+i)+');"  class="goodname" name="name"></td><td class=""><div class="idealforms_select fl" style="width:74px;"><div class="idealforms_select_obj"> <input type="hidden" value="" name="supplyid"> <input type="text" value="" readonly> <span class="caret"></span></div><ul class="idealforms_select_menu"><li data-value="1">补货</li><li data-value="2">新品</li><li data-value="3">新包装</li><li data-value="4">缺货</li></ul></div></td><td class="js_edittable goodunit"  name="unit"></td><td class="js_edittable goodnum"  name="num"></td><td class="js_edittable goodprice js_need_hide"  name="price"></td><td class="js_edittable js_need_hide" name="amount"></td><td class="js_edittable"  name="true_num"></td> <td class="js_edittable js_need_hide" name="true_price"></td><td class="js_edittable js_need_hide" name="true_amount"></td> <td class="js_edittable" onclick="setDate(this)"></td><td class="js_edittable"></td><td class="js_edittable " onclick="setDate(this)"></td><td class="js_edittable"></td><td></td></tr>');
 
         }
         $("#tablefrom").idealforms();
@@ -381,7 +382,7 @@
             for (var i in myfood_array) {
                 if (myfood_array[i] && myfood_array[i]['num']) {
                     var money = fomatFloat(parseFloat(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
-                    //   setgoodsval(myfood_array[i]['id'],'amount',money);
+                    setgoodsval(myfood_array[i]['id'],'amount',money);
                     total += money;
                 }
             }
@@ -391,7 +392,7 @@
             $moneyNum = fomatFloat(totalfee/total);
             for (var i in myfood_array) {
                 if (myfood_array[i] && myfood_array[i]['num']) {
-                    var true_amount = fomatFloat(parseFloat(myfood_array[i]['price']) * $moneyNum);
+                    var true_amount = fomatFloat(parseFloat(myfood_array[i]['price']) * $moneyNum * parseFloat(myfood_array[i]['num']));
                     setgoodsval(myfood_array[i]['id'],'true_amount',true_amount);
                     setgoodsval(myfood_array[i]['id'],'true_price',fomatFloat(true_amount/parseFloat(myfood_array[i]['true_num'])));
                 }
@@ -455,22 +456,34 @@
     }
 
     //删除选择商品
-    function delgood(id){
+    function delgood(id,orderno,ol){
         if(!id){
             return false;
         }
-        var $goodKey = 'storeselgoods';
-        var myfood = $.cookie($goodKey);
-        var myfood_array  = $.parseJSON(myfood);
-        // 看该产品是否存在
-        if(myfood_array){
-            if(myfood_array[id]){ //存在
-                myfood_array[id]= undefined;
+        if(ol == true && orderno){
+            $.post('/admin/StockManage/delCGGoods',{"id":id,orderno:orderno},function(data){
+                if(data.code == 200){
+                    delgood(id);
+                }else{
+                    clearpopj(data.message, "error",true);
+                    return;
+                }
+            })
+        }else{
+            var $goodKey = 'storeselgoods';
+            var myfood = $.cookie($goodKey);
+            var myfood_array  = $.parseJSON(myfood);
+            // 看该产品是否存在
+            if(myfood_array){
+                if(myfood_array[id]){ //存在
+                    myfood_array[id]= undefined;
+                }
             }
+            var json = $.toJSON(myfood_array);
+            $.cookie($goodKey,json,{ "path":"/" });
+            selectOk();
         }
-        var json = $.toJSON(myfood_array);
-        $.cookie($goodKey,json,{ "path":"/" });
-        selectOk();
+
     }
 
 

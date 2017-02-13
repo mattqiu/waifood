@@ -89,8 +89,9 @@ class StockManageModel extends Model{
      * @param $id
      * @return mixed
      */
-    public static function delCGGoods($id){
-        $con['id'] = $id;
+    public static function delCGGoods($id,$orderno){
+        $con['productid'] = $id;
+        $con['orderno'] = $orderno;
         return M('store_manage')->where($con)->delete();
     }
 
@@ -110,7 +111,7 @@ class StockManageModel extends Model{
                 $ids = explode(",", $val);
                 if($ids[2] != self::NEW_PRODUCT){ //如果商品是新品，商品没有商品id
                     $data[$ids[0]]['productid'] = $ids[0];
-                }elseif($ids[0]){
+                }elseif(regex($ids[0],'number')){
                     apiReturn(CodeModel::ERROR, $ids[6] . '商品' . $data[$ids[0]]['title'] . '不可以更改为当前类型' . $goods_amount);
                 }
                 $data[$ids[0]]['title'] = $ids[1];

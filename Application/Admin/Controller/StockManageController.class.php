@@ -172,8 +172,9 @@ class StockManageController extends BaseController {
 
     public function delCGGoods(){
         $id = I('post.id');
-        if(regex($id,'number')){
-           if(StockManageModel::delCGGoods($id)){
+        $orderno = I('post.orderno');
+        if(regex($id,'number') && $orderno){
+           if(StockManageModel::delCGGoods($id,$orderno)){
                apiReturn(CodeModel::CORRECT);
            }else{
                apiReturn(CodeModel::ERROR,'删除失败');
