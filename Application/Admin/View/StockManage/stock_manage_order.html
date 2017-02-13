@@ -4,6 +4,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>采购生产列表</title>
     <include file="Index:header" />
+    <style>
+        #selectInfo td{font-size: 12px;}
+        #selectInfo input{height: 28px}
+    </style>
 </head>
 <body class="bg_white"  data-loguser="{$_SESSION['adminname']}">
 <div class="page_title">采购生产列表</div>
@@ -33,10 +37,10 @@
                 </ul>
                 <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状&nbsp;态:&nbsp;</span>
                 <ul style="margin-left: 3px;">
-                    <li><label for="radio11"><input type="radio" id="radio11" name="status" value="0"/>草稿</label></li>
-                    <li><label for="radio12"><input type="radio" id="radio12" name="status" value="1"/>待审核</label></li>
-                    <li><label for="radio13"><input type="radio" id="radio13" name="status"  value="2" />完成</label></li>
-                    <li><label for="radio14"><input type="radio" id="radio14" name="status"  value="3" />取消</label></li>
+                    <li><label for="check1"><input type="checkbox" id="check1" name="status[]" value="0"  <if condition="isset($_REQUEST['status']) && in_array(0,$_REQUEST['status'])"> data-check="true"</if> />草稿</label></li>
+                    <li><label for="check2"><input type="checkbox" id="check2" name="status[]" value="1" <if condition="isset($_REQUEST['status']) && in_array(1,$_REQUEST['status'])"> data-check="true"</if>/>待审核</label></li>
+                    <li><label for="check3"><input type="checkbox" id="check3" name="status[]" value="2" <if condition="isset($_REQUEST['status']) && in_array(2,$_REQUEST['status'])"> data-check="true"</if>/>完成</label></li>
+                    <li><label for="check4"><input type="checkbox" id="check4" name="status[]" value="3" <if condition="isset($_REQUEST['status']) && in_array(3,$_REQUEST['status'])"> data-check="true"</if>/>作废</label></li>
                 </ul>
             </td>
         </tr>
@@ -93,43 +97,43 @@
     <volist id="vo" name="list">
         <if condition="$vo['ordertype'] eq 1">
             <tr ondblclick="window.location.href='/admin/StockManage/goodsPurchaseOrder.html?orderno={$vo.orderno}'" align="center">
-        <elseif condition="$vo['ordertype'] eq 2"/>
+                <elseif condition="$vo['ordertype'] eq 2"/>
             <tr ondblclick="window.location.href='/admin/StockManage/materialPurchase.html?orderno={$vo.orderno}'" align="center">
-        <elseif condition="$vo['ordertype'] eq 3"/>
+                <elseif condition="$vo['ordertype'] eq 3"/>
             <tr ondblclick="window.location.href='/admin/StockManage/generateOrder.html?orderno={$vo.orderno}'" align="center">
         </if>
-            <td>{$i}</td>
-            <td>{$vo.runtime}</td>
-            <td>{$vo.orderno}</td>
-            <td>
-                <if condition="$vo['ordertype'] eq 1">
-                    成品采购
+        <td>{$i}</td>
+        <td>{$vo.runtime}</td>
+        <td>{$vo.orderno}</td>
+        <td>
+            <if condition="$vo['ordertype'] eq 1">
+                成品采购
                 <elseif condition="$vo['ordertype'] eq 2"/>
-                    原料采购
+                原料采购
                 <elseif condition="$vo['ordertype'] eq 3"/>
-                    生产管理
-                </if>
-            </td>
-            <td align="center">{$vo.total_fee}</td>
-            <td align="center">{$vo.supply}</td>
-            <td align="center" class="js_need_hide">{$vo.supply2}</td>
-            <td align="center">{$vo.operator}</td>
-            <td align="center">
-                <if condition="$vo['status'] eq 3">
-                    取消
+                生产管理
+            </if>
+        </td>
+        <td align="center">{$vo.total_fee}</td>
+        <td align="center">{$vo.supply}</td>
+        <td align="center" class="js_need_hide">{$vo.supply2}</td>
+        <td align="center">{$vo.operator}</td>
+        <td align="center">
+            <if condition="$vo['status'] eq 3">
+                取消
                 <elseif condition="$vo['status'] eq 1"/>
-                    待审核
+                待审核
                 <elseif condition="$vo['status'] eq 2"/>
-                    完成
+                完成
                 <else/>
-                    草稿
-                </if>
-            </td>
-            <td align="left">{$vo.note}</td>
-            <td>
-                <a href="/admin/StockManage/downOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">导出</a>
-                <a href="/admin/StockManage/printOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">打印</a>
-            </td>
+                草稿
+            </if>
+        </td>
+        <td align="left">{$vo.note}</td>
+        <td>
+            <a href="/admin/StockManage/downOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">导出</a>
+            <a href="/admin/StockManage/printOrder.html?orderno={$vo['orderno']}" target="_blank" class="underline">打印</a>
+        </td>
         </tr>
     </volist>
     <tr class="fuwu">
@@ -145,9 +149,9 @@
         $("#selectInfo").idealforms();
         setSelectSelected('#selectInfo input[name=operator]',"{$_REQUEST['operator']|default=1}");
         setSelectSelected('#selectInfo input[name=supplyid]',"{$_REQUEST['supplyid']}");
-
         setRadioCheck('#selectInfo input[name=ordertype]',"{$_REQUEST['ordertype']|default=1}");
-        setRadioCheck('#selectInfo input[name=status]',"{$_REQUEST['status']|default=0}");
+       setCheckboxCheck('#selectInfo input[name="status[]"]');
+
         var $loguser = $('body').data('loguser');
         //除本人和管理员外其他用户需要隐藏特殊字段
         if($loguser == 'admin' || $loguser == 'administrator'){

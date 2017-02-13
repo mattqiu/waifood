@@ -223,7 +223,8 @@ class StockManageController extends BaseController {
             //$where ['ordertype'] = 1;
         }
         if(isset($_REQUEST['status']) && !empty($_REQUEST['status'])){
-            $where.='status = '.$_REQUEST['status'];
+            ;
+            $where.='status in ('.implode(',',$_REQUEST['status']).')';//
            // $where ['status'] = $_REQUEST['ordertype'];
         }else{
             $where.='status = 0  ';

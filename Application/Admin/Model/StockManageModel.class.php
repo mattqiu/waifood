@@ -63,7 +63,20 @@ class StockManageModel extends Model{
     public static function getOrderByOrderno($orderno){
         if(regex($orderno,'require')){
             $con['orderno'] = $orderno;
-            return M('store_manage')->where($con)->select();
+            $order = M('store_manage')->where($con)->select();
+            if(!empty($order)){
+                foreach($order as &$val){
+                    if(!is_date($val['createtime'])){
+                        $val['createtime'] = '';
+                    }
+                    if(!is_date($val['dietime'])){
+                        $val['dietime'] = '';
+                    }
+                }
+                return $order;
+            }else{
+                return false;
+            }
         }else{
             return false;
         }

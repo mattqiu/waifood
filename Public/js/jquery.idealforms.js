@@ -130,7 +130,7 @@ function setSelectSelected(obj,$val){
 }
 
 /**
- * 自定义select 设置选中
+ * 自定义radio 设置选中
  * @param obj
  * @param $val
  */
@@ -139,6 +139,20 @@ function setRadioCheck(obj,$val){
         if($val ==$(this).val()){
             $(this).attr('checked',true);
             $(this).siblings('span[class=radio]').addClass('checked');
+        }
+    })
+}
+
+/**
+ * 自定义Checkbox 设置选中
+ * @param obj
+ * @param $val
+ */
+function setCheckboxCheck(obj){
+    $(obj).each(function(){
+        if($(this).data('check') == true){
+            $(this).attr('checked',true);
+            $(this).siblings('span[class=check]').addClass('checked');
         }
     })
 }
