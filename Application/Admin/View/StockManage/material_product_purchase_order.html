@@ -61,7 +61,7 @@
         <tr>
             <td>状态: <span style="color: #999;" class="status">填写中</span></td>
            <td colspan="4" align="center">
-                <input type="button" class="sure_btn" onclick="subCGOrder(0,'materialgood','yl',2)" value="保存草稿"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="sure_btn" onclick="subCGOrder(0,'materialgood','yl',2)" value="保存草稿"/>&nbsp;
                 <input type="button" class="cancel_btn" onclick="subCGOrder(3,'materialgood','yl',2)" value="作废"/>&nbsp;&nbsp;&nbsp;
                 <input type="button" class="sure_btn" onclick="subCGOrder(1,'materialgood','yl',2)" value="提交审核"/>&nbsp;&nbsp;&nbsp;
                 <input type="button" class="sure_btn" onclick="subCGOrder(2,'materialgood','yl',2)"  value="审核通过并执行入库"/>
@@ -71,7 +71,7 @@
 </form>
 <div class="clr"></div>
 <form onsubmit="return false" id="tablefrom" style="margin-top: 10px;">
-    <a href="/Admin/StockManage/materialContent.html" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" >新增原料</a>
+    <a href="/Admin/StockManage/materialContent.html" style="margin:0 0 5px 20px;text-decoration:underline; color: #39F;" >新增原料</a>
     <a href="JavaScript:$.cookie('materialgood',null,{ 'path':'/' });window.location.reload();" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" target="_blank" >清空</a>
     <table border="0" class="mytables" style="width: 100%;">
         <tr>
@@ -142,6 +142,12 @@ $(function(){
         var id =$.trim($(this).parent().data('id'));
         var name =$.trim($(this).attr('name'));
         var val =$.trim($(this).html());
+        if(!val){
+            return ;
+        }
+        if(!id){
+            return ;
+        }
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
             $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));
@@ -357,6 +363,12 @@ function addTrForTable(row){
         var id =$.trim($(this).parent().data('id'));
         var name =$.trim($(this).attr('name'));
         var val =$.trim($(this).html());
+        if(!val){
+            return ;
+        }
+        if(!id){
+            return ;
+        }
         if(name=='num'){
             var price = parseFloat($(this).siblings('td[name=price]').html());
             $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));

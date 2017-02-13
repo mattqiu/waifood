@@ -7,6 +7,8 @@
     <style>
         .headtable{width: 1000px;}
         .headtable td{width: 250px;}
+        #selectInfo td{font-size: 12px;}
+        #selectInfo input[type=text]{height: 28px}
     </style>
 </head>
 <body class="bg_white" >
@@ -57,10 +59,12 @@
         </tr>
         <tr>
             <td>状态: <span style="color: #999;">填写中</span></td>
-            <td><input type="button" class="sure_btn" onclick="subgenerateOrder(0,'cp')" value="保存草稿"/></td>
-            <td><input type="button" class="cancel_btn" onclick="subgenerateOrder(3,'cp')" value="作废"/></td>
-            <td><input type="button" class="sure_btn" onclick="subgenerateOrder(1,'cp')" value="提交审核"/></td>
-            <td><input type="button" class="sure_btn" onclick="subgenerateOrder(2,'cp')"  value="审核通过并执行入库"/></td>
+            <td align="center" colspan="4">
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(0,'cp')" value="保存草稿"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="cancel_btn" onclick="subgenerateOrder(3,'cp')" value="作废"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(1,'cp')" value="提交审核"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(2,'cp')"  value="审核通过并执行入库"/>
+            </td>
         </tr>
     </table>
 </form>
@@ -182,6 +186,7 @@ $(function(){
             }
         });
     }
+    $('#tablefrom table tr,td').css({'height': '35px'});
 })
 
 function getTotalMoney(){

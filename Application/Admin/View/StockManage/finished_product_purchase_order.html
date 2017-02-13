@@ -71,7 +71,7 @@
 </form>
 <div class="clr"></div>
 <form onsubmit="return false" id="tablefrom" style="margin-top: 10px;">
-    <a href="/Admin/Cms/addContent/rootid/2.html" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" >新增商品</a>
+    <a href="/Admin/Cms/addContent/rootid/2.html" style="margin:0 0 5px 20px;text-decoration:underline; color: #39F;" >新增商品</a>
     <a href="JavaScript:$.cookie('storeselgoods',null,{ 'path':'/' });window.location.reload();" style="margin:0 0 5px 20px;text-decoration:underline; color: #999" target="_blank" >清空</a>
     <table border="0" class="mytables" style="width: 100%;">
         <tr>
@@ -134,6 +134,12 @@
             var id =$.trim($(this).parent().data('id'));
             var name =$.trim($(this).attr('name'));
             var val =$.trim($(this).html());
+            if(!val){
+                return ;
+            }
+            if(!id){
+                return ;
+            }
             if(name=='num'){
                 var price = parseFloat($(this).siblings('td[name=price]').html());
                 $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));
@@ -339,6 +345,12 @@
             var id =$.trim($(this).parent().data('id'));
             var name =$.trim($(this).attr('name'));
             var val =$.trim($(this).html());
+            if(!val){
+                return ;
+            }
+            if(!id){
+                return ;
+            }
             if(name=='num'){
                 var price = parseFloat($(this).siblings('td[name=price]').html());
                 $(this).siblings('td[name=amount]').html(fomatFloat(parseFloat(val)*price));

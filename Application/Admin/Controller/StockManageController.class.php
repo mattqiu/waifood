@@ -278,7 +278,7 @@ class StockManageController extends BaseController {
                     $count++;
                     S('count', $count, 86400);
                 }
-                $orderno = $type.date('Ymd') . $count;
+                $orderno = $type.date('Ymd') .( $count<10?'0'.$count:$count);
             }
 
             //使用事务保证添加订单，明细成功
@@ -398,9 +398,8 @@ class StockManageController extends BaseController {
                     $count++;
                     S('count', $count, 86400);
                 }
-                $orderno = $type.date('Ymd') . $count;
+                $orderno = $type.date('Ymd') .( $count<10?'0'.$count:$count);
             }
-
             //使用事务保证添加订单，明细成功
             M()->startTrans();
             foreach($newdata as $val){
