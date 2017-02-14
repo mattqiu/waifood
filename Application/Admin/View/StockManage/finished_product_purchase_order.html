@@ -105,6 +105,8 @@
 <script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 <script>
     $(function(){
+        $.cookie('storeselgoods',null,{ "path":"/" });//初始清空所有本地缓存商品
+
         $("#selectInfo").idealforms();
         $("#tablefrom").idealforms();
         var orderno = "{$_REQUEST['orderno']}";

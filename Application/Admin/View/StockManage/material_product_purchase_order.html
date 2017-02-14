@@ -109,6 +109,7 @@
 
 <script>
 $(function(){
+    $.cookie('materialgood',null,{ "path":"/" });//初始清空所有本地缓存商品
     $("#selectInfo").idealforms();
     $("#tablefrom").idealforms();
     var orderno = "{$_REQUEST['orderno']}";
