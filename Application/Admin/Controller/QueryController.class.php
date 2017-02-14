@@ -33,7 +33,7 @@ class QueryController extends Controller {
 				break;
 		}
 		
-		$where ['status'] = 1;
+		//$where ['status'] = 1;
 		if (is_numeric ( $pid ) && $pid != 0) {
 			$where ['pid'] = $pid;
 		}

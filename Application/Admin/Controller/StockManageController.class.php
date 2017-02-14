@@ -98,10 +98,11 @@ class StockManageController extends BaseController {
         $materialid = $_REQUEST['materialid'];
         if(regex($materialid,'number')){
             $row = C ( 'VAR_PAGESIZE' );
+            $con['status'] = MaterialModel::COMPLETE;//只查询入库完成的、、状态：0草稿，1待审核，2完成，3取消
             $con['materialid'] = $materialid;
             $count = M('material_log')->where($con)->count();
             $page = new  \Think\Page ( $count, $row );
-            $list = M('material_log')->where($con)->limit($page->firstRow.",".$page->listRows)->select();
+            $list = M('material_log')->where($con)->limit($page->firstRow.",".$page->listRows)->order('stocktime desc')->select();
             $material = MaterialModel::getMaterialById($materialid);
             $this->assign("title", $material['title']);
             $this->assign("list",$list);
@@ -216,25 +217,24 @@ class StockManageController extends BaseController {
           //  $where= ['supplyid'] = $_REQUEST['supplyid'];
         }
         if($_REQUEST['ordertype']){
-            $where.='ordertype = '.$_REQUEST['ordertype'].' and ';
+            $where.='ordertype in ('.implode(',',$_REQUEST['ordertype']).') and ';
+//            $where.='ordertype = '.$_REQUEST['ordertype'].' and ';
          //   $where ['ordertype'] = $_REQUEST['ordertype'];
         }else{
-            $where.='ordertype = 1 and ';
+            $where.='ordertype in (1,2,3) and ';
             //$where ['ordertype'] = 1;
         }
         if(isset($_REQUEST['status']) && !empty($_REQUEST['status'])){
-            ;
-            $where.='status in ('.implode(',',$_REQUEST['status']).')';//
+            $where.='status in ('.implode(',',$_REQUEST['status']).')';
            // $where ['status'] = $_REQUEST['ordertype'];
         }else{
-            $where.='status = 0  ';
+            $where.='status in (0,1) ';
            // $where ['status'] = 0;
         }
         $sql = 'SELECT  count(DISTINCT(orderno)) as tp_count FROM `my_store_manage` WHERE '.$where;
         $data = M ()->query($sql);
         $count = $data[0]['tp_count'];
      //   $count = M('store_manage')->where($where)->group('orderno')->count();
-
         $page = new  \Think\Page ( $count, $row );
         //$list = M('store_manage')->limit($page->firstRow.",".$page->listRows)->where($where)->order('id desc')->select();
         $filed = '`id`,`runtime`,`orderno`,`ordertype`,`total_fee`,`supplyid`,`supplyid2`,`operator`,`note`,`status`';
@@ -262,13 +262,19 @@ class StockManageController extends BaseController {
 
     //提交成品采购单
     public function subCGOrder(){
+
         $data = I('post.');
         if(!empty($data)){
             $newdata = StockManageModel::seperateOrder($data);
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
+            if($status == 2){//入库
+                if(session('adminname') != 'admin' && session('adminname') != 'administrator'){
+                    apiReturn(CodeModel::ERROR,'权限不足，请联系管理员！'.session('adminname'));
+                }
+            }
             if(!in_array($type,array(StockManageModel::CP,StockManageModel::YL))){
-                apiReturn(CodeModel::ERROR,'采购商品类型不正确，请刷新重试！');
+               // apiReturn(CodeModel::ERROR,'采购商品类型不正确，请刷新重试！');
             }
             if(!$data['orderno']) {
                 if (!$count = S('count')) {
@@ -285,6 +291,8 @@ class StockManageController extends BaseController {
             M()->startTrans();
             foreach($newdata as $val){
                 $dbdata = M('store_manage')->create($val);
+
+
                 if($data['orderno']){
                     $orderno = $data['orderno'];
                     if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno,$dbdata['productid'])){
@@ -297,6 +305,7 @@ class StockManageController extends BaseController {
                         //原料修改时入库
                         if($type == StockManageModel::YL  && $status == StockManageModel::COMPLETE) {
                             StockManageModel::addLYToStock($dbdata);
+                            MaterialModel::modifyMaterialLogById($orderno,$dbdata['productid'],$status);
                         }
                     }
                 }else{
@@ -348,7 +357,6 @@ class StockManageController extends BaseController {
                 $data[$ids[0]]['unit'] = $ids[2];
                 $data[$ids[0]]['num'] = $ids[3];
                 $data[$ids[0]]['price'] = $ids[4];
-
                 $goods_amount = float_fee(intval($data[$ids[0]]['num']) * floatval($data[$ids[0]]['price']));//商品金额=数量*单价
                 if ($goods_amount != floatval($ids[5])) { //验证单个商品总金额
                     apiReturn(CodeModel::ERROR, '商品' . $data[$ids[0]]['title'] . '金额不正确');
@@ -387,6 +395,11 @@ class StockManageController extends BaseController {
             $newdata = $this->seperateCpOrder($data);
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
+            if($status == 2){ //入库
+                if(session('adminname') != 'admin' || session('adminname') != 'administrator'){
+                    apiReturn(CodeModel::ERROR,'权限不足，请联系管理员！！');
+                }
+            }
             if(!in_array($type,array(StockManageModel::CP,StockManageModel::YL))){
                 apiReturn(CodeModel::ERROR,'商品类型不正确，请刷新重试！');
             }

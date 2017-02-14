@@ -11,7 +11,7 @@
 </head>
 <body class="bg_white" >
 <div class="container" style="overflow: hidden">
-    <div class="page_title">原料添加/修好</div>
+    <div class="page_title">原料添加/修改</div>
     <form onsubmit="return false" name="form1" class="contentform" id="infoform">
         <input type="hidden" name="goodsid" value="{$db.id}"/>
         <table border="0" style="width: 850px;">
@@ -101,8 +101,6 @@
                             </volist>
                         </ul>
                     </div>
-                    <!--<span class="fl"  style="margin-left: 41px;position: relative;top:7px;">品牌：</span>-->
-                    <!--<input type="text" name="brand"  class="input_text3"  value="{$db.brand}" />-->
                     <span class="fl"  style="margin-left: 35px;position: relative;top:7px;"> 内部备注：</span> <input type="text" name="note" class="input_text2 fl" style="width: 522px;" value="{$db.note}" />
                 </td>
             </tr>
@@ -122,6 +120,27 @@
         $("#infoform").idealforms();
         setSelectSelected('#infoform input[name=supplyid]',"{$db['supplyid']}");
         setSelectSelected('#infoform input[name=supplyid2]',"{$db['supplyid2']}");
+        $('#infoform input[name=price]').keyup(function(){
+            var stock = $('#infoform input[name=stock]').val();
+            var price = $(this).val();
+               if(stock){
+                   $('#infoform input[name=stock_fee]').val(price*stock);
+               }
+        })
+        $('#infoform input[name=stock]').keyup(function(){
+            var price = $('#infoform input[name=price]').val();
+            var stock = $(this).val();
+            if(price){
+                $('#infoform input[name=stock_fee]').val(price*stock);
+            }
+        })
+        $('#infoform input[name=stock_fee]').keyup(function(){
+            var price = $('#infoform input[name=price]').val();
+            var stock_fee = $(this).val();
+            if(price){
+                $('#infoform input[name=stock]').val(fomatFloat(stock_fee/price));
+            }
+        })
     })
 
     function sub(){

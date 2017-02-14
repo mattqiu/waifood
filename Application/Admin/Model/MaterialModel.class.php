@@ -87,7 +87,7 @@ class MaterialModel extends Model{
                     $newdata['amount'] = $ids[2];
                     $newdata['orderno'] = $orderno;
                     $newdata['operator'] = $_SESSION['adminname'];
-                    $newdata['type'] = self::ACHAT;
+                    $newdata['type'] = self::RECEIVE;
                     $newdata['status'] = $status;
                    if(!M('material_log')->add($newdata)){
                        GLog('add material log','添加商品：ID'. $ids[0].'失败');
@@ -104,6 +104,7 @@ class MaterialModel extends Model{
             }
         }
     }
+
     /**
      * 修改原料记录
      * @param $data
@@ -122,19 +123,53 @@ class MaterialModel extends Model{
                     $savedata['num'] = $ids[1];
                     $savedata['amount'] = $ids[2];
                     $savedata['status'] = $status;
+                    if($status == self::COMPLETE){ //入库时修改入库时间
+                        $savedata['stocktime'] = date('Y-m-d H:i:s');
+                    }
                    if(!M('material_log')->where($con)->save($savedata)){
                        GLog('add material log','添加商品：ID'. $ids[0].'失败');
                    }elseif($status == self::COMPLETE){ //完成状态
                        $con1['id'] =  $ids[0];
                        M('material')->where($con1)->setDec('stock', $savedata['num'] );//减库存
                        M('material')->where($con1)->setDec('stock_fee', $savedata['amount'] );//减库存金额
-                   }elseif($status == self::CANCEL){//作废状态
+                   }/*elseif($status == self::CANCEL){//作废状态
                        $con2['id'] =  $ids[0];
                        M('material')->where($con2)->setInc('stock', $savedata['num'] );//返回库存
                        M('material')->where($con2)->setInc('stock_fee', $savedata['amount'] );//返回库存金额
-                   }
+                   }*/
                 }
             }
+        }
+    }
+
+    /**
+     * 修改原料记录
+     * @param $data
+     * @param $orderno
+     * @param $status
+     */
+    public static function modifyMaterialLogById($orderno,$materialid,$status){
+        if(regex($orderno,'require') && regex($materialid,'require')){
+            $con['materialid'] = $materialid;
+            $con['orderno'] =  $orderno;
+            $materiallog = M('material_log')->where($con)->find();
+            if($materiallog){
+                $savedata['status'] = $status;
+                if($status == self::COMPLETE){ //入库时修改入库时间
+                    $savedata['stocktime'] = date('Y-m-d H:i:s');
+                }
+                if(false === M('material_log')->where($con)->save($savedata)){
+                    GLog('add material log','添加商品：ID'. $materialid.'失败');
+                }else{
+                    $con1['id'] = $materialid;
+                    M('material')->where($con1)->setDec('stock', $savedata['num'] );//减库存
+                    M('material')->where($con1)->setDec('stock_fee', $savedata['amount'] );//减库存金额
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
         }
     }
 
@@ -152,17 +187,17 @@ class MaterialModel extends Model{
             $newdata['amount'] =$data['amount'];
             $newdata['orderno'] = $orderno;
             $newdata['operator'] = $_SESSION['adminname'];
-            $newdata['type'] = self::RECEIVE;
+            $newdata['type'] = self::ACHAT;
             $newdata['status'] = $status;
             if(!M('material_log')->add($newdata)){
                 GLog('add material log','添加商品：ID'.  $newdata['materialid'].'失败');
             }elseif($status == self::COMPLETE){ //完成状态
                 $con1['id'] = $newdata['materialid'];
                 M('material')->where($con1)->setInc('stock', $newdata['num'] );//加库存
-            }elseif($status == self::CANCEL){//作废状态
+            }/*elseif($status == self::CANCEL){//作废状态
                 $con2['id'] = $newdata['materialid'];
                 M('material')->where($con2)->setDec('stock', $newdata['num'] );//返回减库存
-            }
+            }*/
         }
     }
 }

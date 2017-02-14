@@ -36,7 +36,7 @@
                 </div>
             </td>
         </tr>
-        <tr>
+        <tr class="js_need_hide">
             <td>商品金额: <span class="total_amount">0</span></td>
             <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
             <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
@@ -69,13 +69,14 @@
     </table>
 </form>
 <div class="clr"></div>
-<div style="height: 25px;">原料 <button  onclick="newYltr();">新增行</button></div>
+<div style="height: 25px;">原料 &nbsp;&nbsp;&nbsp;<a href="JavaScript:newYltr();" style="text-decoration: underline;color: #999">新增行</a></div>
 <div style=" height: 300px; overflow: auto;">
     <table border="0" class="mytables" style="width: 100%;" id="yltable">
 
     </table>
 </div>
-<div style="height: 25px;">成品 <button  onclick="newCptr();">新增行</button></div>
+<br/>
+<div style="height: 25px;">成品  &nbsp;&nbsp;&nbsp;<a href="JavaScript:newCptr();" style="text-decoration: underline;color: #999">新增行</a></div>
 <div style=" height: 300px; overflow: auto;">
     <table border="0" class="mytables" style="width: 100%;" id="cptable">
 
@@ -95,6 +96,16 @@
 <script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 <script>
 $(function(){
+    /*$.cookie('generategoodsyl',null,{ "path":"/" });
+    $.cookie('generategoodscp',null,{ "path":"/" });*/
+
+    //除本人和管理员外其他用户需要隐藏特殊字段
+    var $loguser = $.trim($('body').data('loguser')),operator = $.trim($('#selectInfo table .operator').html());
+    if($loguser == operator || $loguser == 'admin' || $loguser == 'administrator'){
+        $('.js_need_hide').show();
+    }else{
+        $('.js_need_hide').hide();
+    }
     $("#selectInfo").idealforms();
         $('#selectInfo table input[name=delivery_fee]').keyup(function(){
             getTotalMoney();
@@ -157,7 +168,7 @@ $(function(){
                         }else if(cplist[i]['status'] == 2){
                             $status = '完成';
                         }else if(cplist[i]['status'] == 3){
-                            $status = '取消';
+                            $status = '作废';
                         }else{
                             $status = '草稿';
                         }
@@ -234,7 +245,7 @@ function selectYLOk(){
             var $count = 1,$html='<tr><th width="50">序号</th><th width="50">原料ID</th><th>原料名</th><th width="80">单位</th><th width="60">库存数量</th><th width="60">库存金额</th><th width="70">领用数量</th><th width="70">领用金额</th><th width="50">操作</th></tr>';
             for (var i in myfood_array) {
                 if(myfood_array[i]){
-                    $html+= '<tr align="center" class=" js_tr_'+$count+'" data-id="'+myfood_array[i]['id']+'" >' +
+                    $html+= '<tr align="center" class=" js_tr_'+$count+'" id="yl_list_'+myfood_array[i]['id']+'" data-id="'+myfood_array[i]['id']+'" >' +
                     '<td>'+$count+'</td>' +
                     '<td align="left" ondblclick="selectYLGood();" class="goodid" name="id">'+myfood_array[i]['id']+'</td>' +
                     '<td align="left"  name="name" ondblclick="selectYLGood();"  class=" goodname">'+myfood_array[i]['name']+'</td>' +
@@ -331,6 +342,16 @@ function setgoodsval(id,name,val,$goodKey){
     // 看该产品是否存在
     if(myfood_array){
         if(myfood_array[id]){ //存在
+            if($goodKey == 'generategoodsyl' ){
+                console.log(name)
+                if(name == 'upnum'){
+                    myfood_array[id]['up_amount']=  val * myfood_array[id]['price'];
+                    $('#yl_list_'+id +' td[name=up_amount]').html( val * myfood_array[id]['price'])
+                }else{
+                    myfood_array[id]['upnum']=  fomatFloat(val / myfood_array[id]['price']);
+                    $('#yl_list_'+id +' td[name=upnum]').html(fomatFloat(val / myfood_array[id]['price']))
+                }
+            }
             myfood_array[id][name]= val;
         }
     }
@@ -395,7 +416,7 @@ function newYltr(row){
     });
 
     //原料领用操作
-    $('#yltable tr td.js_edittable').bind('keyup',function(){
+    $('#yltable tr td.js_edittable').bind('blur',function(){
         var id =$(this).parent().data('id');
         var name =$(this).attr('name');
         var val =$(this).html();

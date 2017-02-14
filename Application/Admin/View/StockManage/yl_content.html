@@ -35,7 +35,7 @@
 	<div class="dot"></div>
 	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
 		<tr class="header">
-			<td width="60"><if condition="!isset($_REQUEST['sel']) || empty($_REQUEST['sel'])"> <input type="checkbox" name="SelectAll" id="SelectAll" value=""/></if>ID</td>
+			<td width="60"><if condition="!isset($_REQUEST['sel']) || empty($_REQUEST['sel'])"> <input type="checkbox" name="SelectAll" id="SelectAll" value=""/></if>商品ID</td>
 			<td>标题</td>
 			<td>单位</td>
 			<td>单价</td>
@@ -117,16 +117,17 @@ $(function(){
             name = $('#js_goods_'+id).data("name"),
             unit = $('#js_goods_'+id).data("unit"),
             stock = $('#js_goods_'+id).data("stock"),
+                price = $('#js_goods_'+id).data("price"),
             stock_fee = $('#js_goods_'+id).data("stock_fee");
         var myfood_array  = $.parseJSON(myfood);
         // 看该产品是否存在
         if(myfood_array){
             if(!myfood_array[id]){
-                myfood_array[id] = {"id":id,"name":name,"unit":unit,"stock":stock,"stock_fee":stock_fee};
+                myfood_array[id] = {"id":id,"name":name,"unit":unit,"price":price,"stock":stock,"stock_fee":stock_fee};
             }
         }else{
             myfood_array = {};
-            myfood_array[id] = {"id":id,"name":name,"unit":unit,"stock":stock,"stock_fee":stock_fee};
+            myfood_array[id] = {"id":id,"name":name,"unit":unit,"price":price,"stock":stock,"stock_fee":stock_fee};
         }
         var json = $.toJSON(myfood_array);
         $.cookie($goodKey,json,{

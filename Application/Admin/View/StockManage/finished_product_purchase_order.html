@@ -37,7 +37,7 @@
             </td>
         </tr>
 
-        <tr>
+        <tr class="js_need_hide">
             <td>商品金额: <span class="total_amount">0</span></td>
             <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
             <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
@@ -98,7 +98,7 @@
 <button  onclick="addTrForTable();">新增行</button>
 <div style="display: none;" id="selectGoodBox"  class="tc">
     <input type="hidden" name="trrow"/>
-    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=storeselgoods&sel=1" width="530" height="440" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=storeselgoods&sel=1" width="600" height="620" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectOk()">确认</button>
 </div>
 <script src="__PUBLIC__/js/json.js"></script>
@@ -195,7 +195,7 @@
                             }else if(obj[i]['status'] == 2){
                                 $status = '完成';
                             }else if(obj[i]['status'] == 3){
-                                $status = '取消';
+                                $status = '作废';
                             }else{
                                 $status = '草稿';
                             }
@@ -236,7 +236,7 @@
     }
 
     function selectGood(){
-        getMask().maskShow({"tit": "请选择产品","width":550, "cont": "#selectGoodBox"});
+        getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectGoodBox"});
     }
 
     function selectOk(){
@@ -308,7 +308,7 @@
             }
         })
         //除本人和管理员外其他用户需要隐藏特殊字段
-        var $loguser = $('body').data('loguser'),operator =  $('#selectInfo table .operator').html();
+        var $loguser = $.trim($('body').data('loguser')),operator = $.trim($('#selectInfo table .operator').html());
         if($loguser == operator || $loguser == 'admin' || $loguser == 'administrator'){
             $('.js_need_hide').show();
         }else{
@@ -417,7 +417,7 @@
                     var true_amount = fomatFloat(parseFloat(myfood_array[i]['price']) * $moneyNum * parseFloat(myfood_array[i]['num']));
                     if(count2 == count){
                         var totalfee = $('#selectInfo table input[name=total_fee]').val();
-                        setgoodsval(myfood_array[i]['id'],'true_amount',totalfee - flagAmount);
+                        setgoodsval(myfood_array[i]['id'],'true_amount',fomatFloat(parseFloat(totalfee) - parseFloat(flagAmount)));
                     }else{
                         setgoodsval(myfood_array[i]['id'],'true_amount',true_amount);
                         flagAmount+=true_amount;

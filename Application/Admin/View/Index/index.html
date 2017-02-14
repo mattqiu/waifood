@@ -24,7 +24,7 @@ html {
 		<div class="location">
 			<span class="fl" id="Location"></span> <span class="fr"> <a
 				href="javascript:void(0);" id="ClrCache">更新缓存</a> 当前用户：{:Session('adminname')} <a
-				href="javascript:void(0);" onclick="var url='{:U('Admin/Login/logout')}';if(confirm('您确定要退出登录吗？')){location=url;};" class="fc_red">安全退出</a>&nbsp;</span>
+				href="javascript:void(0);" onclick="var url='{:U('Admin/Login/logout')}';if(confirm('您确定要退出登录吗？')){location=url;};" class="fc_red">安全退出</a>&nbsp;<a href="javascript:showUpPwdBox();">【修改密码】</a> </span>
 		</div>
 	</div>
 	<div id="Lefter">
@@ -52,5 +52,31 @@ html {
 				class="MainFrame" id="MainFrame" name="MainFrame"></iframe>
 		</div>
 	</div>
+    <form onsubmit="return false" id="upPwdBox" style="display: none">
+        <input type="text" style="width: 300px" placeholder="请输入原始密码" name="oldpwd"/><br/><br/>
+        <input type="text" style="width: 300px" placeholder="请输入新密码" name="pwd"/><br/>
+        <p>
+            <input type="button" class="sure_btn" onclick="upPwd()"  value="修改"/>
+            <input type="button" class="cancel_btn" onclick="closeMask();"  value="取消"/>
+        </p>
+    </form>
+<script>
+    function showUpPwdBox(){
+        $("#upPwdBox").idealforms();
+        getMask().maskShow({"tit": "修改密码","width":350, "cont": "#upPwdBox"});
+    }
+
+    function upPwd(){
+        var old = $('#upPwdBox input[name=oldpwd]').val(),pwd = $('#upPwdBox input[name=pwd]').val();
+        $.post('/admin/login/uppwd',{old:old,pwd:pwd},function(data){
+            if(data.code == 200){
+                clearpop(data.message, "",'self');
+            }else{
+                clearpopj(data.message, "error",true);
+                return  false;
+            }
+        })
+    }
+</script>
 </body>
 </html>

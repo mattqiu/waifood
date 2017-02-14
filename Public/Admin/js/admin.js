@@ -335,7 +335,7 @@ function getYlInfo(){
         if(!myfood_array[i]['upnum']){
             clearpopj('请填写原料领用数量', "error",true);
             return false;
-        }else if(myfood_array[i]['upnum']>myfood_array[i]['stock']){
+        }else if(myfood_array[i]['upnum'] > myfood_array[i]['stock']){
             clearpopj('库存不足', "error",true);
             return false;
         }

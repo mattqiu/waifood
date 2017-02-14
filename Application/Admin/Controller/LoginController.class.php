@@ -2,6 +2,7 @@
 
 namespace Admin\Controller;
 
+use Common\Model\CodeModel;
 use Think\Controller;
 
 class LoginController extends Controller {
@@ -160,5 +161,31 @@ class LoginController extends Controller {
 	public function mail($to = null, $subject = null, $body = null) { 
 		return send_mail($to,$subject,$body,false);
 	}
+
+    public function uppwd(){
+        $old = I('post.old');
+        $new = I('post.pwd');
+        if(!regex($old,'require')){
+            apiReturn(CodeModel::ERROR,'请输入原始密码');
+        }else{
+            $con ['userpwd'] = md5($old);
+            $con ['username'] = session('adminname');
+            $user = M('user')->where($con)->select();
+            if(empty($user)){
+                apiReturn(CodeModel::ERROR,'原始密码错误');
+            }
+        }
+        if(regex($new,'require')){
+            $con ['username'] = session('adminname');
+            $savadata['userpwd'] = md5($new);
+            if(false !== M('user')->where($con)->save($savadata)){
+                apiReturn(CodeModel::CORRECT,'修改成功');
+            }else{
+                apiReturn(CodeModel::ERROR,'修改失败');
+            }
+        }else{
+            apiReturn(CodeModel::ERROR,'请输入新密码');
+        }
+    }
 }
 ?>
