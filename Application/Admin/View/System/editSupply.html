@@ -5,7 +5,7 @@
 <title>编辑</title>
 <include file="Index:header" />
 </head>
-<body>
+<body data-loguser="{$_SESSION['adminname']}">
 
 	<form action="__URL__/editSupply" method="post" name="form1"
 		id="form1"> 
@@ -36,6 +36,11 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
 				<td class="col1" >供应商名：</td>
 				<td><input type="text" class="inputText1" id="name" name="name"
 					maxlength="100" value="{$db.name}" /> <span class="fc_red">* </span></td>
+			</tr>
+			<tr class="row0 is_admin">
+				<td class="col1" >供应商别名：</td>
+				<td><input type="text" class="inputText1" id="title" name="title"
+					maxlength="100" value="{$db.title}" /></td>
 			</tr>
 			<tr class="row0 hide">
 				<td class="col1" >折扣：</td>
@@ -92,6 +97,13 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
                 $('#indexpic').val(path);
             }
             upload.prototype.uploadPic("info");
+        }
+
+        var $loguser = $.trim($('body').data('loguser'));
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.is_admin').show();
+        }else{
+            $('.is_admin').hide();
         }
     </script>
 </body>

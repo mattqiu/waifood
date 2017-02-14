@@ -74,7 +74,7 @@ class StockManageController extends BaseController {
      * 原料列表
      */
     public function ylContent(){
-        $row = C ( 'VAR_PAGESIZE' );
+        $row = 10;//C ( 'VAR_PAGESIZE' );
         $count = M('material')->count();
         $page = new  \Think\Page ( $count, $row );
         $list = M('material')->limit($page->firstRow.",".$page->listRows)->order('addtime desc')->select();

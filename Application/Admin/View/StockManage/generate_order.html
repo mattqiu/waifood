@@ -11,7 +11,7 @@
         #selectInfo input[type=text]{height: 28px}
     </style>
 </head>
-<body class="bg_white" >
+<body class="bg_white"  data-loguser="{$_SESSION['adminname']}">
 <div class="page_title">生产管理单</div>
 <form action="/admin/cms/goodsStatusLog.html" method="get" name="form1" id="selectInfo" style="padding-left:20px;">
     <table  border="0" class="headtable">
@@ -41,8 +41,8 @@
             <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
             <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
             <td>单据金额: <input type="text" style="width: 85px;" name="total_fee"/></td>
-            <td><span class="fl" style="position: relative;top: 5px;">供应商2:</span>
-                <div class="idealforms_select fl" style="width:120px;margin-left: 1px;">
+            <td><span class="fl is_admin" style="position: relative;top: 5px;">供应商2:</span>
+                <div class="idealforms_select fl is_admin" style="width:120px;margin-left: 1px;">
                     <div class="idealforms_select_obj">
                         <input type="hidden" value="" name="supplyid2">
                         <input type="text" value="" readonly>
@@ -84,12 +84,12 @@
 </div>
 
 <div style="display: none;" id="selectYlBox"  class="tc">
-    <iframe  src="/Admin/StockManage/ylContent.html?goodskey=generategoodsyl" width="530" height="440" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/StockManage/ylContent.html?goodskey=generategoodsyl" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectYLOk()">确认</button>
 </div>
 
 <div style="display: none;" id="selectCpBox"  class="tc">
-    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=generategoodscp&sel=1" width="530" height="440" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=generategoodscp&sel=1" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectCPOk()">确认</button>
 </div>
 <script src="__PUBLIC__/js/json.js"></script>
@@ -98,7 +98,12 @@
 $(function(){
     $.cookie('generategoodsyl',null,{ "path":"/" });
     $.cookie('generategoodscp',null,{ "path":"/" });
-
+    var $loguser = $.trim($('body').data('loguser'));
+    if($loguser == 'admin' || $loguser == 'administrator'){
+        $('.is_admin').show();
+    }else{
+        $('.is_admin').hide();
+    }
     //除本人和管理员外其他用户需要隐藏特殊字段
     var $loguser = $.trim($('body').data('loguser')),operator = $.trim($('#selectInfo table .operator').html());
     if($loguser == operator || $loguser == 'admin' || $loguser == 'administrator'){
@@ -323,11 +328,11 @@ function selectCPOk(){
 selectCPOk();
 
 function selectYLGood(){
-    getMask().maskShow({"tit": "请选择产品","width":550, "cont": "#selectYlBox"});
+    getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectYlBox"});
 }
 
 function selectCPGood(){
-    getMask().maskShow({"tit": "请选择产品","width":550, "cont": "#selectCpBox"});
+    getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectCpBox"});
 }
 
 

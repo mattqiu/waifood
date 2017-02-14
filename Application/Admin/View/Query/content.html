@@ -46,7 +46,7 @@
 		<tr class="row{$i % 2+1}" id="js_goods_{$vo.id}" data="{$vo.indexpic}"  data-negative="{$vo.negative}" data-unit="{$vo.unit}" data-price="{$vo.price}" data-id="{$vo.id}" data-indexpic="{$vo.indexpic}" data-name="{$vo.title}" >
 			<td><input type="checkbox" name="SelectIDs" value="{$vo.id}" <in name="vo.id" value="$selected"> checked="checked" </in>/>
 				{$vo.id}</td>
-			<td>{$vo.title|cutstring} </td>
+			<td>{$vo.title|cutstring}<br/> {$vo.namecn|cutstring}</td>
 			<td>{$vo.channelname|cutstring}</td>
 			<td>{$vo.price}</td>
 			<td>{$vo.sold}</td>

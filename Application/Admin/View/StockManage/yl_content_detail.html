@@ -117,7 +117,7 @@
         setRadioCheck('#selectInfo input[name=rank]',"{$_REQUEST['rank']|default='desc'}");
         setRadioCheck('#selectInfo input[name=ranktype]',"{$_REQUEST['ranktype']|default='1'}");
         //除本人和管理员外其他用户需要隐藏特殊字段
-        var $loguser = $('body').data('loguser')
+        var $loguser = $.trim($('body').data('loguser'));
         if($loguser == 'admin' || $loguser == 'administrator'){
             $('.js_need_hide').show();
         }else{

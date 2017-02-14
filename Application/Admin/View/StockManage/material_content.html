@@ -32,9 +32,9 @@
                         </ul>
                     </div>
                 </td>
-                <td width="110"  align="right">供应商2：</td>
+                <td width="110"  align="right"><span class="is_admin">供应商2：</span></td>
                 <td width="300">
-                    <div class="idealforms_select fl">
+                    <div class="idealforms_select fl is_admin">
                         <div class="idealforms_select_obj" >
                             <input type="hidden" value="" name="supplyid2">
                             <input type="text" value="" readonly>
@@ -116,6 +116,12 @@
 </body>
 <script>
     $(function() {
+        var $loguser = $.trim($('body').data('loguser'));
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.is_admin').show();
+        }else{
+            $('.is_admin').hide();
+        }
         //初始化form
         $("#infoform").idealforms();
         setSelectSelected('#infoform input[name=supplyid]',"{$db['supplyid']}");

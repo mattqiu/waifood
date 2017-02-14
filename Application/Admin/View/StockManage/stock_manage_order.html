@@ -159,7 +159,7 @@
        setCheckboxCheck('#selectInfo input[name="status[]"]');
        setCheckboxCheck('#selectInfo input[name="ordertype[]"]');
 
-        var $loguser = $('body').data('loguser');
+        var $loguser = $.trim($('body').data('loguser'));
         //除本人和管理员外其他用户需要隐藏特殊字段
         if($loguser == 'admin' || $loguser == 'administrator'){
             $('.js_need_hide').show();

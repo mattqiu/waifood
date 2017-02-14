@@ -42,8 +42,8 @@
             <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
             <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
             <td>单据金额: <input type="text" style="width: 85px;" name="total_fee"/></td>
-            <td><span class="fl" style="position: relative;top: 5px;">供应商2:</span>
-                <div class="idealforms_select fl" style="width:120px;margin-left: 1px;">
+            <td><span class="fl is_admin" style="position: relative;top: 5px;">供应商2:</span>
+                <div class="idealforms_select fl is_admin" style="width:120px;margin-left: 1px;">
                     <div class="idealforms_select_obj">
                         <input type="hidden" value="" name="supplyid2">
                         <input type="text" value="" readonly>
@@ -98,7 +98,7 @@
 <button  onclick="addTrForTable();">新增行</button>
 <div style="display: none;" id="selectGoodBox"  class="tc">
     <input type="hidden" name="trrow"/>
-    <iframe  src="/Admin/StockManage/ylContent.html" width="600" height="620" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/StockManage/ylContent.html" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectOk()">确认</button>
 </div>
 <script src="__PUBLIC__/js/json.js"></script>
@@ -112,6 +112,12 @@ $(function(){
     $.cookie('materialgood',null,{ "path":"/" });//初始清空所有本地缓存商品
     $("#selectInfo").idealforms();
     $("#tablefrom").idealforms();
+    var $loguser = $.trim($('body').data('loguser'));
+    if($loguser == 'admin' || $loguser == 'administrator'){
+        $('.is_admin').show();
+    }else{
+        $('.is_admin').hide();
+    }
     var orderno = "{$_REQUEST['orderno']}";
     $('#selectInfo table input[name=delivery_fee]').keyup(function(){
         getTotalMoney();

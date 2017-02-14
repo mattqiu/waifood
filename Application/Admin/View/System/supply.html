@@ -5,7 +5,7 @@
 <title>供应商列表</title>
 <include file="Index:header" />
 </head>
-<body>
+<body  data-loguser="{$_SESSION['adminname']}">
 	<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
 		<tr class="toolbar">
 			<td colspan="6" class="tc">【 管理供应商 】</td>
@@ -17,6 +17,7 @@
 		<tr class="header">
 			<td width="50">ID</td>
 			<td>供应商名称</td>
+			<td class="is_admin">供应商别名</td>
 			<td>供应商描述</td>
 			<td width="70">排序</td>
 			<td width="50">状态</td>
@@ -29,6 +30,7 @@
 if ($vo['depth']!=='1'){
 echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
 }?><a href="{:U('Cms/content','searchtype=4&keyword='.$vo['id'])}">{$vo.name}</a></td>
+			<td class="is_admin">{$vo.title}</td>
 			<td>{$vo.remark}&nbsp;</td>
 			<td><input name="Item_1" id="Item_1"
 				onchange="setVal('supply','sort',{$vo.id},$(this).val())"
@@ -47,5 +49,13 @@ echo(str_repeat("&nbsp;",($vo['depth']-1)*4).'|-');
 
 	</table>
 	<include file="Index:footer" />
+    <script>
+        var $loguser = $.trim($('body').data('loguser'));
+        if($loguser == 'admin' || $loguser == 'administrator'){
+            $('.is_admin').show();
+        }else{
+            $('.is_admin').hide();
+        }
+    </script>
 </body>
 </html>
