@@ -386,30 +386,42 @@
         var myfood_array  = $.parseJSON(myfood);
         var delivery_fee =parseFloat($('#selectInfo table input[name=delivery_fee]').val());
         var other_fee =parseFloat($('#selectInfo table input[name=other_fee]').val());
-        if(!regex(delivery_fee,'number')){
+        if(!delivery_fee){
             delivery_fee = 0;
         }
-        if(!regex(other_fee,'number')){
+        if(!other_fee){
             other_fee = 0;
         }
-        var total = 0;
+        var total = 0,count= 0,count2= 0,flagAmount=0;
         // 看该产品是否存在
         if(myfood_array) {
             for (var i in myfood_array) {
                 if (myfood_array[i] && myfood_array[i]['num']) {
+                    count++;
+                    if(!myfood_array[i]['true_num']){
+                        setgoodsval(myfood_array[i]['id'],'true_num',myfood_array[i]['num']);
+                    }
                     var money = fomatFloat(parseFloat(myfood_array[i]['num']) * parseFloat(myfood_array[i]['price']));
                     setgoodsval(myfood_array[i]['id'],'amount',money);
                     total += money;
+
                 }
             }
             $('#selectInfo table .total_amount').html(total);
             var totalfee = total+delivery_fee+other_fee;
             $('#selectInfo table input[name=total_fee]').val(totalfee);
-            $moneyNum = fomatFloat(totalfee/total);
+            $moneyNum = totalfee/total;
             for (var i in myfood_array) {
                 if (myfood_array[i] && myfood_array[i]['num']) {
+                    count2++;
                     var true_amount = fomatFloat(parseFloat(myfood_array[i]['price']) * $moneyNum * parseFloat(myfood_array[i]['num']));
-                    setgoodsval(myfood_array[i]['id'],'true_amount',true_amount);
+                    if(count2 == count){
+                        var totalfee = $('#selectInfo table input[name=total_fee]').val();
+                        setgoodsval(myfood_array[i]['id'],'true_amount',totalfee - flagAmount);
+                    }else{
+                        setgoodsval(myfood_array[i]['id'],'true_amount',true_amount);
+                        flagAmount+=true_amount;
+                    }
                     setgoodsval(myfood_array[i]['id'],'true_price',fomatFloat(true_amount/parseFloat(myfood_array[i]['true_num'])));
                 }
             }

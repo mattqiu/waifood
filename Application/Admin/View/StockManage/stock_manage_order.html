@@ -16,9 +16,9 @@
         <tr>
             <td>
                 <span class="fl" style="position: relative;top: 5px;">更新日期:&nbsp;</span>
-                <input type="text" class="fl" style="width: 85px;" name="stime" id="stime" value="{$_REQUEST['stime']}"/>
+                <input type="text" class="fl" style="width: 85px;" name="stime" onfocus="setDate(this)" value="{$_REQUEST['stime']}"/>
                 <span class="fl" style="position: relative;top: 5px;">&nbsp;&nbsp;-&nbsp;&nbsp;</span>
-                <input type="text" class="fl" style="width: 85px;" name="etime" id="etime" value="{$_REQUEST['etime']}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="text" class="fl" style="width: 85px;" name="etime" onfocus="setDate(this)" value="{$_REQUEST['etime']}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span style="position:relative;top:  5px;">
                     <a href="javascript:void(0);" onclick="setDateTime(1,this);" style="text-decoration:underline;">今天</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                     <a href="javascript:void(0);" onclick="setDateTime(2,this);" style="text-decoration:underline;">昨天</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -37,8 +37,8 @@
                 </ul>
                 <span class="fl" style="margin-left: 55px;position: relative;top: 5px;">状&nbsp;态:&nbsp;</span>
                 <ul style="margin-left: 3px;">
-                    <li><label for="check1"><input type="checkbox" id="check1" name="status[]" value="0"  <if condition="isset($_REQUEST['status']) && in_array(0,$_REQUEST['status'])"> data-check="true"</if> />草稿</label></li>
-                    <li><label for="check2"><input type="checkbox" id="check2" name="status[]" value="1" <if condition="isset($_REQUEST['status']) && in_array(1,$_REQUEST['status'])"> data-check="true"</if>/>待审核</label></li>
+                    <li><label for="check1"><input type="checkbox" id="check1" name="status[]" value="0"  <if condition="(isset($_REQUEST['status']) && in_array(0,$_REQUEST['status'])) || !isset($_REQUEST['status'])"> data-check="true"</if> />草稿</label></li>
+                    <li><label for="check2"><input type="checkbox" id="check2" name="status[]" value="1" <if condition="(isset($_REQUEST['status']) && in_array(1,$_REQUEST['status'])) || !isset($_REQUEST['status'])"> data-check="true"</if>/>待审核</label></li>
                     <li><label for="check3"><input type="checkbox" id="check3" name="status[]" value="2" <if condition="isset($_REQUEST['status']) && in_array(2,$_REQUEST['status'])"> data-check="true"</if>/>完成</label></li>
                     <li><label for="check4"><input type="checkbox" id="check4" name="status[]" value="3" <if condition="isset($_REQUEST['status']) && in_array(3,$_REQUEST['status'])"> data-check="true"</if>/>作废</label></li>
                 </ul>
@@ -54,6 +54,7 @@
                         <span class="caret"></span>
                     </div>
                     <ul class="idealforms_select_menu">
+                        <li data-value="">--选择创建人--</li>
                         <volist name="user" id="vo">
                             <li data-value="{$vo.username}">{$vo.username}</li>
                         </volist>
@@ -185,5 +186,14 @@
             }
         })
     }
+
+    //选择时间
+    function setDate($obj){
+        $($obj).calendar({
+            format: 'yyyy-MM-dd',
+            btnBar: false,
+        });
+    }
+
 </script>
 </html>
