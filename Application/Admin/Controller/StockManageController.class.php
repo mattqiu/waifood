@@ -269,7 +269,7 @@ class StockManageController extends BaseController {
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
             if($status == 2){//入库
-                if(session('adminname') != 'admin' && session('adminname') != 'administrator'){
+                if(trim(session('adminname')) != 'admin' && trim(session('adminname')) != 'administrator'){
                     apiReturn(CodeModel::ERROR,'权限不足，请联系管理员！'.session('adminname'));
                 }
             }
@@ -341,12 +341,10 @@ class StockManageController extends BaseController {
      * @param $dataval
      * @return array
      */
-    private  static function seperateCpOrder($dataval){
+    private function seperateCpOrder($dataval){
         $orderTmp = explode("|", $dataval['order']);
         $data = array();
         unset($dataval['order']);
-        $total_amount = 0;
-        $goods_amount = 0;
         foreach($orderTmp as $key=>$val) {
             if (stripos($val, ',')) {
                 $ids = explode(",", $val);
@@ -371,15 +369,11 @@ class StockManageController extends BaseController {
                 $data[$ids[0]]['other_fee'] = $dataval['other_fee'];
                 $data[$ids[0]]['status'] = $dataval['status'];
                 $data[$ids[0]]['ordertype'] = $dataval['ordertype'];
-                $total_amount += $goods_amount;
             }
         }
-        if($total_amount != floatval($dataval['total_amount'])){
-            apiReturn(CodeModel::ERROR,'商品总金额不正确');
-        }
-        $total_fee = floatval($total_amount +$dataval['other_fee']+$dataval['delivery_fee']);
-        if($total_fee != $dataval['total_fee']){
-            apiReturn(CodeModel::ERROR,'单据总金额不正确');
+        $ylamount =float_fee(floatval($dataval['total_amount'])+floatval($dataval['other_fee'])+floatval($dataval['delivery_fee']));
+        if($ylamount != floatval($dataval['total_fee'])){
+            apiReturn(CodeModel::ERROR,'单据金额=原料金额+运费+杂费');
         }
         return $data;
     }
@@ -394,7 +388,7 @@ class StockManageController extends BaseController {
             $type = strtoupper($data['type']);
             $status = strtoupper($data['status']);
             if($status == 2){ //入库
-                if(session('adminname') != 'admin' || session('adminname') != 'administrator'){
+                if(trim(session('adminname')) != 'admin' && trim(session('adminname')) != 'administrator'){
                     apiReturn(CodeModel::ERROR,'权限不足，请联系管理员！！');
                 }
             }

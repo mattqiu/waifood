@@ -37,7 +37,7 @@
             </td>
         </tr>
         <tr class="js_need_hide">
-            <td>商品金额: <span class="total_amount">0</span></td>
+            <td>原料金额: <span class="total_amount">0</span></td>
             <td>运&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费: <input type="text" name="delivery_fee" value="0" style="width: 60px;"/></td>
             <td>杂&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:&nbsp;<input type="text" name="other_fee" value="0" style="width: 85px;margin-left: 2px;"/></td>
             <td>单据金额: <input type="text" style="width: 85px;" name="total_fee"/></td>
@@ -225,7 +225,7 @@ function getTotalMoney(){
             }
         }
     }
-    $('#selectInfo table .total_amount').html(total);
+
     var delivery_fee =parseFloat($('#selectInfo table input[name=delivery_fee]').val());
     var other_fee =parseFloat($('#selectInfo table input[name=other_fee]').val());
     if(!regex(delivery_fee,'number')){
@@ -245,9 +245,9 @@ function addTrForTable(row){
 
 //有缓存值的初始(原料)
 function selectYLOk(){
-
     var key = "generategoodsyl",
-        myfood = $.cookie(key);
+        myfood = $.cookie(key),
+        ylamount = 0;
     closeMask();
     getTotalMoney();
     if(myfood){
@@ -274,7 +274,7 @@ function selectYLOk(){
             if($count>9){
                 newYltr(5);
             }else{
-                var max =parseInt($('table tr ').length);
+                var max =parseInt($('#yltable tr ').length);
                 newYltr(10 - max+1);
             }
             $('#yltable td.js_edittable ').bind("click",function(){
@@ -317,7 +317,7 @@ function selectCPOk(){
             if($count>9){
                 newCptr(5);
             }else{
-                var max =parseInt($('table tr ').length);
+                var max =parseInt($('#cptable tr ').length);
                 newCptr(10 - max+1);
             }
             $('#cptable td.js_edittable ').bind("click",function(){
@@ -353,7 +353,6 @@ function setgoodsval(id,name,val,$goodKey){
     if(myfood_array){
         if(myfood_array[id]){ //存在
             if($goodKey == 'generategoodsyl' ){
-                console.log(name)
                 if(name == 'upnum'){
                     myfood_array[id]['up_amount']=  val * myfood_array[id]['price'];
                     $('#yl_list_'+id +' td[name=up_amount]').html( val * myfood_array[id]['price'])
@@ -431,6 +430,18 @@ function newYltr(row){
         var name =$(this).attr('name');
         var val =$(this).html();
         setgoodsval(id,name,val,'generategoodsyl');
+        var $goodKey = 'generategoodsyl';
+        var myfood = $.cookie($goodKey),ylamount=0;
+        var myfood_array  = $.parseJSON(myfood);
+        // 看该产品是否存在
+        if(myfood_array) {
+            for (var i in myfood_array) {
+                if (myfood_array[i]) {
+                    ylamount += parseFloat(myfood_array[i]['up_amount']);
+                }
+            }
+        }
+        $('#selectInfo table .total_amount').html(ylamount);
     })
 }
 
