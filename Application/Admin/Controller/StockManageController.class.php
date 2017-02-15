@@ -370,9 +370,12 @@ class StockManageController extends BaseController {
                 $data[$ids[0]]['ordertype'] = $dataval['ordertype'];
             }
         }
-        $ylamount =float_fee(floatval($dataval['total_amount'])+floatval($dataval['other_fee'])+floatval($dataval['delivery_fee']));
-        if($ylamount != floatval($dataval['total_fee'])){
-            apiReturn(CodeModel::ERROR,'单据金额=原料金额+运费+杂费');
+        //作废状态不做验证
+        if($dataval['status'] != StockManageModel::CANCEL){
+            $ylamount =float_fee(floatval($dataval['total_amount'])+floatval($dataval['other_fee'])+floatval($dataval['delivery_fee']));
+            if($ylamount != floatval($dataval['total_fee'])){
+                apiReturn(CodeModel::ERROR,'单据金额=原料金额+运费+杂费');
+            }
         }
         return $data;
     }

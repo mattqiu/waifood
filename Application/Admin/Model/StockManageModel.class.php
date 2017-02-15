@@ -167,13 +167,17 @@ class StockManageModel extends Model{
                 $total_amount += $goods_amount;
             }
         }
-        if($total_amount != floatval($dataval['total_amount'])){
-            apiReturn(CodeModel::ERROR,'商品总金额不正确');
+        //作废状态不做验证
+        if( $dataval['status'] != self::CANCEL){
+            if($total_amount != floatval($dataval['total_amount'])){
+                apiReturn(CodeModel::ERROR,'商品总金额不正确');
+            }
+            $total_fee = floatval($total_amount +$dataval['other_fee']+$dataval['delivery_fee']);
+            if($total_fee != $dataval['total_fee']){
+                apiReturn(CodeModel::ERROR,'单据总金额不正确');
+            }
         }
-        $total_fee = floatval($total_amount +$dataval['other_fee']+$dataval['delivery_fee']);
-        if($total_fee != $dataval['total_fee']){
-            apiReturn(CodeModel::ERROR,'单据总金额不正确');
-        }
+
         return $data;
     }
 
