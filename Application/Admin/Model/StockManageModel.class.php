@@ -1,6 +1,7 @@
 <?php 
 namespace Admin\Model;
 use Common\Model\CodeModel;
+use Common\Model\GoodsGroupModel;
 use Think\Model;
  
 class StockManageModel extends Model{
@@ -190,6 +191,12 @@ class StockManageModel extends Model{
                     $saveData['stock'] = intval($good['stock']) + intval($data['true_num']>0?$data['true_num']:$data['num']);
                     $rs =  \Admin\Model\ContentModel::modifyContent($data['productid'],$saveData);
                     if($rs){
+                        //重新计算组合商品的库存
+                        if(GoodsGroupModel::isGroupChildGoods($data['productid'])){
+                            GoodsGroupModel::resetGroupGoodsStock($data['productid']);
+                        }
+                        //设置下库存大于1的上架
+                        ContentModel::contentStatus($data['productid'],1);
                         return true;
                     }else{
                         return false;

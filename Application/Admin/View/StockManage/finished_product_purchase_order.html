@@ -107,7 +107,6 @@
 <script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 <script>
     $(function(){
-        $.cookie('storeselgoods',null,{ "path":"/" });//初始清空所有本地缓存商品
         var $loguser = $.trim($('body').data('loguser'));
         if($loguser == 'admin' || $loguser == 'administrator'){
             $('.is_admin').show();
@@ -221,6 +220,9 @@
                     selectOk();
                 }
             });
+        }else{
+            $.cookie('storeselgoods',null,{ "path":"/" });//初始清空所有本地缓存商品
+            addTrForTable();
         }
         $('#tablefrom table tr,td').css({'height': '35px'})
     })
@@ -326,7 +328,6 @@
         }
     }
 
-    selectOk();
     function addTrForTable(row){
         if(!row){
             row =10;

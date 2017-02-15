@@ -193,6 +193,54 @@ class ContentModel extends Model {
     }
 
     /**
+     * @param $id
+     * @param $type 1 上架 ，0 下架
+     */
+    public static function contentStatus($id,$type){
+        if(regex($id,'number')){
+            if($type == 1){
+                $con['id'] = $id;
+                //库存大于0，状态为下架的的商品自动下架
+                $con = array();
+                $con['stock'] = array('gt',0);
+                $con['status'] = array('eq',0);
+                $savedata['status'] = 1;
+                $savedata['under_time'] = date('Y-m-d H:i:s');
+                M('content')->where($con)->save($savedata);
+                $field = 'stock';
+                $rs = self::getContentById($id,$field);
+                if( is_number($rs['stock']) && $rs['stock']<1){
+                    $logdata['productid'] = $id;
+                    $logdata['old_stock'] = $rs['stock'];
+                    $logdata['type'] = 1;
+                    $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
+                    $logdata['note'] = '自动上架';
+                    ProductStatusLogModel::addProductStatusLog($logdata);
+                }
+            }else{
+                $con['id'] = $id;
+                //库存大于0，状态为下架的的商品自动下架
+                $con = array();
+                $con['stock'] = array('lt',1);
+                $con['negative'] = self::CANNOT_NEGATIVE_AOLD; //只能下架不支持可负销售的
+                $savedata['status'] = 0;
+                $savedata['under_time'] = date('Y-m-d H:i:s');//下架时间
+                M('content')->where($con)->save($savedata);
+                $field = 'stock';
+                $rs = self::getContentById($id,$field);
+                if( is_number($rs['stock']) && $rs['stock']<1){
+                    $logdata['productid'] = $id;
+                    $logdata['old_stock'] = $rs['stock'];
+                    $logdata['type'] = 0;
+                    $logdata['uptype'] = ProductStatusLogModel::UPTYPE_AUTO;
+                    $logdata['note'] = '自动下架';
+                    ProductStatusLogModel::addProductStatusLog($logdata);
+                }
+            }
+        }
+    }
+
+    /**
      * 判断组合或复合商品的子商品是否支持可负销售
      * @param $groupid
      * @return int

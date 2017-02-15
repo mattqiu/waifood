@@ -111,7 +111,6 @@
 
 <script>
 $(function(){
-    $.cookie('materialgood',null,{ "path":"/" });//初始清空所有本地缓存商品
     $("#selectInfo").idealforms();
     $("#tablefrom").idealforms();
     var $loguser = $.trim($('body').data('loguser'));
@@ -231,6 +230,9 @@ $(function(){
                 selectOk();
             }
         });
+    }else{
+        $.cookie('materialgood',null,{ "path":"/" });//初始清空所有本地缓存商品
+        addTrForTable();
     }
     $('#tablefrom table tr,td').css({'height': '35px'});
 
@@ -345,7 +347,6 @@ function selectOk(){
     }
 }
 
-selectOk();
 function addTrForTable(row){
     if(!row){
         row =10;
