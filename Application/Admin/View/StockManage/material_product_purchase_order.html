@@ -262,6 +262,7 @@ function selectGood(){
 }
 
 function selectOk(){
+    closeMask();
     var key = 'materialgood',
             myfood = $.cookie(key);
     if(!myfood){
@@ -273,7 +274,7 @@ function selectOk(){
         addTrForTable(10);
         return false;
     }
-    closeMask();
+
     var $count = 1,$html='<tr><th width="50">行号</th><th width="50">原料ID</th><th>原料名</th><th width="80">类型</th><th width="60">单位</th><th width="50">数量</th><th width="70" class="js_need_hide">单价</th><th width="70" class="js_need_hide">金额</th><th width="40">实到数量</th><th width="40" class="js_need_hide">核算单价</th><th width="70" class="js_need_hide">核算金额</th><th width="80">生产日期</th><th width="50">有效期</th><th width="80">到期日期</th><th width="80">条码</th><th width="50">操作</th></tr>';
     for (var i in myfood_array) {
         if(myfood_array[i]){
