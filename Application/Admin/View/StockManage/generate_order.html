@@ -58,7 +58,7 @@
             </td>
         </tr>
         <tr>
-            <td>状态: <span style="color: #999;">填写中</span></td>
+            <td>状态: <span style="color: #999;" class="status">填写中</span></td>
             <td align="center" colspan="4">
                 <input type="button" class="sure_btn" onclick="subgenerateOrder(0,'sc')" value="保存草稿"/>&nbsp;&nbsp;&nbsp;
                 <input type="button" class="cancel_btn" onclick="subgenerateOrder(3,'sc')" value="作废"/>&nbsp;&nbsp;&nbsp;
@@ -174,6 +174,7 @@ $(function(){
                         }else{
                             $status = '草稿';
                         }
+                        //console.log($status)
                         $('#selectInfo table .status').html($status);
                         $('#selectInfo table .operator').html(cplist[i]['operator']);
                         setSelectSelected('#selectInfo input[name=supplyid]',cplist[i]['supplyid']);
