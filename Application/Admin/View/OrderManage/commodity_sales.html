@@ -36,6 +36,7 @@
                    <a href="javascript:void(0);" onclick="setDateTime(2,this);" style="text-decoration:underline;">昨天</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                    <a href="javascript:void(0);" onclick="setDateTime(7,this);" style="text-decoration:underline;">一周内</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                    <a href="javascript:void(0);" onclick="setDateTime(30,this);" style="text-decoration:underline;">一月内</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                   <a href="javascript:void(0);" onclick="setDateTime(365,this);" style="text-decoration:underline;">一年内</a>&nbsp;&nbsp;|&nbsp;&nbsp;
                    <a href="javascript:void(0);" onclick="$(this).siblings('input[type=text]').val('');" style="text-decoration:underline;">清空</a>
                 <input type="submit" style="position: relative;top: 2px;left: 20px;" class="sure_btn" value="查询"/>
             </td>
@@ -91,6 +92,7 @@
 <include file="Index:footer"/>
 <script>
     $("#selectInfo").idealforms();
+    setSelectSelected('#selectInfo input[name=searchtype]',"{$_REQUEST['searchtype']}");
         //选择其他时间
     $('#getOtherDate').calendar({
         format: 'yyyy-MM-dd',
