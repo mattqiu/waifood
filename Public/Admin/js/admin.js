@@ -336,11 +336,12 @@ function getYlInfo(){
         if(!myfood_array[i]['upnum']){
             clearpopj('请填写原料领用数量', "error",true);
             return false;
-        }else if(myfood_array[i]['upnum'] > myfood_array[i]['stock']){
+        }else if(fomatFloat(myfood_array[i]['upnum']) > fomatFloat(myfood_array[i]['stock'])){
             clearpopj('库存不足', "error",true);
             return false;
         }
-        if(myfood_array[i]['up_amount']>myfood_array[i]['stock_fee']){
+
+        if(fomatFloat(myfood_array[i]['up_amount']) > fomatFloat(myfood_array[i]['stock_fee'])){
             clearpopj('库存金额不足', "error",true);
             return false;
         }

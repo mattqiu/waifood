@@ -63,7 +63,7 @@ class MaterialModel extends Model{
     public static function getMaterialLogByOrderno($orderno){
         if(regex($orderno,'require')){
             $con['l.orderno'] = $orderno;
-            return M('material_log')->alias('l')->join('my_material as m on l.materialid = m.id')->field('l.*,m.title,m.unit,m.stock,m.stock_fee')->where($con)->select();
+            return M('material_log')->alias('l')->join('my_material as m on l.materialid = m.id')->field('l.*,m.title,m.unit,m.stock,m.stock_fee,m.price')->where($con)->select();
         }else{
             return false;
         }

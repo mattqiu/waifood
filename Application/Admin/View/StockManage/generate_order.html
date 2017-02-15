@@ -185,12 +185,16 @@ $(function(){
                     });
                 }
                 selectCPOk();
-                var myfood = $.cookie('generategoodsyl');
+                var myfood = $.cookie('generategoodsyl'),ylgoodsamount=0;
                 var myfood_array  = $.parseJSON(myfood);
                 myfood_array = {};
                 for(var i in yllist){
-                    myfood_array[yllist[i]['materialid']] = {"id":yllist[i]['materialid'],"name":yllist[i]['title'],"unit":yllist[i]['unit'],"stock":yllist[i]['stock'],"stock_fee":yllist[i]['stock_fee'],"upnum":yllist[i]['num'],"up_amount":yllist[i]['amount']};
+                    if(yllist[i]){
+                        myfood_array[yllist[i]['materialid']] = {"id":yllist[i]['materialid'],"name":yllist[i]['title'],"unit":yllist[i]['unit'],"stock":yllist[i]['stock'],"stock_fee":yllist[i]['stock_fee'],"price":yllist[i]['price'],"upnum":yllist[i]['num'],"up_amount":yllist[i]['amount']};
+                        ylgoodsamount += fomatFloat(yllist[i]['amount'] );
+                    }
                 }
+                $('#selectInfo table .total_amount').html(ylgoodsamount);
                 var json = $.toJSON(myfood_array);
                 $.cookie('generategoodsyl',json,{
                     "path":"/"
