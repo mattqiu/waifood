@@ -18,7 +18,7 @@
         <tr>
             <td>单据号: <span class="orderno">{$_REQUEST['orderno']}</span></td>
             <td>创&nbsp;建&nbsp;人: <span class="operator">{$_SESSION['adminname']}</span></td>
-            <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value="{$_REQUEST['runtime']}"/></td>
+            <td>业务日期: <input type="text" style="width: 85px;" name="runtime" onfocus="setDate(this)" value="{:date('Y-m-d')}"/></td>
             <td>创建日期: <span class="addtime"></span></td>
             <td><span class="fl" style="position: relative;top: 5px;">供应商&nbsp;:&nbsp;</span>
                 <div class="idealforms_select fl" style="width:120px;">
@@ -84,20 +84,18 @@
 </div>
 
 <div style="display: none;" id="selectYlBox"  class="tc">
-    <iframe  src="/Admin/StockManage/ylContent.html?goodskey=generategoodsyl" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/StockManage/ylContent.html?goodskey=generategoodsyl" width="700" height="550" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectYLOk()">确认</button>
 </div>
 
 <div style="display: none;" id="selectCpBox"  class="tc">
-    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=generategoodscp&sel=1" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/Query/content.html?rootid=2&goodskey=generategoodscp&sel=1" width="700" height="550" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectCPOk()">确认</button>
 </div>
 <script src="__PUBLIC__/js/json.js"></script>
 <script src="__PUBLIC__/js/jquery.cookies.2.2.0.js"></script>
 <script>
 $(function(){
-    $.cookie('generategoodsyl',null,{ "path":"/" });
-    $.cookie('generategoodscp',null,{ "path":"/" });
     var $loguser = $.trim($('body').data('loguser'));
     if($loguser == 'admin' || $loguser == 'administrator'){
         $('.is_admin').show();
@@ -112,12 +110,12 @@ $(function(){
         $('.js_need_hide').hide();
     }
     $("#selectInfo").idealforms();
-        $('#selectInfo table input[name=delivery_fee]').keyup(function(){
-            getTotalMoney();
-        })
-        $('#selectInfo table input[name=other_fee]').keyup(function(){
-            getTotalMoney();
-        })
+    $('#selectInfo table input[name=delivery_fee]').keyup(function(){
+        getTotalMoney();
+    })
+    $('#selectInfo table input[name=other_fee]').keyup(function(){
+        getTotalMoney();
+    })
 
     //原料领用操作
     $('#yltable tr td.js_edittable').keyup(function(){
@@ -143,7 +141,6 @@ $(function(){
         setgoodsval(id,name,val,'generategoodscp');
         getTotalMoney();
     })
-
     //编辑查看初始数据库数据
     var orderno = "{$_REQUEST['orderno']}";
     if(orderno){
@@ -162,7 +159,7 @@ $(function(){
                     var myfood_array  = $.parseJSON(myfood),$status;
                     myfood_array = {};
                     for(var i in cplist){
-                        myfood_array[cplist[i]['productid']] = {"id":cplist[i]['productid'],"name":cplist[i]['title'],"num":cplist[i]['num'],"unit":cplist[i]['unit'],"price":cplist[i]['price'],"goodtype":cplist[i]['goodtype'],"amount":cplist[i]['amount']};
+                        myfood_array[cplist[i]['productid']] = {"id":cplist[i]['productid'],"name":cplist[i]['title'],"num":cplist[i]['num'],"unit":cplist[i]['unit'],"price":cplist[i]['price'],"goodtype":cplist[i]['goodtype'],"amount":cplist[i]['amount'],"note":cplist[i]['note']};
                         $('#selectInfo table input[name=delivery_fee]').val(cplist[i]['delivery_fee']);
                         $('#selectInfo table input[name=other_fee]').val(cplist[i]['other_fee']);
                         $('#selectInfo table input[name=runtime]').val(cplist[i]['runtime']);
@@ -201,7 +198,15 @@ $(function(){
                 selectYLOk();
             }
         });
+    }else{
+        $.cookie('generategoodsyl',null,{ "path":"/" });
+        $.cookie('generategoodscp',null,{ "path":"/" });
+        addTrForTable();
+
     }
+/*
+    selectYLOk();
+    selectCPOk();*/
     $('#tablefrom table tr,td').css({'height': '35px'});
 })
 
@@ -240,6 +245,7 @@ function addTrForTable(row){
 
 //有缓存值的初始(原料)
 function selectYLOk(){
+
     var key = "generategoodsyl",
         myfood = $.cookie(key);
     closeMask();
@@ -280,7 +286,6 @@ function selectYLOk(){
     //没在值，默认新增行
     newYltr(10);
 }
-selectYLOk();
 
 //有缓存值的初始(成品)
 function selectCPOk(){
@@ -296,8 +301,8 @@ function selectCPOk(){
                 if(myfood_array[i]){
                     $html+= '<tr align="center" class=" js_tr_'+$count+'" data-id="'+myfood_array[i]['id']+'" >' +
                     '<td>'+$count+'</td>' +
-                    '<td align="left" ondblclick="selectYLGood();" class="goodid" name="id">'+myfood_array[i]['id']+'</td>' +
-                    '<td align="left"  name="name" ondblclick="selectYLGood();"  class="goodname">'+myfood_array[i]['name']+'</td>' +
+                    '<td align="left" ondblclick="selectCPGood();" class="goodid" name="id">'+myfood_array[i]['id']+'</td>' +
+                    '<td align="left"  name="name" ondblclick="selectCPGood();"  class="goodname">'+myfood_array[i]['name']+'</td>' +
                     '<td class="goodunit"  name="unit">'+myfood_array[i]['unit']+'</td>' +
                     '<td class="js_edittable goodnum"  name="num">'+myfood_array[i]['num']+'</td>' +
                     '<td class="js_edittable goodprice"  name="price">'+myfood_array[i]['price']+'</td>' +
@@ -325,14 +330,14 @@ function selectCPOk(){
     newCptr(10);
 
 }
-selectCPOk();
+
 
 function selectYLGood(){
-    getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectYlBox"});
+    getMask().maskShow({"tit": "请选择产品","width":750, "cont": "#selectYlBox"});
 }
 
 function selectCPGood(){
-    getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectCpBox"});
+    getMask().maskShow({"tit": "请选择产品","width":750, "cont": "#selectCpBox"});
 }
 
 

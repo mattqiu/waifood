@@ -92,7 +92,12 @@ class StockManageModel extends Model{
         if(!empty($data) && regex($orderno,'require')){
             $con['orderno'] = $orderno;
             $con['productid'] = $data['productid'];
-            return M('store_manage')->where($con)->save($data);
+            if(M('store_manage')->where($con)->find()){
+                return M('store_manage')->where($con)->save($data);
+            }else{
+                //如果提交的修改中有新增成品
+                StockManageModel::createOrder($data,$orderno);
+            }
         }else{
             return false;
         }
@@ -155,6 +160,7 @@ class StockManageModel extends Model{
                 $data[$ids[0]]['delivery_fee'] = $dataval['delivery_fee'];
                 $data[$ids[0]]['other_fee'] = $dataval['other_fee'];
                 $data[$ids[0]]['status'] = $dataval['status'];
+                $data[$ids[0]]['note'] = $dataval['note'];
                 $data[$ids[0]]['ordertype'] = $dataval['ordertype'];
                 $total_amount += $goods_amount;
             }

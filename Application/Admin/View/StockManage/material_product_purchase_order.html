@@ -96,9 +96,11 @@
 </form>
 
 <button  onclick="addTrForTable();">新增行</button>
+<div class="dot"></div>
+<textarea name="note" rows="3" style="width: 100%;resize: none" placeholder="备注"></textarea>
 <div style="display: none;" id="selectGoodBox"  class="tc">
     <input type="hidden" name="trrow"/>
-    <iframe  src="/Admin/StockManage/ylContent.html" width="600" height="590" style="overflow: scroll" frameborder="0"></iframe>
+    <iframe  src="/Admin/StockManage/ylContent.html" width="700" height="550" style="overflow: scroll" frameborder="0"></iframe>
     <button onclick="selectOk()">确认</button>
 </div>
 <script src="__PUBLIC__/js/json.js"></script>
@@ -206,6 +208,7 @@ $(function(){
                         $('#selectInfo table input[name=runtime]').val(obj[i]['runtime']);
                         $('#selectInfo table .addtime').html(obj[i]['addtime']);
                         $('#selectInfo table .operator').html(obj[i]['operator']);
+                        $('textarea[name=note]').html(obj[i]['note']);
                         if(obj[i]['status'] == 1){
                             $status = '待审核';
                         }else if(obj[i]['status'] == 2){
@@ -255,7 +258,7 @@ function setgoodsval(id,name,val){
 }
 
 function selectGood(){
-    getMask().maskShow({"tit": "请选择产品","width":650, "cont": "#selectGoodBox"});
+    getMask().maskShow({"tit": "请选择产品","width":750, "cont": "#selectGoodBox"});
 }
 
 function selectOk(){

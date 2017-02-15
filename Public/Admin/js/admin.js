@@ -288,6 +288,7 @@ function subCGOrder(status,$goodKey,type,ordertype){
         delivery_fee:$('#selectInfo table input[name=delivery_fee]').val(),
         other_fee:$('#selectInfo table input[name=other_fee]').val(),
         total_fee:$('#selectInfo table input[name=total_fee]').val(),
+        note:$('textarea[name=note]').val(),
         ordertype:ordertype,
         order:order,
         status:status,
@@ -378,14 +379,13 @@ function subgenerateOrder(status,type){
         return false;
     }
     for(var i in myfood_array){
-        order +=  myfood_array[i]['id']+ "," +myfood_array[i]['name']+ "," +myfood_array[i]['unit']+ "," +myfood_array[i]['num']+ "," +myfood_array[i]['price']+ "," +myfood_array[i]['amount'] + ","+ myfood_array[i]['note'] +"|"; //订单信息
+        order +=  myfood_array[i]['id']+ "," +myfood_array[i]['name']+ "," +myfood_array[i]['unit']+ "," +myfood_array[i]['num']+ "," +myfood_array[i]['price']+ "," +myfood_array[i]['amount'] + ","+getdefaultval(myfood_array[i]['note']) +"|"; //订单信息
     }
     if(!order){
         clearpopj('请选择成品', "error",true);
         subBlock = false;//解除阻塞
         return false;
     }
-
     var data = {
             orderno:$('#selectInfo table .orderno').html(),
             operator:$('#selectInfo table .operator').html(),

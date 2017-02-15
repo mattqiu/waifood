@@ -177,6 +177,7 @@ function getMask(){
 $('body').click(function(){
    closeMask();
 })
+
 //关闭弹出框
 function closeMask(){
     $(".clo").click();
@@ -378,6 +379,9 @@ Mask.prototype = {
             $(this).find('img').attr({'src':'/Public/images/close_hover.png','width':'20'});
         },function(){
             $(this).find('img').attr('src','/Public/images/close.png');
+        })
+        _wrap.click(function(){
+            closeMask();
         })
         if( this.zindex){
 

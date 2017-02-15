@@ -126,17 +126,17 @@ class MaterialModel extends Model{
                     if($status == self::COMPLETE){ //入库时修改入库时间
                         $savedata['stocktime'] = date('Y-m-d H:i:s');
                     }
-                   if(!M('material_log')->where($con)->save($savedata)){
-                       GLog('add material log','添加商品：ID'. $ids[0].'失败');
-                   }elseif($status == self::COMPLETE){ //完成状态
-                       $con1['id'] =  $ids[0];
-                       M('material')->where($con1)->setDec('stock', $savedata['num'] );//减库存
-                       M('material')->where($con1)->setDec('stock_fee', $savedata['amount'] );//减库存金额
-                   }/*elseif($status == self::CANCEL){//作废状态
-                       $con2['id'] =  $ids[0];
-                       M('material')->where($con2)->setInc('stock', $savedata['num'] );//返回库存
-                       M('material')->where($con2)->setInc('stock_fee', $savedata['amount'] );//返回库存金额
-                   }*/
+                    if(M('material_log')->where($con)->find()){
+                        if(!M('material_log')->where($con)->save($savedata)){
+                            GLog('add material log','添加商品：ID'. $ids[0].'失败');
+                        }elseif($status == self::COMPLETE){ //完成状态
+                            $con1['id'] =  $ids[0];
+                            M('material')->where($con1)->setDec('stock', $savedata['num'] );//减库存
+                            M('material')->where($con1)->setDec('stock_fee', $savedata['amount'] );//减库存金额
+                        }
+                    }else{ //如果提交的修改中有新增原料
+                        MaterialModel::receiveMaterialLog($data,$orderno,$status);
+                    }
                 }
             }
         }
@@ -148,7 +148,7 @@ class MaterialModel extends Model{
      * @param $orderno
      * @param $status
      */
-    public static function modifyMaterialLogById($orderno,$materialid,$status){
+    public static function modifyMaterialLogById($orderno,$materialid,$status,$data=array()){
         if(regex($orderno,'require') && regex($materialid,'require')){
             $con['materialid'] = $materialid;
             $con['orderno'] =  $orderno;
@@ -166,7 +166,7 @@ class MaterialModel extends Model{
                     M('material')->where($con1)->setDec('stock_fee', $savedata['amount'] );//减库存金额
                 }
             }else{
-                return false;
+                MaterialModel::achatMaterialLog($data, $orderno, $status);
             }
         }else{
             return false;

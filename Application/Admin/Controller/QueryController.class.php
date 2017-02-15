@@ -53,7 +53,7 @@ class QueryController extends Controller {
 		// 分页
 		$p = intval ( I ( 'p' ) );
 		$p = $p ? $p : 1;
-		$row = 10;//C ( 'VAR_PAGESIZE' );
+		$row = 9;//C ( 'VAR_PAGESIZE' );
 		
 		$rs = M ( "content" )->where ( $where )->order ( 'id desc' )->page ( $p, $row );
 		$list = $rs->select ();

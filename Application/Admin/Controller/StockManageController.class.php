@@ -74,7 +74,7 @@ class StockManageController extends BaseController {
      * 原料列表
      */
     public function ylContent(){
-        $row = 10;//C ( 'VAR_PAGESIZE' );
+        $row = 9;//C ( 'VAR_PAGESIZE' );
         $count = M('material')->count();
         $page = new  \Think\Page ( $count, $row );
         $list = M('material')->limit($page->firstRow.",".$page->listRows)->order('addtime desc')->select();
@@ -291,8 +291,6 @@ class StockManageController extends BaseController {
             M()->startTrans();
             foreach($newdata as $val){
                 $dbdata = M('store_manage')->create($val);
-
-
                 if($data['orderno']){
                     $orderno = $data['orderno'];
                     if(StockManageModel::COMPLETE == $orderStatus = StockManageModel::getStatusByOrderno($orderno,$dbdata['productid'])){
@@ -305,7 +303,7 @@ class StockManageController extends BaseController {
                         //原料修改时入库
                         if($type == StockManageModel::YL  && $status == StockManageModel::COMPLETE) {
                             StockManageModel::addLYToStock($dbdata);
-                            MaterialModel::modifyMaterialLogById($orderno,$dbdata['productid'],$status);
+                            MaterialModel::modifyMaterialLogById($orderno,$dbdata['productid'],$status,$dbdata);
                         }
                     }
                 }else{
