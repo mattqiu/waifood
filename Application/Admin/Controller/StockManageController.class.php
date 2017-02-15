@@ -262,7 +262,6 @@ class StockManageController extends BaseController {
 
     //提交成品采购单
     public function subCGOrder(){
-
         $data = I('post.');
         if(!empty($data)){
             $newdata = StockManageModel::seperateOrder($data);
@@ -392,7 +391,7 @@ class StockManageController extends BaseController {
                     apiReturn(CodeModel::ERROR,'权限不足，请联系管理员！！');
                 }
             }
-            if(!in_array($type,array(StockManageModel::CP,StockManageModel::YL))){
+            if($type != StockManageModel::SC){
                 apiReturn(CodeModel::ERROR,'商品类型不正确，请刷新重试！');
             }
             if(!$data['orderno']) {

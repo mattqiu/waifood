@@ -60,10 +60,10 @@
         <tr>
             <td>状态: <span style="color: #999;">填写中</span></td>
             <td align="center" colspan="4">
-                <input type="button" class="sure_btn" onclick="subgenerateOrder(0,'cp')" value="保存草稿"/>&nbsp;&nbsp;&nbsp;
-                <input type="button" class="cancel_btn" onclick="subgenerateOrder(3,'cp')" value="作废"/>&nbsp;&nbsp;&nbsp;
-                <input type="button" class="sure_btn" onclick="subgenerateOrder(1,'cp')" value="提交审核"/>&nbsp;&nbsp;&nbsp;
-                <input type="button" class="sure_btn" onclick="subgenerateOrder(2,'cp')"  value="审核通过并执行入库"/>
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(0,'sc')" value="保存草稿"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="cancel_btn" onclick="subgenerateOrder(3,'sc')" value="作废"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(1,'sc')" value="提交审核"/>&nbsp;&nbsp;&nbsp;
+                <input type="button" class="sure_btn" onclick="subgenerateOrder(2,'sc')"  value="审核通过并执行入库"/>
             </td>
         </tr>
     </table>
@@ -202,7 +202,6 @@ $(function(){
         $.cookie('generategoodsyl',null,{ "path":"/" });
         $.cookie('generategoodscp',null,{ "path":"/" });
         addTrForTable();
-
     }
 /*
     selectYLOk();
@@ -226,15 +225,7 @@ function getTotalMoney(){
         }
     }
 
-    var delivery_fee =parseFloat($('#selectInfo table input[name=delivery_fee]').val());
-    var other_fee =parseFloat($('#selectInfo table input[name=other_fee]').val());
-    if(!regex(delivery_fee,'number')){
-        delivery_fee = 0;
-    }
-    if(!regex(other_fee,'number')){
-        other_fee = 0;
-    }
-    $('#selectInfo table input[name=total_fee]').val(total+delivery_fee+other_fee);
+    $('#selectInfo table input[name=total_fee]').val(total);
 }
 
 function addTrForTable(row){
@@ -246,8 +237,7 @@ function addTrForTable(row){
 //有缓存值的初始(原料)
 function selectYLOk(){
     var key = "generategoodsyl",
-        myfood = $.cookie(key),
-        ylamount = 0;
+        myfood = $.cookie(key);
     closeMask();
     getTotalMoney();
     if(myfood){
@@ -430,13 +420,14 @@ function newYltr(row){
         var name =$(this).attr('name');
         var val =$(this).html();
         setgoodsval(id,name,val,'generategoodsyl');
+
         var $goodKey = 'generategoodsyl';
         var myfood = $.cookie($goodKey),ylamount=0;
         var myfood_array  = $.parseJSON(myfood);
         // 看该产品是否存在
         if(myfood_array) {
             for (var i in myfood_array) {
-                if (myfood_array[i]) {
+                if (myfood_array[i] && getdefaultval(myfood_array[i]['up_amount'])) {
                     ylamount += parseFloat(myfood_array[i]['up_amount']);
                 }
             }

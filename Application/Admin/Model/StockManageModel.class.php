@@ -7,6 +7,7 @@ class StockManageModel extends Model{
     const NEW_PRODUCT = 2;
     const CP = 'CP'; //成品
     const YL = 'YL';//原料
+    const SC = 'SC';//生产
     const NEWGOOD = '2';//新品
     const DRAFT = 0;//0草稿
     const AD_REFERENDUM = 1;//1待审核
