@@ -209,7 +209,7 @@ class ContentModel extends Model {
                 M('content')->where($con)->save($savedata);
                 $field = 'stock';
                 $rs = self::getContentById($id,$field);
-                if( is_number($rs['stock']) && $rs['stock']<1){
+                if( is_number($rs['stock']) && $rs['stock'] > 0){
                     $logdata['productid'] = $id;
                     $logdata['old_stock'] = $rs['stock'];
                     $logdata['type'] = 1;
