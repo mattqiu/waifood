@@ -17,7 +17,7 @@ function isVerifyCorrect()
 
 
 function version(){
-    return 'v.2.013-1'; //日期号
+    return 'v.2.15-1'; //日期号
 }
 
 function triggerRequest($url, $post_data = array(), $cookie = array()){
