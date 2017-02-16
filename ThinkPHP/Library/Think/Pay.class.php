@@ -66,8 +66,8 @@ class Pay {
             'out_trade_no' => $vo->getOrderNo(),
             'money' => $vo->getFee(),
             'status' => 0,
-            'callback' => $vo->getCallback(),
-            'url' => $vo->getUrl(),
+            'notify_url' => $vo->getCallback(),
+            'return_url' => $vo->getUrl(),
             'param' => serialize($vo->getParam()),
             'create_time' => time(),
             'update_time' => time()
