@@ -70,7 +70,7 @@ html {
         var old = $('#upPwdBox input[name=oldpwd]').val(),pwd = $('#upPwdBox input[name=pwd]').val();
         $.post('/admin/login/uppwd',{old:old,pwd:pwd},function(data){
             if(data.code == 200){
-                clearpop(data.message, "",'Admin/Login/logout');
+                clearpop(data.message, "",'Admin/Login/index');
             }else{
                 clearpopj(data.message, "error",true);
                 return  false;

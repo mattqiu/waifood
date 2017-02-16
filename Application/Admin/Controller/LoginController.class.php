@@ -179,6 +179,9 @@ class LoginController extends Controller {
             $con ['username'] = session('adminname');
             $savadata['userpwd'] = md5($new);
             if(false !== M('user')->where($con)->save($savadata)){
+                session_unset ();
+                session_destroy ();
+                session('[destroy]');
                 apiReturn(CodeModel::CORRECT,'修改成功');
             }else{
                 apiReturn(CodeModel::ERROR,'修改失败');
