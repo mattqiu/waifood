@@ -55,41 +55,43 @@ class OrderManageController extends BaseController {
      * 商品销售情况
      */
 	public function commoditySales(){
-        $searchtype = I ( 'searchtype' );
-        $keyword = I ( 'keyword' );
-        if($searchtype && $keyword){
-            switch ($searchtype) {
-                case '1' : $where ['c.title'] = array ( 'like','%' . $keyword . '%'); break;
-                case '2' : if (is_numeric ( $keyword )) { $where ['c.id'] = $keyword; } break;
+        if(!empty($_REQUEST)){
+            $searchtype = I ( 'searchtype' );
+            $keyword = I ( 'keyword' );
+            if($searchtype && $keyword){
+                switch ($searchtype) {
+                    case '1' : $where ['c.title'] = array ( 'like','%' . $keyword . '%'); break;
+                    case '2' : if (is_numeric ( $keyword )) { $where ['c.id'] = $keyword; } break;
+                }
             }
-        }
-        if (!empty($_REQUEST['stime']) && empty($_REQUEST['etime'])) { //如果只有开始时间
-            $where['o.addtime'] = array("egt",$_REQUEST['stime']." 00:00:00");
-        }
-        if (empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])) { //如果只有结束时间
-            $where['o.addtime'] = array("elt",$_REQUEST['etime']." 23:59:59");
-        }
-        if(!empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])){  //如果有开始和结束时间
-            $where['o.addtime'] = array(array("egt",$_REQUEST['stime']." 00:00:00"),array("elt",$_REQUEST['etime']." 23:59:59"));
-        }
+            if (!empty($_REQUEST['stime']) && empty($_REQUEST['etime'])) { //如果只有开始时间
+                $where['o.addtime'] = array("egt",$_REQUEST['stime']." 00:00:00");
+            }
+            if (empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])) { //如果只有结束时间
+                $where['o.addtime'] = array("elt",$_REQUEST['etime']." 23:59:59");
+            }
+            if(!empty($_REQUEST['stime']) && !empty($_REQUEST['etime'])){  //如果有开始和结束时间
+                $where['o.addtime'] = array(array("egt",$_REQUEST['stime']." 00:00:00"),array("elt",$_REQUEST['etime']." 23:59:59"));
+            }
 
-        $row = C ( 'VAR_PAGESIZE' );
-        $count =  M('content')->alias('c')
-            ->join("my_order_detail as od on c.id = od.productid")
-            ->join("my_order as o on o.orderno = od.orderno")
-            ->where($where)->count();
+            $row = C ( 'VAR_PAGESIZE' );
+            $count =  M('content')->alias('c')
+                ->join("my_order_detail as od on c.id = od.productid")
+                ->join("my_order as o on o.orderno = od.orderno")
+                ->where($where)->count();
 //        $count = M('material')->where($where)->count();
-        $page = new  \Think\Page ( $count, $row );
+            $page = new  \Think\Page ( $count, $row );
 //        $list = M('material')->limit($page->firstRow.",".$page->listRows)->where($where)->order($order)->select();*/
 
 
-        $field = 'od.productid,od.productname,od.unit,od.num,od.supplyname,od.orderno,od.price,o.id,o.delivertime,o.userid,o.username,o.address,c.namecn';
-        $list =  M('content')->alias('c')
-            ->join("my_order_detail as od on c.id = od.productid")
-            ->join("my_order as o on o.orderno = od.orderno")
-            ->field($field)->where($where)->order('o.addtime desc')->limit($page->firstRow.",".$page->listRows)->select();
-        $this->assign ( "list", $list);
-        $this->assign("page",$page->show());
+            $field = 'od.productid,od.productname,od.unit,od.num,od.supplyname,od.orderno,od.price,o.id,o.delivertime,o.userid,o.username,o.address,c.namecn';
+            $list =  M('content')->alias('c')
+                ->join("my_order_detail as od on c.id = od.productid")
+                ->join("my_order as o on o.orderno = od.orderno")
+                ->field($field)->where($where)->order('o.addtime desc')->limit($page->firstRow.",".$page->listRows)->select();
+            $this->assign ( "list", $list);
+            $this->assign("page",$page->show());
+        }
         $this->display('commodity_sales');
     }
 
