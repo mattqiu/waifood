@@ -75,7 +75,7 @@ class Pay {
         }else{
         	$check=true;
         }
-
+        Log::record('paypal','组合数据：'.json_encode($check));
         if ($check !== false) {
             return $this->payer->buildRequestForm($vo);
         } else {

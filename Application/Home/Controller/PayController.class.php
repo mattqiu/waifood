@@ -3,7 +3,7 @@
 namespace Home\Controller;
  
 class PayController extends BaseController {
-
+    private $callbackurl = 'http://www.waifood.com/Shop/Pay/notify';
     public function index() {
         if (IS_POST) {
             //页面上通过表单选择在线支付类型，支付宝为alipay 财付通为tenpay
@@ -26,7 +26,7 @@ class PayController extends BaseController {
                     ->setFee($totalfee) //支付金额
                     ->setOrderNo($orderno)
                     ->setTitle($subject)
-                    ->setCallback("Shop/Pay/notify")
+                    ->setCallback($this->callbackurl)
                     ->setUrl(U("/member/order"))
                     ->setParam(array('order_id' => $orderno));
             echo $pay->buildRequestForm($vo);
