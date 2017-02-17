@@ -29,8 +29,11 @@
                 <span class="caret"></span>
             </div>
             <ul class="idealforms_select_menu">
-                <li data-value="1">上架</li>
-                <li data-value="0">下架</li>
+                <if condition="empty($db['status']) || $db['status'] eq 0">
+                    <li data-value="0">下架</li>
+                    <else/>
+                    <li data-value="1" if>上架</li>
+                </if>
             </ul>
         </div>
     </div>

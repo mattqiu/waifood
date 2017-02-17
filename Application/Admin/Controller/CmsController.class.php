@@ -2168,7 +2168,7 @@ class CmsController extends BaseController {
                 $logdata['old_stock'] = $rs['stock'];
                 $logdata['type'] = $status;
                 $logdata['uptype'] = ProductStatusLogModel::UPTYPE_ADMIN;
-                $logdata['operator'] = 'admin';
+                $logdata['operator'] = trim(session('adminname'));
                 $logdata['note'] =  I('post.note');
                 ProductStatusLogModel::addProductStatusLog($logdata);
                 apiReturn(CodeModel::CORRECT);
