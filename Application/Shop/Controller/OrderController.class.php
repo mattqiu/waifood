@@ -22,7 +22,7 @@ class OrderController extends AuthController
         $where['status'] = array( 'in', array( 0, 1)); // 状态为：提交和已确认
         $where['userid'] = get_userid();
         $order = M('order')->where($where)->find();
-        if (! $order == false) {
+        if ($order) {
             OrderModel::modifyStockAndSoldForOrder($orderno,OrderModel::RET_STOCK);//退库存减销量
             M('order')->where($where)->setField('status', 4);
 //            set_order_onoff($orderno,1);
