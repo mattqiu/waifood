@@ -56,7 +56,6 @@ abstract class Pay {
         }
 
         $sHtml = $sHtml . "</form>Loading......";
-
         $sHtml = $sHtml . "<script>document.forms['paysubmit'].submit();</script>";
         return $sHtml;
     }

@@ -34,7 +34,6 @@ class Palpay extends \Think\Pay\Pay {
             'no_note' => 1,
             'no_shipping' => 1
         );
-
         Log::record('paypal','组合数据：'.json_encode($param));
         $sHtml = $this->_buildForm($param, $this->gateway);
 
