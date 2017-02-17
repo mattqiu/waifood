@@ -45,9 +45,10 @@ class Pay {
         $pos = strrpos($driver, '\\');
         $pos = $pos === false ? 0 : $pos + 1;
         $apitype = strtolower(substr($driver, $pos));
-        $this->config['notify_url'] = U("Shop/Public/notify", array('apitype' => $apitype, 'method' => 'notify'), false, true);
-        $this->config['return_url'] = U("Shop/Public/notify", array('apitype' => $apitype, 'method' => 'return'), false, true);
-
+        //$this->config['notify_url'] = U("Shop/Public/notify", array('apitype' => $apitype, 'method' => 'notify'), false, true);
+        $this->config['notify_url'] ='http://www.waifood.com/Shop/Pay/notify?apitype='.$apitype.'&method=notify';
+        $this->config['return_url'] = 'http://www.waifood.com/member/order';
+        //$this->config['return_url'] = U("Shop/Public/notify", array('apitype' => $apitype, 'method' => 'return'), false, true);
         $config = array_merge($this->config, $config);
 
         /* 设置支付驱动 */

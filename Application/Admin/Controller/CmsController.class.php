@@ -4,6 +4,7 @@ namespace Admin\Controller;
 
 use Admin\Model\ContentModel;
 use Admin\Model\SugCatModel;
+use Common\Model\AreaModel;
 use Common\Model\CodeModel;
 use Common\Model\DiscountModel;
 use Common\Model\GoodsGroupModel;
@@ -2179,5 +2180,42 @@ class CmsController extends BaseController {
             apiReturn(CodeModel::ERROR,'参数错误，请刷新重试');
         }
     }
+
+    /**
+     * \地区列表
+     */
+    public function area(){
+        $con['status'] =  array('neq', AreaModel::DELETE);
+        $count = M('area')->where($con)->count();
+        $row = C ( 'VAR_PAGESIZE' );
+        $page = new  \Think\Page ( $count, $row );
+        $order = 'id desc';
+        $list = M('area')->where($con)->limit($page->firstRow.",".$page->listRows)->order($order)->select();
+        $this->assign("list",$list);
+        $this->assign("page",$page->show());
+        $this->display ();
+    }
+
+    public function modifyArea(){
+        $data = I('post.');
+        if(!empty($data)){
+            $id = $data['id'];
+            if(regex($id,'number')){
+                if(false !== AreaModel::modifyArea($id,$data)){
+                    apiReturn(CodeModel::CORRECT,'修改成功');
+                }else{
+                    apiReturn(CodeModel::ERROR,'修改失败');
+                }
+            }else{
+                if(AreaModel::addArea($data)){
+                    apiReturn(CodeModel::CORRECT,'添加成功');
+                }else{
+                    apiReturn(CodeModel::ERROR,'添加失败');
+                }
+            }
+        }
+    }
 }
+
+
 ?>
