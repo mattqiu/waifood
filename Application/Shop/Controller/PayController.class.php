@@ -43,14 +43,14 @@ class PayController extends BaseController {
         $apitype = I('get.apitype');
         GLog('pay ','apitype:'.$apitype);
         $pay = new \Think\Pay($apitype, C('payment.' . $apitype));
-        GLog('pay ','pay data:'.json_encode($pay));
+        GLog('pay ','pay data:'.$pay);
 //         \Think\Log::write('1:'.arr2str($_POST));
 //         \Think\Log::write('2:'.json_encode($_POST));
         if (IS_POST && !empty($_POST)) {
-            GLog('pay ','_POST data:'.json_encode($_POST));
+            GLog('pay ','_POST data:'.json_encode($_POST,true));
             $notify = $_POST;
         } elseif (IS_GET && !empty($_GET)) {
-            GLog('pay',' _GET data:'.json_encode($_GET));
+            GLog('pay',' _GET data:'.json_encode($_GET,true));
             $notify = $_GET;
             unset($notify['method']);
             unset($notify['apitype']);
@@ -59,8 +59,7 @@ class PayController extends BaseController {
             exit();
             // exit('Access Denied1');
         }
-        GLog('pay','notify data:'.json_encode($notify));
-
+        GLog('pay','notify data:'.json_encode($notify,true));
         //验证
         if ($pay->verifyNotify($notify)) {
             GLog('pay','支付验证ok ');

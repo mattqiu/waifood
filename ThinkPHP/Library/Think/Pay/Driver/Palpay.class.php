@@ -36,11 +36,11 @@ class Palpay extends \Think\Pay\Pay {
         );
         Log::record('paypal','组合数据：'.json_encode($param));
         $sHtml = $this->_buildForm($param, $this->gateway);
-
         return $sHtml;
     }
 
-    public function verifyNotify($notify) { 
+    public function verifyNotify($notify) {
+        Log::record('pay','verifyNotify');
         if (empty($notify['txn_id']))
             return false; 
         $tmpAr = array_merge(array("cmd" => "_notify-validate"),$notify);

@@ -2,6 +2,8 @@
 
 namespace Think\Pay;
 
+use Think\Log;
+
 abstract class Pay {
 
     protected $config;
@@ -24,6 +26,7 @@ abstract class Pay {
      * @return type
      */
     public function getInfo() {
+        Log::record('pay','getinfo');
         return $this->info;
     }
 
