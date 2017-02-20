@@ -47,13 +47,34 @@ class IndexController extends BaseController
             session('backurl','/index/cashier.html');
             $this->redirect('/login/index');
         }
+        $startimt = '';
+        $stardate = '';
+        $nowtime = intval(date('H'));
+        $nowdate = date('Y-m-d');
         if($dateData = DateModel::getFutureDay(27)){
+            foreach($dateData as $val){
+                if(!isset($val['isholiday']) && !$startimt){
+                    if($nowdate == $val['time'] && $nowtime <= intval(DateModel::DELIVERTIME_BYDAYTIME)){
+                        $startimt = 'Today('.$val['time'].')';
+                    }else{
+                        $day = intval(date('d',strtotime($val['time']) - strtotime($nowdate)));
+                        if($day ==2){
+                            $startimt = 'Tomorrow('.$val['time'].')';
+                        }else{
+                            $startimt = $val['time'];
+                        }
+                    }
+                    $stardate = $val['time'];
+                }
+            }
+            $this->assign ( 'stardate',$stardate);
+            $this->assign ( 'startimt',$startimt);
             $this->assign ( 'dateData',$dateData);
             $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
             $this->assign ( 'hours', date('H'));
             $this->assign ( 'min', date('i'));
         }
-
+        $this->assign ( 'deliverinfo',lbl('deliverinfo') );
         $times = str2arr(lbl('delivertime'),"\r\n");//配送时段
         $address =AddressModel:: getUserAddress($user['id']);
         $this->assign ( 'title', 'Cashier' );

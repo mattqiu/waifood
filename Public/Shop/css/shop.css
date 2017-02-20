@@ -396,7 +396,7 @@ ul li.on{ background:#616161;  }
 .invoice{margin-top: 20px;}
 .invoice_item{margin-top: 12px;}
 .invoice_item .radio i{margin-top: 1px;}
-.delivery-time-content{width: 1180px;height: 200px; margin: 0 auto;background: #ffffff;color: #424242;margin-top: 48px;}
+.delivery-time-content{width: 1180px;height: 200px; margin: 0 auto;background: #ffffff;color: #424242}
 .viewAll{font-size: 14px;color: #424242;cursor: pointer;line-height: 30px;}
 /*delivery-time*/
 .arrow {   float: left;   width: 32px; height: 62px;cursor: pointer;}
@@ -425,20 +425,20 @@ ul li.on{ background:#616161;  }
 /** modal window styles **/
 .lean_overlay { position: fixed; z-index:9999; top: 0;left: 0; height:100%; width:100%; background: #000; opacity: .5;}
 
-.addressModal{ background: #FFFFFF; width:500px;height: 532px;margin: 0 auto; position: fixed; top: 50%; z-index: 10000; left: 50%;margin-left: -250px;margin-top: -266px; }
-.form-section{margin-left: 46px; margin-top: 16px;width: 415px; height: 46px;line-height: 46px; border: 1px solid #E0E0E0;position: relative}
+.addressModal{ background: #FFFFFF; width:730px;height: 532px;margin: 0 auto; position: fixed; top: 50%; z-index: 10000; left: 50%;margin-left: -250px;margin-top: -266px; }
+.form-section{margin-left: 46px; margin-top: 16px;width: 315px; height: 46px;line-height: 46px; border: 1px solid #E0E0E0;position: relative}
 .consingee{margin-top: 46px;}
 .form-section .input-label{position: absolute;top: 15px;left: 5px; background: #FFffff;height: 20px;line-height: 20px;color: #999999 }
 
-.form-section .J_addressInput{width: 400px;height: 40px;padding-left: 5px;border: none;color: #212121}
+.form-section .J_addressInput{width: 300px;height: 40px;padding-left: 5px;border: none;color: #212121}
 .form-section:hover{border: 1px solid #cccccc}
 .select_box,.select_box:hover{border: none}
 .select_box{border: none}
 .select_box .input-label{top: -10px;}
 .select_box .city .input-label{left:225px;;}
-.form-itme,.form-itme select{width: 200px;height: 48px;border: none}
+.form-itme,.form-itme select{width: 315px;height: 48px;border: none}
 .form-itme{border: 1px solid #E0E0E0}
-.form-confirm {width: 415px;height: 40px; margin: 0 auto;}
+.form-confirm {width: 515px;height: 40px; margin: 0 auto;}
 .form-confirm .submit,.form-confirm .back{width:140px;height: 40px;float: left; border: none ;margin:30px 30px 0 37px; color: #FFffff;font-size:16px;cursor: pointer;background: #cccccc}
 .form-confirm .submit{background: #000000}
 .form-confirm .submit:hover{background: #343434}

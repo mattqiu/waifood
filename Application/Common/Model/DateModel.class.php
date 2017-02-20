@@ -8,6 +8,7 @@ class DateModel extends Model
     const FUTURE_DAY = 5;//未来5天的日期
     const ADD_DELIVERTIME = 1;//配送准备时间计算
     const DELIVERTIME_BEYOND = 30;//配送准备时间计算(分)
+    const DELIVERTIME_BYDAYTIME = 17;//外地统一发货的时间
     const DELIVERTIME = 30;//配送准备时间计算(分)
     /**
      * 获取本月不配送日

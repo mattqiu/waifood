@@ -2,6 +2,7 @@
 // 本类由系统自动生成，仅供测试用途
 namespace Shop\Controller;
 use Common\Model\AddressModel;
+use Common\Model\AreaModel;
 use Common\Model\CodeModel;
 use Common\Model\ContentModel;
 use Common\Model\OrderModel;
@@ -34,8 +35,10 @@ class MemberController extends AuthController {
             $address =AddressModel:: getUserAddressById($id,$this->userId);
             $this->assign('address',$address);
         }
+        $area = AreaModel::getAreas();
         $title='Select shipping address';
         $this->assign('title',$title);
+        $this->assign('area',$area);
         $this->display ('modify_address');
     }
 
