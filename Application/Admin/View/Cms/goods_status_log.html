@@ -164,7 +164,7 @@
             </td>
             <td align="center"> <if condition="$vo['type'] neq 1">{$vo.under_time}</if></td>
             <td>{$vo.addtime}</td>
-            <td><if condition="$vo['uptype'] eq 1">admin<else/>自动</if></td>
+            <td><if condition="$vo['uptype'] eq 1">{$vo.operator}<else/>自动</if></td>
             <td>{$vo.note}</td>
         </tr>
     </volist>
