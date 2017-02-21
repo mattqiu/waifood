@@ -46,3 +46,5 @@ input.input_text2, textarea.textarea_text2{width: 308px}
 .js_edittable:focus{background: #F1F1F1;}
 
 .height35 tr,td{height: 35px;}
+
+.orderinfofrom tr td ul li{margin-left: 20px;}
