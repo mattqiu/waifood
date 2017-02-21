@@ -213,7 +213,7 @@
             $("#money_all_amount").html("￥" + total.toFixed(2));
         }
         /***********************购物车商品**************************************/
-        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0;
+        var myfood = $.cookie("myfood"), $html = '', totalMoney = 0, totalNum= 0,cityname = $('#cityname').val();
         if (myfood) {
             var obj = $.parseJSON(myfood);
             if (obj) {
@@ -243,7 +243,7 @@
                 }
                 $('#product_list').html($html);
                 $('#quantity').html(totalNum);
-                getAmountMoney(totalMoney,'#amount','#delivery_fee','#discount');
+                getAmountMoney(totalMoney,'#amount','#delivery_fee','#discount',cityname);
             }
             if(parseFloat(totalMoney)){
                 $('#cart_foot').removeClass('hide');

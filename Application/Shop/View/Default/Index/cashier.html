@@ -109,7 +109,7 @@
                 </div>
                 <div class="delivery-time-content" id="bendi">
                     <div class="arrow-l arrow fl prev hide" id="prev" ></div>
-                    <div class="scroll-item fl" id="autoPage">
+                    <div class="scroll-item fl" id="autoPage" style="width: 634px">
                             <div class="delivery_time">
                                 <ul class="">
                                     <?php
@@ -205,16 +205,43 @@
     $('#cart_box .goodcheckout').html('View Cart');
     $('#UseAddressID').val($('.delivery_address .selected_addr').data('id'));
     var $cityname = $('.delivery_address .selected_addr').data('cityname'),stardate = $('body').data('stardate');
+
+    //配送时间
+    //    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
+    function scrollDeliveryTime(){
+        var parentobj = $('#autoPage'),obj=parentobj.find('ul'),objli=obj.find('li'), objliw = objli.width(),oLen=objli.length, prev=$("#prev"),next=$("#next"),iNow=0;
+        parentobj.css({'width':objliw+'px','overflow':'hidden '});
+        obj.css({'position':'relative','height':objli.height()+'px','width':oLen*objliw+'px'});
+        prev.click(function(){
+            if(iNow>0){
+                iNow--;
+            }
+            ClickScroll();
+        })
+        next.click(function(){
+            if(iNow<oLen-1){
+                iNow++
+            }
+            ClickScroll();
+        })
+        function ClickScroll(){
+            iNow==0? prev.hide(): prev.show();
+            iNow==oLen-1?next.hide():next.show();
+            obj.animate({left:-iNow*objliw})
+        }
+    }
+    scrollDeliveryTime(); //加载
+
     $('#cityname').val($cityname);
     showDevery($cityname);
-
-
     $('.delivery_address .addrs').click(function(){
         $('.delivery_address .addrs').removeClass('selected_addr');
         $(this).addClass('selected_addr');
         $('#UseAddressID').val($(this).data('id'));
         $('#cityname').val($(this).data('cityname'));
         var $city = $(this).data('cityname');
+        var amount=$('#cashier_table .amount_money').data('amount');
+        getSettleGood();
         showDevery($city);
     })
 
@@ -241,6 +268,7 @@
         }else{
             $('#waidi').hide();
             $('#bendi').show();
+            scrollDeliveryTime();
         }
     }
 
@@ -269,32 +297,6 @@
             $('#cashier_table tbody').hide();
         }
     }
-
-    //配送时间
-    //    $("#autoPage").slide({ mainCell:".delivery_time ul",effect:"left",vis:1,scroll:1});//配送时间切换
-    function scrollDeliveryTime(){
-        var parentobj = $('#autoPage'),obj=parentobj.find('ul'),objli=obj.find('li'), objliw = objli.width(),oLen=objli.length, prev=$("#prev"),next=$("#next"),iNow=0;
-        parentobj.css({'width':objliw+'px','overflow':'hidden '});
-        obj.css({'position':'relative','height':objli.height()+'px','width':oLen*objliw+'px'});
-        prev.click(function(){
-            if(iNow>0){
-                iNow--;
-            }
-            ClickScroll();
-        })
-        next.click(function(){
-            if(iNow<oLen-1){
-                iNow++
-            }
-            ClickScroll();
-        })
-        function ClickScroll(){
-            iNow==0? prev.hide(): prev.show();
-            iNow==oLen-1?next.hide():next.show();
-            obj.animate({left:-iNow*objliw})
-        }
-    }
-    scrollDeliveryTime(); //加载
 
     window.deliverydate = new Array();
     var data ='',time ='';

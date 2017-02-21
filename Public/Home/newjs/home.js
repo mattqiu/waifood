@@ -530,8 +530,8 @@ function getdeliveryFee(money,obj){
  * @param obj
  * @param deliveryFee
  */
-function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj){
-    var discount = getDiscount(totalMoney),discountmoney=0,dischtml= ' <div id="disc">';
+function getAmountMoney(totalMoney,allMoneyobj,deliveryobj,discountobj,city){
+    var discount = getDiscount(totalMoney,city),discountmoney=0,dischtml= ' <div id="disc">';
     var delivery_fee = getdeliveryFee(totalMoney);
 	if(!delivery_fee){
 	    delivery_fee = 0;

@@ -499,6 +499,7 @@ function gocashier(){
  *结算页面
  */
 function getSettleGood(){
+    var $cityname = $('.delivery_address .selected_addr').data('cityname');
     var myfood = $.cookie('settlement'), totalMoney = 0, totalNum= 0,idnum= 1,
         $html = '<tbody class="hide"><tr><th width="100">No</th><th width="736">Product Name</th> <th width="150">Unit Price</th> <th width="100">Quantity</th><th width="140">Subtotal</th></tr>';
     if (myfood) {
@@ -522,7 +523,7 @@ function getSettleGood(){
             }
         }
 
-        var discount = getDiscount(totalMoney),dischtml= '',discountmoney = 0;
+        var discount = getDiscount(totalMoney,$cityname),dischtml= '',discountmoney = 0;
         for (var i in discount){
             if(regex(i,'number')){
                 dischtml+='<div>'+discount[i]['name']+':&nbsp;<span class="discount fc_red">-&nbsp;&yen;'+fomatFloat(discount[i]['money'])+'</span></div>' ;
@@ -531,15 +532,10 @@ function getSettleGood(){
         if(discount['money']){
             discountmoney = discount['money'];
         }
-        //if(discount>0){
-        //    var discountplan =discount;
-        //}else{
-        //    var discountplan =0;
-        //}
         var delivery_fee = getdeliveryFee(totalMoney);
         var allMoney =(totalMoney-parseFloat(discountmoney))+parseFloat(delivery_fee);
 
-        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:&nbsp;<span class="amount_money">&yen;'+totalMoney+'</span></div>';
+        $html+='</tbody><tfoot class="bg_white tfood_info"><tr class=" bg_white" style="background: #FFffff;line-height: 30px;border-top: 1px solid #EEEEEE;"><td colspan="3" align="left">&nbsp;</td><td colspan="2" align="right"> <div>Amount:&nbsp;<span class="amount_money" data-amount="'+totalMoney+'">&yen;'+totalMoney+'</span></div>';
         if(discountmoney>0){
             //$html+='<div >Discount:&nbsp;<span class="discount fc_red">&yen;'+fomatFloat(discountmoney)+'</span></div>' ;
             $html+= dischtml;
