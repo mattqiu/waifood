@@ -43,7 +43,6 @@ class PayController extends BaseController {
         $apitype = I('get.apitype');
         GLog('pay ','apitype:'.$apitype);
         $pay = new \Think\Pay($apitype, C('payment.' . $apitype));
-        GLog('pay ','pay data:'.$pay);
 //         \Think\Log::write('1:'.arr2str($_POST));
 //         \Think\Log::write('2:'.json_encode($_POST));
         if (IS_POST && !empty($_POST)) {
@@ -102,7 +101,7 @@ class PayController extends BaseController {
             //E("Access Denied2");
         }
     }
-    
+
     /**
      * 订单支付成功
      * @param type $money

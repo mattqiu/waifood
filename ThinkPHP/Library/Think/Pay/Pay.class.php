@@ -80,10 +80,10 @@ abstract class Pay {
         $matches = parse_url($url);
         $scheme = $matches['scheme'];
         $host = $matches['host'];
-        $path = $matches['path'] ? $matches['path'] . ($matches['query'] ? '?' . $matches['query'] : '') : '/';
+        $query = $matches['query']?$matches['query']:'';
+        $path = $matches['path'] ? $matches['path'] . ($query ? '?' .$query: '') : '/';
         $port = !empty($matches['port']) ? $matches['port'] : ($scheme == 'http' ? '80' : '');
         $boundary = $encodetype == 'URLENCODE' ? '' : random(40);
-
         if ($post) {
             if (!is_array($post)) {
                 parse_str($post, $post);

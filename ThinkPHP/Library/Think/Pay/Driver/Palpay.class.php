@@ -44,9 +44,10 @@ class Palpay extends \Think\Pay\Pay {
         if (empty($notify['txn_id']))
             return false; 
         $tmpAr = array_merge(array("cmd" => "_notify-validate"),$notify);
-        
+
+        file_put_contents(APP_PATH.'/Application/Runtime/Log/11111.txt',json_encode($tmpAr,true));
         $ppResponseAr = $this->fsockOpen($this->gateway, 0, $tmpAr);
-        
+        file_put_contents(APP_PATH.'/Application/Runtime/Log/2222.txt',json_encode($ppResponseAr,true));
         if ((strcmp($ppResponseAr, "VERIFIED") == 0) && $notify['receiver_email'] == $this->config['business']) {
             $info = array();
             //支付状态
