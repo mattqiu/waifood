@@ -10,7 +10,8 @@
 <body style="background:#fff; padding:0px; overflow:hidden">
 	<form action="" method="get" name="form1" id="form1">
     	<input type="hidden" name="p" id="p" value="1" />
-	  <input type="hidden" name="id" id="id" value="{:I('id')}" />
+    	<input type="hidden" name="goodskey" value="{$_REQUEST['goodskey']}" />
+	    <input type="hidden" name="id" id="id" value="{:I('id')}" />
 		<table border="0" cellpadding="3" cellspacing="1" class="MainTbl">
 			<tr>
 				<td>关 键 词： <input type="text" class="inputText1" id="keyword"
