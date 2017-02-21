@@ -80,7 +80,11 @@ abstract class Pay {
         $matches = parse_url($url);
         $scheme = $matches['scheme'];
         $host = $matches['host'];
-        $query = $matches['query']?$matches['query']:'';
+        if(isset( $matches['query']) &&  $matches['query']){
+            $query = $matches['query'];
+        }else{
+            $query = '';
+        }
         $path = $matches['path'] ? $matches['path'] . ($query ? '?' .$query: '') : '/';
         $port = !empty($matches['port']) ? $matches['port'] : ($scheme == 'http' ? '80' : '');
         $boundary = $encodetype == 'URLENCODE' ? '' : random(40);
@@ -129,8 +133,10 @@ abstract class Pay {
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             $data = curl_exec($ch);
+
             $status = curl_getinfo($ch);
             $errno = curl_errno($ch);
+
             curl_close($ch);
             if ($errno || $status['http_code'] != 200) {
                 return;
@@ -140,7 +146,6 @@ abstract class Pay {
                 return !$limit ? $data : substr($data, 0, $limit);
             }
         }
-
         if ($post) {
             if ($encodetype == 'URLENCODE') {
                 $data = http_build_query($post);

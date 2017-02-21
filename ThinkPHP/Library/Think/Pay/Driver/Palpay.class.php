@@ -34,7 +34,6 @@ class Palpay extends \Think\Pay\Pay {
             'no_note' => 1,
             'no_shipping' => 1
         );
-        Log::record('paypal','组合数据：'.json_encode($param));
         $sHtml = $this->_buildForm($param, $this->gateway);
         return $sHtml;
     }
@@ -44,11 +43,10 @@ class Palpay extends \Think\Pay\Pay {
         if (empty($notify['txn_id']))
             return false; 
         $tmpAr = array_merge(array("cmd" => "_notify-validate"),$notify);
-
-        file_put_contents(APP_PATH.'/Application/Runtime/Log/11111.txt',json_encode($tmpAr,true));
         $ppResponseAr = $this->fsockOpen($this->gateway, 0, $tmpAr);
-        file_put_contents(APP_PATH.'/Application/Runtime/Log/2222.txt',json_encode($ppResponseAr,true));
-        if ((strcmp($ppResponseAr, "VERIFIED") == 0) && $notify['receiver_email'] == $this->config['business']) {
+        file_put_contents('1.txt','receiver_email--'.$notify['receiver_email'].'////////// business--'.$this->config['business'].'ppResponseAr---'.$ppResponseAr);
+//        if ((strcmp($ppResponseAr, "VERIFIED") == 0) && $notify['receiver_email'] == $this->config['business']) {
+        if ((strcmp($ppResponseAr, "VERIFIED")== 0) ) {
             $info = array();
             //支付状态
             $info['status'] = $notify['payment_status'] == 'Completed' ? true : false;
