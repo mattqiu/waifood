@@ -54,17 +54,17 @@ class IndexController extends BaseController
         if($dateData = DateModel::getFutureDay(27)){
             foreach($dateData as $val){
                 if(!isset($val['isholiday']) && !$startimt){
-                    if($nowdate == $val['time'] && $nowtime <= intval(DateModel::DELIVERTIME_BYDAYTIME)){
+                    if($nowdate == $val['time'] && $nowtime < intval(DateModel::DELIVERTIME_BYDAYTIME)){
                         $startimt = 'Today('.$val['time'].')';
-                    }else{
+                    }else if($nowdate != $val['time'] && $nowtime){
                         $day = intval(date('d',strtotime($val['time']) - strtotime($nowdate)));
                         if($day ==2){
                             $startimt = 'Tomorrow('.$val['time'].')';
                         }else{
                             $startimt = $val['time'];
                         }
+                        $stardate = $val['time'];
                     }
-                    $stardate = $val['time'];
                 }
             }
             $this->assign ( 'stardate',$stardate);

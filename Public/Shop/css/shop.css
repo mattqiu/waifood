@@ -425,7 +425,7 @@ ul li.on{ background:#616161;  }
 /** modal window styles **/
 .lean_overlay { position: fixed; z-index:9999; top: 0;left: 0; height:100%; width:100%; background: #000; opacity: .5;}
 
-.addressModal{ background: #FFFFFF; width:730px;height: 532px;margin: 0 auto; position: fixed; top: 50%; z-index: 10000; left: 50%;margin-left: -250px;margin-top: -266px; }
+.addressModal{ background: #FFFFFF; width:730px;height: 430px;margin: 0 auto; position: fixed; top: 50%; z-index: 10000; left: 50%;margin-left: -250px;margin-top: -266px; }
 .form-section{margin-left: 46px; margin-top: 16px;width: 315px; height: 46px;line-height: 46px; border: 1px solid #E0E0E0;position: relative}
 .consingee{margin-top: 46px;}
 .form-section .input-label{position: absolute;top: 15px;left: 5px; background: #FFffff;height: 20px;line-height: 20px;color: #999999 }

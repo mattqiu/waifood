@@ -136,7 +136,6 @@ class OrderController extends BaseController {
                     }
                 }
             }
-            dump($data);exit;
             unset($data['memo_mid']);
             unset($data['memo_content']);
             $db = D ( "order" );
