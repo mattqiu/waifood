@@ -65,7 +65,7 @@ class DiscountModel extends Model {
                 $user['discount_id'] = 5;//临时优惠活动
             }
             if($city === true){
-                $user['discount_id'] = 1;//临时优惠活动
+                $user['discount_id'] = 6;//临时优惠活动
             }
             if(isset($user['discount_id']) && $user['discount_id']>0){
                 $userdiscount = self::getDiscountById($user['discount_id']);
