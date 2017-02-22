@@ -39,11 +39,21 @@ class OrderModel extends Model{
 
     public static function getOrderByOrderno($orderno){
         if($orderno){
-                $ocn['orderno'] = $orderno;
-                return M ( 'order' )->where($ocn)->find();
+            $ocn['orderno'] = $orderno;
+            return M ( 'order' )->where($ocn)->find();
         }
         return false;
     }
+
+    public static function getOrderDetailById($orderno,$id){
+        if($orderno && regex($id,'number')){
+            $ocn['productid'] = $id;
+            $ocn['orderno'] = $orderno;
+            return M ( 'order_detail' )->where($ocn)->find();
+        }
+        return false;
+    }
+
     public static function modifyOrder($orderno,$data){
         if($orderno && !empty($data)){
             $con['orderno'] = $orderno;
@@ -51,6 +61,7 @@ class OrderModel extends Model{
         }
         return false;
     }
+
 
     /**
      * 根据条件更改订单
@@ -484,4 +495,35 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
         return true;
     }
 
+    /**
+     * 库存销量操作
+     * @param int $type 1减库存加销量，2退库存，减销量
+     */
+    public static function modifyStockAndSoldForOrderdetailid($orderno,$id,$num,$type){
+        $data = OrderModel::getOrderDetailById($orderno,$id);
+        if(isset($data['productid']) && $data['productid']){
+            $product=M('content')->find($data['productid']);
+            if($product['good_type'] == ContentModel::COMBINATION_OF_GOODS){//该商品是组合商品
+                $goods = GoodsGroupModel::getGoodsChild($product['id']); //当前商品是组合类型的商品（取出该商品的子商品）
+                foreach($goods as $v){
+                    if(!empty($data[$v['productid']])){ //既买了组合商品包含的子商品又单独买了该子商品
+                        $groupSold = intval($num*$v['num']); //组合子商品组合销售数=组合份数*子商品组合数
+                        $number =  $groupSold+$data[$v['productid']]['num'];//总数=组合子商品组合销售数+单独购买数
+                        ContentModel::modifyGoodsStockAndSold($v['productid'],$number,$groupSold,$type); //对单一子商品减库存加销量，加组合销量
+                    }else{//组合商品包含的子商品没有被单独购买
+                        $number = ($num*$v['num']); //组合子商品组合销售数=组合份数*子商品组合数
+                        ContentModel::modifyGoodsStockAndSold($v['productid'],$number,$number,$type); //对单一子商品减库存加销量，加组合销量
+                    }
+                }
+                //组合的商品也是一个正常商品
+                ContentModel::modifyGoodsStockAndSold($data['productid'],$num,0,$type);
+            }else{ //正常商品的操作
+                ContentModel::modifyGoodsStockAndSold($data['productid'],$num,0,$type);
+            }
+            //如果该商品被组合商品组合，重新计算组合商品的库存，
+            if( GoodsGroupModel::isGroupChildGoods($data['productid'])){
+                GoodsGroupModel::resetGroupGoodsStock($data['productid']);
+            }
+        }
+    }
 }

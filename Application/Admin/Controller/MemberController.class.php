@@ -758,6 +758,7 @@ class MemberController extends BaseController {
             $order = OrderModel::getOrderByUserId($id);
             $discount = DiscountModel::getDiscountByType(DiscountModel::USER_GROUPS);
             $this->assign ( "discount", $discount);
+            $order = OrderModel::getOrderByUserId($id);
             $this->assign ( "order_time", $order['addtime'] );
             $this->assign ( "info", $user );
             $this->assign ( "login_key",  C('USER_LOGIN_KEY') );

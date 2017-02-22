@@ -3,7 +3,9 @@
 namespace Admin\Controller;
 
 use Admin\Model\MemberMemoModel;
+use Admin\Model\OrderModel;
 use Common\Model\CodeModel;
+use Common\Model\DiscountModel;
 use Common\Model\UserModel;
 
 class OrderController extends BaseController {
@@ -123,17 +125,18 @@ class OrderController extends BaseController {
                     $key = 'MEMO:USER:ID:'.$data['userid'];
                    if(md5(trim($data['memo_content'])) != S($key)){//备忘录被修改
                        if(!$re= MemberMemoModel::modifyMemo($memo_mid,$data['memo_content'])){
-                           $this->error ( '未完事项修改失败' );
+                           apiReturn(CodeModel::ERROR,"未完事项修改失败！" );
                        }
                    }else{
 
                    }
                 }else{
                     if(!$re= MemberMemoModel::addMemo($data['userid'],$data['memo_content'],$id)){
-                        $this->error ( '未完事项添加失败' );
+                        apiReturn(CodeModel::ERROR,"未完事项添加失败！" );
                     }
                 }
             }
+            dump($data);exit;
             unset($data['memo_mid']);
             unset($data['memo_content']);
             $db = D ( "order" );
@@ -141,17 +144,23 @@ class OrderController extends BaseController {
 			if ($data) {
 				$orderno = $data ['orderno'];
 				// 如果当前订单是已完成或取消，则不允许修改
-				$order = M ( 'order' )->where ( 'orderno=' . $orderno )->find ();
+                $where ['orderno'] = $orderno;
+				$order = M ( 'order' )->where ($where )->find ();
 				$status=$order['status'];
 // 				if ($status == '3' || $status == '4') {
 // 					$this->error ( '该订单状态不可修改！' );
-// 				}
 
+                if(isset($data['shipfee']) && $data['shipfee']){
+                    $amount = M ( 'order_detail' )->where ( $where )->sum ( 'price*num' );
+                    //需要重新计算的有：订单总金额，应付金额，折扣优惠
+                    $data ['amountall'] =float_fee($amount+floatval($data ['shipfee']));//订单总金额 = 商品总价+配送费
+                    $data ['amount'] =float_fee(($amount-$order['discount'])+floatval($data ['shipfee']));//实际支付总金额=商品总价-折扣+配送费
+                }
 				if ($status == '3' || $data ['status']  == '4' ) {
 				    withdrawOrder($orderno);
-				} 
-				
-				if ($db->save ( $data ) !== false) {
+				}
+
+				if ($db->where($where)->save ( $data ) !== false) {
 					if ($data ['status'] == '3' ) {
 					//if ($data ['status'] == '3' || $data ['status'] == '4') {
 						// status:3 已完成，需要加积分
@@ -182,31 +191,29 @@ class OrderController extends BaseController {
 									$ret = $ctrl->insertCredit ( $uid, 1, $amount, $orderno );
 									if ($ret) {
 										$this->updateOrderDetail($orderno,$data['status']);
-										$this->success ( "编辑订单成功！" );
-										exit ();
+                                        apiReturn(CodeModel::CORRECT,"编辑订单成功！" );
 									} else {
-										$this->error ( '编辑订单失败' );
-										exit ();
+                                        apiReturn(CodeModel::ERROR,"编辑订单失败！" );
 									}
 								}	
 								}
 							} else {
 								$this->updateOrderDetail($orderno,$data['status']);
-								$this->success ( "编辑订单成功！" );
-								exit ();
+                                apiReturn(CodeModel::CORRECT,"编辑订单成功！" );
 							}
 						}
 						
 						// TODO:取消订单需要的操作：返回余额？ 减积分？
 						if ($data ['status'] == '4') {
+                            \Common\Model\OrderModel::modifyStockAndSoldForOrder($orderno,\Common\Model\OrderModel::RET_STOCK);//退库存减销量
 						}
 					} else {
 						$this->updateOrderDetail($orderno,$data['status']);
 						$this->updateOrder ( $data ['orderno'] );
 					}
-					$this->success ( "编辑订单成功！" );
+                    apiReturn(CodeModel::CORRECT,"编辑订单成功！" );
 				} else {
-					$this->error ( '编辑订单失败' );
+                    apiReturn(CodeModel::ERROR,"编辑订单失败！" );
 				}
 			} else {
 				$this->error ( $db->getError () );
@@ -214,8 +221,11 @@ class OrderController extends BaseController {
 		} else {
 			$db = M ( "order" )->find ( $id );
             $user = UserModel::getUserById($db['userid']) ;
-            $db['email'] = $user['email'];
+            //获取用户最近一次下单
+            $order = OrderModel::getOrderByUserId($id);
+            $this->assign ( "order_time", $order['addtime'] );
 			$this->assign ( "db", $db );
+			$this->assign ( "user", $user );
             //dump($db);exit;
 			// 输出门店列表
 			$where=array();
@@ -290,7 +300,6 @@ class OrderController extends BaseController {
 			echo ('参数错误！');
 			exit ();
 		}
-		
 		switch ($type) {
 			case 0 :
 				// 添加条目:
@@ -309,12 +318,11 @@ class OrderController extends BaseController {
 					$data ['supplyid'] = $db ['supplyid'];
 					$data ['supplyname'] = $db ['supplyname'];
 					$data ['num'] = $arr [2];
-					
 					$db = M ( 'order_detail' )->add ( $data );
 					if ($db !== false) {
-						
 						// 3.更新主订单
-						if ($this->updateOrder ( $arr [0] )) {
+						if ($this->updateOrder ($arr[0])) {
+                            \Common\Model\OrderModel::modifyStockAndSoldForOrderdetailid($arr[0],$arr[1],$arr[2],\Common\Model\OrderModel::CAT_STOCK);//添加直接减库存，销量
 						} else {
 							echo ('订单更新失败！');
 							exit ();
@@ -333,11 +341,18 @@ class OrderController extends BaseController {
 			case 1 :
 				// 修改条目:
 				// 1. 取产品信息
-				$db = M ( 'order_detail' )->where ( 'id=' . $arr [1] )->setField ( 'num', $arr [2] );
-				
+                $detail = M ( 'order_detail' )->find($arr [1]);
+                $num =  intval($detail['num']) - intval($arr[2]); //获取变动数量
+                if($num>0){ //如果变动数量小于原始数量则返回变动差
+                    $modifytype = \Common\Model\OrderModel::CAT_STOCK;
+                }else{
+                    $modifytype = \Common\Model\OrderModel::RET_STOCK;
+                }
+                $db = M ( 'order_detail' )->where ( 'id=' . $arr [1] )->setField ( 'num', $arr [2] );
 				if ($db !== false) {
 					// 3.更新主订单
 					if ($this->updateOrder ( $arr [0] )) {
+                        \Common\Model\OrderModel::modifyStockAndSoldForOrderdetailid($arr[0],$detail['productid'],$num,$modifytype);//库存，销量操作
 					} else {
 						echo ('订单更新失败！');
 						exit ();
@@ -350,11 +365,15 @@ class OrderController extends BaseController {
 				break;
 			case 2 :
 				// 删除条目
-				$db = M ( 'order_detail' )->where ( 'id=' . $arr [1] )->delete ();
-				
+                $detail = M ( 'order_detail' )->find($arr [1]);
+                $num =  intval($detail['num']);
+                //删除则直接返回该商品的库存，销量(需要提前执行)
+                \Common\Model\OrderModel::modifyStockAndSoldForOrderdetailid($arr[0],$detail['productid'],$num,\Common\Model\OrderModel::RET_STOCK);
+                $db = M ( 'order_detail' )->where ( 'id=' . $arr [1] )->delete ();
 				if ($db !== false) {
 					// 3.更新主订单
-					if ($this->updateOrder ( $arr [0] )) {
+					if ($this->updateOrder ( $arr[0] )) {
+
 					} else {
 						echo ('订单更新失败！');
 						exit ();
@@ -373,6 +392,7 @@ class OrderController extends BaseController {
 				if ($db !== false) {
 					$db = M ( "order_detail" )->where ( $where )->delete ();
 					if ($db !== false) {
+                        \Common\Model\OrderModel::modifyStockAndSoldForOrder($orderno,\Common\Model\OrderModel::RET_STOCK);//退库存减销量
 					} else {
 						echo ('订单删除失败！');
 						exit ();
@@ -391,6 +411,7 @@ class OrderController extends BaseController {
 				if ($db !== false) {
 					$db = M ( "order_detail" )->where ( $where )->setField ( 'status', 4 );
 					if ($db !== false) {
+                        \Common\Model\OrderModel::modifyStockAndSoldForOrder($orderno,\Common\Model\OrderModel::RET_STOCK);//退库存减销量
 					} else {
 						echo ('子订单取消失败！');
 						exit ();
@@ -406,7 +427,6 @@ class OrderController extends BaseController {
 		if (isN ( $orderno )) {
 			return false;
 		} else {
-			
 			// 更新实际金额
 			// amount=amountall+shipfee-discount-creditamount
 			$where = array ();
@@ -417,23 +437,26 @@ class OrderController extends BaseController {
 				$time=$db['time'.$status]; 
 				$info=$db['info'.$status]; 
 			}
-			
 			$num = M ( 'order_detail' )->where ( $where )->sum ( 'num' );
 			$amount = M ( 'order_detail' )->where ( $where )->sum ( 'price*num' );
 			$data ['num'] = $num;
-			$data ['amountall'] = $amount;
+            //需要重新计算的有：订单总金额，配送费，应付金额，折扣优惠
+            $discount = DiscountModel::getDiscountMoney($amount,$db['userid']);
+            $data ['amountall'] =$amount+getShipfee($amount);//订单总金额 = 商品总价+配送费
+            $data ['shipfee'] = getShipfee($amount); //配送费
+			$data ['amount'] =float_fee(($amount-$discount['money'])+getShipfee($amount));//实际支付总金额=商品总价-折扣+配送费
+            $data ['discount'] =float_fee($discount['money']);
 			if(isN($time)||$time=='0000-00-00 00:00:00'){
 				$data ['time'.$status] = time_format();
 			} 
 			$data ['info'.$status] = $info;
-			
 			$db = M ( 'order' )->where ( $where )->save ( $data );
 			if ($db !== false) {
 			    $data=array();
 			    $data['status']=$status;
-			    $db = M ( 'order_detail' )->where ( $where )->save ( $data );
-				 
-				M ()->execute ( "update " . C ( 'DB_PREFIX' ) . "order set amount=amountall+shipfee-discount-creditamount-couponamount where orderno='" . $orderno . "'" );
+			    M ( 'order_detail' )->where ( $where )->save ( $data );
+              //  \Common\Model\OrderModel::modifyStockAndSoldForOrder($orderno);//减去库存
+//				M ()->execute ( "update " . C ( 'DB_PREFIX' ) . "order set amount=amountall+shipfee-discount-creditamount-couponamount where orderno='" . $orderno . "'" );
 				return true;
 			} else {
 				return false;

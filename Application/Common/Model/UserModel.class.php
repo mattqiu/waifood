@@ -22,7 +22,19 @@ class UserModel extends Model
 
 
     public static function getUserById($userId){
-        return M('member')->where('id='.$userId)->find();
+        $field = 'm.*,l.name as userlevel';
+        $con['m.id'] = $userId;
+        $user = M('member')->alias('m')
+            ->join('my_level as l on m.usertype = l.id')
+            ->field($field)->where($con)->find();
+        if(isset($user['discount_id']) && $user['discount_id']){
+            $disc = M('discount')->find($user['discount_id']);
+            if($disc){
+                $user['discount'] = $disc['namecn']?$disc['namecn']:$disc['name'];
+            }
+
+        }
+        return $user;
     }
     public static function getUserByCon($con){
         return M('member')->where($con)->find();

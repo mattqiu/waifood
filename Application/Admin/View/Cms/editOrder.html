@@ -23,340 +23,237 @@
     </script>
 </head>
 <body class="bg_white">
-<form action="__URL__/editOrder" method="post" id="tableFrom">
-    <input type="hidden" id="id" name="id" value="{$db.id}"/>
-    <table border="0"  class="mytables orderinfofrom" style="width: 100%">
+<div style="height: 30px;"></div>
+<form onsubmit="return false" id="userfrom" >
+<div class="panel_title">用户信息<span>(用户ID:{$db.userid})</span> <input type="button" class="cancel_btn fr"  style=" margin-right: 3%;position: relative;bottom: 5px;" onclick="window.location.href='/admin/Member/editMember?id={$user.id}'" value="编辑"/><div class="clr"></div></div>
+</form>
+<table border="0" class="usera_panle panle_itme">
     <tr>
-        <th colspan="4" class="tc">【编辑订单】</th>
+        <td>用户名：{$user.username}</td>
+        <td>微信名：{$user.weixin}</td>
+        <td>openid：{$user.wechatid}</td>
     </tr>
     <tr>
-        <td colspan="4">
-            <ul >
-                <li> 用户信息:<input type="text" class="inputText1" readonly="readonly" maxlength="100" value="{:get_username($db['userid'])}"/><span class="fc_red">*</span></li>
-                <li>
-                    <span class="fl" style="position: relative;top: 5px;">性别:</span>
-                    <div class="idealforms_select fl" style="width:120px;">
-                        <div class="idealforms_select_obj">
-                            <input type="hidden" value="" name="sex">
-                            <input type="text" value="" readonly>
-                            <span class="caret"></span>
-                        </div>
-                        <ul class="idealforms_select_menu">
-                            <li data-value="1">先生</li>
-                            <li data-value="0">女士</li>
-                        </ul>
+        <td>Emali：{$user.email}</td>
+        <td>电话：{$user.telephone}</td>
+        <td>居住城市：{$user.cityname}</td>
+    </tr>
+    <tr>
+        <td>性别：<if condition="$user['sex'] eq 1">男<else/>女</if></td>
+        <td>用户级别：{$user.userlevel}</td>
+        <td>用户折扣：{$user.discount}</td>
+    </tr>
+    <tr class="needhide">
+        <td>家庭人数：{$user.familynum}</td>
+        <td>用户喜好：{$user.hobby}</td>
+        <td>职业：{$user.occupation}</td>
+    </tr>
+    <tr class="needhide">
+        <td>注册时长：{:getDay($user['addtime'])}</td>
+        <td>注册日期：{$user.addtime}</td>
+        <td>密码：{$user.userpwd}</td>
+    </tr>
+    <tr class="needhide">
+        <td>上次下单时间：{:getDay($order_time)}</td>
+        <td>上次下单日期：{$order_time|default='无'}</td>
+        <td></td>
+    </tr>
+</table>
+<div class="tc showmore" id="showmore">显示更多&and;</div>
+<!--订单信息-->
+<div style="height: 30px;"></div>
+<div class="panel_title">订单信息</div>
+<form onsubmit="return false;" id="orderinfo">
+    <table border="0" class="order_panle panle_itme">
+        <tr>
+            <td>订单号：{$db.orderno}</td>
+            <td>订单短号：{$db.id}</td>
+            <td><span class="fl rtop5">状态：</span>
+                <div class="idealforms_select fl" style="width: 100px;margin-left: 5px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="status">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
                     </div>
-                </li>
-                <li>收件人:<input type="text" class="inputText1 " name="username" id="username" maxlength="100" value="{$db.username}"/></li>
-                <li>手机号:<input type="text" class="inputText1 " name="telephone" id="telephone" maxlength="100" value="{$db.telephone}"/><span class="fc_red">*</span></li>
-                <li>Email:<input type="text" class="inputText1 " name="email" id="email" maxlength="100" value="{$db.email}"/></li>
-                <li>用户ID:<input type="text" class="inputText1 numeric w50" name="userid" id="userid" maxlength="100" value="{$db.userid}"/></li>
-                <li><input type="submit" class="sure_btn" value="编辑" /></li>
-            </ul>
-        </td>
+                    <ul class="idealforms_select_menu">
+                        <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
+                            <li data-value="{$key}">{$type}</li>
+                        </volist>
+                    </ul>
+                </div>
+            </td>
+            <td>
+                <span class="fl rtop5">是否需要发票：</span>
+                <ul>
+                    <li><label for="radio1"><input type="radio" id="radio1" name="invoice" value="1"/>是</label></li>
+                    <li><label for="radio2"><input type="radio" id="radio2" name="invoice" value="0"/>否</label></li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>下单时间：{$db.addtime}</td>
+            <td colspan="2">送货时间：<input type="text" name="delivertime" value="{$db.delivertime}" style="width: 60%;"/> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>收件人姓名：{$db.username}</td>
+            <td colspan="2">收件人电话：{$db.telephone}</td>
+            <td>收件人城市：{$db.cityname}</td>
+        </tr>
+        <tr class="address">
+            <td colspan="4"><span>收货地址：</span><input type="text" name="address"  value="{$db.address}"/></td>
+        </tr>
+        <tr class="info">
+            <td colspan="2"><span>未完事项：</span>
+                <textarea name="memocontent" class="textarea2">{$memo.content}</textarea>
+                <input type="hidden" name="memo_mid" value="{$memo.m_id}"/>
+            </td>
+            <td colspan="2">
+                <span>客户留言：</span>
+                <textarea name="info" class="textarea2">{$db.info}</textarea>
+            </td>
+        </tr>
+        <tr class="in_info">
+            <td colspan="4"><span>内部留言：</span><textarea name="info2" class="textarea1">{$db.info2}</textarea></td>
+        </tr>
+    </table>
+</form>
+<div style="height: 30px;"></div>
+<!--付款信息-->
+<div class="panel_title">付款信息</div>
+<form onsubmit="return false;" id="orderpayinfo">
+    <table border="0" class="orderpayinfo_panle panle_itme">
+        <tr>
+            <td>
+                <span class="fl rtop5">付款方式：</span>
+                <div class="idealforms_select fl" style="width: 80px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="paymethod">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="">--选择--</li>
+                        <volist name=":parse_field_attr(C('config.CONFIG_PAYMETHOD_LIST'))" id="type">
+                            <li data-value="{$key}">{$type}</li>
+                        </volist>
+                    </ul>
+                </div>
+                <div class="idealforms_select fl" style="width: 70px;margin-left: 15px;">
+                    <div class="idealforms_select_obj">
+                        <input type="hidden" value="" name="pay">
+                        <input type="text" value="" readonly>
+                        <span class="caret"></span>
+                    </div>
+                    <ul class="idealforms_select_menu">
+                        <li data-value="0">未付款</li>
+                        <li data-value="1">已付款</li>
+                    </ul>
+                </div>
+            </td>
+            <td>付款时间：{$db.paytime}</td>
+            <td>交易流水号：{$db.tradeno}</td>
+        </tr>
+        <tr>
+            <td>(+)运&nbsp;&nbsp;费：<input type="text" class="inputText1 numeric w50" name="shipfee"  maxlength="50" value="{$db.shipfee}"/></td>
+            <td>(-)优惠券：{$db.couponamount}</td>
+            <td>使用积分：{$db.credit}</td><!-- <gt name="db.creditamount" value="0">抵扣 <strong style="color:#f00;">{$db.creditamount}</strong> 元</gt>-->
+        </tr>
+        <tr>
+            <td>商品总金额：<span class="goodTotalObj">0</span></td>
+            <td>应付金额：{$db.amount}</td>
+            <td>(-)折扣：&yen;{$order.discount|default=0} <if condition="$order['discount_info'] gt 0">({$order.discount_info})</if></td>
+        </tr>
+    </table>
+</form>
 
- <!--       <td class="col1" width="140">订单号：</td>
-        <td colspan="3"><input type="text" class="inputText1 readonly" readonly="readonly" name="orderno" id="orderno"
-                               value="{$db.orderno}"/>
-            <eq name="db.orderfrom" value="1"><span class="fc_red">微信订单</span>
-                <else/>
-                网站订单
-            </eq>
-        </td>-->
-    </tr>
-
-<!--    <tr class="row0">
-        <td class="col1">收件人：</td>
-        &lt;!&ndash;<td colspan="3"><input type="text" class="inputText1 " name="username"&ndash;&gt;
-                               &lt;!&ndash;id="username" maxlength="100" value="{$db.username}"/></td>&ndash;&gt;
-    </tr>-->
-    <tr class="row0">
-        <td class="col1">手机号：</td>
-        <!--<td colspan="3"><input type="text" class="inputText1 " name="telephone"-->
-                               <!--&lt;!&ndash;id="telephone" maxlength="100" value="{$db.telephone}"/>&ndash;&gt;-->
-            <!--<span class="fc_red">*</span></td>-->
-    </tr>
-<!--    <tr class="row0">
-        <td class="col1">Email：</td>
-        <td colspan="3"><input type="text" class="inputText1 " name="email"
-                               id="email" maxlength="100" value="{$db.email}"/>
-        </td>
-    </tr>-->
-    <!--<tr class="row0">-->
-        <!--<td class="col1">用户ID：</td>-->
-        <!--<td colspan="3"><input type="text" class="inputText1 numeric w50" name="userid"-->
-                               <!--id="userid" maxlength="100" value="{$db.userid}"/></td>-->
-    <!--</tr>-->
-    <tr class="row0">
-        <td class="col1">状态：</td>
-        <td colspan="3"><select name="status" id="status">
-            <volist name=":C('config.CONFIG_STATUS_LIST')" id="type">
-                <if condition="($db.status eq $key)">
-                    <option value="{$key}" selected="selected">{$type}</option>
-                    <else/>
-                    <option value="{$key}">{$type}</option>
-                </if>
-            </volist>
-        </select>
-            <if condition="($db.status eq 3) Or ($db.status eq 4) ">
-                <else/>
-                <input type="submit" class="sure_btn"
-                       value="保存" id="btnSubmit"/>
-            </if>
-        </td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">未完事项：</td>
-        <td colspan="3">
-            <input type="hidden" name="memo_mid" value="{$memo.m_id}"/>
-            <input type="text" name="memo_content" value="{$memo.content}" size="57"/>
-            <if condition="$memo['content']">
-                <input type="button" class="btn1" value="完成" onclick="finishMemo({$memo.m_id})"/>
-            </if>
-        </td>
-    </tr>
-    <tr class="row0" id="infos">
-        <td class="col1">说明：</td>
-        <td colspan="3">
-            <textarea class="inputText1 editor1" name="info0" id="info0">{$db.info0}</textarea>
-       <!--     <textarea class="inputText1 editor1 hide" name="info1" id="info1">{$db.info1}</textarea>
-            <textarea class="inputText1 editor1 hide" name="info2" id="info2">{$db.info2}</textarea>
-            <textarea class="inputText1 editor1 hide" name="info3" id="info3">{$db.info3}</textarea>
-            <textarea class="inputText1 editor1 hide" name="info4" id="info4">{$db.info4}</textarea>-->
-        </td>
-    </tr>
-    <tr class="row0">
-        <td colspan="4"><strong>付款信息</strong> （一般情况勿改动）</td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">付款方式：</td>
-        <td><select name="paymethod" id="paymethod">
-            <option value="">--选择--</option>
-            <volist name=":parse_field_attr(C('config.CONFIG_PAYMETHOD_LIST'))" id="type">
-                <if condition="($db.paymethod eq $key)">
-                    <option value="{$key}" selected="selected">{$type}</option>
-                    <else/>
-                    <option value="{$key}">{$type}</option>
-                </if>
-            </volist>
-        </select>
-            <select name="pay" id="pay">
-                <option value="0">未付款</option>
-                <eq name="db.pay" value="1">
-                    <option value="1" selected="selected">已付款</option>
-                    <else/>
-                    <option value="1">已付款</option>
-                </eq>
-            </select>
-        </td>
-        <td class="col1">付款时间：</td>
-        <td><input type="text" class="inputText1 calendar1" readonly="readonly" name="paytime" id="paytime" maxlength="20"
-                   value="{$db.paytime}"/></td>
-
-    </tr>
-    <tr class="row0">
-        <td class="col1">交易流水号：</td>
-        <td><input type="text" class="inputText1" readonly="readonly" name="tradeno" id="tradeno" maxlength="50"
-                   value="{$db.tradeno}"/></td>
-
-        <td class="col1">使用积分：</td>
-        <td><input type="text" class="inputText1 w50" name="credit" id="credit" maxlength="50" value="{$db.credit}"
-                   readonly="readonly"/>
-            <gt name="db.creditamount" value="0">抵扣 <strong style="color:#f00;">{$db.creditamount}</strong> 元</gt>
-        </td>
-
-    </tr>
-    <tr class="row0">
-        <td class="col1">(+) 运费：</td>
-        <td><input type="text" class="inputText1 numeric w50" name="shipfee" id="shipfee" maxlength="50"
-                   value="{$db.shipfee}"/></td>
-
-        <td class="col1">(-) 折扣：</td>
-        <td><input type="text" class="inputText1 numeric w50" name="discount" id="discount" maxlength="50"
-                   value="{$db.discount}"/></td>
-
-    </tr>
-    <tr class="row0">
-        <td class="col1">(-) 优惠券：</td>
-        <td colspan="3"><input type="text" class="inputText1 numeric w50" name="couponamount" id="couponamount"
-                               maxlength="50" value="{$db.couponamount}" readonly="readonly"/></td>
-
-    </tr>
-    <tr class="row0">
-        <td class="col1 "><span class="fc_red">应支付金额：</span></td>
-        <td colspan="3"><input type="text numeric" class="inputText1 w50" id="needpay" name="needpay" value="{$db.amount}"/>
-        </td>
-
-    </tr>
-    <tr class="row0">
-        <td colspan="4"><strong>订单信息</strong></td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">需要发票：</td>
-        <td colspan="3">
-            <eq name="db.invoice" value="1">
-                <input name="invoice" type="radio" id="invoice1" value="1" checked/>
-                <label for="invoice1">是</label>
-                <input type="radio" name="invoice" id="invoice2" value="0"/>
-                <label for="invoice2">否</label>
-                <else/>
-                <input name="invoice" type="radio" id="invoice1" value="1"/>
-                <label for="invoice1">是</label>
-                <input type="radio" name="invoice" id="invoice2" value="0" checked/>
-                <label for="invoice2">否</label>
-            </eq>
-        </td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">送货时间：</td>
-        <td colspan="3"><input type="text" class="inputText1 w350" name="delivertime" id="delivertime"
-                               value="{$db.delivertime}"/></td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">收货地址：</td>
-        <td colspan="3"><input type="text" class="inputText1 w350" name="address" id="address"
-                               value="{$db.address}"/>
-                               <!--value="{$db.proname}{$db.cityname}{$db.disname}{$db.address}"/>-->
-            <notempty name="db.remark">Remarks: {$db.remark}</notempty>
-        </td>
-    </tr>
-    <tr class="row0">
-        <td class="col1">备注说明：</td>
-        <td colspan="3"><textarea class="inputText1 editor1" name="info" id="info">{$db.info}</textarea></td>
-    </tr>
-    <tr class="row0">
-        <td colspan="4"><span class="fl"><strong>订单详情</strong> <span
-                class="">（数量：{$db.num}，总金额：<span id="goodTotalObj">0</span>）</span> </span> <span class="fr"><span id="spanAdd" class="hide">请输入产品ID： <input
-                type="text" class="inputText1 numeric w50" name="AddProductID" id="AddProductID"/> </span><input
-                type="button" class="btn1" value="添加"
-                onclick="$.EditOrder(0,'{$db.orderno}',$('#AddProductID').val(),'1')"/></span></td>
-    </tr>
-    <tr class="row0">
-        <td colspan="4">
-            <eq name="isShop" value="true">
-                <?php
-                $subtotal=0;
-                ?>
-                <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
-                    <eq name="isService" value="true">
-                        <tr class="toolbar">
-                            <td colspan="8" class="tc">商品列表</td>
-                        </tr>
-                    </eq>
-                    <tr class="header">
-                        <th width="10%"> 商品编号</th>
-                        <th> 商品名称</th>
-                        <th>供应商</th>
-                        <th width="10%"> 规格</th>
-                        <th width="10%"> 价格</th>
-                        <th width="10%"> 商品数量</th>
-                        <th width="10%"> 金额</th>
-                        <th width="10%"> 操作</th>
-                    </tr>
-                    <volist name="list" id="vo">
-                        <?php
-                   if(strpos($vo['sortpath'],',2,')){
+<!--订单详情-->
+<div style="height: 30px;"></div>
+<form action="__URL__/editOrder" method="post" onsubmit="return false" id="tableFrom">
+    <div class="panel_title">订单详情
+        <span>（数量：{$db.num}，总金额：<span class="goodTotalObj">0</span>）</span>
+        <div class="fr tr" style="width: 26%; margin-right: 3%;">
+             <span id="spanAdd"  style="position: relative;bottom: 5px;" class="hide">请输入产品ID：
+                 <input type="text" class="inputText1 numeric w50" name="AddProductID" id="AddProductID"/>
+             </span>
+            <input type="button" class="cancel_btn " onclick="$.EditOrder(0,'{$db.orderno}',$('#AddProductID').val(),'1')" style="position: relative;bottom: 5px;" value="添加"/>
+            <!--<input type="button" class="btn1" value="添加"/>-->
+        </div>
+        <div class="clr"></div>
+    </div>
+    <table border="0" class="mytables" style="width: 100%;margin-top: 10px;">
+        <tr>
+            <th width="10%">商品编号</th>
+            <th>商品名称</th>
+            <th>供应商</th>
+            <th width="10%">规格</th>
+            <th width="10%">价格</th>
+            <th width="10%">商品数量</th>
+            <th width="10%">金额</th>
+            <th width="10%">操作</th>
+        </tr>
+        <?php
+            $subtotal=0;
+        ?>
+        <volist name="list" id="vo">
+            <?php
+               if(strpos($vo['sortpath'],',2,')){
                     $sub=(float)$vo['price']*$vo['num'];
                     $subtotal+=$sub;
-                    ?>
-                        <tr align="center">
-                            <td>{$vo.productid}</td>
-                            <td align="left">{$vo.productname}</td>
-                            <td align="left">{$vo.supplyname}</td>
-                            <td>{$vo.unit}</td>
-                            <td>{$vo.price}</td>
-                            <td><a href="javascript:void(0);" class="dplus dplus1 fl">-</a>
-                                <input type="text" class="inputText1 numeric w50 fl" value="{$vo.num}"
-                                       onchange="$.EditOrder(1,'{$vo.orderno}','{$vo.id}',$(this).val())" stock="9999"/>
-                                <a href="javascript:void(0);" class="dplus dplus2 fl">+</a></td>
-                            <td>{:to_price($sub)}</td>
-                            <td><a href="javascript:void(0);" onclick="$.EditOrder(2,'{$vo.orderno}','{$vo.id}','1')">删除</a>
-                            </td>
-                        </tr>
-                        <?php
-              }
-              ?>
-                    </volist>
-                </table>
-            </eq>
-            <eq name="isService" value="true">
-                <?php
-                $subtotal=0;
-                ?>
-                <table border="0" cellspacing="1" cellpadding="3" class="MainTbl">
-                    <eq name="isShop" value="true">
-                        <tr class="toolbar">
-                            <td colspan="8" class="tc">洗衣列表</td>
-                        </tr>
-                    </eq>
-                    <tr class="header">
-                        <th width="10%"> 商品编号</th>
-                        <th> 商品名称</th>
-                        <th>供应商</th>
-                        <th width="10%"> 规格</th>
-                        <th width="10%"> 价格</th>
-                        <th width="10%"> 商品数量</th>
-                        <th width="10%"> 金额</th>
-                        <th width="10%"> 操作</th>
-                    </tr>
-                    <volist name="list" id="vo">
-                        <?php
-                   if(strpos($vo['sortpath'],',3,')){
-                    $sub=(float)$vo['price']*$vo['num'];
-                    $subtotal+=$sub;
-                    ?>
-                        <tr align="center">
-                            <td>{$vo.productid}</td>
-                            <td align="left">{$vo.productname}</td>
-                            <td align="left">{$vo.supplyname}</td>
-                            <td>{$vo.unit}</td>
-                            <td>{$vo.price}</td>
-                            <td><a href="javascript:void(0);" class="dplus dplus1 fl">-</a>
-                                <input type="text" class="inputText1 numeric w50 fl" value="{$vo.num}"
-                                       onchange="$.EditOrder(1,'{$vo.orderno}','{$vo.id}',$(this).val())" stock="9999"/>
-                                <a href="javascript:void(0);" class="dplus dplus2 fl">+</a></td>
-                            <td>{:to_price($sub)}</td>
-                            <td><a href="javascript:void(0);" onclick="$.EditOrder(2,'{$vo.orderno}','{$vo.id}','1')">删除</a>
-                            </td>
-                        </tr>
-                        <?php
-              }
-              ?>
-                    </volist>
-                </table>
-            </eq>
-        </td>
-    </tr>
-    <tr class="footer">
-        <td colspan="4" class="tc">
-            <if condition="($db.status gt 2) ">
-                <input type="button" disabled="disabled" class="btn2"
-                       value="禁止修改"/>
-                <input type="button" class="btn1" value="返回"
-                       onclick="history.back();"/>
+                }
+            ?>
+            <tr align="center">
+                <td>{$vo.productid}</td>
+                <td align="left">{$vo.productname}</td>
+                <td align="left">{$vo.supplyname}</td>
+                <td>{$vo.unit}</td>
+                <td>{$vo.price}</td>
+                <td><a href="javascript:void(0);" class="dplus dplus1 fl">-</a>
+                    <input type="text" class="inputText1 numeric w50 fl" value="{$vo.num}"
+                           onchange="$.EditOrder(1,'{$vo.orderno}','{$vo.id}',$(this).val())" stock="9999"/>
+                    <a href="javascript:void(0);" class="dplus dplus2 fl">+</a></td>
+                <td>{:to_price($sub)}</td>
+                <td><a href="javascript:void(0);" onclick="$.EditOrder(2,'{$vo.orderno}','{$vo.id}','1')">删除</a>
+                </td>
+            </tr>
+        </volist>
+        <tr class="footer">
+            <td colspan="4" align="center">
+                <if condition="($db.status gt 2) ">
+                    <input type="button" disabled="disabled" class="cancel_btn"  value="禁止修改"/>
                 <else/>
-                <input type="submit" class="btn1"
-                       value="保存" id="btnSubmit"/>
-                <input type="button" class="btn1" value="返回"
-                       onclick="history.back();"/>
-            </if>
-
-        </td>
-    </tr>
+                    <input type="submit" value="保存" id="btnSubmit"/>
+                </if>
+                &nbsp;&nbsp;
+                <input type="button" class="cancel_btn" value="返回"  onclick="history.back();"/>
+            </td>
+        </tr>
     </table>
     <input type="hidden" id="goodTotal" value="{$subtotal|default=0}"/>
 </form>
 
 <include file="Index:footer"/>
 <script language="javascript">
+    $("#orderinfo").idealforms();
+    $("#orderpayinfo").idealforms();
+    $("#userfrom").idealforms();
     $("#tableFrom").idealforms();
-    $('#goodTotalObj').html($('#goodTotal').val());
+    setSelectSelected('#orderinfo input[name=status]',"{$db['status']}");
+    setSelectSelected('#orderpayinfo input[name=paymethod]',"{$db['paymethod']}");
+    setSelectSelected('#orderpayinfo input[name=pay]',"{$db['pay']}");
+    setRadioCheck('#orderinfo input[name=invoice]',"{$db['invoice']}");
+    $('.goodTotalObj').html($('#goodTotal').val());
     $(function () {
-        $("#status").change(function () {
-            var v = $(this).find("option:selected").val();
-            $("#infos textarea").hide();
-            $("#info" + v).show();
-        }).change();
+        $('.needhide').hide();
+        $('#showmore').click(function(){
+            if($('.needhide').css('display') == 'none'){
+                $('.needhide').show();
+                $(this).html('隐藏更多&and;');
+            }else{
+                $('.needhide').hide();
+                $(this).html('显示更多&or;');
+            }
+        })
 
         $("#btnSubmit").click(function () {
             var v = $("#status").val();
@@ -366,17 +263,43 @@
             }
             if (v == "4") {
                 msg = "已取消";
-            }
-            ;
+            };
             if (v == "3" || v == "4") {
                 if (confirm("您确定要将本订单状态设置为【" + msg + "】吗？设置后该订单不可再次修改！")) {
-                    return true;
+                    subModify();
                 } else {
                     return false;
                 }
+            }else{
+                subModify();
             }
         });
     });
+
+    function subModify(){
+        var $data = {
+            orderno:'{$db.orderno}',
+            userid:'{$db.userid}',
+            status:$('#orderinfo input[name=status]').val(),
+            invoice:$('#orderinfo input[name=invoice]:checked').val(),
+            delivertime:$('#orderinfo input[name=delivertime]').val(),
+            address:$('#orderinfo input[name=address]').val(),
+            memo_mid:$('#orderinfo input[name=memo_mid]').val(),
+            memo_content:$('#orderinfo textarea[name=memocontent]').val(),
+            info:$('#orderinfo textarea[name=info]').val(),
+            info2:$('#orderinfo textarea[name=info2]').val(),
+            paymethod:$('#orderpayinfo input[name=paymethod]').val(),
+            pay:$('#orderpayinfo input[name=pay]').val(),
+            shipfee:$('#orderpayinfo input[name=shipfee]').val()
+        }
+        $.post('/admin/order/editOrder',$data,function(data){
+            if(data.code =200){
+                clearpop(data.message);
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    }
 
     function finishMemo(mid) {
         if (mid > 0) {
@@ -394,7 +317,6 @@
             }
         }
     }
-
 </script>
 </body>
 </html>
