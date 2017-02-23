@@ -89,8 +89,8 @@
         <th width="50">城市</th>
         <th width="60">订单总额</th>
         <th width="100">付款方式</th>
-        <th>留言</th>
         <th>内部留言</th>
+        <th>留言</th>
         <th width="100">状态</th>
         <th width="60">操作</th>
     </tr>
@@ -135,8 +135,8 @@
                     <span class="fc_red" style="font-size: 14px;">已支付 <if condition="$vo['tradeno']" ><span class="fc_red" style="font-size: 8px;">自动</span></if></span>
                 </eq>
             </td>
-            <td>{$vo.info}</td>
             <td>{$vo.info2}</td>
+            <td>{$vo.info}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
                     <volist name="statuslist" id="type" key="j">
