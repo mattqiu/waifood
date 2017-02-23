@@ -2,6 +2,8 @@
 
 namespace Shop\Controller;
  
+use Common\Model\OrderModel;
+
 class PayController extends BaseController {
     private $callbackurl = 'http://www.waifood.com/Shop/Pay/notify';
     private $returnurl = 'http://www.waifood.com/member/order';
@@ -71,8 +73,14 @@ class PayController extends BaseController {
                 if ($payinfo['status'] == 0 && $payinfo['callback']) {
                     GLog('pay','支付中...');
                     session("pay_verify", true);
-
                     M("Pay")->where(array('out_trade_no' => $info['out_trade_no']))->setField(array('update_time' => time(), 'status' => 1));
+                    $rs = OrderModel::finishOnlineOrderPay( $info['out_trade_no'],$notify['mc_gross'],OrderModel::PAYPAL, $notify['txn_id']);
+                   if($rs){
+                       GLog('pay','修改支付状态成功...');
+                   }else{
+                       GLog('pay','修改支付状态失败...');
+                   }
+                    /*
                     //自加20140516
                     $exec=A('Order');
                     $token=md5(date('His'));
@@ -80,14 +88,12 @@ class PayController extends BaseController {
                     $trade_no=  $notify['txn_id'];
                     $trade_status=$notify['payment_status'];
                     $total_fee=$notify['mc_gross'];
-                    $exec->payOrder($token,$out_trade_no,$trade_no,2,$total_fee);
-                    GLog('pay','修改支付状态...');
+                    $exec->payOrder($token,$out_trade_no,$trade_no,2,$total_fee);*/
                 }
                 GLog('pay','支付状态ok');
                 if (I('get.method') == "return") {
                     redirect($payinfo['url']);
                 } else {
-
                     $pay->notifySuccess();
                 }
             } else {

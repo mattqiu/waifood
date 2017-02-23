@@ -44,7 +44,6 @@ class Palpay extends \Think\Pay\Pay {
             return false; 
         $tmpAr = array_merge(array("cmd" => "_notify-validate"),$notify);
         $ppResponseAr = $this->fsockOpen($this->gateway, 0, $tmpAr);
-        file_put_contents('1.txt','receiver_email--'.$notify['receiver_email'].'////////// business--'.$this->config['business'].'ppResponseAr---'.$ppResponseAr);
 //        if ((strcmp($ppResponseAr, "VERIFIED") == 0) && $notify['receiver_email'] == $this->config['business']) {
         if ((strcmp($ppResponseAr, "VERIFIED")== 0) ) {
             $info = array();

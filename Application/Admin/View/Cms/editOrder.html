@@ -314,7 +314,6 @@
                 oldval = 0;
             }
             var shipfee = fomatFloat( newval-oldval);
-            console.log(shipfee)
             $(this).data('shipfee',newval);
             var amount = parseFloat($('#orderpayinfo input[name=amount]').val());
             $('#orderpayinfo input[name=amount]').val(fomatFloat(amount+shipfee));
