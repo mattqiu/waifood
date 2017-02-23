@@ -6,7 +6,7 @@
     <include file="Index:header"/>
     <!--<js href="__PUBLIC__/css/lhgcalendar.css"/>-->
 </head>
-<body data-beyond="{$beyond}">
+<body data-beyond="{$beyond}"  data-stardate="{$stardate}">
 <include file="Index:bar"/>
 <div class="container" style="overflow: hidden">
     <div class="content">
@@ -94,7 +94,21 @@
                             </div>-->
                         </div>
                     <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
-                        <div class="good-item">
+                        <notempty name="deliverinfo">
+                            <div class="item-info cashie-tic">
+                                {$deliverinfo}
+                            </div>
+                            <div style="clear: both"></div>
+                        </notempty>
+                        <div class="waidi" id="waidi">
+                            <p>Order Send Out Time : <span class="green" style="display: inline-block;height: 28px;line-height: 28px;padding: 0 10px;;background: #ffebed;border: 1px solid #3eb52e;">5PM,<span class="startime">{$startimt}</span></span></p>
+                            <p>Estimated Arrival Time: <span class="endtime green" style="display: inline-block;height: 28px;padding: 0 10px;line-height: 28px;background: #ffebed;border: 1px solid #3eb52e;"></span></p>
+                            <p style="color: #999999;word-break: keep-all;padding: 0 5px">Notes:
+                                <i>Shipping service was done by third party and the delivery guy don't speak English. If there's any communication problem, jus calll 400-836-8081 for help.</i>
+                            </p>
+                        </div>
+
+                        <div class="good-item" id="bendi">
                             <div class="good-item-title">Delivery time</div>
                             <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                             <div class="item-info ">
@@ -114,12 +128,6 @@
                                         </volist>
                                     </select>
 
-                                    <notempty name="deliverinfo">
-                                        <div class="item-info green cashie-tic">
-                                            {$deliverinfo}
-                                        </div>
-                                        <div style="clear: both"></div>
-                                    </notempty>
 
                                     <volist name="times" id="vo">
                                         <div class="time_list js_time_obj " data-date="{$vo}">
@@ -168,6 +176,8 @@
                 $(this).val(maxCredit);
             }
         });
+        var $cityname = $('#cityname').val();
+        showDevery($cityname);
 
         //初始化时间选择,如果今天休息,自动选择最近可以配送的时间
         var date = $("#delivertimeselect").val();
@@ -258,6 +268,25 @@
         }
 
     });
+
+
+    //本地外地判断
+    function showDevery(cityname){
+        var stardate = '{$stardate}';
+        if(cityname !='chengdu'){ //外地判断
+            if(cityname =='chongqing'){
+                $('#waidi .endtime').html('{$cqEndDate}');
+            }else{
+                $('#waidi .endtime').html('about 1~3 days');
+            }
+            $('#bendi').hide();
+            $('#waidi').show();
+        }else{
+            $('#waidi').hide();
+            $('#bendi').show();
+            scrollDeliveryTime();
+        }
+    }
 
 //根据时间选择时间段
 function checkTime($now){

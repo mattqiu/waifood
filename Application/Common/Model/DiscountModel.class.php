@@ -60,12 +60,9 @@ class DiscountModel extends Model {
         if($money>0 && $userid>0){
             $disMoney = 0;$method = 0;
             $user = UserModel::getUserById($userid);
-            //新用户折扣（---------临时优惠-----）
-            if($user['addtime'] >='2017-02-12 17:47:35' && $user['addtime'] <= '2017-02-19 23:59:59'){
-                $user['discount_id'] = 5;//临时优惠活动
-            }
-            if($city === true){
-                $user['discount_id'] = 6;//临时优惠活动
+            //重庆临时优惠活动
+            if($city === true && $user['addtime'] >='2017-02-23 14:00:00' && $user['addtime'] <= '2017-02-28 23:59:59'){
+                    $user['discount_id'] = 6;
             }
             if(isset($user['discount_id']) && $user['discount_id']>0){
                 $userdiscount = self::getDiscountById($user['discount_id']);

@@ -18,6 +18,14 @@ class AreaModel extends Model {
         return false;
     }
 
+    public static function getAreaByid($id){
+        if(regex($id,'number')){
+            return M('area')->find($id);
+        }else{
+            return false;
+        }
+    }
+
     public static function getAreas(){
         $con['status'] = self::NORMAL;
         $order = 'id desc,updatetime desc';

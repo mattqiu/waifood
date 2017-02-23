@@ -56,6 +56,7 @@ class IndexController extends BaseController
                 if(!isset($val['isholiday']) && !$startimt){
                     if($nowdate == $val['time'] && $nowtime < intval(DateModel::DELIVERTIME_BYDAYTIME)){
                         $startimt = 'Today('.$val['time'].')';
+                        $stardate = $val['time'];
                     }else if($nowdate != $val['time'] && $nowtime){
                         $day = intval(date('d',strtotime($val['time']) - strtotime($nowdate)));
                         if($day ==2){
@@ -67,7 +68,15 @@ class IndexController extends BaseController
                     }
                 }
             }
-            $this->assign ( 'stardate',$stardate);
+            //计算重庆的到货时间
+            $cqEndDate = date('Y-m-d',strtotime("{$stardate} +1 days"));
+            $day = intval(date('d',strtotime($cqEndDate) - strtotime($stardate)));
+            if($day ==2){
+                $cqEndDate = 'Tomorrow('.$cqEndDate.')';
+            }
+
+            $this->assign ( 'cqEndDate',date('Y-m-d',strtotime("{$val['time']} +1 days")));
+            $this->assign ( 'cqEndDate',$cqEndDate);
             $this->assign ( 'startimt',$startimt);
             $this->assign ( 'dateData',$dateData);
             $this->assign ( 'beyond',DateModel::DELIVERTIME_BEYOND);
