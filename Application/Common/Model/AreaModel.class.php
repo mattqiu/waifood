@@ -28,7 +28,7 @@ class AreaModel extends Model {
 
     public static function getAreas(){
         $con['status'] = self::NORMAL;
-        $order = 'id desc,updatetime desc';
+        $order = 'rank desc,id desc';
         return M('area')->where($con)->order($order)->select();
     }
 

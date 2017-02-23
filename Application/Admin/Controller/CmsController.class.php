@@ -2189,7 +2189,7 @@ class CmsController extends BaseController {
         $count = M('area')->where($con)->count();
         $row = C ( 'VAR_PAGESIZE' );
         $page = new  \Think\Page ( $count, $row );
-        $order = 'id desc';
+        $order = 'rank desc,id desc';
         $list = M('area')->where($con)->limit($page->firstRow.",".$page->listRows)->order($order)->select();
         $this->assign("list",$list);
         $this->assign("page",$page->show());

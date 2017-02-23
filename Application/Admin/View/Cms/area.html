@@ -13,6 +13,7 @@
             <th>地名(英文)</th>
             <th>地名(中文)</th>
             <th width="8%">运费</th>
+            <th width="5%">排序</th>
             <th width="8%">状态</th>
             <th width="10%">编辑</th>
         </tr>
@@ -22,6 +23,7 @@
                 <td>{$vo.name|stripslashes}</td>
                 <td>{$vo.namecn}</td>
                 <td>{$vo.deliver_fee}</td>
+                <td><input type="text" style="width: 50px;" onkeyup="rank('{$vo.id}',$(this).val())" value="{$vo.rank}"/> </td>
                 <td align="center">
                     <if condition="$vo['status'] eq 1">
                         <a href="javascript:setStatus('{$vo.id}',0)">启用</a>
@@ -56,7 +58,7 @@
         </div>
         <div class="row_item">
             <span>运&nbsp;&nbsp;&nbsp;费：</span>
-            <input type="text" class="input_text2" name="deliver_fee" />
+            <textarea name="deliver_fee" style="width: 308px;height: 50px;overflow: auto;resize: none" ></textarea>
         </div>
         <div class="row_item">
             <span class="fl">状&nbsp;&nbsp;&nbsp;态 ：</span>
@@ -84,7 +86,7 @@
         $('#area_box input[name=id]').val($id);
         $('#area_box input[name=nameen]').val($('.list_'+$id).data('nameen'));
         $('#area_box input[name=namecn]').val($('.list_'+$id).data('namecn'));
-        $('#area_box input[name=deliver_fee]').val($('.list_'+$id).data('deliver_fee'));
+        $('#area_box textarea[name=deliver_fee]').val($('.list_'+$id).data('deliver_fee'));
         if($id){
             setSelectSelected('#area_box input[name=status]',$('.list_'+$id).data('status'));
         }
@@ -96,13 +98,24 @@
         var id = $('#area_box input[name=id]').val(),
             name = $('#area_box input[name=nameen]').val(),
             namecn = $('#area_box input[name=namecn]').val(),
-            deliver_fee = $('#area_box input[name=deliver_fee]').val(),
+            deliver_fee = $('#area_box textarea[name=deliver_fee]').val(),
             status = $('#area_box input[name=status]').val();
         if(!name){
             clearpopj('必须填写英文名','error',true);
             return false;
         }
         $.post('/admin/cms/modifyArea.html',{id:id,name:name,namecn:namecn,deliver_fee:deliver_fee,status:status},function(data){
+            if(data.code == 200){
+                clearpop(data.message,'','self');
+            }else{
+                clearpopj(data.message,'error',true);
+            }
+        })
+    }
+
+    //提交编辑
+    function rank(id,rank){
+        $.post('/admin/cms/modifyArea.html',{id:id,rank:rank},function(data){
             if(data.code == 200){
                 clearpop(data.message,'','self');
             }else{
