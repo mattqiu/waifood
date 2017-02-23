@@ -41,7 +41,7 @@ class OrderManageModel extends Model {
     public static function getPendingOrders(){
         $con['status'] = array('lt',OrderModel::COMPLETED);
         $field = 'id,username,userid,telephone,address,cityname,delivertime,userid,
-        amount,status,invoice,paymethod,pay,orderno,info,info0';
+        amount,status,invoice,paymethod,pay,orderno,info,info0,info2';
         $order = M('order')->where($con)->field($field)->order('delivertime')->select();
         foreach($order as &$val){
             $where['orderno'] = $val['orderno'];
