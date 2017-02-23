@@ -340,7 +340,7 @@
             agio_fee:$('#orderpayinfo input[name=agio_fee]').val(),
             shipfee:$('#orderpayinfo input[name=shipfee]').val()
         }
-        $.post('/admin/order/editOrder',$data,function(data){
+        $.post('/admin/cms/editOrder',$data,function(data){
             if(data.code =200){
                 clearpop(data.message);
             }else{
