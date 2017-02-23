@@ -474,7 +474,7 @@ Delivery Fee <span style=\"font-family: '宋体'\">运费:</span> ".($data['ship
             GLog("orderpay","订单已支付完成",Log::INFO);
             return true;
         }
-        if($payPrice){
+        if($payPrice && $paymethod ==self::PAY_WEICHAR){ //只判断微信支付金额，paypal 支付金额为美金
             if(!floateq($payPrice,$order['amount'])){
                 GLog("orderpay","第三方支付价格 与订单价格不一致 $payPrice == ".$order['amount']." rs: false",Log::ERR);
                 return false;

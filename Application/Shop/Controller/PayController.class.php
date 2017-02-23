@@ -74,7 +74,7 @@ class PayController extends BaseController {
                     GLog('pay','支付中...');
                     session("pay_verify", true);
                     M("Pay")->where(array('out_trade_no' => $info['out_trade_no']))->setField(array('update_time' => time(), 'status' => 1));
-                    $rs = OrderModel::finishOnlineOrderPay( $info['out_trade_no'],$notify['mc_gross'],OrderModel::PAYPAL, $notify['txn_id']);
+                    $rs = OrderModel::finishOnlineOrderPay( $info['out_trade_no'],'',OrderModel::PAYPAL, $notify['txn_id']);
                    if($rs){
                        GLog('pay','修改支付状态成功...');
                    }else{

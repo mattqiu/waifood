@@ -101,12 +101,13 @@
             <td>收件人城市：{$db.cityname}</td>
         </tr>
         <tr class="address">
-            <td colspan="4"><span>收货地址：</span><input type="text" name="address"  value="{$db.address}"/></td>
+            <td colspan="4"><span class="fl">收货地址：</span><input type="text" class="fr" name="address"  value="{$db.address}"/></td>
         </tr>
         <tr class="info">
             <td colspan="2"><span>未完事项：</span>
-                <textarea name="memocontent" class="textarea2">{$memo.content}</textarea>
+                <textarea name="memocontent" class="textarea2" style="width: 64%;margin-left: -4px;">{$memo.content}</textarea>
                 <input type="hidden" name="memo_mid" value="{$memo.m_id}"/>
+                <button class="sure_btn " style="position: relative;bottom: 12px;" onclick="finishMemo('{$memo.m_id}')">完成</button>
             </td>
             <td colspan="2">
                 <span>客户留言：</span>
