@@ -10,11 +10,17 @@ class CommonController extends Controller {
     public function getDiscount(){
         $amount = I('post.amount');
         if($amount>0){
+            $city = I('post.city');
             $user = UserModel::getUser();
             if(empty($user)){
                 apiReturn(CodeModel::ERROR);
             }
-            $discount = DiscountModel::getDiscountMoney($amount,$user['id']);
+            if(strtolower(trim($city)) == 'chongqing'){
+                $city = true;
+            }else{
+                $city = false;
+            }
+            $discount = DiscountModel::getDiscountMoney($amount,$user['id'],$city);
             if(!empty($discount)){
                 apiReturn(CodeModel::CORRECT,'',$discount);
             }else{

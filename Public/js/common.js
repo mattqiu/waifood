@@ -514,12 +514,12 @@ function flyCart(event,id,page){
  * @param amount
  * @returns {number}
  */
-function getDiscount(amount){
+function getDiscount(amount,city){
     var discount = 0;
     $.ajax({
         type: "POST",
         url:'/home/common/getDiscount.html',
-        data: {amount:amount},
+        data: {amount:amount,city:city},
         async: false,
         success: function (data) {
             if(data.code == 200){

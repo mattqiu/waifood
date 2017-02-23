@@ -6,73 +6,84 @@
 <include file="Index:header" />
 </head>
 <body data-address_id="{$address.id}" class="bg_white">
-    <div id="address-box" >
+    <div id="address-box" style="margin-top: 30px;" >
         <input type="hidden" value="{$address.id}" name="id"/>
-        <div class="form-section consingee">
-            <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="username" style="left: 9px;">Full name</label>
-            <input class="input-text J_addressInput " style="padding-left: 0;"  type="text" id="username" name="username" value="{$address.username}" placeholder="Full name">
-        </div>
+        <table border="0">
+            <tr>
+                <td>
+                    <div class="form-section">
+                        <span class="fc_red" style="position: relative; left: -12px;">*</span>
+                        <label class="input-label" for="username" style="left: 9px;">Consingee</label>
+                        <input class="input-text J_addressInput " style="padding-left: 0;"  type="text" id="username" name="username" value="{$address.username}" placeholder="Consingee">
+                    </div>
+                </td>
+                <td>
+                    <div class="radio-box" style="margin:25px 0 0 15px;">
+                        <label class="input-label fl">Gender</label>
+                        <label  <if condition="empty($address) || $address['sex'] eq 0"> class="radio radiofl on sex" <else/>  class="radio radiofl sex"</if> style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="0"onclick="setRadioVal(this,'#sex')"><i></i>Female</label>
+                        <label  <if condition="isset($address['sex']) && $address['sex'] eq 1"> class="radio radiofl on sex" <else/>  class="radio radiofl sex"</if> data-val="1" style="margin-left: 15px;line-height: 28px;position: relative;top: -5px;"  onclick="setRadioVal(this,'#sex')"><i></i>Male</label>
+                        <input type="hidden" name="sex" id="sex" value="0" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="form-section">
+                        <span class="fc_red" style="position: relative; left: -12px;">*</span>
+                        <label class="input-label" for="Phone" style="left: 9px;">Phone</label>
+                        <input class="input-text J_addressInput" style="padding-left: 0;"  type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
+                    </div>
+                </td>
+                <td>
+                    <div class="form-section" style="margin-left: 15px;">
+                        <label class="input-label" for="telephone_con">phone2</label>
+                        <input class="input-text J_addressInput" type="text" id="telephone_con" name="telephone2" value="{$address.telephone2}" placeholder="phone2">
+                    </div>
+                </td>
+            </tr>
 
-        <div class="form-section">
-            <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="Phone" style="left: 9px;">Phone</label>
-            <input class="input-text J_addressInput" style="padding-left: 0;"  type="text" id="Phone" name="phone" value="{$address.telephone|default='+86'}">
-        </div>
-
-        <div class="form-section">
-            <label class="input-label" for="telephone_con">Alternative phone</label>
-            <input class="input-text J_addressInput" type="text" id="telephone_con" name="telephone2" value="{$address.telephone2}" placeholder="alternative phone">
-        </div>
-
-        <div class="form-section select_box">
-            <div class="fl sex_sel form-itme">
-                <label class="input-label" for="sex">Gender</label>
-                <select name="sex" id="sex">
-                    <option value="1" <if condition="$address['sex'] eq 1">selected</if>>Male</option>
-                    <option value="0"  <if condition="$address['sex'] eq 0">selected</if>>Female</option>
-                </select>
-            </div>
-
-            <div class="fr city form-itme">
-                <label class="input-label" for="city">City</label>
-                <select name="cityname" id="city">
-                    <option value="chengdu"  <if condition="$address['cityname'] eq 'chengdu'">selected</if>>Chengdu</option>
-                    <option value="chongqing" <if condition="$address['cityname'] eq 'chongqing'">selected</if>>Chongqing</option>
-                    <option value="xi'an"  <if condition="$address['cityname'] eq 'xi\'an'">selected</if>>Xi'an</option>
-                    <option value="kunming" <if condition="$address['cityname'] eq 'kunming'">selected</if>>Kunming</option>
-                    <option value="other"  <if condition="!in_array($address['cityname'],array('chengdu','chongqing','xi\'an','kunming'))">selected</if>>Other</option>
-                </select>
-            </div>
-        </div>
-        <div class="clr"></div>
-        <div class="form-section">
-            <span class="fc_red" style="position: relative; left: -12px;">*</span>
-            <label class="input-label" for="Address" style="left: 9px;">Address</label>
-            <input class="input-text J_addressInput" style="padding-left: 0;" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
-        </div>
-
-        <div class="form-section select_box isaddress">
-            <div class="fl sex_sel form-itme">
-                <label class="input-label" for="isdefault">Set as default address</label>
-                <select name="isdefault" id="isdefault">
-                    <option value="1"  <if condition="$address['isdefault'] eq 1 || empty($address)">selected</if>>Yes</option>
-                    <option value="0" <if condition="$address['isdefault'] eq 0">selected</if>>No</option>
-                </select>
-            </div>
-
-            <div class="fr  city form-itme">
-                <label class="input-label" for="Language">Language</label>
-                <select name="language" id="Language">
-                    <option value="3"  <if condition="$address['language'] eq 3">selected</if>>English</option>
-                    <option value="1" <if condition="$address['language'] eq 1">selected</if>>中文</option>
-                </select>
-            </div>
+            <tr>
+                <td>
+                    <div class="form-section select_box">
+                        <div class="fc_red fl"  style="margin-left: -10px;">*</div>
+                        <div class="city form-itme fl">
+                            <select name="cityname" id="city">
+                                <option value="" >select the city</option>
+                                <volist name="area" id="vo">
+                                    <option value="{$vo['name']}"  <if condition="$address['cityname'] eq $vo['name']">selected</if>>{$vo['name']}</option>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="fc_red" style="position: relative;left: 15px; top: 18px;">* Do you speak chinese?</span>
+                    <div class="radio-box" style="margin:18px 0 0 10px;">
+                        <label <if condition="isset($address['language']) && $address['language'] eq 1"> class="radio radiofl on language" <else/> class="radio radiofl language" </if> style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="1"onclick="setRadioVal(this,'#language')"><i></i>excellent</label>
+                        <label <if condition="isset($address['language']) && $address['language'] eq 2"> class="radio radiofl on language" <else/> class="radio radiofl language" </if>style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="2"onclick="setRadioVal(this,'#language')"><i></i>a little</label>
+                        <label <if condition="empty($address) || $address['language'] eq 3"> class="radio radiofl on language" <else/> class="radio radiofl language" </if>style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="3"onclick="setRadioVal(this,'#language')"><i></i>English only</label>
+                        <input type="hidden" name="language" id="language" value="{$address.language|default=3}" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="form-section" style="width: 640px">
+                        <span class="fc_red" style="position: relative; left: -12px;">*</span>
+                        <label class="input-label" for="Address" style="left: 9px;">Address</label>
+                        <input class="input-text J_addressInput" style="padding-left: 0;width: 620px" type="text" id="Address" name="address" value="{$address.address}" placeholder="address">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div style="margin: 10px 0 0 46px;">
+            Address in chinese (updated by waifood team)<br/>
+            {$address.address_reserve}
         </div>
         <div class="clr"></div>
         <div class="form-confirm clearfix">
-            <button class="submit" onclick="modifyShoppingAddr();">Submit</button>
-            <button class="back" onclick=" closePanl()">Back</button>
+            <button class="submit fl" onclick="modifyShoppingAddr();">Submit</button>
+            <button class="back fl" onclick=" closePanl()">Back</button>
         </div>
     </div>
     <script>
@@ -109,11 +120,10 @@
                     username = $('#address-box input[name=username]').val(),
                     telephone = $('#address-box input[name=phone]').val(),
                     telephone2 = $('#address-box input[name=telephone2]').val(),
-                    sex = $('#address-box select[name=sex]').val(),
+                    sex = $('#address-box input[name=sex]').val(),
                     cityname = $('#address-box select[name=cityname]').val(),
                     address = $('#address-box input[name=address]').val(),
-                    isdefault = $('#address-box select[name=isdefault]').val(),
-                    language = $('#address-box select[name=language]').val();
+                    language = $('#address-box input[name=language]').val();
             if(!username){
                 subBlock = false;//解除阻塞
                 clearpopj("Please input name", "error",true);
@@ -134,13 +144,18 @@
                 clearpopj("Wrong phone number format.", "error",true);
                 return false;
             }
+            if(!cityname){
+                subBlock = false;//解除阻塞
+                clearpopj("Please select the city", "error",true);
+                return false;
+            }
             if(!address){
                 subBlock = false;//解除阻塞
                 clearpopj("Please input address", "error",true);
                 return false;
             }
             subBlock = true;
-            $.post('/member/modifyShoppingAddr.html',{id:id,username:username,telephone:telephone,telephone2:telephone2,sex:sex,cityname:cityname,address:address,isdefault:isdefault,language:language},function(data){
+            $.post('/member/modifyShoppingAddr.html',{id:id,username:username,telephone:telephone,telephone2:telephone2,sex:sex,cityname:cityname,address:address,language:language},function(data){
                 subBlock = false;//解除阻塞
                 if(data.code == 200){
                     clearpopj(data.message, "success",true);

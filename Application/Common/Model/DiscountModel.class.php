@@ -56,13 +56,13 @@ class DiscountModel extends Model {
      * @param $userid
      * @return array|bool
      */
-    public static function getUserGroupsDiscount($money,$userid){
+    public static function getUserGroupsDiscount($money,$userid,$city=null){
         if($money>0 && $userid>0){
             $disMoney = 0;$method = 0;
             $user = UserModel::getUserById($userid);
-            //新用户折扣（---------临时优惠-----）
-            if($user['addtime'] >='2017-02-12 17:47:35' && $user['addtime'] <= '2017-02-19 23:59:59'){
-                $user['discount_id'] = 5;//临时优惠活动
+            //重庆临时优惠活动
+            if($city === true && $user['addtime'] >='2017-02-23 09:00:00' && $user['addtime'] <= '2017-02-28 23:59:59'){
+                    $user['discount_id'] = 6;
             }
             if(isset($user['discount_id']) && $user['discount_id']>0){
                 $userdiscount = self::getDiscountById($user['discount_id']);
@@ -92,7 +92,12 @@ class DiscountModel extends Model {
         return false;
     }
 
+    /**
+     * @param $money
+     * @return bool
+     */
     public static function getOrderAllDiscount($money){
+
         $discount = self::getDiscountByType(self::ORDER_ALL,true);
         if(!empty($discount)){
             $discArr = array();
@@ -124,12 +129,13 @@ class DiscountModel extends Model {
     /**
      * @param $money
      * @param int $userid
+     * @param null $city 特殊字段，过期后取消
      * @return mixed
      */
-    public static function getDiscountMoney($money,$userid = 0){
+    public static function getDiscountMoney($money,$userid = 0,$city=null){
         $discount = array();
         if($userid>0){
-            if($userdisc = self::getUserGroupsDiscount($money,$userid)){
+            if($userdisc = self::getUserGroupsDiscount($money,$userid,$city)){
                 $discount[] =$userdisc;
             }
         }

@@ -86,10 +86,11 @@
         <th width="80">下单时间</th>
         <th width="80">送货时间</th>
         <th width="100">客户姓名</th>
-        <th width="80">订单总额</th>
-        <th width="50">发票</th>
+        <th width="50">城市</th>
+        <th width="60">订单总额</th>
         <th width="100">付款方式</th>
         <th>留言</th>
+        <th>内部留言</th>
         <th width="100">状态</th>
         <th width="60">操作</th>
     </tr>
@@ -117,15 +118,8 @@
                 </a>
                 <br/>{$vo.telephone}
             </td>
-            <td> {$vo.amount}
-            </td>
-            <td>
-                <eq name="vo.invoice" value="1">
-                    是
-                    <else/>
-                    否
-                </eq>
-            </td>
+            <td>{$vo.cityname}</td>
+            <td> {$vo.amount}<br/><eq name="vo.invoice" value="1"><span class="fc_red">发票</span></eq></td>
             <td>
                 <if condition="$vo['paymethod'] eq 4">
                     货到付款
@@ -142,6 +136,7 @@
                 </eq>
             </td>
             <td>{$vo.info}</td>
+            <td>{$vo.info2}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
                     <volist name="statuslist" id="type" key="j">

@@ -18,6 +18,20 @@ class AreaModel extends Model {
         return false;
     }
 
+    public static function getAreaByid($id){
+        if(regex($id,'number')){
+            return M('area')->find($id);
+        }else{
+            return false;
+        }
+    }
+
+    public static function getAreas(){
+        $con['status'] = self::NORMAL;
+        $order = 'id desc,updatetime desc';
+        return M('area')->where($con)->order($order)->select();
+    }
+
     /**
      * 编辑地区
      * @param $id
@@ -27,6 +41,7 @@ class AreaModel extends Model {
     public static function modifyArea($id,$data){
         if(regex($id,'number') && !empty($data)){
             $con['id'] = $id;
+            $data['updatetime'] = date('Y-m-d H:i:s');
             return M('area')->where($con)->save($data);
         }
         return false;
