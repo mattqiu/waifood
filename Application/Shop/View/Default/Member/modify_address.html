@@ -61,7 +61,7 @@
                     <div class="radio-box" style="margin:18px 0 0 10px;">
                         <label <if condition="isset($address['language']) && $address['language'] eq 1"> class="radio radiofl on language" <else/> class="radio radiofl language" </if> style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="1"onclick="setRadioVal(this,'#language')"><i></i>excellent</label>
                         <label <if condition="isset($address['language']) && $address['language'] eq 2"> class="radio radiofl on language" <else/> class="radio radiofl language" </if>style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="2"onclick="setRadioVal(this,'#language')"><i></i>a little</label>
-                        <label <if condition="empty($address) || $address['language'] eq 3"> class="radio radiofl on language" <else/> class="radio radiofl language" </if>style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="3"onclick="setRadioVal(this,'#language')"><i></i>English onle</label>
+                        <label <if condition="empty($address) || $address['language'] eq 3"> class="radio radiofl on language" <else/> class="radio radiofl language" </if>style="line-height: 28px;margin-left: 15px; position: relative;top: -5px;" data-val="3"onclick="setRadioVal(this,'#language')"><i></i>English only</label>
                         <input type="hidden" name="language" id="language" value="{$address.language|default=3}" />
                     </div>
                 </td>
@@ -142,6 +142,11 @@
             if(telephone.length<6){
                 subBlock = false;//解除阻塞
                 clearpopj("Wrong phone number format.", "error",true);
+                return false;
+            }
+            if(!cityname){
+                subBlock = false;//解除阻塞
+                clearpopj("Please select the city", "error",true);
                 return false;
             }
             if(!address){

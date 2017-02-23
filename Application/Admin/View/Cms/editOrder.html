@@ -155,13 +155,13 @@
             <td>交易流水号：{$db.tradeno}</td>
         </tr>
         <tr>
-            <td>(+)运&nbsp;&nbsp;费：<input type="text" class="inputText1 numeric" style="width: 76px;" name="shipfee"  maxlength="50" value="{$db.shipfee}"/></td>
+            <td>(+)运&nbsp;&nbsp;费：<input type="text" class="inputText1 numeric" style="width: 76px;" name="shipfee" data-shipfee="{$db.shipfee}"  maxlength="50" value="{$db.shipfee}"/></td>
             <td>(-)优惠券：{$db.couponamount}</td>
             <td>使用积分：{$db.credit}</td><!-- <gt name="db.creditamount" value="0">抵扣 <strong style="color:#f00;">{$db.creditamount}</strong> 元</gt>-->
         </tr>
         <tr>
-            <td>应付金额：<input type="text" class="inputText1 numeric" style="width: 76px;color: #fc2c3d" name="amount"  maxlength="50" value="{$db.amount}"/></td>
-            <td>差价：<input type="text" class="inputText1 numeric w50" name="agio_fee"  maxlength="50" value="{$db.agio_fee}"/></td>
+            <td>应付金额：<input type="text" class="inputText1 numeric" style="width: 76px;color: #fc2c3d" name="amount" data-amount="{$db.amount}" maxlength="50" value="{$db.amount}"/></td>
+            <td>差价：<input type="text" class="inputText1 numeric w50" name="agio_fee" data-agio_fee="{$db.agio_fee}"  maxlength="50" value="{$db.agio_fee}"/></td>
             <td>(-)折扣：{$db.discount|default=0} <if condition="$db['discount_info']">({$db.discount_info})</if></td>
         </tr>
     </table>
@@ -274,6 +274,53 @@
                 subModify();
             }
         });
+
+        $('#orderpayinfo input[name=amount]').keyup(function(){
+            var newval = parseFloat($(this).val());
+            var oldval = parseFloat($(this).data('amount'));
+            if(!newval){
+                newval = 0;
+            }
+            if(!oldval){
+                oldval = 0;
+            }
+            var agio_fee = fomatFloat( newval-oldval);
+            var old = parseFloat($('#orderpayinfo input[name=agio_fee]').data('agio_fee'));
+            $('#orderpayinfo input[name=agio_fee]').val(fomatFloat( old +agio_fee));
+        })
+
+        $('#orderpayinfo input[name=agio_fee]').keyup(function(){
+            var newval = parseFloat($(this).val());
+            if(!newval){
+                newval = 0;
+            }
+            var oldval = parseFloat($(this).data('agio_fee'));
+            if(!oldval){
+                oldval = 0;
+            }
+            var agio_fee = fomatFloat( oldval-newval);
+            var amount = parseFloat($('#orderpayinfo input[name=amount]').data('amount'));
+            $('#orderpayinfo input[name=amount]').val(fomatFloat(amount+agio_fee));
+            $('#orderpayinfo input[name=amount]').data('amount');
+        })
+
+        $('#orderpayinfo input[name=shipfee]').keyup(function(){
+            var newval = parseFloat($(this).val());
+            var oldval = parseFloat($(this).data('shipfee'));
+            if(!newval){
+                newval = 0;
+            }
+            if(!oldval){
+                oldval = 0;
+            }
+            var shipfee = fomatFloat( newval-oldval);
+            console.log(shipfee)
+            $(this).data('shipfee',newval);
+            var amount = parseFloat($('#orderpayinfo input[name=amount]').val());
+            $('#orderpayinfo input[name=amount]').val(fomatFloat(amount+shipfee));
+            $('#orderpayinfo input[name=amount]').data('amount',fomatFloat(amount+shipfee));
+        })
+
     });
 
     function subModify(){

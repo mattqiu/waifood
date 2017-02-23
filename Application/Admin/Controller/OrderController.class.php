@@ -148,17 +148,15 @@ class OrderController extends BaseController {
 				$status=$order['status'];
 // 				if ($status == '3' || $status == '4') {
 // 					$this->error ( '该订单状态不可修改！' );
+                //配送费有修改
+               if(isset($data['shipfee']) && $order['shipfee'] != $data['shipfee']){
+                   $amount = M ( 'order_detail' )->where ( $where )->sum ( 'price*num' );
+                   $data ['amountall'] =float_fee($amount+floatval($data ['shipfee']));//订单总金额 = 商品总价+配送费
+               }
 
-                if(isset($data['shipfee']) && $data['shipfee']){
-                    $amount = M ( 'order_detail' )->where ( $where )->sum ( 'price*num' );
-                    //需要重新计算的有：订单总金额，应付金额，折扣优惠
-                    $data ['amountall'] =float_fee($amount+floatval($data ['shipfee']));//订单总金额 = 商品总价+配送费
-                    $data ['amount'] =float_fee(($amount-$order['discount'])+floatval($data ['shipfee']));//实际支付总金额=商品总价-折扣+配送费
-                }
 				if ($status == '3' || $data ['status']  == '4' ) {
 				    withdrawOrder($orderno);
 				}
-
 				if ($db->where($where)->save ( $data ) !== false) {
 					if ($data ['status'] == '3' ) {
 					//if ($data ['status'] == '3' || $data ['status'] == '4') {
@@ -208,7 +206,7 @@ class OrderController extends BaseController {
 						}
 					} else {
 						$this->updateOrderDetail($orderno,$data['status']);
-						$this->updateOrder ( $data ['orderno'] );
+						//$this->updateOrder ( $data ['orderno'] );
 					}
                     apiReturn(CodeModel::CORRECT,"编辑订单成功！" );
 				} else {
@@ -422,7 +420,7 @@ class OrderController extends BaseController {
 				break;
 		}
 	}
-	public function updateOrder($orderno = null) {
+	public function updateOrder($orderno) {
 		if (isN ( $orderno )) {
 			return false;
 		} else {
@@ -443,8 +441,9 @@ class OrderController extends BaseController {
             $discount = DiscountModel::getDiscountMoney($amount,$db['userid']);
             $data ['amountall'] =$amount+getShipfee($amount);//订单总金额 = 商品总价+配送费
             $data ['shipfee'] = getShipfee($amount); //配送费
-			$data ['amount'] =float_fee(($amount-$discount['money'])+getShipfee($amount));//实际支付总金额=商品总价-折扣+配送费
+            $data ['amount'] =float_fee(($amount-$discount['money'])+getShipfee($amount));//实际支付总金额=商品总价-折扣+配送费
             $data ['discount'] =float_fee($discount['money']);
+
 			if(isN($time)||$time=='0000-00-00 00:00:00'){
 				$data ['time'.$status] = time_format();
 			} 
