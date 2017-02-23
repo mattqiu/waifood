@@ -49,7 +49,7 @@ input.input_text2, textarea.textarea_text2{width: 308px}
 .height35 tr,.height35 td{height: 35px;}
 /***************order*************************/
 .panle_itme{width: 100%;margin: 10px 0 0 20px;}
-.panle_itme tr,.panle_itme td{height: 25px;}
+.panle_itme tr,.panle_itme td{height: 25px;font-size: 14px}
 .panel_title{font-size: 16px;font-weight: bold;width: 100%;padding-left: 30px;border-bottom: 1px solid #EEEEEE}
 .panel_title span{font-size: 12px;font-weight: normal}
 .usera_panle{border: 1px solid #EEEEEE;}
