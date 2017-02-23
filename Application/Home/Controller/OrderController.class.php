@@ -244,11 +244,12 @@ class OrderController extends BaseController {
         $paymethod = I('post.paymethod');
         if($orderno && $paymethod){
             $data['paymethod'] = $paymethod;
-            if(!OrderModel::modifyOrder($orderno,$data)){
+            if(false !==OrderModel::modifyOrder($orderno,$data)){
                 apiReturn(CodeModel::CORRECT);
             }
+        }else{
+            apiReturn(CodeModel::ERROR,M()->_sql());
         }
-        apiReturn(CodeModel::ERROR,M()->_sql());
     }
 
 

@@ -94,54 +94,54 @@
                             </div>-->
                         </div>
                     <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
-                        <notempty name="deliverinfo">
-                            <div class="item-info cashie-tic">
-                                {$deliverinfo}
-                            </div>
-                            <div style="clear: both"></div>
-                        </notempty>
-                        <div class="waidi" id="waidi" style="padding: 0 5px">
-                            <p>Order Send Out Time : <span class="green" style="display: inline-block;height: 28px;line-height: 28px;padding: 0 10px;;background: #ffebed;border: 1px solid #3eb52e;">5PM,<span class="startime">{$startimt}</span></span></p>
-                            <p>Estimated Arrival Time: <span class="endtime green" style="display: inline-block;height: 28px;padding: 0 10px;line-height: 28px;background: #ffebed;border: 1px solid #3eb52e;"></span></p>
-                            <p style="color: #999999;word-break: keep-all;">Notes:
-                                <i>Shipping service was done by third party and the delivery guy don't speak English. If there's any communication problem, jus calll 400-836-8081 for help.</i>
-                            </p>
+                    <div class="good-item-title">Delivery time</div>
+                    <notempty name="deliverinfo">
+                        <div class="item-info cashie-tic" style="padding: 0 5px;">
+                            {$deliverinfo}
                         </div>
+                        <div style="clear: both"></div>
+                    </notempty>
+                    <div class="waidi" id="waidi" style="padding: 0 5px">
+                        <p>Order Send Out Time : <span class="green" style="display: inline-block;height: 28px;line-height: 28px;padding: 0 10px;;background: #ffebed;border: 1px solid #3eb52e;">5PM,<span class="startime">{$startimt}</span></span></p>
+                        <p>Estimated Arrival Time: <span class="endtime green" style="display: inline-block;height: 28px;padding: 0 10px;line-height: 28px;background: #ffebed;border: 1px solid #3eb52e;"></span></p>
+                        <p style="color: #999999;word-break: keep-all;">Notes:
+                            <i>Shipping service was done by third party and the delivery guy don't speak English. If there's any communication problem, jus calll 400-836-8081 for help.</i>
+                        </p>
+                    </div>
 
-                        <div class="good-item" id="bendi">
-                            <div class="good-item-title">Delivery time</div>
-                            <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
-                            <div class="item-info ">
-                                <div class="txt02 pure-form " id="deliverydate">
-                                    <select name="delivertime[]" id="delivertimeselect">
-                                        <volist name="dateData" id="vo" class="pure-input-1">
-                                            <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
-                                                <option data-delay="{$i}" value="{$vo.time}">
-                                                    <if condition="$i eq 1"> Today&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
-                                                    <elseif condition='$i eq 2'/>
-                                                        Tomorrow&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
-                                                    <else/>
-                                                        {$vo.date}&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
-                                                    </if>
-                                                </option>
-                                            </if>
-                                        </volist>
-                                    </select>
+                    <div class="good-item" id="bendi">
 
-
-                                    <volist name="times" id="vo">
-                                        <div class="time_list js_time_obj " data-date="{$vo}">
-                                            {$vo}
-                                        </div>
+                        <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
+                        <div class="item-info ">
+                            <div class="txt02 pure-form " id="deliverydate">
+                                <select name="delivertime[]" id="delivertimeselect">
+                                    <volist name="dateData" id="vo" class="pure-input-1">
+                                        <if condition="!isset( $vo['isholiday']) || $vo['isholiday'] neq 1">
+                                            <option data-delay="{$i}" value="{$vo.time}">
+                                                <if condition="$i eq 1"> Today&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                <elseif condition='$i eq 2'/>
+                                                    Tomorrow&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                <else/>
+                                                    {$vo.date}&nbsp;&nbsp;(&nbsp;{$vo.week}&nbsp;)
+                                                </if>
+                                            </option>
+                                        </if>
                                     </volist>
-                                </div>
-                                <br/>
-                            </div>
-                        </div>
+                                </select>
 
+
+                                <volist name="times" id="vo">
+                                    <div class="time_list js_time_obj " data-date="{$vo}">
+                                        {$vo}
+                                    </div>
+                                </volist>
+                            </div>
+                            <br/>
+                        </div>
+                    </div>
                     <div class="divide clr" style="height: 10px;width: 115%;margin-left: -5%"></div>
-                        <div class="item-pay-container">
-                            <textarea id="info" name="info" value="" rows="3" class="cashier-info" placeholder="remarks here" ></textarea>
+                    <div class="item-pay-container">
+                        <textarea id="info" name="info" value="" rows="3" class="cashier-info" placeholder="remarks here" ></textarea>
                     </div>
                     <hr size="1" color="#cccccc" width="110%" style="margin-left: -3%"/>
                     <div class="good-count">
