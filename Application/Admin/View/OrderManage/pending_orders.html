@@ -25,8 +25,9 @@
         <!--<th width="25">强力</th>-->
         <!--<th width="40">酸奶油</th>-->
 
+
+        <th>内部留言</th>
         <th>客户留言</th>
-        <th width="60">内部留言</th>
         <th width="30">状态</th>
         <th width="60">操作</th>
     </tr>
@@ -78,8 +79,8 @@
                     彼得 &frasl;
                 </if>
             </td>
-            <td>{$vo.info}</td>
             <td>{$vo.info2}</td>
+            <td>{$vo.info}</td>
             <td>
                 <select onchange="setOrder(this,'{$vo.id}',true)">
                     <volist name="statuslist" id="type" key="j">
