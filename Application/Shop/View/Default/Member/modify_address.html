@@ -76,10 +76,12 @@
                 </td>
             </tr>
         </table>
-        <div style="margin: 10px 0 0 46px;">
-            Address in chinese (updated by waifood team)<br/>
-            {$address.address_reserve}
-        </div>
+        <if condition="$address['address_reserve']">
+            <div style="margin: 10px 0 0 46px;">
+                Address in chinese (updated by waifood team)<br/>
+                {$address.address_reserve}
+            </div>
+        </if>
         <div class="clr"></div>
         <div class="form-confirm clearfix">
             <button class="submit fl" onclick="modifyShoppingAddr();">Submit</button>

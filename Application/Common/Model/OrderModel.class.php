@@ -100,7 +100,7 @@ class OrderModel extends Model{
             $data ['username']=$address['username'];
             $data ['telephone']=$address['telephone'];
             $data ['sex']=$address['sex'];
-            $data ['address']=$address['address'];
+            $data ['address']=$address['address'].($address['address_reserve']?'('.$address['address_reserve'].')':'');
             $data ['cityname']=$address['cityname'];
             $data ['email']=$address['email'];
         }else{
@@ -137,7 +137,6 @@ class OrderModel extends Model{
         $data ['amountall'] =$amount+getShipfee($amount);//订单总金额
         $data ['shipfee'] = getShipfee($amount);
         $data ['discount'] =float_fee($discount['money']);
-
         $discount_info = '';
         if(!empty($discount)){
             foreach($discount as $key =>$val){
