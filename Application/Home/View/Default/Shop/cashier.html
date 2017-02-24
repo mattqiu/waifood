@@ -273,7 +273,8 @@
     //本地外地判断
     function showDevery(cityname){
         var stardate = '{$stardate}';
-        if(cityname !='chengdu'){ //外地判断
+
+        if($.trim(cityname).toLocaleLowerCase() !='chengdu'){ //外地判断
             if(cityname =='chongqing'){
                 $('#waidi .endtime').html('{$cqEndDate}');
             }else{
